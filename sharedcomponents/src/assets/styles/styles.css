@@ -1,0 +1,210 @@
+/*THIS FILE SHOULD BE MODIFIED ONLY BY SHARED*/
+/*.picker { outline: none; }*/
+.picker__weekday-display { background-color: #AA2725; }
+.picker__date-display { background-color: #E53935; }
+.picker__nav--prev:hover { background-color: #E6E6E6; }
+.picker__nav--next:hover { background-color: #E6E6E6; }
+.picker__nav--prev:before {
+  border-left: 0;
+  border-right: 0.75em solid #E53935;
+}
+.picker__nav--next:before {
+  border-right: 0;
+  border-left: 0.75em solid #E53935;
+}
+.picker__today { color: #E53935; }
+.picker__close { color: #E53935; }
+.btn-flat.picker__today:active { background-color: #E6E6E6; }
+.btn-flat.picker__close:active { background-color: #E6E6E6; }
+.btn-flat.picker__clear:active { background-color: #E6E6E6; }
+.picker__select--month.browser-default {
+  display: inline;
+  background-color: #FFFFFF;
+  color: #3d3d3d;
+  border: none;
+  outline: none;
+}
+.picker__select--year.browser-default {
+  display: inline;
+  background-color: #FFFFFF;
+  color: #3d3d3d;
+  border: none;
+  outline: none;
+}
+.picker__day { color: #3d3d3d; }
+/*.picker__day:hover { }*/
+.picker__day--infocus:hover { color: #E53935; }
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected { 
+    color: #F5F4F3;
+    font-weight: 700;
+}
+.picker__day.picker__day--infocus.picker__day--selected.picker__day--highlighted { background-color: #E53935; }
+.picker__day.picker__day--infocus.picker__day--today.picker__day--selected.picker__day--highlighted 
+{ background-color: #E53935; }
+.picker__day.picker__day--today 
+{ color: #E53935;
+  font-weight: 700; }
+
+.checkbox-red[type="checkbox"].filled-in:checked + label:after {
+    border: 2px solid #E53935;
+    background-color: #E53935;
+}
+
+.checkbox-red2[type="checkbox"]:indeterminate+label:before {
+    border-right: 2px solid #E53935;
+}
+
+.checkBoxLblBN {
+    color: #3d3d3d!important;
+    font-family: 'Open Sans', sans-serif!important; 
+    font-size: 10pt!important;
+    top: -15px!important;
+}
+
+.buttonBN {
+    text-transform: none;
+    color: white;
+    line-height: 50px;
+    height: 55px;
+    background-color: #E53935!important;
+}
+
+.regNrmS1B1BN, .regNrmS2B1BN, .regNrmS3B1BN, .regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .regNrmS5B2BN, .regNrmS5BN, .regHdrS1BN, 
+    .regNrmS7BN, .regHdrS2BN, .regHdrS4B1BN, .regNrmS6B1BN, .regNrmS6BN, .regNrmS2BN, .regNrmS3BN, .regHdrS2B3BN, .regNrmS5B1BN, .greyBN, .regNrmS8BN, 
+    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN {
+    color: #3d3d3d;
+}
+
+.errHdrS1BN, .errNrmS0BN, .errNrmS1BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN, .errNrmS5BN, .redBN, .errNrmS6B1BN,
+    .errNrmS6BN, .errHdrS2BN, .errNrmS5B2BN, .errorIconBN, .errNrmS2B2BN, .errNrmS1B1BN, .errNrmS6B2BN, .errNrmS5B1BN, errNrmS8B1BN, .errNrmS-1B1BN {
+   color: #E53935;
+}
+
+.regHdrS1BN, .errHdrS1BN, .invHdrS1BN {
+    font-family: 'Fjalla One', sans-serif; 
+    font-size: 16pt;
+}
+
+.regHdrS2BN, .errHdrS2BN, .regHdrS2B3BN {
+    font-family: 'Fjalla One', sans-serif; 
+    font-size: 14pt;
+}
+
+.regHdrS4B1BN {
+    font-family: 'Fjalla One', sans-serif; 
+    font-size: 12pt;    
+}
+
+.regNrmS-1B1BN, .errNrmS-1B1BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 30pt!important;        
+}
+
+.errNrmS0BN , .regNrmS0BN, .regNrmS0B1BN{
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 22pt;    
+}
+
+.errNrmS1BN, .regNrmS1B1BN, .errNrmS1B1BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 16pt;
+}
+
+.regNrmS2B1BN, .regNrmS2BN,.regNrmS2B3BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS2B2BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 14pt;
+}
+
+.regNrmS3B1BN, .regNrmS3BN, .regNrmS3B3BN{
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 13pt;
+}
+
+.regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 12pt;
+}
+
+.regNrmS4IBN {
+    font-family: 'Open Sans', sans-serif!important; 
+    font-size: 12pt!important;    
+    font-weight: normal!important;
+}
+
+.regNrmS6IBN {
+    font-family: 'Open Sans', sans-serif!important; 
+    font-size: 10pt!important;    
+    font-weight: normal!important;    
+}
+
+.regNrmS5B2BN, .regNrmS5BN, .errNrmS5BN, .errNrmS5B2BN, .regNrmS5B1BN, .errNrmS5B1BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 11pt;
+}
+
+.errNrmS6BN, .regNrmS6B1BN, .regNrmS6BN, .errNrmS6B2BN, .errNrmS6B1BN {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+}
+
+.regNrmS7BN, .regNrmS7B1BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 9pt;
+}
+
+.regNrmS8BN, .errNrmS8B1BN {
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 7pt;    
+}
+
+.errNrmS4B1BN, .errNrmS2B1BN, .regNrmS2B1BN, .regNrmS1B1BN, .regNrmS3B1BN, .regNrmS6B1BN, .regNrmS4B1BN, .regNrmS5B1BN, .errNrmS6B1BN,
+    .regHdrS4B1BN, .regNrmS7B1BN, .errNrmS1B1BN, .errNrmS5B1BN, .regNrmS0B1BN, .regNrmS-1B1BN, .errNrmS-1B1BN, .errNrmS8B1BN {
+    font-weight: 700;    
+}
+
+.errNrmS4B2BN, .regNrmS5B2BN, .regNrmS4B2BN, .errNrmS5B2BN, .errNrmS2B2BN, .errNrmS6B2BN {
+    font-weight: 600;
+}
+
+.regNrmS4B3BN, .regHdrS2B3BN , .regNrmS2B3BN, .regNrmS3B3BN {
+    font-weight: 400; 
+}
+
+.linkButtonBN {
+    cursor: pointer;
+}
+
+.alignMidBN {
+    display: inline-flex!important;
+    vertical-align: middle!important;    
+}
+
+.leftSpaceBN {
+    padding-left: 10px;
+}
+
+.thinSprtrBN {
+    border: none;
+    background-color: #EDECEA;
+    color: #EDECEA;
+    height: 1px;    
+}
+
+.dropDownBN, .dropDownFormBN {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    background-color: #FFFFFF;
+}
+
+.dropDownFormBN {
+    background-color: #FAFAFA;
+}
+
+.widgetBN {
+    border-radius: 3px;
+}
+
+.blueBN {
+    color: #137ED0;
+}
