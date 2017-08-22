@@ -1,0 +1,33 @@
+{
+  "name": "sharedservices",
+  "version": "0.2.0",
+  "license": "MIT",
+  "scripts": {
+    "transpile": "ngc",
+    "package": "rollup -c",
+    "minify": "uglifyjs dist/bundles/sharedservices.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/sharedservices.umd.min.js",
+    "build": "npm run transpile && npm run package && npm run minify"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/http": "^4.0.0",
+    "core-js": "^2.4.1",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^4.3.3",
+    "@angular/compiler-cli": "^4.3.3",
+    "@types/node": "~6.0.60",
+    "codelyzer": "~3.0.1",
+    "crypto-js": "^3.1.9-1",
+    "rollup": "^0.45.2",
+    "ts-node": "~3.0.4",
+    "tslint": "~5.3.2",
+    "typescript": "^2.3.4",
+    "uglify-js": "^3.0.27"
+  }
+}
