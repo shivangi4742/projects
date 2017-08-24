@@ -6,6 +6,7 @@ var replace = require('gulp-replace');
 var runSequence = require('run-sequence');
 
 const rootFolder = path.join(__dirname);
+const serverFolder = path.join(rootFolder, '/server');
 const loginRootFolder = path.join(rootFolder, '/login');
 const loginFolder = path.join(rootFolder, '/login/dist');
 const loginServerFolder = path.join(rootFolder, '/server/login');
@@ -158,7 +159,8 @@ gulp.task('default', function () {
 });
 
 gulp.task('build:success', function() {
-  return true;
+  process.chdir(serverFolder);
+  return run('npm install').exec();
 });
 
 gulp.task('install:sharedservices', function() {
