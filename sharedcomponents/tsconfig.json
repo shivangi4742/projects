@@ -19,7 +19,7 @@
     "paths": {
       "@angular/core": ["./node_modules/@angular/core"],
       "rxjs/*": ["./node_modules/rxjs/*"],
-      "benowservices": ["./benowservices"]
+      "benowservices": ["./node_modules/benowservices"]
     },
     "typeRoots": [
       "node_modules/@types"

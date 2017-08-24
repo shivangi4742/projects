@@ -1,0 +1,9 @@
+{
+  "name": "distribute",
+  "dependencies": {
+    "@angular/platform-browser": "^4.3.5",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "run-sequence": "^2.1.0"
+  }
+}
