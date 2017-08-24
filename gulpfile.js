@@ -141,8 +141,11 @@ gulp.task('distribute:sharedcomponents', function () {
 
 gulp.task('default', function () {
   runSequence(
+    'install:sharedservices',
     'build:sharedservices',
+    'install:sharedcomponents',
     'build:sharedcomponents',
+    'install:login',
     'build:login',
     'build:success',
     function (err) {
@@ -158,14 +161,29 @@ gulp.task('build:success', function() {
   return true;
 });
 
+gulp.task('install:sharedservices', function() {
+  process.chdir(sharedServicesRootFolder);
+  return run('npm install').exec();
+});
+
 gulp.task('build:sharedservices', function() {
   process.chdir(sharedServicesRootFolder);
   return run('npm run build').exec();
 });
 
+gulp.task('install:sharedcomponents', function() {
+  process.chdir(sharedComponentsRootFolder);
+  return run('npm install').exec();
+});
+
 gulp.task('build:sharedcomponents', function() {
   process.chdir(sharedComponentsRootFolder);
   return run('npm run build').exec();
+});
+
+gulp.task('install:login', function() {
+  process.chdir(loginRootFolder);
+  return run('npm install').exec();
 });
 
 gulp.task('build:login', function() {
