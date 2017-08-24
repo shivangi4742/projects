@@ -1,0 +1,49 @@
+<div *ngIf="user">
+  <div class="row">
+    <div class="col s1 m4 l4"></div>
+    <div class="col s10 m4 l4">
+      <div class="col s1 l2 hide-on-med-only"></div>
+      <select class="col s10 m12 l8 browser-default regNrmS4B3BN dropDownBN" name="language" (ngModelChange)="langChanged($event)" 
+        [ngModel]="user.language">
+        <option value="0" selected>Select preferred language</option>
+        <option value="1">English</option>
+        <option value="2">हिंदी</option>
+        <option value="3">मराठी</option>
+      </select>
+      <div class="col s1 l2 hide-on-med-only"></div>
+    </div>
+    <div class="col s1 m4 l4"></div>
+  </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s1 m3 l4"></div>
+      <div [ngClass]="status == 4 ? 'col s10 m6 l4 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN' : 'col s10 m6 l4 z-depth-2 card-panel grey lighten-5 widgetBN loginBN'">
+        <div class="row"></div>
+        <div *ngIf="status < 3" class="row valign-wrapper">
+          <div class="col m1 l2 hide-on-small-only"></div>
+          <div class="col s12 m10 l8 valign-wrapper">
+              <img height="65px" src="../../assets/images/Account.png" />
+              <span *ngIf="status == 1" class="regHdrS2BN leftSpaceBN" align="left">{{'Please sign in' | translate}}
+                <br /> {{'with your account details' | translate}}
+              </span>
+              <span *ngIf="status == 2" class="regHdrS2BN leftSpaceBN" align="left">{{'Please verify your-' | translate}}
+                <br /> {{'-email ID' | translate}}
+              </span>
+          </div>
+          <div class="col m1 l2 hide-on-small-only"></div>
+        </div>
+        <loginform *ngIf="status == 1" [user]="user"></loginform>
+        <verifyform *ngIf="status == 2" [user] = "user"></verifyform>
+        <emailed *ngIf="status == 3" [user] = "user"></emailed>
+        <changepasswordform *ngIf="status == 4" [user] = "user"></changepasswordform>
+        <passwordchanged *ngIf="status == 5" [user] = "user"></passwordchanged> 
+        <div class="row"></div>
+        <hr class="col s12 thinSprtrBN"/>
+        <div class="row"></div>
+        <support></support>
+        <hr class="col s12 thinSprtrBN"/>
+        <div class="row">&nbsp;</div>
+      </div>
+      <div class="col s1 m3 l4"></div>        
+    </div>
+</div>

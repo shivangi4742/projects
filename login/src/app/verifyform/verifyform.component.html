@@ -1,0 +1,23 @@
+<form (ngSubmit)="onSubmit()" #verifyForm="ngForm">
+    <div class="row">
+        <div class="valign-wrapper">
+            <div class="col m1 l2 hide-on-small-only"></div>
+            <div class="input-field col s12 m10 l8">
+                <input id="email" name="email" type="text" class="validate regNrmS4BN" required [(ngModel)]="user.email">
+                <label for="email" [ngClass]="{active: user.email}">{{'Enter your user-ID' | translate}}</label>
+            </div>
+            <div class="col m1 l2 hide-on-small-only"></div>
+        </div>
+        <div class="valign-wrapper" *ngIf="hasError && verifyForm.form.valid">
+            <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="col s12 m11 l10">
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+                name="sendMail" [disabled]="!verifyForm.form.valid">{{'Submit' | translate}}
+            </button>
+        </div>
+    </div>
+</form>

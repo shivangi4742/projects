@@ -14,6 +14,7 @@ export default {
     'rxjs/add/operator/mergeMap': 'Rx.Observable.prototype',
     'rxjs/add/observable/fromEvent': 'Rx.Observable',
     'rxjs/add/observable/of': 'Rx.Observable',
+    'ng2-translate': 'ng.ng2-translate',
     'benowservices': 'ng.sharedservices'
   }
 }

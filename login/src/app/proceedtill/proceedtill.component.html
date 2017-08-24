@@ -1,0 +1,28 @@
+<div class="row"></div>
+<form (ngSubmit)="OnProceed()" #tilForm="ngForm">       
+    <div class="row">
+        <div class="valign-wrapper">
+            <div class="input-field col s12 m12 l12" align="center">
+                <select  class="browser-default regNrmS4B3BN dropDownBN tilldropBN" [(ngModel)]="user.tilNumber" name="til" >
+                    <option value="" selected >{{'Select Til' | translate}}</option>
+                    <option *ngFor="let count of tils" [ngValue]="count">{{count}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+        <span class="col s12">&nbsp;</span>
+        <a *ngIf="alreadyLoggedIn" class="col s12 center-align regNrmS5B2BN blueBN linkButtonBN" 
+            (click)="forceLogin()">{{'Log-out existing user and log me in' | translate}}</a>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+        <div class="col s12 m12 l12" align="center">
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+                name="till"  [disabled]="!user.tilNumber" >{{'Proceed' | translate}}
+            <i class="material-icons right">send</i>
+            </button>
+        </div>  
+    </div>
+</form>

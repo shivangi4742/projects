@@ -1,0 +1,27 @@
+<div class="row"></div>
+<div class="row"></div>
+<div class="row">
+    <div class="col s1"></div>
+    <div class="col s10 center">
+        <span class="regNrmS2B1BN">{{'We have emailed a Verification Code to your email id' | translate}} : </span>
+        <span class="errNrmS2B1BN">{{user.email}}</span>
+    </div>
+    <div class="col s1"></div>
+</div>
+<div class="row"></div>
+<div class="row">
+    <div class="col s12 center">
+        <button class="btn waves-effect waves-light red regNrmS6BN buttonBN hide-on-med-and-down" 
+            [routerLink]="'/changepwd/4'" name="signIn">
+            {{'Enter Code and Change Password' | translate}}
+        </button>
+        <button class="btn waves-effect waves-light red regNrmS7BN buttonBN hide-on-small-only hide-on-large-only" 
+            [routerLink]="'/changepwd/4'" name="signIn">
+            {{'Enter Code and Change Password' | translate}}
+        </button>
+        <button class="btn waves-effect waves-light red regNrmS8BN buttonBN hide-on-med-and-up" 
+            [routerLink]="'/changepwd/4'" name="signIn">
+            {{'Enter Code and Change Password' | translate}}
+        </button>
+    </div>
+</div>
