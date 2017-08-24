@@ -1,27 +1,31 @@
 var del = require('del');
 var gulp = require('gulp');
 var path = require('path');
+var run = require('gulp-run');
 var replace = require('gulp-replace');
 var runSequence = require('run-sequence');
 
 const rootFolder = path.join(__dirname);
-const loginFolder = path.join(rootFolder, './login/dist');
-const loginServerFolder = path.join(rootFolder, './server/login');
-const loginIndexFile = path.join(rootFolder, './login/dist/index.html');
-const loginSCAssetsFolder = path.join(rootFolder, './login/src/assets');
-const sharedServicesFolder = path.join(rootFolder, './sharedservices/dist');
-const loginAssetsFolder = path.join(rootFolder, './login/dist/assets/login');
-const scAssetsFolder = path.join(rootFolder, './sharedcomponents/src/assets');
-const serverLoginAssetsFolder = path.join(rootFolder, './server/assets/login');
-const sharedComponentsFolder = path.join(rootFolder, './sharedcomponents/dist');
-const serverLoginIndexFile = path.join(rootFolder, './server/login/index.html');
-const serverSharedAssetsFolder = path.join(rootFolder, './server/assets/shared');
-const loginSSFolder = path.join(rootFolder, './login/node_modules/benowservices');
-const loginSCFolder = path.join(rootFolder, './login/node_modules/benowcomponents');
-const loginSCSharedAssetsFolder = path.join(rootFolder, './login/src/assets/shared');
-const scSharedAssetsFolder = path.join(rootFolder, './sharedcomponents/src/assets/shared');
-const loginSCAssetsNMFolder = path.join(rootFolder, './login/node_modules/benowcomponents/assets');
-const sharedComponentsSSFolder = path.join(rootFolder, './sharedcomponents/node_modules/benowservices');
+const loginRootFolder = path.join(rootFolder, '/login');
+const loginFolder = path.join(rootFolder, '/login/dist');
+const loginServerFolder = path.join(rootFolder, '/server/login');
+const loginIndexFile = path.join(rootFolder, '/login/dist/index.html');
+const loginSCAssetsFolder = path.join(rootFolder, '/login/src/assets');
+const sharedServicesRootFolder = path.join(rootFolder, '/sharedservices');
+const sharedServicesFolder = path.join(rootFolder, '/sharedservices/dist');
+const loginAssetsFolder = path.join(rootFolder, '/login/dist/assets/login');
+const scAssetsFolder = path.join(rootFolder, '/sharedcomponents/src/assets');
+const sharedComponentsRootFolder = path.join(rootFolder, '/sharedcomponents');
+const serverLoginAssetsFolder = path.join(rootFolder, '/server/assets/login');
+const sharedComponentsFolder = path.join(rootFolder, '/sharedcomponents/dist');
+const serverLoginIndexFile = path.join(rootFolder, '/server/login/index.html');
+const serverSharedAssetsFolder = path.join(rootFolder, '/server/assets/shared');
+const loginSSFolder = path.join(rootFolder, '/login/node_modules/benowservices');
+const loginSCFolder = path.join(rootFolder, '/login/node_modules/benowcomponents');
+const loginSCSharedAssetsFolder = path.join(rootFolder, '/login/src/assets/shared');
+const scSharedAssetsFolder = path.join(rootFolder, '/sharedcomponents/src/assets/shared');
+const loginSCAssetsNMFolder = path.join(rootFolder, '/login/node_modules/benowcomponents/assets');
+const sharedComponentsSSFolder = path.join(rootFolder, '/sharedcomponents/node_modules/benowservices');
 
 function deleteFolders(folders) {
   return del(folders);
@@ -133,4 +137,38 @@ gulp.task('distribute:sharedcomponents', function () {
         console.log('Compilation finished succesfully');
       }
     });
+});
+
+gulp.task('default', function () {
+  runSequence(
+    'build:sharedservices',
+    'build:sharedcomponents',
+    'build:login',
+    'build:success',
+    function (err) {
+      if (err) {
+        console.log('ERROR:', err.message);
+      } else {
+        console.log('Compilation finished succesfully');
+      }
+    });
+});
+
+gulp.task('build:success', function() {
+  return true;
+});
+
+gulp.task('build:sharedservices', function() {
+  process.chdir(sharedServicesRootFolder);
+  return run('npm run build').exec();
+});
+
+gulp.task('build:sharedcomponents', function() {
+  process.chdir(sharedComponentsRootFolder);
+  return run('npm run build').exec();
+});
+
+gulp.task('build:login', function() {
+  process.chdir(loginRootFolder);
+  return run('npm run build').exec();
 });
