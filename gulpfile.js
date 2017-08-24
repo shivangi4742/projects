@@ -10,6 +10,7 @@ const scAssetsFolder = path.join(rootFolder, './sharedcomponents/src/assets');
 const sharedComponentsFolder = path.join(rootFolder, './sharedcomponents/dist');
 const loginSSFolder = path.join(rootFolder, './login/node_modules/benowservices');
 const loginSCFolder = path.join(rootFolder, './login/node_modules/benowcomponents');
+const loginSCAssetsNMFolder = path.join(rootFolder, './login/node_modules/benowcomponents/assets');
 const sharedComponentsSSFolder = path.join(rootFolder, './sharedcomponents/node_modules/benowservices');
 
 function deleteFolders(folders) {
@@ -39,6 +40,11 @@ gulp.task('copy:scAssets', function () {
     .pipe(gulp.dest(loginSCAssetsFolder));
 });
 
+gulp.task('copy:scNMAssets', function () {
+  return gulp.src([scAssetsFolder + '/**/*'])
+    .pipe(gulp.dest(loginSCAssetsNMFolder));
+});
+
 gulp.task('copy:sclogin', function () {
   return gulp.src([sharedComponentsFolder + '/**/*'])
     .pipe(gulp.dest(loginSCFolder));
@@ -63,6 +69,7 @@ gulp.task('distribute:sharedcomponents', function () {
     'clean:sc',
     'copy:sclogin',
     'copy:scAssets',
+    'copy:scNMAssets',
     function (err) {
       if (err) {
         console.log('ERROR:', err.message);
