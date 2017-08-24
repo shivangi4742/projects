@@ -21,7 +21,7 @@ import { PasswordchangedComponent } from './passwordchanged/passwordchanged.comp
 import { ChangepasswordformComponent } from './changepasswordform/changepasswordform.component';
 
 export function HttpFactory(http: Http) {
-  return new TranslateStaticLoader(http, '/assets/i18n', '.json');
+  return new TranslateStaticLoader(http, '/assets/login/i18n', '.json');
 }
 
 @NgModule({

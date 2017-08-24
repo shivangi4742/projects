@@ -1,9 +1,8 @@
 // Messages class.
 var uRLs = {
     home: '/login/index.html',
-    loginDistDir: '/login',
     assetsDir: '/assets',
-    favicon: '/login/favicon'
+    loginDir: '/login'
 };
 
 module.exports = uRLs;

@@ -1,9 +1,14 @@
 {
   "name": "distribute",
   "dependencies": {
+    "@angular/common": "^4.3.6",
+    "@angular/core": "^4.3.6",
     "@angular/platform-browser": "^4.3.5",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "run-sequence": "^2.1.0"
+    "gulp-replace": "^0.6.1",
+    "run-sequence": "^2.1.0",
+    "rxjs": "^5.0.1",
+    "zone.js": "^0.8.4"
   }
 }

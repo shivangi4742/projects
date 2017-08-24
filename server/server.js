@@ -1,11 +1,11 @@
 // Library inclusions.
+var fs = require('fs');
 var express = require('express');
 var busboy = require('connect-busboy');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
-var fs = require('fs');
 
 // Class inclusions.
 var urls = require('./server/utils/URLs');
@@ -56,10 +56,8 @@ app.use(session({
 }));
 
 // Routing settings.
-app.use(config.base + '/login/dist', express.static(__dirname + urls.loginDistDir));
+app.use(config.base + '/login', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
-app.use(config.base + '/i18n', express.static(__dirname + urls.translationDir));
-app.use(config.base + '/fav',express.static(__dirname + urls.favicon))
 
 app.get(config.base, function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
@@ -77,11 +75,11 @@ app.use(function(err, req, res, next) {
 
 function start (app, options) {
    if (options) {
-	  console.log('starting https');
+	  console.log('started https');
       return require('https').createServer(options, app);
    }
 
-   console.log('starting http');
+   console.log('started http');
    return require('http').createServer(app);
 }
 
