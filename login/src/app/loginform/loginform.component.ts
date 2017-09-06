@@ -17,7 +17,7 @@ export class LoginformComponent implements OnInit {
   modalActions: any = new EventEmitter<string|MaterializeAction>();
 
   hasError: boolean = false;
-  keepSignedIn: boolean = false;
+  keepSignedIn: boolean = true;
 
   @Input('user') user: User;
 
@@ -48,7 +48,7 @@ export class LoginformComponent implements OnInit {
             tilLogin: this.user.tilLogin,
             isTilManager: this.user.isTilManager
           });     
-          //this.router.navigateByUrl('/tilconsole');             
+          window.location.href = this.utilsService.getManagerDashboardPageURL();
         }
         else {
           this.user.tilNumber = '';
@@ -60,7 +60,7 @@ export class LoginformComponent implements OnInit {
           (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - admin console');
           this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language, 
             isSuperAdmin: this.user.isSuperAdmin });
-            //go to bnadmin
+            window.location.href = this.utilsService.getAdminDashboardPageURL();
         }
         else {
           if(this.userService.isNGO())
@@ -69,7 +69,10 @@ export class LoginformComponent implements OnInit {
             (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
 
           this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language });
-          //this.router.navigateByUrl('/dashboard');   
+          if(this.userService.isNGO())
+            window.location.href = this.utilsService.getNGODashboardPageURL();
+          else
+            window.location.href = this.utilsService.getMerchantDashboardPageURL();
         }
       }
     }

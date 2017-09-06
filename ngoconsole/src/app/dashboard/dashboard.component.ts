@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
-import { Campaign, CampaignSummary, CampaignService } from 'benowservices';
+import { User, Campaign, CampaignSummary, CampaignService, UserService, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,14 +9,25 @@ import { Campaign, CampaignSummary, CampaignService } from 'benowservices';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  user: User;
   campaigns: Campaign[];
   campaignSummary: CampaignSummary;
 
-  constructor(private campaignService: CampaignService, private router: Router) { }
+  constructor(private campaignService: CampaignService, private router: Router, private userService: UserService, 
+    private utilsService: UtilsService) { }
 
   ngOnInit(): void {
-    this.getCampaigns();
-    this.getCampaignSummary();
+    this.userService.getUser()
+      .then(res => this.init(res));
+  }
+  
+  init(usr: User) {
+    if(usr && usr.id) {
+      this.getCampaigns();
+      this.getCampaignSummary();
+    }
+    else
+      window.location.href = this.utilsService.getLoginPageURL();
   }
 
   getCampaigns(): void {

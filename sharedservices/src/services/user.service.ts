@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
 
 import { User } from './../models/user.model';
 
@@ -17,7 +18,7 @@ export class UserService {
   
   private _isNGO: boolean = false;
   private _urls: any = {
-    signIn: 'merchant/signIn',
+    signIn: 'user/signIn',
     allocateTill: 'merchant/tillAllocate',
     releaseTill: 'merchant/tillRelease',
     sendVerificationMail: 'merchant/sendVerificationMail',
@@ -60,14 +61,12 @@ export class UserService {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.signIn, 
         JSON.stringify({ 
-          "data": this.utilsService.encryptPayload({ 
             "email": email, 
             "password": password 
-          }, false) 
         }), 
         { headers: this.utilsService.getHeaders() })
       .toPromise()
-      .then(res => this.fillUser(email, this.utilsService.decryptPayload(res.json(), false)))
+      .then(res => this.fillUser(email, res.json()))
       .catch(res => this.handleError(res.json()));
   }
 

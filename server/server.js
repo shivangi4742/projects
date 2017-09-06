@@ -1,5 +1,6 @@
 // Library inclusions.
 var fs = require('fs');
+var cors = require('cors');
 var express = require('express');
 var busboy = require('connect-busboy');
 var bodyParser = require('body-parser');
@@ -12,9 +13,9 @@ var urls = require('./server/utils/URLs');
 var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
+var userRouter = require('./server/routers/UserRouter');
 var adminRouter = require('./server/routers/AdminRouter');
 var benowRouter = require('./server/routers/BenowRouter');
-var beNowController = require('./server/controllers/BeNowController');
 
 function setup (ssl) {
    if (ssl && ssl.active) {
@@ -29,6 +30,7 @@ function setup (ssl) {
 // Initializations.
 var env = config.env;
 var app = new express();
+app.use(cors());
 
 // Communication settings.
 app.use(compression({
@@ -58,6 +60,7 @@ app.use(session({
 // Routing settings.
 app.use(config.base + '/login', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
+app.use(config.base + '/user', userRouter);
 
 app.get(config.base, function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");

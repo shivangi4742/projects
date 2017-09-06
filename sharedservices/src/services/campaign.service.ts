@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
 
 import { Campaign } from './../models/campaign.model';
 import { CampaignSummary } from './../models/campaignsummary.model';

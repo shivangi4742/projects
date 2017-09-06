@@ -11,6 +11,31 @@ export class UtilsService {
 
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
+  private _loginPageURL: string = 'http://localhost:9090/login/login/1';
+  private _ngoDashboardPageURL: string = 'http://localhost:9090/ngo/dashboard';
+  private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
+  private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
+  private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
+
+  public getManagerDashboardPageURL(): string {
+    return this._managerDashboardPageURL;    
+  }
+
+  public getNGODashboardPageURL(): string {
+    return this._ngoDashboardPageURL;
+  }
+
+  public getMerchantDashboardPageURL(): string {
+    return this._merchantDashboardPageURL;
+  }
+
+  public getAdminDashboardPageURL(): string {
+    return this._adminDashboardPageURL;
+  }
+
+  public getLoginPageURL(): string {
+    return this._loginPageURL;
+  }
 
   setUName(un: string) {
     this._uname = un;
