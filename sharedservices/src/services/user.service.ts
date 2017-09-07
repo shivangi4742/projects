@@ -95,7 +95,7 @@ export class UserService {
       .catch(res => this.handleError(res.json()));
   }
 
-  tillRelease(til: string): Promise<any> {  
+  tillRelease(til: string|null): Promise<any> {  
      return this.http
       .post(this.utilsService.getBaseURL() + this._urls.releaseTill, 
         JSON.stringify({ 
@@ -138,6 +138,10 @@ export class UserService {
       .toPromise()
       .then(res => this.changedPassword(this.utilsService.decryptPayload(res.json(), false)))
       .catch(res => this.handleError(res.json()));
+  }
+
+  resetUser() {
+    this._user = new User(false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null);
   }
 
   private changedPassword(res: any): any {

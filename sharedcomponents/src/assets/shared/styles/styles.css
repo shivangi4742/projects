@@ -208,3 +208,11 @@
 .blueBN {
     color: #137ED0;
 }
+
+.iconPrefixBN {
+    padding-right: 10px;    
+}
+
+.noPadsIconBN {
+    padding: 0px!important;
+}

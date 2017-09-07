@@ -7,9 +7,11 @@ import { SharedServicesModule } from 'benowservices';
 
 import { TopnavComponent } from './topnav.component';
 import { FooterbarComponent } from './footerbar.component';
+import { UserTopNavComponent } from './usertopnav.component';
 
 export { TopnavComponent } from './topnav.component';
 export { FooterbarComponent } from './footerbar.component';
+export { UserTopNavComponent } from './usertopnav.component';
 
 @NgModule({
   imports: [
@@ -19,11 +21,13 @@ export { FooterbarComponent } from './footerbar.component';
   ],
   declarations: [
     TopnavComponent,
-    FooterbarComponent    
+    FooterbarComponent,
+    UserTopNavComponent    
   ],
   exports: [
     TopnavComponent,
-    FooterbarComponent
+    FooterbarComponent,
+    UserTopNavComponent
   ]
 })
 export class SharedComponentsModule { }

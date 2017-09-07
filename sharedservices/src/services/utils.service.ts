@@ -9,6 +9,7 @@ export class UtilsService {
   private _token: string;
   private _headers: any;
 
+  private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
   private _loginPageURL: string = 'http://localhost:9090/login/login/1';
@@ -134,6 +135,69 @@ export class UtilsService {
     return { "success": false, "errMsg": "Something went wrong. Please try again."};
   }
 
+  getDateOnlyString(dt: Date): string {
+    return this.getDate(dt.getDate()) + '/' + this.getMonth(dt.getMonth()) + '/' + dt.getFullYear();
+  }
+
+  isNGO(mccCode: string|null): boolean {
+    if(mccCode === '8398')
+      this._isNGO = true;
+
+    return this._isNGO;
+  }
+
+  getDateTimeString(dt: Date): string {
+    return this.getDate(dt.getDate()) + '/' + this.getMonth(dt.getMonth()) + '/' + dt.getFullYear() + ' '  + this.getHoursOrMinutes(dt.getHours()) 
+      + ':' + this.getHoursOrMinutes(dt.getMinutes());
+  }
+
+  clearStorages() {
+    localStorage.removeItem('bnMRC');
+    sessionStorage.removeItem('bnMRC');
+  }
+
+  setLanguageInStorage(lang: number) {
+    let sbnMRCObj = sessionStorage.getItem('bnMRC');
+    if(sbnMRCObj) {
+      let sbnMRC = JSON.parse(sbnMRCObj);
+      if(sbnMRC && sbnMRC.token && sbnMRC.username) {
+        sbnMRC.language = lang;
+        sessionStorage.setItem('bnMRC', JSON.stringify(sbnMRC));
+      }
+    }
+
+    let lbnMRCObj = localStorage.getItem('bnMRC');
+    if(lbnMRCObj) {   
+      let lbnMRC = JSON.parse(lbnMRCObj);   
+      if(lbnMRC && lbnMRC.token && lbnMRC.username) {
+        lbnMRC.language = lang;
+        localStorage.setItem('bnMRC', JSON.stringify(lbnMRC));
+      }
+    }
+  }
+
+  private getHoursOrMinutes(h: number) {
+    if(h < 10)
+      return '0' + h.toString();
+
+    return h.toString();
+  }
+
+  private getDate(d: number) {
+    if(d < 10)
+      return '0' + d.toString();
+
+    return d.toString();
+  }
+
+  private getMonth(m: number) {
+    let mon: number = m + 1;
+    if(mon < 10)
+      return '0' + mon.toString();
+
+    return mon.toString();
+  }
+  
   private getKey(ut: boolean): string {
     if(ut && this._token)
       return this._token;
