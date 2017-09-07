@@ -14,7 +14,7 @@ export class NotificationService {
     private _curKey: string;
     private _notifs: Notification[];
     private _urls: any = {
-        getNotificationsURL: 'merchant/getNotifications'
+        getNotificationsURL: 'notification/getNotifications'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -53,13 +53,10 @@ export class NotificationService {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getNotificationsURL,
                 JSON.stringify({
-                    "data": this.utilsService.encryptPayload({
-                        "merchantCode": mCode,
-                        "pageNumber": page
-                    }, true)
+                    "merchantCode": mCode,
+                    "pageNumber": page
                 }), 
-                { headers: this.utilsService.getHeaders() 
-            })
+                { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => this.fillNotifications(key, this.utilsService.decryptPayload(res.json(), true)))
             .catch(res => null);        

@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 export function HttpFactory(http: Http) {
-  return new TranslateStaticLoader(http, '/assets/login/i18n', '.json');
+  return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
 }
 
 @NgModule({

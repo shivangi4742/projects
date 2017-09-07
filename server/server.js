@@ -14,8 +14,7 @@ var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
 var userRouter = require('./server/routers/UserRouter');
-var adminRouter = require('./server/routers/AdminRouter');
-var benowRouter = require('./server/routers/BenowRouter');
+var notificationRouter = require('./server/routers/NotificationRouter');
 
 function setup (ssl) {
    if (ssl && ssl.active) {
@@ -61,6 +60,7 @@ app.use(session({
 app.use(config.base + '/login', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
 app.use(config.base + '/user', userRouter);
+app.use(config.base + '/notification', notificationRouter);
 
 app.get(config.base, function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
