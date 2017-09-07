@@ -1,0 +1,17 @@
+.moverNotifItemBN {
+    border-bottom: 1px solid #D6D6D6;     
+    background-color: #D6D6D6;    
+    height: 50px; 
+    line-height: 40px;
+}
+
+.notifItemBN {
+    border-bottom: 1px solid #D6D6D6;    
+    height: 50px; 
+    line-height: 40px;
+}
+
+.seeAllNotifsBTNBN {
+    line-height: 20px;
+    padding-top: 10px!important;
+}

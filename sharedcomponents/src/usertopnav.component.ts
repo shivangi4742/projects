@@ -71,7 +71,7 @@ export class UserTopNavComponent {
   signOut() {
     this.userService.tillRelease(this.user.tilNumber);
     this.utilsService.clearStorages();
-    this.router.navigateByUrl('/logout/6');      
+    window.location.href = this.utilsService.getLogoutPageURL();
   }
 
   onTilConsole() {
@@ -94,7 +94,7 @@ export class UserTopNavComponent {
   changePassword() {
     this.utilsService.clearStorages();
     this.userService.resetUser();
-    this.router.navigateByUrl('/verify/2');
+    window.location.href = this.utilsService.getChangePasswordPageURL();
   }
 
   onNotifications(): boolean {

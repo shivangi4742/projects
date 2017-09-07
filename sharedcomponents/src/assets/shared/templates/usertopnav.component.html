@@ -1,7 +1,7 @@
 <div materialize>
-    <div id="notificationsModal" class="modal viewModalSBN">
+    <div materialize="modal" id="notificationsModal" class="modal viewModalSBN">
         <div class="modal-content">
-            <!-- <notifications [notifications]="notifications" [user]="user"></notifications> -->
+             <notifications [notifications]="notifications" [user]="user"></notifications> 
             <div class="row"></div>
             <div class="row" align="right">
                 <a (click)="closeNotifModal()" class="col s10 offset-s1 errNrmS4BN linkButtonBN">{{'CLOSE' | translate}}</a>
@@ -9,49 +9,49 @@
         </div>
     </div>
     <div id="notifications" class="dropdown-content grey lighten-5 notificationsMenuBN" (touchstart)="stopBubble($event)" (click)="stopBubble($event)">
-        <!-- <notifications [notifications]="notifications" [user]="user"></notifications> -->
+         <notifications [notifications]="notifications" [user]="user"></notifications> 
     </div>
     <ul id="account" class="dropdown-content grey lighten-5 topNavDDMenuBN">
-    <li *ngIf="!onTilConsole()">
-        <a (click)="goTo('tilconsole')">
-            <span class="valign-wrapper topNavDDMenuItemBN"> 
-                <i class="material-icons iconPrefixBN">group_work</i>
-                {{'Til Console' | translate}} 
-            </span>
-        </a>
-    </li>
-    <li *ngIf="!onDashboard()">
-        <a (click)="goTo('dashboard')">
-            <span class="valign-wrapper topNavDDMenuItemBN"> 
-                <i class="material-icons iconPrefixBN">dashboard</i>
-                {{'Payments Dashboard' | translate}} 
-            </span>
-        </a>
-    </li>
-    <li *ngIf="!onInvices()">
-        <a (click)="goTo('invoices')">
-            <span class="valign-wrapper topNavDDMenuItemBN"> 
-                <i class="material-icons iconPrefixBN">account_balance</i>
-                {{'Distributor Connect' | translate}} 
-            </span>
-        </a>
-    </li>
-    <li *ngIf="!hasTils">
-        <a (click)="changePassword()" >
-            <span class="valign-wrapper topNavDDMenuItemBN">           
-                <i class="material-icons iconPrefixBN">settings</i> 
-                {{'Change Password' | translate}}
-            </span>
-        </a>
-    </li>
-    <li>
-        <a (click)="signOut()">
-            <span class="valign-wrapper topNavDDMenuItemBN"> 
-                <i class="material-icons iconPrefixBN">exit_to_app</i>
-                {{'Sign Out' | translate}} 
-            </span> 
-        </a>
-    </li>
+        <li *ngIf="!onTilConsole()">
+            <a (click)="goTo('tilconsole')">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">group_work</i>
+                    {{'Til Console' | translate}} 
+                </span>
+            </a>
+        </li>
+        <li *ngIf="!onDashboard()">
+            <a (click)="goTo('dashboard')">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">dashboard</i>
+                    {{'Payments Dashboard' | translate}} 
+                </span>
+            </a>
+        </li>
+        <li *ngIf="!onInvices()">
+            <a (click)="goTo('invoices')">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">account_balance</i>
+                    {{'Distributor Connect' | translate}} 
+                </span>
+            </a>
+        </li>
+        <li *ngIf="!hasTils">
+            <a (click)="changePassword()" >
+                <span class="valign-wrapper topNavDDMenuItemBN">           
+                    <i class="material-icons iconPrefixBN">settings</i> 
+                    {{'Change Password' | translate}}
+                </span>
+            </a>
+        </li>
+        <li>
+            <a (click)="signOut()">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">exit_to_app</i>
+                    {{'Sign Out' | translate}} 
+                </span> 
+            </a>
+        </li>
     </ul>
 </div>
 <nav materialize class="nav white topNavBN">
@@ -64,27 +64,30 @@
             <img *ngIf="mtype == 3" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_hb.png?v=2" />
             <img *ngIf="mtype == 3" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo_hb.png?v=2" />
         </a>
-        <ul class="left" [ngClass]="mtype == 3 ? 'hide-on-med-and-down largeLangHBDDBN' : 'hide-on-med-and-down largeLangDDBN'">
+        <ul class="left hide-on-med-and-down largeLangHBDDBN">
             <li class="topNavDDBN">
-                <select class="browser-default regNrmS4B3BN dropDownBN" name="language" (ngModelChange)="langChanged($event)">
+                <select class="regNrmS4B3BN dropDownBN" materialize="material_select" (ngModelChange)="langChanged($event)"
+                    [(ngModel)]="language">
+                    <option value="1">English</option>
+                    <option value="2">हिंदी</option>
+                    <option value="3">मराठी</option>
+                </select>
+            </li>
+        </ul>
+        <ul class="left hide-on-large-only hide-on-small-only mediumLangDDBN">
+            <li class="topNavDDBN">
+                <select class="regNrmS4B3BN dropDownBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
+                    [(ngModel)]="language">
                     <option value="1">English</option>
                     <option value="2">हिंदी</option>
                     <option value="3">मराठी</option>
                 </select>                
             </li>
         </ul>
-        <ul class="left" class="hide-on-large-only hide-on-small-only mediumLangDDBN">
-            <li class="topNavDDBN">
-                <select class="browser-default regNrmS4B3BN dropDownBN" name="language" (ngModelChange)="langChanged($event)">
-                    <option value="1">English</option>
-                    <option value="2">हिंदी</option>
-                    <option value="3">मराठी</option>
-                </select>                
-            </li>
-        </ul>
-        <ul class="left" class="hide-on-med-and-up smallLangDDBN">
+        <ul class="left hide-on-med-and-up smallLangDDBN">
             <li>
-                <select class="browser-default regNrmS6BN dropDownBN fhDDBN" name="language" (ngModelChange)="langChanged($event)">
+                <select class="regNrmS6BN dropDownBN fhDDBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
+                    [(ngModel)]="language">
                     <option value="1">English</option>
                     <option value="2">हिंदी</option>
                     <option value="3">मराठी</option>
@@ -101,7 +104,7 @@
             </li>
             <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
             <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-small-only">
-                <a class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
+                <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
                     <i class="material-icons iconPrefixBN notifIconBN">email</i>
                     <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
                 </a>

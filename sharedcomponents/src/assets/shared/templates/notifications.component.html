@@ -1,0 +1,34 @@
+<div class="row" *ngIf="notifications">    
+    <div [ngClass]="notification.isMOver ? 'valign-wrapper moverNotifItemBN linkButtonBN' : 'valign-wrapper notifItemBN linkButtonBN'" 
+        *ngFor="let notification of notifications" (mouseover)="notification.isMOver = true" (mouseout)="notification.isMOver = false"
+        (click)="goToNotification(notification.id)">
+        <div class="col s1">
+            <i *ngIf="notification.type != 1" class="material-icons iconPrefixBN notifIconBN alignMidBN">email</i>
+            <i *ngIf="notification.type == 1" class="material-icons iconPrefixBN notifIconBN redBN alignMidBN">file_download</i>
+        </div>
+        <div class="col s8">
+            <span class="regNrmS6B1BN truncate alignMidBN">{{notification.subject}}</span>
+        </div>
+        <div class="col s3">
+            <span class="regNrmS7BN right">{{notification.time}}</span>
+        </div>
+    </div>
+    <div (click)="goToNotification(0)" align="right" class="col s12 regNrmS5B1BN linkButtonBN redBN seeAllNotifsBTNBN">{{'See all' | translate}}</div>
+</div>
+<div class="row" *ngIf="!notifications">
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <span class="col s12 center regNrmS5B1BN">{{'All caught up!' | translate}}</span>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+    <div class="col s12"></div>
+</div>
