@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
+import { FileService } from './services/file.service';
 import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { CampaignService } from './services/campaign.service';
@@ -12,6 +13,7 @@ export { Attachment } from './models/attachment.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
 
+export { FileService } from './services/file.service';
 export { UserService } from './services/user.service';
 export { UtilsService } from './services/utils.service';
 export { CampaignService } from './services/campaign.service';
@@ -29,6 +31,7 @@ export class SharedServicesModule {
     return {
       ngModule: SharedServicesModule,
       providers: [
+        FileService,
         UserService,
         UtilsService,
         CampaignService,

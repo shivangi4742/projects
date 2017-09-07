@@ -6,9 +6,11 @@ export default {
   moduleName: 'ng.sharedcomponents',
   globals: {
     '@angular/core': 'ng.core',
-    '@angular/common': 'ng.common',
     '@angular/http': 'ng.http',
+    '@angular/forms': 'ng.forms',
+    '@angular/common': 'ng.common',
     '@angular/router': 'ng.router',
+    '@angular/platform-browser': 'ng.platform-browser',
     'rxjs/Observable': 'Rx',
     'rxjs/ReplaySubject': 'Rx',
     'rxjs/add/operator/map': 'Rx.Observable.prototype',

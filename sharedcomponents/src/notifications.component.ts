@@ -21,7 +21,7 @@ export class NotificationsComponent  {
     private notificationService: NotificationService, private userService: UserService) { }
 
   goToNotification(id: string) {
-    this.modalActions.emit({action:"modal",params:['open']});
+    this.modalActions.emit({action:"modal",params:['close']});
     this.router.navigateByUrl('/notification/1/' + id);
   }
 }

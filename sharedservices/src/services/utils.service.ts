@@ -17,8 +17,20 @@ export class UtilsService {
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngo/dashboard';
   private _changePasswordPageURL: string = 'http://localhost:9090/login/verify/2';
   private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
+  private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
+
+  public isHB(mCode: string|null): boolean {
+    if(mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69')
+      return true;
+
+    return false;
+  }
+
+  public getNotificationPrefixURL(): string {
+    return this._notificationPrefixURL;
+  }
 
   public getManagerDashboardPageURL(): string {
     return this._managerDashboardPageURL;    
@@ -66,6 +78,14 @@ export class UtilsService {
       this._headers['X-EMAIL'] = this._uname;
 
     return new Headers(this._headers);
+  }
+
+  getFileHeaders(): Headers {
+    this._headers['content-type'] = 'multipart/form-data; boundary=----WebKitFormBoundaryl9Za6RFZRq8zSFxC';
+    if(!this._headers['X-EMAIL'] && this._headers['X-AUTHORIZATION'] && this._uname)
+      this._headers['X-EMAIL'] = this._uname;
+
+    return this._headers;    
   }
 
   getBaseURL(): string {

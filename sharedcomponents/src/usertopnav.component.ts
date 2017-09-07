@@ -45,8 +45,9 @@ export class UserTopNavComponent {
     if(this.user.isSuperAdmin)
       this.homeLink = '/bnadmin';
 
-    this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
-      .then(res => this.fillNotifications(res));
+    if(window.location.href.indexOf('/notification') < 1)
+      this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
+        .then(res => this.fillNotifications(res));
 
     if(this.language < 1)
       this.language = 1;

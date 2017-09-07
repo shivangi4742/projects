@@ -76,7 +76,8 @@
 }
 
 .errHdrS1BN, .errNrmS0BN, .errNrmS1BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN, .errNrmS5BN, .redBN, .errNrmS6B1BN,
-    .errNrmS6BN, .errHdrS2BN, .errNrmS5B2BN, .errorIconBN, .errNrmS2B2BN, .errNrmS1B1BN, .errNrmS6B2BN, .errNrmS5B1BN, errNrmS8B1BN, .errNrmS-1B1BN {
+    .errNrmS6BN, .errHdrS2BN, .errNrmS5B2BN, .errorIconBN, .errNrmS2B2BN, .errNrmS1B1BN, .errNrmS6B2BN, .errNrmS5B1BN, .errNrmS8B1BN, .errNrmS-1B1BN,
+    .backToDashboardBN {
    color: #E53935;
 }
 
@@ -215,4 +216,78 @@
 
 .noPadsIconBN {
     padding: 0px!important;
+}
+
+.tabBN {
+    color: #E53935!important;
+    text-transform: none; 
+    font-size: 11pt!important; 
+}
+
+.blackTabBN {
+    color: #3d3d3d!important;
+    text-transform: none; 
+    font-size: 11pt!important;     
+}
+
+.noMarginInputBN {
+    margin-top: -10px!important;
+}
+
+.notifContentBN {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-top: -25px;
+}
+
+.notifContentSBN {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: -20px;    
+}
+
+.accordionBN {
+    border: none!important;
+    box-shadow: none!important;
+}
+
+.accordionHdrExpBN {
+    background-color: #b2dfdb;
+}
+
+.accordionHdrBN {
+    background-color: transparent;
+}
+
+.noPadsBN {
+    padding: 0px;
+    margin-left: -20px;
+    margin-bottom: 0px;
+}
+
+.accordionBodyBN {
+    border-bottom: none;
+    margin-bottom: 0px;
+}
+
+.backToDashboardBN {
+    float: left;
+}
+
+.tabListBN {
+    overflow: hidden;
+}
+
+.v2accoBN {
+    display: block;
+    padding: 0 1rem;
+    line-height: 3rem;
+}
+
+.v2accoIconBN {
+    display: block;
+}
+
+.v2accoBodyBN {
+    padding: 0px;
 }
