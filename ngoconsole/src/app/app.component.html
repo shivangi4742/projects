@@ -1,5 +1,5 @@
 <header>
-  <topnav></topnav>
+  <usertopnav *ngIf="user" [user]="user" [mtype]="2"></usertopnav>
 </header>
 <main>
   <router-outlet></router-outlet>

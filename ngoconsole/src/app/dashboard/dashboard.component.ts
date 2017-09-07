@@ -23,11 +23,10 @@ export class DashboardComponent implements OnInit {
   
   init(usr: User) {
     if(usr && usr.id) {
+      this.user = usr;
       this.getCampaigns();
       this.getCampaignSummary();
     }
-    else
-      window.location.href = this.utilsService.getLoginPageURL();
   }
 
   getCampaigns(): void {

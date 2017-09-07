@@ -8,6 +8,7 @@ export default {
     '@angular/core': 'ng.core',
     '@angular/common': 'ng.common',
     '@angular/http': 'ng.http',
+    '@angular/router': 'ng.router',
     'rxjs/Observable': 'Rx',
     'rxjs/ReplaySubject': 'Rx',
     'rxjs/add/operator/map': 'Rx.Observable.prototype',
@@ -15,6 +16,7 @@ export default {
     'rxjs/add/observable/fromEvent': 'Rx.Observable',
     'rxjs/add/observable/of': 'Rx.Observable',
     'ng2-translate': 'ng.ng2-translate',
-    'benowservices': 'ng.sharedservices'
+    'benowservices': 'ng.sharedservices',
+    'angular2-materialize': 'ng.angular2-materialize'
   }
 }
