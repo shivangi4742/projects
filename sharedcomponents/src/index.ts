@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { TranslateModule } from 'ng2-translate';
+import { MaterializeModule } from "angular2-materialize";
 
 import { SharedServicesModule } from 'benowservices';
 
@@ -17,6 +18,7 @@ export { UserTopNavComponent } from './usertopnav.component';
   imports: [
     CommonModule,
     TranslateModule,
+    MaterializeModule,
     SharedServicesModule
   ],
   declarations: [

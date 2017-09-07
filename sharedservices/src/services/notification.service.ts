@@ -58,7 +58,7 @@ export class NotificationService {
                 }), 
                 { headers: this.utilsService.getHeaders() })
             .toPromise()
-            .then(res => this.fillNotifications(key, this.utilsService.decryptPayload(res.json(), true)))
+            .then(res => this.fillNotifications(key, res.json()))
             .catch(res => null);        
     }
 }
