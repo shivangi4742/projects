@@ -1,72 +1,65 @@
-<div class="container | center-align" *ngIf="campaignSummary">
+<div class="containerBN | center-align" *ngIf="campaignSummary">
     <div class="row | center-align">
-        <div class="col s1 m2 l2 offset-m2 | card hoverable | center-align hidenCardNGO">
-            <img src="../assets/donation_console_2x.jpg" class="actionsNG responsive-img">
+        <div class="col s1 m2 l2 offset-m2 | card hoverable | center-align hidenCardNGOBN">
+            <img src="../../assets/ngoconsole/images/donation_console_2x.jpg" class="actionsNGBN responsive-img">
             <p>Hidden card</p>
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align">
-            <img src="../assets/donation_console_2x.jpg" class="actionsNG responsive-img">
+            <img src="../../assets/ngoconsole/images/donation_console_2x.jpg" class="actionsNGBN responsive-img">
             <p>Donation<br>Console</p>
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align" (click)="onAddDonorClick()">
-            <img src="../assets/add_donors_2x.jpg" class="actionsNG responsive-img">
+            <img src="../../assets/ngoconsole/images/add_donors_2x.jpg" class="actionsNGBN responsive-img">
             <p>Add / Manage<br>Donors</p>
         </div>
         <div class="col s5 m2 l2 offset-s1 | card hoverable | center-align">
-            <img src="../assets/create_campaigns_2x.jpg" class="actionsNG responsive-img">
+            <img src="../../assets/ngoconsole/images/create_campaigns_2x.jpg" class="actionsNGBN responsive-img">
             <p>Create / Manage<br>Campaigns</p>
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align" (click)=onSocialProfileClick()>
-            <img src="../assets/social_profile_2x.jpg" class="actionsRectNG responsive-img">
+            <img src="../../assets/ngoconsole/images/social_profile_2x.jpg" class="actionsRectNGBN responsive-img">
             <p>Update<br>Social Profile</p>
         </div>
         <div class="col l2"></div>
     </div>
 
-    <div class="row | center">
-        <div class="col s4 m4 l4 offset-l1 offset-m1 divider"></div>
+<!--     <div class="row | center">
+        <div class="col s4 m4 l4 offset-l1 offset-m1 dividerBN"></div>
         <div class="col s4 m3 l3">
-            <img src="../assets/mastek_foundation.jpg" class="responsive-img">
+            <img src="../../assets/ngoconsole/images/mastek_foundation.jpg" class="responsive-img">
         </div>
-        <div class="col s4 m4 l4 divider"></div>
-    </div>
+        <div class="col s4 m4 l4 dividerBN"></div>
+    </div> -->
 
-    <div class="row | center-align campaignSummaryContainer">
+    <div class="row | center-align">
         <div class="col s5 m2 l3 offset-l1 offset-s1 | center-align">
-            <p class="header-bold">Live Campaigns</p>
-            <p class="live">{{campaignSummary.campaignCount}}</p>
-            <!-- <p class="live">20</p> -->
+            <p class="header-boldBN">Live Campaigns</p>
+            <p class="liveBN">{{campaignSummary.campaignCount}}</p>
         </div>
         <div class="col s5 m3 l4 | center-align">
-            <p class="header-bold">Donation Recvd.</p>
-            <p class="donation">&#x20b9; {{campaignSummary.fundRaised}}/-</p>
-            <!-- <p class="donation">&#x20b9; 50,000/-</p> -->
+            <p class="header-boldBN">Donation Recvd.</p>
+            <p class="donationBN">&#x20b9; {{campaignSummary.fundRaised}}/-</p>
         </div>
         <div class="col s5 m2 l4 offset-s1 | center-align">
-            <p class="header-bold">Contributors</p>
-            <p class="contributor">{{campaignSummary.totalContributor}}</p>
-            <!-- <p class="contributor">30</p> -->
+            <p class="header-boldBN">Contributors</p>
+            <p class="contributorBN">{{campaignSummary.totalContributor}}</p>
         </div>
-        <!-- <div class="col s5 m3 l3 | center-align">
-            <p class="header-bold">Performer</p>
-            <p>Sanjeevani Fundraiser #1</p>
-        </div> -->
-        <div class="col s11 m11 l11 offset-l1 offset-m1 offset-s1 | center-align | divider"></div>
+        <div class="col s11 m11 l11 offset-l1 offset-m1 offset-s1 | center-align | dividerBN"></div>
     </div>
 
     <div class="row | center-align">
         <div class="col s3 m3 l4 | center-align">
-            <p class="header-bold">Campaign ID</p>
+            <p class="header-boldBN">Campaign ID</p>
         </div>
         <div class="col s3 m3 l4 | center-align">
-            <p class="header-bold">Goal Completed</p>
+            <p class="header-boldBN">Goal Completed</p>
         </div>
         <div class="col s3 m3 l4 offset-s1 | center-align">
-            <p class="header-bold">Time Remaining</p>
+            <p class="header-boldBN">Time Remaining</p>
         </div>
     </div>
 
-    <ul class="campaigns">
+    <ul>
         <li *ngFor="let campaign of campaigns">
             <div class="row | center-align">
                 <div class="col s3 m3 l3 offset-l1 | left-align">
@@ -74,28 +67,28 @@
                 </div>
                 <div class="col s3 m3 l4 | left-align">
                     <div *ngIf="campaign.progress > 80">
-                        <div id="progressBar">
-                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress80"></div>
+                        <div id="progressBarBN">
+                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress80BN"></div>
                         </div>
-                        <p id="number" class="above80 valign-wrapper">{{campaign.progress}}%</p>
+                        <p id="numberBN" class="above80BN valign-wrapper">{{campaign.progress}}%</p>
                     </div>
                     <div *ngIf="campaign.progress > 50 && campaign.progress < 81">
-                        <div id="progressBar">
-                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress50"></div>
+                        <div id="progressBarBN">
+                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress50BN"></div>
                         </div>
-                        <p id="number" class="above50">{{campaign.progress}}%</p>
+                        <p id="numberBN" class="above50BN">{{campaign.progress}}%</p>
                     </div>
                     <div *ngIf="campaign.progress > 20 && campaign.progress < 51">
-                        <div id="progressBar">
-                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress20"></div>
+                        <div id="progressBarBN">
+                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress20BN"></div>
                         </div>
-                        <p id="number" class="above20">{{campaign.progress}}%</p>
+                        <p id="numberBN" class="above20BN">{{campaign.progress}}%</p>
                     </div>
                     <div *ngIf="campaign.progress < 21">
-                        <div id="progressBar">
-                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progress"></div>
+                        <div id="progressBarBN">
+                            <div [ngStyle]="{'width': campaign.progress + '%'}" id="progressBN"></div>
                         </div>
-                        <p id="number" class="below20">{{campaign.progress}}%</p>
+                        <p id="numberBN" class="below20BN">{{campaign.progress}}%</p>
                     </div>
                 </div>
                 <div class="col s3 m3 l4 offset-s1 | center-align">

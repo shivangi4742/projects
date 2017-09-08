@@ -12,8 +12,8 @@ import { UtilsService } from './utils.service';
 @Injectable()
 export class CampaignService {
     private _urls: any = {
-        getCampaignsURL: 'paymentadapter/getCampaignDetails',
-        getCampaignSummaryURL: 'paymentadapter/getCampaignSummary',
+        getCampaignsURL: 'campaign/getCampaigns',
+        getCampaignSummaryURL: 'campaign/getCampaignsSummary',
         setCommPrefURL: 'paymentadapter/setCommPref',
         getCommPrefURL: 'paymentadapter/getCommPref',
         getDonorListURL: 'merchant/getDonorList',

@@ -1,0 +1,104 @@
+.containerBN {
+    width: 80%;
+}
+
+.hidenCardNGOBN {
+    visibility: hidden;
+}
+
+.actionsNGBN {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.actionsRectNGBN {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 20px;
+}
+
+.dividerBN {
+    margin-top: 20pt;
+}
+
+.header-boldBN {
+    font-weight: 600;
+    font-size: 16px;
+    font-family: sans-serif;
+}
+
+p.liveBN {
+    font-weight: 600;
+    font-size: 38px;
+    font-family: sans-serif;
+}
+
+p.donationBN {
+    font-weight: 600;
+    font-size: 38px;
+    font-family: sans-serif;
+    color: #E33C3C;
+}
+
+p.contributorBN {
+    font-weight: 600;
+    font-size: 38px;
+    font-family: sans-serif;
+    color: #11828E;
+}
+
+.above80BN {
+    color: #11828E;
+    font-weight: 600;
+}
+
+.above50BN {
+    color: #E33C3C;
+    font-weight: 600;
+}
+
+.above20BN {
+    color: #FD9E28;
+    font-weight: 600;
+}
+
+.below20BN {
+    color: #999999;
+    font-weight: 600;
+}
+
+#progressBarBN {
+    width: 80%;
+}
+
+#progress80BN {
+    height: 20px;
+    background-color: #11828E;
+    float: left;
+}
+
+#progress50BN {
+    height: 20px;
+    background-color: #E33C3C;
+    float: left;
+}
+
+#progress20BN {
+    height: 20px;
+    background-color: #FD9E28;
+    float: left;
+}
+
+#progressBN {
+    height: 20px;
+    background-color: #999999;
+    float: left;
+}
+
+#numberBN {
+    float: left;
+    margin-left: 10px;
+}

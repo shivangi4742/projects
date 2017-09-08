@@ -14,6 +14,7 @@ var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
 var userRouter = require('./server/routers/UserRouter');
+var campaignRouter = require('./server/routers/CampaignRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
 function setup (ssl) {
@@ -57,10 +58,11 @@ app.use(session({
 }));
 
 // Routing settings.
+app.use(config.base + '/user', userRouter);
+app.use(config.base + '/campaign', campaignRouter);
+app.use(config.base + '/notification', notificationRouter);
 app.use(config.base + '/login', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
-app.use(config.base + '/user', userRouter);
-app.use(config.base + '/notification', notificationRouter);
 
 app.get(config.base, function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
