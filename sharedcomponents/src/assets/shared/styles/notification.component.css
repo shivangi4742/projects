@@ -1,0 +1,20 @@
+.rowHeightBN {
+    height: 55px;
+}
+
+.pixelUpBN {
+    margin-top: -2px;
+}
+
+.colHeaderBN {
+    background-color: #D6D6D6;        
+}
+
+.headerHeightBN {
+    line-height: 40px;
+}
+
+.ntfBodyBN {
+    border: 1px solid #3d3d3d;
+    background-color: #FFFFFF;
+}

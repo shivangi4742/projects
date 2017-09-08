@@ -20,6 +20,7 @@ export class UserTopNavComponent {
   notifications: Notification[]|null;
   isNGO: boolean = false;
   hasNotifications: boolean = false;
+  notifInitialized: boolean = false;
   numUnreadNotifs: number = 0;
   homeLink: string = '/dashboard';
   modalActions: any = new EventEmitter<string|MaterializeAction>();
@@ -31,9 +32,14 @@ export class UserTopNavComponent {
     translate.setDefaultLang('en');      
   }
 
-  goTo(routeStr: string) {
-    
+  goTo(routeStr: string) {    
   }
+
+  init() {
+    if(!this.notifInitialized)
+      this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
+        .then(res => this.fillNotifications(res));
+   }
 
   ngOnInit() {
     this.hasTils = this.user.hasTils;
@@ -42,13 +48,11 @@ export class UserTopNavComponent {
     this.name = this.user.displayName;
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
-    if(this.user.isSuperAdmin)
-      this.homeLink = '/bnadmin';
 
     if(window.location.href.indexOf('/notification') < 1)
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
         .then(res => this.fillNotifications(res));
-
+ 
     if(this.language < 1)
       this.language = 1;
   }
@@ -62,6 +66,7 @@ export class UserTopNavComponent {
   }
 
   fillNotifications(notifs: Notification[]|null) {
+    this.notifInitialized = true;
     this.notifications = notifs;
     if(this.notifications && this.notifications.length > 0) {
       this.hasNotifications = true;

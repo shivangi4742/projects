@@ -21,7 +21,7 @@
             </a>
         </li>
         <li *ngIf="!onDashboard()">
-            <a (click)="goTo('dashboard')">
+            <a [routerLink]="'/dashboard'">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">dashboard</i>
                     {{'Payments Dashboard' | translate}} 
@@ -56,7 +56,7 @@
 </div>
 <nav materialize class="nav white topNavBN">
     <div class="nav-wrapper">                
-        <a class="brand-logo left linkButtonBN" (click)="goTo('home')">
+        <a class="brand-logo left linkButtonBN" [routerLink]="homeLink">
             <img *ngIf="mtype == 1" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo.png?v=2" />
             <img *ngIf="mtype == 1" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo.png?v=2" />
             <img *ngIf="mtype == 2" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_ngo.png?v=2" />

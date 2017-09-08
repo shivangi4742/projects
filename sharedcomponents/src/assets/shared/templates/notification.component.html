@@ -1,0 +1,122 @@
+<div id="smallScreenN" class="hide-on-med-and-up"></div>
+<div id="mediumScreenN" class="hide-on-small-only hide-on-large-only"></div>
+<div id="largeScreenN" class="hide-on-med-and-down"></div>
+<div *ngIf="loaded" materialize>
+    <div class="row"></div>
+    <div class="row">
+        <div class="valign-wrapper">
+            <div class="col s12 m10 l8 offset-m1 offset-l2">
+                <ul materialize="tabs" class="col s4 tabs tabs-fixed-width tabListBN">
+                    <li class="tab col s6">
+                        <a [ngClass]="active == 0 ? 'active tabBN' : 'tabBN'">
+                            <span *ngIf="numUnreadMessages > 0">({{numUnreadMessages}})</span>
+                            {{'Inbox' | translate}}
+                        </a>
+                    </li>
+                    <li class="tab col s6" *ngIf="false">
+                        <a [ngClass]="active == 0 ? 'active blackTabBN' : 'blackTabBN'">
+                            <span *ngIf="numDeletedMessages > 0">({{numDeletedMessages}})</span>
+                            {{'Deleted' | translate}}
+                        </a>
+                    </li>
+                </ul>
+                <div class="col s5 offset-s3 input-field regNrmS4BN rowHeightBN">
+                    <div *ngIf="notifications" class="pixelUpBN">
+                        <input id="search" name="search" type="text" class="noMarginInputBN" [(ngModel)]="searchTxt"
+                            (keyup)="search()">
+                        <label for="search" [ngClass]="{active: searchTxt}">{{'Search' | translate}}</label>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [ngClass]="screenType == 1 ? 'valign-wrapper notifContentSBN' : 'valign-wrapper notifContentBN'">
+            <div [ngClass]="screenType == 1 ? 'col s12' : 'col m10 l8 offset-m1 offset-l2 z-depth-2 card-panel grey lighten-5 widgetBN noPadsIconBN'">
+                <div class="row" *ngIf="notifications">
+                    <div class="valign-wrapper colHeaderBN regNrmS5B1BN headerHeightBN">
+                        <div class="col s9 center">{{'SUBJECT' | translate}}</div>
+                        <div class="col s3">{{'DATE' | translate}}</div>
+                    </div>
+                    <div class="valign-wrapper">
+                        <div class="col s12">
+                            <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion" 
+                                [materializeActions]="collapsibleActions" [materializeParams]="params">
+                                <li *ngFor="let notification of notifications">
+                                    <div [ngClass]="notification.id == selId ? 'collapsible-header accordionHdrExpBN v2accoBN' : 'collapsible-header accordionHdrBN v2accoBN'" 
+                                        [attr.id]="notification.attrId" (click)="setSelected(notification.id)">
+                                         <div [ngClass]="screenType == 1 ? 'row noPadsBN regNrmS6BN' : 'row noPadsBN regNrmS4BN'"> 
+                                            <div class="valign-wrapper">
+                                                <div class="col s1">
+                                                    <i class="material-icons greyBN v2accoIconBN">{{getArrow(notification.id)}}</i>
+                                                </div>
+                                                <div class="col s8">
+                                                    <span class="truncate">
+                                                        <b>{{notification.subject}}</b>
+                                                    </span>
+                                                </div>
+                                                <div class="col s3">
+                                                    <span class="truncate">{{notification.time}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapsible-body accordionBodyBN v2accoBodyBN">
+                                        <div class="row"></div>
+                                        <div class="row">
+                                            <div class="col s10 offset-s1 ntfBodyBN">
+                                                <div [ngClass]="screenType == 1 ? 'valign-wrapper regNrmS6BN' : 'valign-wrapper regNrmS4BN'">{{notification.body}}</div>
+                                                <div *ngIf="notification.hasAttachments">
+                                                    <div class="valign-wrapper">&nbsp;</div>
+                                                    <div class="valign-wrapper" *ngFor="let attachment of notification.attachments">
+                                                        <a [attr.href]="sanitize(getURL(attachment.url))" target="_blank"
+                                                            [ngClass]="screenType == 1 ? 'linkButtonBN errNrmS6B1BN' : 'linkButtonBN errNrmS5B1BN'">{{attachment.name}}</a>
+                                                    </div>
+                                                    <div class="valign-wrapper">&nbsp;</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="!notifications">
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <span class="col s12 center regNrmS5B1BN">{{'All caught up!' | translate}}</span>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                    <div class="col s12">&nbsp;</div>
+                </div>
+                <div class="row" *ngIf="notifications">
+                    <div class="col s12" *ngIf="numPages > page || page > 1" >
+                        <a class="linkButtonBN backToDashboardBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+                            <i class="material-icons alignMidBN">navigate_before</i>
+                            <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
+                        </a>
+                        <a class="linkButtonBN downloadDashboardBN" (click)="next()" *ngIf="numPages > page">
+                            <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
+                            <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="valign-wrapper">
+            <div class="col col s12 m10 l8 offset-m1 offset-l2 errNrmS4BN linkButtonBN" [routerLink]="'/dashboard'" align="left">
+                <i class="material-icons alignMidBN">navigate_before</i>
+                <span class="errNrmS5BN alignMidBN">{{'go to' | translate}}</span>
+                <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
+            </div>
+        </div>
+    </div>
+</div>
