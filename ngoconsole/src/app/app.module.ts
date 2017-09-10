@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NewcampaignComponent } from './newcampaign/newcampaign.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
@@ -21,7 +22,8 @@ export function HttpFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    NewcampaignComponent
   ],
   imports: [
     HttpModule,

@@ -4,8 +4,10 @@ import { RouterModule, Routes }   from '@angular/router';
 import { NotificationComponent } from 'benowcomponents';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NewcampaignComponent } from './newcampaign/newcampaign.component';
 
 const routes: Routes = [
+    { path: 'newcampaign', component: NewcampaignComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }

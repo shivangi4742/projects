@@ -291,3 +291,20 @@
 .v2accoBodyBN {
     padding: 0px;
 }
+
+
+.uploadBtnBN {
+    text-transform: none;
+    border: 1px solid #3d3d3d;
+    border-radius: 5px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.buttonHeightBN {
+    height: 45px;
+}
+
+.orangeBN {
+    color: #FF7300;
+}

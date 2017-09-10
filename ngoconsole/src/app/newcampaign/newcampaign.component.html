@@ -1,0 +1,78 @@
+<div class="row"></div>
+<div materialize class="row">
+  <div class="col s12 l8 offset-l2" align="center">    
+    <form (ngSubmit)="createCampaign()" #campaignForm="ngForm">
+      <div class="row allContentBN">
+        <div class="valign-wrapper">
+          <div class="col s12 m6">
+            <div class="valign-wrapper regNrmS4B1BN">
+              <i class="material-icons greyBN">email</i>
+              <span>&nbsp; &nbsp;{{'Create a New Campaign' | translate}}</span>
+            </div>
+          </div>
+          <div class="col m6 hide-on-small-only"></div>
+        </div>
+        <div class="valign-wrapper"></div>
+        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+          <input id="name" name="name" type="text" class="validate" [(ngModel)]="campaignName" required>
+          <label for="name" [ngClass]="{active: campaignName}">{{'Campaign Name' | translate}}*</label>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+          <span class="prefix">₹</span>            
+          <input id="target" name="target" type="number" min="1" max="9999999.99" step="0.01" class="validate" 
+            [(ngModel)]="campaignTarget">
+          <label for="target" [ngClass]="{active: target}">{{'Campaign Target'| translate}}</label>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+
+        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+          <input id="number" name="number" maxlength="10"  type="tel"  pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
+            class="validate regNrmS4BN" required [(ngModel)]="number">
+          <label for="number" [ngClass]="{active: number}">{{'Mobile Number' | translate}}*</label>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+          <i class="material-icons prefix alignMidBN clndricnBN">event</i>
+          <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN whiteBN" materialize="pickadate"
+            [materializeParams]="dateParams" [(ngModel)]="expDt">
+          <label for="expDt" [ngClass]="{active: expDt}">{{'Expiry Date'| translate}}</label>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+
+        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+          <div class="valign-wrapper">
+            <span class="prefix">₹</span>            
+            <input id="amount" name="amount" type="number" min="1" max="9999999.99" step="0.01" class="validate" [(ngModel)]="amount">
+            <label for="amount" [ngClass]="{active: amount}">{{'Donation Amount'| translate}}</label>
+          </div>
+          <div class="valign-wrapper">
+            <span class="errNrmS6BN infoMsgBN">({{'leave blank for amount entered by customer' | translate}})</span>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+          <textarea id="description" name="description" maxlength="120" class="materialize-textarea" [(ngModel)]="description"></textarea>
+          <label for="description" [ngClass]="{active: description}">{{'Description' | translate}} ({{'Max. 120 chars' | translate}})</label>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+
+        <div class="col s10 offset-s1 m5 left">
+          <div (click)="showProductsModal()" class="btn waves-effect waves-light transparent regNrmS6BN uploadBtnBN truncate buttonHeightBN">
+            <i class="material-icons orangeBN alignMidBN">shopping_cart</i>
+            <span class="alignMidBN">{{'Insert Products' | translate}}</span>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m5 offset-m2 file-field input-field">
+          <div class="btn waves-effect waves-light transparent regNrmS6BN uploadBtnBN truncate">
+            <i class="material-icons greyBN alignMidBN">file_upload</i>
+            <span class="alignMidBN">{{'Upload Campaign Image' | translate}}</span>
+            <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+      </div>
+    </form>
+  </div>
+</div>

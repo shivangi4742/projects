@@ -60,6 +60,18 @@ export class UtilsService {
     return this._logoutPageURL;
   }
 
+  public getLastYearDateString(): string {
+    let dt = new Date();
+    let yy = dt.getFullYear() - 1;
+    return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy; 
+  }
+
+  public getNextYearDateString(): string {
+    let dt = new Date();
+    let yy = dt.getFullYear() + 1;
+    return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy; 
+  }
+
   setUName(un: string) {
     this._uname = un;
   }

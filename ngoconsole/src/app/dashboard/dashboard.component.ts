@@ -29,13 +29,23 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  fillCampaigns(cmps: Campaign[]) {
+    console.log('cpms', cmps);
+    this.campaigns = cmps;
+  }
+
+  fillCampaignSummary(cs: CampaignSummary) {
+    console.log('cs', cs);
+        
+  }
+
   getCampaigns(): void {
-    this.campaignService.getCampaigns("AA3O1", "2017-07-01", "2017-08-01")
-      .then(campaigns => this.campaigns = campaigns);
+    this.campaignService.getCampaigns(this.user.merchantCode, this.utilsService.getLastYearDateString(), this.utilsService.getNextYearDateString())
+      .then(campaigns => this.fillCampaigns(campaigns));
   }
 
   getCampaignSummary(): void {
-    this.campaignService.getCampaignSummary("AA3O1", "2017-07-01", "2017-08-01")
+    this.campaignService.getCampaignSummary(this.user.merchantCode, this.utilsService.getLastYearDateString(), this.utilsService.getNextYearDateString())
       .then(cSummary => this.campaignSummary = cSummary);
   }
 
