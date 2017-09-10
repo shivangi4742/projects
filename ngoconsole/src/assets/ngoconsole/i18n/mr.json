@@ -66,8 +66,14 @@
     "Today": "आज",
     "Close": "बंद करणे",
 
-    "Create a New Campaign": "Create a New Campaign",
+    "Create a New Campaign": "नवीन मोहिम तयार करा",
     "Campaign Name": "मोहीम नाव",
     "Mobile Number": "मोबाइल नंबर",
-    "Expiry Date": "कालबाह्य तारीख"
+    "Expiry Date": "कालबाह्य तारीख",
+    "Campaign Target": "मोहीम लक्ष्य",
+    "Donation Amount": "देणगी रक्कम",
+    "leave blank for amount entered by donor": "दात्याने प्रविष्ट केलेल्या रकमेसाठी रिक्त सोडा",
+    "Description of cause": "कारण वर्णन",
+    "Max. 120 chars": "अधिकात अधिक 120 वर्ण",
+    "Upload Campaign Image": "मोहिमेची प्रतिमा अपलोड करा"
 }

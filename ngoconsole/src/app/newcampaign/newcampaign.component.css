@@ -1,8 +1,16 @@
 .allContentBN {
     max-width: 550px;
-    background-color: yellow;
 }
 
 .infoMsgBN {
     margin-top: -10px;
+}
+
+.padT4BN {
+    padding-top: 4px;
+}
+
+.secondaryCBBN {
+    margin-top: 10px;
+    margin-left: 25px;
 }

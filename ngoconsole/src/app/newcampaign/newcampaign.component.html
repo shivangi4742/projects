@@ -1,7 +1,7 @@
 <div class="row"></div>
-<div materialize class="row">
+<div class="row">
   <div class="col s12 l8 offset-l2" align="center">    
-    <form (ngSubmit)="createCampaign()" #campaignForm="ngForm">
+    <form materialize (ngSubmit)="createCampaign()" #campaignForm="ngForm">
       <div class="row allContentBN">
         <div class="valign-wrapper">
           <div class="col s12 m6">
@@ -47,29 +47,83 @@
             <label for="amount" [ngClass]="{active: amount}">{{'Donation Amount'| translate}}</label>
           </div>
           <div class="valign-wrapper">
-            <span class="errNrmS6BN infoMsgBN">({{'leave blank for amount entered by customer' | translate}})</span>
+            <span class="errNrmS6BN infoMsgBN">({{'leave blank for amount entered by donor' | translate}})</span>
           </div>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
         <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
           <textarea id="description" name="description" maxlength="120" class="materialize-textarea" [(ngModel)]="description"></textarea>
-          <label for="description" [ngClass]="{active: description}">{{'Description' | translate}} ({{'Max. 120 chars' | translate}})</label>
+          <label for="description" [ngClass]="{active: description}">{{'Description of cause' | translate}} ({{'Max. 120 chars' | translate}})</label>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
 
-        <div class="col s10 offset-s1 m5 left">
-          <div (click)="showProductsModal()" class="btn waves-effect waves-light transparent regNrmS6BN uploadBtnBN truncate buttonHeightBN">
-            <i class="material-icons orangeBN alignMidBN">shopping_cart</i>
-            <span class="alignMidBN">{{'Insert Products' | translate}}</span>
+        <div class="col s12">
+          <p class="borderBN"></p>
+        </div>
+        <div class="col s12">&nbsp;</div>
+
+        <div class="col s10 offset-s1 m5 left regNrmS4BN" align="left">
+          <input type="checkbox" id="askname" class="filled-in checkbox-red" name="askname" [(ngModel)]="askname"/>
+          <label class="cblblBN" for="askname">{{'Request for name' | translate}}</label>
+          <div *ngIf="askname">
+            <input type="checkbox" id="mndname" class="filled-in checkbox-red" name="mndname" [(ngModel)]="mndname" />
+            <label for="mndname"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
           </div>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 file-field input-field">
-          <div class="btn waves-effect waves-light transparent regNrmS6BN uploadBtnBN truncate">
+        <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+          <input type="checkbox" id="askemail" class="filled-in checkbox-red" name="askemail" [(ngModel)]="askemail"/>
+          <label class="cblblBN" for="askemail">{{'Request for email' | translate}}</label>
+          <div *ngIf="askemail">
+            <input type="checkbox" id="mndemail" class="filled-in checkbox-red" name="mndemail" [(ngModel)]="mndemail" />
+            <label for="mndemail"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s12">&nbsp;</div>
+        <div class="col s10 offset-s1 m5 regNrmS4BN" align="left">
+          <input type="checkbox" id="askaddress" class="filled-in checkbox-red" name="askaddress" [(ngModel)]="askaddress"/>
+          <label class="cblblBN" for="askaddress">{{'Request for address' | translate}}</label>
+          <div *ngIf="askaddress">
+            <input type="checkbox" id="mndaddress" class="filled-in checkbox-red" name="mndaddress" [(ngModel)]="mndaddress" />
+            <label for="mndaddress"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+          <input type="checkbox" id="askpan" class="filled-in checkbox-red" name="askpan" [(ngModel)]="askpan"/>
+          <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
+          <div *ngIf="askpan">
+            <input type="checkbox" id="mndpan" class="filled-in checkbox-red" name="mndpan" [(ngModel)]="mndpan" />
+            <label for="mndpan"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+            <div *ngIf="mndpan" class="input-field regNrmS4BN">
+              <span class="prefix">₹</span>            
+              <input id="panamount" name="panamount" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 
+                [(ngModel)]="panamount">
+              <label for="panamount" [ngClass]="{active: panamount}">{{'Minimum amount'| translate}}*</label>
+            </div>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+
+        <div class="col s12">
+          <p class="borderBN"></p>
+        </div>
+        <div class="col s12">&nbsp;</div>
+        <div class="col s10 m6 left">
+          <div (click)="showProductsModal()" class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN truncate buttonHeightBN">
+            <i class="material-icons orangeBN alignMidBN padT4BN">shopping_cart</i>
+            <span class="alignMidBN padT4BN">{{'Insert Products' | translate}}</span>
+          </div>
+        </div>
+        <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s10 offset-s1 m6 file-field">
+          <div class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN buttonHeightBN truncate">
             <i class="material-icons greyBN alignMidBN">file_upload</i>
             <span class="alignMidBN">{{'Upload Campaign Image' | translate}}</span>
             <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
           </div>
+          <div class="errNrmS6BN">({{'JPG, JPEG, PNG supported - maximum size 1 MB' | translate}})</div>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
       </div>

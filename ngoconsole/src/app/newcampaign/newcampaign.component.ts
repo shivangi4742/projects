@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { TranslateService } from 'ng2-translate';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'app-newcampaign',
@@ -10,6 +11,14 @@ import { TranslateService } from 'ng2-translate';
 export class NewcampaignComponent implements OnInit {
   expDt: string;
   dateParams: any;
+  askpan: boolean = false;
+  mndpan: boolean = false;
+  askname: boolean = false;
+  mndname: boolean = false;
+  askemail: boolean = false;
+  mndemail: boolean = false;
+  askaddress: boolean = false;
+  mndaddress: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';

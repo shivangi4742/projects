@@ -72,8 +72,15 @@
     "Expiry Date": "Expiry Date",
     "Campaign Target": "Campaign Target",
     "Donation Amount": "Donation Amount",
-    "leave blank for amount entered by customer": "leave blank for amount entered by customer",
-    "Description": "Description",
+    "leave blank for amount entered by donor": "leave blank for amount entered by donor",
+    "Description of cause": "Description of cause",
     "Max. 120 chars": "Max. 120 chars",
-    "Upload Campaign Image": "Upload Campaign Image"
+    "Upload Campaign Image": "Upload Campaign Image",
+    "JPG, JPEG, PNG supported - maximum size 1 MB": "JPG, JPEG, PNG supported - maximum size 1 MB",
+    "Request for name": "Request for name",
+    "Mandatory": "Mandatory",
+    "Request for email": "Request for email",
+    "Minimum amount": "Minimum amount",
+    "Request for address": "Request for address",
+    "Request for PAN": "Request for PAN"
 }

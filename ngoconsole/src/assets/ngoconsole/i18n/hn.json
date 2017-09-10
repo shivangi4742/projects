@@ -66,8 +66,14 @@
     "Today": "आज",
     "Close": "बंद करें",
 
-    "Create a New Campaign": "Create a New Campaign",
+    "Create a New Campaign": "नया अभियान बनाएं",
     "Campaign Name": "अभियान का नाम",
     "Mobile Number": "मोबाइल नंबर",
-    "Expiry Date": "समाप्ति तिथि"
+    "Expiry Date": "समाप्ति तिथि",
+    "Campaign Target": "अभियान लक्ष्य",
+    "Donation Amount": "दान की राशि",
+    "leave blank for amount entered by donor": "दाता द्वारा दर्ज की गई राशि के लिए रिक्त छोड़ दें",
+    "Description of cause": "कारण का विवरण",
+    "Max. 120 chars": "अधिकतम १२0 वर्ण",
+    "Upload Campaign Image": "अभियान छवि अपलोड करें"
 }
