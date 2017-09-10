@@ -72,6 +72,7 @@
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
         <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+          <div class="hide-on-med-and-up smallGapBN"></div>
           <input type="checkbox" id="askemail" class="filled-in checkbox-red" name="askemail" [(ngModel)]="askemail"/>
           <label class="cblblBN" for="askemail">{{'Request for email' | translate}}</label>
           <div *ngIf="askemail">
@@ -91,6 +92,7 @@
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
         <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+          <div class="hide-on-med-and-up smallGapBN"></div>
           <input type="checkbox" id="askpan" class="filled-in checkbox-red" name="askpan" [(ngModel)]="askpan"/>
           <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
           <div *ngIf="askpan">
@@ -105,7 +107,11 @@
           </div>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
-
+        <div class="col s12">&nbsp;</div>
+        <div class="col s11 offset-s1 m12 regNrmS4BN" align="left">
+          <input type="checkbox" id="askresidence" class="filled-in checkbox-red" name="askresidence" [(ngModel)]="askresidence"/>
+          <label class="cblblBN" for="askresidence">{{'Ask if Indian Resident' | translate}}</label>
+        </div>
         <div class="col s12">
           <p class="borderBN"></p>
         </div>
@@ -118,6 +124,7 @@
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
         <div class="col s10 offset-s1 m6 file-field">
+          <div class="hide-on-med-and-up smallGapBN"></div>
           <div class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN buttonHeightBN truncate">
             <i class="material-icons greyBN alignMidBN">file_upload</i>
             <span class="alignMidBN">{{'Upload Campaign Image' | translate}}</span>
@@ -126,6 +133,19 @@
           <div class="errNrmS6BN">({{'JPG, JPEG, PNG supported - maximum size 1 MB' | translate}})</div>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
+        <div class="col s12">&nbsp;</div>
+        <div class="col s12" align="center">
+          <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+            name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
+          </button>
+        </div>
+        <div class="col s12">&nbsp;</div>
+        <div class="col s12">&nbsp;</div>
+        <div class="col s12 redBN linkButtonBN" [routerLink]="'/dashboard'" align="left">
+          <i class="material-icons alignMidBN">navigate_before</i>
+          <span class="errNrmS5BN alignMidBN">{{'go to' | translate}}</span>
+          <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
+        </div>
       </div>
     </form>
   </div>

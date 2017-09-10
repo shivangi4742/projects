@@ -19,6 +19,7 @@ export class NewcampaignComponent implements OnInit {
   mndemail: boolean = false;
   askaddress: boolean = false;
   mndaddress: boolean = false;
+  askresidence: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -60,6 +61,10 @@ export class NewcampaignComponent implements OnInit {
       monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
       close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev, 
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
+  }
+
+  invalidForm(): boolean {
+    return false;
   }
 
   dtClosed() {

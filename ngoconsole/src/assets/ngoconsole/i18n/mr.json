@@ -75,5 +75,14 @@
     "leave blank for amount entered by donor": "दात्याने प्रविष्ट केलेल्या रकमेसाठी रिक्त सोडा",
     "Description of cause": "कारण वर्णन",
     "Max. 120 chars": "अधिकात अधिक 120 वर्ण",
-    "Upload Campaign Image": "मोहिमेची प्रतिमा अपलोड करा"
+    "Upload Campaign Image": "मोहिमेची प्रतिमा अपलोड करा",
+    "JPG, JPEG, PNG supported - maximum size 1 MB": "जेपीजी, जेपीईजी, पीएनजी समर्थित - कमाल आकार 1  एमबी",
+    "Request for name": "नावासाठी विनंती",
+    "Mandatory": "अनिवार्य",
+    "Request for email": "ईमेलसाठी विनंती",
+    "Minimum amount": "किमान रक्कम",
+    "Request for address": "पत्त्यासाठी विनंती",
+    "Request for PAN": "पॅनसाठी विनंती",
+    "Ask if Indian Resident": "पूछें कि क्या भारतीय निवासी",
+    "Create Campaign and Send Link": "मोहिम तयार करा आणि लिंक पाठवा"
 }

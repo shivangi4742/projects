@@ -63,7 +63,7 @@
 
 .buttonBN {
     text-transform: none;
-    color: white;
+    color: white!important;
     line-height: 50px;
     height: 55px;
     background-color: #E53935!important;
@@ -340,4 +340,8 @@
 
 .cblblBN {
     color: #3d3d3d;
+}
+
+.smallGapBN {
+    height: 20px;
 }
