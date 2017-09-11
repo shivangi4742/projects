@@ -65,6 +65,13 @@
     "Select a month": "Select a month",
     "Today": "Today",
     "Close": "Close",
+    "File is bigger than 1 MB!": "File is bigger than 1 MB!",
+    "Unsupported file format!": "Unsupported file format!",
+    "Improper request. Please try again.": "Improper request. Please try again.",
+    "Unsupported file format or size!": "Unsupported file format or size!",
+    "Unauthorized!": "Unauthorized!",
+    "Incorrect input!": "Incorrect input!",
+    "Error in uploading file. Please try again.": "Error in uploading file. Please try again.",
 
     "Create a New Campaign": "Create a New Campaign",
     "Campaign Name": "Campaign Name",
@@ -84,5 +91,6 @@
     "Request for address": "Request for address",
     "Request for PAN": "Request for PAN",
     "Ask if Indian Resident": "Ask if Indian Resident",
-    "Create Campaign and Send Link": "Create Campaign and Send Link"
+    "Create Campaign and Send Link": "Create Campaign and Send Link",
+    "Uploaded campaign image successfully": "Uploaded campaign image successfully"
 }

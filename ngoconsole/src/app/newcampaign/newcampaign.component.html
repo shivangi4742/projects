@@ -1,152 +1,171 @@
-<div class="row"></div>
-<div class="row">
-  <div class="col s12 l8 offset-l2" align="center">    
-    <form materialize (ngSubmit)="createCampaign()" #campaignForm="ngForm">
-      <div class="row allContentBN">
-        <div class="valign-wrapper">
-          <div class="col s12 m6">
-            <div class="valign-wrapper regNrmS4B1BN">
-              <i class="material-icons greyBN">email</i>
-              <span>&nbsp; &nbsp;{{'Create a New Campaign' | translate}}</span>
-            </div>
-          </div>
-          <div class="col m6 hide-on-small-only"></div>
-        </div>
-        <div class="valign-wrapper"></div>
-        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
-          <input id="name" name="name" type="text" class="validate" [(ngModel)]="campaignName" required>
-          <label for="name" [ngClass]="{active: campaignName}">{{'Campaign Name' | translate}}*</label>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
-          <span class="prefix">₹</span>            
-          <input id="target" name="target" type="number" min="1" max="9999999.99" step="0.01" class="validate" 
-            [(ngModel)]="campaignTarget">
-          <label for="target" [ngClass]="{active: target}">{{'Campaign Target'| translate}}</label>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-
-        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
-          <input id="number" name="number" maxlength="10"  type="tel"  pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
-            class="validate regNrmS4BN" required [(ngModel)]="number">
-          <label for="number" [ngClass]="{active: number}">{{'Mobile Number' | translate}}*</label>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
-          <i class="material-icons prefix alignMidBN clndricnBN">event</i>
-          <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN whiteBN" materialize="pickadate"
-            [materializeParams]="dateParams" [(ngModel)]="expDt">
-          <label for="expDt" [ngClass]="{active: expDt}">{{'Expiry Date'| translate}}</label>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-
-        <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+<div *ngIf="user">
+  <div class="row"></div>
+  <status [language]="user.language" [status]="utilsService.getStatus()"></status>
+  <div class="row">
+    <div class="col s12 l8 offset-l2" align="center">    
+      <form materialize (ngSubmit)="createCampaign()" #campaignForm="ngForm">
+        <div class="row allContentBN">
           <div class="valign-wrapper">
+            <div class="col s12 m6">
+              <div class="valign-wrapper regNrmS4B1BN">
+                <i class="material-icons greyBN">email</i>
+                <span>&nbsp; &nbsp;{{'Create a New Campaign' | translate}}</span>
+              </div>
+            </div>
+            <div class="col m6 hide-on-small-only"></div>
+          </div>
+          <div class="valign-wrapper"></div>
+          <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+            <input id="name" name="name" type="text" class="validate" [(ngModel)]="campaignName" required>
+            <label for="name" [ngClass]="{active: campaignName}">{{'Campaign Name' | translate}}*</label>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
             <span class="prefix">₹</span>            
-            <input id="amount" name="amount" type="number" min="1" max="9999999.99" step="0.01" class="validate" [(ngModel)]="amount">
-            <label for="amount" [ngClass]="{active: amount}">{{'Donation Amount'| translate}}</label>
+            <input id="campaignTarget" name="campaignTarget" type="number" min="1" max="9999999.99" step="0.01" class="validate" 
+              [(ngModel)]="campaignTarget">
+            <label for="campaignTarget" [ngClass]="{active: campaignTarget}">{{'Campaign Target'| translate}}</label>
           </div>
-          <div class="valign-wrapper">
-            <span class="errNrmS6BN infoMsgBN">({{'leave blank for amount entered by donor' | translate}})</span>
-          </div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
-          <textarea id="description" name="description" maxlength="120" class="materialize-textarea" [(ngModel)]="description"></textarea>
-          <label for="description" [ngClass]="{active: description}">{{'Description of cause' | translate}} ({{'Max. 120 chars' | translate}})</label>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s1 hide-on-med-and-up"></div>
 
-        <div class="col s12">
-          <p class="borderBN"></p>
-        </div>
-        <div class="col s12">&nbsp;</div>
+          <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+            <input id="mobileNumber" name="mobileNumber" maxlength="10"  type="tel"  pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
+              class="validate regNrmS4BN" required [(ngModel)]="mobileNumber">
+            <label for="mobileNumber" [ngClass]="{active: mobileNumber}">{{'Mobile Number' | translate}}*</label>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+            <i class="material-icons prefix alignMidBN clndricnBN">event</i>
+            <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN whiteBN" materialize="pickadate"
+              [materializeParams]="dateParams" [(ngModel)]="expDt">
+            <label for="expDt" [ngClass]="{active: expDt}">{{'Expiry Date'| translate}}</label>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
 
-        <div class="col s10 offset-s1 m5 left regNrmS4BN" align="left">
-          <input type="checkbox" id="askname" class="filled-in checkbox-red" name="askname" [(ngModel)]="askname"/>
-          <label class="cblblBN" for="askname">{{'Request for name' | translate}}</label>
-          <div *ngIf="askname">
-            <input type="checkbox" id="mndname" class="filled-in checkbox-red" name="mndname" [(ngModel)]="mndname" />
-            <label for="mndname"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
-          </div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
-          <div class="hide-on-med-and-up smallGapBN"></div>
-          <input type="checkbox" id="askemail" class="filled-in checkbox-red" name="askemail" [(ngModel)]="askemail"/>
-          <label class="cblblBN" for="askemail">{{'Request for email' | translate}}</label>
-          <div *ngIf="askemail">
-            <input type="checkbox" id="mndemail" class="filled-in checkbox-red" name="mndemail" [(ngModel)]="mndemail" />
-            <label for="mndemail"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
-          </div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s10 offset-s1 m5 regNrmS4BN" align="left">
-          <input type="checkbox" id="askaddress" class="filled-in checkbox-red" name="askaddress" [(ngModel)]="askaddress"/>
-          <label class="cblblBN" for="askaddress">{{'Request for address' | translate}}</label>
-          <div *ngIf="askaddress">
-            <input type="checkbox" id="mndaddress" class="filled-in checkbox-red" name="mndaddress" [(ngModel)]="mndaddress" />
-            <label for="mndaddress"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
-          </div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
-          <div class="hide-on-med-and-up smallGapBN"></div>
-          <input type="checkbox" id="askpan" class="filled-in checkbox-red" name="askpan" [(ngModel)]="askpan"/>
-          <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
-          <div *ngIf="askpan">
-            <input type="checkbox" id="mndpan" class="filled-in checkbox-red" name="mndpan" [(ngModel)]="mndpan" />
-            <label for="mndpan"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
-            <div *ngIf="mndpan" class="input-field regNrmS4BN">
+          <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
+            <div class="valign-wrapper">
               <span class="prefix">₹</span>            
-              <input id="panamount" name="panamount" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 
-                [(ngModel)]="panamount">
-              <label for="panamount" [ngClass]="{active: panamount}">{{'Minimum amount'| translate}}*</label>
+              <input id="amount" name="amount" type="number" min="1" max="9999999.99" step="0.01" class="validate" [(ngModel)]="amount">
+              <label for="amount" [ngClass]="{active: amount}">{{'Donation Amount'| translate}}</label>
+            </div>
+            <div class="valign-wrapper">
+              <span class="errNrmS6BN infoMsgBN">({{'leave blank for amount entered by donor' | translate}})</span>
             </div>
           </div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s11 offset-s1 m12 regNrmS4BN" align="left">
-          <input type="checkbox" id="askresidence" class="filled-in checkbox-red" name="askresidence" [(ngModel)]="askresidence"/>
-          <label class="cblblBN" for="askresidence">{{'Ask if Indian Resident' | translate}}</label>
-        </div>
-        <div class="col s12">
-          <p class="borderBN"></p>
-        </div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s10 m6 left">
-          <div (click)="showProductsModal()" class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN truncate buttonHeightBN">
-            <i class="material-icons orangeBN alignMidBN padT4BN">shopping_cart</i>
-            <span class="alignMidBN padT4BN">{{'Insert Products' | translate}}</span>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+            <textarea id="description" name="description" maxlength="120" class="materialize-textarea" [(ngModel)]="description"></textarea>
+            <label for="description" [ngClass]="{active: description}">{{'Description of cause' | translate}} ({{'Max. 120 chars' | translate}})</label>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+
+          <div class="col s12">
+            <p class="borderBN"></p>
+          </div>
+          <div class="col s12">&nbsp;</div>
+
+          <div class="col s10 offset-s1 m5 left regNrmS4BN" align="left">
+            <input type="checkbox" id="askname" class="filled-in checkbox-red" name="askname" [(ngModel)]="askname"/>
+            <label class="cblblBN" for="askname">{{'Request for name' | translate}}</label>
+            <div *ngIf="askname">
+              <input type="checkbox" id="mndname" class="filled-in checkbox-red" name="mndname" [(ngModel)]="mndname" />
+              <label for="mndname"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+            <div class="hide-on-med-and-up smallGapBN"></div>
+            <input type="checkbox" id="askemail" class="filled-in checkbox-red" name="askemail" [(ngModel)]="askemail"/>
+            <label class="cblblBN" for="askemail">{{'Request for email' | translate}}</label>
+            <div *ngIf="askemail">
+              <input type="checkbox" id="mndemail" class="filled-in checkbox-red" name="mndemail" [(ngModel)]="mndemail" />
+              <label for="mndemail"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s10 offset-s1 m5 regNrmS4BN" align="left">
+            <input type="checkbox" id="askaddress" class="filled-in checkbox-red" name="askaddress" [(ngModel)]="askaddress"/>
+            <label class="cblblBN" for="askaddress">{{'Request for address' | translate}}</label>
+            <div *ngIf="askaddress">
+              <input type="checkbox" id="mndaddress" class="filled-in checkbox-red" name="mndaddress" [(ngModel)]="mndaddress" />
+              <label for="mndaddress"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+            <div class="hide-on-med-and-up smallGapBN"></div>
+            <input type="checkbox" id="askpan" class="filled-in checkbox-red" name="askpan" [(ngModel)]="askpan"/>
+            <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
+            <div *ngIf="askpan">
+              <input type="checkbox" id="mndpan" class="filled-in checkbox-red" name="mndpan" [(ngModel)]="mndpan" />
+              <label for="mndpan"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+              <div *ngIf="mndpan" class="input-field regNrmS4BN">
+                <span class="prefix">₹</span>            
+                <input id="panamount" name="panamount" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 
+                  [(ngModel)]="panamount">
+                <label for="panamount" [ngClass]="{active: panamount}">{{'Minimum amount'| translate}}*</label>
+              </div>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s11 offset-s1 m12 regNrmS4BN" align="left">
+            <input type="checkbox" id="askresidence" class="filled-in checkbox-red" name="askresidence" [(ngModel)]="askresidence"/>
+            <label class="cblblBN" for="askresidence">{{'Ask if Indian Resident' | translate}}</label>
+          </div>
+          <div class="col s12">
+            <p class="borderBN"></p>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s10 offset-s1 m6 left">
+            <div (click)="showProductsModal()" class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN truncate buttonHeightBN">
+              <i class="material-icons orangeBN alignMidBN padT4BN">shopping_cart</i>
+              <span class="alignMidBN padT4BN">{{'Insert Products' | translate}}</span>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s10 offset-s1 hide-on-med-and-up"> 
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div [ngClass]="uploading ? 'col s10 offset-s1 m6 file-field workingBN' : 'col s10 offset-s1 m6 file-field'"> 
+            <div class="hide-on-med-and-up smallGapBN"></div>
+            <div class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN buttonHeightBN truncate">
+              <i class="material-icons greyBN alignMidBN">file_upload</i>
+              <span class="alignMidBN">{{'Upload Campaign Image' | translate}}</span>
+              <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+            </div>
+            <div class="errNrmS6BN">({{'JPG, JPEG, PNG supported - maximum size 1 MB' | translate}})</div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col m6 left hide-on-small-only">
+          </div>
+          <div class="col s10 offset-s1 m6 center"> 
+            <div class="valign-wrapper" *ngIf="imgURL">
+              <img class="col s10 offset-s1 responsive-img" src={{uploadsURL}}{{imgURL}} />
+              <div class="col s1"></div>
+            </div>
+          </div>
+          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12" align="center">
+            <button class="btn waves-effect waves-light red regNrmS6BN buttonBN hide-on-med-and-up" type="submit" 
+              name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
+            </button>
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN hide-on-small-only" type="submit" 
+              name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
+            </button>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 redBN linkButtonBN" [routerLink]="'/dashboard'" align="left">
+            <i class="material-icons alignMidBN">navigate_before</i>
+            <span class="errNrmS5BN alignMidBN">{{'go to' | translate}}</span>
+            <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
           </div>
         </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s10 offset-s1 m6 file-field">
-          <div class="hide-on-med-and-up smallGapBN"></div>
-          <div class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN buttonHeightBN truncate">
-            <i class="material-icons greyBN alignMidBN">file_upload</i>
-            <span class="alignMidBN">{{'Upload Campaign Image' | translate}}</span>
-            <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
-          </div>
-          <div class="errNrmS6BN">({{'JPG, JPEG, PNG supported - maximum size 1 MB' | translate}})</div>
-        </div>
-        <div class="col s1 hide-on-med-and-up"></div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s12" align="center">
-          <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-            name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
-          </button>
-        </div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s12 redBN linkButtonBN" [routerLink]="'/dashboard'" align="left">
-          <i class="material-icons alignMidBN">navigate_before</i>
-          <span class="errNrmS5BN alignMidBN">{{'go to' | translate}}</span>
-          <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>

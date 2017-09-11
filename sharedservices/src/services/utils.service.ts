@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
 
-var CryptoJS = require('crypto-js');
+import { Status } from '../models/status.model';
 
 @Injectable()
 export class UtilsService {
   private _uname: string;
   private _token: string;
   private _headers: any;
+  private _status: Status;
 
   private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
@@ -20,12 +21,21 @@ export class UtilsService {
   private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
+  private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
+
+  constructor() {
+    this._status = new Status(false, false, '');
+  }
 
   public isHB(mCode: string|null): boolean {
     if(mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69')
       return true;
 
     return false;
+  }
+
+  public getUploadsURL(): string {
+    return this._uploadsURL;
   }
 
   public getNotificationPrefixURL(): string {
@@ -70,6 +80,16 @@ export class UtilsService {
     let dt = new Date();
     let yy = dt.getFullYear() + 1;
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy; 
+  }
+
+  public setStatus(isError: boolean, isSuccess: boolean, msg: string) {
+    this._status.isError = isError;
+    this._status.isSuccess = isSuccess;
+    this._status.message = msg;
+  }
+
+  public getStatus(): Status {
+    return this._status;
   }
 
   setUName(un: string) {
@@ -160,17 +180,6 @@ export class UtilsService {
       default:
         return 'en';
     }
-  }
-
-  encryptPayload(obj: any, ut: boolean): string {
-    return CryptoJS.AES.encrypt(JSON.stringify(obj), this.getKey(ut)).toString();
-  }
-
-  decryptPayload(obj: any, ut: boolean): any {
-    if(obj && obj.data)
-      return JSON.parse(CryptoJS.AES.decrypt(obj.data, this.getKey(ut)).toString(CryptoJS.enc.Utf8));
-
-    return null;
   }
 
   returnGenericError(): any {

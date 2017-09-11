@@ -3,13 +3,23 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
+import { FileService, UtilsService, User, UserService } from 'benowservices';
+
 @Component({
   selector: 'app-newcampaign',
   templateUrl: './newcampaign.component.html',
   styleUrls: ['./newcampaign.component.css']
 })
 export class NewcampaignComponent implements OnInit {
+  amount: number;
+  panamount: number;
+  campaignTarget: number;
   expDt: string;
+  uploadsURL: string;
+  description: string;
+  campaignName: string;
+  mobileNumber: string;
+  user: User;
   dateParams: any;
   askpan: boolean = false;
   mndpan: boolean = false;
@@ -17,6 +27,7 @@ export class NewcampaignComponent implements OnInit {
   mndname: boolean = false;
   askemail: boolean = false;
   mndemail: boolean = false;
+  uploading: boolean = false;
   askaddress: boolean = false;
   mndaddress: boolean = false;
   askresidence: boolean = false;
@@ -43,12 +54,18 @@ export class NewcampaignComponent implements OnInit {
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
+    private userService: UserService) { }
 
   ngOnInit() {
     //TODO: Calendar localization.
+    //TODO: Shift calendar strings and methods to utility service.
     //TODO: Focus coming back after close on date control.
-    //TODO: Max length of description to be checked by server side team.
+    //TODO: Window.scrollto should be get rid of.
+    this.userService.getUser()
+      .then(res => this.user = res);
+    this.utilsService.setStatus(false, false, '');
+    this.uploadsURL = this.utilsService.getUploadsURL();      
     let me = this;
     this.translate.onLangChange.subscribe((event: any) => {
         this.translate.getTranslation(this.translate.currentLang)
@@ -63,12 +80,43 @@ export class NewcampaignComponent implements OnInit {
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
   }
 
+  uploadedImage(res: any, me: any) {
+    me.uploading = false;
+    if(res && res.success) {
+      me.imgURL = res.fileName;
+      me.utilsService.setStatus(false, true, 'Uploaded campaign image successfully');
+    }
+    else {
+      me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
+    }
+  }
+
+
+  fileChange(e: any) {
+    if(!this.uploading && e.target && e.target.files) {
+      if(e.target.files && e.target.files[0]) {
+        this.utilsService.setStatus(false, false, '')      
+        if(e.target.files[0].size > 1000000) {
+          window.scrollTo(0, 0);
+          this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!')      
+        }
+        else {          
+          this.uploading = true;
+          this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+        }
+      }
+    }    
+  }
+
+  showProductsModal() {
+
+  }
+
   invalidForm(): boolean {
     return false;
   }
 
   dtClosed() {
-    console.log('done', this.expDt);
   }
 
   createCampaign() {

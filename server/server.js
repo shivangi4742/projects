@@ -14,6 +14,7 @@ var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
 var userRouter = require('./server/routers/UserRouter');
+var fileRouter = require('./server/routers/FileRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
@@ -58,6 +59,7 @@ app.use(session({
 }));
 
 // Routing settings.
+app.use(config.base + '/file', fileRouter);
 app.use(config.base + '/user', userRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/notification', notificationRouter);

@@ -345,3 +345,8 @@
 .smallGapBN {
     height: 20px;
 }
+
+.workingBN {
+    opacity: 0.4;
+    cursor: default;
+}

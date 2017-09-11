@@ -83,15 +83,13 @@ export class UserService {
      return this.http
       .post(this.utilsService.getBaseURL() + this._urls.allocateTill, 
         JSON.stringify({ 
-          "data": this.utilsService.encryptPayload({ 
-             "till":til,
-             "merchantCode": this._user.merchantCode,
-             "employeeUserCode": this._user.tilLogin
-          }, false) 
+          "till":til,
+          "merchantCode": this._user.merchantCode,
+          "employeeUserCode": this._user.tilLogin
         }), 
          { headers: this.getTempHeaders() })
       .toPromise()
-      .then(res => this.utilsService.decryptPayload(res.json(), false))
+      .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
 
@@ -99,14 +97,12 @@ export class UserService {
      return this.http
       .post(this.utilsService.getBaseURL() + this._urls.releaseTill, 
         JSON.stringify({ 
-          "data": this.utilsService.encryptPayload({ 
-             "till":til,
-             "merchantCode":this._user.merchantCode
-          }, false) 
+          "till":til,
+          "merchantCode":this._user.merchantCode
         }), 
          { headers: this.getTempHeaders() })
       .toPromise()
-      .then(res => this.utilsService.decryptPayload(res.json(), false))
+      .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
 
@@ -114,13 +110,11 @@ export class UserService {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.sendVerificationMail, 
         JSON.stringify({
-          "data": this.utilsService.encryptPayload({
-            "email": email, 
-          }, false)
+          "email": email, 
         }), 
         { headers: this.utilsService.getHeaders() })
       .toPromise()
-      .then(res => this.sentMail(this.utilsService.decryptPayload(res.json(), false)))
+      .then(res => this.sentMail(res.json()))
       .catch(res => this.handleError(res.json()));
   }
 
@@ -128,15 +122,13 @@ export class UserService {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.changePassword,
         JSON.stringify({
-          "data": this.utilsService.encryptPayload({
-            "email" : this._user.email,
-            "verificationCode": vCode,
-            "password": pwd
-          }, false)
+          "email" : this._user.email,
+          "verificationCode": vCode,
+          "password": pwd
         }),
         { headers: this.utilsService.getHeaders() })
       .toPromise()
-      .then(res => this.changedPassword(this.utilsService.decryptPayload(res.json(), false)))
+      .then(res => this.changedPassword(res.json()))
       .catch(res => this.handleError(res.json()));
   }
 

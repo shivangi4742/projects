@@ -10,12 +10,14 @@ import { MaterializeModule } from "angular2-materialize";
 import { SharedServicesModule } from 'benowservices';
 
 import { TopnavComponent } from './topnav.component';
+import { StatusComponent } from './status.component';
 import { FooterbarComponent } from './footerbar.component';
 import { UserTopNavComponent } from './usertopnav.component';
 import { NotificationComponent } from './notification.component';
 import { NotificationsComponent } from './notifications.component';
 
 export { TopnavComponent } from './topnav.component';
+export { StatusComponent } from './status.component';
 export { FooterbarComponent } from './footerbar.component';
 export { UserTopNavComponent } from './usertopnav.component';
 export { NotificationComponent } from './notification.component';
@@ -33,6 +35,7 @@ export { NotificationsComponent } from './notifications.component';
   ],
   declarations: [
     TopnavComponent,
+    StatusComponent,
     FooterbarComponent,
     UserTopNavComponent,
     NotificationComponent,
@@ -40,6 +43,7 @@ export { NotificationsComponent } from './notifications.component';
   ],
   exports: [
     TopnavComponent,
+    StatusComponent,
     FooterbarComponent,
     UserTopNavComponent,
     NotificationComponent,
