@@ -1,7 +1,7 @@
 <div materialize>
-  <div class="fixed-action-btn">
+  <!-- <div class="fixed-action-btn">
     <a class="btn-floating btn-large red regNrmS4B1BN whiteBN capitalizeBN" (click)="close()">{{'Done' | translate}}</a>
-  </div>
+  </div> -->
   <div class="row productsTabsBN">
     <div class="col s12 center">
       <ul materialize="tabs" class="col s12 wideWidgetBN  grey lighten-5 productsTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
@@ -18,7 +18,7 @@
     </div>    
   </div>
   <div *ngIf="products && active == 0" class="row">
-    <div class="col s6 l3 center" *ngFor="let p of products">
+    <div class="col s6 l4 center" *ngFor="let p of products">
       <productwidget [product]="p" [showDelete]="true"></productwidget> 
     </div>
   </div>
@@ -70,8 +70,8 @@
     </form> 
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
-      <div class="col l3" *ngFor="let np of (products | objectfilter:newlyadded)">hi2
-        <!-- <productwidget [product]="np" [showDelete]="true"></productwidget> -->
+      <div class="col l4 s6 center" *ngFor="let np of (products | objectfilter:newlyadded)">
+        <productwidget [product]="np" [showDelete]="true"></productwidget> 
       </div> 
     </div>
   </div>

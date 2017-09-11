@@ -19,3 +19,9 @@
     padding-right: 50px!important;
     padding-left: 45px!important;
 }
+
+.topFixBN {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+}

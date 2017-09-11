@@ -17,7 +17,7 @@ export class ProductWidgetComponent  {
   }
 
   select() {
-    this.product.isSelected = !this.product.isSelected;
+    this.product.isSelected = true;
   }
 
   priceChanged() {
