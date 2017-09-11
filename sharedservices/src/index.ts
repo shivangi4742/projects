@@ -8,6 +8,8 @@ import { ProductService } from './services/product.service';
 import { CampaignService } from './services/campaign.service';
 import { NotificationService } from './services/notification.service';
 
+import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
+
 export { User } from './models/user.model';
 export { Status } from './models/status.model';
 export { Product } from './models/product.model';
@@ -23,12 +25,14 @@ export { ProductService } from './services/product.service';
 export { CampaignService } from './services/campaign.service';
 export { NotificationService } from './services/notification.service';
 
+export { ObjectFilterPipe } from './pipes/objectfilter.pipe';
+
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [ ],
-  exports: [ ]
+  declarations: [ ObjectFilterPipe ],
+  exports: [ ObjectFilterPipe ]
 })
 export class SharedServicesModule {
   static forRoot(): ModuleWithProviders {

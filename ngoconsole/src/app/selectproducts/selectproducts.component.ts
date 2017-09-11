@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 
-import { User, UtilsService, Product, FileService } from 'benowservices';
+import { User, UtilsService, Product, FileService, ProductService } from 'benowservices';
 
 @Component({
   selector: 'selectproducts',
@@ -19,7 +19,7 @@ export class SelectproductsComponent implements OnInit {
   @Input('user') user: User;
   @Input('modalActions') modalActions: any;
 
-  constructor(private utilsService: UtilsService, private fileService: FileService) { 
+  constructor(private utilsService: UtilsService, private fileService: FileService, private productService: ProductService) { 
     this.uploadsURL = utilsService.getUploadsURL();    
   }
 
@@ -64,8 +64,18 @@ export class SelectproductsComponent implements OnInit {
     }
   }
 
-  addProduct() {
+  addedProduct(p: Product) {
+    if(p && p.price > 0)
+      this.newProd = new Product(null, null, null, null, null, null, null, null, null);
+    else
+      this.imgErrMsg = this.utilsService.returnGenericError().errMsg;
+  }
 
+  addProduct() {
+    if(this.newProd.name && this.newProd.price > 0) {
+      this.productService.addProduct(this.user.merchantCode, this.newProd)
+        .then(res => this.addedProduct(res));
+    }
   }
 
   close() {

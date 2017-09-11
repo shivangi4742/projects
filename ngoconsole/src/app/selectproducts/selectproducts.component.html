@@ -58,7 +58,7 @@
           <textarea id="description" name="description" maxlength="150" class="materialize-textarea regNrmS4BN highTextAreaBN"
             [(ngModel)]="newProd.description"></textarea>
           <label for="description" [ngClass]="newProd.description ? 'active regNrmS6IBN' : 'regNrmS4IBN'">
-            {{'Description_Product' | translate}}</label>
+            {{'Description' | translate}}</label>
         </div>
         <div class="col s1 hide-on-med-and-up"></div>
         <div class="col s10 m4 offset-s1" align="right">
@@ -70,9 +70,9 @@
     </form> 
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
-        <!-- <div class="col l3" *ngFor="let np of (products | objectfilter:newlyadded)">
-            <productwidget [product]="np" [showDelete]="true"></productwidget>
-        </div> -->
+      <div class="col l3" *ngFor="let np of (products | objectfilter:newlyadded)">hi2
+        <!-- <productwidget [product]="np" [showDelete]="true"></productwidget> -->
+      </div> 
     </div>
   </div>
 </div>
