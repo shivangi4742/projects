@@ -14,3 +14,10 @@
     margin-top: 10px;
     margin-left: 25px;
 }
+
+.productsModalBN {
+    width: 90%;
+    max-width: 600px; 
+    top: 5%!important;
+    max-height: 90%;
+}

@@ -53,6 +53,7 @@ export class NewcampaignComponent implements OnInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  modalActions: any = new EventEmitter<string|MaterializeAction>();
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
     private userService: UserService) { }
@@ -62,6 +63,7 @@ export class NewcampaignComponent implements OnInit {
     //TODO: Shift calendar strings and methods to utility service.
     //TODO: Focus coming back after close on date control.
     //TODO: Window.scrollto should be get rid of.
+    //TODO: Notification modal not opening on small screen.
     this.userService.getUser()
       .then(res => this.user = res);
     this.utilsService.setStatus(false, false, '');
@@ -109,7 +111,7 @@ export class NewcampaignComponent implements OnInit {
   }
 
   showProductsModal() {
-
+    this.modalActions.emit({ action: "modal", params: ['open'] });
   }
 
   invalidForm(): boolean {

@@ -350,3 +350,29 @@
     opacity: 0.4;
     cursor: default;
 }
+
+.capitalizeBN {
+    text-transform: capitalize;    
+}
+
+.whiteBN {
+    color: #FFFFFF;
+}
+
+.wideWidgetBN {
+    width: 95%!important;
+    margin-left: 10px!important;
+}
+
+.tabsBN {
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.tabBottomBN {
+    border-bottom: 2px solid #EDECEA;
+}
+
+.activeTabBN {
+    color: #E53935!important;
+}

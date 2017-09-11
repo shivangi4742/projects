@@ -1,0 +1,16 @@
+.productsTabsBN {
+    padding: 0px!important;    
+}
+
+.prodImageBN {
+    max-height: 90px;
+    max-width: 80px;
+}
+
+.highTextAreaBN {
+    min-height: 4rem!important;
+}
+
+.shiftDownBN {
+    margin-top: 30px;
+}
