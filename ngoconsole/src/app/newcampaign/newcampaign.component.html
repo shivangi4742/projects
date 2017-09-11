@@ -131,9 +131,17 @@
             </div>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
-          <div class="col s10 offset-s1 hide-on-med-and-up"> 
+          <div class="col s12 hide-on-med-and-up" *ngIf="hasProducts()">&nbsp;</div>
+          <div class="col s10 offset-s1 hide-on-med-and-up" *ngIf="hasMultiProducts()">
+            <input id="allowMultiSelect" type="checkbox" class="filled-in checkbox-red" name="allowMultiSelect" [(ngModel)]="allowMultiSelect">
+            <label for="allowMultiSelect">{{'Allow Multiple Selections' | translate}}</label>
           </div>
-          <div class="col s1 hide-on-med-and-up"></div>
+          <div class="col s12 hide-on-med-and-up"> 
+            <div class="col s6 center" *ngFor="let ssp of (products | objectfilter:selected)">
+              <productwidget [product]="ssp" [showDelete]="false"></productwidget> 
+            </div> 
+          </div>
+          <div class="col s12 hide-on-med-and-up" *ngIf="hasProducts()">&nbsp;</div>
           <div [ngClass]="uploading ? 'col s10 offset-s1 m6 file-field workingBN' : 'col s10 offset-s1 m6 file-field'"> 
             <div class="hide-on-med-and-up smallGapBN"></div>
             <div class="btn waves-effect waves-light transparent regNrmS6B1BN uploadBtnBN buttonHeightBN truncate">
@@ -146,6 +154,13 @@
           <div class="col s1 hide-on-med-and-up"></div>
           <div class="col s12">&nbsp;</div>
           <div class="col m6 left hide-on-small-only">
+            <div class="col m12 left" *ngIf="hasMultiProducts()">
+              <input id="allowMultiSelect" type="checkbox" class="filled-in checkbox-red" name="allowMultiSelect" [(ngModel)]="allowMultiSelect">
+              <label for="allowMultiSelect">{{'Allow Multiple Selections' | translate}}</label>
+            </div>
+            <div class="col m6 center" *ngFor="let sp of (products | objectfilter:selected)">
+              <productwidget [product]="sp" [showDelete]="false"></productwidget> 
+            </div> 
           </div>
           <div class="col s10 offset-s1 m6 center"> 
             <div class="valign-wrapper" *ngIf="imgURL">

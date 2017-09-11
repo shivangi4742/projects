@@ -34,6 +34,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   askaddress: boolean = false;
   mndaddress: boolean = false;
   askresidence: boolean = false;
+  allowMultiSelect: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -56,6 +57,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  selected: any = { "key": "isSelected", "value": true };
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
@@ -86,6 +88,26 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
       monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
       close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev, 
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
+  }
+
+  hasProducts(): boolean {
+    if(this.products) {
+      let selProds:Array<Product> = this.products.filter(p => p.isSelected);
+      if(selProds && selProds.length > 0)
+        return true;
+    }
+
+    return false;
+  }
+
+  hasMultiProducts(): boolean {
+    if(this.products) {
+      let selProds:Array<Product> = this.products.filter(p => p.isSelected);
+      if(selProds && selProds.length > 1)
+        return true;
+    }
+
+    return false;
   }
 
   uploadedImage(res: any, me: any) {
@@ -119,12 +141,12 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   initializeSPC(ps: Array<Product>) {
     let me: any = this;
     me.spc.initialize(ps);
-    this.modalActions.emit({ action: "modal", params: ['open'] });
     if(ps && ps.length > 0)
       this.products = ps;
   }
 
   showProductsModal() {
+    this.modalActions.emit({ action: "modal", params: ['open'] });
     if(!this.products)
       this.productService.getProducts(this.user.merchantCode)
         .then(res => this.initializeSPC(res));
