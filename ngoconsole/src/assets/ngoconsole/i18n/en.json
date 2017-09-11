@@ -92,5 +92,14 @@
     "Request for PAN": "Request for PAN",
     "Ask if Indian Resident": "Ask if Indian Resident",
     "Create Campaign and Send Link": "Create Campaign and Send Link",
-    "Uploaded campaign image successfully": "Uploaded campaign image successfully"
+    "Uploaded campaign image successfully": "Uploaded campaign image successfully",
+    "Done": "Done",
+    "Select Products": "Select Products",
+    "Add New Products": "Add New Products",
+    "Price": "Price",
+    "Name": "Name",
+    "UOM": "UOM",
+    "Add": "Add",
+    "Description": "Description",
+    "Allow Multiple Selections": "Allow Multiple Selections"
 }
