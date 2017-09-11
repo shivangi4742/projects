@@ -15,6 +15,7 @@ var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
 var userRouter = require('./server/routers/UserRouter');
 var fileRouter = require('./server/routers/FileRouter');
+var productRouter = require('./server/routers/ProductRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
@@ -61,6 +62,7 @@ app.use(session({
 // Routing settings.
 app.use(config.base + '/file', fileRouter);
 app.use(config.base + '/user', userRouter);
+app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/notification', notificationRouter);
 app.use(config.base + '/login', express.static(__dirname + urls.loginDir));

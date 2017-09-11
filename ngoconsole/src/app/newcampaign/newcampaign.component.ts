@@ -1,16 +1,18 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
 
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService } from 'benowservices';
+
+import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
 
 @Component({
   selector: 'app-newcampaign',
   templateUrl: './newcampaign.component.html',
   styleUrls: ['./newcampaign.component.css']
 })
-export class NewcampaignComponent implements OnInit {
+export class NewcampaignComponent implements OnInit, AfterViewInit {
   amount: number;
   panamount: number;
   campaignTarget: number;
@@ -20,6 +22,7 @@ export class NewcampaignComponent implements OnInit {
   campaignName: string;
   mobileNumber: string;
   user: User;
+  products: Array<Product>;
   dateParams: any;
   askpan: boolean = false;
   mndpan: boolean = false;
@@ -54,9 +57,12 @@ export class NewcampaignComponent implements OnInit {
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   modalActions: any = new EventEmitter<string|MaterializeAction>();
+  @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
-    private userService: UserService) { }
+    private userService: UserService, private productService: ProductService) { }
+
+  ngAfterViewInit() { }
 
   ngOnInit() {
     //TODO: Calendar localization.
@@ -110,8 +116,20 @@ export class NewcampaignComponent implements OnInit {
     }    
   }
 
-  showProductsModal() {
+  initializeSPC(ps: Array<Product>) {
+    let me: any = this;
+    me.spc.initialize(ps);
     this.modalActions.emit({ action: "modal", params: ['open'] });
+    if(ps && ps.length > 0)
+      this.products = ps;
+  }
+
+  showProductsModal() {
+    if(!this.products)
+      this.productService.getProducts(this.user.merchantCode)
+        .then(res => this.initializeSPC(res));
+    else
+      this.initializeSPC(this.products);
   }
 
   invalidForm(): boolean {

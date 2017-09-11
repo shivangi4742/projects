@@ -14,3 +14,8 @@
 .shiftDownBN {
     margin-top: 30px;
 }
+
+.redLineBN {
+    border-bottom-color: #FF8A80!important;
+    border-bottom: 2px solid;
+}
