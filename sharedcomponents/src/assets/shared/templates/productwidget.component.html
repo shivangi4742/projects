@@ -9,7 +9,8 @@
         <input type="checkbox" class="filled-in checkbox-red" id="{{product.id}}" name="{{product.id}}" [(ngModel)]="product.isSelected" />
         <label for="{{product.id}}" class="productRsBN">₹</label>
     </div>
-    <div class="col s8 priceInputBN">
+    <div class="col s8 regNrmS6B1BN left px3BN" *ngIf="!product.isSelected" align="left">{{product.price | number : '1.2-2'}}</div>
+    <div class="col s8 priceInputBN" *ngIf="product.isSelected">
         <input [(ngModel)]="product.price" class="validate thinInputBN" type="number" step="0.01" min="0" max="9999999.99" 
             name="price" (blur)="priceChanged()" (focus)="select()" id="price" required>
     </div>

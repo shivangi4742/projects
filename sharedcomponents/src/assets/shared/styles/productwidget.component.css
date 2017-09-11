@@ -41,4 +41,12 @@
 
 .thinInputBN {
     height: 1rem!important;
+    font-weight: 700!important;
+    font-size: 11pt!important;
+    color: #E53935!important;
+}
+
+.px3BN {
+    padding-top: 3px;
+    padding-bottom: 16px;
 }
