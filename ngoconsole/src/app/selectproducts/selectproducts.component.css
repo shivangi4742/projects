@@ -2,11 +2,6 @@
     padding: 0px!important;    
 }
 
-.prodImageBN {
-    max-height: 90px;
-    max-width: 80px;
-}
-
 .highTextAreaBN {
     min-height: 4rem!important;
 }
@@ -18,4 +13,9 @@
 .redLineBN {
     border-bottom-color: #FF8A80!important;
     border-bottom: 2px solid;
+}
+
+.extraPaddingBN {
+    padding-right: 50px!important;
+    padding-left: 45px!important;
 }

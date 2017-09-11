@@ -1,0 +1,40 @@
+.shiftTop20BN {
+    padding: 0px;
+    margin-top: 0px;
+    top: -10px;    
+}
+
+.productRsBN {
+    color: #3d3d3d!important;
+    font-size: 11pt!important;
+    font-weight: 600;
+}
+
+.bottom10BN {
+    margin-top: -10px;    
+}
+
+.shiftTop10BN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.productWidgetBN {
+    height: 200px;
+    max-height: 200px;
+    overflow-y: hidden;
+}
+
+.icon17BN {
+    font-size: 17px;
+}
+
+.priceInputBN {
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.thinInputBN {
+    height: 1rem!important;
+}

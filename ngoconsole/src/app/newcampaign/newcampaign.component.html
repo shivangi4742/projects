@@ -1,6 +1,6 @@
 <div *ngIf="user">
   <div class="row"></div>
-  <status [language]="user.language" [status]="utilsService.getStatus()"></status>
+  <status [status]="utilsService.getStatus()"></status>
   <div class="row">
     <div class="col s12 l8 offset-l2" align="center">    
       <form materialize (ngSubmit)="createCampaign()" #campaignForm="ngForm">

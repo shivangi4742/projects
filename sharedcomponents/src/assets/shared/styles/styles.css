@@ -380,3 +380,17 @@
 .inactiveTabBN {
     color: #3d3d3d!important;
 }
+
+.prodImageBN {
+    max-height: 90px;
+    max-width: 80px;
+}
+
+.absoluteBN {
+    position: absolute;
+    padding-left: 80px;
+}
+
+.transparentBN {
+    color: transparent;
+}

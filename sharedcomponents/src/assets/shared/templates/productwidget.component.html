@@ -1,0 +1,20 @@
+<div *ngIf="product" (mouseover)="over=true;" (mouseout)="over=false;" [ngClass]="over ? 'row grey lighten-5 productWidgetBN' : 'row productWidgetBN'">
+    <div class="col s12 center prodImageBN">
+        <i [ngClass]="over ? 'material-icons absoluteBN greyBN linkButtonBN icon17BN' : 'material-icons absoluteBN transparentBN linkButtonBN icon17BN'"
+            (click)="delete()" *ngIf="showDelete">close</i>
+        <img *ngIf="!product.imageURL" class="prodImageBN" src="../assets/shared/images/no-image.png" />
+        <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />        
+    </div>
+    <div class="col s4 shiftTop20BN regNrmS5BN">
+        <input type="checkbox" class="filled-in checkbox-red" id="{{product.id}}" name="{{product.id}}" [(ngModel)]="product.isSelected" />
+        <label for="{{product.id}}" class="productRsBN">₹</label>
+    </div>
+    <div class="col s8 priceInputBN">
+        <input [(ngModel)]="product.price" class="validate thinInputBN" type="number" step="0.01" min="0" max="9999999.99" 
+            name="price" (blur)="priceChanged()" (focus)="select()" id="price" required>
+        <span *ngIf="product.uom">/{{product.uom}}</span>
+    </div>
+    <div *ngIf="product.uom" class="col s12 regNrmS6BN center shiftTop10BN truncate bottom10BN">{{'per' | translate}} {{product.uom}}</div>
+    <div [ngClass]="product.uom ? 'col s12 regNrmS6B1BN center shiftTop10BN truncate' : 'col s12 regNrmS6B1BN center shiftTop10BN truncate bottom10BN'">{{product.name}}This is name test</div>
+    <div class="col s12 regNrmS6BN center shiftTop10BN">{{product.description}}</div>
+</div>

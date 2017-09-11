@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TranslateService } from 'ng2-translate';
-
-import { Status, UtilsService } from 'benowservices';
+import { Status } from 'benowservices';
 
 @Component({
   selector: 'status',
@@ -10,8 +8,7 @@ import { Status, UtilsService } from 'benowservices';
   styleUrls: ['./assets/shared/styles/status.component.css']
 })
 export class StatusComponent  {
-  @Input('language') language: number;
   @Input('status') status: Status;
 
-  constructor(private translate: TranslateService, private utilsService: UtilsService) { }
+  constructor() { }
 }
