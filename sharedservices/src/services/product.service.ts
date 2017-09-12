@@ -13,12 +13,29 @@ export class ProductService {
     private _products: Array<Product>;
     private _urls: any = {
         getProductsURL: 'product/getProducts',
-        addProductURL: 'product/addProduct'
+        addProductURL: 'product/addProduct',
+        getProductsForCampaignURL: 'product/getProductsForCampaign'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
-    fillProducts(res: any): Array<Product> {
+    getProductsForCampaign(merchantCode: string, campaignId: string): Promise<Array<Product>> {
+        if(this._products && this._products.length > 0)
+            return Promise.resolve(this._products);
+        else
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getProductsForCampaignURL, 
+                    JSON.stringify({
+                        "merchantCode": merchantCode,
+                        "campaignId": campaignId
+                    }), 
+                    { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => this.fillProducts(res.json()))
+                .catch(res => this.utilsService.returnGenericError());    
+    }
+
+    private fillProducts(res: any): Array<Product> {
         if(res && res.length > 0) {
             this._products = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
@@ -44,7 +61,7 @@ export class ProductService {
                 .catch(res => this.utilsService.returnGenericError());    
     }
 
-    addedProduct(res: any): Product|null {
+    private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0) {
             if(!this._products)
                 this._products = new Array<Product>();

@@ -42,7 +42,7 @@
           <div class="col s1 hide-on-med-and-up"></div>
           <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
             <i class="material-icons prefix alignMidBN clndricnBN">event</i>
-            <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN whiteBN" materialize="pickadate"
+            <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN" materialize="pickadate"
               [materializeParams]="dateParams" [(ngModel)]="expDt">
             <label for="expDt" [ngClass]="{active: expDt}">{{'Expiry Date'| translate}}</label>
           </div>
@@ -75,7 +75,7 @@
             <label class="cblblBN" for="askname">{{'Request for name' | translate}}</label>
             <div *ngIf="askname">
               <input type="checkbox" id="mndname" class="filled-in checkbox-red" name="mndname" [(ngModel)]="mndname" />
-              <label for="mndname"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+              <label for="mndname"class="cblblBN secondaryCBBN">{{'Mandatory' | translate}}</label>
             </div>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
@@ -85,7 +85,7 @@
             <label class="cblblBN" for="askemail">{{'Request for email' | translate}}</label>
             <div *ngIf="askemail">
               <input type="checkbox" id="mndemail" class="filled-in checkbox-red" name="mndemail" [(ngModel)]="mndemail" />
-              <label for="mndemail"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+              <label for="mndemail"class="cblblBN secondaryCBBN">{{'Mandatory' | translate}}</label>
             </div>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
@@ -95,7 +95,7 @@
             <label class="cblblBN" for="askaddress">{{'Request for address' | translate}}</label>
             <div *ngIf="askaddress">
               <input type="checkbox" id="mndaddress" class="filled-in checkbox-red" name="mndaddress" [(ngModel)]="mndaddress" />
-              <label for="mndaddress"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+              <label for="mndaddress"class="cblblBN secondaryCBBN">{{'Mandatory' | translate}}</label>
             </div>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
@@ -105,7 +105,7 @@
             <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
             <div *ngIf="askpan">
               <input type="checkbox" id="mndpan" class="filled-in checkbox-red" name="mndpan" [(ngModel)]="mndpan" />
-              <label for="mndpan"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
+              <label for="mndpan"class="cblblBN secondaryCBBN">{{'Mandatory' | translate}}</label>
               <div *ngIf="mndpan" class="input-field regNrmS4BN">
                 <span class="prefix">₹</span>            
                 <input id="minpanamnt" name="minpanamnt" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 

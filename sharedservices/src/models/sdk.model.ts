@@ -20,7 +20,6 @@ export class SDK {
     public readonlyemail: boolean,
     public allowMultiSelect: boolean,
     public readonlyresidence: boolean,
-    public mode: number,
     public mtype: number,
     public amount: number,
     public language: number,
@@ -29,9 +28,6 @@ export class SDK {
     public merchantType: number,
     public campaignTarget: number,
     public id: string,
-    public vpa: string,
-    public til: string,
-    public url: string,
     public surl: string,
     public furl: string,
     public email: string,
@@ -46,6 +42,11 @@ export class SDK {
     public merchantVpa: string,
     public description: string,
     public merchantCode: string,
+    public businessName: string,
     public invoiceNumber: string,
-    public products: Array<Product>) { }
+    public til: string|null,
+    public vpa: string|null,
+    public url: string|null,
+    public mode: string|null,
+    public products: Array<Product>|null) { }
 }

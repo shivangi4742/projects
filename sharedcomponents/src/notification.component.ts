@@ -35,31 +35,17 @@ export class NotificationComponent  {
     this.id = this.route.snapshot.params['id'];
     this.page = this.route.snapshot.params['page'];
     let me = this;
-    window.addEventListener("orientationchange", function() {me.setScreenType()});
-    this.setScreenType();
     this.userService.getUser()
       .then(res => this.init(res));
   }
 
-  search() {
-    
+  search() {    
   }
 
-  next() {
-    
+  next() {    
   }
 
   previous() {
-
-  }
-
-  setScreenType() {
-/*     if(($('#largeScreenN') as any).is(':visible'))
-      this.screenType = 3;
-    else if(($('#mediumScreenN') as any).is(':visible'))
-      this.screenType = 2;
-    else
-      this.screenType = 1; */
   }
 
   getFile(res: any) {

@@ -1,3 +1,27 @@
-<p>
-  buy works!
-</p>
+<div class="row"></div>
+<div class="row" *ngIf="products">
+  <div class="col s12 l8 offset-l2" align="center">    
+    <form materialize (ngSubmit)="buy()" #buyForm="ngForm">
+      <div class="row allContentBN">
+        <div class="col s12 center">
+          <img class="featuredImageBN responsive-img" *ngIf="sdk.imageURL" src={{uploadsURL}}{{sdk.imageURL}} />
+          <img class="featuredImageBN responsive-img" *ngIf="!sdk.imageURL" src='../../assets/paymentlink/images/paym.png' />
+        </div>
+      </div>
+      <div class="row allContentBN">
+        <div class="col s12 regHdrS2BN center">
+          <span>{{sdk.title}} - {{'by' | translate}}</span>
+          <span class="errHdrS2BN">{{sdk.businessName}}</span>
+        </div>
+      </div>
+      <div class="row allContentBN">
+        <div class="col s12 regNrmS5BN center">{{sdk.description}}</div>
+      </div>
+      <div class="row allContentBN">
+        <div class="col s12 m4" *ngFor="let p of products">
+          <productwidget [product]="p" [showDelete]="false"></productwidget> 
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

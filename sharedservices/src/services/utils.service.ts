@@ -7,7 +7,7 @@ import { Status } from '../models/status.model';
 export class UtilsService {
   private _uname: string;
   private _token: string;
-  private _headers: any;
+  private _headers: any = { };
   private _status: Status;
 
   private _isNGO: boolean = false;

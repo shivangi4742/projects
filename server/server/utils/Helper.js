@@ -46,6 +46,46 @@ var helper = {
         return extServerOptions;
     },
 
+    getDefaultExtServerOptions: function (path, method, headers) {
+        var extServerOptions = {
+            host: config.beNowSvc.host,
+            port: config.beNowSvc.port,
+            path: path,
+            method: method,
+            headers: {}
+        };
+
+        if (headers['user-agent'])
+            extServerOptions.headers['User-Agent'] = headers['user-agent'];
+        else if (headers['User-Agent'])
+            extServerOptions.headers['User-Agent'] = headers['User-Agent'];
+        else
+            extServerOptions.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';
+
+        if (headers['content-type'])
+            extServerOptions.headers['Content-Type'] = headers['content-type'];
+        else if (headers['Content-Type'])
+            extServerOptions.headers['Content-Type'] = headers['Content-Type'];
+        else
+            extServerOptions.headers['Content-Type'] = 'application/json';
+
+        if (headers['X-AUTHORIZATION'])
+            extServerOptions.headers['X-AUTHORIZATION'] = headers['X-AUTHORIZATION'];
+        else if (headers['x-authorization'])
+            extServerOptions.headers['X-AUTHORIZATION'] = headers['x-authorization'];
+        else
+            extServerOptions.headers['X-AUTHORIZATION'] = config.defaultToken
+
+        if (headers['X-EMAIL'])
+            extServerOptions.headers['X-EMAIL'] = headers['X-EMAIL'];
+        else if (headers['x-email'])
+            extServerOptions.headers['X-EMAIL'] = headers['x-email'];
+        else
+            extServerOptions.headers['X-EMAIL'] = config.defaultEmail;
+
+        return extServerOptions;
+    },
+
     getIntExtServerOptions: function (path, method, token, email) {
         var extServerOptions = {
             host: config.beNowSvc.host,

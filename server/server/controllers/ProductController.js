@@ -38,11 +38,44 @@ var prodCont = {
         }
     },
 
+    getProductsForCampaign: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getProductsForCampaignPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
     getProducts: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getProductsPost(req, function (data) {
             res.json(data);
         });
+    },
+
+    getProductsForCampaignPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.merchantCode && d.campaignId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignProduct', 'POST', req.headers),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "txnRefNumber": d.campaignId
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     getProductsPost: function(req, cb) {

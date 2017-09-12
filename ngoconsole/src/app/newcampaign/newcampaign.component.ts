@@ -176,11 +176,11 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
       selProducts = this.products.filter(p => p.isSelected);
 
     this.sdkService.savePaymentLinkDetails(new SDK(true, this.askaddress, true, this.mndpan, this.askpan, this.mndname, this.askname, this.askemail,
-      this.mndemail, this.mndaddress, false, false, false, this.askresidence, false, false, this.allowMultiSelect, false, null, 2, 
+      this.mndemail, this.mndaddress, false, false, false, this.askresidence, false, false, this.allowMultiSelect, false, 2, 
       this.amount ? this.amount : null, this.user.language, 0, this.minpanamnt ? this.minpanamnt : null, 2, 
-      this.campaignTarget ? this.campaignTarget : null, null, null, null, null, null, null, null, this.mobileNumber, this.campaignName,
-      this.user.mccCode, this.imgURL ? this.imgURL : null, null, null, this.user.id, this.expDt ? this.expDt : null, null, 
-      this.description ? this.description : null, this.user.merchantCode, null, selProducts && selProducts.length > 0 ? selProducts : null))
+      this.campaignTarget ? this.campaignTarget : null, null, null, null, null, this.mobileNumber, this.campaignName, this.user.mccCode, 
+      this.imgURL ? this.imgURL : null, null, null, this.user.id, this.expDt ? this.expDt : null, null, this.description ? this.description : null, 
+      this.user.merchantCode, this.user.displayName, null, null, null, null, null, selProducts && selProducts.length > 0 ? selProducts : null))
       .then(res => this.submitted(res));
   }
 

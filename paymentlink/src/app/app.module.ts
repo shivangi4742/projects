@@ -14,15 +14,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BuyComponent } from './buy/buy.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 export function HttpFactory(http: Http) {
-  return new TranslateStaticLoader(http, '/assets/login/i18n', '.json');
+  return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
 }
 
 @NgModule({
   declarations: [
     AppComponent,
-    BuyComponent
+    BuyComponent,
+    NotfoundComponent
   ],
   imports: [
     HttpModule,

@@ -4,9 +4,33 @@ var config = require('./../configs/Config');
 var sdkCont = {    
     getPaymentLinkDetails: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
-/*         this.getPaymentLinkDetailsPost(req, function (data) {
+        this.getPaymentLinkDetailsPost(req, function (data) {
             res.json(data);
-        });  */
+        });  
+    },
+
+    getPaymentLinkDetailsPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.campaignId) 
+                    helper.getAndCallback(
+                        helper.getDefaultExtServerOptions('/payments/paymentadapter/getPortablePaymentRequest?txnRef=' + d.campaignId, 
+                            'GET', req.headers), cb, false);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     smsPaymentLinkPost: function (name, merchant, mtype, phone, txnId, hdrs, cb) {
@@ -94,7 +118,9 @@ var sdkCont = {
 	                "txnRefNumber": data.paymentReqNumber,
 	                "prodId": products[counter].id,
 	                "prodPrice": products[counter].price,
-	                "prodDescription": products[counter].name,
+                    "prodDescription": products[counter].description,
+                    "prodName":products[counter].name,
+                    "uom": products[counter].uom,
 	                "prodImgUrl": products[counter].imageURL
                 }, function(data2) {
                     me.savePaymentLinkProductsPost(merchantCode, products, ++counter, data, hdrs, cb);
@@ -127,7 +153,7 @@ var sdkCont = {
                         {	
                             "merchantCode": d.merchantCode,
                             "mtype": d.mtype,
-                            "customerName": d.firstName ? d.firstName : '' + ' ' + d.lastName ? d.lastName : '',
+                            "customerName": d.title,
                             "mobileNumber": d.phone,
                             "amount": d.amount,
                             "totalbudget": d.campaignTarget,
