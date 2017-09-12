@@ -10,7 +10,10 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 import { SharedServicesModule } from 'benowservices';
 import { SharedComponentsModule } from 'benowcomponents'; 
 
+import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { BuyComponent } from './buy/buy.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/login/i18n', '.json');
@@ -18,12 +21,14 @@ export function HttpFactory(http: Http) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BuyComponent
   ],
   imports: [
     HttpModule,
     FormsModule,
     BrowserModule,
+    AppRoutingModule,
     MaterializeModule,
     SharedComponentsModule, 
     SharedServicesModule.forRoot(),
@@ -31,18 +36,7 @@ export function HttpFactory(http: Http) {
       provide: TranslateLoader,
       useFactory: HttpFactory,
       deps: [Http]
-    }), 
-    RouterModule.forRoot([      
-      {
-        path: 'dashboard',
-        component: DashboardComponent
-      },
-      {
-        path: '**', 
-        redirectTo: '/dashboard', 
-        pathMatch: 'full' 
-      }
-    ])
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
