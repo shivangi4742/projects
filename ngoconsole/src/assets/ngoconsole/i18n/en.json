@@ -95,11 +95,12 @@
     "Uploaded campaign image successfully": "Uploaded campaign image successfully",
     "Done": "Done",
     "Select Products": "Select Products",
-    "Add New Products": "Add New Products",
+    "Add New Products": "Add New Product",
     "Price": "Price",
     "Name": "Name",
     "UOM": "UOM",
     "Add": "Add",
     "Description": "Description",
-    "Allow Multiple Selections": "Allow Multiple Selections"
+    "Allow Multiple Selections": "Allow Multiple Selections",
+    "Successfully sent payment link via SMS": "Successfully sent payment link via SMS"
 }

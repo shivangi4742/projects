@@ -65,6 +65,13 @@
     "Select a month": "महीना चुनें",
     "Today": "आज",
     "Close": "बंद करें",
+    "File is bigger than 1 MB!": "फ़ाइल 1 एमबी से बड़ी है!",
+    "Unsupported file format!": "असमर्थित फाइल स्वरूप!",
+    "Improper request. Please try again.": "अनुचित अनुरोध। कृपया पुन: प्रयास करें।",
+    "Unsupported file format or size!": "असमर्थित फ़ाइल स्वरूप, या आकार!",
+    "Unauthorized!": "अनधिकृत!",
+    "Incorrect input!": "गलत इनपुट!",
+    "Error in uploading file. Please try again.": "फ़ाइल अपलोड करने में त्रुटि। कृपया पुन: प्रयास  करें।",
 
     "Create a New Campaign": "नया अभियान बनाएं",
     "Campaign Name": "अभियान का नाम",
@@ -84,5 +91,16 @@
     "Request for address": "पते के लिए अनुरोध करें",
     "Request for PAN": "पैन के लिए अनुरोध करें",
     "Ask if Indian Resident": "भारतीय नागरिक असल्यास विचारा",
-    "Create Campaign and Send Link": "अभियान बनाएं और लिंक भेजें"
+    "Create Campaign and Send Link": "अभियान बनाएं और लिंक भेजें",
+    "Uploaded campaign image successfully": "अभियान छवि सफलतापूर्वक अपलोड की गई",
+    "Done": "समाप्त",
+    "Select Products": "उत्पाद चुनें",
+    "Add New Products": "नया उत्पाद जोड़ें",
+    "Price": "मूल्य",
+    "Name": "नाम",
+    "UOM": "यूओएम",
+    "Add": "जोड़ें",
+    "Description": "विवरण",
+    "Allow Multiple Selections": "एकाधिक चयन की अनुमति दें",
+    "Successfully sent payment link via SMS": "एसएमएस के माध्यम से भुगतान लिंक सफलतापूर्वक भेजा गया"
 }

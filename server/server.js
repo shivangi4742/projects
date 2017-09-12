@@ -13,6 +13,7 @@ var urls = require('./server/utils/URLs');
 var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
+var sdkRouter = require('./server/routers/SDKRouter');
 var userRouter = require('./server/routers/UserRouter');
 var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
@@ -60,6 +61,7 @@ app.use(session({
 }));
 
 // Routing settings.
+app.use(config.base + '/sdk', sdkRouter);
 app.use(config.base + '/file', fileRouter);
 app.use(config.base + '/user', userRouter);
 app.use(config.base + '/product', productRouter);

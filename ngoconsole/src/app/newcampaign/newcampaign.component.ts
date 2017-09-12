@@ -3,7 +3,7 @@ import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angu
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, SDKService, SDK } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
 
@@ -14,9 +14,10 @@ import { SelectproductsComponent } from './../selectproducts/selectproducts.comp
 })
 export class NewcampaignComponent implements OnInit, AfterViewInit {
   amount: number;
-  panamount: number;
+  minpanamnt: number;
   campaignTarget: number;
   expDt: string;
+  imgURL: string;
   uploadsURL: string;
   description: string;
   campaignName: string;
@@ -34,7 +35,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   askaddress: boolean = false;
   mndaddress: boolean = false;
   askresidence: boolean = false;
-  allowMultiSelect: boolean = false;
+  allowMultiSelect: boolean = true;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -62,7 +63,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
-    private userService: UserService, private productService: ProductService) { }
+    private userService: UserService, private productService: ProductService, private sdkService: SDKService) { }
 
   ngAfterViewInit() { }
 
@@ -121,7 +122,6 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   fileChange(e: any) {
     if(!this.uploading && e.target && e.target.files) {
       if(e.target.files && e.target.files[0]) {
@@ -155,6 +155,15 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   }
 
   invalidForm(): boolean {
+    if(this.amount != null && this.amount != undefined && this.amount <= 0)
+      return true;
+
+    if(this.campaignTarget != null && this.campaignTarget != undefined && this.campaignTarget <= 0)
+      return true;
+
+    if(this.askpan && this.mndpan && (this.minpanamnt == null || this.minpanamnt == undefined || this.minpanamnt < 0))
+      return true;
+
     return false;
   }
 
@@ -162,7 +171,25 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   }
 
   createCampaign() {
+    let selProducts: Array<Product>;
+    if(this.products)
+      selProducts = this.products.filter(p => p.isSelected);
 
+    this.sdkService.savePaymentLinkDetails(new SDK(true, this.askaddress, true, this.mndpan, this.askpan, this.mndname, this.askname, this.askemail,
+      this.mndemail, this.mndaddress, false, false, false, this.askresidence, false, false, this.allowMultiSelect, false, null, 2, 
+      this.amount ? this.amount : null, this.user.language, 0, this.minpanamnt ? this.minpanamnt : null, 2, 
+      this.campaignTarget ? this.campaignTarget : null, null, null, null, null, null, null, null, this.mobileNumber, this.campaignName,
+      this.user.mccCode, this.imgURL ? this.imgURL : null, null, null, this.user.id, this.expDt ? this.expDt : null, null, 
+      this.description ? this.description : null, this.user.merchantCode, null, selProducts && selProducts.length > 0 ? selProducts : null))
+      .then(res => this.submitted(res));
+  }
+
+  submitted(res: any) {
+    window.scrollTo(0, 0);
+    if(res && res.success === true)
+      this.utilsService.setStatus(false, true, 'Successfully sent payment link via SMS')
+    else
+      this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.')
   }
 
   translateCalStrings(res: any, langCh: boolean) {

@@ -108,9 +108,9 @@
               <label for="mndpan"class="secondaryCBBN">{{'Mandatory' | translate}}</label>
               <div *ngIf="mndpan" class="input-field regNrmS4BN">
                 <span class="prefix">₹</span>            
-                <input id="panamount" name="panamount" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 
-                  [(ngModel)]="panamount">
-                <label for="panamount" [ngClass]="{active: panamount}">{{'Minimum amount'| translate}}*</label>
+                <input id="minpanamnt" name="minpanamnt" type="number" min="1" max="9999999.99" step="0.01" class="validate" required 
+                  [(ngModel)]="minpanamnt">
+                <label for="minpanamnt" [ngClass]="{active: minpanamnt}">{{'Minimum amount'| translate}}*</label>
               </div>
             </div>
           </div>
