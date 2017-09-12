@@ -18,8 +18,16 @@
         <div class="col s12 regNrmS5BN center">{{sdk.description}}</div>
       </div>
       <div class="row allContentBN">
-        <div class="col s12 m4" *ngFor="let p of products">
-          <productwidget [product]="p" [showDelete]="false"></productwidget> 
+        <div class="col s8 offset-s2 m4 center" *ngFor="let p of products">
+          <productwidget [forCart]="true" [product]="p" [showDelete]="false"></productwidget> 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+              name="proceed" [disabled]="!buyForm.form.valid || isInvalid()">{{'Proceed to Pay' | translate}} 
+              <span *ngIf="getTotal() > 0">₹ {{getTotal() | number : '1.2-2'}}</span>
+            </button>
         </div>
       </div>
     </form>

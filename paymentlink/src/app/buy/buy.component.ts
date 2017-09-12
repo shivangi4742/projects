@@ -25,6 +25,19 @@ export class BuyComponent implements OnInit {
       .then(res => this.initProducts(res));
   }
 
+  getTotal() {
+    let total: number = 0;
+    if(this.products && this.products.length > 0) {
+      for(let i:number = 0; i < this.products.length; i++){
+        if(this.products[i].qty > 0) {
+          total += this.products[i].qty * this.products[i].price;
+        }
+      }
+    }
+
+    return total;
+  }
+
   initProducts(res: SDK) {
     if(res && res.id) {
       this.sdk = res;
@@ -39,13 +52,20 @@ export class BuyComponent implements OnInit {
     if(res && res.length > 0) {
       this.uploadsURL = this.utilsService.getUploadsURL();
       this.products = res;
-      console.log(this.products);
     }
     else
       this.router.navigateByUrl('/pay/' + this.id);
   }
 
-  buy() {
+  isInvalid(): boolean {
+    return this.getTotal() <= 0;
+  }
 
+  buy() {
+    let total: number = this.getTotal();
+    if(total > 0) {
+      this.sdkService.setSDKAmount(total);
+      this.router.navigateByUrl('/pay/' + this.id);
+    }
   }
 }

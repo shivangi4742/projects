@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BuyComponent } from './buy/buy.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { PayComponent } from './pay/pay.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
@@ -24,7 +25,8 @@ export function HttpFactory(http: Http) {
   declarations: [
     AppComponent,
     BuyComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    PayComponent
   ],
   imports: [
     HttpModule,

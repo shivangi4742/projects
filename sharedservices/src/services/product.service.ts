@@ -39,7 +39,7 @@ export class ProductService {
         if(res && res.length > 0) {
             this._products = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._products.push(new Product(false, false, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
+                this._products.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
                     res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
@@ -66,7 +66,8 @@ export class ProductService {
             if(!this._products)
                 this._products = new Array<Product>();
 
-            let p: Product = new Product(true, true, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, res.prodImgUrl);
+            let p: Product = new Product(true, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
+                res.prodImgUrl);
             this._products.push(p);
             return p;
         }

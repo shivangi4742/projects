@@ -29,6 +29,12 @@
     overflow-y: hidden;
 }
 
+.productCartWidgetBN {
+    height: 220px;
+    max-height: 220px;
+    overflow-y: hidden;
+}
+
 .icon17BN {
     font-size: 17px;
 }
@@ -49,4 +55,8 @@
 .px3BN {
     padding-top: 3px;
     padding-bottom: 16px;
+}
+
+.selProdPriceBN {
+    margin-top: -13px;
 }

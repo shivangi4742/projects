@@ -14,7 +14,7 @@ export class SelectproductsComponent implements OnInit {
   isInitial: boolean = true;
   uploading: boolean = false;
   active: number = 0;
-  newProd: Product = new Product(null, null, null, null, null, null, null, null, null);
+  newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
   newlyadded: any = { "key": "isNew", "value": true };
   @Input('user') user: User;
   @Input('modalActions') modalActions: any;
@@ -66,7 +66,7 @@ export class SelectproductsComponent implements OnInit {
 
   addedProduct(p: Product) {
     if(p && p.price > 0)
-      this.newProd = new Product(null, null, null, null, null, null, null, null, null);
+      this.newProd = new Product(null, null, null, null, null, null, null, null, null, null);
     else
       this.imgErrMsg = this.utilsService.returnGenericError().errMsg;
   }
