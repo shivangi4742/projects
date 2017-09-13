@@ -71,6 +71,15 @@
     "Unsupported file format or size!": "असमर्थित फ़ाइल स्वरूप, या आकार!",
     "Unauthorized!": "अनधिकृत!",
     "Incorrect input!": "गलत इनपुट!",
-    "Error in uploading file. Please try again.": "फ़ाइल अपलोड करने में त्रुटि। कृपया पुन: प्रयास  करें।"
+    "Error in uploading file. Please try again.": "फ़ाइल अपलोड करने में त्रुटि। कृपया पुन: प्रयास  करें।",
 
+    "by": "द्वारा",
+    "QTY": "मात्रा",
+    "Buy": "खरीदें",
+    "To Pay": "भुगतान करने के लिए",
+    "Enter Amount": "राशी डालें",
+    "Enter Name": "नाम दर्ज करें",
+    "Redirecting you to payment page,": "आपको भुगतान पृष्ठ पर पुनर्निर्देशित कर रहे हैं,",
+    "please do not click back or refresh the page": "कृपया वापस क्लिक न करें या पृष्ठ को रीफ्रेश न   करें",
+    "Amount has to be greate than 0.": "राशि 0 से अधिक होनी चाहिए।"
 }

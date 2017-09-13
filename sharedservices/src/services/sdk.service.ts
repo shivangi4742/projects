@@ -51,9 +51,9 @@ export class SDKService {
 
             this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
                 res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, 2, res.invoiceAmount, 0, 0, 
-                res.minpanamnt, 2, res.totalbudget, res.id, '', res.surl, res.furl, '', '', res.customerName, res.merchantUser.mccCode, res.fileUrl, 
-                '', '', res.merchantUser.id, res.expiryDate, vpa, res.description, res.merchantUser.merchantCode, res.merchantUser.businessName, '', 
-                null, null, null, null, null, modes, null);
+                res.minpanamnt, 2, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', '', res.customerName, 
+                res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, res.expiryDate, vpa, res.description ? res.description : '', 
+                res.merchantUser.merchantCode, res.merchantUser.businessName, '', null, null, null, null, null, modes, null);
         }
 
         return this._sdk;

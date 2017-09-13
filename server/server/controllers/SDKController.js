@@ -10,7 +10,6 @@ var sdkCont = {
             "errorCode": "Something went wrong. Please try again."
         };
         res.setHeader("X-Frame-Options", "DENY");
-        console.log(req.body);
         if(req && req.body && req.body.merchantCode && req.body.mccCode && req.body.txnid && req.body.amount > 0) {
             var data = {
                 "amount": req.body.amount,

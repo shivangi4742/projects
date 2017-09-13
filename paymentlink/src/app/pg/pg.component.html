@@ -36,13 +36,14 @@
         <input type="hidden" name="successURL" [ngModel]="payrequestmodel.surl" />
         <input type="hidden" name="title" [ngModel]="payrequestmodel.title" />
         <input type="hidden" name="txnid" [ngModel]="payrequestmodel.txnid" />
-<!--         <input type="hidden" name="udf1" [ngModel]="payrequestmodel.udf1" />
-        <input type="hidden" name="udf2" [ngModel]="payrequestmodel.udf2" />
-        <input type="hidden" name="udf3" [ngModel]="payrequestmodel.udf3" />
-        <input type="hidden" name="udf4" [ngModel]="payrequestmodel.udf4" />
-        <input type="hidden" name="udf5" [ngModel]="payrequestmodel.udf5" /> -->
+        <input type="hidden" name="udf1" [ngModel]="udf" />
+        <input type="hidden" name="udf2" [ngModel]="udf" />
+        <input type="hidden" name="udf3" [ngModel]="udf" />
+        <input type="hidden" name="udf4" [ngModel]="udf" />
+        <input type="hidden" name="udf5" [ngModel]="udf" /> 
         <input type="hidden" name="vpa" [ngModel]="payrequestmodel.vpa" />
         <input type="hidden" name="supportedModes" [ngModel]="payrequestmodel.supportedModes" />
+        <input type="hidden" name="mtype" [ngModel]="payrequestmodel.mtype" />
     </div>
 </form>
 <h5 align="center">{{'Redirecting you to payment page,' | translate}}</h5>

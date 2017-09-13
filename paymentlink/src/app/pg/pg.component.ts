@@ -10,6 +10,7 @@ import { SDK, SDKService, UtilsService } from 'benowservices';
 })
 export class PgComponent implements OnInit {
   id: string;
+  udf: string = '';
   requestUrl: string;
   payrequestmodel: SDK;
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService) { }
@@ -21,7 +22,7 @@ export class PgComponent implements OnInit {
   }
 
   submitMe() {
-    let pgForm: any = <HTMLFormElement>document.getElementById('submitPaymentForm');
+    let pgForm: any = <HTMLFormElement>document.getElementById('paymentForm');
     if(pgForm)
       pgForm.submit();
     else {
