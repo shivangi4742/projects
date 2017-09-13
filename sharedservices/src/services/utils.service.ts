@@ -27,7 +27,7 @@ export class UtilsService {
     this._status = new Status(false, false, '');
   }
 
-  isHB(mCode: string): boolean {
+  isHB(mCode: string|null): boolean {
     if(mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5')
       return true;
 
