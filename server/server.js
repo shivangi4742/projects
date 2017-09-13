@@ -66,10 +66,10 @@ app.use(config.base + '/file', fileRouter);
 app.use(config.base + '/user', userRouter);
 app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
-app.use(config.base + '/notification', notificationRouter);
+app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
-app.use(config.base + '/ngo', express.static(__dirname + urls.ngoDir));
-app.use(config.base + '/login', express.static(__dirname + urls.loginDir));
+app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
+app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
 
 app.get(config.base, function(req, res) {
@@ -77,12 +77,12 @@ app.get(config.base, function(req, res) {
 	res.sendFile(urls.home, {root: __dirname });
 });
 
-app.get(config.base + '/login/*', function(req, res) {
+app.get(config.base + '/lgn/*', function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.home, {root: __dirname });
 });
 
-app.get(config.base + '/ngo/*', function(req, res) {
+app.get(config.base + '/ngocsl/*', function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.ngoHome, {root: __dirname });
 });

@@ -14,7 +14,7 @@ export class NotificationService {
     private _curKey: string;
     private _notifs: Notification[];
     private _urls: any = {
-        getNotificationsURL: 'notification/getNotifications'
+        getNotificationsURL: 'ntfctn/getNotifications'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }

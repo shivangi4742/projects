@@ -188,13 +188,13 @@ gulp.task('copy:paymentlinkAssets', function () {
 
 gulp.task('change:indexlogin', function() {
   return gulp.src([loginIndexFile])
-    .pipe(replace('<base href="/">', '<base href="/login/">'))
+    .pipe(replace('<base href="/">', '<base href="/lgn/">'))
     .pipe(gulp.dest(loginServerFolder));
 });
 
 gulp.task('change:indexngoconsole', function() {
   return gulp.src([ngoconsoleIndexFile])
-    .pipe(replace('<base href="/">', '<base href="/ngo/">'))
+    .pipe(replace('<base href="/">', '<base href="/ngocsl/">'))
     .pipe(gulp.dest(ngoconsoleServerFolder));
 });
 

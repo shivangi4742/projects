@@ -52,7 +52,7 @@ var sdkCont = {
                     name = 'Donor';
 
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Donor, To contribute for ' + merchant + ', please click on ' + config.me + link + txnId + sfix),
+                    encodeURI('Dear Donor, To contribute for ' + merchant + ', please click on ' + config.me + '/ppl' + link + txnId + sfix),
                     'POST', hdrs), null, cb);
             }
             else {
@@ -60,7 +60,7 @@ var sdkCont = {
                     name = 'Customer';
 
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Customer, To pay ' + merchant + ', please click on ' + config.me + link + txnId + sfix),
+                    encodeURI('Dear Customer, To pay ' + merchant + ', please click on ' + config.me + '/ppl' + link + txnId + sfix),
                     'POST', hdrs), null, cb);
             }
         }

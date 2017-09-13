@@ -13,10 +13,10 @@ export class UtilsService {
   private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
-  private _loginPageURL: string = 'http://localhost:9090/login/login/1';
-  private _logoutPageURL: string = 'http://localhost:9090/login/logout/6';
-  private _ngoDashboardPageURL: string = 'http://localhost:9090/ngo/dashboard';
-  private _changePasswordPageURL: string = 'http://localhost:9090/login/verify/2';
+  private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
+  private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
+  private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
+  private _changePasswordPageURL: string = 'http://localhost:9090/lgn/verify/2';
   private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
   private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
@@ -27,8 +27,8 @@ export class UtilsService {
     this._status = new Status(false, false, '');
   }
 
-  public isHB(mCode: string|null): boolean {
-    if(mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69')
+  isHB(mCode: string): boolean {
+    if(mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5')
       return true;
 
     return false;

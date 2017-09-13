@@ -64,8 +64,9 @@ export class BuyComponent implements OnInit {
   buy() {
     let total: number = this.getTotal();
     if(total > 0) {
-      this.sdkService.setSDKAmount(total);
-      this.router.navigateByUrl('/pay/' + this.id);
+      //Integrate SDK here.
+/*       this.sdkService.setSDKAmount(total);
+      this.router.navigateByUrl('/pay/' + this.id); */
     }
   }
 }
