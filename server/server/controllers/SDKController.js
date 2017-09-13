@@ -1,7 +1,57 @@
+var crypto = require('crypto');
+
 var helper = require('./../utils/Helper');
 var config = require('./../configs/Config');
 
 var sdkCont = {    
+    getHash: function (req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        res.setHeader("X-Frame-Options", "DENY");
+        console.log(req.body);
+        if(req && req.body && req.body.merchantCode && req.body.mccCode && req.body.txnid && req.body.amount > 0) {
+            var data = {
+                "amount": req.body.amount,
+                "email": req.body.email ? req.body.email : '',
+                "firstName": req.body.firstName ? req.body.firstName : '',
+                "failureURL": req.body.failureURL ? req.body.failureURL : '',
+                "merchantCode": req.body.merchantCode,
+                "mccCode": req.body.mccCode,
+                "description": req.body.description ? req.body.description : '',
+                "successURL": req.body.successURL ? req.body.successURL : '',
+                "txnid": req.body.txnid,
+                "udf1": '',
+                "udf2": '',
+                "udf3": '',
+                "udf4": '',
+                "udf5": '',
+                "phone": req.body.phone
+            };
+            var strToHash = data.amount
+                + "|" + data.description
+                + "|" + data.email
+                + "|" + data.failureURL
+                + "|" + data.firstName
+                + "|" + data.mccCode
+                + "|" + data.merchantCode
+                + "|" + data.phone
+                + "|" + data.successURL
+                + "|" + data.txnid
+                + "|" + data.udf1
+                + "|" + data.udf2
+                + "|" + data.udf3
+                + "|" + data.udf4
+                + "|" + data.udf5;
+                console.log(strToHash);
+            var hashData = crypto.createHash('md5').update(config.sdkSalt).update(strToHash + data.merchantCode + config.sdkSalt).digest('hex');
+            res.send({ "hash": hashData });
+        }
+        else
+            res.json(retErr);
+    },
+
     getPaymentLinkDetails: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getPaymentLinkDetailsPost(req, function (data) {

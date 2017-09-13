@@ -28,6 +28,7 @@ export class SDK {
     public merchantType: number,
     public campaignTarget: number,
     public id: string,
+    public hash: string,
     public surl: string,
     public furl: string,
     public email: string,
@@ -48,5 +49,7 @@ export class SDK {
     public vpa: string|null,
     public url: string|null,
     public mode: string|null,
+    public txnid: string|null,
+    public supportedModes: Array<string>,
     public products: Array<Product>|null) { }
 }

@@ -61,12 +61,21 @@ export class BuyComponent implements OnInit {
     return this.getTotal() <= 0;
   }
 
+  setHash(hash: string) {
+    console.log(hash);
+    this.sdkService.setSDKHash(hash);
+    this.router.navigateByUrl('/pg/' + this.id);
+/*      this.router.navigateByUrl('/pay/' + this.id); */
+  }
+
   buy() {
     let total: number = this.getTotal();
     if(total > 0) {
-      //Integrate SDK here.
-/*       this.sdkService.setSDKAmount(total);
-      this.router.navigateByUrl('/pay/' + this.id); */
+      this.sdkService.setSDKAmount(total);
+      let txnid: string = 'GFJBK25366535';//TODO
+      this.sdkService.setSDKtxnid(txnid);
+      this.sdkService.getHash(txnid)
+        .then(res => this.setHash(res));
     }
   }
 }

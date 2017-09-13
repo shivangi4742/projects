@@ -15,6 +15,7 @@ export class SDKService {
     private _sdk: SDK;
     private _lastBill: PayRequest;
     private _urls: any = {
+        getHashURL: 'sdk/getHash',
         createBillURL: 'sdk/createBill',
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
@@ -31,14 +32,62 @@ export class SDKService {
             if(res.merchantUser.defaultAcc && res.merchantUser.defaultAcc.virtualAddress)
                 vpa = res.merchantUser.defaultAcc.virtualAddress;
 
+            let modes: Array<string> = new Array<string>();
+            modes.push('UPI');
+            if(res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
+                res.merchantUser.acceptedPaymentMethods.forEach(function(m: any) {
+                    if(m && m.paymentMethod) {
+                        if ((m.paymentMethod == 'CREDIT_CARD' || m.paymentMethod == 'CC') && modes.indexOf('CC') < 0)
+                            modes.push('CC');
+                        else if ((m.paymentMethod == 'DEBIT_CARD' || m.paymentMethod == 'DC') && modes.indexOf('DC') < 0)
+                            modes.push('DC');
+                        else if ((m.paymentMethod == 'NET_BANKING' || m.paymentMethod == 'NB') && modes.indexOf('NB') < 0)
+                            modes.push('NB');
+                        else if ((m.paymentMethod == 'MEAL_COUPON' || m.paymentMethod == 'SODEXO') && modes.indexOf('SODEXO') < 0)
+                            modes.push('SODEXO');                        
+                    }
+                });
+            }
+
             this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, 2, res.invoiceAmount,
-                0, 0, res.minpanamnt, 2, res.totalbudget, res.id, res.surl, res.furl, '', '', res.customerName, res.merchantUser.mccCode, res.fileUrl, '', 
-                '', res.merchantUser.id, res.expiryDate, vpa, res.description, res.merchantUser.merchantCode, res.merchantUser.businessName, '', null, 
-                null, null, null, null);
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, 2, res.invoiceAmount, 0, 0, 
+                res.minpanamnt, 2, res.totalbudget, res.id, '', res.surl, res.furl, '', '', res.customerName, res.merchantUser.mccCode, res.fileUrl, 
+                '', '', res.merchantUser.id, res.expiryDate, vpa, res.description, res.merchantUser.merchantCode, res.merchantUser.businessName, '', 
+                null, null, null, null, null, modes, null);
         }
 
         return this._sdk;
+    }
+
+    fillHash(res: any): string {
+        if(res)
+            return res.hash;
+
+        return '';
+    }
+
+    getHash(txnid: string): Promise<string> {
+        if(this._sdk && this._sdk.id)
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getHashURL,
+                    JSON.stringify({
+                        "amount": this._sdk.amount,
+                        "email": this._sdk.email,
+                        "firstName": this._sdk.firstName,
+                        "failureURL": this._sdk.furl,
+                        "merchantCode": this._sdk.merchantCode,
+                        "mccCode": this._sdk.mccCode,
+                        "description": this._sdk.description,
+                        "successURL": this._sdk.surl,
+                        "txnid": txnid,
+                        "phone": this._sdk.phone
+                    }), 
+                    { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => this.fillHash(res.json()))
+                .catch(res => '');            
+        else
+            return Promise.resolve('');
     }
 
     startPaymentProcess(paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
@@ -135,6 +184,16 @@ export class SDKService {
     setSDKAmount(amount: number) {
         if(this._sdk && amount > 0)
             this._sdk.amount = amount;
+    }
+
+    setSDKHash(hash: string) {
+        if(this._sdk && hash)
+            this._sdk.hash = hash;
+    }
+
+    setSDKtxnid(txnid: string) {
+        if(this._sdk && txnid)
+            this._sdk.txnid = txnid;
     }
 
     getPaymentLinkDetails(campaignId: string): Promise<SDK> {

@@ -12,6 +12,7 @@ export class UtilsService {
 
   private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
+  private _sdkURL: string = 'https://merchant.benow.in/paysdk';
   private _baseURL: string = 'http://localhost:9090/';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
@@ -32,6 +33,10 @@ export class UtilsService {
       return true;
 
     return false;
+  }
+
+  public getSDKURL(): string {
+    return this._sdkURL;
   }
 
   public getUploadsURL(): string {
