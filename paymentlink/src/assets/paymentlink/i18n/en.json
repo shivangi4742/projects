@@ -75,5 +75,8 @@
 
     "by": "by",
     "QTY": "QTY",
-    "Buy": "Buy"
+    "Buy": "Buy",
+    "To Pay": "To Pay",
+    "Enter Amount": "Enter Amount",
+    "Enter Name": "Enter Name"
 }

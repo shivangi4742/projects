@@ -52,7 +52,7 @@ var sdkCont = {
                     name = 'Donor';
 
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Donor, To contribute ' + merchant + ', please click on ' + config.me + link + txnId + sfix),
+                    encodeURI('Dear Donor, To contribute for ' + merchant + ', please click on ' + config.me + link + txnId + sfix),
                     'POST', hdrs), null, cb);
             }
             else {
@@ -85,13 +85,13 @@ var sdkCont = {
                 if(d && d.sdk) {
                     var hdrs = req.headers;
                     var hasProds = false;
-                    if(d.products && d.products.length > 0)
+                    if(d.sdk.products && d.sdk.products.length > 0)
                         hasProds = true;
 
                     this.savePaymentLinkDetailsPost(d.sdk, hdrs, function (data) {
                         if (data && data.paymentReqNumber && data.mobileNumber) {
-                            me.smsPaymentLinkPost(hasProds, d.merchantCode, data.customerName, 
-                                d.firstName ? d.firstName : '' + ' ' + d.lastName ? d.lastName : '', d.sdk.mtype, data.mobileNumber, 
+                            me.smsPaymentLinkPost(hasProds, d.sdk.merchantCode, data.customerName, 
+                                d.sdk.title, d.sdk.mtype, data.mobileNumber, 
                                 data.paymentReqNumber, hdrs, function (out) {
                                 if (out === true) {
                                     res.setHeader("X-Frame-Options", "DENY");

@@ -11,6 +11,7 @@ import { UtilsService } from './utils.service';
 @Injectable()
 export class ProductService {
     private _products: Array<Product>;
+    private _campaignHasProducts: boolean = false;
     private _urls: any = {
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',

@@ -1,0 +1,12 @@
+.featuredImageBN {
+    max-height: 150px;
+    max-width: 550px;
+}
+
+.payTitleBN {
+    line-height: 60px;
+}
+
+.payToPayBN {
+    line-height: 30px;
+}

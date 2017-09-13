@@ -16,6 +16,7 @@ export { User } from './models/user.model';
 export { Status } from './models/status.model';
 export { Product } from './models/product.model';
 export { Campaign } from './models/campaign.model';
+export { PayRequest } from './models/payrequest.model';
 export { Attachment } from './models/attachment.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
