@@ -18,7 +18,7 @@ var sdkCont = {
                 "failureURL": req.body.failureURL ? req.body.failureURL : '',
                 "merchantCode": req.body.merchantCode,
                 "mccCode": req.body.mccCode,
-                "description": req.body.description ? res.body.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '',
+                "description": req.body.description ? req.body.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '',
                 "successURL": req.body.successURL ? req.body.successURL : '',
                 "txnid": req.body.txnid,
                 "udf1": '',
