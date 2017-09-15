@@ -102,5 +102,6 @@
     "Add": "Add",
     "Description": "Description",
     "Allow Multiple Selections": "Allow Multiple Selections",
-    "Successfully sent payment link via SMS": "Successfully sent payment link via SMS"
+    "Successfully sent payment link via SMS": "Successfully sent payment link via SMS",
+    "Insert Products": "Insert Products"
 }
