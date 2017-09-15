@@ -18,7 +18,7 @@ var sdkCont = {
                 "failureURL": req.body.failureURL ? req.body.failureURL : '',
                 "merchantCode": req.body.merchantCode,
                 "mccCode": req.body.mccCode,
-                "description": req.body.description ? req.body.description : '',
+                "description": req.body.description ? res.body.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '',
                 "successURL": req.body.successURL ? req.body.successURL : '',
                 "txnid": req.body.txnid,
                 "udf1": '',
@@ -43,7 +43,6 @@ var sdkCont = {
                 + "|" + data.udf3
                 + "|" + data.udf4
                 + "|" + data.udf5;
-                console.log(strToHash);
             var hashData = crypto.createHash('md5').update(config.sdkSalt).update(strToHash + data.merchantCode + config.sdkSalt).digest('hex');
             res.send({ "hash": hashData });
         }
