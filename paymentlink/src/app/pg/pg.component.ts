@@ -37,6 +37,7 @@ export class PgComponent implements OnInit {
     if(res && res.id) {
       this.requestUrl = this.utilsService.getSDKURL();
       this.payrequestmodel = res;
+      this.payrequestmodel.description = this.payrequestmodel.description ? this.payrequestmodel.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '';
       let me: any = this;
       setTimeout(function () { 
         me.submitMe();
