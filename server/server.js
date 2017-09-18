@@ -69,6 +69,7 @@ app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
+app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
 app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
 
@@ -80,6 +81,11 @@ app.get(config.base, function(req, res) {
 app.get(config.base + '/lgn/*', function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.home, {root: __dirname });
+});
+
+app.get(config.base + '/mybiz/*', function(req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	res.sendFile(urls.mybizHome, {root: __dirname });
 });
 
 app.get(config.base + '/ngocsl/*', function(req, res) {

@@ -1,0 +1,1 @@
+Code for NGO and my business is same as of now. The same will be segregated and moved in respective folders when the requirements deviate beyond a point. As of now only resources are different. Refer gulp file for how it is built.

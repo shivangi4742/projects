@@ -4,6 +4,8 @@ var uRLs = {
     assetsDir: '/assets',
     loginDir: '/login',
     ngoDir: '/ngoconsole',
+    mybizDir: '/mybiz',
+    mybizHome: '/mybiz/index.html',
     ngoHome: '/ngoconsole/index.html',
     pplDir: '/paymentlink',
     pplHome: '/paymentlink/index.html'

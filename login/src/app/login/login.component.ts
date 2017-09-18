@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   } 
 
   ngOnInit() {
-     this.status = this.route.snapshot.params['status'];
+    this.status = this.route.snapshot.params['status'];
     if(!this.status || this.status < 1)
       this.status = 1;
 
@@ -47,9 +47,15 @@ export class LoginComponent implements OnInit {
   private init(usr: User) {
     if(usr && usr.id) {
       if(usr.isSuperAdmin)
-        this.router.navigateByUrl('/bnadmin');
+        window.location.href = this.utilsService.getAdminDashboardPageURL();
+      else if(this.utilsService.isNGO(usr.mccCode))
+          window.location.href = this.utilsService.getNGODashboardPageURL();
+      else if(this.utilsService.isHB(usr.merchantCode))
+        window.location.href = this.utilsService.getMyBizDashboardPageURL();
+      else if(usr.hasTils && usr.isTilManager)
+        window.location.href = this.utilsService.getManagerDashboardPageURL();
       else
-        this.router.navigateByUrl('/dashboard');
+        window.location.href = this.utilsService.getMerchantDashboardPageURL();
     }
     else {
       this.user = usr;

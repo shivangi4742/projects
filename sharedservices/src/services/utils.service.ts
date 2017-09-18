@@ -17,6 +17,7 @@ export class UtilsService {
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
+  private _mybizDashboardPageURL: string = 'http://localhost:9090/mybiz/dashboard';
   private _changePasswordPageURL: string = 'http://localhost:9090/lgn/verify/2';
   private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
   private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
@@ -49,6 +50,10 @@ export class UtilsService {
 
   public getManagerDashboardPageURL(): string {
     return this._managerDashboardPageURL;    
+  }
+
+  public getMyBizDashboardPageURL(): string {
+    return this._mybizDashboardPageURL;
   }
 
   public getNGODashboardPageURL(): string {
