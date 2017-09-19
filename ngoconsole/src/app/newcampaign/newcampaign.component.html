@@ -26,13 +26,16 @@
             <label for="name" [ngClass]="{active: campaignName}">{{'Campaign Name' | translate}}*</label>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
-          <div class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
+          <div *ngIf="mtype != 2" class="col hide-on-small-only m5 offset-m2 input-field">
+            <input type="text" style="visibility: hidden;" [disabled]="true">
+          </div>
+          <div *ngIf="mtype == 2" class="col s10 offset-s1 m5 offset-m2 input-field regNrmS4BN">
             <span class="prefix">₹</span>            
             <input id="campaignTarget" name="campaignTarget" type="number" min="1" max="9999999.99" step="0.01" class="validate" 
               [(ngModel)]="campaignTarget">
-            <label for="campaignTarget" [ngClass]="{active: campaignTarget}">{{'Campaign Target'| translate}}</label>
+            <label for="campaignTarget" [ngClass]="{active: campaignTarget}">{{'Campaign Target'| translate}}</label>          
           </div>
-          <div class="col s1 hide-on-med-and-up"></div>
+          <div *ngIf="mtype == 2" class="col s1 hide-on-med-and-up"></div>
 
           <div class="col s10 offset-s1 m5 left input-field regNrmS4BN">
             <input id="mobileNumber" name="mobileNumber" maxlength="10"  type="tel"  pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
@@ -99,7 +102,7 @@
             </div>
           </div>
           <div class="col s1 hide-on-med-and-up"></div>
-          <div class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
+          <div *ngIf="mtype == 2" class="col s10 offset-s1 m5 offset-m2 regNrmS4BN" align="left">
             <div class="hide-on-med-and-up smallGapBN"></div>
             <input type="checkbox" id="askpan" class="filled-in checkbox-red" name="askpan" [(ngModel)]="askpan"/>
             <label class="cblblBN" for="askpan">{{'Request for PAN' | translate}}</label>
@@ -114,9 +117,9 @@
               </div>
             </div>
           </div>
-          <div class="col s1 hide-on-med-and-up"></div>
-          <div class="col s12">&nbsp;</div>
-          <div class="col s11 offset-s1 m12 regNrmS4BN" align="left">
+          <div *ngIf="mtype == 2" class="col s1 hide-on-med-and-up"></div>
+          <div *ngIf="mtype == 2" class="col s12">&nbsp;</div>
+          <div *ngIf="mtype == 2" class="col s11 offset-s1 m12 regNrmS4BN" align="left">
             <input type="checkbox" id="askresidence" class="filled-in checkbox-red" name="askresidence" [(ngModel)]="askresidence"/>
             <label class="cblblBN" for="askresidence">{{'Ask if Indian Resident' | translate}}</label>
           </div>

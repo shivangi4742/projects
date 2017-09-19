@@ -36,6 +36,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   mndaddress: boolean = false;
   askresidence: boolean = false;
   allowMultiSelect: boolean = true;
+  mtype: number = 2;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -74,7 +75,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
     //TODO: Window.scrollto should be get rid of.
     //TODO: Notification modal not opening on small screen.
     this.userService.getUser()
-      .then(res => this.user = res);
+      .then(res => this.initUser(res));
     this.utilsService.setStatus(false, false, '');
     this.uploadsURL = this.utilsService.getUploadsURL();      
     let me = this;
@@ -89,6 +90,15 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
       monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
       close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev, 
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
+  }
+
+  initUser(res: User) {
+    if(res) {
+      if(this.utilsService.isHB(res.merchantCode))
+        this.mtype = 3;
+
+      this.user = res;
+    }
   }
 
   hasProducts(): boolean {
