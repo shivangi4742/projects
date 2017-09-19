@@ -11,6 +11,7 @@ import { User, UserService, UtilsService } from 'benowservices';
 })
 export class AppComponent implements OnInit {
   user: User;
+  mtype: number = 2;
 
   constructor(private userService: UserService, private translate: TranslateService, private utilsService: UtilsService) { 
     translate.setDefaultLang('en');
@@ -23,6 +24,9 @@ export class AppComponent implements OnInit {
 
   init(usr: User) {
     if(usr && usr.id && usr.id.trim().length > 0) {
+      if(this.utilsService.isHB(usr.merchantCode))
+        this.mtype = 3;
+      
       this.user = usr;
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));   
     }

@@ -127,7 +127,7 @@ export class UserTopNavComponent {
   }
 
   onInvices(): boolean {
-    if(this.isNGO || this.user.isSuperAdmin)
+    if(this.isNGO || this.user.isSuperAdmin || this.utilsService.isHB(this.user.merchantCode))
       return true;
 
     if(this.hasTils && !this.isTilManager)
