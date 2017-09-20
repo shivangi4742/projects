@@ -98,6 +98,14 @@ app.get(config.base + '/ppl/*', function(req, res) {
 	res.sendFile(urls.pplHome, {root: __dirname });
 });
 
+app.post(config.base + '/ngocsl/prodsuccess', function(req, res) {
+	console.log('ngo', req.body);
+});
+
+app.post(config.base + '/mybiz/prodsuccess', function(req, res) {
+	console.log('mybiz', req.body);
+});
+
 app.use(function(err, req, res, next) {
 	console.log(err.stack);
 });

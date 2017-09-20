@@ -11,6 +11,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 const routes: Routes = [
     { path: 'notfound', component: NotfoundComponent },
     { path: 'pg/:id', component: PgComponent },
+    { path: 'pay/:id/:prods', component: PayComponent },
     { path: 'pay/:id', component: PayComponent },
     { path: 'buy/:id/:code', component: BuyComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },

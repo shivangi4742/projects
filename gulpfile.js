@@ -280,7 +280,6 @@ gulp.task('distribute:ngoconsole', function() {
 
 gulp.task('predistribute:mybiz', function() {
   runSequence(
-    'clean:mybiz',
     'change:ngotrans',
     function (err) {
       if (err) {
@@ -363,6 +362,7 @@ gulp.task('distribute:sharedcomponents', function () {
 
 gulp.task('default', function () {
   runSequence(
+    'clean:mybiz',
     'install:sharedservices',
     'build:sharedservices',
     'install:sharedcomponents',

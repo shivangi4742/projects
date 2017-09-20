@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { SDK, SDKService, UtilsService, ProductService, Product, User, PayRequest } from 'benowservices';
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -14,6 +14,7 @@ export class PayComponent implements OnInit {
   tr: string;
   id: string;
   name: string;
+  prods: string;
   txnNo: string;
   qrURL: string;
   upiURL: string;
@@ -24,6 +25,7 @@ export class PayComponent implements OnInit {
   mobileNumber: string;
   validationError: string;
   pay: SDK;
+  loaded: boolean = false;
   resident: boolean = true;
   qrError: boolean = false;
   qrlError: boolean = false;
@@ -39,34 +41,65 @@ export class PayComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.sdkService.getPaymentLinkDetails(this.id)
-      .then(res => this.init(res));
-  }
-
-  init2(res: SDK, res2: Array<Product>) {
-    if(res2 && res2.length > 0)
-      this.router.navigateByUrl('/buy/' + this.id + '/' + res.merchantCode);
-    else
-      this.initialize(res);
-  }
-
-  initialize(res: SDK) {
+    this.prods = this.route.snapshot.params['prods'];
     this.uploadsURL = this.utilsService.getUploadsURL();
-    this.pay = res;
-    if(!this.pay.amount || this.pay.amount <= 0)
-      this.amountEditable = true;    
+    this.sdkService.getPaymentLinkDetails(this.id)
+      .then(res => this.init(res))
   }
 
   init(res: SDK) {
     if(res && res.id) {
-      if(!res.amount || res.amount <= 0)
-        this.productService.getProductsForCampaign(res.merchantCode, this.id)
-          .then(res2 => this.init2(res, res2));
+      this.pay = res;
+      if(this.prods && !(res.products && res.products.length > 0)) {
+        this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
+          .then(pres => this.initProds(pres));
+      }
       else
-        this.initialize(res);
+        this.initialize();
     }
     else
       this.router.navigateByUrl('/notfound');      
+  }
+
+  initProds(res: Array<Product>) {
+    if(res && res.length > 0) {
+      let selProds: any = JSON.parse(atob(this.prods));
+      if(selProds && selProds.length > 0) {
+        this.pay.products = new Array<Product>();
+        for(let i: number = 0; i < selProds.length; i++) {
+          for(let j: number = 0; j < res.length; j++) {
+            if(res[j].id == selProds[i].id) {
+              res[j].qty = selProds[i].qty;
+              this.pay.products.push(res[j]);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if(!this.pay.products || this.pay.products.length < 1)
+      this.router.navigateByUrl('/buy/' + this.id + '/' + this.pay.merchantCode);
+    else
+      this.initialize();
+  }
+
+  initialize() {
+    let total: number = 0;
+    if(this.pay.products && this.pay.products.length > 0) {
+      for(let i: number = 0; i < this.pay.products.length; i++){
+        if(this.pay.products[i].qty > 0) {
+          total += this.pay.products[i].qty * this.pay.products[i].price;
+        }
+      }
+
+      this.pay.amount = total;
+    }      
+
+    if(!this.pay.amount || this.pay.amount <= 0)
+      this.amountEditable = true;    
+
+    this.loaded = true;
   }
 
   validateEmail(email: string) {

@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { SDK } from './../models/sdk.model';
 import { User } from './../models/user.model';
+import { Product } from './../models/product.model';
 import { PayRequest } from './../models/payrequest.model';
 
 import { UtilsService } from './utils.service';
@@ -25,6 +26,11 @@ export class SDKService {
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    public setProductsInSDK(products: Array<Product>) {
+        if(this._sdk)
+            this._sdk.products = products;
+    }
 
     private fillSDK(res: any): SDK|null {
         if(res && res.merchantUser) {
@@ -57,37 +63,6 @@ export class SDKService {
         }
 
         return this._sdk;
-    }
-
-    fillHash(res: any): string {
-        if(res)
-            return res.hash;
-
-        return '';
-    }
-
-    getHash(txnid: string): Promise<string> {
-        if(this._sdk && this._sdk.id)
-            return this.http
-                .post(this.utilsService.getBaseURL() + this._urls.getHashURL,
-                    JSON.stringify({
-                        "amount": this._sdk.amount,
-                        "email": this._sdk.email,
-                        "firstName": this._sdk.firstName,
-                        "failureURL": this._sdk.furl,
-                        "merchantCode": this._sdk.merchantCode,
-                        "mccCode": this._sdk.mccCode,
-                        "description": this._sdk.description,
-                        "successURL": this._sdk.surl,
-                        "txnid": txnid,
-                        "phone": this._sdk.phone
-                    }), 
-                    { headers: this.utilsService.getHeaders() })
-                .toPromise()
-                .then(res => this.fillHash(res.json()))
-                .catch(res => '');            
-        else
-            return Promise.resolve('');
     }
 
     startPaymentProcess(paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
@@ -179,21 +154,6 @@ export class SDKService {
 
     getLastBill(): PayRequest {
         return this._lastBill;
-    }
-
-    setSDKAmount(amount: number) {
-        if(this._sdk && amount > 0)
-            this._sdk.amount = amount;
-    }
-
-    setSDKHash(hash: string) {
-        if(this._sdk && hash)
-            this._sdk.hash = hash;
-    }
-
-    setSDKtxnid(txnid: string) {
-        if(this._sdk && txnid)
-            this._sdk.txnid = txnid;
     }
 
     getPaymentLinkDetails(campaignId: string): Promise<SDK> {
