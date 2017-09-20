@@ -10,3 +10,33 @@
 .payToPayBN {
     line-height: 30px;
 }
+
+.qrImgBN {
+    height: 230px;
+}
+
+.qrImgSmallBN {
+    height: 180px;
+}
+
+.qrLine1BN {
+    line-height: 25px;
+}
+
+.accBtnBN {
+    padding: 0px;
+}
+
+.waccBtnBN {
+    padding-left: 3px;
+    padding-right: 6px;
+    padding-top: 2px;
+}
+
+.ccBtnBN {
+    text-transform: none;
+}
+
+.bitUpBN {
+    margin-top: -3px; 
+}

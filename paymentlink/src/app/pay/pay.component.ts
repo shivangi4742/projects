@@ -30,11 +30,16 @@ export class PayComponent implements OnInit {
   qrError: boolean = false;
   qrlError: boolean = false;
   isPolling: boolean = false;
+  supportsCC: boolean = false;
+  supportsDC: boolean = false;
+  supportsNB: boolean = false;
   qrExpanded: boolean = false;
   hasProducts: boolean = false;
   qrlExpanded: boolean = false;
+  supportsUPI: boolean = false;
   invalidAmount: boolean = false;
   amountEditable: boolean = false;
+  supportsSodexo: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService) { }
@@ -98,6 +103,23 @@ export class PayComponent implements OnInit {
 
     if(!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;    
+
+    if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
+      if (this.pay.supportedModes.indexOf('UPI') >= 0)
+        this.supportsUPI = true;
+
+      if (this.pay.supportedModes.indexOf('CC') >= 0)
+        this.supportsCC = true;
+
+      if (this.pay.supportedModes.indexOf('DC') >= 0)
+        this.supportsDC = true;
+
+      if (this.pay.supportedModes.indexOf('NB') >= 0)
+        this.supportsNB = true;
+
+      if (this.pay.supportedModes.indexOf('SODEXO') >= 0)
+        this.supportsSodexo = true;
+    }
 
     this.loaded = true;
   }

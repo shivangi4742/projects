@@ -265,6 +265,11 @@
     margin-bottom: 0px;
 }
 
+.noPadsNewBN {
+    padding: 0px;
+    margin-bottom: 0px;
+}
+
 .accordionBodyBN {
     border-bottom: none;
     margin-bottom: 0px;
@@ -393,4 +398,20 @@
 
 .transparentBN {
     color: transparent;
+}
+
+.greenBN {
+    color:#00897b;
+}
+
+.yellowBN {
+    color: #ffb300;
+}
+
+.cyanBN {
+    color: #00acc1;
+}
+
+.fullWidthBN {
+    width: 100%;
 }
