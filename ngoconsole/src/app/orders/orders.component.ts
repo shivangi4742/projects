@@ -8,6 +8,7 @@ import { UtilsService, User, UserService, Product, Transaction, TransactionServi
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
+  lastTxnId: string;
   user: User;
   transactions: Array<Transaction>;
   mtype: number = 2;
@@ -20,10 +21,32 @@ export class OrdersComponent implements OnInit {
       .then(res => this.initUser(res));
   }
 
+  newOrders(res: Array<Transaction>) {
+    if(res && res.length > 0) {
+      for(let i: number = res.length - 1; i >= 0; i--)
+        this.transactions.splice(0, 0, res[i]);
+
+      this.lastTxnId = this.transactions[0].id;
+    }    
+
+    let me: any = this;
+    setTimeout(function() { me.poll(); }, 2000);
+  }
+
+  poll() {
+    this.transactionService.getNewProductTransactions(this.user.merchantCode, this.utilsService.getLastYearDateString() + ' 00:00:00',
+        this.utilsService.getNextYearDateString() + ' 23:59:59', 1, this.lastTxnId)
+        .then(res => this.newOrders(res));
+  }
+
   initTrans(res: Array<Transaction>) {
     if(res && res.length > 0) {
       this.transactions = res;
+      this.lastTxnId = this.transactions[0].id;
     }
+
+    let me: any = this;
+    setTimeout(function() { me.poll(); }, 2000);
   }
 
   getStatus(): Status {

@@ -237,6 +237,46 @@ export class UtilsService {
     }
   }
 
+  public formatDT(dt: string, sprtr: string, useFullYear: boolean, cutSec: boolean, timeFirst: boolean): string {
+    let dtd;
+    let dtt;
+    if(dt) {
+      let dts = dt.split(' ');
+      if(dts && dts.length > 0) {
+        dtd = dts[0];
+        let dts0s = dts[0].split('-')
+        if(dts0s && dts0s.length > 2) {
+          let yr = dts0s[2];
+          if(yr.length > 2 && !useFullYear)
+            yr = yr.substring(2);
+
+          dtd = dts0s[0] + sprtr + dts0s[1] + sprtr + yr;
+        }
+      }
+
+      if(dts && dts.length > 1) {
+        dtt = dts[1];
+        if(cutSec) {
+          let dts1s = dts[1].split(':');
+          if(dts1s && dts1s.length > 2)
+            dtt = dts1s[0] + ':' + dts1s[1];
+        }
+      }
+
+      if(dtd) {
+        dt = dtd;
+        if(dtt) {
+          if(timeFirst)
+            dt = dtt + ' ' + dtd;
+          else
+            dt = dtd + ' ' + dtt;
+        }
+      }
+    }
+
+    return dt;    
+  }
+
   public isAnyMobile(): boolean {
     return (this.isAndroid() || this.isBlackBerry() || this.isiOS() || this.isOpera() || this.isWindows());
   }
