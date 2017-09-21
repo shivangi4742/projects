@@ -23,7 +23,6 @@ export class PayComponent implements OnInit {
   lastName: string;
   firstName: string;
   panNumber: string;
-  paylinkid: string;
   uploadsURL: string;
   mobileNumber: string;
   validationError: string;
@@ -232,14 +231,14 @@ export class PayComponent implements OnInit {
           let inpt: any = JSON.parse($('#paymentPageData').val());
           me.payService.setPGSDK(new PGSDK(null, me.address, null, me.pay.amount, null, null, null, null, null, null, null, me.pay.email, null,
             null, null, null, null, null, null, null, null, null, null, me.pay.firstName, me.pay.id, me.pay.lastName, me.pay.merchantCode, me.tr, 
-            'UPI', null, me.pay.amount, me.paylinkid, 'UPI', 'UPI', phoneStr, me.pay.merchantCode, this.pay.sourceId, null, 'success',
-            me.pay.title, me.txnNo, me.paylinkid, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, null, null, null, null, null, this.pay.surl, this.pay.furl,
+            'UPI', null, me.pay.amount, me.id, 'UPI', 'UPI', phoneStr, me.pay.merchantCode, this.pay.sourceId, null, 'success',
+            me.pay.title, me.txnNo, me.id, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, null, null, null, null, null, this.pay.surl, this.pay.furl,
             'success', null));
-          me.router.navigateByUrl('/pgsdk/' + me.paylinkid);
+          me.router.navigateByUrl('/pgsdk/' + me.id);
         }
         else {
           me.payService.setPaySuccess({ "amount": me.pay.amount, "title": me.pay.title, "mode": 0, "txnid": this.txnNo });
-          me.router.navigateByUrl('/paymentsuccess/' + me.paylinkid);
+          me.router.navigateByUrl('/paymentsuccess/' + me.id);
         }
       }
       else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {
@@ -248,15 +247,15 @@ export class PayComponent implements OnInit {
           let inpt: any = JSON.parse($('#paymentPageData').val());
           me.payService.setPGSDK(new PGSDK(null, me.address, null, me.pay.amount, null, null, null, null, null, null, null, me.pay.email, 
             'PAYMENT_ERROR', this.utilsService.returnGenericError().errMsg, null, null, null, null, null, null, null, null, null, me.pay.firstName, 
-            me.pay.id, me.pay.lastName, me.pay.merchantCode, me.tr, 'UPI', null, me.pay.amount, me.paylinkid, 'UPI', 'UPI', phoneStr, 
-            me.pay.merchantCode, this.pay.sourceId, null, 'failure', me.pay.title, me.txnNo, me.paylinkid, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, 
+            me.pay.id, me.pay.lastName, me.pay.merchantCode, me.tr, 'UPI', null, me.pay.amount, me.id, 'UPI', 'UPI', phoneStr, 
+            me.pay.merchantCode, this.pay.sourceId, null, 'failure', me.pay.title, me.txnNo, me.id, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, 
             null, null, null, null, null, this.pay.surl, this.pay.furl, 'failure', null));
-          me.router.navigateByUrl('/pgsdk/' + me.paylinkid);
+          me.router.navigateByUrl('/pgsdk/' + me.id);
         }
         else {
           me.payService.setPayFailure({ "amount": me.pay.amount, "title": me.pay.title, "error": me.utilsService.returnGenericError().errMsg, 
             "mode": 0, "txnid": this.txnNo });
-          me.router.navigateByUrl('/paymentfailure/' + me.paylinkid);
+          me.router.navigateByUrl('/paymentfailure/' + me.id);
         }        
       }
     }
@@ -339,9 +338,9 @@ export class PayComponent implements OnInit {
       }
 
       this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email, this.pay.phone, 
-        this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.paylinkid, this.firstName, 
+        this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName, 
         this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5));
-      this.router.navigateByUrl('/pg/' + this.paylinkid);
+      this.router.navigateByUrl('/pg/' + this.id);
     }
     else {
       this.invalidAmount = true;

@@ -1,49 +1,28 @@
 <div class="progress">
     <div class="indeterminate"></div>
 </div>
-<form id="paymentForm" #paymentForm ngNoForm action="{{requestUrl}}" method="POST">
-    <div *ngIf="payrequestmodel">
-        <button class="btn-flat waves-effect waves-light transparent regNrmS2BN" type="submit" id="submitPaymentForm" 
-          style="color: transparent; background-color: transparent;">Pay</button>
-        <input type="hidden" name="sourceId" [ngModel]="payrequestmodel.sourceId" />
-        <input type="hidden" name="amount" [ngModel]="payrequestmodel.amount" />
-        <input type="hidden" name="askadd" [ngModel]="payrequestmodel.askadd" />
-        <input type="hidden" name="askemail" [ngModel]="payrequestmodel.askemail" />
-        <input type="hidden" name="askmob" [ngModel]="payrequestmodel.askmob" />
-        <input type="hidden" name="askname" [ngModel]="payrequestmodel.askname" />
-        <input type="hidden" name="description" [ngModel]="payrequestmodel.description" />
-        <input type="hidden" name="email" [ngModel]="payrequestmodel.email" />
-        <input type="hidden" name="failureURL" [ngModel]="payrequestmodel.furl" />
-        <input type="hidden" name="firstName" [ngModel]="payrequestmodel.firstName" />
-        <input type="hidden" name="hash" [ngModel]="payrequestmodel.hash" />
-        <input type="hidden" name="id" [ngModel]="payrequestmodel.id" />
-        <input type="hidden" name="imageURL" [ngModel]="payrequestmodel.imageURL" />
-        <input type="hidden" name="invoiceNumber" [ngModel]="payrequestmodel.invoiceNumber" />
-        <input type="hidden" name="mccCode" [ngModel]="payrequestmodel.mccCode" />
-        <input type="hidden" name="merchantCode" [ngModel]="payrequestmodel.merchantCode" />
-        <input type="hidden" name="merchantId" [ngModel]="payrequestmodel.merchantId" />
-        <input type="hidden" name="merchantVpa" [ngModel]="payrequestmodel.merchantVpa" />
-        <input type="hidden" name="mndaddress" [ngModel]="payrequestmodel.mndaddress" />
-        <input type="hidden" name="mndemail" [ngModel]="payrequestmodel.mndemail" />
-        <input type="hidden" name="mndmob" [ngModel]="payrequestmodel.mndmob" />
-        <input type="hidden" name="mndname" [ngModel]="payrequestmodel.mndname" />
-        <input type="hidden" name="mode" [ngModel]="payrequestmodel.mode" />
-        <input type="hidden" name="phone" [ngModel]="payrequestmodel.phone" />
-        <input type="hidden" name="readonlyaddr" [ngModel]="payrequestmodel.readonlyaddr" />
-        <input type="hidden" name="readonlyemail" [ngModel]="payrequestmodel.readonlyemail" />
-        <input type="hidden" name="readonlymob" [ngModel]="payrequestmodel.readonlymob" />
-        <input type="hidden" name="readonlyname" [ngModel]="payrequestmodel.readonlyname" />
-        <input type="hidden" name="successURL" [ngModel]="payrequestmodel.surl" />
-        <input type="hidden" name="title" [ngModel]="payrequestmodel.title" />
-        <input type="hidden" name="txnid" [ngModel]="payrequestmodel.txnid" />
-        <input type="hidden" name="udf1" [ngModel]="udf" />
-        <input type="hidden" name="udf2" [ngModel]="udf" />
-        <input type="hidden" name="udf3" [ngModel]="udf" />
-        <input type="hidden" name="udf4" [ngModel]="udf" />
-        <input type="hidden" name="udf5" [ngModel]="udf" /> 
-        <input type="hidden" name="vpa" [ngModel]="payrequestmodel.vpa" />
-        <input type="hidden" name="supportedModes" [ngModel]="payrequestmodel.supportedModes" />
-        <input type="hidden" name="mtype" [ngModel]="payrequestmodel.mtype" />
+<form id="paymentForm" #paymentForm ngNoForm action={{processPaymentURL}} method='POST'>
+    <div *ngIf="pg">
+        <input type="hidden" name="email" [ngModel]="pg.email" />
+        <input type="hidden" name="phone" [ngModel]="pg.phone" />
+        <input type="hidden" name="mobileNo" [ngModel]="pg.mobileNo" />
+        <input type="hidden" name="lastname" [ngModel]="pg.lastName" />
+        <input type="hidden" name="firstname" [ngModel]="pg.firstName" />
+        <input type="hidden" name="productinfo" [ngModel]="pg.merchantId" />
+        <input type="hidden" name="merchantcode" [ngModel]="pg.merchantCode" />
+        <input type="hidden" name="merchantname" [ngModel]="pg.title" />
+        <input type="hidden" name="payamount" [ngModel]="pg.amount" />
+        <input type="hidden" name="paytype" [ngModel]="pg.mode" />
+        <input type="hidden" name="paylinkid" [ngModel]="pg.paylinkid" />
+        <input type="hidden" name="sourceId" [ngModel]="pg.sourceId" />
+        <input type="hidden" name="ismobileview" [ngModel]="pg.ismobileview" />
+        <input type="hidden" name="txnid" [ngModel]="pg.txnId" />
+        <input type="hidden" name="surl" [ngModel]="pg.surl" />
+        <input type="hidden" name="furl" [ngModel]="pg.furl" />
+        <input type="hidden" name="udf2" [ngModel]="pg.udf2" />
+        <input type="hidden" name="udf3" [ngModel]="pg.udf3" />
+        <input type="hidden" name="udf4" [ngModel]="pg.udf4" />
+        <input type="hidden" name="udf5" [ngModel]="pg.udf5" />
     </div>
 </form>
 <h5 align="center">{{'Redirecting you to payment page,' | translate}}</h5>

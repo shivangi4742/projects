@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var request = require('request');
 const NodeCache = require("node-cache");
 
 var helper = require('./../utils/Helper');
@@ -6,8 +7,123 @@ var config = require('./../configs/Config');
 
 const pCache = new NodeCache({ stdTTL: 1200, checkperiod: 120 });
 var sdkCont = {
+    processPayment: function(req, res) {
+    	res.setHeader("X-Frame-Options", "ALLOW");
+        var paylinkid = req.body.paylinkid;
+        try {
+            var cat = req.body.paytype;
+            var drop_cat = 'DC,NB,EMI,CASH';
+            if (cat == 1)
+                drop_cat = 'DC,NB,EMI,CASH';
+            else if (cat == 2)
+                drop_cat = 'CC,NB,EMI,CASH';
+            else if (cat == 3)
+                drop_cat = 'CC,DC,EMI,CASH';
+
+            var headers = {
+                'X-AUTHORIZATION': config.paymentGateway.xauth,
+                'Content-Type': 'application/json'
+            };
+            var surl = config.paymentGateway.surl + paylinkid;
+            var furl = config.paymentGateway.furl + paylinkid;
+            if (req.body.sourceId == 2) {
+                surl = req.body.surl;
+                furl = req.body.furl;
+            }
+            else if (req.body.sourceId == 1) {
+                surl = config.paymentGateway.sdksurl + paylinkid;
+                furl = config.paymentGateway.sdkfurl + paylinkid;
+            }
+            else {
+                if(req.body.surl && req.body.surl.length > 4)
+                    surl = req.body.surl;
+
+                if(req.body.furl && req.body.furl.length > 4)
+                    furl = req.body.furl;
+            }
+
+            var payload = {
+                "key": config.paymentGateway.key,
+                "curl": config.paymentGateway.curl,
+                "surl": surl,
+                "furl": furl,
+                "udf1": paylinkid,
+                "udf2": req.body.udf2,
+                "udf3": req.body.udf3,
+                "udf4": req.body.udf4,
+                "udf5": req.body.udf5,
+                "ismobileview": req.body.ismobileview,
+                "txnid": req.body.txnid,
+                "drop_category": drop_cat,
+                "phone": req.body.mobileNo,
+                "amount": req.body.payamount,
+                "lastname": req.body.lastname,
+                "firstname": req.body.firstname,
+                "productinfo": req.body.merchantname,
+                "email": req.body.email ? req.body.email : ""
+            };
+
+            if (cat == 3)
+                payload.pg = 'NB';
+
+            var obj = {
+                "amount": req.body.payamount,
+                "email": payload.email,
+                "firstName": payload.firstname,
+                "furl": payload.furl,
+                "merchantKey": payload.key,
+                "productInfo": payload.productinfo,
+                "surl": payload.surl,
+                "transactionNumber": req.body.txnid,
+                "udf1": payload.udf1,
+                "udf2": payload.udf2,
+                "udf3": payload.udf3,
+                "udf4": payload.udf4,
+                "udf5": payload.udf5,
+                "phone": payload.phone,
+                "username": payload.phone
+            };
+            this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res);
+        }
+        catch (err) {
+            res.redirect(config.paymentGateway.furl + paylinkid);
+        }
+    },
+
+    hashPayloadPost: function (paylinkid, obj, headers, payload, cb1, cb2, rd) {
+        try {
+            cb2(cb1('/payments/paymentadapter/getWebCalculatedHash', 'POST', headers), obj,
+                function (data) {
+                    if (data && data.hash) {
+                        var hp = JSON.parse(data.hash);
+                        payload.hash = hp.payment_hash;
+                        request.post({ url: config.paymentGateway.url, form: payload },
+                            function (err, remoteResponse, remoteBody) {
+                                try {
+                                    if (err)
+                                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+
+                                    if (remoteResponse && remoteResponse.caseless && remoteResponse.caseless.dict)
+                                        rd.redirect(remoteResponse.caseless.dict.location);
+                                    else
+                                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                }
+                                catch (error) {
+                                    rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                }
+                            });
+                    }
+                    else {
+                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                    }
+                });
+        }
+        catch (err) {
+            rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+        }
+    },
+
     startPaymentProcess: function(req, res) {
-        res.setHeader("X-Frame-Options", "DENY");
     	res.setHeader("X-Frame-Options", "ALLOW");
         this.startPaymentProcessPost(req, function (data) {
             res.json(data);

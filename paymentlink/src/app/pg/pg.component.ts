@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { SDK, SDKService, UtilsService } from 'benowservices';
+import { PG, SDKService, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'pg',
@@ -11,14 +11,22 @@ import { SDK, SDKService, UtilsService } from 'benowservices';
 export class PgComponent implements OnInit {
   id: string;
   udf: string = '';
-  requestUrl: string;
-  payrequestmodel: SDK;
+  processPaymentURL: string;
+  pg: PG;
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.sdkService.getPaymentLinkDetails(this.id)
-      .then(res => this.init(res));
+    this.pg = this.sdkService.getPG();
+    if(this.pg && this.pg.amount > 0) {
+      this.processPaymentURL = this.utilsService.getProcessPaymentURL();
+      let me: any = this;
+      setTimeout(function () { 
+        me.submitMe();
+      }, 100);
+    }
+    else
+      this.router.navigateByUrl('/notfound');      
   }
 
   submitMe() {
@@ -31,19 +39,5 @@ export class PgComponent implements OnInit {
         me.submitMe();
       }, 100);
     }
-  }
-
-  init(res: SDK) {
-    if(res && res.id) {
-      this.requestUrl = this.utilsService.getSDKURL();
-      this.payrequestmodel = res;
-      this.payrequestmodel.description = this.payrequestmodel.description ? this.payrequestmodel.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '';
-      let me: any = this;
-      setTimeout(function () { 
-        me.submitMe();
-      }, 100);
-    }
-    else
-      this.router.navigateByUrl('/notfound');      
   }
 }

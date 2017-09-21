@@ -12,8 +12,8 @@ export class UtilsService {
 
   private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
-  private _sdkURL: string = 'http://localhost:9090/paysdk';
   private _baseURL: string = 'http://localhost:9090/';
+  private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
@@ -36,8 +36,8 @@ export class UtilsService {
     return false;
   }
 
-  public getSDKURL(): string {
-    return this._sdkURL;
+  public getProcessPaymentURL(): string {
+    return this._processPaymentURL;
   }
 
   public getUploadsURL(): string {
