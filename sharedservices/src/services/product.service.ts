@@ -15,10 +15,24 @@ export class ProductService {
     private _urls: any = {
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
-        getProductsForCampaignURL: 'product/getProductsForCampaign'
+        getProductsForCampaignURL: 'product/getProductsForCampaign',
+        getProductsForTransactionURL: 'product/getProductsForTransaction'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    getProductsForTransaction(campaignId: string, txnId: string): Promise<Array<Product>> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductsForTransactionURL, 
+                JSON.stringify({
+                    "transactionId": txnId,
+                    "campaignId": campaignId
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillProducts(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
+    }
 
     getProductsForCampaign(merchantCode: string, campaignId: string): Promise<Array<Product>> {
         if(this._products && this._products.length > 0)

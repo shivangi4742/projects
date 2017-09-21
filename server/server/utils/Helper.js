@@ -8,6 +8,15 @@ else
 
 // Messages class.
 var helper = {
+    gandaLogic: function(txnid) {
+        if(!txnid || txnid.length < 16)
+            return 100;
+        else {
+            var str = txnid.charCodeAt(2).toString() + txnid.charCodeAt(3).toString() + txnid.charCodeAt(4).toString() + txnid.substring(14);
+            return parseInt(str);
+        }
+    },
+
     getDefaultExtFileServerOptions: function (path, method, headers) {
         var extServerOptions = {
             uri: path,

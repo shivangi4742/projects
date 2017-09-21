@@ -375,8 +375,9 @@ var sdkCont = {
                                                 "txnDate": me.getCurDateTimeString
                                             },
                                             function (sdata) {
-                                                //TODO: We do not have payerid, calling police :)
-                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, 100, hdrs, retErr, cb);
+                                                //TODO: We do not have payerid, introducing ganda logic
+                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, 
+                                                    helper.gandaLogic(data.hdrTransRefNumber.toUpperCase()), hdrs, retErr, cb);
                                             });
                                     }
                                     else

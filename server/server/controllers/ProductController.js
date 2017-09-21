@@ -38,6 +38,38 @@ var prodCont = {
         }
     },
 
+    getProductsForTransaction: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getProductsForTransactionPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getProductsForTransactionPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.transactionId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getPayerProduct', 'POST', req.headers),
+                        {
+                            "payerId": helper.gandaLogic(d.transactionId.toUpperCase())
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     getProductsForCampaign: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getProductsForCampaignPost(req, function (data) {

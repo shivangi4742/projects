@@ -7,4 +7,5 @@ var productRouter = express.Router();
 productRouter.post('/addProduct', productController.addProduct.bind(productController));
 productRouter.post('/getProducts', productController.getProducts.bind(productController));
 productRouter.post('/getProductsForCampaign', productController.getProductsForCampaign.bind(productController));
+productRouter.post('/getProductsForTransaction', productController.getProductsForTransaction.bind(productController));
 module.exports = productRouter;

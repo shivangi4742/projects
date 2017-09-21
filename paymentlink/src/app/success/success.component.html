@@ -1,6 +1,29 @@
-<p>
-{{id}}
-</p>
-<p>
-{{txnid}}
-</p>
+<div class="row" *ngIf="pay">
+    <div class="col s12 l4 offset-l4 m6 offset-m3">
+        <div class="row"></div>
+        <div class="row">
+            <div class="col s12 center">
+                <img class="alignMidBN" src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="regNrmS-1B1BN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <p class="borderBN"></p>
+            </div>
+            <div class="col s12 center shiftRowUpBN">
+                <span class="regHdrS1BN white">&nbsp;&nbsp;&nbsp;&nbsp;{{pay.title}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </div>
+        </div>
+        <div class="row">
+            <span *ngIf="true" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <span *ngIf="false" class="col s12 center regNrmS4B2BN">{{'Paid Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span>
+        </div>
+        <div class="row"></div>
+        <div class="row">
+            <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}: 
+                <b>{{pay.txnid | translate}}</b>
+            </span>
+        </div>
+    </div>
+</div>
