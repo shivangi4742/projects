@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { Product, SDKService, ProductService } from 'benowservices';
+import { Product, SDKService, ProductService, SDK } from 'benowservices';
 
 @Component({
   selector: 'success',
@@ -13,6 +13,7 @@ export class SuccessComponent implements OnInit {
   txnid: string;
   products: Array<Product>;
   pay: any;
+  loaded: boolean = false;
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService) { }
 
@@ -24,8 +25,31 @@ export class SuccessComponent implements OnInit {
       .then(res => this.fillProducts(res));
   }
 
+  assignProductImages(res: Array<Product>) {
+    if(res && res.length > 0 && this.products && this.products.length > 0) {
+      for(let i: number = 0; i < this.products.length; i++) {
+        for(let j: number = 0; j < res.length; j++) {
+          if(this.products[i].id == res[j].id) {
+            this.products[i].imageURL = res[j].imageURL;
+            break;
+          }
+        }
+      }
+    }
+
+    this.loaded = true;
+  }
+
+  assignSDKDetails(res: SDK) {
+    if(res && res.id) {
+      this.productService.getProductsForCampaign(res.merchantCode, this.id)
+        .then(cres => this.assignProductImages(cres));
+
+      this.pay.title = res.businessName;
+    }
+  }
+
   fillProducts(res: Array<Product>) {
-    console.log(res);
     let total: number = 0;
     if(res && res.length > 0) {
       this.products = res;
@@ -33,9 +57,12 @@ export class SuccessComponent implements OnInit {
         total += this.products[i].qty * this.products[i].price;
     }
 
+    this.sdkService.getPaymentLinkDetails(this.id)
+      .then(sres => this.assignSDKDetails(sres));
+
     this.pay = {
       amount: total,
-      title: 'dummy',
+      title: '',
       mode: 1,
       txnid: this.txnid
     }

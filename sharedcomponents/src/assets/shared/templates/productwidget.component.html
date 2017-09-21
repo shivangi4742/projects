@@ -6,8 +6,11 @@
         <img *ngIf="!product.imageURL" class="prodImageBN" src="../assets/shared/images/no-image.png" />
         <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />        
     </div>
-    <div class="col s12">
-        <div class="col s3" *ngIf="forCart">
+    <div class="col s12 center regNrmS5B1BN" *ngIf="forCart && !editQty">
+        {{'QTY' | translate}} : {{product.qty}}
+    </div>
+    <div class="col s12" *ngIf="forCart && editQty">
+        <div class="col s3">
             <input type="checkbox" class="filled-in checkbox-red" id="{{product.id}}" name="{{product.id}}" [(ngModel)]="product.isSelected" 
                 (change)="checked()"/>
             <label for="{{product.id}}" class="cblblBN regNrmS5B1BN">
@@ -16,11 +19,11 @@
             </label>
         </div>
         <div class="col s5 regNrmS5B1BN right" align="left">
-            <span *ngIf="forCart && product.isSelected">{{'QTY' | translate}}</span>
+            <span *ngIf="product.isSelected">{{'QTY' | translate}}</span>
         </div>
         <div class="col s4 priceInputBN">
             <input [(ngModel)]="product.qty" class="validate thinInputBN" type="number" step="1" min="1" max="9999999" name="qty" (blur)="qtyChanged()" 
-                id="qty" required  *ngIf="forCart && product.isSelected">
+                id="qty" required  *ngIf="product.isSelected">
         </div>
     </div>
     <div [ngClass]="product.isSelected ? 'col s12 errNrmS4B1BN center px3BN selProdPriceBN' : 'col s12 errNrmS4B1BN center px3BN'" 

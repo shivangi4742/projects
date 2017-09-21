@@ -11,6 +11,8 @@ import { UtilsService } from './utils.service';
 @Injectable()
 export class ProductService {
     private _products: Array<Product>;
+    private _campProducts: Array<Product>;
+    private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
     private _urls: any = {
         getProductsURL: 'product/getProducts',
@@ -22,21 +24,24 @@ export class ProductService {
     constructor(private http: Http, private utilsService: UtilsService) { }
 
     getProductsForTransaction(campaignId: string, txnId: string): Promise<Array<Product>> {
-        return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.getProductsForTransactionURL, 
-                JSON.stringify({
-                    "transactionId": txnId,
-                    "campaignId": campaignId
-                }), 
-                { headers: this.utilsService.getHeaders() })
-            .toPromise()
-            .then(res => this.fillProducts(res.json()))
-            .catch(res => this.utilsService.returnGenericError());    
+        if(this._transProducts && this._transProducts.length > 0)
+            return Promise.resolve(this._transProducts);
+        else
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getProductsForTransactionURL, 
+                    JSON.stringify({
+                        "transactionId": txnId,
+                        "campaignId": campaignId
+                    }), 
+                    { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => this.fillTransProducts(res.json()))
+                .catch(res => this.utilsService.returnGenericError());    
     }
 
     getProductsForCampaign(merchantCode: string, campaignId: string): Promise<Array<Product>> {
-        if(this._products && this._products.length > 0)
-            return Promise.resolve(this._products);
+        if(this._campProducts && this._campProducts.length > 0)
+            return Promise.resolve(this._campProducts);
         else
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.getProductsForCampaignURL, 
@@ -46,8 +51,30 @@ export class ProductService {
                     }), 
                     { headers: this.utilsService.getHeaders() })
                 .toPromise()
-                .then(res => this.fillProducts(res.json()))
+                .then(res => this.fillCampProducts(res.json()))
                 .catch(res => this.utilsService.returnGenericError());    
+    }
+
+    private fillCampProducts(res: any): Array<Product> {
+        if(res && res.length > 0) {
+            this._campProducts = new Array<Product>();
+            for(let i: number = 0; i < res.length; i++)
+                this._campProducts.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
+                    res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+        }
+
+        return this._campProducts;
+    }
+
+    private fillTransProducts(res: any): Array<Product> {
+        if(res && res.length > 0) {
+            this._transProducts = new Array<Product>();
+            for(let i: number = 0; i < res.length; i++)
+                this._transProducts.push(new Product(false, false, res[i].quantity, res[i].price, res[i].price, res[i].product, res[i].prodName, 
+                    res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+        }
+
+        return this._transProducts;
     }
 
     private fillProducts(res: any): Array<Product> {

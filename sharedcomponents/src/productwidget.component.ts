@@ -10,6 +10,7 @@ import { Product, UtilsService } from 'benowservices';
 export class ProductWidgetComponent  {
   isChecked: boolean = false;
   uploadsURL: string;
+  @Input('editQty') editQty: boolean;
   @Input('forCart') forCart: boolean;
   @Input('showDelete') showDelete: boolean;
   @Input('product') product: Product;

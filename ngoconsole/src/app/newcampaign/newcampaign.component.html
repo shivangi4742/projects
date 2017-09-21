@@ -141,7 +141,7 @@
           </div>
           <div class="col s12 hide-on-med-and-up"> 
             <div class="col s6 center" *ngFor="let ssp of (products | objectfilter:selected)">
-              <productwidget [forCart]="false" [product]="ssp" [showDelete]="false"></productwidget> 
+              <productwidget [forCart]="false" [editQty]="false" [product]="ssp" [showDelete]="false"></productwidget> 
             </div> 
           </div>
           <div class="col s12 hide-on-med-and-up" *ngIf="hasProducts()">&nbsp;</div>
@@ -162,7 +162,7 @@
               <label for="allowMultiSelect">{{'Allow Multiple Selections' | translate}}</label>
             </div>
             <div class="col m6 center" *ngFor="let sp of (products | objectfilter:selected)">
-              <productwidget [forCart]="false" [product]="sp" [showDelete]="false"></productwidget> 
+              <productwidget [forCart]="false" [editQty]="false" [product]="sp" [showDelete]="false"></productwidget> 
             </div> 
           </div>
           <div class="col s10 offset-s1 m6 center"> 

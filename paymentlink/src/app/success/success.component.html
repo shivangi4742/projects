@@ -1,4 +1,4 @@
-<div class="row" *ngIf="pay">
+<div class="row" *ngIf="pay && loaded">
     <div class="col s12 l4 offset-l4 m6 offset-m3">
         <div class="row"></div>
         <div class="row">
@@ -24,6 +24,13 @@
             <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}: 
                 <b>{{pay.txnid | translate}}</b>
             </span>
+        </div>
+        <div class="row" *ngIf="products">
+            <div class="col s12"> 
+                <div class="col s6 center" *ngFor="let p of products">
+                    <productwidget [forCart]="true" [editQty]="false" [product]="p" [showDelete]="false"></productwidget> 
+                </div> 
+            </div>
         </div>
     </div>
 </div>

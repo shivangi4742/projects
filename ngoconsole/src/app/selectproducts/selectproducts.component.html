@@ -19,7 +19,7 @@
   </div>
   <div *ngIf="products && active == 0" class="row">
     <div class="col s6 m4 center" *ngFor="let p of products">
-      <productwidget [forCart]="false" [product]="p" [showDelete]="true"></productwidget> 
+      <productwidget [forCart]="false" [editQty]="false" [product]="p" [showDelete]="true"></productwidget> 
     </div>
   </div>
   <div *ngIf="active == 1">
@@ -71,7 +71,7 @@
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
       <div class="col m4 s6 center" *ngFor="let np of (products | objectfilter:newlyadded)">
-        <productwidget [forCart]="false" [product]="np" [showDelete]="true"></productwidget> 
+        <productwidget [forCart]="false" [editQty]="false" [product]="np" [showDelete]="true"></productwidget> 
       </div> 
     </div>
   </div>
