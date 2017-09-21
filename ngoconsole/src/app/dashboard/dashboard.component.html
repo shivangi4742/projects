@@ -6,19 +6,19 @@
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align">
             <img src="../../assets/ngoconsole/images/donation_console_2x.jpg" class="actionsNGBN responsive-img">
-            <p>Donation<br>Console</p>
+            <p>{{'Donation' | translate}}<br>{{'Console' | translate}}</p>
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align" (click)="onAddDonorClick()">
             <img src="../../assets/ngoconsole/images/add_donors_2x.jpg" class="actionsNGBN responsive-img">
-            <p>Add / Manage<br>Donors</p>
+            <p>{{'Add / Manage' | translate}}<br>{{'Donors' | translate}}</p>
         </div>
         <div class="col s5 m2 l2 offset-s1 | card hoverable | center-align" [routerLink]="'/newcampaign'">
             <img src="../../assets/ngoconsole/images/create_campaigns_2x.jpg" class="actionsNGBN responsive-img">
-            <p>Create / Manage<br>Campaigns</p>
+            <p>{{'Create / Manage' | translate}}<br>{{'Campaigns' | translate}}</p>
         </div>
         <div class="col s5 m2 l2 | card hoverable | center-align" (click)=onSocialProfileClick()>
             <img src="../../assets/ngoconsole/images/social_profile_2x.jpg" class="actionsRectNGBN responsive-img">
-            <p>Update<br>Social Profile</p>
+            <p>{{'Update' | translate}}<br>{{'Social Profile' | translate}}</p>
         </div>
         <div class="col l2"></div>
     </div>
@@ -33,15 +33,15 @@
 
     <div class="row | center-align">
         <div class="col s5 m2 l3 offset-l1 offset-s1 | center-align">
-            <p class="header-boldBN">Live Campaigns</p>
+            <p class="header-boldBN">{{'Live Campaigns' | translate}}</p>
             <p class="liveBN">{{campaignSummary.campaignCount}}</p>
         </div>
         <div class="col s5 m3 l4 | center-align">
-            <p class="header-boldBN">Donation Recvd.</p>
+            <p class="header-boldBN">{{'Donation Recvd.' | translate}}</p>
             <p class="donationBN">&#x20b9; {{campaignSummary.fundRaised}}/-</p>
         </div>
         <div class="col s5 m2 l4 offset-s1 | center-align">
-            <p class="header-boldBN">Contributors</p>
+            <p class="header-boldBN">{{'Contributors' | translate}}</p>
             <p class="contributorBN">{{campaignSummary.totalContributor}}</p>
         </div>
         <div class="col s11 m11 l11 offset-l1 offset-m1 offset-s1 | center-align | dividerBN"></div>
@@ -49,13 +49,13 @@
 
     <div class="row | center-align">
         <div class="col s3 m3 l4 | center-align">
-            <p class="header-boldBN">Campaign ID</p>
+            <p class="header-boldBN">{{'Campaign ID' | translate}}</p>
         </div>
         <div class="col s3 m3 l4 | center-align">
-            <p class="header-boldBN">Goal Completed</p>
+            <p class="header-boldBN">{{'Goal Completed' | translate}}</p>
         </div>
         <div class="col s3 m3 l4 offset-s1 | center-align">
-            <p class="header-boldBN">Time Remaining</p>
+            <p class="header-boldBN">{{'Time Remaining' | translate}}</p>
         </div>
     </div>
 

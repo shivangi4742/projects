@@ -103,5 +103,19 @@
     "Description": "विवरण",
     "Allow Multiple Selections": "एकाधिक चयन की अनुमति दें",
     "Successfully sent payment link via SMS": "एसएमएस के माध्यम से भुगतान लिंक सफलतापूर्वक भेजा गया",
-    "Insert Products": "उत्पाद डालें"
+    "Insert Products": "उत्पाद डालें",
+    "Donation": "आदेश",
+    "Console": "कंसोल",
+    "Add / Manage": "जोड़ें / प्रबंधित करें",
+    "Donors": "ग्राहक",
+    "Create / Manage": "बनायें / प्रबंधित करें",
+    "Campaigns": "अभियान",
+    "Update": "अपडेट करें",
+    "Social Profile": "सामाजिक प्रोफ़ाइल",
+    "Live Campaigns": "लाइव अभियान",
+    "Donation Recvd.": "प्राप्त भुगतान",
+    "Contributors": "ग्राहक",
+    "Campaign ID": "अभियान आईडी",
+    "Goal Completed": "पूर्ण लक्ष्य",
+    "Time Remaining": "शेष समय"
 }

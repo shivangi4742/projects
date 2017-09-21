@@ -103,5 +103,19 @@
     "Description": "Description",
     "Allow Multiple Selections": "Allow Multiple Selections",
     "Successfully sent payment link via SMS": "Successfully sent payment link via SMS",
-    "Insert Products": "Insert Products"
+    "Insert Products": "Insert Products",
+    "Donation": "Donation",
+    "Console": "Console",
+    "Add / Manage": "Add / Manage",
+    "Donors": "Donors",
+    "Create / Manage": "Create / Manage",
+    "Campaigns": "Campaigns",
+    "Update": "Update",
+    "Social Profile": "Social Profile",
+    "Live Campaigns": "Live Campaigns",
+    "Donation Recvd.": "Donation Recvd.",
+    "Contributors": "Contributors",
+    "Campaign ID": "Campaign ID",
+    "Goal Completed": "Goal Completed",
+    "Time Remaining": "Time Remaining"
 }

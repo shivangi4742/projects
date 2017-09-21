@@ -103,5 +103,19 @@
     "Description": "वर्णन",
     "Allow Multiple Selections": "एकाधिक निवडींना परवानगी द्या",
     "Successfully sent payment link via SMS": "एसएमएस द्वारे यशस्वीरित्या देयक दुवा पाठविला",
-    "Insert Products": "उत्पादने घाला"
+    "Insert Products": "उत्पादने घाला",
+    "Donation": "दान",
+    "Console": "कन्सोल",
+    "Add / Manage": "जोडा / व्यवस्थापित करा",
+    "Donors": "देणगीदार",
+    "Create / Manage": "तयार करा / व्यवस्थापित करा",
+    "Campaigns": "मोहिम",
+    "Update": "अद्यतन करा",
+    "Social Profile": "सामाजिक प्रोफाइल",
+    "Live Campaigns": "थेट मोहिमा",
+    "Donation Recvd.": "प्राप्त देणग्या",
+    "Contributors": "योगदानकर्ते",
+    "Campaign ID": "मोहिम आईडी",
+    "Goal Completed": "पूर्ण ध्येय",
+    "Time Remaining": "उर्वरित वेळ"
 }
