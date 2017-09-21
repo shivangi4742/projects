@@ -6,6 +6,8 @@ import { NotificationComponent } from 'benowcomponents';
 import { PgComponent } from './pg/pg.component';
 import { BuyComponent } from './buy/buy.component';
 import { PayComponent } from './pay/pay.component';
+import { SuccessComponent } from './success/success.component';
+import { FailureComponent } from './failure/failure.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
@@ -14,6 +16,8 @@ const routes: Routes = [
     { path: 'pay/:id/:prods', component: PayComponent },
     { path: 'pay/:id', component: PayComponent },
     { path: 'buy/:id/:code', component: BuyComponent },
+    { path: 'paymentsuccess/:id/:txnid', component: SuccessComponent },
+    { path: 'paymentfailure/:id/:txnid', component: FailureComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
 ];

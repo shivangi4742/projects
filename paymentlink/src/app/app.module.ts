@@ -17,6 +17,8 @@ import { BuyComponent } from './buy/buy.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { PayComponent } from './pay/pay.component';
 import { PgComponent } from './pg/pg.component';
+import { SuccessComponent } from './success/success.component';
+import { FailureComponent } from './failure/failure.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
@@ -28,7 +30,9 @@ export function HttpFactory(http: Http) {
     BuyComponent,
     NotfoundComponent,
     PayComponent,
-    PgComponent
+    PgComponent,
+    SuccessComponent,
+    FailureComponent
   ],
   imports: [
     HttpModule,

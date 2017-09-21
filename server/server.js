@@ -18,6 +18,7 @@ var userRouter = require('./server/routers/UserRouter');
 var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
+var sdkController = require('./server/controllers/SDKCOntroller');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
 function setup (ssl) {
@@ -94,16 +95,22 @@ app.get(config.base + '/ngocsl/*', function(req, res) {
 });
 
 app.get(config.base + '/ppl/*', function(req, res) {
-	res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
 	res.sendFile(urls.pplHome, {root: __dirname });
 });
 
-app.post(config.base + '/ngocsl/prodsuccess', function(req, res) {
-	console.log('ngo', req.body);
+app.post(config.base + '/ppl/paymentsuccess/:id/:txnid', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.paymentSuccess(req, function() {
+		res.sendFile(urls.pplHome, {root: __dirname });
+	});
 });
 
-app.post(config.base + '/mybiz/prodsuccess', function(req, res) {
-	console.log('mybiz', req.body);
+app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.paymentFailure(req, function() {
+		res.sendFile(urls.pplHome, {root: __dirname });
+	});
 });
 
 app.use(function(err, req, res, next) {

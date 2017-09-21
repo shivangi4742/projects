@@ -7,6 +7,132 @@ var config = require('./../configs/Config');
 
 const pCache = new NodeCache({ stdTTL: 1200, checkperiod: 120 });
 var sdkCont = {
+    paymentFailure: function(req, cb) {
+        try {
+            var pc = pCache.get(req.body.txnid);
+            if (!pc || !pc.merchantCode) {
+                cb();
+            }
+            else {
+                var headers = {
+                    'X-AUTHORIZATION': config.defaultToken,
+                    'Content-Type': 'application/json'
+                };
+                var pmtype = 'DEBIT_CARD';
+                if (req.body.mode === 'CC')
+                    pmtype = 'CREDIT_CARD';
+                else if (req.body.mode = 'NB')
+                    pmtype = 'NET_BANKING';
+
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
+                    {
+                        "amount": req.body.amount,
+                        "hdrTransRefNumber": req.body.txnid,
+                        "listPayments": [
+                            {
+                                "paymentDetails": {
+                                    "deviceDetails": {
+                                        "applicationName": "com.benow",
+                                        "deviceId": "browser",
+                                        "mobileNumber": req.body.phone
+                                    },
+                                    "merchantCode": pc.merchantCode,
+                                    "merchantName": pc.merchantName,
+                                    "payeeVirtualAddress": "",
+                                    "payerUsername": req.body.phone,
+                                    "paymentInvoice": {
+                                        "amountPayable": req.body.amount
+                                    },
+                                    "remarks": "",
+                                    "thirdPartyTransactionResponseVO": {
+                                        "referanceNumber": req.body.txnid,
+                                        "response": JSON.stringify(req.body)
+                                    },
+                                    "txnId": req.body.txnid
+                                },
+                                "paymentMethodType": pmtype,
+                                "paymentTransactionStatus": {
+                                    "transactionStatus": req.body.status
+                                }
+                            }
+                        ]
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb();
+        }
+    },
+
+    paymentSuccess: function(req, cb) {
+        try {
+            //TODO: use UDFs here.
+            var pc = pCache.get(req.body.txnid);
+            if (!pc || !pc.merchantCode || req.body.mode === 'UPI')
+                cb();
+            else {
+                var headers = {
+                    'X-AUTHORIZATION': config.defaultToken,
+                    'Content-Type': 'application/json'
+                };
+
+                pc.amount = req.body.amount;
+                pc.cardNumber = req.body.cardnum;
+                pc.paymentType = req.body.mode;
+                pCache.set(req.body.txnid, pc);
+                var status = req.body.status;
+                var statusMsg = 'Failed';
+                if (status && status.toLowerCase() == 'success')
+                    statusMsg = 'Successful';
+
+                var pmtype = 'DEBIT_CARD';
+                if (req.body.mode === 'CC')
+                    pmtype = 'CREDIT_CARD';
+                else if (req.body.mode = 'NB')
+                    pmtype = 'NET_BANKING';
+
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
+                    {
+                        "amount": req.body.amount,
+                        "hdrTransRefNumber": req.body.txnid,
+                        "listPayments": [
+                            {
+                                "paymentDetails": {
+                                    "deviceDetails": {
+                                        "applicationName": "com.benow",
+                                        "deviceId": "browser",
+                                        "mobileNumber": req.body.phone
+                                    },
+                                    "merchantCode": pc.merchantCode,
+                                    "merchantName": pc.merchantName,
+                                    "payeeVirtualAddress": "",
+                                    "payerUsername": req.body.phone,
+                                    "paymentInvoice": {
+                                        "amountPayable": req.body.amount
+                                    },
+                                    "remarks": "",
+                                    "thirdPartyTransactionResponseVO": {
+                                        "referanceNumber": req.body.txnid,
+                                        "response": JSON.stringify(req.body)
+                                    },
+                                    "txnId": req.body.txnid
+                                },
+                                "paymentMethodType": pmtype,
+                                "paymentTransactionStatus": {
+                                    "transactionStatus": statusMsg
+                                }
+                            }
+                        ]
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb();
+        }
+    },
+
     processPayment: function(req, res) {
     	res.setHeader("X-Frame-Options", "ALLOW");
         var paylinkid = req.body.paylinkid;
@@ -24,15 +150,15 @@ var sdkCont = {
                 'X-AUTHORIZATION': config.paymentGateway.xauth,
                 'Content-Type': 'application/json'
             };
-            var surl = config.paymentGateway.surl + paylinkid;
-            var furl = config.paymentGateway.furl + paylinkid;
+            var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
+            var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
             if (req.body.sourceId == 2) {
                 surl = req.body.surl;
                 furl = req.body.furl;
             }
             else if (req.body.sourceId == 1) {
-                surl = config.paymentGateway.sdksurl + paylinkid;
-                furl = config.paymentGateway.sdkfurl + paylinkid;
+                surl = config.paymentGateway.sdksurl + paylinkid + '/' + req.body.txnid;
+                furl = config.paymentGateway.sdkfurl + paylinkid + '/' + req.body.txnid;
             }
             else {
                 if(req.body.surl && req.body.surl.length > 4)
@@ -86,7 +212,7 @@ var sdkCont = {
             this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res);
         }
         catch (err) {
-            res.redirect(config.paymentGateway.furl + paylinkid);
+            res.redirect(config.paymentGateway.furl + paylinkid + '/' + req.body.txnid);
         }
     },
 
