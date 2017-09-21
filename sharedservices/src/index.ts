@@ -11,6 +11,7 @@ import { NotificationService } from './services/notification.service';
 
 import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
+export { PG } from './models/pg.model';
 export { SDK } from './models/sdk.model';
 export { User } from './models/user.model';
 export { Status } from './models/status.model';

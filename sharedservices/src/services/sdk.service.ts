@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
+import { PG } from './../models/pg.model';
 import { SDK } from './../models/sdk.model';
 import { User } from './../models/user.model';
 import { Product } from './../models/product.model';
@@ -13,6 +14,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class SDKService {
+    private _pg: PG;
     private _sdk: SDK;
     private _lastBill: PayRequest;
     private _urls: any = {
@@ -26,6 +28,14 @@ export class SDKService {
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    public setPG(pg: PG) {
+        this._pg = pg;
+    }
+
+    public getPG(): PG {
+        return this._pg;
+    }
 
     public setProductsInSDK(products: Array<Product>) {
         if(this._sdk)
@@ -59,7 +69,8 @@ export class SDKService {
                 res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, 2, res.invoiceAmount, 0, 0, 
                 res.minpanamnt, 2, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', '', res.customerName, 
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, res.expiryDate, vpa, res.description ? res.description : '', 
-                res.merchantUser.merchantCode, res.merchantUser.businessName, '', null, null, null, null, null, modes, null);
+                res.merchantUser.merchantCode, res.merchantUser.businessName, '', null, null, null, null, null, null, null, null, null, null, modes, 
+                null);
         }
 
         return this._sdk;
@@ -67,7 +78,7 @@ export class SDKService {
 
     startPaymentProcess(paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
         payamount: number, phone: string, merchantcode: string, merchantname: string, merchantVPA: string, paytype: number, tr: string, 
-        til: string): Promise<any> {
+        til: string, products: Array<Product>): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
                 JSON.stringify({
@@ -85,7 +96,8 @@ export class SDKService {
                 "merchantVPA": merchantVPA,
                 "paytype": paytype,
                 "tr": tr,
-                "til": til
+                "til": til,
+                "products": products
                 }), 
                 { headers: this.utilsService.getHeaders() })
             .toPromise()

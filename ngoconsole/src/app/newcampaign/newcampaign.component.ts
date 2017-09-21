@@ -190,7 +190,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
       this.amount ? this.amount : null, this.user.language, 0, this.minpanamnt ? this.minpanamnt : null, 2, 
       this.campaignTarget ? this.campaignTarget : null, null, null, null, null, null, this.mobileNumber, this.campaignName, this.user.mccCode, 
       this.imgURL ? this.imgURL : null, null, null, this.user.id, this.expDt ? this.expDt : null, null, this.description ? this.description : null, 
-      this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, 
+      this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, null, null, 
       selProducts && selProducts.length > 0 ? selProducts : null))
       .then(res => this.submitted(res));
   }

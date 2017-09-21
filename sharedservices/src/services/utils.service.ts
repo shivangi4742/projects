@@ -237,6 +237,45 @@ export class UtilsService {
     }
   }
 
+  public isAnyMobile(): boolean {
+    return (this.isAndroid() || this.isBlackBerry() || this.isiOS() || this.isOpera() || this.isWindows());
+  }
+
+  private isAndroid(): boolean {
+    if(!navigator || !navigator.userAgent)
+      return false;
+
+    return navigator.userAgent.match(/Android/i) != null;
+  }
+
+  private isBlackBerry(): boolean {
+    if(!navigator || !navigator.userAgent)
+      return false;
+
+    return navigator.userAgent.match(/BlackBerry/i) != null;
+  }
+  
+  private isiOS(): boolean {
+    if(!navigator || !navigator.userAgent)
+      return false;
+
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i) != null;
+  }
+
+  private isOpera(): boolean {
+    if(!navigator || !navigator.userAgent)
+      return false;
+
+    return navigator.userAgent.match(/Opera Mini/i) != null;
+  }
+
+  private isWindows(): boolean {
+    if(!navigator || !navigator.userAgent)
+      return false;
+
+    return navigator.userAgent.match(/IEMobile/i) != null;
+  }
+
   private getHoursOrMinutes(h: number) {
     if(h < 10)
       return '0' + h.toString();

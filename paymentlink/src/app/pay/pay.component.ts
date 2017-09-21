@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest } from 'benowservices';
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -9,6 +9,7 @@ import { SDK, SDKService, UtilsService, Product, ProductService, User, PayReques
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
+  mode: number;
   qrAmount: number;
   upiAmount: number;
   tr: string;
@@ -19,6 +20,8 @@ export class PayComponent implements OnInit {
   qrURL: string;
   upiURL: string;
   address: string;
+  lastName: string;
+  firstName: string;
   panNumber: string;
   paylinkid: string;
   uploadsURL: string;
@@ -190,20 +193,20 @@ export class PayComponent implements OnInit {
   }
 
   refreshUPIAmount() {
-    this.invalidAmount = false;
+/*     this.invalidAmount = false;
 
     if (this.upiAmount != this.pay.amount) {
       this.upiURL = null;
       if(this.txnNo && this.txnNo.length > 0)
         this.createQRL({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.paylinkid, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-          this.pay.til)
+          this.pay.til, this.pay.products)
           .then(res => this.createQRL(res));
     }
     else
-      this.qRLinkShown(this.upiURL, this.upiAmount);
+      this.qRLinkShown(this.upiURL, this.upiAmount); */
   }
 
   poll() {
@@ -292,17 +295,17 @@ export class PayComponent implements OnInit {
   }
 
   refreshQRAmount() {
-    this.invalidAmount = false;
+/*     this.invalidAmount = false;
     if (this.qrAmount != this.pay.amount) {
       this.qrURL = null;
       if(this.txnNo && this.txnNo.length > 0)
         this.createQR({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.paylinkid, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber, 
+        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber, 
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-          this.pay.til)
+          this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
-    }
+    } */
   }
 
   refreshAmount() {
@@ -311,6 +314,38 @@ export class PayComponent implements OnInit {
         this.refreshUPIAmount();
       else if (this.qrExpanded)
         this.refreshQRAmount();
+    }
+  }
+
+  setMode(mode: number) {
+    if (this.validate(true)) {
+      this.mode = mode;
+      this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
+        this.pay.til, this.pay.products)
+        .then(res => this.goToPG(res));
+    }
+  }
+
+  goToPG(res: any) {
+    if (res && res.transactionRef) {
+      if (this.name) {
+        let sp = this.name.trim().split(' ');
+        if (sp && sp.length > 0)
+          this.firstName = sp[0];
+
+        if (sp && sp.length > 1)
+          this.lastName = sp[1];
+      }
+
+      this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email, this.pay.phone, 
+        this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.paylinkid, this.firstName, 
+        this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5));
+      this.router.navigateByUrl('/pg/' + this.paylinkid);
+    }
+    else {
+      this.invalidAmount = true;
+      this.validationError = 'Error in connecting payment gateway!';
     }
   }
 }

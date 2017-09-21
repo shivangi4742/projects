@@ -1,53 +1,156 @@
 var crypto = require('crypto');
+const NodeCache = require("node-cache");
 
 var helper = require('./../utils/Helper');
 var config = require('./../configs/Config');
 
-var sdkCont = {    
-    getHash: function (req, res) {
+const pCache = new NodeCache({ stdTTL: 1200, checkperiod: 120 });
+var sdkCont = {
+    startPaymentProcess: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+    	res.setHeader("X-Frame-Options", "ALLOW");
+        this.startPaymentProcessPost(req, function (data) {
+            res.json(data);
+        });  
+    },
+
+    savePayerProducts: function(merchantCode, products, counter, txnNumber, payerId, hdrs, retErr, cb) {
+        try {
+            var me = this;
+            var retVal = { "transactionRef": txnNumber };
+            if(products && products.length > counter) {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/savePayerProduct', 'POST', hdrs),
+                    {	
+                        "merchantCode": merchantCode,
+                        "transactionRef": txnNumber,
+                        "payerId": payerId,
+                        "product": products[counter].id,
+                        "quantity": products[counter].qty,
+                        "price": products[counter].price,
+                        "amount": products[counter].price * products[counter].qty,
+                        "prodName": products[counter].name,
+                        "uom": products[counter].uom                    
+                    },
+                    function (data) {
+                        me.savePayerProducts(merchantCode, products, ++counter, txnNumber, payerId, hdrs, retErr, cb);
+                    });
+            }
+            else
+                cb(retVal);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    startPaymentProcessPost: function(req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
-        res.setHeader("X-Frame-Options", "DENY");
-        if(req && req.body && req.body.merchantCode && req.body.mccCode && req.body.txnid && req.body.amount > 0) {
-            var data = {
-                "amount": req.body.amount,
-                "email": req.body.email ? req.body.email : '',
-                "firstName": req.body.firstName ? req.body.firstName : '',
-                "failureURL": req.body.failureURL ? req.body.failureURL : '',
-                "merchantCode": req.body.merchantCode,
-                "mccCode": req.body.mccCode,
-                "description": req.body.description ? req.body.description.replace(/\r?\n/g, '').replace(/\n/g, '') : '',
-                "successURL": req.body.successURL ? req.body.successURL : '',
-                "txnid": req.body.txnid,
-                "udf1": '',
-                "udf2": '',
-                "udf3": '',
-                "udf4": '',
-                "udf5": '',
-                "phone": req.body.phone
-            };
-            var strToHash = data.amount
-                + "|" + data.description
-                + "|" + data.email
-                + "|" + data.failureURL
-                + "|" + data.firstName
-                + "|" + data.mccCode
-                + "|" + data.merchantCode
-                + "|" + data.phone
-                + "|" + data.successURL
-                + "|" + data.txnid
-                + "|" + data.udf1
-                + "|" + data.udf2
-                + "|" + data.udf3
-                + "|" + data.udf4
-                + "|" + data.udf5;
-            var hashData = crypto.createHash('md5').update(config.sdkSalt).update(strToHash + data.merchantCode + config.sdkSalt).digest('hex');
-            res.send({ "hash": hashData });
+
+        try {
+            var d = req.body;
+            var paylinkid = '0';
+            var me = this;
+            var hdrs = req.headers;
+            if (d && d.payamount && d.merchantcode && d.paylinkid) {
+                paylinkid = d.paylinkid;
+                var name = d.name;
+                var address = d.address;
+                var email = d.email;
+                var mobileNo = d.mobileNo;
+                var pan = d.pan;
+                var resident = d.resident;
+                var pt = 'UPI_OTHER_APP';
+                if (d.paytype === 1)
+                    pt = 'CREDIT_CARD';
+                else if (d.paytype === 2)
+                    pt = 'DEBIT_CARD';
+                else if (d.paytype === 3)
+                    pt = 'NET_BANKING';
+
+                var obj = {
+                    "amount": d.payamount,
+                    "hdrTransRefNumber": "",
+                    "listPayments": [
+                        {
+                            "paymentDetails": {
+                                "deviceDetails": {
+                                    "applicationName": "portable payment link",
+                                    "deviceId": "browser",
+                                    "mobileNumber": d.mobileNo
+                                },
+                                "merchantCode": d.merchantcode,
+                                "merchantName": d.merchantname,
+                                "payeeVirtualAddress": d.merchantVPA,
+                                "payerUsername": d.mobileNo,
+                                "paymentInvoice": {
+                                    "amountPayable": d.payamount
+                                },
+                                "remarks": ""
+                            },
+                            "paymentMethodType": pt
+                        }
+                    ]
+                };
+                if(d.tr)
+                    obj.tr = d.tr;
+
+                if(d.til)
+                    obj.till = d.til;
+
+                var c = {
+                    "xauth": config.defaultToken,
+                    "merchantCode": d.merchantcode,
+                    "merchantName": d.merchantname,
+                    "merchantURL": d.merchantURL
+                };
+                var products = d.products;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/checkPayer', 'POST', hdrs),
+                    {
+                        "userId": mobileNo
+                    },
+                    function (uData) {
+                        if (uData && uData.responseFromAPI == true) {
+                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/initiatePayWebRequest', 'POST', hdrs), 
+                                obj,
+                                function (data) {
+                                    if (data && data.hdrTransRefNumber) {
+                                        var s = pCache.set(data.hdrTransRefNumber, c);
+                                        helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getPpPayer', 'POST', hdrs),
+                                            {
+                                                "name": name,
+                                                "address": address ? address : '',
+                                                "email": email,
+                                                "mobileNo": mobileNo,
+                                                "pancard": pan,
+                                                "residenceCountry": resident,
+                                                "transactionRef": data.hdrTransRefNumber,
+                                                "paymentLinkRef": paylinkid,
+                                                "merchantCode": d.merchantcode,
+                                                "amount": d.payamount,
+                                                "txnDate": me.getCurDateTimeString
+                                            },
+                                            function (sdata) {
+                                                //TODO: We do not have payerid, calling police :)
+                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, 100, hdrs, retErr, cb);
+                                            });
+                                    }
+                                    else
+                                        cb(retErr);
+                                });
+                        }
+                        else
+                            cb(retErr);
+                    });
+            }
+            else
+                cb(retErr);
         }
-        else
-            res.json(retErr);
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     getPaymentLinkDetails: function (req, res) {

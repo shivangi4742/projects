@@ -277,6 +277,9 @@
                 <div *ngIf="invalidAmount">
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
+                <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                </div>
               </div>
             </li>
             <li *ngIf="supportsCC">
@@ -297,6 +300,9 @@
                 <div *ngIf="invalidAmount">
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
+                <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                </div>
               </div>
             </li>
             <li *ngIf="supportsNB">
@@ -316,6 +322,9 @@
               <div class="collapsible-body">
                 <div *ngIf="invalidAmount">
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                </div>
+                <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                 </div>
               </div>
             </li>
