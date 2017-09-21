@@ -106,6 +106,7 @@ export class PayComponent implements OnInit {
     if(!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;    
 
+    /*
     if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
       if (this.pay.supportedModes.indexOf('UPI') >= 0)
         this.supportsUPI = true;
@@ -122,6 +123,11 @@ export class PayComponent implements OnInit {
       if (this.pay.supportedModes.indexOf('SODEXO') >= 0)
         this.supportsSodexo = true;
     }
+    */
+
+    this.supportsCC = true;
+    this.supportsDC = true;
+    this.supportsNB = true;
 
     this.loaded = true;
   }

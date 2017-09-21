@@ -7,6 +7,7 @@ import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
 import { ProductService } from './services/product.service';
 import { CampaignService } from './services/campaign.service';
+import { TransactionService } from './services/transaction.service';
 import { NotificationService } from './services/notification.service';
 
 import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
@@ -19,6 +20,7 @@ export { Product } from './models/product.model';
 export { Campaign } from './models/campaign.model';
 export { PayRequest } from './models/payrequest.model';
 export { Attachment } from './models/attachment.model';
+export { Transaction } from './models/transaction.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
 
@@ -28,6 +30,7 @@ export { UserService } from './services/user.service';
 export { UtilsService } from './services/utils.service';
 export { ProductService } from './services/product.service';
 export { CampaignService } from './services/campaign.service';
+export { TransactionService } from './services/transaction.service';
 export { NotificationService } from './services/notification.service';
 
 export { ObjectFilterPipe } from './pipes/objectfilter.pipe';
@@ -50,6 +53,7 @@ export class SharedServicesModule {
         UtilsService,
         ProductService,
         CampaignService,
+        TransactionService,
         NotificationService
       ]
     };

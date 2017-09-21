@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewcampaignComponent } from './newcampaign/newcampaign.component';
 import { SelectproductsComponent } from './selectproducts/selectproducts.component';
+import { OrdersComponent } from './orders/orders.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
@@ -25,7 +26,8 @@ export function HttpFactory(http: Http) {
     AppComponent,
     DashboardComponent,
     NewcampaignComponent,
-    SelectproductsComponent
+    SelectproductsComponent,
+    OrdersComponent
   ],
   imports: [
     HttpModule,

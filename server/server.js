@@ -19,6 +19,7 @@ var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
 var sdkController = require('./server/controllers/SDKCOntroller');
+var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
 function setup (ssl) {
@@ -68,6 +69,7 @@ app.use(config.base + '/user', userRouter);
 app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
+app.use(config.base + '/txn', transactionRouter);
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
 app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
