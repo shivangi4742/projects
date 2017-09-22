@@ -33,6 +33,8 @@ var config = {
 		url: 'https://test.payu.in/_payment',*/
 		furl: 'http://localhost:9090/paymentfailure/',
 		surl: 'http://localhost:9090/paymentsuccess/',
+ 		newfurl: 'http://localhost:9090/ppl/paymentfailure/',
+		newsurl: 'http://localhost:9090/ppl/paymentsuccess/', 
 		sdksurl: 'http://localhost:9090/paymentstatus/',
 		sdkfurl: 'http://localhost:9090/paymentstatus/',
 		xauth: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vd3d3LmJlbm93LmluLyIsInN1YiI6Inh5QG1hc3Rlay5jb20iLCJkYXRhIjp7Im1jY0NvZGUiOiI2MjExIiwibWVyY2hhbnRDb2RlIjoiQUEzTzEiLCJwcml2YXRlSWQiOiI0MjMiLCJtZXJjaGFudElkIjoiMjI5IiwiZGlzcGxheU5hbWUiOiJBbHJpZ2h0IEVudGVycHJpc2UiLCJtb2JpbGVOdW1iZXIiOiI5MDIyODYxMjYyIn0sImlhdCI6MTQ5NjE0NjY5NH0.3DBNezPrk1NEsSfK92pTsjZnjMYA8ZL9yeh1zS4R68s'
@@ -46,6 +48,7 @@ var config = {
         port: '8080',
 		https: 'http://'*/
 	},
+	sdkSalt: '[B@46b1157b',
 	env:'prod'
 };
 

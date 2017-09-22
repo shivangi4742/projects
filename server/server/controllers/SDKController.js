@@ -439,7 +439,7 @@ var sdkCont = {
                     name = 'Customer';
 
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Customer, To pay ' + merchant + ', please click on ' + config.me + '/ppl' + link + txnId + sfix),
+                    encodeURI('Dear Customer, To pay ' + name + ', please click on ' + config.me + '/ppl' + link + txnId + sfix),
                     'POST', hdrs), null, cb);
             }
         }
@@ -469,7 +469,7 @@ var sdkCont = {
 
                     this.savePaymentLinkDetailsPost(d.sdk, hdrs, function (data) {
                         if (data && data.paymentReqNumber && data.mobileNumber) {
-                            me.smsPaymentLinkPost(hasProds, d.sdk.merchantCode, data.customerName, 
+                            me.smsPaymentLinkPost(hasProds, d.sdk.merchantCode, d.sdk.businessName, 
                                 d.sdk.title, d.sdk.mtype, data.mobileNumber, 
                                 data.paymentReqNumber, hdrs, function (out) {
                                 if (out === true) {

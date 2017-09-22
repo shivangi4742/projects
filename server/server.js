@@ -18,7 +18,7 @@ var userRouter = require('./server/routers/UserRouter');
 var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
-var sdkController = require('./server/controllers/SDKCOntroller');
+var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 
