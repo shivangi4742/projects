@@ -3,11 +3,14 @@
 <div class="row" *ngIf="transactions">
   <div class="col s10 offset-s1">
     <div class="row" *ngFor="let t of transactions">
-      <div class="col s12 regNrmS4BN center">{{'Received' | translate}} 
-        <b> ₹ {{t.amount | number : '1.2-2'}}</b> {{'from' | translate}} 
-        <b> {{t.vPA}} </b> {{'on' | translate}}
-        <b> {{t.dateAndTime}} </b> {{'for Following Products' | translate}}
+      <div class="col s12 regNrmS4BN center">
+        <span class="incomingMsgTxtBN">{{'Received' | translate}} 
+          <b> ₹ {{t.amount | number : '1.2-2'}}</b> {{'from' | translate}} 
+          <b> {{t.vPA}} </b> {{'on' | translate}}
+          <b> {{t.dateAndTime}} </b> {{'for Following Products' | translate}}
+        </span>
       </div>
+      <div class="col s12">&nbsp;</div>
       <div class="col s12">&nbsp;</div>
       <div class="row">
         <div class="col s6 m4 l3 center" *ngFor="let p of t.products">

@@ -225,6 +225,7 @@ gulp.task('change:indexngoconsole', function() {
 gulp.task('change:indexmybiz', function() {
   return gulp.src([ngoconsoleIndexFile])
     .pipe(replace('<base href="/">', '<base href="/mybiz/">'))
+    .pipe(replace('Benow - NGO Console', 'Benow - My Business'))
     .pipe(gulp.dest(mybizServerFolder));
 });
 
