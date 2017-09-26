@@ -8,7 +8,9 @@ var uRLs = {
     mybizHome: '/mybiz/index.html',
     ngoHome: '/ngoconsole/index.html',
     pplDir: '/paymentlink',
-    pplHome: '/paymentlink/index.html'
+    pplHome: '/paymentlink/index.html',
+    mglDir: '/mgl',
+    mglHome: '/mgl/index.html'
 };
 
 module.exports = uRLs;

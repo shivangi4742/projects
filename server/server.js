@@ -70,6 +70,7 @@ app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/txn', transactionRouter);
+app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
 app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
@@ -94,6 +95,11 @@ app.get(config.base + '/mybiz/*', function(req, res) {
 app.get(config.base + '/ngocsl/*', function(req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.ngoHome, {root: __dirname });
+});
+
+app.get(config.base + '/mgl/*', function(req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	res.sendFile(urls.mglHome, {root: __dirname });
 });
 
 app.get(config.base + '/ppl/*', function(req, res) {
