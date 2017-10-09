@@ -14,6 +14,16 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { CustomerComponent } from './customer/customer.component';
+import { CustomerpaymentComponent } from './customerpayment/customerpayment.component';
+
+import { MglService } from  './services/mgl.service';
+import { PayrequestService } from './services/payrequestservice.service';
+
+import { UtilsService } from './../../../sharedservices/src/services/utils.service';
+import { SuccessmglComponent } from './successmgl/successmgl.component';
+import { FailuremglComponent } from './failuremgl/failuremgl.component';
+import { BenowpaymentComponent } from './benowpayment/benowpayment.component';
+
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/mgl/i18n', '.json');
@@ -22,7 +32,11 @@ export function HttpFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent,
-    CustomerComponent
+    CustomerComponent,
+    CustomerpaymentComponent,
+    SuccessmglComponent,
+    FailuremglComponent,
+    BenowpaymentComponent
   ],
   imports: [
     HttpModule,
@@ -38,7 +52,7 @@ export function HttpFactory(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [],
+  providers: [MglService, UtilsService, PayrequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

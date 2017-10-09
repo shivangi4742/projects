@@ -13,6 +13,12 @@ export class UtilsService {
   private _isNGO: boolean = false;
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
+
+  private _pbaseURL: string = 'http://localhost:9090/';
+  private _requestURL:string = 'https://merchant.benow.in/paysdk';
+  private _succcessURL:string = 'mglsuccess';
+  private _failureURL:string = 'mglfailure'
+
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
@@ -24,7 +30,7 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
-
+ 
   constructor() {
     this._status = new Status(false, false, '');
   }
@@ -36,6 +42,20 @@ export class UtilsService {
     return false;
   }
 
+  public pbaseURL():string{
+    return this._pbaseURL;
+  }
+
+  getRequestURL(): string {
+    return  this._requestURL;
+  }
+  getSuccessURL(): string {
+    return this._baseURL + this._succcessURL
+  }
+
+  getFailedURL(): string {
+    return this._baseURL + this._failureURL;
+  }
   public getProcessPaymentURL(): string {
     return this._processPaymentURL;
   }

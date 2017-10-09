@@ -1,3 +1,49 @@
-<p>
-  customer works!
-</p>
+<main>  
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s1 m3 l4"></div>
+    <div class="col s10 m6 l4 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row valign-wrapper">
+            <div class="col m1 l2 hide-on-small-only"></div>
+            <div class="input-field col s12 m10 l8">{{'Pay Your Gas Bill'}}</div>
+            <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <form (ngSubmit)="onSubmit()" #loForm="ngForm">
+        <div class="row">
+          <div class="valign-wrapper">
+            <div class="col m1 l2 hide-on-small-only"></div>
+            <div class="input-field col s12 m10 l8">
+              <input id="Operator" name="Operator" type="text" class="validate regNrmS4BN" value="Mahanagar Gas- Mumbai" required >
+              <label for="Operator" class="active">{{'Select Operator' | translate}}</label>
+            </div>
+            <div class="col m1 l2 hide-on-small-only"></div>
+          </div>
+          <div class="valign-wrapper">
+            <div class="col m1 l2 hide-on-small-only"></div>
+            <div class="input-field col s12 m10 l8">
+              <input id="CsmNo" name="csm" type="text" class="validate regNrmS4BN" required [(ngModel)]="CsmNo">
+              <label for="CsmNo" >{{'Consumer Number' | translate}}</label>
+            </div>
+            <div class="col m1 l2 hide-on-small-only" ></div>
+          </div>
+         
+          <div class="valign-wrapper" *ngIf="hasError">
+            <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+          </div>
+        </div>
+        <div class="row valign-wrapper">
+          <div class="col m1 l2 hide-on-small-only"></div>
+            <button  class="btn waves-effect waves-light col s6 m6 l6 red regNrmS2BN buttonBN" type="submit" name="Proceed"
+              >{{'Proceed to Bill Pay' | translate}}
+              <i class="material-icons right">send</i>
+            </button>
+          <div class="col l1 hide-on-med-and-down"></div>
+        </div>
+      </form>
+       <div class="row"></div>
+    </div>
+    <div class="col s1 m3 l4"></div>
+  </div>
+</main>
