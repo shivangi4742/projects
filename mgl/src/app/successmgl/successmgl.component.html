@@ -1,0 +1,42 @@
+<main class="grey lighten-5" *ngIf="pay">
+    <div class="row"></div>
+    <div class="row">
+        <div class="col s1 m3 l3"></div>
+        <div class="col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN">
+            <div class="row"></div>
+            <div class="row"></div>
+            <div class="valign-wrapper">
+                <div class="col s12 center">
+                    <span class="center"><i class="material-icons circle doneBN">done</i></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="valign-wrapper">
+                    <div class="col m1 l1 hide-on-small-only"></div>
+                    <div class="input-field col s12 m10 l10 center">
+                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b>{{' for submitting your details!' | translate }}</span>
+                    </div>
+                    <div class="col m1 l1 hide-on-small-only"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="valign-wrapper">
+                    <div class="col s12 center">
+                        <img class="alignMidBN" src="../../images/paid.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="amontsucessBN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="valign-wrapper">
+                    <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}: 
+                            <b>{{pay.txnid | translate}}</b>
+                        </span>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="col s1 m3 l3"></div>
+    </div>
+</main>
