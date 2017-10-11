@@ -1,27 +1,36 @@
 var helper = require('./../utils/Helper');
 
 var transCont = {
-    getTransactionProducts: function(hdrs, txns, counter, retTxns, cb) {
+    getNextPage: function(req, data, page, cb) {
         var me = this;
-        if(txns && txns.length > counter) {
-            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getPayerProduct', 'POST', hdrs),
-            {
-                "payerId": helper.gandaLogic(txns[counter].payHistHdrTxnRefNo.toUpperCase())
-            }, function(data) {
-                if(data && data.length > 0) {
-                    txns[counter].products = data;
-                    if(!retTxns)
-                        retTxns = new Array();
-                    
-                    retTxns.push(txns[counter]);
-                }
+        if(data && data.noOfPages > page && page <= 10) {
+            req.body.pageNumber++;
+            this.getProductTransactionsPost(req, function(d2) {
+                if(d2 && d2.orders && d2.orders.length > 0)
+                    data.orders.push(d2.orders);
 
-                me.getTransactionProducts(hdrs, txns, ++counter, retTxns, cb);
+                me.getNextPage(req, data, req.body.pageNumber, cb);
             });
-
         }
         else
-            cb(retTxns);
+            cb(data);
+    },
+
+    getTransactionProducts: function(hdrs, data, counter, cb) {
+        var me = this;
+        if(data && data.orders && data.orders.length > counter) {
+            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getPayerProduct', 'POST', hdrs),
+            {
+                "transactionRef": data.orders[counter].payHistHdrTxnRefNo
+            }, function(pdata) {
+                if(pdata && pdata.length > 0)
+                    data.orders[counter].products = pdata;                    
+
+                me.getTransactionProducts(hdrs, data, ++counter, cb);
+            });
+        }
+        else
+            cb(data);
     },
 
     getNewProductTransactionsPost: function(req, cb) {
@@ -49,7 +58,7 @@ var transCont = {
                         }, function(data) {
                             if(data && data.orders && data.orders.length > 0) {
                                 if(!lastTxnId)
-                                    me.getTransactionProducts(req.headers, data.orders, 0, null, cb);
+                                    me.getTransactionProducts(req.headers, data, 0, cb);
                                 else {
                                     if(lastTxnId == data.orders[0].payHistHdrTxnRefNo)
                                         cb(null);
@@ -62,13 +71,43 @@ var transCont = {
                                                 break;
                                         }
 
-                                         me.getTransactionProducts(req.headers, newOrders, 0, null, cb);
+                                        data.orders = newOrders;
+                                        me.getTransactionProducts(req.headers, data, 0, cb);
                                     }
                                 }
                             }
                             else
                                 cb(null);
                         });
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getAllProductTransactionsPost(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        var me = this;
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.merchantCode) {
+                    req.body.pageNumber = 1;
+                    this.getProductTransactionsPost(req, function(data) {
+                        if(data && data.noOfPages > 0)
+                            me.getNextPage(req, data, 1, cb);
+                        else
+                            cb(data);
+                    });
+                }
                 else
                     cb(retErr);
             }
@@ -101,7 +140,7 @@ var transCont = {
                             "sortDirection":d.sortDirection
                         }, function(data) {
                             if(data && data.orders && data.orders.length > 0)
-                                me.getTransactionProducts(req.headers, data.orders, 0, null, cb);
+                                me.getTransactionProducts(req.headers, data, 0, cb);
                             else
                                 cb(null);
                         });
@@ -113,6 +152,13 @@ var transCont = {
             cb(retErr);
         }
     },
+
+    getAllProductTransactions: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getAllProductTransactionsPost(req, function (data) {
+            res.json(data);
+        }); 
+    },    
 
     getProductTransactions: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");

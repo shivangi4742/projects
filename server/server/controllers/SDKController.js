@@ -242,7 +242,7 @@ var sdkCont = {
         });  
     },
 
-    savePayerProducts: function(merchantCode, products, counter, txnNumber, payerId, hdrs, retErr, cb) {
+    savePayerProducts: function(merchantCode, products, counter, txnNumber, hdrs, retErr, cb) {
         try {
             var me = this;
             var retVal = { "transactionRef": txnNumber };
@@ -251,16 +251,11 @@ var sdkCont = {
                     {	
                         "merchantCode": merchantCode,
                         "transactionRef": txnNumber,
-                        "payerId": payerId,
-                        "product": products[counter].id,
-                        "quantity": products[counter].qty,
-                        "price": products[counter].price,
-                        "amount": products[counter].price * products[counter].qty,
-                        "prodName": products[counter].name,
-                        "uom": products[counter].uom                    
+                        "productId": products[counter].id,
+                        "quantity": products[counter].qty
                     },
                     function (data) {
-                        me.savePayerProducts(merchantCode, products, ++counter, txnNumber, payerId, hdrs, retErr, cb);
+                        me.savePayerProducts(merchantCode, products, ++counter, txnNumber, hdrs, retErr, cb);
                     });
             }
             else
@@ -360,9 +355,7 @@ var sdkCont = {
                                                 "txnDate": me.getCurDateTimeString
                                             },
                                             function (sdata) {
-                                                //TODO: We do not have payerid, introducing ganda logic
-                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, 
-                                                    helper.gandaLogic(data.hdrTransRefNumber.toUpperCase()), hdrs, retErr, cb);
+                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, hdrs, retErr, cb);
                                             });
                                     }
                                     else

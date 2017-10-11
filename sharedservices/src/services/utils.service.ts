@@ -14,11 +14,8 @@ export class UtilsService {
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _pbaseURL: string = 'http://localhost:9090/';
-  private _requestURL:string = 'https://merchant.benow.in/paysdk';
-  private _succcessURL:string = 'mglsuccess';
-  private _failureURL:string = 'mglfailure'
-
+  private _requestURL:string = 'https://localhost:9090/paysdk';
+  
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
@@ -42,20 +39,10 @@ export class UtilsService {
     return false;
   }
 
-  public pbaseURL():string{
-    return this._pbaseURL;
-  }
-
   getRequestURL(): string {
     return  this._requestURL;
   }
-  getSuccessURL(): string {
-    return this._baseURL + this._succcessURL
-  }
 
-  getFailedURL(): string {
-    return this._baseURL + this._failureURL;
-  }
   public getProcessPaymentURL(): string {
     return this._processPaymentURL;
   }
