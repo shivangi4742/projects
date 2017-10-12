@@ -14,7 +14,7 @@ export class UtilsService {
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _requestURL:string = 'https://localhost:9090/paysdk';
+  private _requestURL:string = 'https://merchant.benow.in/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';

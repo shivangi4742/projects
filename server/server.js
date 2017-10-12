@@ -28,7 +28,7 @@ var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 var MglRouter = require('./server/routers/MglRouter');
-
+var MglController = require('./server/controller/MglController')
 function setup (ssl) {
    if (ssl && ssl.active) {
       return {
@@ -86,85 +86,18 @@ app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
 
 app.post('/mglsuccess', function (req, res) {
-    var inpObj = req.body;
-    res.send('<!doctype html>'+
-    ' <html>'+
-    ' <head>'+
-    ' <meta charset="utf-8">'+
-    ' <meta name="viewport" content="width=device-width, initial-scale=1">'+
-    ' <title>benow - merchant console</title>'+
-    ' <base href="/">'+
-    ' <link rel="icon" type="image/x-icon" href="./favicon.png">'+
-    ' <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">'+
-    ' <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">'+
-    ' <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">'+
-    ' <link rel="stylesheet" href="./mrlibs.min.css" />'+
-    '   <style>'+
-    '     dashboard {'+
-    '       display: flex;'+
-    '      min-height: 96vh;'+
-    '     flex-direction: column;'+
-    '     }'+
-
-    '     .tabs {'+
-    '        overflow-x: hidden;'+
-    '      }'+
-
-    '  main {'+
-    '     flex: 1 0 auto;'+
-    '    }'+
-    ' </style>'+
-    ' </head>'+
-    '  <body>'+
-    '   <benow></benow>'+
-    "     <input type='hidden' id='paymentSuccessData' value='" + JSON.stringify(inpObj) + "' />" + 
-    '  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>'+
-	'        <script type="text/javascript" src="/mrapp.js"></script>' +
-    ' </body>'+
-    '</html>' );
+   MglController.paymentSuccess(req, function() {
+		res.sendFile(urls.mglHome, {root: __dirname });
+	});
 });
 
 app.post('/mglfailure', function (req, res) {
-    var inpObj = req.body;
-    var data = {
-        "error_message": inpObj.error_message
-    };
-    res.send('<!doctype html>'+
-    ' <html>'+
-    ' <head>'+
-    ' <meta charset="utf-8">'+
-    ' <meta name="viewport" content="width=device-width, initial-scale=1">'+
-    ' <title>benow - merchant console</title>'+
-    ' <base href="/">'+
-    ' <link rel="icon" type="image/x-icon" href="./favicon.png">'+
-    ' <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">'+
-    ' <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">'+
-    ' <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">'+
-    ' <link rel="stylesheet" href="./mrlibs.min.css" />'+
-    '   <style>'+
-    '     dashboard {'+
-    '       display: flex;'+
-    '      min-height: 96vh;'+
-    '     flex-direction: column;'+
-    '     }'+
-
-    '     .tabs {'+
-    '        overflow-x: hidden;'+
-    '      }'+
-
-    '  main {'+
-    '     flex: 1 0 auto;'+
-    '    }'+
-    ' </style>'+
-    ' </head>'+
-    '  <body>'+
-    '   <benow></benow>'+
-    "     <input type='hidden' id='paymentFailureData' value='" + JSON.stringify(data) + "' />" + 
-    '  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>'+
-	'        <script type="text/javascript" src="/mrapp.js"></script>' +
-    ' </body>'+
-    '</html>' );
-});app.post('/hash', function (req, res) {
+	 MglController.paymentfailure(req, function() {
+		res.sendFile(urls.mglHome, {root: __dirname });
+	});
+    
+});
+app.post('/hash', function (req, res) {
     var payloadObj = req.body;
     var inpObj = payloadObj.data;
     var merchantCode = payloadObj.merchantCode;
