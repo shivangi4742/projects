@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
+import { SDK } from './../models/sdk.model';
 import { Campaign } from './../models/campaign.model';
 import { CampaignSummary } from './../models/campaignsummary.model';
 
@@ -17,7 +18,9 @@ export class CampaignService {
         setCommPrefURL: 'paymentadapter/setCommPref',
         getCommPrefURL: 'paymentadapter/getCommPref',
         getDonorListURL: 'merchant/getDonorList',
-        bulkDonorUploadURL: 'merchant/bulkDonorUpload'
+        saveCampaignURL: 'campaign/saveCampaign',
+        bulkDonorUploadURL: 'merchant/bulkDonorUpload',
+        sendCampaignLinkURL: 'campaign/sendCampaignLink'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -32,10 +35,46 @@ export class CampaignService {
             }),
             { headers: this.utilsService.getHeaders() }
         )
-            .toPromise()
-            .then(res => this.setCampaignSummary(res.json()))
-            .catch(res => this.utilsService.returnGenericError());
+        .toPromise()
+        .then(res => this.setCampaignSummary(res.json()))
+        .catch(res => this.utilsService.returnGenericError());
     }
+    
+    sendCampaignLink(replace: boolean, mtype: number, hasProds: boolean, merchantCode: string, title: string, phone: string, payLink: string, 
+        alias: string, campaignName: string, description: string, imageURL: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.sendCampaignLinkURL,
+            JSON.stringify({
+                "merchantCode": merchantCode,
+                "mtype": mtype,
+                "replace": replace,
+                "hasProds": hasProds,
+                "title": title,
+                "phone": phone,
+                "payLink": payLink, 
+                "campaignName": campaignName,
+                "description": description,
+                "imageURL": imageURL,               
+                "alias": alias
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());
+    }
+
+    saveCampaign(sdk: SDK): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.saveCampaignURL,
+            JSON.stringify({
+                "sdk": sdk
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    } 
 
     getCampaigns(merchantCode: string, fromDate: string, toDate: string): Promise<Campaign[]> {
         return this.http.post(

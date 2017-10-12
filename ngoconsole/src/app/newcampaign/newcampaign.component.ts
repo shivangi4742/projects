@@ -3,7 +3,7 @@ import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angu
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService, SDKService, SDK } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
 
@@ -19,9 +19,12 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   expDt: string;
   imgURL: string;
   uploadsURL: string;
+  campaignURL: string;
   description: string;
   campaignName: string;
   mobileNumber: string;
+  paymentReqNumber: string;
+  campaignURLPrefix: string;
   user: User;
   products: Array<Product>;
   dateParams: any;
@@ -35,6 +38,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   askaddress: boolean = false;
   mndaddress: boolean = false;
   askresidence: boolean = false;
+  createdCampaign: boolean = false;
   allowMultiSelect: boolean = true;
   mtype: number = 2;
   today: string = 'Today';
@@ -64,7 +68,7 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
-    private userService: UserService, private productService: ProductService, private sdkService: SDKService) { }
+    private userService: UserService, private productService: ProductService, private campaignService: CampaignService) { }
 
   ngAfterViewInit() { }
 
@@ -180,19 +184,63 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   dtClosed() {
   }
 
+  resetCampaign() {
+    this.createdCampaign = false;
+  }
+
+  hasNoAlias() {
+    if(this.campaignURL && this.campaignURL.trim() && this.campaignURL.trim().length > 0)
+      return true;
+
+    return false;
+  }
+
+  shareCampaign() {
+    if(this.campaignURL && this.campaignURL.trim()) {
+      let hasProds: boolean = false;
+      let selProducts: Array<Product>;
+      if(this.products)
+        selProducts = this.products.filter(p => p.isSelected);
+
+      if(selProducts && selProducts.length > 0)
+        hasProds = true;
+
+      this.campaignService.sendCampaignLink(false, this.mtype, hasProds, this.user.merchantCode, this.user.displayName, this.mobileNumber, 
+        this.paymentReqNumber, this.campaignURL, this.campaignName, this.description, this.imgURL)
+        .then(res => this.sent(res));
+    }
+  }
+
+  sent(res: any) {
+    console.log(res);
+  }
+
   createCampaign() {
     let selProducts: Array<Product>;
     if(this.products)
       selProducts = this.products.filter(p => p.isSelected);
 
-    this.sdkService.savePaymentLinkDetails(new SDK(true, this.askaddress, true, this.mndpan, this.askpan, this.mndname, this.askname, this.askemail,
+    this.campaignService.saveCampaign(new SDK(true, this.askaddress, true, this.mndpan, this.askpan, this.mndname, this.askname, this.askemail,
       this.mndemail, this.mndaddress, false, false, false, this.askresidence, false, false, this.allowMultiSelect, false, this.mtype, 
       this.amount ? this.amount : null, this.user.language, 0, this.minpanamnt ? this.minpanamnt : null, this.mtype, 
       this.campaignTarget ? this.campaignTarget : null, null, null, null, null, null, this.mobileNumber, this.campaignName, this.user.mccCode, 
       this.imgURL ? this.imgURL : null, null, null, this.user.id, this.expDt ? this.expDt : null, null, this.description ? this.description : null, 
       this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, null, null, 
       selProducts && selProducts.length > 0 ? selProducts : null))
-      .then(res => this.submitted(res));
+      .then(res => this.created(res));
+  }
+
+  created(res: any) {
+    if(res && res.paymentReqNumber) {
+      this.paymentReqNumber = res.paymentReqNumber;
+      this.campaignURL = this.paymentReqNumber;
+      this.campaignURLPrefix = this.utilsService.getRedirectURL() + this.user.merchantCode + '/';
+      this.createdCampaign = true;
+      if(this.paymentReqNumber && this.paymentReqNumber.length > 4)
+        this.campaignURL = this.paymentReqNumber.substring(2, 5) + this.paymentReqNumber.substring(this.paymentReqNumber.length - 3);
+    }
+    else
+      this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.')
   }
 
   submitted(res: any) {

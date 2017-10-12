@@ -1,7 +1,48 @@
 <div *ngIf="user">
   <div class="row"></div>
   <status [status]="utilsService.getStatus()"></status>
-  <div class="row">
+  <div *ngIf="createdCampaign" class="row">
+    <div class="col s12 l8 offset-l2" align="center">
+      <form materialize (ngSubmit)="shareCampaign()" #shareForm="ngForm">
+        <div class="row allContentBN">
+          <div class="valign-wrapper">
+            <div class="col s12 m6">
+              <div class="valign-wrapper regNrmS4B1BN">
+                <i class="material-icons greyBN">email</i>
+                <span>&nbsp; &nbsp;{{'Share Campaign' | translate}}</span>
+              </div>
+            </div>
+            <div class="col m6 hide-on-small-only"></div>
+          </div>
+          <span class="col s12">&nbsp;</span>
+          <span class="col s10 offset-s1 regNrmS4BN">{{'Your Campaign is ready, customize your URL and get SMS for sharing it.' | translate}}</span>
+          <div class="col s1"></div>
+          <span class="col s12">&nbsp;</span>
+          <div class="col s12 regNrmS5B1BN">
+            <span class="inlineBN greyBGBN linkPaddingBN hide-on-small-only">{{campaignURLPrefix}}</span>
+            <span class="inlineBN greyBGBN linkPaddingBN hide-on-med-and-up" 
+              *ngIf="campaignURLPrefix">{{campaignURLPrefix.substring(campaignURLPrefix.indexOf('://') + 3)}}</span>
+            <input id="cmpurl" name="cmpurl" type="text" class="width90BN inlineBN hide-on-small-only" [(ngModel)]="campaignURL" required>
+            <input id="cmpurl" name="cmpurl" type="text" class="width60BN inlineBN hide-on-med-and-up" [(ngModel)]="campaignURL" required>
+          </div>
+          <span class="col s12">&nbsp;</span>
+          <div class="col s12">
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+              name="smsLink" [disabled]="!shareForm.form.valid && hasNoAlias()">{{'SMS Campaign Link' | translate}}
+            </button>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 redBN linkButtonBN" (click)="resetCampaign()" align="left">
+            <i class="material-icons alignMidBN">navigate_before</i>
+            <span class="errNrmS5BN alignMidBN">{{'back to' | translate}}</span>
+            <span class="errNrmS4B1BN alignMidBN">{{'Create Campaign' | translate}}</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="!createdCampaign" class="row">
     <div class="col s12 l8 offset-l2" align="center">    
       <form materialize (ngSubmit)="createCampaign()" #campaignForm="ngForm">
         <div materialize="modal" id="productsModal" class="modal productsModalBN" [materializeParams]="modalParams" 
@@ -139,6 +180,7 @@
             <input id="allowMultiSelect" type="checkbox" class="filled-in checkbox-red" name="allowMultiSelect" [(ngModel)]="allowMultiSelect">
             <label for="allowMultiSelect">{{'Allow Multiple Selections' | translate}}</label>
           </div>
+          <div class="col s12" *ngIf="hasMultiProducts()">&nbsp;</div>
           <div class="col s12 hide-on-med-and-up"> 
             <div class="col s6 center" *ngFor="let ssp of (products | objectfilter:selected)">
               <productwidget [forCart]="false" [editQty]="false" [product]="ssp" [showDelete]="false"></productwidget> 
@@ -161,6 +203,7 @@
               <input id="allowMultiSelect" type="checkbox" class="filled-in checkbox-red" name="allowMultiSelect" [(ngModel)]="allowMultiSelect">
               <label for="allowMultiSelect">{{'Allow Multiple Selections' | translate}}</label>
             </div>
+            <div class="col m12" *ngIf="hasMultiProducts()">&nbsp;</div>
             <div class="col m6 center" *ngFor="let sp of (products | objectfilter:selected)">
               <productwidget [forCart]="false" [editQty]="false" [product]="sp" [showDelete]="false"></productwidget> 
             </div> 
@@ -174,11 +217,8 @@
           <div class="col s1 hide-on-med-and-up"></div>
           <div class="col s12">&nbsp;</div>
           <div class="col s12" align="center">
-            <button class="btn waves-effect waves-light red regNrmS6BN buttonBN hide-on-med-and-up" type="submit" 
-              name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
-            </button>
-            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN hide-on-small-only" type="submit" 
-              name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign and Send Link' | translate}}
+            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+              name="createAndSend" [disabled]="!campaignForm.form.valid || invalidForm()">{{'Create Campaign' | translate}}
             </button>
           </div>
           <div class="col s12">&nbsp;</div>

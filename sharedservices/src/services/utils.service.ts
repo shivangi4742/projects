@@ -17,6 +17,7 @@ export class UtilsService {
   private _requestURL:string = 'https://localhost:9090/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
+  private _redirectURL: string = 'http://localhost:9090/r/';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
@@ -30,6 +31,10 @@ export class UtilsService {
  
   constructor() {
     this._status = new Status(false, false, '');
+  }
+
+  getRedirectURL(): string {
+    return this._redirectURL;
   }
 
   isHB(mCode: string|null): boolean {

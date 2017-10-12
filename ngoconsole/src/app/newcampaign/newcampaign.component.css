@@ -21,3 +21,21 @@
     top: 5%!important;
     max-height: 90%;
 }
+
+.width90BN {
+    width: 90px!important;
+}
+
+.width60BN {
+    width: 60px!important;
+}
+
+.greyBGBN {
+    background-color: #EDECEA;
+}
+
+.linkPaddingBN {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

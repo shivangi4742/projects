@@ -117,5 +117,8 @@
     "Contributors": "योगदानकर्ता",
     "Campaign ID": "अभियान आईडी",
     "Goal Completed": "पूर्ण लक्ष्य",
-    "Time Remaining": "शेष समय"
+    "Time Remaining": "शेष समय",
+    "Create Campaign": "अभियान बनाएं",
+    "Your Campaign is ready, customize your URL and get SMS for sharing it.": "आपका अभियान तैयार है, अपना यूआरएल कस्टमाइज़ करें और साझा करने के लिए एसएमएस प्राप्त करें।",
+    "back to": "वापस"
 }

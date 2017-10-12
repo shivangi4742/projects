@@ -415,3 +415,8 @@
 .fullWidthBN {
     width: 100%;
 }
+
+.inlineBN {
+    display: inline;
+    position: relative;
+}
