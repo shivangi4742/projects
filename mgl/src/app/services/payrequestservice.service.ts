@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Payrequestmodel } from '../models/payrequestmodel';
 import 'rxjs/add/operator/toPromise';
+import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
+
+
 @Injectable()
 export class PayrequestService {
 
 private payRequest: Payrequestmodel;
-    constructor(private http: Http) { }
+    constructor(private http: Http, private utilsservice: UtilsService) { }
 
     getPayRequest(): Payrequestmodel {
         return this.payRequest;
@@ -73,9 +76,9 @@ private payRequest: Payrequestmodel;
             "salt": "abcd",
             "strToHash": strToHash
         };
-
+      
         return this.http
-            .post('/hash',
+            .post(this.utilsservice.getBaseURL() +'hash',
             payloadObj,
             { headers: hdrs }
             )

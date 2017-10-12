@@ -1,20 +1,62 @@
 <main *ngIf="mgl">  
   <div class="row"></div>
-   <form (ngSubmit)="Submit()" #lolForm="ngForm">
+   <form (ngSubmit)="Submit()" #lForm="ngForm">
   <div class="row">
-    <div class="col s1 m1 l1"></div>
-    <div class="col s10 m10 l10 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN">
+    <div class="col s1 m3 l3"></div>
+    <div class="col s10 m5 l5 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN">
       <div class="row"></div>
-          <div class="row valign-wrapper">
-            <div class="col s1"><img src="../../assets/mgl/images/0.jpg" class="imags" name=""></div>
-            <div class="col s4 regNrmSp1BN">{{'Bill Payment for Mahanagar Gas (Mumbai) Consumer Number '}}<b>{{mgl.ca}} </b> for Rs.   <b>{{mgl.netpay}}</b></div>
-           
-            <div class="col s3">{{'Recharge Rs . ' }}<span>{{mgl.netpay}}</span></div>
-            <div class="col s4"><button type="submit" name="proceed" class="btn waves-effect waves-light col s12 m12 l12 regNrmSpBN red  buttonBN">{{'Proceed to pay Rs. '}}<b>{{mgl.netpay}}</b></button></div>
+      <div class="row center"></div>
+
+      <div class="row valign-wrapper">
+       <div class="col s2 m2 l2"><img src="../../assets/mgl/images/0.jpg" class="imags" name=""></div>
+       <div class="col s10 m10 l10">{{'Please Verify Your Payment Details.'}}</div>
+       </div>
+      <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Consumer Reference Number '}}</div> 
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.ca}}</div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Consumer Name'}}</div> 
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.name}}</div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Bill Number'}}</div>
+         <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.billno}}</div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Bill Group Number'}}</div>
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.bp}}</div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Bill Date (dd/mm/yyyy)'}}</div>
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.billdt}}</div>
+      </div>
+       <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Bill Due Date (dd/mm/yyyy)'}}</div>
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5"> {{mgl.duedt}}</div>
+      </div>
+       <div class="row valign-wrapper">
+        <div class="col s6 m6 l6">{{'Payment Amount'}}</div> 
+        <div class="col s1 m1 l1">:</div>
+        <div class="col s5 m5 l5">{{mgl.netpay}}</div>
+      </div>
+       
+      <div class="row ">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="col s12 m10 l8 center">
+          <button type="submit" name="proceed" class="btn waves-`effect waves-light col s12 m10 l10 regNrmSpBN red  buttonBN">{{'Proceed to pay Rs. '}}<b>{{mgl.netpay}}</b><i class="material-icons right">send</i></button></div>   
         </div>
-      <div class="row"></div>   
+         <div class="col m1 l2 hide-on-small-only"></div>
     </div>
-    <div class="col s1 m1 l1"></div>
+    <div class="row"></div>
+    
+    <div class="col s1 m3 l3"></div>
   </div>
    </form>
 </main>
