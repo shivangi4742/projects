@@ -19,7 +19,7 @@ var urls = require('./server/utils/URLs');
 var logger = require('./server/utils/Logger');
 var config = require('./server/configs/Config');
 var sTask = require('./server/utils/StartupTask');
-var sdkRouter = require('./server/routers/SDKRouter');
+var sdkRouter = require('./server/routers/SDKRouter');2
 var userRouter = require('./server/routers/UserRouter');
 var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
@@ -27,6 +27,7 @@ var campaignRouter = require('./server/routers/CampaignRouter');
 var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
+var MglRouter = require('./server/routers/MglRouter');
 
 function setup (ssl) {
    if (ssl && ssl.active) {
@@ -76,13 +77,13 @@ app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/txn', transactionRouter);
+app.use(config.base + '/mglpay', MglRouter);
 app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
 app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
 app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
-
 
 app.post('/mglsuccess', function (req, res) {
     var inpObj = req.body;
@@ -163,18 +164,14 @@ app.post('/mglfailure', function (req, res) {
 	'        <script type="text/javascript" src="/mrapp.js"></script>' +
     ' </body>'+
     '</html>' );
-});
-
-app.post('/hash', function (req, res) {
+});app.post('/hash', function (req, res) {
     var payloadObj = req.body;
     var inpObj = payloadObj.data;
     var merchantCode = payloadObj.merchantCode;
     var salt = payloadObj.salt;
     var headers= req.headers;
-   // var salt = 'abcd';
     var stringToHash = inpObj + merchantCode + salt;
-    var hashData = getMd5(payloadObj.strToHash + merchantCode + salt, salt)
-	console.log(hashData)
+    var hashData = getMd5(payloadObj.strToHash + merchantCode + salt, salt);
     res.send({ "hash": hashData });
 })
 

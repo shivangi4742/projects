@@ -35,7 +35,7 @@
         </div>
         <div class="row valign-wrapper">
           <div class="col m1 l2 hide-on-small-only"></div>
-            <button  class="btn waves-effect waves-light col s6 m6 l6 red regNrmS2BN buttonBN" type="submit" name="Proceed"
+            <button  [disabled]="!hasAllRequiredFields()" class="btn waves-effect waves-light col s10 m6 l6 red regNrmS2BN buttonBN" type="submit" name="Proceed"
               >{{'Proceed to Bill Pay' | translate}}
               <i class="material-icons right">send</i>
             </button>
