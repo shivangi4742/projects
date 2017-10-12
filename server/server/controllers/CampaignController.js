@@ -47,8 +47,15 @@ var campCont = {
                     this.saveURLAndSendLink(d, req.headers, res);
                 else {
                     this.checkAliasAvailability(d, req.headers, function(adata) {
-                        if(adata && adata.desc1)
-                            res.json({ "success": false, "errorCode": "URL_IN_USE" });
+                        if(adata && adata.desc1) {
+                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var ps = d.hasProds ? ('/' + d.merchantCode) : '';
+                            var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
+                            if(adata.desc1 === fullUrl)
+                                me.saveURLAndSendLink(d, req.headers, res);
+                            else
+                                res.json({ "success": false, "errorCode": "URL_IN_USE" });
+                        }
                         else
                             me.saveURLAndSendLink(d, req.headers, res);
                     });

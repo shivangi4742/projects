@@ -22,13 +22,14 @@
             <span class="inlineBN greyBGBN linkPaddingBN hide-on-small-only">{{campaignURLPrefix}}</span>
             <span class="inlineBN greyBGBN linkPaddingBN hide-on-med-and-up" 
               *ngIf="campaignURLPrefix">{{campaignURLPrefix.substring(campaignURLPrefix.indexOf('://') + 3)}}</span>
-            <input id="cmpurl" name="cmpurl" type="text" class="width90BN inlineBN hide-on-small-only" [(ngModel)]="campaignURL" required>
-            <input id="cmpurl" name="cmpurl" type="text" class="width60BN inlineBN hide-on-med-and-up" [(ngModel)]="campaignURL" required>
+            <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width90BN inlineBN hide-on-small-only" [(ngModel)]="campaignURL" required>
+            <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width60BN inlineBN hide-on-med-and-up" [(ngModel)]="campaignURL" required>
           </div>
-          <span class="col s12">&nbsp;</span>
+          <span class="col s12"  *ngIf="!urlExists">&nbsp;</span>
+          <span class="col s12 center errNrmS5BN" *ngIf="urlExists">{{'This URL is already in use. Please choose a different URL' | translate}}</span>
           <div class="col s12">
             <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-              name="smsLink" [disabled]="!shareForm.form.valid && hasNoAlias()">{{'SMS Campaign Link' | translate}}
+              name="smsLink" [disabled]="!shareForm.form.valid || hasNoAlias() || sending">{{'SMS Campaign Link' | translate}}
             </button>
           </div>
           <div class="col s12">&nbsp;</div>

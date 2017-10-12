@@ -30,11 +30,13 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   dateParams: any;
   askpan: boolean = false;
   mndpan: boolean = false;
+  sending: boolean = false;
   askname: boolean = false;
   mndname: boolean = false;
   askemail: boolean = false;
   mndemail: boolean = false;
   uploading: boolean = false;
+  urlExists: boolean = false;
   askaddress: boolean = false;
   mndaddress: boolean = false;
   askresidence: boolean = false;
@@ -190,13 +192,16 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
 
   hasNoAlias() {
     if(this.campaignURL && this.campaignURL.trim() && this.campaignURL.trim().length > 0)
-      return true;
+      return false;
 
-    return false;
+    return true;
   }
 
   shareCampaign() {
     if(this.campaignURL && this.campaignURL.trim()) {
+      this.sending = true;
+      this.urlExists = false;
+      this.utilsService.setStatus(false, false, '');
       let hasProds: boolean = false;
       let selProducts: Array<Product>;
       if(this.products)
@@ -212,7 +217,14 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
   }
 
   sent(res: any) {
-    console.log(res);
+    if(res === true)
+      this.utilsService.setStatus(false, true, 'Successfully sent payment link via SMS');
+    else if(res.errorCode === 'URL_IN_USE')
+      this.urlExists = true;
+    else
+      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+
+    this.sending = false;
   }
 
   createCampaign() {
@@ -232,6 +244,8 @@ export class NewcampaignComponent implements OnInit, AfterViewInit {
 
   created(res: any) {
     if(res && res.paymentReqNumber) {
+      this.utilsService.setStatus(false, false, '');
+      this.urlExists = false;
       this.paymentReqNumber = res.paymentReqNumber;
       this.campaignURL = this.paymentReqNumber;
       this.campaignURLPrefix = this.utilsService.getRedirectURL() + this.user.merchantCode + '/';
