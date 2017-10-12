@@ -41,11 +41,8 @@ export class MglService {
     return this.utilsService.getBaseURL() + this._urls.mglfailureURL;
   }
 
-
-
-
-
   gettmglDetails(res: any): Mgl {
+    console.log(res);
     let response = JSON.parse(res._body);
     let d: any = response.data.RECORD;
     this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0]);

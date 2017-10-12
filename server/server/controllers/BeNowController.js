@@ -2253,6 +2253,7 @@ var benowCont = {
             cb();
         }
     },
+    
 
     getPaymentPageHTML: function (sourceId, id, txnid, merchantId, code, type, mccCode, mVPA, name, lastName, number, mobileNo, email, invNumber, amount, minpanamnt, modes,
         mode, vpa, expiryDate, title, description, askname, askemail, askmob, askadd, panaccepted, askresidence, readonlyname, readonlyemail, readonlymob,

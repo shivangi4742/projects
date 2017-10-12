@@ -28,7 +28,7 @@ var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 var MglRouter = require('./server/routers/MglRouter');
-var MglController = require('./server/controller/MglController')
+var MglController = require('./server/controllers/MglController')
 function setup (ssl) {
    if (ssl && ssl.active) {
       return {
