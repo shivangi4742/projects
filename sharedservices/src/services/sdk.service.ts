@@ -23,7 +23,6 @@ export class SDKService {
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
         startPaymentProcessURL: 'sdk/startPaymentProcess',
-        savePaymentLinkDetailsURL: 'sdk/savePaymentLinkDetails',
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails'
     }
 
@@ -186,16 +185,4 @@ export class SDKService {
                 .then(res => this.fillSDK(res.json()))
                 .catch(res => this.utilsService.returnGenericError());
     }
-
-    savePaymentLinkDetails(sdk: SDK): Promise<any> {
-        return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.savePaymentLinkDetailsURL,
-            JSON.stringify({
-                "sdk": sdk
-            }),
-            { headers: this.utilsService.getHeaders() })
-            .toPromise()
-            .then(res => res.json())
-            .catch(res => this.utilsService.returnGenericError());
-    } 
 }
