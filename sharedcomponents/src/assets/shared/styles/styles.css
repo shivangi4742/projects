@@ -420,3 +420,14 @@
     display: inline;
     position: relative;
 }
+
+.topNavRowPPLBN {
+    background-color: #E53935;
+    height: 75px;
+    padding-top: 18px;
+}
+
+.footerStripPPLBN {
+    background-color: #3d3d3d;
+    height: 100px;
+}

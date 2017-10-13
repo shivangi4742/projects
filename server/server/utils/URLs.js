@@ -9,6 +9,7 @@ var uRLs = {
     ngoHome: '/ngoconsole/index.html',
     pplDir: '/paymentlink',
     pplHome: '/paymentlink/index.html',
+    invalidLink: '/paymentlink/assets/paymentlink/invalidlink.html',
     mglDir: '/mgl',
     mglHome: '/mgl/index.html'
 };

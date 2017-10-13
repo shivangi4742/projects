@@ -403,6 +403,29 @@ var sdkCont = {
         catch (err) {
             cb(retErr);
         }
+    },
+
+    getCampaignLinkDetails: function(mid, link, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!mid || !link)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getParameters', 'POST', hdrs),
+                    {
+                        "paramType": 'alias',
+                        "paramCode": mid + '/' + link
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }        
     }
 }
 

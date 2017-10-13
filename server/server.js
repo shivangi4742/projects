@@ -152,6 +152,50 @@ app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function(req, res) {
 	});
 });
 
+app.get(config.base + '/r/:mid/:link', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.getCampaignLinkDetails(req.params.mid, req.params.link, req.headers, function(data) {
+		if(data && data.desc1) {
+			var nImg = data.desc3;
+			if(!nImg)
+				nImg = config.me + '/ppl/assets/shared/images/paym.png';
+
+			nImg = nImg.replace(/ /g, '');
+			var title = '';
+			var description = '';
+			if(data.desc2) {
+				var d2arr = data.desc2.split('|||');
+				if(d2arr && d2arr.length > 0) {
+					title = d2arr[0];
+					if(d2arr.length > 1)
+						description = d2arr[1];
+				}
+			}
+
+			res.send('<!doctype html>' +
+                '<html>' +
+                '    <head>' +
+                '        <meta charset="utf-8">' +
+                '        <meta name="viewport" content="width=device-width, initial-scale=1">' +
+                '        <title>benow - payment link</title>' +
+                '        <meta property="og:title" content="' + title + '" />' +
+                '        <meta property="og:description" content="' + description + '" />' +
+                '        <meta property="og:url" content="' + data.desc1 + '" />' +
+                '        <meta property="og:image" content="' + nImg + '" />' +
+				'        <meta property="og:image:secure_url" content="' + nImg + '" />' +
+				'        <script>/*window.onload = function() { window.location = "' + data.desc1 + '"; return false; };*/</script>' +
+				'    </head>' + 
+				'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' + 
+				'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
+				'    </body>' + 
+				'</html>'
+			);
+		}
+		else
+			res.sendFile(urls.invalidLink, {root: __dirname});
+	});
+});
+
 app.use(function(err, req, res, next) {
 	console.log(err.stack);
 });
