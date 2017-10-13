@@ -83,6 +83,7 @@ app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
 app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
 app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
+app.use(config.base + '/qrs', express.static(__dirname + urls.qrDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
 
 app.post('/mglsuccess', function (req, res) {

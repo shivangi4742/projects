@@ -1,3 +1,7 @@
+var fs = require('fs');
+var uuid = require('uuid');
+var findRemoveSync = require('find-remove');
+
 var config = require('./../configs/Config');
 
 var http;
@@ -14,6 +18,45 @@ var helper = {
         else {
             var str = txnid.charCodeAt(2).toString() + txnid.charCodeAt(3).toString() + txnid.charCodeAt(4).toString() + txnid.substring(14);
             return parseInt(str);
+        }
+    },
+
+    cleanOldFiles: function () {
+        try {
+            var result = findRemoveSync('qrs', { age: { seconds: 3600 }, extensions: '.png' })
+        }
+        catch (err) {
+        }
+    },
+
+    postSaveImgAndCallback: function (extServerOptions, obj, name, cb) {
+        try {
+            this.cleanOldFiles();
+            var fileName = 'qrs/' + name + uuid.v1() + '.png';
+            var f = fs.createWriteStream(fileName);
+            var reqPost = http.request(extServerOptions, function (res) {
+                var buffer = '';
+                res.on('data', function (chunk) {
+                    f.write(chunk);
+                });
+                res.on('end', function (err) {
+                    if (res.statusCode === 200) {
+                        f.end();
+                        cb({ 'src': fileName });
+                    }
+                    else
+                        cb({ 'success': false, 'status': res.statusCode });
+                });
+            });
+
+            reqPost.write(JSON.stringify(obj));
+            reqPost.end();
+            reqPost.on('error', function (e) {
+                cb({ 'error': e, 'success': false });
+            });
+        }
+        catch (e) {
+            cb({ 'success': false, 'status': 501, 'validationErrors': 'Output is not in proper format' });
         }
     },
 

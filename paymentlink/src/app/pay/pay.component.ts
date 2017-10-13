@@ -314,6 +314,16 @@ export class PayComponent implements OnInit {
       this.qrError = true;
   }
 
+  showQR() {
+    if (!this.qrExpanded) {
+      if (this.validate(true))
+        this.refreshQRAmount();
+    }
+
+    this.qrExpanded = !this.qrExpanded;
+    this.qrlExpanded = false;
+  }
+
   createQR(out: any) {
     if(out && out.transactionRef) {
       this.tr = this.pay.invoiceNumber;
@@ -329,7 +339,7 @@ export class PayComponent implements OnInit {
   }
 
   refreshQRAmount() {
-/*     this.invalidAmount = false;
+    this.invalidAmount = false;
     if (this.qrAmount != this.pay.amount) {
       this.qrURL = null;
       if(this.txnNo && this.txnNo.length > 0)
@@ -339,7 +349,7 @@ export class PayComponent implements OnInit {
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
-    } */
+    }
   }
 
   refreshAmount() {

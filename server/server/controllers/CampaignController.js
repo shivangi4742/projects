@@ -78,7 +78,7 @@ var campCont = {
             var lnk = d.hasProds ? '/buy/' : '/pay/';
             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
-            var title = d.title ? d.title : '';
+            var title = d.campaignName ? d.campaignName : '';
             var description = d.description ? d.description : '';
             helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
                 {

@@ -235,6 +235,45 @@ var sdkCont = {
         }
     },
 
+    createBill: function(req, res) {
+    	res.setHeader("X-Frame-Options", "ALLOW");
+        this.createBillPost(req, function (data) {
+            res.json(data);
+        });  
+    },
+
+    createBillPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if(req && req.body && req.body.merchantCode && req.body.amount) {
+                var d = req.body;
+                var obj = {
+                    "merchantCode": d.merchantCode,
+                    "amount": d.amount,
+                    "paymentMethod": "UPI",
+                    "remarks": "",
+                    "refNumber": ""
+                };
+                if (d.tr)
+                    obj.refNumber = d.tr;
+
+                if (d.til)
+                    obj.till = d.til;
+
+                helper.postSaveImgAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getDynamicQRCode',
+                    'POST', req.headers), obj, d.merchantCode, cb);
+            }
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     startPaymentProcess: function(req, res) {
     	res.setHeader("X-Frame-Options", "ALLOW");
         this.startPaymentProcessPost(req, function (data) {
