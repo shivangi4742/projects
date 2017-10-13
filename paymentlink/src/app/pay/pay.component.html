@@ -80,7 +80,7 @@
         <div class="valign-wrapper" *ngIf="pay.askadd">
           <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
             <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" 
-              [disabled]="pay.readonlyaddr"></textarea>
+              [disabled]="pay.readonlyaddr" (blur)="refreshAmount()"></textarea>
             <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
               <span *ngIf="pay.mndaddress">*</span>
             </label>
@@ -261,7 +261,7 @@
             </li>
             <li *ngIf="supportsDC">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
+                <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
                   <div class="col s2" align="left">
                     <i class="material-icons yellowBN">credit_card</i>
                   </div>
@@ -284,7 +284,7 @@
             </li>
             <li *ngIf="supportsCC">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(1)">
+                <button id="ccBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(1)">
                   <div class="col s2" align="left">
                     <i class="material-icons cyanBN">credit_card</i>
                   </div>
@@ -307,7 +307,7 @@
             </li>
             <li *ngIf="supportsNB">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(3)">
+                <button id="nbBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(3)">
                   <div class="col s2" align="left">
                     <i class="material-icons cyanBN">credit_card</i>
                   </div>

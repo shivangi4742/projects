@@ -35,6 +35,9 @@ export class PayComponent implements OnInit {
   supportsCC: boolean = false;
   supportsDC: boolean = false;
   supportsNB: boolean = false;
+  ccExpanded: boolean = false;
+  dcExpanded: boolean = false;
+  nbExpanded: boolean = false;
   qrExpanded: boolean = false;
   hasProducts: boolean = false;
   qrlExpanded: boolean = false;
@@ -106,7 +109,9 @@ export class PayComponent implements OnInit {
     if(!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;    
 
-    /*
+    if(this.pay.merchantType == 1)
+      this.mobileNumber = this.pay.phone;
+
     if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
       if (this.pay.supportedModes.indexOf('UPI') >= 0)
         this.supportsUPI = true;
@@ -123,11 +128,14 @@ export class PayComponent implements OnInit {
       if (this.pay.supportedModes.indexOf('SODEXO') >= 0)
         this.supportsSodexo = true;
     }
-    */
 
-    this.supportsCC = true;
-    this.supportsDC = true;
-    this.supportsNB = true;
+    if (this.pay && this.pay.firstName && !this.pay.lastName && this.pay.firstName.indexOf(' ') > 0) {
+      let s = this.pay.firstName.split(' ');
+      if (s && s.length > 1) {
+        this.pay.firstName = s[0];
+        this.pay.lastName = s[1];
+      }
+    }
 
     this.loaded = true;
   }
@@ -140,25 +148,46 @@ export class PayComponent implements OnInit {
   validate(focus: boolean): boolean {
     if (!this.pay) {
       this.validationError = 'Please provide all valid inputs';
+      let elmnt: any = document.getElementById('amount');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (!this.pay.amount || this.pay.amount < 0.01 || this.pay.amount > 9999999.99) {
       this.validationError = 'Please enter a valid amount';
+      let elmnt: any = document.getElementById('amount');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (this.pay.askname && this.pay.mndname && (!this.name || this.name.trim().length <= 0)) {
       this.validationError = 'Please enter name to proceed';
+      let elmnt: any = document.getElementById('name');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 0)) {
       this.validationError = 'Please enter mobile number to proceed';
+      let elmnt: any = document.getElementById('mobileNumber');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (this.pay.askemail && this.pay.mndemail && (!this.pay.email || this.pay.email.trim().length <= 0
       || !this.validateEmail(this.pay.email.trim()))) {
       this.validationError = 'Please enter a valid email';
+      let elmnt: any = document.getElementById('email');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (this.pay.askpan && this.pay.mndpan && this.pay.minpanamnt < this.pay.amount && (!this.panNumber || this.panNumber.trim().length <= 0)) {
       this.validationError = 'Please enter PAN number to proceed';
+      let elmnt: any = document.getElementById('panNumber');
+      if(elmnt)
+        elmnt.focus();
     }
     else if (this.pay.askadd && this.pay.mndaddress && (!this.address || this.address.trim().length <= 0)) {
       this.validationError = 'Please enter a valid Address';
+      let elmnt: any = document.getElementById('address');
+      if(elmnt)
+        elmnt.focus();
     }
     else {
       this.invalidAmount = false;
@@ -319,10 +348,32 @@ export class PayComponent implements OnInit {
         this.refreshUPIAmount();
       else if (this.qrExpanded)
         this.refreshQRAmount();
+      else if (this.ccExpanded) {
+        let elmnt: any = document.getElementById('ccBtn');
+        if(elmnt)
+          elmnt.click();
+      }
+      else if (this.dcExpanded) {
+        let elmnt: any = document.getElementById('dcBtn');
+        if(elmnt)
+          elmnt.click();
+      }
+      else if (this.nbExpanded) {
+        let elmnt: any = document.getElementById('nbBtn');
+        if(elmnt)
+          elmnt.click();
+      }
     }
   }
 
   setMode(mode: number) {
+    if(mode == 1)
+      this.ccExpanded = true;
+    else if(mode == 2)
+      this.dcExpanded = true;
+    else if(mode == 3)
+      this.nbExpanded = true;
+
     if (this.validate(true)) {
       this.mode = mode;
       this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
