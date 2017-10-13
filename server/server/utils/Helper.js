@@ -98,6 +98,40 @@ var helper = {
         return extServerOptions;
     },
 
+    postAndCallbackString: function (extServerOptions, obj, cb) {
+        try {
+            var reqPost = http.request(extServerOptions, function (res) {
+                var buffer = '';
+                res.setEncoding('utf8');
+                res.on('data', function (chunk) {
+                    buffer += chunk;
+                });
+                res.on('end', function (err) {
+                    if (res.statusCode === 200)
+                        cb({ 'url': buffer.toString() });
+                    else if (res.statusCode === 400 && buffer) {
+                        var dta = JSON.parse(buffer);
+                        if (dta.validationErrors)
+                            cb({ 'success': false, 'status': res.statusCode, 'validationErrors': dta.validationErrors });
+                        else
+                            cb({ 'success': false, 'status': res.statusCode });
+                    }
+                    else
+                        cb({ 'success': false, 'status': res.statusCode });
+                });
+            });
+
+            reqPost.write(JSON.stringify(obj));
+            reqPost.end();
+            reqPost.on('error', function (e) {
+                cb({ 'error': e, 'success': false });
+            });
+        }
+        catch (e) {
+            cb({ 'success': false, 'status': 501, 'validationErrors': 'Output is not in proper format' });
+        }
+    },
+
     getDefaultExtServerOptions: function (path, method, headers) {
         var extServerOptions = {
             host: config.beNowSvc.host,

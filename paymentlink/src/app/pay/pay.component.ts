@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
@@ -31,6 +32,7 @@ export class PayComponent implements OnInit {
   resident: boolean = true;
   qrError: boolean = false;
   qrlError: boolean = false;
+  isMobile: boolean = false;
   isPolling: boolean = false;
   supportsCC: boolean = false;
   supportsDC: boolean = false;
@@ -47,14 +49,19 @@ export class PayComponent implements OnInit {
   supportsSodexo: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
-    private productService: ProductService) { }
+    private productService: ProductService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.prods = this.route.snapshot.params['prods'];
     this.uploadsURL = this.utilsService.getUploadsURL();
+    this.isMobile = this.utilsService.isAnyMobile();
     this.sdkService.getPaymentLinkDetails(this.id)
       .then(res => this.init(res))
+  }
+
+  sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   init(res: SDK) {
@@ -227,8 +234,7 @@ export class PayComponent implements OnInit {
   }
 
   refreshUPIAmount() {
-/*     this.invalidAmount = false;
-
+    this.invalidAmount = false;
     if (this.upiAmount != this.pay.amount) {
       this.upiURL = null;
       if(this.txnNo && this.txnNo.length > 0)
@@ -240,7 +246,7 @@ export class PayComponent implements OnInit {
           .then(res => this.createQRL(res));
     }
     else
-      this.qRLinkShown(this.upiURL, this.upiAmount); */
+      this.qRLinkShown(this.upiURL, this.upiAmount);
   }
 
   poll() {
@@ -312,6 +318,16 @@ export class PayComponent implements OnInit {
     }
     else
       this.qrError = true;
+  }
+
+  showQRLink() {
+    if (!this.qrlExpanded) {
+      if (this.validate(true))
+        this.refreshUPIAmount();
+    }
+
+    this.qrlExpanded = !this.qrlExpanded;
+    this.qrExpanded = false;
   }
 
   showQR() {

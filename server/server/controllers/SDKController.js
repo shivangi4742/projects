@@ -235,11 +235,50 @@ var sdkCont = {
         }
     },
 
+    createBillString: function(req, res) {
+    	res.setHeader("X-Frame-Options", "ALLOW");
+        this.createBillStringPost(req, function (data) {
+            res.json(data);
+        });  
+    },
+
     createBill: function(req, res) {
     	res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillPost(req, function (data) {
             res.json(data);
         });  
+    },
+
+    createBillStringPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if(req && req.body && req.body.merchantCode && req.body.amount) {
+                var d = req.body;
+                var obj = {
+                    "merchantCode": d.merchantCode,
+                    "amount": d.amount,
+                    "paymentMethod": "UPI",
+                    "remarks": "",
+                    "refNumber": ""
+                };
+                if (d.tr)
+                    obj.refNumber = d.tr;
+
+                if (d.til)
+                    obj.till = d.til;
+
+                helper.postAndCallbackString(helper.getDefaultExtServerOptions('/merchants/merchant/getDynamicQRString', 'POST', req.headers), 
+                    obj, cb);
+            }
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     createBillPost: function(req, cb) {
