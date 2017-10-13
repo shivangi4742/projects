@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers } from '@angular/http';
 
 import { Status } from '../models/status.model';
+//var CryptoJS = require('crypto-js'); 
 
 @Injectable()
 export class UtilsService {
@@ -43,6 +44,18 @@ export class UtilsService {
 
     return false;
   }
+  /* encryptPayload(obj: any, ut: boolean): string {
+    return CryptoJS.AES.encrypt(JSON.stringify(obj), this.getKey(ut)).toString();
+  }
+
+  decryptPayload(obj: any, ut: boolean): any {
+    if(obj && obj.data) {
+      return JSON.parse(CryptoJS.AES.decrypt(obj.data, this.getKey(ut)).toString(CryptoJS.enc.Utf8));
+    }
+
+    return null;
+  }*/
+
 
   getRequestURL(): string {
     return  this._requestURL;

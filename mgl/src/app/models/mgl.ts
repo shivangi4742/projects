@@ -10,7 +10,8 @@ export class Mgl {
     public duedt:string,
     public despdt:string,
     public billmon:string,
-    public group:string){}
+    public group:string,
+    public response:string){}
 }
 
 

@@ -14,7 +14,7 @@ var atob = require('atob');
 var Jimp = require("jimp");
 var http;
 
-if (config.beNowSvc.https == 'http://')
+if (config.beNowSvc.https == 'http://')      
     http = require('http');
 else
     http = require('https');
@@ -1687,48 +1687,7 @@ var benowCont = {
         }
     },
 
-    mglDetails: function (req, res) {
-        var me = this;
-        this.mglDetailsPost(req, function (data) {           
-            res.json({ "data": data});
-        });
-    },
-
-    mglDetailsPost: function (req,  cb) {
-        var retErr = {
-            "success": false,
-            "token": null,
-            "errorCode": "Something went wrong. Please try again."
-        };
-
-        try {
-        d = req.body.consumerno;
-        request.get({
-        url: 'https://www.mahanagargas.com/ver2/bill_xml.asp?CA='+d,
-        headers: {
-            "Content-Type": "text/html"
-        },
- 
-        }, function (error, response, body) {
-            if (error) {
-                console.log(error);
-            }
-          
-        var parseString = require('xml2js').parseString;
-        
-        parseString(response.body, function (err, result){
-           cb(result);
-           
-            });
-      
-
-       });
-
-      }
-        catch (err) {
-            cb(retErr);
-        }
-    },
+  
 
     savePayerDetailsPost: function (req, token, cb) {
         var retErr = {

@@ -24,11 +24,12 @@ export class CustomerpaymentComponent implements OnInit {
   }
 
   Submit() {
-    this.supportModes = ['UPI'];
+    this.supportModes = ['UPI']; 
+    //another option like collect request url
     this.payRequestService.setPayRequest(new Payrequestmodel(2,this.mgl.netpay, false, false, true, true, 'MahaNagar Gas Limited',
       '', this.mglservice.getFailedURL(), this.mgl.name, '','', '', '1', '5499', 'AACH5', '1', 'AACH5@yesbank',
        false, false, false, true, '', '', false,false,false,false, this.mglservice.getSuccessURL(), 'Benow Sales', '', '',
-      '', '','', '', '', this.supportModes))
+      this.mgl.response, this.mgl.ca,'', '', '', this.supportModes))
       .then(res => this.navigate());
   }
 

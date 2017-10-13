@@ -16,6 +16,7 @@ var resAuthenticated = function (req, res, next) {
 };
 
 router.post('/mgldetails', isAuthenticated, MglController.mglDetails.bind(MglController));
+router.post('/mgldetailssave', isAuthenticated, MglController.mglDetailsSave.bind(MglController));
 
 router.isAuthenticated = isAuthenticated;
 router.resAuthenticated = resAuthenticated;

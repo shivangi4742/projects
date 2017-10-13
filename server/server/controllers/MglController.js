@@ -90,7 +90,9 @@ var benowCont = {
 
     postAndCallback: function (extServerOptions, obj, cb) {
         try {
+            
             var reqPost = http.request(extServerOptions, function (res) {
+               
                 var buffer = '';
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
@@ -110,7 +112,7 @@ var benowCont = {
                         cb({ 'success': false, 'status': res.statusCode });
                 });
             });
-
+          
             reqPost.write(JSON.stringify(obj));
             reqPost.end();
             reqPost.on('error', function (e) {
@@ -196,11 +198,9 @@ var benowCont = {
             extServerOptions.headers['X-EMAIL'] = headers['x-email'];
         else
             extServerOptions.headers['X-EMAIL'] = config.defaultEmail;
-
+      
         return extServerOptions;
     },
-
-    
 
     getToken(req) {
         if (req.headers) {
@@ -260,7 +260,7 @@ var benowCont = {
         var parseString = require('xml2js').parseString;
         
         parseString(response.body, function (err, result){
-        console.log(result,'result');
+       
            cb(result);
            
             });
@@ -270,9 +270,62 @@ var benowCont = {
         catch (err) {
             cb(retErr);
         }
+    },
+
+  mglDetailsSave: function (req, res) {
+     
+      var token = this.getToken(req);
+        var me = this;
+        this.mglDetailsSavePost(req, token, function (data) {           
+          
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data});
+        });
+    },
+
+    mglDetailsSavePost: function (req, token, cb) {
+         var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+         try {
+            if (!req || !req.body) { 
+                cb(retErr);
+                
+            }
+            else {
+    
+                var d = req.body;
+              
+                var p =  {
+                     "transactionRef":d.transactionRef,
+                     "actionData":d.actionData,
+                     "tag1":d.tag1,
+                     "tag2":d.tag2,
+                     "tag3":d.tag3,
+                     "val1":d.val1,
+                     "val2":d.val2,
+                     "val3":d.val3
+                    } ; 
+                           
+                if (d) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/payments//paymentadapter/savePaymentPreActionData', 'POST', req.headers),
+                        { p },  cb);
+
+                }
+                else
+                { 
+                    cb(retErr);}
+                    
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },    
 
-    
+
 
 paymentSuccess : function(req, res) {
    var inpObj = req.body;

@@ -4,20 +4,19 @@ import { Headers, Response, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Mgl } from '../models/mgl';
-
+import { User } from '../../../../sharedservices/src/models/user.model';
 import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
-
-
 
 @Injectable()
 export class MglService {
-
+  private _user: User;  
   private _mgl: Mgl;
-
+  private _headers: any;
   private _urls: any = { 
   'mglDetailURL': 'mglpay/mgldetails', 
   'mglfailureURL': 'mglpay/mglfailure', 
-  'mglsuccessURL': 'mglpay/mglsuccess' }
+  'mglsuccessURL': 'mglpay/mglsuccess',
+  'mgldetailsSaveURL' : 'payments/mgldetailssave'}
 
   constructor(private http: Http, private utilsService: UtilsService) { }
 
@@ -45,13 +44,47 @@ export class MglService {
     console.log(res);
     let response = JSON.parse(res._body);
     let d: any = response.data.RECORD;
-    this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0]);
+    this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0],d);
 
     return this._mgl;
   }
 
   getmgldata(): Mgl {
     return this._mgl;
+  }
+ 
+  mgldetailssave(tag2: string, transactionRef:string, actionData:string): Promise<any> {
+   
+    return this.http.post(
+      this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL,
+      JSON.stringify({ 
+        
+          "transactionRef": transactionRef,
+          "actionData": actionData,
+          "tag1":"MAHANAGAR GAS",
+          "tag2":tag2,
+          "tag3":"Sad1",
+          "val1":"100",
+          "val2":"120",
+          "val3":"140"
+          
+        }), 
+        { headers: this.getTempHeaders() })
+      .toPromise()
+      .then(res => this.gettmglSaveDetails(res))
+      .catch(res => this.utilsService.returnGenericError());
+  }
+
+  gettmglSaveDetails(res:any){
+     console.log(res);
+  }
+   private getTempHeaders(): any {
+    let headers: any = {
+      'content-type': 'application/json',
+      
+    };
+
+    return new Headers(headers);
   }
 
 }

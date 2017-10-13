@@ -87,7 +87,6 @@ router.post('/getDueMChequesByDate', isAuthenticated, beNowController.getDueMChe
 router.post('/getAllNGOTransactions', isAuthenticated, beNowController.getAllNGOTransactions.bind(beNowController));
 router.post('/getAllPPLTransactions', isAuthenticated, beNowController.getAllPPLTransactions.bind(beNowController));
 
-router.post('/mgldetails', isAuthenticated, beNowController.mglDetails.bind(beNowController));
 
 router.isAuthenticated = isAuthenticated;
 router.resAuthenticated = resAuthenticated;
