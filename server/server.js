@@ -78,6 +78,7 @@ app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/txn', transactionRouter);
 app.use(config.base + '/mglpay', MglRouter);
+app.use(config.base + '/payments', MglRouter);
 app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
