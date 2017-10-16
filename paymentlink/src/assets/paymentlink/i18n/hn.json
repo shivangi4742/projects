@@ -82,5 +82,12 @@
     "Enter Name": "नाम दर्ज करें",
     "Redirecting you to payment page,": "आपको भुगतान पृष्ठ पर पुनर्निर्देशित कर रहे हैं,",
     "please do not click back or refresh the page": "कृपया वापस क्लिक न करें या पृष्ठ को रीफ्रेश न   करें",
-    "Amount has to be greate than 0.": "राशि 0 से अधिक होनी चाहिए।"
+    "Amount has to be greate than 0.": "राशि 0 से अधिक होनी चाहिए।",
+    "Please provide all valid inputs": "कृपया सभी वैध निविष्टियाँ प्रदान करें",
+    "Please enter a valid amount": "कृपया एक वैध राशि दर्ज करें",
+    "Please enter name to proceed": "कृपया आगे बढ़ने के लिए नाम दर्ज करें",
+    "Please enter mobile number to proceed": "कृपया आगे बढ़ने के लिए मोबाइल नंबर दर्ज करें",
+    "Please enter a valid email": "कृपया एक वैध ई-मेल डालें",
+    "Please enter PAN number to proceed": "कृपया आगे बढ़ने के लिए पैन नंबर दर्ज करें",
+    "Please enter a valid Address": "कपया वैध पता अंकित करें"
 }

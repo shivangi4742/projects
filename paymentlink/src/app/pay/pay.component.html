@@ -113,9 +113,8 @@
                   <div class="col s8" align="left">
                     <span class="truncate">{{'UPI QR Code' | translate}}</span>
                   </div>
-                  <div class="col s2" (click)="qrAcc()" align="right">
-                    <i *ngIf="!qrExpanded" class="material-icons greyBN">keyboard_arrow_down</i>
-                    <i *ngIf="qrExpanded" class="material-icons greyBN">keyboard_arrow_up</i>
+                  <div class="col s2" align="right">
+                    <i class="material-icons greyBN">{{getArrow(qrExpanded)}}</i>
                   </div>
                 </div>
               </div>
@@ -200,9 +199,8 @@
                   <div class="col s8" align="left">
                     <span class="truncate">{{'UPI App' | translate}}</span>
                   </div>
-                  <div class="col s2" (click)="qrlAcc()" align="right">
-                    <i *ngIf="!qrlExpanded" class="material-icons greyBN">keyboard_arrow_down</i>
-                    <i *ngIf="qrlExpanded" class="material-icons greyBN">keyboard_arrow_up</i>
+                  <div class="col s2" align="right">
+                    <i class="material-icons greyBN">{{getArrow(qrlExpanded)}}</i>
                   </div>
                 </div>
               </div>

@@ -82,5 +82,12 @@
     "Enter Name": "Enter Name",
     "Redirecting you to payment page,": "Redirecting you to payment page,",
     "please do not click back or refresh the page": "please do not click back or refresh the page",
-    "Amount has to be greate than 0.": "Amount has to be greate than 0."
+    "Amount has to be greate than 0.": "Amount has to be greate than 0.",
+    "Please provide all valid inputs": "Please provide all valid inputs",
+    "Please enter a valid amount": "Please enter a valid amount",
+    "Please enter name to proceed": "Please enter name to proceed",
+    "Please enter mobile number to proceed": "Please enter mobile number to proceed",
+    "Please enter a valid email": "Please enter a valid email",
+    "Please enter PAN number to proceed": "Please enter PAN number to proceed",
+    "Please enter a valid Address": "Please enter a valid Address"
 }

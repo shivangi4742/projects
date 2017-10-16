@@ -17,6 +17,8 @@ export class SDKService {
     private _pg: PG;
     private _sdk: SDK;
     private _lastBill: PayRequest;
+    private _paySuccess: any;
+    private _payFailure: any;
     private _urls: any = {
         getHashURL: 'sdk/getHash',
         createBillURL: 'sdk/createBill',
@@ -145,7 +147,8 @@ export class SDKService {
 
     private fillBill(res: any, amount: number, vpa: string): boolean {
         if(res && res.src) {
-            this._lastBill = new PayRequest(amount, '', vpa, res.src, this.utilsService.getDateTimeString(new Date));
+            //this._lastBill = new PayRequest(amount, '', vpa, 'http://localhost:9090/' + res.src, this.utilsService.getDateTimeString(new Date));
+			this._lastBill = new PayRequest(amount, '', vpa, res.src, this.utilsService.getDateTimeString(new Date));
             return true;
         }
         else
@@ -184,5 +187,21 @@ export class SDKService {
                 .toPromise()
                 .then(res => this.fillSDK(res.json()))
                 .catch(res => this.utilsService.returnGenericError());
+    }
+
+    setPayFailure(pf: any) {
+        this._payFailure = pf;
+    }
+
+    getPayFailure(): any {
+        return this._payFailure;
+    }
+
+    setPaySuccess(ps: any) {
+        this._paySuccess = ps;
+    }
+
+    getPaySuccess(): any {
+        return this._paySuccess;
     }
 }

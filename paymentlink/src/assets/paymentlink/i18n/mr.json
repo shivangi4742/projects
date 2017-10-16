@@ -81,5 +81,12 @@
     "Enter Name": "नाव प्रविष्ट करा",
     "Redirecting you to payment page,": "आपल्याला देय पृष्ठावर पुनर्निर्देशित करीत आहे,",
     "please do not click back or refresh the page": "कृपया परत क्लिक करू नका किंवा पृष्ठ रीफ्रेश करू नका",
-    "Amount has to be greate than 0.": "रक्कम 0 पेक्षा अधिक असणे आवश्यक आहे|"
+    "Amount has to be greate than 0.": "रक्कम 0 पेक्षा अधिक असणे आवश्यक आहे|",
+    "Please provide all valid inputs": "कृपया सर्व वैध इनपुट प्रदान करा",
+    "Please enter a valid amount": "कृपया एक वैध रक्कम प्रविष्ट करा",
+    "Please enter name to proceed": "कृपया पुढे जाण्यासाठी नाव प्रविष्ट करा",
+    "Please enter mobile number to proceed": "कृपया पुढे जाण्यासाठी मोबाइल नंबर प्रविष्ट करा",
+    "Please enter a valid email": "कृपया एक वैध ईमेल प्रविष्ट करा",
+    "Please enter PAN number to proceed": "कृपया पुढे जाण्यासाठी पैन नंबर प्रविष्ट करा",
+    "Please enter a valid Address": "कृपया एक वैध पत्ता प्रविष्ट करा"
 }

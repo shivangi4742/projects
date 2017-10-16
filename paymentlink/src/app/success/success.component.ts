@@ -20,9 +20,14 @@ export class SuccessComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.txnid = this.route.snapshot.params['txnid'];
-    //TODO: Get transaction details and status.
-    this.productService.getProductsForTransaction(this.id, this.txnid)
-      .then(res => this.fillProducts(res));
+    this.pay = this.sdkService.getPaySuccess();
+    if(this.pay && this.pay.amount > 0) {
+      this.products = this.pay.products;
+      this.loaded = true;
+    }
+    else
+      this.productService.getProductsForTransaction(this.id, this.txnid)
+        .then(res => this.fillProducts(res));
   }
 
   assignProductImages(res: Array<Product>) {

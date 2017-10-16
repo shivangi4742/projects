@@ -235,6 +235,13 @@ var sdkCont = {
         }
     },
 
+    getTransactionStatus: function(req, res) {
+    	res.setHeader("X-Frame-Options", "ALLOW");
+        this.getTransactionStatusPost(req, function (data) {
+            res.json(data);
+        });  
+    },
+
     createBillString: function(req, res) {
     	res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillStringPost(req, function (data) {
@@ -247,6 +254,26 @@ var sdkCont = {
         this.createBillPost(req, function (data) {
             res.json(data);
         });  
+    },
+
+    getTransactionStatusPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if(req && req.body && req.body.merchantCode && req.body.txnId)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers), 
+                    {
+                        "merchantCode": req.body.merchantCode,
+                        "txnId": req.body.txnId
+                    }, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     createBillStringPost: function(req, cb) {
@@ -433,7 +460,7 @@ var sdkCont = {
                                                 "txnDate": me.getCurDateTimeString
                                             },
                                             function (sdata) {
-                                                me.savePayerProducts(d.merchantCode, products, 0, data.hdrTransRefNumber, hdrs, retErr, cb);
+                                                me.savePayerProducts(d.merchantcode, products, 0, data.hdrTransRefNumber, hdrs, retErr, cb);
                                             });
                                     }
                                     else

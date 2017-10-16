@@ -255,55 +255,38 @@ export class PayComponent implements OnInit {
         .then(res => this.checkMyPayment(res));
   }
 
-  checkMyPayment(res: any) {
-/*     let me: any = this;
+  getArrow(exp: boolean): string {
+    if(exp)
+      return 'keyboard_arrow_up';
+    else
+      return 'keyboard_arrow_down';
+  }
+
+  checkMyPayment(rest: any) {
     let found: boolean = false;
-    if(res && res.length > 0)
-      res = res[0];
-
-    let phoneStr: string = this.pay.phone;
-    if(this.mobileNumber && this.mobileNumber.trim().length > 0)
-      phoneStr = this.mobileNumber.trim();
-
-    if(res && res.txnId == this.txnNo && res.paymentStatus) {
-      if(res.paymentStatus.trim().toUpperCase() == 'PAID') {
-        found = true;
-        if(me.pay.sourceId >= 1 || (me.pay.surl && me.pay.surl.length > 4)) {
-          let inpt: any = JSON.parse($('#paymentPageData').val());
-          me.payService.setPGSDK(new PGSDK(null, me.address, null, me.pay.amount, null, null, null, null, null, null, null, me.pay.email, null,
-            null, null, null, null, null, null, null, null, null, null, me.pay.firstName, me.pay.id, me.pay.lastName, me.pay.merchantCode, me.tr, 
-            'UPI', null, me.pay.amount, me.id, 'UPI', 'UPI', phoneStr, me.pay.merchantCode, this.pay.sourceId, null, 'success',
-            me.pay.title, me.txnNo, me.id, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, null, null, null, null, null, this.pay.surl, this.pay.furl,
-            'success', null));
-          me.router.navigateByUrl('/pgsdk/' + me.id);
+    let me: any = this;    
+    if(rest && rest.length > 0) {
+      let res: any = rest[0];
+      if(res && res.txnId == this.txnNo && res.paymentStatus) {
+        if(res.paymentStatus.trim().toUpperCase() == 'PAID') {
+          found = true;
+          this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.title, "mode": 0, "txnid": this.txnNo,
+            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products });
+          this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
         }
-        else {
-          me.payService.setPaySuccess({ "amount": me.pay.amount, "title": me.pay.title, "mode": 0, "txnid": this.txnNo });
-          me.router.navigateByUrl('/paymentsuccess/' + me.id);
+        else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {
+          found = true;
+          this.sdkService.setPayFailure({ "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg, 
+            "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, 
+            "products": this.pay.products });
+          this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnNo);
         }
-      }
-      else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {
-        found = true;
-        if(me.pay.sourceId >= 1 || (me.pay.surl && me.pay.surl.length > 4)) {
-          let inpt: any = JSON.parse($('#paymentPageData').val());
-          me.payService.setPGSDK(new PGSDK(null, me.address, null, me.pay.amount, null, null, null, null, null, null, null, me.pay.email, 
-            'PAYMENT_ERROR', this.utilsService.returnGenericError().errMsg, null, null, null, null, null, null, null, null, null, me.pay.firstName, 
-            me.pay.id, me.pay.lastName, me.pay.merchantCode, me.tr, 'UPI', null, me.pay.amount, me.id, 'UPI', 'UPI', phoneStr, 
-            me.pay.merchantCode, this.pay.sourceId, null, 'failure', me.pay.title, me.txnNo, me.id, inpt.udf2, inpt.udf3, inpt.udf4, inpt.udf5, 
-            null, null, null, null, null, this.pay.surl, this.pay.furl, 'failure', null));
-          me.router.navigateByUrl('/pgsdk/' + me.id);
-        }
-        else {
-          me.payService.setPayFailure({ "amount": me.pay.amount, "title": me.pay.title, "error": me.utilsService.returnGenericError().errMsg, 
-            "mode": 0, "txnid": this.txnNo });
-          me.router.navigateByUrl('/paymentfailure/' + me.id);
-        }        
       }
     }
 
     if(!found)
       setTimeout(function() { me.poll(); }, 5000);
- */  }
+  }
 
   qRShown(res: boolean) {
     this.qrError = false;
