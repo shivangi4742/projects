@@ -59,7 +59,7 @@ var prodCont = {
                 if (d && d.transactionId)
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getPayerProduct', 'POST', req.headers),
                         {
-                            "payerId": helper.gandaLogic(d.transactionId.toUpperCase())
+                            "transactionRef": d.transactionId
                         }, cb);
                 else
                     cb(retErr);
