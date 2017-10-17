@@ -44,9 +44,11 @@ export class PayComponent implements OnInit {
   hasProducts: boolean = false;
   qrlExpanded: boolean = false;
   supportsUPI: boolean = false;
+  appLaunched: boolean = false;
   invalidAmount: boolean = false;
   amountEditable: boolean = false;
   supportsSodexo: boolean = false;
+  upiMode: number = 1;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer) { }
@@ -208,15 +210,46 @@ export class PayComponent implements OnInit {
   qRLinkShown(res: string, amnt: number) {
     this.qrlError = false;
     if (res && amnt > 0) {
-      /*      if(this.pay.sourceId > 0)
-              this.upiURL = this.utilsService.getBaseURL() + 'redirect/' + encodeURIComponent(res);
-            else*/
       this.upiURL = res;
-
       this.upiAmount = amnt;
     }
     else
       this.qrlError = true;
+  }
+
+  backFromApp() {
+    this.appLaunched = false;
+    setTimeout(function() {
+      let elmnt: any = document.getElementById('address');
+      if(elmnt)
+        elmnt.focus();
+
+      elmnt = document.getElementById('panNumber');
+      if(elmnt)
+        elmnt.focus();
+
+      elmnt = document.getElementById('email');
+      if(elmnt)
+        elmnt.focus();
+
+      elmnt = document.getElementById('mobileNumber');
+      if(elmnt)
+        elmnt.focus();
+
+      elmnt = document.getElementById('name');
+      if(elmnt)
+        elmnt.focus();
+
+      elmnt = document.getElementById('amount');
+      if(elmnt)
+        elmnt.focus();
+    }, 100);
+  }
+
+  waitForUPIPayment() {
+    this.appLaunched = true;
+    if (!this.isPolling)
+      this.poll();
   }
 
   createQRL(out: any) {

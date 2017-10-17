@@ -88,5 +88,8 @@
     "Please enter mobile number to proceed": "कृपया पुढे जाण्यासाठी मोबाइल नंबर प्रविष्ट करा",
     "Please enter a valid email": "कृपया एक वैध ईमेल प्रविष्ट करा",
     "Please enter PAN number to proceed": "कृपया पुढे जाण्यासाठी पैन नंबर प्रविष्ट करा",
-    "Please enter a valid Address": "कृपया एक वैध पत्ता प्रविष्ट करा"
+    "Please enter a valid Address": "कृपया एक वैध पत्ता प्रविष्ट करा",
+    "Waiting for completion of payment through UPI app": "यूपीआई अनुप्रयोगाद्वारे पैसे भरण्याची प्रतीक्षा करत आहे",
+    "Waiting for approval of collection request": "संग्रह विनंतीस मंजूरीसाठी प्रतीक्षा करीत आहे",
+    "Back to Payment page": "परत देयक पृष्ठ"
 }

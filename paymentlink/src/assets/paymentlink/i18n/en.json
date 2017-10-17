@@ -89,5 +89,8 @@
     "Please enter mobile number to proceed": "Please enter mobile number to proceed",
     "Please enter a valid email": "Please enter a valid email",
     "Please enter PAN number to proceed": "Please enter PAN number to proceed",
-    "Please enter a valid Address": "Please enter a valid Address"
+    "Please enter a valid Address": "Please enter a valid Address",
+    "Waiting for completion of payment through UPI app": "Waiting for completion of payment through UPI app",
+    "Waiting for approval of collection request": "Waiting for approval of collection request",
+    "Back to Payment page": "Back to Payment page"
 }

@@ -185,7 +185,7 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
                 '        <meta property="og:url" content="' + data.desc1 + '" />' +
                 '        <meta property="og:image" content="' + nImg + '" />' +
 				'        <meta property="og:image:secure_url" content="' + nImg + '" />' +
-				'        <script>/*window.onload = function() { window.location = "' + data.desc1 + '"; return false; };*/</script>' +
+				'        <script>window.onload = function() { window.location = "' + data.desc1 + '"; return false; };</script>' +
 				'    </head>' + 
 				'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' + 
 				'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +

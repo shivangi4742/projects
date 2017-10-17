@@ -34,8 +34,8 @@ var sdkCont = {
                                     "deviceId": "browser",
                                     "mobileNumber": req.body.phone
                                 },
-                                "merchantCode": req.body.udf2,
-                                "merchantName": req.body.udf3,
+                                "merchantCode": req.body.udf9,
+                                "merchantName": req.body.udf8,
                                 "payeeVirtualAddress": "",
                                 "payerUsername": req.body.phone,
                                 "paymentInvoice": {
@@ -92,8 +92,8 @@ var sdkCont = {
                                     "deviceId": "browser",
                                     "mobileNumber": req.body.phone
                                 },
-                                "merchantCode": req.body.udf2,
-                                "merchantName": req.body.udf3,
+                                "merchantCode": req.body.udf9,
+                                "merchantName": req.body.udf8,
                                 "payeeVirtualAddress": "",
                                 "payerUsername": req.body.phone,
                                 "paymentInvoice": {
@@ -159,9 +159,9 @@ var sdkCont = {
                 "curl": config.paymentGateway.curl,
                 "surl": surl,
                 "furl": furl,
-                "udf1": paylinkid,
-                "udf2": req.body.merchantcode,
-                "udf3": req.body.merchantname,
+                "udf10": paylinkid,
+                "udf9": req.body.merchantcode,
+                "udf8": req.body.merchantname,
                 "udf4": req.body.udf4,
                 "udf5": req.body.udf5,
                 "ismobileview": req.body.ismobileview,
@@ -192,6 +192,11 @@ var sdkCont = {
                 "udf3": payload.udf3,
                 "udf4": payload.udf4,
                 "udf5": payload.udf5,
+                "udf6": payload.udf6,
+                "udf7": payload.udf7,
+                "udf8": payload.udf8,
+                "udf9": payload.udf9,
+                "udf10": payload.udf10,
                 "phone": payload.phone,
                 "username": payload.phone
             };

@@ -147,8 +147,7 @@ export class SDKService {
 
     private fillBill(res: any, amount: number, vpa: string): boolean {
         if(res && res.src) {
-            //this._lastBill = new PayRequest(amount, '', vpa, 'http://localhost:9090/' + res.src, this.utilsService.getDateTimeString(new Date));
-			this._lastBill = new PayRequest(amount, '', vpa, res.src, this.utilsService.getDateTimeString(new Date));
+			this._lastBill = new PayRequest(amount, '', vpa, this.utilsService.getBaseURL() + res.src, this.utilsService.getDateTimeString(new Date));
             return true;
         }
         else
