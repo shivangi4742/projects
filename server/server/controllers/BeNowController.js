@@ -12,16 +12,19 @@ var config = require('./../configs/Config');
 var urls = require('./../utils/URLs');
 var atob = require('atob');
 var Jimp = require("jimp");
+
+var PdfTable = require('voilab-pdf-table')
+var PDFDocument = require('pdfkit');
+
 var http;
 
-if (config.beNowSvc.https == 'http://')      
+if (config.beNowSvc.https == 'http://')
     http = require('http');
 else
     http = require('https');
 
 var benowCont = {
     getAndCallback: function (extServerOptions, cb, notJSON) {
-        console.log(extServerOptions.host,extServerOptions.path)
         return http.get({
             host: extServerOptions.host,
             path: extServerOptions.path,
@@ -198,7 +201,7 @@ var benowCont = {
         extServerOptions.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';
         extServerOptions.headers['Content-Type'] = 'application/json';
         extServerOptions.headers['X-AUTHORIZATION'] = token;
-        extServerOptions.headers['X-EMAIL'] = token;
+        extServerOptions.headers['X-EMAIL'] = email;
         return extServerOptions;
     },
 
@@ -348,7 +351,20 @@ var benowCont = {
         res.send({ success: false, errorMsg: errMsg });
     },
 
-    invalidFileSizeTypeDim(req, res, cb) {
+    invalidFileSizeTypeDim2(req, res, cb) {
+        var fp = __dirname + '/../../uploads/' + req.file.filename;
+        var tp = fileType(readChunk.sync(fp, 0, 4100));
+        if(!tp || !tp.ext || !(tp.ext.toLowerCase() == 'pdf' || tp.ext.toLowerCase() == 'png' || tp.ext.toLowerCase() == 'jpg' || tp.ext.toLowerCase() == 'jpeg')) 
+            this.deleteUploadedFile(fp, 'Unsupported file format!');
+
+        var stats = fs.statSync(fp);
+        if(!stats || !stats.size || stats.size > 10000000) 
+            this.deleteUploadedFile(fp, 'File is bigger than 300 KB!');//translates to 1 MB
+        else
+            cb();
+    },
+
+	invalidFileSizeTypeDim(req, res, cb) {
         var fp = __dirname + '/../../uploads/' + req.file.filename;
         var tp = fileType(readChunk.sync(fp, 0, 4100));
         if (!tp || !tp.ext || !(tp.ext.toLowerCase() == 'png' || tp.ext.toLowerCase() == 'jpg' || tp.ext.toLowerCase() == 'jpeg'))
@@ -384,6 +400,579 @@ var benowCont = {
             cb();
     },
 
+    uploadFile2: function(req, res) {
+        if(req.fileValidationError)
+            res.send({success: false, errorMsg: req.fileValidationError });
+        else { 
+            var me = this;
+            me.invalidFileSizeTypeDim2(req, res, function () {
+               
+                if(!req.body.headers || !req.body.headers)
+                    res.send({ success: false, errorMsg: 'Improper request. Please try again.' });
+                else if (!req.file || !req.file.filename)
+                    res.send({ success: false, errorMsg: 'Unsupported file format, size or dimension!' });
+                else {
+                   var h = me.decryptPayLoad(req.body.headers, null, false);
+                   
+                        var d = me.decryptPayLoad(req.body.data,null,  false);
+                        if(!d.sourceId || !d.sourceType || !d.documentName || !d.documentCode)
+                            res.send({ success: false, errorMsg: 'Incorrect input!' });
+                        else {                           
+                            var f = req.file.filename;
+                            var reqPost = request.post(me.getDefaultExtFileServerOptions(config.beNowSvc.https + config.beNowSvc.host 
+                                + ':' + config.beNowSvc.port + '/merchants/document/uploadSelfRegMerchantDocument', 'POST', req.headers), 
+                                function (err, resp, body) {
+                                if (err)
+                                    res.send({ success: false, errorMsg: 'Something went wrong. Please try again.' });
+                                else {
+                                    if(body) {
+                                        var rb = JSON.parse(body);
+                                        if(rb) 
+                                            res.send({ success: true, fileName: f });
+                                        else
+                                            res.send({ success: false, errorMsg: 'Error in uploading file. Please try again.' });
+                                    }
+                                    else
+                                        res.send({ success: false, errorMsg: 'Error in uploading file. Please try again.' });
+                                }
+                            });
+                            var fName = f;
+                            var li = f.lastIndexOf('.');
+                            if(li > 0 && li < f.length);
+                                fName = fName.substring(0, li);
+
+                            var form = reqPost.form();
+                        form.append('documentVO', JSON.stringify({
+                            "sourceId": d.sourceId, "documentName": d.documentName, "sourceType": d.sourceType,
+                            "documentCode": d.documentCode
+                        }));
+                            form.append('file', fs.createReadStream(__dirname + '/../../uploads/' + req.file.filename));
+                        
+                    }
+                }
+            });
+        }
+    },
+
+    signUp: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.signUpPost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+
+    sendVerifiedotp: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.sendVerifiedotppost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({"data": me.encryptPayload(data, token, false)});            
+        })
+    },
+          
+
+    sendVerifiedotppost: function(req, token, cb) {
+        var retErr = {
+            "success": false,
+            "error": true,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.data)
+                cb(retErr);
+            else {
+                
+                var d = this.decryptPayLoad(req.body.data, token, false); 
+                if(d && d.mobileNumber && d.otp)
+                    this.postAndCallback(this.getExtServerOptions('/payments/registration/checkWebOTP' , 'POST',  req.headers), 
+                        {
+                            "mobileNumber": d.mobileNumber,
+                             "otp": d.otp
+                        }, 
+                        cb);
+                         else cb(retErr);
+            }
+        }
+        catch(err) {
+            cb(retErr);
+        }
+    },
+   getmerchantId: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this. getmerchantIdppost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({"data": me.encryptPayload(data, token, false)});            
+        })
+    },
+          
+          
+    getmerchantIdppost: function(req, token, cb) {
+        var retErr = {
+            "success": false,
+            "error": true,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if(!req || !req.body || !req.body.data)
+                cb(retErr);
+            else {
+                
+                var d = this.decryptPayLoad(req.body.data, token, false); 
+               
+                if(d && d.mobileNumber )
+                    this.postAndCallback(this.getExtServerOptions('/merchants/merchant/registerSelfMerchant' , 'POST',  req.headers), 
+                        {
+                           "userId":d.userId,
+	                        "mobileNumber":d.mobileNumber,
+	                        "emailId":d.emailId,
+	                    	"password":d.password,
+                            "businessName":d.businessName
+                        }, 
+                        cb);
+                         else cb(retErr);
+            }
+        }
+        catch(err) {
+            cb(retErr);
+        }
+    },
+
+    //TODO: Error handling.
+    signUpPost: function(req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+                 if(d && d.mobileNumber) {
+                                    
+                    this.postAndCallback(this.getExtServerOptions('/payments/registration/sendWebOTP','POST', req.headers), 
+                        {
+                            "mobileNumber": d.mobileNumber
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+    getBusinessType: function(req, res) { 
+        var me = this;
+        var token = this.getToken(req);
+        this.getBusinessTypeget(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY")
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+    getBusinessTypeget: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try { 
+          this.getAndCallback(this.getExtServerOptions('/merchants/merchant/getAllBusinessTypes','GET', req.headers),cb);
+        }
+           
+        catch(err) {
+          cb(retErr);
+        }
+    },
+
+   getBusinessDocumentList: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.buisnesscodepost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+   buisnesscodepost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+
+                 if(d && d.data) {                                
+                    this.postAndCallback(this.getExtServerOptions('/merchants/merchant/getBusinessDocumentList','POST', req.headers), 
+                        {
+                            "data": d.data
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+    
+    getDashboardCategories: function(req, res) {
+            var me = this;
+            var token = this.getToken(req);
+            this.getDashboardCategoriespost(req, token, function(data) {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({"data": me.encryptPayload(data, token, false)});
+            });
+        },
+        
+    getDashboardCategoriespost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else { 
+               this.postAndCallback(this.getDefaultExtServerOptions('/payments/getDashboardCategories','POST', req.headers), 
+                        { 
+
+                           }, 
+                        cb);
+                }   
+            }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
+   getSubcategoryByCategory: function(req, res) {
+            var me = this;
+            var token = this.getToken(req);
+            this.getSubcategoryByCategorypost(req, token, function(data) {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({"data": me.encryptPayload(data, token, false)});
+            });
+        },
+        
+    getSubcategoryByCategorypost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+                if(d && d.category) {  
+               this.postAndCallback(this.getDefaultExtServerOptions('/payments/getSubcategoryByCategory','POST', req.headers), 
+                        { 
+                            "category": d.category
+                           }, 
+                        cb);
+                }  
+                else
+                  cb(retErr); 
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
+ registerSelfMerchant: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.registerSelfMerchantpost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+   registerSelfMerchantpost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                if(d && d.id ) {
+                         this.postAndCallback(this.getExtServerOptions('/merchants/merchant/registerSelfMerchant','POST', req.headers), 
+                        {
+                             "displayName":d.displayName,
+                             "businessType": d.businessType,
+                             "contactEmailId":d.contactEmailId,
+                             "category": d.category,
+	                         "subCategory":d.subCategory,
+                             "city":d.city,
+                             "locality":d.locality,
+                             "contactPerson":d.contactPerson,
+                             "contactMobileNumber":d.contactMobileNumber,
+                             "address":d.address,
+                             "pinCode":d.pinCode,
+                             "businessTypeCode":d.businessTypeCode,
+                             "id":d.id
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
+   markSelfMerchantVerified: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.markSelfMerchantVerifiedpost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+   markSelfMerchantVerifiedpost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+                 if(d && d.id) {      
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified','POST', req.headers), 
+                        {
+                            "id": d.id , 
+	                        "ifsc": d.ifsc ,
+	                        "accountRefNumber": d.accountRefNumber,
+                            "panNumber":d.panNumber,
+	                        "bankName":d.bankName,
+	                        "merchantName":d.merchantName
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
+  getMerchantDetails: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.MerchantDetailspost(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+   MerchantDetailspost: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+                 if(d && d.merchantCode) {
+                                    
+                    this.postAndCallback(this.getDefaultExtServerOptions('/payments/merchantdetail/getMerchantDetails','POST', req.headers), 
+                        {
+                            "merchantCode":d.merchantCode
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
+    sendEmailNotification: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.sendEmailNotificationPost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
+
+    createReceipt: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.createReceiptPost(req, token, function (data) {
+              
+               res.setHeader("X-Frame-Options", "DENY");
+               res.json({ "data": me.encryptPayload(data, token, false)
+            });
+        });
+    },
+
+
+
+    createReceiptPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                if (d) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/createReceipt', 'POST', req.headers),
+                        {
+                            "amount": d.amount,
+                            "paymentDate": d.paymentDate,
+                            "payerName": d.payerName,
+                            "payerUserId": d.payerUserId,
+                            "merchanCode": d.merchanCode,
+                            "txnId": d.txnId
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    sendEmailNotificationPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                if (d) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
+                        {
+                            "to": d.to,
+                            "text": d.text,
+                            "subject": d.subject,
+                            "cc": d.cc,
+                            "bcc": d.bcc
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+   complteregister: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.complteregistration(req, token, function(data) {
+            res.setHeader("X-Frame-Options", "DENY");
+             res.json({"data": me.encryptPayload(data, token, false)});
+        });
+    },
+    
+   complteregistration: function(req,token, cb) {
+       var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+             if(!req || !req.body || !req.body.data) {
+               cb(retErr);
+            }
+            else {
+                       
+                 var d = this.decryptPayLoad(req.body.data, token, false);
+                 if(d && d.id) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', req.headers),
+                        {
+                            "id": d.id
+                        }, 
+                        cb);
+                }
+                else
+                  cb(retErr);
+            }
+        }
+        catch(err) {
+           cb(retErr);
+        }
+    },
+
     uploadFile: function (req, res) {
         if (req.fileValidationError)
             res.send({ success: false, errorMsg: req.fileValidationError });
@@ -412,7 +1001,7 @@ var benowCont = {
                                     else {
                                         if (body) {
                                             var rb = JSON.parse(body);
-                                            if (rb && rb.responseFromAPI && rb.responseFromAPI === true)
+                                            if (rb && rb.createdByUser && rb.createdByUser.length > 0)
                                                 res.send({ success: true, fileName: f });
                                             else
                                                 res.send({ success: false, errorMsg: 'Error in uploading file. Please try again.' });
@@ -457,56 +1046,93 @@ var benowCont = {
         })
     },
 
+    getTillAssignments: function(req, res) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        var token = this.getToken(req);
+        var headers = req.headers;
+        var me = this;
+        if (!req || !req.body || !req.body.data) {
+            cb(retErr);
+        }
+        else {
+            var d = this.decryptPayLoad(req.body.data, token, false);              
+            this.getTilsGet(d.email, d.merchantCode, token, 
+                headers['X-EMAIL'] ? headers['X-EMAIL'] : headers['x-email'] ? headers['x-email'] : config.defaultEmail, function (data) {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({ "data": me.encryptPayload(data, token, false) });
+            });
+        }
+    },
+
     signIn: function (req, res) {
         var me = this;
         var token = this.getToken(req);
-        this.signInPost(req, token, function (data) {
-            if (data && data.jwtToken) {
-                res.setHeader("X-Frame-Options", "DENY");
-                res.json({ "data": me.encryptPayload(data, token, false) });
-            }
-            else {
-                me.signInTilPost(req, token, function (empData) {
-                    if (empData && empData.jwtToken && empData.employee_role && empData.employee_role.trim().toLowerCase() == 'benow merchant associate') {
-                        var ts = empData.jwtToken.split('.');
-                        if (ts && ts.length > 1) {
-                            var dt = JSON.parse(atob(ts[1]));
-                            if (dt && dt.sub && dt.data) {
-                                me.getTilsGet(dt.data.merchantCode, empData.jwtToken, dt.sub, function (tilData) {
-                                    empData.tils = tilData;
-                                    res.setHeader("X-Frame-Options", "DENY");
-                                    res.json({ "data": me.encryptPayload(empData, token, false) });
-                                });
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        if (!req || !req.body || !req.body.data) {
+            cb(retErr);
+        }
+        else {
+            var d = this.decryptPayLoad(req.body.data, token, false);              
+            if (d && d.email && d.password) {
+                this.signInPost(req, token, function (data) {
+                    if (data && data.jwtToken) {
+                        res.setHeader("X-Frame-Options", "DENY");
+                        res.json({ "data": me.encryptPayload(data, token, false) });
+                    }
+                    else {
+                        me.signInTilPost(req, token, function (empData) {
+                            if (empData && empData.jwtToken && empData.employee_role && 
+                                    (empData.employee_role.trim().toLowerCase() == 'benow merchant associate' 
+                                    || empData.employee_role.trim().toLowerCase() == 'benow merchant manager'))  {
+                                    var ts = empData.jwtToken.split('.');
+                                    if (ts && ts.length > 1) {
+                                        var dt = JSON.parse(atob(ts[1]));
+                                        if (dt && dt.sub && dt.data) {
+                                            me.getTilsGet(d.email, dt.data.merchantCode, empData.jwtToken, dt.sub, function (tilData) {
+                                                empData.tils = tilData;
+                                                res.setHeader("X-Frame-Options", "DENY");
+                                                res.json({ "data": me.encryptPayload(empData, token, false) });
+                                            });
+                                        }
+                                        else {
+                                            res.setHeader("X-Frame-Options", "DENY");
+                                            res.json({ "data": me.encryptPayload(empData, token, false) });
+                                        }
+                                    }
+                                    else {
+                                        res.setHeader("X-Frame-Options", "DENY");
+                                        res.json({ "data": me.encryptPayload(empData, token, false) });
+                                    }
                             }
                             else {
                                 res.setHeader("X-Frame-Options", "DENY");
                                 res.json({ "data": me.encryptPayload(empData, token, false) });
                             }
-                        }
-                        else {
-                            res.setHeader("X-Frame-Options", "DENY");
-                            res.json({ "data": me.encryptPayload(empData, token, false) });
-                        }
-                    }
-                    else {
-                        res.setHeader("X-Frame-Options", "DENY");
-                        res.json({ "data": me.encryptPayload(empData, token, false) });
+                        });
                     }
                 });
             }
-        });
+        }
     },
 
-    download: function(req, res) {
+    download: function (req, res) {
         var me = this;
         var token = this.getToken(req);
-        this.downloadPost(req, token, res, function(data) {
+        this.downloadPost(req, token, res, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
-            res.json({"data": me.encryptPayload(data, token, true)});
+            res.json({ "data": me.encryptPayload(data, token, true) });
         });
     },
 
-    tillAllocate: function(req, res) {
+    tillAllocate: function (req, res) {
         var me = this;
         var token = this.getToken(req);
         this.tillAllocatePost(req, token, function (data) {
@@ -528,7 +1154,7 @@ var benowCont = {
         var me = this;
         var token = this.getToken(req);
         this.savePayerDetailsPost(req, token, function (data) {
-            res.setHeader("X-Frame-Options", "DENY");
+	    res.setHeader("X-Frame-Options", "ALLOW");
             res.json({ "data": me.encryptPayload(data, token, false) });
         });
     },
@@ -561,8 +1187,8 @@ var benowCont = {
             merchantName = d.merchantName;
 
         this.savePaymentLinkPost(req, token, function (data) {
-            if (data && data.txnrefnumber && data.mobileNumber) {
-                me.smsPaymentLinkPost(data.customerName, merchantName, d.mtype, data.mobileNumber, data.txnrefnumber, hdrs, function (out) {
+            if (data && data.paymentReqNumber && data.mobileNumber) {
+                me.smsPaymentLinkPost(data.customerName, merchantName, d.mtype, data.mobileNumber, data.paymentReqNumber, hdrs, function (out) {
                     if (out === true) {
                         res.setHeader("X-Frame-Options", "DENY");
                         res.json({ "data": me.encryptPayload({ success: true }, token, true) });
@@ -634,16 +1260,17 @@ var benowCont = {
         });
     },
 
-    getAllNGOTransactions: function(req, res) {
+    getAllNGOTransactions: function (req, res) {
         var me = this;
         var token = this.getToken(req);
-        this.getAllNGOTransactionsGet(req, token, function(data) {
+        this.getAllNGOTransactionsGet(req, token, function (data) {
+           
             res.setHeader("X-Frame-Options", "DENY");
-            res.json({"data": me.encryptPayload(data, token, true)});            
-        })        
+            res.json({ "data": me.encryptPayload(data, token, true) });
+        })
     },
 
-    getAllPPLTransactions: function(req, res) {
+    getAllPPLTransactions: function (req, res) {
         var me = this;
         var token = this.getToken(req);
         this.getAllPPLTransactionsPost(req, token, function (data) {
@@ -656,6 +1283,25 @@ var benowCont = {
         var me = this;
         var token = this.getToken(req);
         this.getAllTransactionsPost(req, token, function (data) {
+           
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
+
+    getTransactionStatusByRef: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.getTransactionStatusByRefPost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, true) });
+        });        
+    },
+
+    getTransactionStatus: function(req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.getTransactionStatusPost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": me.encryptPayload(data, token, false) });
         });
@@ -665,6 +1311,7 @@ var benowCont = {
         var me = this;
         var token = this.getToken(req);
         this.getTransactionsPost(req, token, function (data) {
+           
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": me.encryptPayload(data, token, false) });
         });
@@ -685,6 +1332,33 @@ var benowCont = {
         this.getPPLTransactionsPost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
+
+   fetchMerchantForEditDetails: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.fetchMerchantForEditDetailsPost(req, token, function (data) {
+           
+            var p = data.documentResponseVO.documentList;
+            if(p && p.length > 0 ) {
+             for(var i=0 ; i< p.length; i++) {
+                if(p[i].documentName =='Merchant_logo') 
+                var logoURL = p[i].documentUrl;
+            
+              }
+            }
+           if(data && logoURL) {
+                me.downloadLogo(logoURL, data.userId, function(ldata) {                   
+                    data.merchantLogoUrl = ldata;
+                    res.setHeader("X-Frame-Options", "DENY");
+                    res.json({ "data": me.encryptPayload(data, token, false) });
+                });
+            }
+            else {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({ "data": me.encryptPayload(data, token, false) });
+            }
         });
     },
 
@@ -732,30 +1406,47 @@ var benowCont = {
             res.json({ "data": me.encryptPayload(data, token, false) });
         });
     },
+    
+    
+    getEmployeeDetails: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.getEmployeeDetailsPost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
 
-    getAllNGOTransactionsGet: function(req, token, cb) {
+      getAllNGOTransactionsGet: function (req, token, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
 
         try {
-            if(!req || !req.body || !req.body.data)
+            if (!req || !req.body || !req.body.data)
                 cb(retErr);
             else {
-                var d = this.decryptPayLoad(req.body.data, token, true); 
-                if(d && d.merchantCode)
-                    this.getAndCallback(this.getExtServerOptions('/payments/paymentadapter/getDataByPaymentLink?merchantCode=' + d.merchantCode, 
-                        'GET', req.headers), cb);
+                
+                var d = this.decryptPayLoad(req.body.data, token, true);
+               
+                if (d && d.merchantCode)
+                    this.postAndCallback(this.getExtServerOptions('/payments/paymentadapter/getDataByPaymentLinkByCriteria',
+                        'POST', req.headers),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "fromDate": d.fromDate,
+                            "toDate": d.toDate
+                        }, cb);
                 else
                     cb(retErr);
             }
         }
-        catch(err) {
+        catch (err) {
             cb(retErr);
         }
     },
-    
+
     //TODO: Error handling.
     sendVerificationMailGet: function (req, token, cb) {
         var retErr = {
@@ -807,7 +1498,7 @@ var benowCont = {
         }
     },
 
-    getTilsGet: function (merchantCode, token, email, cb) {
+    getTilsGet: function (login, merchantCode, token, email, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -818,7 +1509,7 @@ var benowCont = {
                 cb(retErr);
             else
                 this.getAndCallback(this.getTilExtServerOptions('/merchants/merchant/getMerchantTills?merchantCode=' +
-                    merchantCode, 'GET', token, email), cb);
+                    merchantCode + '&userId=' + login, 'GET', token, email), cb);
         }
         catch (err) {
             cb(retErr);
@@ -840,10 +1531,13 @@ var benowCont = {
                 if (d) {
                     var obj = {
                         "merchantCode": d.merchantCode,
-                        "amount": d.amount
+                        "amount": d.amount,
+                        "paymentMethod": "UPI",
+                        "remarks": "",
+                        "refNumber": ""
                     }
                     if (d.tr)
-                        obj.tr = d.tr;
+                        obj.refNumber = d.tr;
 
                     if (d.til)
                         obj.till = d.til;
@@ -875,16 +1569,49 @@ var benowCont = {
                 if (d) {
                     var obj = {
                         "merchantCode": d.merchantCode,
-                        "amount": d.amount
+                        "amount": d.amount,
+                        "paymentMethod": "UPI",
+                        "remarks": "",
+                        "refNumber": ""
                     };
                     if (d.tr)
-                        obj.tr = d.tr;
+                        obj.refNumber = d.tr;
 
                     if (d.til)
                         obj.till = d.til;
 
                     this.postSaveImgAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/getDynamicQRCode',
                         'POST', req.headers), obj, d.merchantCode, cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    //changes
+    getEmployeeDetailsPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                if (d) {
+                    var obj = {
+                        "merchantCode": d.merchantCode
+                    };
+                    
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/getEmployeeDetails',
+                        'POST', req.headers), obj, cb);
                 }
                 else
                     cb(retErr);
@@ -915,10 +1642,12 @@ var benowCont = {
                         "amount": d.amount.toString(),
                         "expiryValue": d.expiryValue.toString(),
                         "expiryType": d.expiryType,
-                        "remarks": d.remarks
+                        "remarks": d.remarks,
+                        "paymentMethod": "UPI",
+                        "refNumber": ""
                     };
                     if (d.tr)
-                        obj.addtionalField1 = d.tr;
+                        obj.refNumber = d.tr;
 
                     if (d.til)
                         obj.till = d.til;
@@ -1135,6 +1864,7 @@ var benowCont = {
             }
             else {
                 var d = this.decryptPayLoad(req.body.data, token, false);
+              
                 if (d) {
                     var optns = this.getExtServerOptions('/merchants/merchant/getFulfilledMerchantOrders',
                         'POST', req.headers);
@@ -1149,6 +1879,37 @@ var benowCont = {
                             me.accumulateResults(d.merchantCode, d.fromDate, d.toDate, 1, payments, optns, cb, retV);
                         });
                 }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    fetchMerchantForEditDetailsPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            
+            if (!req || !req.body || !req.body.data)
+          
+                cb(retErr);
+            else {
+               
+                var d = this.decryptPayLoad(req.body.data, token, false);
+              
+                if (d)
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails', 'POST', req.headers),
+                        {
+                            "userId":d.userId,
+                            "sourceId":d.sourceId,
+                            "sourceType": d.sourceType
+                        }, cb);
                 else
                     cb(retErr);
             }
@@ -1177,7 +1938,7 @@ var benowCont = {
                         "toDate": d.toDate,
                         "pageNumber": d.pageNumber
                     };
-                    if (d.til)
+                    if (d.merchantTill)
                         obj.merchantTill = d.til;
 
                     this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/getFulfilledMerchantOrders', 'POST', req.headers), obj, cb);
@@ -1217,6 +1978,60 @@ var benowCont = {
         }
     },
 
+    getTransactionStatusByRefPost: function(req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+                var d = this.decryptPayLoad(req.body.data, token, true);
+                if (d && d.merchantCode && d.tr)
+                    this.postAndCallback(this.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers), 
+                        {
+                            "merchantCode": d.merchantCode,
+                            "refNumber": d.tr
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getTransactionStatusPost: function(req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                if (d && d.merchantCode && d.txnId)
+                    this.postAndCallback(this.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers), 
+                        {
+                            "merchantCode": d.merchantCode,
+                            "txnId": d.txnId
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     //TODO: Error handling.
     getTransactionsPost: function (req, token, cb) {
         var retErr = {
@@ -1235,11 +2050,15 @@ var benowCont = {
                         "merchantCode": d.merchantCode,
                         "fromDate": d.fromDate,
                         "toDate": d.toDate,
-                        "pageNumber": d.pageNumber
+                        "pageNumber": d.pageNumber,
+                        "status":d.status,
+                        "sortColumn":d.sortColumn,
+                        "sortDirection":d.sortDirection
                     };
-                    if (d.til)
-                        obj.merchantTill = d.til;
+                  if (d.merchantTill)
+                        obj.merchantTill = d.merchantTill;
 
+ 
                     this.postAndCallback(this.getExtServerOptions('/merchants/merchant/getFulfilledMerchantOrders', 'POST', req.headers), obj, cb);
                 }
                 else
@@ -1479,36 +2298,74 @@ var benowCont = {
         }
     },
 
-    downloadPost: function(req, token, res, cb) {
+    downloadLogo: function(url, userId, cb) {
+      
+        try {
+            if(!url)
+                cb('');
+            else {
+                var extn = '.png';
+                var lIndex = url.lastIndexOf('.');
+                if(lIndex > 0)
+                    extn = url.substring(lIndex);
+
+               var fName = 'logos/' + userId + extn;
+              
+               if(!fs.existsSync(fName)) {
+               var file = fs.createWriteStream(fName);
+                    
+            Jimp.read(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/'
+                        + url, function (err, lenna) {
+                              lenna.resize(190, 105)       
+                              var image = new Jimp(210, 120, function (err, image) {
+                              image.background(0xFFFFFFFF)
+                             .composite(lenna, 10, 5);
+                               image.write(fName)
+                              
+                            cb(fName);
+                        });                    
+                   });
+
+                }
+                else
+                    cb(fName);
+            }
+        }
+        catch(err) {
+            cb('');
+        }
+    },
+
+    downloadPost: function (req, token, res, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
         try {
-            if(!req || !req.body || !req.body.data) {
+            if (!req || !req.body || !req.body.data) {
                 cb(retErr);
             }
             else {
                 var d = this.decryptPayLoad(req.body.data, token, true);
-                if( d && d.fileUrl ) {
+                if (d && d.fileUrl) {
                     var tempFileUrl = uuid.v1() + d.fileUrl.substring(d.fileUrl.lastIndexOf('/') + 1);
                     var file = fs.createWriteStream('qrs/' + tempFileUrl);
-                    var request = http.get(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port + 
-                        '/merchants' + d.fileUrl, function(response) {
-                        response.pipe(file);
-                        cb(config.me + '/qrs/' + tempFileUrl);
-                    });
+                    var request = http.get(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port +
+                        '/merchants' + d.fileUrl, function (response) {
+                            response.pipe(file);
+                            cb(config.me + '/qrs/' + tempFileUrl);
+                        });
                 }
                 else
                     cb(retErr);
             }
         }
-        catch(err) {
+        catch (err) {
             cb(retErr);
         }
     },
 
-    downloadIfNotPresent: function(fileUrl, sourceId, cb) {
+    downloadIfNotPresent: function (fileUrl, sourceId, cb) {
         var retErr = {
             "success": false,
             "token": null,
@@ -1562,10 +2419,12 @@ var benowCont = {
                             "mtype": d.mtype,
                             "customerName": d.customerName,
                             "mobileNumber": d.mobileNumber,
-                            "invoiceAmount": d.invoiceAmount,
+                            "amount": d.invoiceAmount,
+                            "totalbudget": d.campaignTarget,
                             "description": d.description,
                             "fileURL": d.fileURL,
-                            "tr": d.invoiceNumber,
+                            "refNumber": d.invoiceNumber,
+                            "till": d.til,
                             "expiryDate": expDt,
                             "askname": d.askname,
                             "askemail": d.askemail,
@@ -1687,8 +2546,6 @@ var benowCont = {
         }
     },
 
-  
-
     savePayerDetailsPost: function (req, token, cb) {
         var retErr = {
             "success": false,
@@ -1712,7 +2569,10 @@ var benowCont = {
                             "pancard": d.pan,
                             "residenceCountry": d.resident,
                             "transactionRef": d.transactionRef,
-                            "paymentLinkRef": d.paymentLinkRef
+                            "paymentLinkRef": d.paymentLinkRef,
+                            "merchantCode": d.merchantcode,
+                            "amount": d.payamount,
+                            "txnDate": me.getCurDateTimeString
                         },
                         cb);
 
@@ -1805,7 +2665,7 @@ var benowCont = {
                 cb(retErr);
             }
             else {
-                var d = this.decryptPayLoad(req.body.data, token, false);
+                var d = this.decryptPayLoad(req.body.data, token, false);    
                 if (d && d.email && d.password) {
                     this.postAndCallback(this.getExtServerOptions('/merchants/merchant/bizWebLogin', 'POST', req.headers),
                         {
@@ -1842,6 +2702,11 @@ var benowCont = {
         }
 
         return false;
+    },
+
+    getCurDateTimeString() {
+        var dt = new Date();
+        var dtStr = this.getCurDateString() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
     },
 
     getCurDateString() {
@@ -1884,11 +2749,11 @@ var benowCont = {
                 var pan = d.pan;
                 var resident = d.resident;
                 var pt = 'UPI_OTHER_APP';
-                if(d.paytype === 1)
+                if (d.paytype === 1)
                     pt = 'CREDIT_CARD';
-                else if(d.paytype === 2)
+                else if (d.paytype === 2)
                     pt = 'DEBIT_CARD';
-                else if(d.paytype === 3)
+                else if (d.paytype === 3)
                     pt = 'NET_BANKING';
 
                 var obj = {
@@ -1919,6 +2784,9 @@ var benowCont = {
                 if(d.tr)
                     obj.tr = d.tr;
 
+                if(d.til)
+                    obj.till = d.til;
+
                 var c = {
                     "xauth": config.defaultToken,
                     "merchantCode": d.merchantcode,
@@ -1944,32 +2812,35 @@ var benowCont = {
                                                 "pancard": pan,
                                                 "residenceCountry": resident,
                                                 "transactionRef": data.hdrTransRefNumber,
-                                                "paymentLinkRef": paylinkid
+                                                "paymentLinkRef": paylinkid,
+                                                "merchantCode": d.merchantcode,
+                                                "amount": d.payamount,
+                                                "txnDate": me.getCurDateTimeString
                                             },
                                             function (sdata) {
-                                                res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                                                 res.json({ "data": me.encryptPayload({ "transactionRef": data.hdrTransRefNumber }, token, false) });
                                             });
                                     }
                                     else {
-                                        res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                                         res.redirect(config.me + '/paymentfailure/' + paylinkid);
                                     }
                                 });
                         }
                         else {
-                            res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                             res.redirect(config.me + '/paymentfailure/' + paylinkid);
                         }
                     });
             }
             else {
-                res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                 res.redirect(config.me + '/paymentfailure/' + paylinkid);
             }
         }
         catch (err) {
-            res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
             res.redirect(config.me + '/paymentfailure/' + paylinkid);
         }
     },
@@ -1998,14 +2869,26 @@ var benowCont = {
             }
             else if (req.body.sourceId == 1) {
                 surl = config.paymentGateway.sdksurl + paylinkid;
-                furl = config.paymentGateway.sdkfurl + paylinkid;
+                furl = config.paymentGateway.sdkfurl + paylinkid;                
             }
+            else {
+                if(req.body.surl && req.body.surl.length > 4)
+                    surl = req.body.surl;
+
+                if(req.body.furl && req.body.furl.length > 4)
+                    furl = req.body.furl;
+                }
 
             var payload = {
                 "key": config.paymentGateway.key,
                 "curl": config.paymentGateway.curl,
                 "surl": surl,
                 "furl": furl,
+                "udf1": paylinkid,
+                "udf2": req.body.udf2,
+                "udf3": req.body.udf3,
+                "udf4": req.body.udf4,
+                "udf5": req.body.udf5,
                 "ismobileview": req.body.ismobileview,
                 "txnid": req.body.txnid,
                 "drop_category": drop_cat,
@@ -2014,10 +2897,11 @@ var benowCont = {
                 "lastname": req.body.lastname,
                 "firstname": req.body.firstname,
                 "productinfo": req.body.merchantname,
-                "email": req.body.email ? req.body.email : ""
+                "email": req.body.email ? req.body.email : "",
+                "user_credentials": config.paymentGateway.key + ':' + req.body.mobileNo
             };
 
-            if(cat == 3)
+            if (cat == 3)
                 payload.pg = 'NB';
 
             var obj = {
@@ -2029,17 +2913,18 @@ var benowCont = {
                 "productInfo": payload.productinfo,
                 "surl": payload.surl,
                 "transactionNumber": req.body.txnid,
-                "udf1": "",
-                "udf2": "",
-                "udf3": "",
-                "udf4": "",
-                "udf5": "",
+                "udf1": payload.udf1,
+                "udf2": payload.udf2,
+                "udf3": payload.udf3,
+                "udf4": payload.udf4,
+                "udf5": payload.udf5,
+                "phone": payload.phone,
                 "username": payload.phone
             };
             this.hashPayloadPost(paylinkid, obj, headers, payload, this.getDefaultExtServerOptions, this.postAndCallback, res);
         }
         catch (err) {
-            res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
             res.redirect(config.me + '/paymentfailure/' + paylinkid);
         }
     },
@@ -2089,7 +2974,7 @@ var benowCont = {
         try {
             var pc = pCache.get(req.body.txnid);
             if (!pc || !pc.merchantCode) {
-                res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                 cb();
             }
             else {
@@ -2098,9 +2983,9 @@ var benowCont = {
                     'Content-Type': 'application/json'
                 };
                 var pmtype = 'DEBIT_CARD';
-                if(req.body.mode === 'CC')
+                if (req.body.mode === 'CC')
                     pmtype = 'CREDIT_CARD';
-                else if(req.body.mode = 'NB')
+                else if (req.body.mode === 'NB')
                     pmtype = 'NET_BANKING';
 
                 this.postAndCallback(this.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
@@ -2144,11 +3029,52 @@ var benowCont = {
         }
     },
 
+    validateMerchantHash: function (payload, merchantCode, hash, cb) {
+        try {
+            var headers = {
+                'X-AUTHORIZATION': config.defaultToken,
+                'Content-Type': 'application/json'
+            };
+
+            this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/validateMerchantHash', 'POST', headers),
+                {
+                    "merchantCode": merchantCode,
+                    "payload": payload,
+                    "hashString": hash
+                }, cb);
+        } catch (error) {
+            cb();
+        }
+
+    },
+
+    savePayment: function (req, res) {
+        var me = this;
+        if(req.body.status) {
+            if(req.body.status.toLowerCase() == 'success') {
+                this.savePaymentSuccess(req, function(data) {
+                    res.setHeader("X-Frame-Options", "ALLOW");
+                    res.json({ success: true });
+                })
+            }
+            else {
+                this.savePaymentFailure(req, function(data) {
+                    res.setHeader("X-Frame-Options", "ALLOW");
+                    res.json({ success: true });
+                })
+            }
+        }
+        else {
+            res.setHeader("X-Frame-Options", "ALLOW");
+            res.json({ success: false });            
+        }
+    },
+
     savePaymentSuccess: function (req, cb) {
         try {
             var pc = pCache.get(req.body.txnid);
             if (!pc || !pc.merchantCode || req.body.mode === 'UPI') {
-                res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
                 cb();
             }
             else {
@@ -2167,9 +3093,9 @@ var benowCont = {
                     statusMsg = 'Successful';
 
                 var pmtype = 'DEBIT_CARD';
-                if(req.body.mode === 'CC')
+                if (req.body.mode === 'CC')
                     pmtype = 'CREDIT_CARD';
-                else if(req.body.mode = 'NB')
+                else if (req.body.mode === 'NB')
                     pmtype = 'NET_BANKING';
 
                 this.postAndCallback(this.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
@@ -2212,12 +3138,11 @@ var benowCont = {
             cb();
         }
     },
-    
 
-    getPaymentPageHTML: function (sourceId, id, txnid, merchantId, code, type, mccCode, mVPA, name, lastName, number, mobileNo, email, invNumber, amount, minpanamnt, modes,
+    getPaymentPageHTML: function (sourceId, id, txnid, merchantId, code, type, mccCode, mVPA, til, name, lastName, number, mobileNo, email, invNumber, amount, minpanamnt, modes,
         mode, vpa, expiryDate, title, description, askname, askemail, askmob, askadd, panaccepted, askresidence, readonlyname, readonlyemail, readonlymob,
         readonlyaddr, mndname, mndemail, mndmob, mndaddress, mndpan, udf1, udf2, udf3, udf4, udf5, successURL, failureURL, url, img, res) {
-        res.setHeader("X-Frame-Options", "DENY");
+	res.setHeader("X-Frame-Options", "ALLOW");
         if (this.dt1Greater('01-01-2017', expiryDate))
             expiryDate = null;
 
@@ -2232,8 +3157,8 @@ var benowCont = {
                         title = title.substring(0, 35);*/
             if (!img)
                 img = config.me + '/paym.png';
-
-            var paymentPageData = {
+           
+            var paymentPageData = {                
                 "language": 0,
                 "amount": amount ? parseFloat(amount) : amount,
                 "minpanamnt": minpanamnt ? parseFloat(minpanamnt) : minpanamnt,
@@ -2249,6 +3174,7 @@ var benowCont = {
                 "merchantVpa": mVPA,
                 "mccCode": mccCode,
                 "vpa": vpa,
+                "til": til,
                 "firstName": name ? name.replace(/'/g, "|||") : name,
                 "lastName": lastName,
                 "askname": typeof askname === 'string' ? askname == 'true' : askname,
@@ -2282,8 +3208,29 @@ var benowCont = {
                 "udf4": udf4,
                 "udf5": udf5
             }
-
             var nImg = img ? img.replace(/ /g, '') : '';
+            var fbPixel = '';
+           
+            if(url && url.substring(url.lastIndexOf('/') + 1) == 'PCdbR00000000002')
+                fbPixel = '<!-- Facebook Pixel Code --> ' +
+                    '<script> ' +
+                    '!function(f,b,e,v,n,t,s) ' +
+                    '{if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}; ' +
+                    "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; " +
+                    'n.queue=[];t=b.createElement(e);t.async=!0; ' +
+                    't.src=v;s=b.getElementsByTagName(e)[0]; ' + 
+                    "s.parentNode.insertBefore(t,s)}(window,document,'script', " +
+                    "'https://connect.facebook.net/en_US/fbevents.js'); " +
+                    " fbq('init', '413984532337343'); " +
+                    "fbq('track', 'PageView'); " +
+                    "fbq('track', 'ViewContent'); " +
+                    '</script> ' +
+                    '<noscript> ' +
+                    ' <img height="1" width="1" ' +
+                    'src="https://www.facebook.com/tr?id=413984532337343&ev=PageView&noscript=1"/> ' +
+                    '</noscript> ' +
+                    '<!-- End Facebook Pixel Code -->';
+
             res.send('<!doctype html>' +
                 '<html>' +
                 '    <head>' +
@@ -2311,6 +3258,7 @@ var benowCont = {
                 '                flex: 1 0 auto;' +
                 '            }' +
                 '        </style>' +
+                fbPixel +
                 '    </head>' +
                 '    <body>' +
                 '        <benow></benow>' +

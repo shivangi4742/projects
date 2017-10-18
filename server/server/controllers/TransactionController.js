@@ -7,7 +7,8 @@ var transCont = {
             req.body.pageNumber++;
             this.getProductTransactionsPost(req, function(d2) {
                 if(d2 && d2.orders && d2.orders.length > 0)
-                    data.orders.push(d2.orders);
+                    for(var i = 0; i < d2.orders.length; i++)
+                        data.orders.push(d2.orders[i]);
 
                 me.getNextPage(req, data, req.body.pageNumber, cb);
             });
