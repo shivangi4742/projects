@@ -12,9 +12,7 @@ export class SuccessmglComponent implements OnInit {
   constructor(private mglservice:MglService ) { }
 
   ngOnInit() {
-    
-   // this.pay = JSON.parse($('#paymentSuccessData').val());
-
+   this.pay = JSON.parse((document.getElementById('paymentSuccessData') as any).value);
 
 
   // will get after successful payment transactionid, actiondata -- getting datastring from the mglurl, consumerno.
