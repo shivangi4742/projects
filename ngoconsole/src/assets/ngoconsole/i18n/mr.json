@@ -121,5 +121,8 @@
     "Create Campaign": "मोहिम तयार करा",
     "Your Campaign is ready, customize your URL and get SMS for sharing it.": "आपली मोहिम तयार आहे, आपली यूआरएल सानुकूल करा (फक्त अल्फान्यूमेरिक वर्ण अनुमत आहेत) आणि सामायिकरणासाठी एसएमएस मिळवा।",
     "back to": "परत",
-    "This URL is already in use. Please choose a different URL": "ही यूआरएल आधीपासून वापरात आहे. कृपया एक भिन्न यूआरएल निवडा"
+    "This URL is already in use. Please choose a different URL": "ही यूआरएल आधीपासून वापरात आहे. कृपया एक भिन्न यूआरएल निवडा",
+    "Offer ends on": "ऑफर समाप्त होते",
+    "Yes": "होय",
+    "No": "नाही"
 }

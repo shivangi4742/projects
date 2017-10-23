@@ -71,13 +71,13 @@
 
 .regNrmS1B1BN, .regNrmS2B1BN, .regNrmS3B1BN, .regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .regNrmS5B2BN, .regNrmS5BN, .regHdrS1BN, 
     .regNrmS7BN, .regHdrS2BN, .regHdrS4B1BN, .regNrmS6B1BN, .regNrmS6BN, .regNrmS2BN, .regNrmS3BN, .regHdrS2B3BN, .regNrmS5B1BN, .greyBN, .regNrmS8BN, 
-    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN {
+    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN, .regHdrS4BN {
     color: #3d3d3d;
 }
 
 .errHdrS1BN, .errNrmS0BN, .errNrmS1BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN, .errNrmS5BN, .redBN, .errNrmS6B1BN,
     .errNrmS6BN, .errHdrS2BN, .errNrmS5B2BN, .errorIconBN, .errNrmS2B2BN, .errNrmS1B1BN, .errNrmS6B2BN, .errNrmS5B1BN, .errNrmS8B1BN, .errNrmS-1B1BN,
-    .backToDashboardBN {
+    .backToDashboardBN, .errHdrS4BN {
    color: #E53935;
 }
 
@@ -88,10 +88,10 @@
 
 .regHdrS2BN, .errHdrS2BN, .regHdrS2B3BN {
     font-family: 'Fjalla One', sans-serif; 
-    font-size: 14pt;
+    font-size: 14pt!important;
 }
 
-.regHdrS4B1BN {
+.regHdrS4B1BN, .regHdrS4BN, .errHdrS4BN {
     font-family: 'Fjalla One', sans-serif; 
     font-size: 12pt;    
 }
@@ -167,7 +167,7 @@
     font-weight: 600;
 }
 
-.regNrmS4B3BN, .regHdrS2B3BN , .regNrmS2B3BN, .regNrmS3B3BN {
+.regNrmS4B3BN, .regHdrS2B3BN , .regNrmS2B3BN, .regNrmS3B3BN, .regHdrS3BN, .errHdrS4BN {
     font-weight: 400; 
 }
 
@@ -430,4 +430,13 @@
 .footerStripPPLBN {
     background-color: #3d3d3d;
     height: 100px;
+}
+
+[type="radio"]:checked+label:before,
+[type="radio"]:checked+label:after {
+    border: 2px solid #E53935 !important;
+}
+
+[type="radio"]:checked+label:after {
+    background-color: #E53935 !important;
 }

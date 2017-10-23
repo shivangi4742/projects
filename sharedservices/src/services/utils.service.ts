@@ -15,11 +15,12 @@ export class UtilsService {
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _requestURL:string = 'https://merchant.benow.in/paysdk';
+  private _requestURL:string = 'http://localhost:9090/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
+  private _oldDashboardURL: string = 'http://localhost:9090/dashboard';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
   private _mybizDashboardPageURL: string = 'http://localhost:9090/mybiz/dashboard';
@@ -99,6 +100,10 @@ export class UtilsService {
 
   public getLoginPageURL(): string {
     return this._loginPageURL;
+  }
+
+  public getOldDashboardURL(): string {
+    return this._oldDashboardURL;
   }
 
   public getLogoutPageURL(): string {

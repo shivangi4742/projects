@@ -192,7 +192,7 @@ var campCont = {
             if (!d)
                 cb(retErr);
             else {
-                if(d && d.phone && d.merchantCode) {
+                if(d && d.merchantCode) {
                     var expDt = d.expiryDate;
                     if (expDt && expDt.length > 9) {
                         var spExDt = expDt.split('-');
@@ -206,7 +206,7 @@ var campCont = {
                             "merchantCode": d.merchantCode,
                             "mtype": d.mtype,
                             "customerName": d.title,
-                            "mobileNumber": d.phone,
+                            "mobileNumber": d.phone ? d.phone : '',
                             "amount": d.amount,
                             "totalbudget": d.campaignTarget,
                             "description": d.description,

@@ -1,0 +1,62 @@
+.allContentBN {
+    max-width: 550px;
+}
+
+.addProdImageBN {
+    max-height: 200px;
+}
+
+.featuredImageBN {
+    max-height: 150px;
+    max-width: 550px;
+}
+
+.featuredImageSmallBN {
+    max-height: 80px;
+    max-width: 290px;
+}
+
+.dateInputBN {
+    width: 100px!important;
+    text-align: left;    
+    height: 2rem!important;
+}
+
+.titleInputBN {
+    width: 200px!important;
+    text-align: right;
+    margin-bottom: 10px!important;
+    height: 2rem!important;
+}
+
+.titleInputSmallBN {
+    width: 100px!important;
+    text-align: right;    
+    margin-bottom: 5px!important;
+    height: 2rem!important;
+}
+
+.descriptionBN {
+    text-align: center;
+}
+
+.noTopMarginBN {
+    margin-top: 0px;
+}
+
+.noPaddingTopBN {
+    padding-top: 0px;
+}
+
+.noProdBN {
+    height: 200px;
+}
+
+.prodOverBN {
+    opacity: 0.4;
+    background-color: #EDECEA;
+}
+
+.maxInputWidthBN {
+    max-width: 300px;
+}

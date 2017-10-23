@@ -121,5 +121,8 @@
     "Create Campaign": "Create Campaign",
     "Your Campaign is ready, customize your URL and get SMS for sharing it.": "Your Campaign is ready, customize your URL (only alphanumeric characters are allowed) and get SMS for sharing.",
     "back to": "back to",
-    "This URL is already in use. Please choose a different URL": "This URL is already in use. Please choose a different URL"
+    "This URL is already in use. Please choose a different URL": "This URL is already in use. Please choose a different URL",
+    "Offer ends on": "Offer ends on",
+    "Yes": "Yes",
+    "No": "No"
 }
