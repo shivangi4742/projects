@@ -57,12 +57,12 @@ private payRequest: Payrequestmodel;
         var strToHash = pr.amount
             + "|" + pr.description
             + "|" + pr.email
-            + "|" + pr.failureURL
+            + "|" + (pr.failureURL ? pr.failureURL : '')
             + "|" + pr.firstName
             + "|" + pr.mccCode
             + "|" + pr.merchantCode
             + "|" + pr.phone
-            + "|" + pr.successURL
+            + "|" + (pr.successURL ? pr.successURL : '')
             + "|" + pr.txnid
             + "|" + pr.udf1
             + "|" + pr.udf2
@@ -76,7 +76,7 @@ private payRequest: Payrequestmodel;
             "salt": "abcd",
             "strToHash": strToHash
         };
-      
+
         return this.http
             .post(this.utilsservice.getBaseURL() +'hash',
             payloadObj,
