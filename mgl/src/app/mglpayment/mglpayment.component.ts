@@ -22,7 +22,6 @@ export class MglpaymentComponent implements OnInit {
     ngOnInit(): void {
         this.payrequestmodel = this.payRequestService.getPayRequest();
         this.requestUrl = this.utilsservice.getRequestURL();
-
         this.submitMe();
     }
 
@@ -36,11 +35,11 @@ export class MglpaymentComponent implements OnInit {
 
     submitMe() {
         let me = this;
-        console.log('ppp')
-        /* if ($('#submitPaymentForm') && $('#submitPaymentForm')[0])
-             $('#submitPaymentForm')[0].click();
-         else
-             setTimeout(function () { me.submitMe(); }, 100);*/
+        var btn = document.getElementById('submitPaymentForm');
+        if(btn)
+            btn.click();
+        else
+            setTimeout(function() { me.submitMe(); }, 100);
     }
 
 }
