@@ -14,6 +14,8 @@ const routes: Routes = [
      { path: 'mglpayment',  component: MglpaymentComponent },
      { path: 'mglfailure',  component: FailuremglComponent },
      { path: 'mglsuccess',  component: SuccessmglComponent },
+     { path: 'mglpay/mglsuccess',  component: SuccessmglComponent },
+     { path: 'mglpay/mglfailure',  component: FailuremglComponent },
      { path: '**', redirectTo: '/customer', pathMatch: 'full' }
 ];
 

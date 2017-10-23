@@ -17,7 +17,8 @@ var resAuthenticated = function (req, res, next) {
 
 router.post('/mgldetails', isAuthenticated, MglController.mglDetails.bind(MglController));
 router.post('/mgldetailssave', isAuthenticated, MglController.mglDetailsSave.bind(MglController));
-
+router.post('/mglsuccess', isAuthenticated, MglController.paymentSuccess.bind(MglController));
+router.post('/mglfailure', isAuthenticated, MglController.paymentfailure.bind(MglController));
 router.isAuthenticated = isAuthenticated;
 router.resAuthenticated = resAuthenticated;
 module.exports = router;
