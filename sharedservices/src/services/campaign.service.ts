@@ -12,6 +12,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CampaignService {
+    private _sdk: SDK;
     private _urls: any = {
         getCampaignsURL: 'campaign/getCampaigns',
         getCampaignSummaryURL: 'campaign/getCampaignsSummary',
@@ -19,11 +20,67 @@ export class CampaignService {
         getCommPrefURL: 'paymentadapter/getCommPref',
         getDonorListURL: 'merchant/getDonorList',
         saveCampaignURL: 'campaign/saveCampaign',
+        getCampaignURL: 'sdk/getPaymentLinkDetails',
         bulkDonorUploadURL: 'merchant/bulkDonorUpload',
+        smsCampaignLinkURL: 'campaign/smsCampaignLink',
+        saveCampaignLinkURL: 'campaign/saveCampaignLink',
         sendCampaignLinkURL: 'campaign/sendCampaignLink'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    setCampaign(sdk: SDK) {
+        this._sdk = sdk;
+    }
+
+    getCampaign(id: string, mtype: number): Promise<SDK|null> {
+        if(!id)
+            return Promise.resolve(null);
+        else if(this._sdk && this._sdk.id == id)
+            return Promise.resolve(this._sdk);
+        else {
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getCampaignURL,
+                JSON.stringify({
+                    "campaignId": id
+                }),
+                { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => this.fillCampaign(res.json(), mtype))
+                .catch(res => this.utilsService.returnGenericError());
+        }
+    }
+
+    fillCampaign(res: any, mtype: number): SDK|null {
+        if(res && res.txnrefnumber) {
+            let modes: Array<string> = new Array<string>();
+            modes.push('UPI');
+            if(res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
+                res.merchantUser.acceptedPaymentMethods.forEach(function(m: any) {
+                    if(m && m.paymentMethod) {
+                        if ((m.paymentMethod == 'CREDIT_CARD' || m.paymentMethod == 'CC') && modes.indexOf('CC') < 0)
+                            modes.push('CC');
+                        else if ((m.paymentMethod == 'DEBIT_CARD' || m.paymentMethod == 'DC') && modes.indexOf('DC') < 0)
+                            modes.push('DC');
+                        else if ((m.paymentMethod == 'NET_BANKING' || m.paymentMethod == 'NB') && modes.indexOf('NB') < 0)
+                            modes.push('NB');
+                        else if ((m.paymentMethod == 'MEAL_COUPON' || m.paymentMethod == 'SODEXO') && modes.indexOf('SODEXO') < 0)
+                            modes.push('SODEXO');                        
+                    }
+                });
+            }
+
+            return new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
+                res.minpanamnt, mtype, res.totalbudget, res.txnrefnumber, '', res.surl, res.furl, '', res.mobileNumber, res.customerName, 
+                res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '', 
+                res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
+                res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.businessName : '', res.invoiceNumber,
+                res.till, null, null, null, null, null, null, null, null, null, modes, null);
+        }
+
+        return null;
+    }
 
     getCampaignSummary(merchantCode: string, fromDate: string, toDate: string): Promise<CampaignSummary> {
         return this.http.post(
@@ -39,6 +96,23 @@ export class CampaignService {
         .then(res => this.setCampaignSummary(res.json()))
         .catch(res => this.utilsService.returnGenericError());
     }
+
+    smsCampaignLink(url: string, mtype: number, title: string, campaignName: string, phone: string) {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.smsCampaignLinkURL,
+            JSON.stringify({
+                "url": url,
+                "mtype": mtype,
+                "title": title,
+                "phone": phone,
+                "campaignName": campaignName
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());        
+    }
     
     sendCampaignLink(replace: boolean, mtype: number, hasProds: boolean, merchantCode: string, title: string, phone: string, payLink: string, 
         alias: string, campaignName: string, description: string, imageURL: string): Promise<any> {
@@ -51,6 +125,27 @@ export class CampaignService {
                 "hasProds": hasProds,
                 "title": title,
                 "phone": phone,
+                "payLink": payLink, 
+                "campaignName": campaignName,
+                "description": description,
+                "imageURL": imageURL,               
+                "alias": alias
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());
+    }
+
+    saveCampaignLink(replace: boolean, hasProds: boolean, merchantCode: string, payLink: string, alias: string, campaignName: string, 
+        description: string, imageURL: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.saveCampaignLinkURL,
+            JSON.stringify({
+                "merchantCode": merchantCode,
+                "replace": replace,
+                "hasProds": hasProds,
                 "payLink": payLink, 
                 "campaignName": campaignName,
                 "description": description,
@@ -86,9 +181,9 @@ export class CampaignService {
             }),
             { headers: this.utilsService.getHeaders() }
         )
-            .toPromise()
-            .then(res => this.setCampaignDetails(res.json()))
-            .catch(res => this.utilsService.returnGenericError());
+        .toPromise()
+        .then(res => this.setCampaignDetails(res.json()))
+        .catch(res => this.utilsService.returnGenericError());
     }
 
     setCampaignSummary(res: any): CampaignSummary {

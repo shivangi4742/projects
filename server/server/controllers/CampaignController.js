@@ -30,6 +30,43 @@ var campCont = {
         }
     },
 
+    saveCampaignLink: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                if(d.replace)
+                    this.saveURL(d, req.headers, res);
+                else {
+                    this.checkAliasAvailability(d, req.headers, function(adata) {
+                        if(adata && adata.desc1) {
+                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var ps = d.hasProds ? ('/' + d.merchantCode) : '';
+                            var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
+                            if(adata.desc1 === fullUrl)
+                                me.saveURL(d, req.headers, res);
+                            else
+                                res.json({ "success": false, "errorCode": "URL_IN_USE" });
+                        }
+                        else
+                            me.saveURL(d, req.headers, res);
+                    });
+                }
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
     sendCampaignLink: function(req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         var me = this;
@@ -61,6 +98,41 @@ var campCont = {
                     });
                 }
             }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    saveURL: function(d, hdrs, res) {
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            var lnk = d.hasProds ? '/buy/' : '/pay/';
+            var ps = d.hasProds ? ('/' + d.merchantCode) : '';
+            var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
+            var title = d.campaignName ? d.campaignName : '';
+            var description = d.description ? d.description : '';
+            helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
+                {
+                    "paramType": 'alias',
+                    "paramCode": d.merchantCode + '/' + d.alias,
+                    "desc1": fullUrl,
+                    "desc2": title + '|||' + description,
+                    "desc3": d.imageURL ? d.imageURL : '',
+                    "val1": 0,
+                    "val2": 0,
+                    "val3": 0
+                }, function(udata) {
+                    if(udata && udata.desc1)
+                        res.json({ "success": true });
+                    else
+                        res.json(retErr);
+                });
         }
         catch (err) {
             res.json(retErr);
@@ -100,6 +172,31 @@ var campCont = {
                     else
                         res.json(retErr);
                 });
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    smsCampaignLink: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                if(d && d.phone) {
+                    this.sendCampaignLinkPost(d.url, d.mtype, d.title, d.campaignName, d.phone, req.headers, function(data) {
+                        res.json(data);
+                    })
+                }
+            }
         }
         catch (err) {
             res.json(retErr);

@@ -121,5 +121,15 @@
     "Create Campaign": "अभियान बनाएं",
     "Your Campaign is ready, customize your URL and get SMS for sharing it.": "आपका अभियान तैयार है, अपना यूआरएल कस्टमाइज़ करें (केवल अक्षरांकीय वर्णों की अनुमति है) और साझा करने के लिए एसएमएस प्राप्त करें।",
     "back to": "वापस",
-    "This URL is already in use. Please choose a different URL": "यह यूआरएल पहले से उपयोग में है कृपया एक अलग यूआरएल  चुनें"
+    "This URL is already in use. Please choose a different URL": "यह यूआरएल पहले से उपयोग में है कृपया एक अलग यूआरएल  चुनें",
+    "Offer ends on": "ऑफ़र समाप्त होता है",
+    "Yes": "हाँ",
+    "No": "नहीं",
+    "Share Campaign": "अभियान साझा करें",
+    "Save Campaign URL": "अभियान यूआरएल बचाएं",
+    "Your Campaign is ready, customize your URL and Save it for sharing.": "आपका अभियान तैयार है, अपने यूआरएल को अनुकूलित   करें और साझा करने के लिए इसे सहेजें।",
+    "Successfully saved payment link": "अभियान लिंक को सफलतापूर्वक सहेजा गया",
+    "SMS Campaign Link": "एसएमएस अभियान लिंक",
+    "SHARE_URL_MSG": "आप अपने अभियान को निम्नलिखित यूआरएल चिपकाकर साझा कर सकते हैं:",
+    "Successfully sent campaign link in SMS": "एसएमएस में अभियान लिंक सफलतापूर्वक भेजा गया"
 }

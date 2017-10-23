@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
@@ -20,6 +21,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   dateParams: any;
   allProducts: Array<Product>;
   uploading: boolean = false;
+  bannerover: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -47,7 +49,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
-    private userService: UserService, private productService: ProductService, private campaignService: CampaignService) { }
+    private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -96,12 +98,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       if(this.utilsService.isHB(this.user.merchantCode))
         mtype = 3;
 
-      let prods: Array<Product> = new Array<Product>();
-      prods.push(new Product(false, true, null, null, null, null, null, null, null, null));
       this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
         mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null, 
         this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, 
-        null, null, prods);        
+        null, null, null);        
     }
     else
       window.location.href = this.utilsService.getLogoutPageURL();      
@@ -109,6 +109,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   uploadedImage(res: any, me: any) {
     me.uploading = false;
+    me.bannerover = false;
     if(res && res.success)
       me.sdk.imageURL = res.fileName;
     else
@@ -157,9 +158,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   created(res: any) {
-    console.log(res);
     if(res && res.paymentReqNumber) {
-      console.log(res);
+      this.sdk.id = res.paymentReqNumber;
+      this.campaignService.setCampaign(this.sdk);
+      this.router.navigateByUrl('/sharecampaign/' + res.paymentReqNumber);
     }
     else {
       //TODO: Error handling

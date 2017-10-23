@@ -124,5 +124,12 @@
     "This URL is already in use. Please choose a different URL": "This URL is already in use. Please choose a different URL",
     "Offer ends on": "Offer ends on",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "Share Campaign": "Share Campaign",
+    "Save Campaign URL": "Save Campaign URL",
+    "Your Campaign is ready, customize your URL and Save it for sharing.": "Your Campaign is ready, customize your URL and Save it for sharing.",
+    "Successfully saved payment link": "Successfully saved Campaign Link",
+    "SMS Campaign Link": "SMS Campaign Link",
+    "SHARE_URL_MSG": "You can share your Campaign by pasting following URL:",
+    "Successfully sent campaign link in SMS": "Successfully sent Campaign Link in SMS"
 }
