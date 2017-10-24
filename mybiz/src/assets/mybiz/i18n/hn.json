@@ -130,6 +130,9 @@
     "Your Campaign is ready, customize your URL and Save it for sharing.": "आपका अभियान तैयार है, अपने यूआरएल को अनुकूलित   करें और साझा करने के लिए इसे सहेजें।",
     "Successfully saved payment link": "अभियान लिंक को सफलतापूर्वक सहेजा गया",
     "SMS Campaign Link": "एसएमएस अभियान लिंक",
-    "SHARE_URL_MSG": "आप अपने अभियान को निम्नलिखित यूआरएल चिपकाकर साझा कर सकते हैं:",
-    "Successfully sent campaign link in SMS": "एसएमएस में अभियान लिंक सफलतापूर्वक भेजा गया"
+    "SHARE_URL_MSG": "आप अपने अभियान को निम्न यूआरएल कॉपी करके चिपकाकर साझा कर सकते हैं:",
+    "Successfully sent campaign link in SMS": "एसएमएस में अभियान लिंक सफलतापूर्वक भेजा गया",
+    "by": "द्वारा",
+    "Get this link in SMS": "एसएमएस पर यह लिंक प्राप्त करें",
+    "User details settings": "आवश्यक ग्राहक विवरण"
 }

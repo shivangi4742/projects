@@ -69,6 +69,8 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if(res && res.id) {
       this.pay = res;
+      this.pay.askmob = true;
+      this.pay.mndmob = true;
       if(this.prods && !(res.products && res.products.length > 0)) {
         this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
           .then(pres => this.initProds(pres));

@@ -12,11 +12,11 @@ import { SharecampaignComponent } from './sharecampaign/sharecampaign.component'
 const routes: Routes = [
     { path: 'campaign', component: CampaignComponent },
     { path: 'sharecampaign/:id', component: SharecampaignComponent },
-    { path: 'newcampaign', component: NewcampaignComponent },
+    { path: 'newcampaign', component: CampaignComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'console', component: OrdersComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
-    { path: '**', redirectTo: '/campaign', pathMatch: 'full' }
+    { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

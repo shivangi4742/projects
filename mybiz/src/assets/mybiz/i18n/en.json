@@ -128,6 +128,9 @@
     "Your Campaign is ready, customize your URL and Save it for sharing.": "Your Campaign is ready, customize your URL and Save it for sharing.",
     "Successfully saved payment link": "Successfully saved Campaign Link",
     "SMS Campaign Link": "SMS Campaign Link",
-    "SHARE_URL_MSG": "You can share your Campaign by pasting following URL:",
-    "Successfully sent campaign link in SMS": "Successfully sent Campaign Link in SMS"
+    "SHARE_URL_MSG": "You can share your Campaign by copy-pasting following URL:",
+    "Successfully sent campaign link in SMS": "Successfully sent Campaign Link on SMS",
+    "by": "by",
+    "Get this link in SMS": "Get this link on SMS",
+    "User details settings": "Customer details required"
 }

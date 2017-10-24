@@ -130,6 +130,9 @@
     "Your Campaign is ready, customize your URL and Save it for sharing.": "आपली मोहिम तयार आहे, आपली यूआरएल सानुकूलित करा  आणि सामायिकरणासाठी ती जतन करा",
     "Successfully saved payment link": "मोहिम लिंक यशस्वीरित्या जतन केला",
     "SMS Campaign Link": "एसएमएस मोहीम दुवा",
-    "SHARE_URL_MSG": "आपण खालील यूआरएल पेठ करून आपली मोहिम सामायिक करू शकता:",
-    "Successfully sent campaign link in SMS": "एसएमएस मध्ये मोहिम लिंक यशस्वीरित्या पाठवला"
+    "SHARE_URL_MSG": "आपण आपली मोहिम खालील यूआरएल कॉपी-पेस्ट करून  सामायिक करू शकता:",
+    "Successfully sent campaign link in SMS": "एसएमएस मध्ये मोहिम लिंक यशस्वीरित्या पाठवला",
+    "by": "द्वारा",
+    "Get this link in SMS": "हा दुवा एसएमएसवर मिळवा",
+    "User details settings": "आवश्यक ग्राहक तपशील"
 }

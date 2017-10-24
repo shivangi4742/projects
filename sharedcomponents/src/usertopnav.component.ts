@@ -48,6 +48,8 @@ export class UserTopNavComponent {
     this.name = this.user.displayName;
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
+    if(this.name && this.name.length > 15)
+      this.name = this.name.substring(0, 14) + '...';
 
     if(window.location.href.indexOf('/notification') < 1)
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
@@ -147,5 +149,9 @@ export class UserTopNavComponent {
 
   stopBubble(event: any) {    
     event.stopPropagation();
+  }
+
+  goHome() {
+    window.location.href = this.utilsService.getOldDashboardURL();
   }
 }

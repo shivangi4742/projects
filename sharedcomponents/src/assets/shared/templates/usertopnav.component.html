@@ -56,7 +56,7 @@
 </div>
 <nav materialize class="nav white topNavBN">
     <div class="nav-wrapper">                
-        <a class="brand-logo left linkButtonBN" [routerLink]="homeLink">
+        <a class="brand-logo left linkButtonBN" (click)="goHome()">
             <img *ngIf="mtype == 1" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo.png?v=2" />
             <img *ngIf="mtype == 1" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo.png?v=2" />
             <img *ngIf="mtype == 2" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_ngo.png?v=2" />
