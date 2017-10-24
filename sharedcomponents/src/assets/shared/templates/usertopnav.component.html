@@ -21,7 +21,7 @@
             </a>
         </li>
         <li *ngIf="!onDashboard()">
-            <a [routerLink]="'/dashboard'">
+            <a (click)="goHome()">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">dashboard</i>
                     {{'Payments Dashboard' | translate}} 
@@ -55,72 +55,76 @@
     </ul>
 </div>
 <nav materialize class="nav white topNavBN">
-    <div class="nav-wrapper">                
-        <a class="brand-logo left linkButtonBN" (click)="goHome()">
-            <img *ngIf="mtype == 1" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo.png?v=2" />
-            <img *ngIf="mtype == 1" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo.png?v=2" />
-            <img *ngIf="mtype == 2" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_ngo.png?v=2" />
-            <img *ngIf="mtype == 2" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo_ngo.png?v=2" />
-            <img *ngIf="mtype == 3" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_hb.png?v=2" />
-            <img *ngIf="mtype == 3" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo_hb.png?v=2" />
-        </a>
-        <ul class="left hide-on-med-and-down largeLangHBDDBN">
-            <li class="topNavDDBN">
-                <select class="regNrmS4B3BN dropDownBN" materialize="material_select" (ngModelChange)="langChanged($event)"
-                    [(ngModel)]="language">
-                    <option value="1">English</option>
-                    <option value="2">हिंदी</option>
-                    <option value="3">मराठी</option>
-                </select>
-            </li>
-        </ul>
-        <ul class="left hide-on-large-only hide-on-small-only mediumLangDDBN">
-            <li class="topNavDDBN">
-                <select class="regNrmS4B3BN dropDownBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
-                    [(ngModel)]="language">
-                    <option value="1">English</option>
-                    <option value="2">हिंदी</option>
-                    <option value="3">मराठी</option>
-                </select>                
-            </li>
-        </ul>
-        <ul class="left hide-on-med-and-up smallLangDDBN">
-            <li>
-                <select class="regNrmS6BN dropDownBN fhDDBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
-                    [(ngModel)]="language">
-                    <option value="1">English</option>
-                    <option value="2">हिंदी</option>
-                    <option value="3">मराठी</option>
-                </select>                
-            </li>
-        </ul>
-        <ul class="right">
-            <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
-            <li class="navInfoBN hide-on-small-only">
-                <span class="regNrmS4BN">{{'Welcome' | translate}}, </span>
-                <span class="errNrmS4B2BN">{{name}}</span>
-                <br />
-                <span class="regNrmS7BN">{{tmLoad}}</span>
-            </li>
-            <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
-            <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-small-only">
-                <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
-                    <i class="material-icons iconPrefixBN notifIconBN">email</i>
-                    <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
+    <div class="nav-wrapper">            
+        <div class="fullWidthBN" align="center">
+            <div class="maxWidthBN" align="left">            
+                <a class="brand-logo left linkButtonBN" (click)="goHome()">
+                    <img *ngIf="mtype == 1" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo.png?v=2" />
+                    <img *ngIf="mtype == 1" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo.png?v=2" />
+                    <img *ngIf="mtype == 2" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_ngo.png?v=2" />
+                    <img *ngIf="mtype == 2" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo_ngo.png?v=2" />
+                    <img *ngIf="mtype == 3" class="largeLogoBN hide-on-med-and-down" src="../assets/shared/images/Logo_hb.png?v=2" />
+                    <img *ngIf="mtype == 3" class="smallLogoBN hide-on-large-only" src="../assets/shared/images/Logo_hb.png?v=2" />
                 </a>
-            </li>
-            <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-up">
-                <a (click)="notifModal()" class="noPadsIconBN">
-                    <i class="material-icons iconPrefixBN notifIconBN">email</i>
-                    <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
-                </a>
-            </li>
-            <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
-            <li>
-                <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
-                    <i class="material-icons iconPrefixBN">more_vert</i>
-                </a>
-            </li>
-        </ul>        
+                <ul class="left hide-on-med-and-down largeLangHBDDBN">
+                    <li class="topNavDDBN">
+                        <select class="regNrmS4B3BN dropDownBN" materialize="material_select" (ngModelChange)="langChanged($event)"
+                            [(ngModel)]="language">
+                            <option value="1">English</option>
+                            <option value="2">हिंदी</option>
+                            <option value="3">मराठी</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="left hide-on-large-only hide-on-small-only mediumLangDDBN">
+                    <li class="topNavDDBN">
+                        <select class="regNrmS4B3BN dropDownBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
+                            [(ngModel)]="language">
+                            <option value="1">English</option>
+                            <option value="2">हिंदी</option>
+                            <option value="3">मराठी</option>
+                        </select>                
+                    </li>
+                </ul>
+                <ul class="left hide-on-med-and-up smallLangDDBN">
+                    <li>
+                        <select class="regNrmS6BN dropDownBN fhDDBN" materialize="material_select" name="language" (ngModelChange)="langChanged($event)" 
+                            [(ngModel)]="language">
+                            <option value="1">English</option>
+                            <option value="2">हिंदी</option>
+                            <option value="3">मराठी</option>
+                        </select>                
+                    </li>
+                </ul>
+                <ul class="right">
+                    <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
+                    <li class="navInfoBN hide-on-small-only">
+                        <span class="regNrmS4BN">{{'Welcome' | translate}}, </span>
+                        <span class="errNrmS4B2BN">{{name}}</span>
+                        <br />
+                        <span class="regNrmS7BN">{{tmLoad}}</span>
+                    </li>
+                    <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-small-only">
+                        <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
+                            <i class="material-icons iconPrefixBN notifIconBN">email</i>
+                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
+                        </a>
+                    </li>
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-up">
+                        <a (click)="notifModal()" class="noPadsIconBN">
+                            <i class="material-icons iconPrefixBN notifIconBN">email</i>
+                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
+                        </a>
+                    </li>
+                    <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
+                    <li>
+                        <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+                            <i class="material-icons iconPrefixBN">more_vert</i>
+                        </a>
+                    </li>
+                </ul>        
+            </div>
+        </div>
     </div>
 </nav>

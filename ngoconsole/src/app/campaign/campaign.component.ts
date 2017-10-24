@@ -109,7 +109,6 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   uploadedImage(res: any, me: any) {
     me.uploading = false;
-    me.bannerover = false;
     if(res && res.success)
       me.sdk.imageURL = res.fileName;
     else
@@ -124,6 +123,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
           this.imgErrMsg = 'File is bigger than 2 MB!';
         else {          
           this.uploading = true;
+          this.bannerover = false;
           this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
         }
       }

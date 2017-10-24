@@ -16,15 +16,25 @@
         </div>
         <div class="row allContentBN">
           <div class="col s12 center">
-            <div [ngClass]="uploading || bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
+            <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
                (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">
-              <img *ngIf="!sdk.imageURL" class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
-              <img *ngIf="sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+              <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+              <img [ngClass]="uploading ? 'featuredImageBN responsive-img displayBN' : 'featuredImageBN responsive-img noDisplayBN'" 
+                src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
+              <img *ngIf="!uploading && sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+              <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN"> &nbsp;
+                <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;
+              </div>
               <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
             </div>                
             <div [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
-              <img *ngIf="!sdk.imageURL" class="featuredImageSmallBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
-              <img *ngIf="sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+              <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+              <img [ngClass]="uploading ? 'featuredImageSmallBN responsive-img displayBN' : 'featuredImageSmallBN responsive-img noDisplayBN'" 
+                src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
+              <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+              <div *ngIf="!uploading && sdk.imageURL" class="editOverlaySmallBN"> &nbsp;
+                <i class="material-icons editOverlaySmallIconBN">mode_edit</i>&nbsp;
+              </div>
               <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
             </div>                
             <div class="row allContentBN">

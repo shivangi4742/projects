@@ -60,3 +60,32 @@
 .maxInputWidthBN {
     max-width: 300px;
 }
+
+.editOverlayBN {
+    background-color: white;
+    border-radius: 35px;
+    font-size: 30px;
+    position: relative;
+    display: inline;
+    left: -60px;
+    top: -20px;
+}
+
+.editOverlayIconBN {
+    color: #E53935;
+}
+
+.editOverlaySmallBN {
+    background-color: white;
+    border-radius: 15px;
+    font-size: 20px;
+    position: relative;
+    display: inline;
+    left: -40px;
+    top: -20px;
+}
+
+.editOverlaySmallIconBN {
+    color: #E53935;
+    font-size: 12pt;
+}
