@@ -41,11 +41,11 @@ export class MglService {
   }
 
   gettmglDetails(res: any): Mgl {
-    console.log(res);
+   
     let response = JSON.parse(res._body);
     let d: any = response.data.RECORD;
     this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0],d);
-
+   
     return this._mgl;
   }
 
@@ -53,7 +53,7 @@ export class MglService {
     return this._mgl;
   }
  
-  mgldetailssave(tag2: string, transactionRef:string, actionData:string): Promise<any> {
+  mgldetailssave( transactionRef:string, actionData:string, tag2: string): Promise<any> {
    
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL,
