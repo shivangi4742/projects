@@ -77,8 +77,4 @@ export class SelectproductsComponent implements OnInit {
         .then(res => this.addedProduct(res));
     }
   }
-
-  close() {
-    this.modalActions.emit({ action: "modal", params: ['close'] });
-  }
 }

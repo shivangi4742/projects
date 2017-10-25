@@ -177,4 +177,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() { }
+  
+  closeModal() {
+    this.modalActions.emit({ action: "modal", params: ['close'] });
+  }
 }
