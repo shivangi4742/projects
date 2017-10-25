@@ -58,7 +58,7 @@ webpackJsonp([1],{
 /* unused harmony export ɵb */
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -4025,7 +4025,7 @@ function isPlatformWorkerUi(platformId) {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["D" /* Version */]('4.3.6');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["D" /* Version */]('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -4268,7 +4268,7 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["D" /* Version */]
 /* unused harmony export ɵu */
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -5064,7 +5064,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('4.3.6');
+var VERSION = new Version('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -9847,6 +9847,14 @@ var QueryList = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * internal
+     * @return {?}
+     */
+    QueryList.prototype.destroy = function () {
+        this._emitter.complete();
+        this._emitter.unsubscribe();
+    };
     return QueryList;
 }());
 /**
@@ -16788,6 +16796,9 @@ function destroyViewNodes(view) {
         else if (def.flags & 2 /* TypeText */) {
             ((view.renderer.destroyNode))(asTextData(view, i).renderText);
         }
+        else if (def.flags & 67108864 /* TypeContentQuery */ || def.flags & 134217728 /* TypeViewQuery */) {
+            asQueryList(view, i).destroy();
+        }
     }
 }
 var ViewAction = {};
@@ -19134,7 +19145,7 @@ function transition$$1(stateChangeExpr, steps) {
 /* unused harmony export ɵe */
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -23541,7 +23552,7 @@ var By = (function () {
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_2__angular_core__["D" /* Version */]('4.3.6');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_2__angular_core__["D" /* Version */]('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -26257,7 +26268,7 @@ function __asyncValues(o) {
 /* unused harmony export ɵu */
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -27053,7 +27064,7 @@ var Version = (function () {
 /**
  * \@stable
  */
-var VERSION = new Version('4.3.6');
+var VERSION = new Version('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -31836,6 +31847,14 @@ var QueryList = (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * internal
+     * @return {?}
+     */
+    QueryList.prototype.destroy = function () {
+        this._emitter.complete();
+        this._emitter.unsubscribe();
+    };
     return QueryList;
 }());
 /**
@@ -38777,6 +38796,9 @@ function destroyViewNodes(view) {
         else if (def.flags & 2 /* TypeText */) {
             ((view.renderer.destroyNode))(asTextData(view, i).renderText);
         }
+        else if (def.flags & 67108864 /* TypeContentQuery */ || def.flags & 134217728 /* TypeViewQuery */) {
+            asQueryList(view, i).destroy();
+        }
     }
 }
 var ViewAction = {};
@@ -41114,7 +41136,7 @@ function transition$$1(stateChangeExpr, steps) {
 /* unused harmony export ɵd */
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -43269,7 +43291,7 @@ JsonpModule.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Version */]('4.3.6');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["c" /* Version */]('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -46473,9 +46495,10 @@ var CustomerpaymentComponent = (function () {
     };
     CustomerpaymentComponent.prototype.Submit = function () {
         var _this = this;
-        this.supportModes = ['UPI'];
+        //this.supportModes = ['UPI']; 
+        this.supportModes = ['CC', 'DC', 'UPI', 'SODEXO'];
         //another option like collect request url
-        this.payRequestService.setPayRequest(new __WEBPACK_IMPORTED_MODULE_2__models_payrequestmodel__["a" /* Payrequestmodel */](2, "1", false, false, true, true, 'MahaNagar Gas Limited', '', this.mglservice.getFailedURL(), this.mgl.name, '', '', '', '1', '5499', 'AACH5', '1', 'AACH5@yesbank', false, false, false, true, '', this.mgl.ca, false, false, false, false, this.mglservice.getSuccessURL(), 'Benow Sales', '', '', this.mgl.response, this.mgl.ca, '', '', '', this.supportModes))
+        this.payRequestService.setPayRequest(new __WEBPACK_IMPORTED_MODULE_2__models_payrequestmodel__["a" /* Payrequestmodel */](2, '1', false, false, true, true, 'MahaNagar Gas Limited', '', this.mglservice.getFailedURL(), this.mgl.name, '', '', '', '1', '5499', 'AACH5', '1', 'AACH5@yesbank', false, false, false, true, '', this.mgl.ca, false, false, false, false, this.mglservice.getSuccessURL(), 'Benow Sales', '', '', this.mgl.response, this.mgl.ca, '', '', '', this.supportModes))
             .then(function (res) { return _this.navigate(); });
     };
     CustomerpaymentComponent.prototype.navigate = function () {
@@ -46579,7 +46602,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/mglpayment/mglpayment.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"progress\">\r\n    <div class=\"indeterminate\"></div>\r\n</div>\r\n<form id=\"paymentForm\" #paymentForm ngNoForm action=\"{{requestUrl}}\" method=\"POST\">\r\n    <div *ngIf=\"payrequestmodel\">\r\n        <button class=\"btn-flat waves-effect waves-light transparent regNrmS2BN\" type=\"submit\" id=\"submitPaymentForm\" >Pay</button>\r\n        <input type=\"hidden\" name=\"sourceId\" [ngModel]=\"payrequestmodel.sourceId\" />\r\n        <input type=\"hidden\" name=\"amount\" [ngModel]=\"payrequestmodel.amount\" />\r\n        <input type=\"hidden\" name=\"askadd\" [ngModel]=\"payrequestmodel.askadd\" />\r\n        <input type=\"hidden\" name=\"askemail\" [ngModel]=\"payrequestmodel.askemail\" />\r\n        <input type=\"hidden\" name=\"askmob\" [ngModel]=\"payrequestmodel.askmob\" />\r\n        <input type=\"hidden\" name=\"askname\" [ngModel]=\"payrequestmodel.askname\" />\r\n        <input type=\"hidden\" name=\"description\" [ngModel]=\"payrequestmodel.description\" />\r\n        <input type=\"hidden\" name=\"email\" [ngModel]=\"payrequestmodel.email\" />\r\n        <input type=\"hidden\" name=\"failureURL\" [ngModel]=\"payrequestmodel.failureURL\" />\r\n        <input type=\"hidden\" name=\"firstName\" [ngModel]=\"payrequestmodel.firstName\" />\r\n        <input type=\"hidden\" name=\"hash\" [ngModel]=\"payrequestmodel.hash\" />\r\n        <input type=\"hidden\" name=\"id\" [ngModel]=\"payrequestmodel.id\" />\r\n        <input type=\"hidden\" name=\"imageURL\" [ngModel]=\"payrequestmodel.imageURL\" />\r\n        <input type=\"hidden\" name=\"invoiceNumber\" [ngModel]=\"payrequestmodel.invoiceNumber\" />\r\n        <input type=\"hidden\" name=\"mccCode\" [ngModel]=\"payrequestmodel.mccCode\" />\r\n        <input type=\"hidden\" name=\"merchantCode\" [ngModel]=\"payrequestmodel.merchantCode\" />\r\n        <input type=\"hidden\" name=\"merchantId\" [ngModel]=\"payrequestmodel.merchantId\" />\r\n        <input type=\"hidden\" name=\"merchantVpa\" [ngModel]=\"payrequestmodel.merchantVpa\" />\r\n        <input type=\"hidden\" name=\"mndaddress\" [ngModel]=\"payrequestmodel.mndaddress\" />\r\n        <input type=\"hidden\" name=\"mndemail\" [ngModel]=\"payrequestmodel.mndemail\" />\r\n        <input type=\"hidden\" name=\"mndmob\" [ngModel]=\"payrequestmodel.mndmob\" />\r\n        <input type=\"hidden\" name=\"mndname\" [ngModel]=\"payrequestmodel.mndname\" />\r\n        <input type=\"hidden\" name=\"mode\" [ngModel]=\"payrequestmodel.mode\" />\r\n        <input type=\"hidden\" name=\"phone\" [ngModel]=\"payrequestmodel.phone\" />\r\n        <input type=\"hidden\" name=\"readonlyaddr\" [ngModel]=\"payrequestmodel.readonlyaddr\" />\r\n        <input type=\"hidden\" name=\"readonlyemail\" [ngModel]=\"payrequestmodel.readonlyemail\" />\r\n        <input type=\"hidden\" name=\"readonlymob\" [ngModel]=\"payrequestmodel.readonlymob\" />\r\n        <input type=\"hidden\" name=\"readonlyname\" [ngModel]=\"payrequestmodel.readonlyname\" />\r\n        <input type=\"hidden\" name=\"successURL\" [ngModel]=\"payrequestmodel.successURL\" />\r\n        <input type=\"hidden\" name=\"title\" [ngModel]=\"payrequestmodel.title\" />\r\n        <input type=\"hidden\" name=\"txnid\" [ngModel]=\"payrequestmodel.txnid\" />\r\n        <input type=\"hidden\" name=\"udf1\" [ngModel]=\"payrequestmodel.udf1\" />\r\n        <input type=\"hidden\" name=\"udf2\" [ngModel]=\"payrequestmodel.udf2\" />\r\n        <input type=\"hidden\" name=\"udf3\" [ngModel]=\"payrequestmodel.udf3\" />\r\n        <input type=\"hidden\" name=\"udf4\" [ngModel]=\"payrequestmodel.udf4\" />\r\n        <input type=\"hidden\" name=\"udf5\" [ngModel]=\"payrequestmodel.udf5\" />\r\n        <input type=\"hidden\" name=\"vpa\" [ngModel]=\"payrequestmodel.vpa\" />\r\n        <input type=\"hidden\" name=\"supportedModes\" [ngModel]=\"payrequestmodel.supportedModes\" />\r\n    </div>\r\n</form>\r\n<h5 align=\"center\">Redirecting you to Benow payment page,</h5>\r\n<h5 align=\"center\">please do not click back or refresh the page</h5>"
+module.exports = "<div class=\"progress\">\n    <div class=\"indeterminate\"></div>\n</div>\n<form id=\"paymentForm\" #paymentForm ngNoForm action=\"{{requestUrl}}\" method=\"POST\">\n    <div *ngIf=\"payrequestmodel\">\n        <button class=\"btn-flat waves-effect waves-light transparent regNrmS2BN\" type=\"submit\" id=\"submitPaymentForm\" >Pay</button>\n        <input type=\"hidden\" name=\"sourceId\" [ngModel]=\"payrequestmodel.sourceId\" />\n        <input type=\"hidden\" name=\"amount\" [ngModel]=\"payrequestmodel.amount\" />\n        <input type=\"hidden\" name=\"askadd\" [ngModel]=\"payrequestmodel.askadd\" />\n        <input type=\"hidden\" name=\"askemail\" [ngModel]=\"payrequestmodel.askemail\" />\n        <input type=\"hidden\" name=\"askmob\" [ngModel]=\"payrequestmodel.askmob\" />\n        <input type=\"hidden\" name=\"askname\" [ngModel]=\"payrequestmodel.askname\" />\n        <input type=\"hidden\" name=\"description\" [ngModel]=\"payrequestmodel.description\" />\n        <input type=\"hidden\" name=\"email\" [ngModel]=\"payrequestmodel.email\" />\n        <input type=\"hidden\" name=\"failureURL\" [ngModel]=\"payrequestmodel.failureURL\" />\n        <input type=\"hidden\" name=\"firstName\" [ngModel]=\"payrequestmodel.firstName\" />\n        <input type=\"hidden\" name=\"hash\" [ngModel]=\"payrequestmodel.hash\" />\n        <input type=\"hidden\" name=\"id\" [ngModel]=\"payrequestmodel.id\" />\n        <input type=\"hidden\" name=\"imageURL\" [ngModel]=\"payrequestmodel.imageURL\" />\n        <input type=\"hidden\" name=\"invoiceNumber\" [ngModel]=\"payrequestmodel.invoiceNumber\" />\n        <input type=\"hidden\" name=\"mccCode\" [ngModel]=\"payrequestmodel.mccCode\" />\n        <input type=\"hidden\" name=\"merchantCode\" [ngModel]=\"payrequestmodel.merchantCode\" />\n        <input type=\"hidden\" name=\"merchantId\" [ngModel]=\"payrequestmodel.merchantId\" />\n        <input type=\"hidden\" name=\"merchantVpa\" [ngModel]=\"payrequestmodel.merchantVpa\" />\n        <input type=\"hidden\" name=\"mndaddress\" [ngModel]=\"payrequestmodel.mndaddress\" />\n        <input type=\"hidden\" name=\"mndemail\" [ngModel]=\"payrequestmodel.mndemail\" />\n        <input type=\"hidden\" name=\"mndmob\" [ngModel]=\"payrequestmodel.mndmob\" />\n        <input type=\"hidden\" name=\"mndname\" [ngModel]=\"payrequestmodel.mndname\" />\n        <input type=\"hidden\" name=\"mode\" [ngModel]=\"payrequestmodel.mode\" />\n        <input type=\"hidden\" name=\"phone\" [ngModel]=\"payrequestmodel.phone\" />\n        <input type=\"hidden\" name=\"readonlyaddr\" [ngModel]=\"payrequestmodel.readonlyaddr\" />\n        <input type=\"hidden\" name=\"readonlyemail\" [ngModel]=\"payrequestmodel.readonlyemail\" />\n        <input type=\"hidden\" name=\"readonlymob\" [ngModel]=\"payrequestmodel.readonlymob\" />\n        <input type=\"hidden\" name=\"readonlyname\" [ngModel]=\"payrequestmodel.readonlyname\" />\n        <input type=\"hidden\" name=\"successURL\" [ngModel]=\"payrequestmodel.successURL\" />\n        <input type=\"hidden\" name=\"title\" [ngModel]=\"payrequestmodel.title\" />\n        <input type=\"hidden\" name=\"txnid\" [ngModel]=\"payrequestmodel.txnid\" />\n        <input type=\"hidden\" name=\"udf1\" [ngModel]=\"payrequestmodel.udf1\" />\n        <input type=\"hidden\" name=\"udf2\" [ngModel]=\"payrequestmodel.udf2\" />\n        <input type=\"hidden\" name=\"udf3\" [ngModel]=\"payrequestmodel.udf3\" />\n        <input type=\"hidden\" name=\"udf4\" [ngModel]=\"payrequestmodel.udf4\" />\n        <input type=\"hidden\" name=\"udf5\" [ngModel]=\"payrequestmodel.udf5\" />\n        <input type=\"hidden\" name=\"vpa\" [ngModel]=\"payrequestmodel.vpa\" />\n        <input type=\"hidden\" name=\"supportedModes\" [ngModel]=\"payrequestmodel.supportedModes\" />\n    </div>\n</form>\n<h5 align=\"center\">Redirecting you to Benow payment page,</h5>\n<h5 align=\"center\">please do not click back or refresh the page</h5>"
 
 /***/ }),
 
@@ -46777,7 +46800,6 @@ var MglService = (function () {
         return this.utilsService.getBaseURL() + this._urls.mglfailureURL;
     };
     MglService.prototype.gettmglDetails = function (res) {
-        console.log(res);
         var response = JSON.parse(res._body);
         var d = response.data.RECORD;
         this._mgl = new __WEBPACK_IMPORTED_MODULE_3__models_mgl__["a" /* Mgl */](d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0], d);
@@ -46786,7 +46808,7 @@ var MglService = (function () {
     MglService.prototype.getmgldata = function () {
         return this._mgl;
     };
-    MglService.prototype.mgldetailssave = function (tag2, transactionRef, actionData) {
+    MglService.prototype.mgldetailssave = function (transactionRef, actionData, tag2) {
         var _this = this;
         return this.http.post(this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL, JSON.stringify({
             "transactionRef": transactionRef,
@@ -46951,7 +46973,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/successmgl/successmgl.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"grey lighten-5\" *ngIf=\"pay\">\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\">\r\n        <div class=\"col s1 m3 l3\"></div>\r\n        <div class=\"col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN\">\r\n            <div class=\"row\"></div>\r\n            <div class=\"row\"></div>\r\n            <div class=\"valign-wrapper\">\r\n                <div class=\"col s12 center\">\r\n                    <span class=\"center\">\r\n                        <img src=\"http://localhost:9090/mgl/tick.png\" />\r\n                    </span>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                    <div class=\"input-field col s12 m10 l10 center regNrmS3BN\">\r\n                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b>{{' for submitting your details!' | translate }}</span>\r\n                    </div>\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col s12 center\">\r\n                        <img class=\"alignMidBN\" src=\"http://localhost:9090/mgl/paid.png\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\r\n                        <span class=\"amontsucessBN alignMidBN regNrmS-1B1BN\">₹ {{pay.amount | number : '1.2-2'}}</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <span class=\"col s12 center regNrmS4BN\">{{'Transaction Id' | translate}}: \r\n                            <b>{{pay.txnid | translate}}</b>\r\n                        </span>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n        </div>\r\n        <div class=\"col s1 m3 l3\"></div>\r\n    </div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n</main>"
+module.exports = "<main class=\"grey lighten-5\" *ngIf=\"pay\">\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\">\r\n        <div class=\"col s1 m3 l3\"></div>\r\n        <div class=\"col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN\">\r\n            <div class=\"row\"></div>\r\n            <div class=\"row\"></div>\r\n            <div class=\"valign-wrapper\">\r\n                <div class=\"col s12 center\">\r\n                    <span class=\"center\">\r\n                        <img src=\"http://localhost:9090/mgl/tick.png\" />\r\n                    </span>\r\n                    <input type=\"text\" [value]=\"pay\">\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                    <div class=\"input-field col s12 m10 l10 center regNrmS3BN\">\r\n                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b>{{' for submitting your details!' | translate }}</span>\r\n                    </div>\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col s12 center\">\r\n                        <img class=\"alignMidBN\" src=\"http://localhost:9090/mgl/paid.png\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\r\n                        <span class=\"amontsucessBN alignMidBN regNrmS-1B1BN\">₹ {{pay.amount | number : '1.2-2'}}</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <span class=\"col s12 center regNrmS4BN\">{{'Transaction Id' | translate}}: \r\n                            <b>{{pay.txnid | translate}}</b>\r\n                        </span>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n        </div>\r\n        <div class=\"col s1 m3 l3\"></div>\r\n    </div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n</main>"
 
 /***/ }),
 
@@ -46980,7 +47002,8 @@ var SuccessmglComponent = (function () {
     SuccessmglComponent.prototype.ngOnInit = function () {
         this.pay = JSON.parse(document.getElementById('paymentSuccessData').value);
         // will get after successful payment transactionid, actiondata -- getting datastring from the mglurl, consumerno.
-        // this.mglservice.mgldetailssave('2345678', '346578','23456789');
+        this.mglservice.mgldetailssave(this.pay.txnid, this.pay.udf3, this.pay.udf4);
+        console.log('a', this.pay.txnid);
     };
     return SuccessmglComponent;
 }());
