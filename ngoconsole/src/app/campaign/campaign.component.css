@@ -89,3 +89,16 @@
     color: #E53935;
     font-size: 12pt;
 }
+
+.footerHgtBN {
+    height: 75px;
+}
+
+.productsModalBN {
+    top: 5%!important;
+    height: 90%;
+    width: 90%;
+    max-width: 550px;    
+    max-height: 100%!important;
+    overflow: hidden;
+}
