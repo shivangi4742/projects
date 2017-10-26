@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MglService} from  '../services/mgl.service';
+import { MglService } from  '../services/mgl.service';
 
 @Component({
   selector: 'app-successmgl',
@@ -13,11 +13,9 @@ export class SuccessmglComponent implements OnInit {
 
   ngOnInit() {
    this.pay = JSON.parse((document.getElementById('paymentSuccessData') as any).value);
-
-  // will get after successful payment transactionid, actiondata -- getting datastring from the mglurl, consumerno.
-   this.mglservice.mgldetailssave(this.pay.txnid,this.pay.udf3, this.pay.udf4);
-   console.log('a', this.pay.txnid);  
-  }
+   this.mglservice.mgldetailssave(this.pay.txnid,this.pay.udf3, atob(this.pay.udf2));
+   
+}
 
 
 

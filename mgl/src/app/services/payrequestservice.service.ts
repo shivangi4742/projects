@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Payrequestmodel } from '../models/payrequestmodel';
 import 'rxjs/add/operator/toPromise';
-import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
+import { UtilsService } from 'benowservices';
 
 
 @Injectable()

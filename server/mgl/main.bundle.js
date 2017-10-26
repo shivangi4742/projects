@@ -45843,7 +45843,7 @@ var UtilsService = (function () {
         this._isNGO = false;
         this._fixedKey = 'NMRCbn';
         this._baseURL = 'http://localhost:9090/';
-        this._requestURL = 'https://merchant.benow.in/paysdk';
+        this._requestURL = 'http://localhost:8080/paysdk';
         this._processPaymentURL = 'http://localhost:9090/sdk/processPayment';
         this._redirectURL = 'http://localhost:9090/r/';
         this._loginPageURL = 'http://localhost:9090/lgn/login/1';
@@ -46495,10 +46495,10 @@ var CustomerpaymentComponent = (function () {
     };
     CustomerpaymentComponent.prototype.Submit = function () {
         var _this = this;
-        //this.supportModes = ['UPI']; 
-        this.supportModes = ['CC', 'DC', 'UPI', 'SODEXO'];
+        console.log('response', this.mgl.response, this.mgl.ca, this.mgl.name);
+        this.supportModes = ['UPI'];
         //another option like collect request url
-        this.payRequestService.setPayRequest(new __WEBPACK_IMPORTED_MODULE_2__models_payrequestmodel__["a" /* Payrequestmodel */](2, '1', false, false, true, true, 'MahaNagar Gas Limited', '', this.mglservice.getFailedURL(), this.mgl.name, '', '', '', '1', '5499', 'AACH5', '1', 'AACH5@yesbank', false, false, false, true, '', this.mgl.ca, false, false, false, false, this.mglservice.getSuccessURL(), 'Benow Sales', '', '', this.mgl.response, this.mgl.ca, '', '', '', this.supportModes))
+        this.payRequestService.setPayRequest(new __WEBPACK_IMPORTED_MODULE_2__models_payrequestmodel__["a" /* Payrequestmodel */](2, '1', false, false, true, true, 'MahaNagar Gas Limited', '', this.mglservice.getFailedURL(), this.mgl.name, '', '', '', '1', '5499', 'AACH5', '1', 'AACH5@yesbank', false, false, false, true, '', this.mgl.ca, false, false, false, false, this.mglservice.getSuccessURL(), 'Benow Sales', '', '', btoa(JSON.stringify(this.mgl.response)), this.mgl.ca, '', '', '', this.supportModes))
             .then(function (res) { return _this.navigate(); });
     };
     CustomerpaymentComponent.prototype.navigate = function () {
@@ -46635,6 +46635,7 @@ var MglpaymentComponent = (function () {
     MglpaymentComponent.prototype.ngOnInit = function () {
         this.payrequestmodel = this.payRequestService.getPayRequest();
         this.requestUrl = this.utilsservice.getRequestURL();
+        console.log(this.requestUrl);
         this.submitMe();
     };
     /*gotHash(hs: string) {
@@ -46800,9 +46801,13 @@ var MglService = (function () {
         return this.utilsService.getBaseURL() + this._urls.mglfailureURL;
     };
     MglService.prototype.gettmglDetails = function (res) {
+        console.log(res._body);
+        //var pp =JSON.stringify(res._body);
+        // console.log('pp',pp);
         var response = JSON.parse(res._body);
         var d = response.data.RECORD;
         this._mgl = new __WEBPACK_IMPORTED_MODULE_3__models_mgl__["a" /* Mgl */](d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0], d);
+        console.log(this._mgl);
         return this._mgl;
     };
     MglService.prototype.getmgldata = function () {
@@ -46810,6 +46815,7 @@ var MglService = (function () {
     };
     MglService.prototype.mgldetailssave = function (transactionRef, actionData, tag2) {
         var _this = this;
+        console.log(tag2, transactionRef, actionData);
         return this.http.post(this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL, JSON.stringify({
             "transactionRef": transactionRef,
             "actionData": actionData,
@@ -46973,7 +46979,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/successmgl/successmgl.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<main class=\"grey lighten-5\" *ngIf=\"pay\">\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\">\r\n        <div class=\"col s1 m3 l3\"></div>\r\n        <div class=\"col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN\">\r\n            <div class=\"row\"></div>\r\n            <div class=\"row\"></div>\r\n            <div class=\"valign-wrapper\">\r\n                <div class=\"col s12 center\">\r\n                    <span class=\"center\">\r\n                        <img src=\"http://localhost:9090/mgl/tick.png\" />\r\n                    </span>\r\n                    <input type=\"text\" [value]=\"pay\">\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                    <div class=\"input-field col s12 m10 l10 center regNrmS3BN\">\r\n                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b>{{' for submitting your details!' | translate }}</span>\r\n                    </div>\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col s12 center\">\r\n                        <img class=\"alignMidBN\" src=\"http://localhost:9090/mgl/paid.png\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\r\n                        <span class=\"amontsucessBN alignMidBN regNrmS-1B1BN\">₹ {{pay.amount | number : '1.2-2'}}</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <span class=\"col s12 center regNrmS4BN\">{{'Transaction Id' | translate}}: \r\n                            <b>{{pay.txnid | translate}}</b>\r\n                        </span>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n        </div>\r\n        <div class=\"col s1 m3 l3\"></div>\r\n    </div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n</main>"
+module.exports = "<main class=\"grey lighten-5\" *ngIf=\"pay\">\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\">\r\n        <div class=\"col s1 m3 l3\"></div>\r\n        <div class=\"col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN\">\r\n            <div class=\"row\"></div>\r\n            <div class=\"row\"></div>\r\n            <div class=\"valign-wrapper\">\r\n                <div class=\"col s12 center\">\r\n                    <span class=\"center\">\r\n                        <img src=\"http://localhost:9090/mgl/tick.png\" />\r\n                    </span>\r\n                   \r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                    <div class=\"input-field col s12 m10 l10 center regNrmS3BN\">\r\n                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b>{{' for submitting your details!' | translate }}</span>\r\n                    </div>\r\n                    <div class=\"col m1 l1 hide-on-small-only\"></div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <div class=\"col s12 center\">\r\n                        <img class=\"alignMidBN\" src=\"http://localhost:9090/mgl/paid.png\" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\r\n                        <span class=\"amontsucessBN alignMidBN regNrmS-1B1BN\">₹ {{pay.amount | number : '1.2-2'}}</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"row\">\r\n                <div class=\"valign-wrapper\">\r\n                    <span class=\"col s12 center regNrmS4BN\">{{'Transaction Id' | translate}}: \r\n                            <b>{{pay.txnid | translate}}</b>\r\n                        </span>\r\n                </div>\r\n            </div>\r\n\r\n            \r\n        </div>\r\n        <div class=\"col s1 m3 l3\"></div>\r\n    </div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n    <div class=\"row\"></div>\r\n</main>"
 
 /***/ }),
 
@@ -47001,9 +47007,8 @@ var SuccessmglComponent = (function () {
     }
     SuccessmglComponent.prototype.ngOnInit = function () {
         this.pay = JSON.parse(document.getElementById('paymentSuccessData').value);
-        // will get after successful payment transactionid, actiondata -- getting datastring from the mglurl, consumerno.
-        this.mglservice.mgldetailssave(this.pay.txnid, this.pay.udf3, this.pay.udf4);
-        console.log('a', this.pay.txnid);
+        this.mglservice.mgldetailssave(this.pay.txnid, this.pay.udf3, this.pay.udf2);
+        console.log('a', this.pay);
     };
     return SuccessmglComponent;
 }());

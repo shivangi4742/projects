@@ -5,7 +5,7 @@ import { Payrequestmodel } from '../models/payrequestmodel';
 
 import { MglService } from '../services/mgl.service';
 import { PayrequestService } from '../services/payrequestservice.service';
-import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
+import { UtilsService } from 'benowservices';
 
 @Component({
     selector: 'app-mglpayment',

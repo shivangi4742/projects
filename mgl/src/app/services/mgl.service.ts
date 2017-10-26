@@ -4,8 +4,7 @@ import { Headers, Response, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Mgl } from '../models/mgl';
-import { User } from '../../../../sharedservices/src/models/user.model';
-import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
+import { User, UtilsService } from 'benowservices';
 
 @Injectable()
 export class MglService {

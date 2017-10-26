@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Mgl } from '../models/mgl';
 import { Payrequestmodel } from '../models/payrequestmodel';
-import * as $ from 'jquery';
 import { MglService } from '../services/mgl.service';
 import { PayrequestService } from '../services/payrequestservice.service';
-import { UtilsService } from '../../../../sharedservices/src/services/utils.service';
+import { UtilsService } from 'benowservices';
 
 
 

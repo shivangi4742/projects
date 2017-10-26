@@ -19,7 +19,6 @@ import { CustomerpaymentComponent } from './customerpayment/customerpayment.comp
 import { MglService } from  './services/mgl.service';
 import { PayrequestService } from './services/payrequestservice.service';
 
-import { UtilsService } from './../../../sharedservices/src/services/utils.service';
 import { SuccessmglComponent } from './successmgl/successmgl.component';
 import { FailuremglComponent } from './failuremgl/failuremgl.component';
 import { MglpaymentComponent } from './mglpayment/mglpayment.component';
@@ -53,7 +52,7 @@ export function HttpFactory(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [MglService, UtilsService, PayrequestService],
+  providers: [MglService, PayrequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
