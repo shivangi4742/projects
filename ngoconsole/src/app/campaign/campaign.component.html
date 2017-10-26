@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="row allContentBN">
+        <div [ngClass]="isMobile ? 'row allContentBN' : 'row allContentBN card-panel grey lighten-5'">
           <div class="col s12 center">
             <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
                (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">

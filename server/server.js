@@ -174,6 +174,7 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
 				}
 			}
 
+			nImg = config.uploadsURL + nImg;
 			res.send('<!doctype html>' +
                 '<html>' +
                 '    <head>' +

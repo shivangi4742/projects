@@ -13,6 +13,7 @@ import { MglService} from  '../services/mgl.service';
 })
 export class CustomerComponent implements OnInit {
   CsmNo: string;
+  hasError: boolean = false;
 
   constructor(private router: Router, private mglservice:MglService) { }
 

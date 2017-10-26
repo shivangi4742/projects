@@ -19,3 +19,7 @@
 .maxWidthInptBN {
     width: 200px!important;
 }
+
+.allContentBN {
+    max-width: 550px;
+}

@@ -22,6 +22,7 @@ export class SharecampaignComponent implements OnInit {
   loaded: boolean = false;
   saving: boolean = false;
   sending: boolean = false;
+  isMobile: boolean = false;
   hasProducts: boolean = false;
   mtype: number = 2;
 
@@ -58,6 +59,7 @@ export class SharecampaignComponent implements OnInit {
   initUser(res: User) {
     if(this.id && res) {
       this.user = res;
+      this.isMobile = this.utilsService.isAnyMobile();
       if(this.utilsService.isHB(this.user.merchantCode))
         this.mtype = 3;
       

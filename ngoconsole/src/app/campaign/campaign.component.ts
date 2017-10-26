@@ -20,6 +20,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   user: User;
   dateParams: any;
   allProducts: Array<Product>;
+  isMobile: boolean = false;
   uploading: boolean = false;
   bannerover: boolean = false;
   today: string = 'Today';
@@ -94,6 +95,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(res) {
       this.user = res;
       this.uploadsURL = this.utilsService.getUploadsURL();      
+      this.isMobile = this.utilsService.isAnyMobile();
       let mtype: number = 2;
       if(this.utilsService.isHB(this.user.merchantCode))
         mtype = 3;
