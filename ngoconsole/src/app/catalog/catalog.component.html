@@ -1,3 +1,40 @@
-<p>
-  catalog works!
-</p>
+<div materialize>
+  <div class="fullWidthBN" align="center">
+    <div class="maxWidthBN" align="left">   
+      <div class="row"></div>         
+      <status [status]="utilsService.getStatus()"></status>
+      <div class="row productsTabsBN">
+        <div class="col s12 center">
+          <ul materialize="tabs" class="col s12 grey lighten-5 productsTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
+            <li *ngIf="products" class="tab col s6 tabBottomBN">
+              <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" 
+                (click)="setActiveTab(0)">{{'Edit / Delete Products' | translate}}</a>
+              <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
+            </li>
+            <li [ngClass]="products ? 'tab col s6 tabBottomBN' : 'tab col s12 tabBottomBN'">
+              <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" 
+                (click)="setActiveTab(1)">{{'Add New Products' | translate}}</a>
+              <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
+            </li>
+            <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
+          </ul>          
+        </div>    
+        <div class="row card-panel grey lighten-5">
+          <div class="col s12" *ngIf="active == 0">
+          </div>
+          <div class="col s12" *ngIf="active == 1">
+            <addproduct [user]="user"></addproduct>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 redBN linkButtonBN" (click)="goToDashboard()" align="left">
+            <i class="material-icons alignMidBN">navigate_before</i>
+            <span class="errNrmS5BN alignMidBN">{{'go to' | translate}}</span>
+            <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

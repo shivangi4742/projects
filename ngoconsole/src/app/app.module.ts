@@ -19,6 +19,7 @@ import { OrdersComponent  } from './orders/orders.component';
 import { CampaignComponent } from './campaign/campaign.component';
 import { SharecampaignComponent } from './sharecampaign/sharecampaign.component';
 import { CatalogComponent } from './catalog/catalog.component';
+import { AddproductComponent } from './addproduct/addproduct.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
@@ -34,6 +35,7 @@ export function HttpFactory(http: Http) {
     CampaignComponent,
     SharecampaignComponent,
     CatalogComponent,
+    AddproductComponent,
   ],
   imports: [
     HttpModule,
