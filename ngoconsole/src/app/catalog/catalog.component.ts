@@ -12,6 +12,7 @@ export class CatalogComponent implements OnInit {
   products: Array<Product>;
   isInitial: boolean = true;
   active: number = 0;
+  newlyadded: any = { "key": "isNew", "value": true };
   constructor(private productService: ProductService, private userService: UserService, private utilsService: UtilsService) { }
 
   ngOnInit() {

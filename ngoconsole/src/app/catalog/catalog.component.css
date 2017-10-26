@@ -1,3 +1,8 @@
 .productsTabsBN {
     padding: 0px!important;    
 }
+
+.maxWidthCatalogBN {
+    width: 100%;
+    max-width: 700px;    
+}

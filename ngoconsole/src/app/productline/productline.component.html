@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col s10 offset-s1 m2 center" align="center">
+    <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+    <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
+  </div>
+  <div class="col s1 hide-on-med-and-up"></div>
+  <div class="col s10 offset-s1 m5" align="left">
+    <span class="col s12 regNrmS5B1BN">{{product.name}}</span>
+    <span class="col s12 regNrmS4BN">{{product.description}}</span>
+  </div>  
+  <div class="col s1 hide-on-med-and-up"></div>
+  <div class="col s10 offset-s1 m3" align="left">
+    <span class="col s12 regNrmS5B1BN">₹ {{product.price | number : '1.2-2'}}</span>
+    <span class="col s12 regNrmS4BN">{{'per' | translate}}{{product.uom}}</span>
+  </div>  
+  <div class="col s1 hide-on-med-and-up"></div>
+  <div class="col s10 offset-s1 m2" align="left">
+    <span class="col s12">
+      <i class="material-icons alignMidBN linkButtonBN" (click)="delete()">delete</i>&nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="edit()">edit</i>
+    </span>
+  </div>  
+  <div class="col s1 hide-on-med-and-up"></div>
+</div>

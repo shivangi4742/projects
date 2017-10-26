@@ -8,6 +8,76 @@ var prodCont = {
         }); 
     },
 
+    editProduct: function (req, res) {
+         res.setHeader("X-Frame-Options", "DENY");
+        this.editProductPost(req, function (data) {
+            res.json(data);
+        }); 
+    },
+
+    deleteProduct: function (req, res) {
+         res.setHeader("X-Frame-Options", "DENY");
+        this.deleteProductPost(req, function (data) {
+            res.json(data);
+        }); 
+    },
+
+    editProductPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.id && d.merchantCode && d.price && d.name)
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/editBenowProduct', 'POST', req.headers),
+                        {
+                            "id": d.id,	
+                            "merchantCode": d.merchantCode,
+                            "prodPrice": d.price,
+                            "prodDescription": d.description,
+                            "prodImgUrl": d.imageURL,
+                            "prodName": d.name,
+                            "uom": d.uom
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    deleteProductPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.id)
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/deleteBenowProduct ', 'POST', req.headers),
+                        {	
+                            "id": d.id
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     addProductPost: function(req, cb) {
         var retErr = {
             "success": false,
