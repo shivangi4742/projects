@@ -187,7 +187,7 @@ export class ProductService {
             return Promise.resolve(false);
 
         return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.addProductURL,
+            .post(this.utilsService.getBaseURL() + this._urls.editProductURL,
             JSON.stringify({
                 "merchantCode": merchantCode,
                 "name": product.name,
@@ -208,7 +208,7 @@ export class ProductService {
             return Promise.resolve(false);
 
         return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.addProductURL,
+            .post(this.utilsService.getBaseURL() + this._urls.deleteProductURL,
             JSON.stringify({
                 "id": id
             }),

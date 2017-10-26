@@ -98,7 +98,7 @@
     "Add New Products": "नवीन उत्पादन जोडा",
     "Price": "खर्च",
     "Name": "नाव",
-    "UOM": "यूओएम",
+    "UOM": "मोजण्याचे एकक (उदा. किग्रा, पॅकेट)",
     "Add": "जोडा",
     "Description": "वर्णन",
     "Allow Multiple Selections": "एकाधिक निवडींना परवानगी द्या",
@@ -134,5 +134,7 @@
     "Successfully sent campaign link in SMS": "एसएमएस मध्ये मोहिम लिंक यशस्वीरित्या पाठवला",
     "by": "द्वारा",
     "Get this link in SMS": "हा दुवा एसएमएसवर मिळवा",
-    "User details settings": "आवश्यक ग्राहक तपशील"
+    "User details settings": "आवश्यक ग्राहक तपशील",
+    "per": "प्रति",
+    "Edit / Delete Products": "उत्पाद संपादित करा / हटवा"
 }

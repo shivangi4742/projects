@@ -98,7 +98,7 @@
     "Add New Products": "नया उत्पाद जोड़ें",
     "Price": "मूल्य",
     "Name": "नाम",
-    "UOM": "यूओएम",
+    "UOM": "माप की इकाई (जैसे किग्रा, पैकेट)",
     "Add": "जोड़ें",
     "Description": "विवरण",
     "Allow Multiple Selections": "एकाधिक चयन की अनुमति दें",
@@ -134,5 +134,7 @@
     "Successfully sent campaign link in SMS": "एसएमएस में अभियान लिंक सफलतापूर्वक भेजा गया",
     "by": "द्वारा",
     "Get this link in SMS": "एसएमएस पर यह लिंक प्राप्त करें",
-    "User details settings": "आवश्यक ग्राहक विवरण"
+    "User details settings": "आवश्यक ग्राहक विवरण",
+    "per": "प्रति",
+    "Edit / Delete Products": "उत्पाद संपादित करें / हटाएं"
 }

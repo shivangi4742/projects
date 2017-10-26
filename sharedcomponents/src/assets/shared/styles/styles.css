@@ -458,3 +458,15 @@
     border-bottom-color: #FF8A80!important;
     border-bottom: 2px solid;
 }
+
+.noMarginBN {
+    margin: 0px;
+}
+
+.whiteBGBN {
+    background-color: white;
+}
+
+.thinFNBN {
+    font-size: 6pt;
+}

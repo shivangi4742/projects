@@ -1,24 +1,37 @@
-<div class="row">
-  <div class="col s10 offset-s1 m2 center" align="center">
+<div class="row hide-on-small-only">
+  <div class="col m2 center" align="center">
     <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
     <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
   </div>
-  <div class="col s1 hide-on-med-and-up"></div>
-  <div class="col s10 offset-s1 m5" align="left">
-    <span class="col s12 regNrmS5B1BN">{{product.name}}</span>
-    <span class="col s12 regNrmS4BN">{{product.description}}</span>
+  <div class="col m5" align="left">
+    <span class="col m12 regNrmS5B1BN">{{product.name}}</span>
+    <span class="col m12 regNrmS4BN">{{product.description}}</span>
   </div>  
-  <div class="col s1 hide-on-med-and-up"></div>
-  <div class="col s10 offset-s1 m3" align="left">
-    <span class="col s12 regNrmS5B1BN">₹ {{product.price | number : '1.2-2'}}</span>
-    <span class="col s12 regNrmS4BN">{{'per' | translate}}{{product.uom}}</span>
+  <div class="col m3" align="left">
+    <span class="col m12 regNrmS5B1BN">₹ {{product.price | number : '1.2-2'}}</span>
+    <span class="col m12 regNrmS4BN" *ngIf="product.uom">{{'per' | translate}} {{product.uom}}</span>
   </div>  
-  <div class="col s1 hide-on-med-and-up"></div>
-  <div class="col s10 offset-s1 m2" align="left">
-    <span class="col s12">
+  <div class="col m2" align="left">
+    <span class="col m12">
+      <i class="material-icons alignMidBN linkButtonBN" *ngIf="false" (click)="edit()">edit</i>
       <i class="material-icons alignMidBN linkButtonBN" (click)="delete()">delete</i>&nbsp;
-      <i class="material-icons alignMidBN linkButtonBN" (click)="edit()">edit</i>
     </span>
   </div>  
-  <div class="col s1 hide-on-med-and-up"></div>
+</div>
+<div class="row hide-on-med-and-up noPadsIconBN noMarginBN" align="center">
+  <div class="col s12 noPadsIconBN noMarginBN">
+    <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+    <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
+  </div>
+  <span class="col s12 thinFNBN">&nbsp;</span>
+  <span class="col s12 noPadsIconBN noMarginBN regNrmS5B1BN">{{product.name}}</span>
+  <span class="col s12 noPadsIconBN noMarginBN regNrmS4BN">{{product.description}}</span>
+  <span class="col s12 thinFNBN">&nbsp;</span>
+  <span class="col s12 noPadsIconBN noMarginBN regNrmS5B1BN">₹ {{product.price | number : '1.2-2'}}</span>
+  <span class="col s12 noPadsIconBN noMarginBN regNrmS4BN" *ngIf="product.uom">{{'per' | translate}} {{product.uom}}</span>
+  <span class="col s12 thinFNBN">&nbsp;</span>
+  <span class="col s12 noPadsIconBN noMarginBN">
+    <i class="material-icons alignMidBN linkButtonBN" *ngIf="false" (click)="edit()">edit</i>
+    <i class="material-icons alignMidBN linkButtonBN" (click)="delete()">delete</i>&nbsp;
+  </span>
 </div>
