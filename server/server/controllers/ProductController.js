@@ -65,7 +65,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.id)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/deleteBenowProduct ', 'POST', req.headers),
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/deleteBenowProduct', 'POST', req.headers),
                         {	
                             "id": d.id
                         }, cb);
