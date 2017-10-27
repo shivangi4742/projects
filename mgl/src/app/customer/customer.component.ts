@@ -14,9 +14,9 @@ import { Mgl } from '../models/mgl';
 })
 export class CustomerComponent implements OnInit {
   CsmNo: string;
-  cs:boolean =true;
+  cs:boolean = true;
   errorMsg: string;
-  hasError:boolean;
+  hasError:boolean =false;
   mgl: Mgl;
   constructor(private router: Router, private mglservice:MglService) { }
 
@@ -49,8 +49,7 @@ export class CustomerComponent implements OnInit {
    if((x.toString().length)== 12){
     this.cs= false;
    }
-   else
-   {
+   else {
      this.cs= true;
    }
   }
