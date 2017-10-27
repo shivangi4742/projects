@@ -41,6 +41,7 @@ export class MglpaymentComponent implements OnInit {
         else
             setTimeout(function() { me.submitMe(); }, 100);
     }
+   
 
 }
 
