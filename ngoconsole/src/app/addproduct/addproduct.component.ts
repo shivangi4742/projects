@@ -21,6 +21,13 @@ export class AddproductComponent implements OnInit {
   ngOnInit() {
   }
 
+  hasImage(): boolean {
+    if(this.newProd && this.newProd.imageURL && this.newProd.imageURL.trim() && this.newProd.imageURL.trim().length > 0)
+      return true;
+
+    return false;
+  }
+
   canBeSaved(p: Product): boolean {
     if(this.newProd && this.newProd.id && p && p.id && this.newProd.name && this.newProd.name.trim() && this.newProd.name.trim().length > 0
       && this.newProd.price > 0) {
