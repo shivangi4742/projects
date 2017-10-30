@@ -12,12 +12,71 @@ export class AddproductComponent implements OnInit {
   uploadsURL: string;
   uploading: boolean = false;
   newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
+  @Input('edit') edit: boolean;
   @Input('user') user: User;
   constructor(private productService: ProductService, private utilsService: UtilsService, private fileService: FileService) { 
     this.uploadsURL = utilsService.getUploadsURL();        
   }
 
   ngOnInit() {
+  }
+
+  canBeSaved(p: Product): boolean {
+    if(this.newProd && this.newProd.id && p && p.id && this.newProd.name && this.newProd.name.trim() && this.newProd.name.trim().length > 0
+      && this.newProd.price > 0) {
+      if(p.name != this.newProd.name)
+        return true;
+
+      if(p.price != this.newProd.price)
+        return true;
+
+      if(p.imageURL && !this.newProd.imageURL)
+        return true;
+
+      if(!p.imageURL && this.newProd.imageURL)
+        return true;
+
+      if(p.imageURL && this.newProd.imageURL)
+        if(p.imageURL != this.newProd.imageURL)
+          return true;
+
+      if(p.uom && !this.newProd.uom)
+        return true;
+
+      if(!p.uom && this.newProd.uom)
+        return true;
+
+      if(p.uom && this.newProd.uom)
+        if(p.uom != this.newProd.uom)
+          return true;
+
+      if(p.description && !this.newProd.description)
+        return true;
+
+      if(!p.description && this.newProd.description)
+        return true;
+
+      if(p.description && this.newProd.description)
+        if(p.description != this.newProd.description)
+          return true;
+    }
+
+    return false;
+  }
+
+  setProduct(p: Product) {
+    if(p && p.id) {
+      this.newProd.id = p.id;
+      this.newProd.uom = p.uom;
+      this.newProd.name = p.name;
+      this.newProd.price = p.price;
+      this.newProd.imageURL = p.imageURL;
+      this.newProd.description = p.description;
+    }
+  }
+
+  getEditedProduct(): Product {
+    return this.newProd;
   }
 
   addProduct() {

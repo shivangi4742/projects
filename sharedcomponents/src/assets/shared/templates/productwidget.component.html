@@ -1,8 +1,8 @@
 <div *ngIf="product" (mouseover)="over=true;" (mouseout)="over=false;" 
     [ngClass]="forCart ? (over ? 'row grey lighten-5 productCartWidgetBN' : 'row productCartWidgetBN') : (over ? 'row grey lighten-5 productWidgetBN' : 'row productWidgetBN')">
     <div class="col s12 center fixHeightBN" align="center">
-        <i [ngClass]="over ? 'material-icons absoluteBN greyBN linkButtonBN icon17BN' : 'material-icons absoluteBN transparentBN linkButtonBN icon17BN'"
-            (click)="delete()" *ngIf="showDelete">close</i>
+<!--         <i [ngClass]="over ? 'material-icons absoluteBN greyBN linkButtonBN icon17BN' : 'material-icons absoluteBN transparentBN linkButtonBN icon17BN'"
+            (click)="delete()" *ngIf="showDelete">close</i> -->
         <img *ngIf="!product.imageURL" class="prodImageBN" src="../assets/shared/images/no-image.png" />
         <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />        
     </div>

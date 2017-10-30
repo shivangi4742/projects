@@ -1,8 +1,8 @@
 <div materialize>
-  <div class="fullWidthBN" align="center">
+  <div *ngIf="user" class="fullWidthBN" align="center">
     <div class="maxWidthCatalogBN" align="left">   
       <div class="row"></div>         
-      <status [status]="utilsService.getStatus()"></status>
+      <status [status]="getStatus()"></status>
       <div class="row productsTabsBN">
         <div class="col s12 center">
           <ul materialize="tabs" class="col s12 grey lighten-5 productsTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
@@ -24,17 +24,17 @@
             <div class="row"></div>
             <div class="row" *ngIf="products">
               <div class="col s12 noPadsIconBN noMarginBN" *ngFor="let p of products">
-                <productline [product]="p"></productline> 
+                <productline [user]="user" [product]="p"></productline> 
                 <p class="borderBN"></p>
               </div> 
             </div>
           </div>
           <div class="col s12" *ngIf="active == 1">
-            <addproduct [user]="user"></addproduct>
+            <addproduct [edit]="false" [user]="user"></addproduct>
             <p class="borderBN"></p>
             <div class="row" *ngIf="products">
               <div class="col s12 noPadsIconBN noMarginBN" *ngFor="let np of (products | objectfilter:newlyadded)">
-                <productline [product]="np"></productline> 
+                <productline [user]="user" [product]="np"></productline> 
               </div> 
             </div>
           </div>

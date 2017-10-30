@@ -20,6 +20,10 @@ export class CatalogComponent implements OnInit {
       .then(res => this.initUser(res));
   }
 
+  getStatus() {
+    return this.utilsService.getStatus();
+  }
+
   private initProducts(ps: Array<Product>) {
     if(ps && ps.length > 0)
       this.products = ps;

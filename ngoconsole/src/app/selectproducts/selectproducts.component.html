@@ -20,7 +20,7 @@
     </div>
   </div>
   <div *ngIf="active == 1">
-    <addproduct [user]="user"></addproduct>
+    <addproduct [edit]="false" [user]="user"></addproduct>
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
       <div class="col m4 s6 center" *ngFor="let np of (products | objectfilter:newlyadded)">

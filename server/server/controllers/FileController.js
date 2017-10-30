@@ -72,9 +72,13 @@ var fileCont = {
                             fName = fName.substring(0, li);
 
                             var form = reqPost.form();
+                            var dcode = req.file.originalname;
+                            if(dcode && dcode.length > 50)
+                                dcode = dcode.substring(0, 50);
+                            
                             form.append('documentVO', JSON.stringify({
                                 "sourceId": d.sourceId, "documentName": fName, "sourceType": d.sourceType,
-                                "documentCode": req.file.originalname
+                                "documentCode": dcode
                             }));
                             form.append('file', fs.createReadStream(__dirname + '/../../uploads/' + req.file.filename));
                         }
