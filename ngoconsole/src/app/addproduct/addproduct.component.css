@@ -1,0 +1,27 @@
+.shiftDownBN {
+    margin-top: 30px;
+}
+
+.editProdImageBN {
+    max-height: 120px;
+    max-width: 120px;    
+}
+
+.editOverlayBN {
+    background-color: white;
+    border-radius: 35px;
+    font-size: 30px;
+    position: relative;
+    display: inline;
+    left: -60px;
+    top: -20px;
+}
+
+.editOverlayIconBN {
+    color: #E53935;
+}
+
+.uploadingImageBN {
+    height: 120px;
+    width: 120px;        
+}
