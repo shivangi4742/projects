@@ -470,3 +470,7 @@
 .thinFNBN {
     font-size: 6pt;
 }
+
+.line-breaker {
+  white-space: pre-line;
+}

@@ -117,6 +117,9 @@ export class PayComponent implements OnInit {
       this.pay.amount = total;
     }      
 
+    if(this.pay.amount == 0)
+      this.pay.amount = null;
+    
     if(!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;    
 
