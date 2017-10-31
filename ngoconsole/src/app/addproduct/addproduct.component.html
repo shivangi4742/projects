@@ -6,11 +6,9 @@
     <div class="file-field input-field col s10 offset-s1 m4">
       <img *ngIf="!uploading && !hasImage()" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
       <img [ngClass]="uploading ? 'editProdImageBN responsive-img uploadingImageBN displayBN' : 'editProdImageBN responsive-img noDisplayBN'" 
-        src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
+        src="../../assets/ngoconsole/images/output_BP0wHw.gif" />
       <img *ngIf="!uploading && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{newProd.imageURL}} />
-      <div *ngIf="!uploading && hasImage()" class="editOverlayBN"> &nbsp;
-        <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;
-      </div>
+      <div *ngIf="!uploading && hasImage()" align="left" class="editOverlayBN"> &nbsp;<i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
       <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
     </div>                
     <div class="col s1 hide-on-med-and-up"></div>

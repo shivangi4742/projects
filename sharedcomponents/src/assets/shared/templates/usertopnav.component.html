@@ -36,6 +36,22 @@
                 </span>
             </a>
         </li>
+        <li *ngIf="hasCampaign()">
+            <a [routerLink]="'/newcampaign'">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">loyalty</i>
+                    {{'Create Campaign' | translate}} 
+                </span>
+            </a>
+        </li>
+        <li *ngIf="hasCatalog()">
+            <a [routerLink]="'/catalog'">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">store</i>
+                    {{'Manage Catalog' | translate}} 
+                </span>
+            </a>
+        </li>
         <li *ngIf="!hasTils">
             <a (click)="changePassword()" >
                 <span class="valign-wrapper topNavDDMenuItemBN">           

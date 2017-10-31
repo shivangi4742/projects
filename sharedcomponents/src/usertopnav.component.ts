@@ -35,6 +35,20 @@ export class UserTopNavComponent {
   goTo(routeStr: string) {    
   }
 
+  hasCampaign(): boolean {
+    if(window.location.href.indexOf('campaign') > 1)
+      return false;
+
+    return this.mtype == 3;    
+  }
+
+  hasCatalog(): boolean {
+    if(window.location.href.indexOf('/catalog') > 1)
+      return false;
+
+    return this.mtype == 3;
+  }
+
   init() {
     if(!this.notifInitialized)
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)

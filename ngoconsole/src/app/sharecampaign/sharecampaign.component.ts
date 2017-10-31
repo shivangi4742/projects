@@ -106,4 +106,8 @@ export class SharecampaignComponent implements OnInit {
     this.campaignService.smsCampaignLink(this.savedURL, this.mtype, this.user.displayName, this.sdk.title, this.mobileNumber)
       .then(res => this.sent(res));
   }
+
+  goToDashboard() {
+    window.location.href = this.utilsService.getOldDashboardURL();    
+  }
 }
