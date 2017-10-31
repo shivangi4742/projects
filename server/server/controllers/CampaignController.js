@@ -396,7 +396,48 @@ var campCont = {
         catch (err) {
             cb(retErr);
         }
-    }
+    },
+
+   sendEmail: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.sendEmailPost(req, function (data) {
+            res.json(data);
+        });
+    },
+   sendEmailPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+
+                var d = this.decryptPayLoad(req.body.data, token, false);
+              
+                if (d) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
+                        {
+                            "to": d.to,
+                            "text": d.text,
+                            "subject": d.subject,
+                            "cc": d.cc,
+                            "bcc": d.bcc
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = campCont;

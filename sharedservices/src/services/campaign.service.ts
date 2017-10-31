@@ -24,7 +24,8 @@ export class CampaignService {
         bulkDonorUploadURL: 'merchant/bulkDonorUpload',
         smsCampaignLinkURL: 'campaign/smsCampaignLink',
         saveCampaignLinkURL: 'campaign/saveCampaignLink',
-        sendCampaignLinkURL: 'campaign/sendCampaignLink'
+        sendCampaignLinkURL: 'campaign/sendCampaignLink',
+        sendEmailURL: 'campaign/sendEmailLink'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -358,5 +359,27 @@ export class CampaignService {
 
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
+    }
+
+    sendEmail(email:any, text:string, subject:string, cc:string, bcc:string): Promise<CampaignSummary> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.sendEmailURL,
+            JSON.stringify({
+               "to": email,
+                "text": text,
+                "subject": subject,
+                "cc": cc,
+                "bcc": bcc
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+            .toPromise()
+            .then(res => this.sendemailpt(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
+    }
+    
+    sendemailpt(res:any) {
+        console.log(res);
+
     }
 }
