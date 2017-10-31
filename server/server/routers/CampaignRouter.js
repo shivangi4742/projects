@@ -10,4 +10,6 @@ campaignRouter.post('/smsCampaignLink', campaignController.smsCampaignLink.bind(
 campaignRouter.post('/sendCampaignLink', campaignController.sendCampaignLink.bind(campaignController));
 campaignRouter.post('/saveCampaignLink', campaignController.saveCampaignLink.bind(campaignController));
 campaignRouter.post('/getCampaignsSummary', campaignController.getCampaignsSummary.bind(campaignController));
+campaignRouter.post('/sendEmail', campaignController.sendEmail.bind(campaignController));
+
 module.exports = campaignRouter;
