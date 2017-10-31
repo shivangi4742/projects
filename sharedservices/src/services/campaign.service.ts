@@ -25,7 +25,7 @@ export class CampaignService {
         smsCampaignLinkURL: 'campaign/smsCampaignLink',
         saveCampaignLinkURL: 'campaign/saveCampaignLink',
         sendCampaignLinkURL: 'campaign/sendCampaignLink',
-        sendEmailURL: 'campaign/sendEmailLink'
+        sendEmailURL: 'campaign/sendEmail'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -374,12 +374,9 @@ export class CampaignService {
             { headers: this.utilsService.getHeaders() }
         )
             .toPromise()
-            .then(res => this.sendemailpt(res.json()))
+            .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
     }
     
-    sendemailpt(res:any) {
-        console.log(res);
-
-    }
+   
 }
