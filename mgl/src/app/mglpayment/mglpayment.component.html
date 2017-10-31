@@ -3,7 +3,7 @@
 </div>
 <form id="paymentForm" #paymentForm ngNoForm action="{{requestUrl}}" method="POST">
     <div *ngIf="payrequestmodel">
-        <button class="btn-flat waves-effect waves-light transparent regNrmS2BN" type="submit" id="submitPaymentForm" >Pay</button>
+        <button class="btn-flat waves-effect waves-light transparent regNrmS2BN" type="submit" id="submitPaymentForm" style="color: transparent; background-color: transparent;">Pay</button>
         <input type="hidden" name="sourceId" [ngModel]="payrequestmodel.sourceId" />
         <input type="hidden" name="amount" [ngModel]="payrequestmodel.amount" />
         <input type="hidden" name="askadd" [ngModel]="payrequestmodel.askadd" />
