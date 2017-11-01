@@ -19,7 +19,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   sdk: SDK;
   user: User;
   dateParams: any;
-  allProducts: Array<Product>;
+  selProducts: Array<Product>;
   isMobile: boolean = false;
   uploading: boolean = false;
   bannerover: boolean = false;
@@ -46,7 +46,6 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  selected: any = { "key": "isSelected", "value": true };
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
@@ -135,18 +134,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   addProduct() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
-    if(!this.allProducts)
-      this.productService.getProducts(this.user.merchantCode, this.pg)
-        .then(res => this.initializeSPC(res));
-    else
-      this.initializeSPC(this.allProducts);    
-  }
-
-  initializeSPC(ps: Array<Product>) {
-    let me: any = this;
-    me.spc.initialize(ps);
-    if(ps && ps.length > 0)
-      this.allProducts = ps;
+    this.spc.initialize();
   }
 
   goToDashboard() {
@@ -172,9 +160,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    if(this.allProducts)
-      this.sdk.products = this.allProducts.filter(p => p.isSelected);
-
+    this.sdk.products = this.selProducts;
     this.campaignService.saveCampaign(this.sdk)
       .then(res => this.created(res));    
   }
@@ -182,6 +168,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() { }
   
   closeModal() {
+    this.selProducts = this.spc.getSelectedProducts();
     this.modalActions.emit({ action: "modal", params: ['close'] });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Product, UtilsService } from 'benowservices';
 
@@ -12,8 +12,9 @@ export class ProductWidgetComponent  {
   uploadsURL: string;
   @Input('editQty') editQty: boolean;
   @Input('forCart') forCart: boolean;
-  @Input('showDelete') showDelete: boolean;
   @Input('product') product: Product;
+  @Output()
+  selectedProd: EventEmitter<any> = new EventEmitter();
 
   constructor(private utilsService: UtilsService) {
       this.uploadsURL = utilsService.getUploadsURL();
@@ -25,6 +26,11 @@ export class ProductWidgetComponent  {
       this.product.qty = 1;
     else
       this.product.qty = null;
+  }
+
+  sel(e: any) {
+    if(e && e.target)
+      this.selectedProd.emit({ "product": this.product, "checked": e.target.checked });
   }
 
   select() {
@@ -39,9 +45,5 @@ export class ProductWidgetComponent  {
   priceChanged() {
     if(this.product.price <= 0)
       this.product.price = this.product.originalPrice;
-  }
-
-  delete() {
-
   }
 }

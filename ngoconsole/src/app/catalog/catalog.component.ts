@@ -38,15 +38,17 @@ export class CatalogComponent implements OnInit {
   }
 
   added(e: any) {
-    if(!this.newProducts)
-      this.newProducts = new Array<Product>();
+    if(e && e.id) {
+      if(!this.newProducts)
+        this.newProducts = new Array<Product>();
 
-    this.newProducts.push(e);
-    this.productService.getProducts(this.user.merchantCode, this.pg)
-      .then(ps => this.initNewProducts(ps, false));    
+      this.newProducts.splice(0, 0, e);
+      this.productService.getProducts(this.user.merchantCode, this.pg)
+        .then(ps => this.initNewProducts(ps, false));    
+    }
   }
 
-  deleted(e: any) {
+  deleted(e: string) {
     this.productService.getProducts(this.user.merchantCode, this.pg)
       .then(ps => this.initNewProducts(ps, true));    
 

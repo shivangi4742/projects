@@ -15,16 +15,41 @@
     </div>    
   </div>
   <div *ngIf="products && active == 0" class="row">
-    <div class="col s6 m4 center" *ngFor="let p of products">
-      <productwidget [forCart]="false" [editQty]="false" [product]="p" [showDelete]="true"></productwidget> 
+    <div class="col s12" *ngIf="loading">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row">
+        <span class="col s12 center regNrmS3B1BN">{{'Loading' | translate}}....</span>
+      </div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+    </div>
+    <div class="col s12" *ngIf="!loading">
+      <div class="col s6 m4 center" *ngFor="let p of products">
+        <productwidget [forCart]="false" [editQty]="false" [product]="p" (selectedProd)="selected($event)"></productwidget> 
+      </div>
+    </div>
+    <div class="col s6" align="left" *ngIf="!loading">
+      <a class="linkButtonBN" (click)="previous()" *ngIf="numPages > 1 && pg > 1">
+        <i class="material-icons errorIconBN alignMidBN">navigate_before</i>
+        <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
+      </a>
+    </div>
+    <div class="col s6" align="right" *ngIf="!loading">
+      <a class="linkButtonBN" (click)="next()" *ngIf="numPages > pg">
+        <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
+        <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+      </a>
     </div>
   </div>
   <div *ngIf="active == 1">
-    <addproduct [edit]="false" [user]="user"></addproduct>
+    <addproduct (addedProd)="added($event)" [edit]="false" [user]="user"></addproduct>
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
-      <div class="col m4 s6 center" *ngFor="let np of (products | objectfilter:newlyadded)">
-        <productwidget [forCart]="false" [editQty]="false" [product]="np" [showDelete]="true"></productwidget> 
+      <div class="col m4 s6 center" *ngFor="let np of newProducts">
+        <productwidget [forCart]="false" [editQty]="false" [product]="np" (selectedProd)="selected($event)"></productwidget> 
       </div> 
     </div>
   </div>
