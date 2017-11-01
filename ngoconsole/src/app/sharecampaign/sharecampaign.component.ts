@@ -22,9 +22,15 @@ export class SharecampaignComponent implements OnInit {
   loaded: boolean = false;
   saving: boolean = false;
   sending: boolean = false;
+  emailsend:boolean = false;
   isMobile: boolean = false;
   hasProducts: boolean = false;
   mtype: number = 2;
+  email:string;
+  cc:string;
+  bcc:string;
+  text:string;
+  subject:string;
 
   constructor(private campaignService: CampaignService, private route: ActivatedRoute, private router: Router, private userService: UserService,
     private utilsService: UtilsService, private productService: ProductService) { }
@@ -110,4 +116,25 @@ export class SharecampaignComponent implements OnInit {
   goToDashboard() {
     window.location.href = this.utilsService.getOldDashboardURL();    
   }
+
+  emaiil() {
+    this.emailsend=true;
+    this.text = "Dear Customer, To pay BENOW SMALL  BUSINESS, Please click on " + this.savedURL;
+    this.cc = "";
+    this.bcc ="";
+    this.subject ="Benow Small Business";
+    this.utilsService.setStatus(false, false, '');
+    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc, this.bcc)
+      .then (res => this.emailsent(res));
+  }
+
+  emailsent(res: any) {
+    this.emailsend = false;
+    if(res === true) {
+      this.utilsService.setStatus(false, true, 'Successfully sent campaign link in email');    
+  }
+    else {
+      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+  }
+}
 }

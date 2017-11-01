@@ -404,32 +404,27 @@ var campCont = {
             res.json(data);
         });
     },
-   sendEmailPost: function (req, token, cb) {
+ 
+  sendEmailPost: function(req, cb) {
         var retErr = {
             "success": false,
-            "token": null,
             "errorCode": "Something went wrong. Please try again."
-        }
+        };
 
         try {
-            if (!req || !req.body || !req.body.data) {
+            if (!req || !req.body)
                 cb(retErr);
-            }
             else {
-
-                var d = this.decryptPayLoad(req.body.data, token, false);
-              
-                if (d) {
-                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
+                var d = req.body;
+                if (d)
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
                         {
                             "to": d.to,
                             "text": d.text,
                             "subject": d.subject,
                             "cc": d.cc,
                             "bcc": d.bcc
-                        },
-                        cb);
-                }
+                        }, cb);
                 else
                     cb(retErr);
             }
@@ -437,7 +432,7 @@ var campCont = {
         catch (err) {
             cb(retErr);
         }
-    },
+    }
 }
 
 module.exports = campCont;
