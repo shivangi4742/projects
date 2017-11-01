@@ -10,12 +10,12 @@ import { Product, ProductService, UserService, User, UtilsService } from 'benows
 export class CatalogComponent implements OnInit {
   user: User;
   products: Array<Product>;
+  newProducts: Array<Product>;
   loading: boolean = false;
   isInitial: boolean = true;
   pg: number = 1;
   active: number = 0;
   numPages: number = 1;
-  newlyadded: any = { "key": "isNew", "value": true };
   constructor(private productService: ProductService, private userService: UserService, private utilsService: UtilsService) { }
 
   ngOnInit() {
@@ -37,30 +37,48 @@ export class CatalogComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  added(e: any) {
+    if(!this.newProducts)
+      this.newProducts = new Array<Product>();
+
+    this.newProducts.push(e);
+    this.productService.getProducts(this.user.merchantCode, this.pg)
+      .then(ps => this.initNewProducts(ps, false));    
+  }
+
   deleted(e: any) {
     this.productService.getProducts(this.user.merchantCode, this.pg)
-      .then(ps => this.initNewProducts(ps));    
+      .then(ps => this.initNewProducts(ps, true));    
+
+    if(this.newProducts && this.newProducts.length > 0) {
+      for(let i: number = 0; i < this.newProducts.length; i++) {
+        if(this.newProducts[i].id == e) {
+          this.newProducts.splice(i, 1);
+          break;
+        }          
+      }
+    }
   }
 
   getStatus() {
     return this.utilsService.getStatus();
   }
 
-  private initNewProducts(res: any) {
+  private initNewProducts(res: any, isdel: boolean) {
     if(res && res.products && res.products.length > 0) {
-      for(let i = this.products.length - 1; i >= 0; i--) {
+      for(let i: number = this.products.length - 1; i >= 0; i--) {
         let op = res.products.filter(p => p.id == this.products[i].id);
-        if(!(op && op.length > 0)) {
-          console.log('spliced', this.products[i]);
+        if(!(op && op.length > 0))
           this.products.splice(i, 1);
-        }
       }
 
-      for(let i = 0; i < res.products.length; i++) {
+      for(let i: number = 0; i < res.products.length; i++) {
         let ip = this.products.filter(p => p.id == res.products[i].id);
         if(!(ip && ip.length > 0)) {
-          console.log('pushed', res.products[i]);
-          this.products.push(res.products[i]);
+          if(isdel)
+            this.products.push(res.products[i]);
+          else
+            this.products.splice(0, 0, res.products[i]);
         }
       }
 

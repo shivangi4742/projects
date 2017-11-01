@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Product, ProductService, User, UtilsService, FileService } from 'benowservices';
 
@@ -14,6 +14,8 @@ export class AddproductComponent implements OnInit {
   newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
   @Input('edit') edit: boolean;
   @Input('user') user: User;
+  @Output()
+  addedProd: EventEmitter<Product> = new EventEmitter();
   constructor(private productService: ProductService, private utilsService: UtilsService, private fileService: FileService) { 
     this.uploadsURL = utilsService.getUploadsURL();        
   }
@@ -102,8 +104,10 @@ export class AddproductComponent implements OnInit {
   }
 
   private addedProduct(p: Product) {
-    if(p && p.price > 0)
+    if(p && p.price > 0) {
       this.newProd = new Product(null, null, null, null, null, null, null, null, null, null);
+      this.addedProd.emit(p);
+    }
     else
       this.imgErrMsg = this.utilsService.returnGenericError().errMsg;
   }
