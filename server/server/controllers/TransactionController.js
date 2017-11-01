@@ -17,23 +17,6 @@ var transCont = {
             cb(data);
     },
 
-    getTransactionProducts: function(hdrs, data, counter, cb) {
-        var me = this;
-        if(data && data.orders && data.orders.length > counter) {
-            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getPayerProduct', 'POST', hdrs),
-            {
-                "transactionRef": data.orders[counter].payHistHdrTxnRefNo
-            }, function(pdata) {
-                if(pdata && pdata.length > 0)
-                    data.orders[counter].products = pdata;                    
-
-                me.getTransactionProducts(hdrs, data, ++counter, cb);
-            });
-        }
-        else
-            cb(data);
-    },
-
     getNewProductTransactionsPost: function(req, cb) {
         var retErr = {
             "success": false,
@@ -47,7 +30,7 @@ var transCont = {
                 var d = req.body;
                 var lastTxnId = d.lastTxnId;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getFulfilledMerchantOrders', 'POST', req.headers),
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
                         {	
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
@@ -59,7 +42,7 @@ var transCont = {
                         }, function(data) {
                             if(data && data.orders && data.orders.length > 0) {
                                 if(!lastTxnId)
-                                    me.getTransactionProducts(req.headers, data, 0, cb);
+                                    cb(data);
                                 else {
                                     if(lastTxnId == data.orders[0].payHistHdrTxnRefNo)
                                         cb(null);
@@ -73,7 +56,7 @@ var transCont = {
                                         }
 
                                         data.orders = newOrders;
-                                        me.getTransactionProducts(req.headers, data, 0, cb);
+                                        cb(data);
                                     }
                                 }
                             }
@@ -130,7 +113,7 @@ var transCont = {
             else {
                 var d = req.body;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getFulfilledMerchantOrders', 'POST', req.headers),
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
                         {	
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
@@ -140,10 +123,7 @@ var transCont = {
                             "sortColumn":d.sortColumn,
                             "sortDirection":d.sortDirection
                         }, function(data) {
-                            if(data && data.orders && data.orders.length > 0)
-                                me.getTransactionProducts(req.headers, data, 0, cb);
-                            else
-                                cb(null);
+                            cb(data);
                         });
                 else
                     cb(retErr);

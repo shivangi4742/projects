@@ -23,10 +23,35 @@
           <div class="col s12" *ngIf="active == 0">
             <div class="row"></div>
             <div class="row" *ngIf="products">
-              <div class="col s12 noPadsIconBN noMarginBN" *ngFor="let p of products">
-                <productline [user]="user" [product]="p"></productline> 
-                <p class="borderBN"></p>
-              </div> 
+              <div class="col s12" *ngIf="loading">
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row">
+                    <span class="col s12 center regNrmS3B1BN">{{'Loading' | translate}}....</span>
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+              </div>
+              <div class="col s12 noPadsIconBN noMarginBN" *ngIf="!loading">
+                <div *ngFor="let p of products">
+                  <productline (deletedProd)="deleted($event)" [user]="user" [product]="p"></productline> 
+                  <p class="borderBN"></p>
+                </div> 
+              </div>
+              <div class="col s6" align="left" *ngIf="!loading">
+                <a class="linkButtonBN" (click)="previous()" *ngIf="numPages > 1 && pg > 1">
+                  <i class="material-icons errorIconBN alignMidBN">navigate_before</i>
+                  <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
+                </a>
+              </div>
+              <div class="col s6" align="right" *ngIf="!loading">
+                <a class="linkButtonBN" (click)="next()" *ngIf="numPages > pg">
+                  <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
+                  <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+                </a>
+              </div>
             </div>
           </div>
           <div class="col s12" *ngIf="active == 1">

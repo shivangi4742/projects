@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <div class="row hide-on-small-only">
+  <div [ngClass]="deleting ? 'row hide-on-small-only workingBN' : 'row hide-on-small-only'">
     <div class="col m2 center" align="center">
       <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
       <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
@@ -27,13 +27,14 @@
       <span class="col m12 regNrmS4BN" *ngIf="product.uom">{{'per' | translate}} {{product.uom}}</span>
     </div>  
     <div class="col m2" align="left">
-      <span class="col m12">
+      <span class="col m12" *ngIf="!deleting">
         <i class="material-icons alignMidBN linkButtonBN" (click)="edit()">edit</i>
         <i class="material-icons alignMidBN linkButtonBN" (click)="delete()">delete</i>&nbsp;
       </span>
     </div>  
   </div>
-  <div class="row hide-on-med-and-up noPadsIconBN noMarginBN" align="center">
+  <div [ngClass]="deleting ? 'row hide-on-med-and-up noPadsIconBN noMarginBN workingBN' : 'row hide-on-med-and-up noPadsIconBN noMarginBN'" 
+    align="center">
     <div class="col s12 noPadsIconBN noMarginBN">
       <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
       <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
@@ -45,8 +46,8 @@
     <span class="col s12 noPadsIconBN noMarginBN regNrmS5B1BN">₹ {{product.price | number : '1.2-2'}}</span>
     <span class="col s12 noPadsIconBN noMarginBN regNrmS4BN" *ngIf="product.uom">{{'per' | translate}} {{product.uom}}</span>
     <span class="col s12 thinFNBN">&nbsp;</span>
-    <span class="col s12 noPadsIconBN noMarginBN">
-      <i class="material-icons alignMidBN linkButtonBN" *ngIf="false" (click)="edit()">edit</i>
+    <span class="col s12 noPadsIconBN noMarginBN" *ngIf="!deleting">
+      <i class="material-icons alignMidBN linkButtonBN" (click)="edit()">edit</i>
       <i class="material-icons alignMidBN linkButtonBN" (click)="delete()">delete</i>&nbsp;
     </span>
   </div>

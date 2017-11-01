@@ -354,12 +354,6 @@ paymentSuccess : function(req, res) {
                 +  '<body>'
                 + " <input type='hidden' id='paymentSuccessData' value='" + JSON.stringify(inpObj) + "' />" 
                 +  '  <app-root></app-root>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/inline.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/polyfills.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/scripts.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/styles.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/vendor.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/main.bundle.js"></script>'
                 +  '</body>'
                 +  '</html>' );
 
@@ -395,12 +389,6 @@ paymentfailure: function(req, res) {
         +  '<body>'
         + " <input type='hidden' id='paymentFailureData' value='" + JSON.stringify(inpObj) + "' />" 
         +  '  <app-root></app-root>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/inline.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/polyfills.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/scripts.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/styles.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/vendor.bundle.js"></script>'
-        +  '        <script type="text/javascript" src="http://localhost:9090/mgl/main.bundle.js"></script>'
         +  '</body>'
         +  '</html>'    
         );

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, ViewChild, AfterViewInit, Output } from '@angular/core';
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -13,9 +13,12 @@ import { AddproductComponent } from './../addproduct/addproduct.component';
 })
 export class ProductlineComponent implements OnInit, AfterViewInit {
   uploadsURL: string;
+  deleting: boolean = false;
   @Input('product') product: Product;
   @Input('user') user: User;
   @ViewChild(AddproductComponent) apc: AddproductComponent;
+  @Output()
+  deletedProd: EventEmitter<string> = new EventEmitter();
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private utilsService: UtilsService, private productService: ProductService) { 
     this.uploadsURL = utilsService.getUploadsURL();
@@ -24,10 +27,15 @@ export class ProductlineComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  deleted(res: any) {
+  deleted(res: Boolean) {
+    if(res == true)
+      this.deletedProd.emit(this.product.id);
+    else
+      this.deleting = false;
   }
 
   delete() {
+    this.deleting = true;
     this.productService.deleteProduct(this.product.id)
       .then(res => this.deleted(res))
   }

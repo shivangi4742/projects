@@ -13,9 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NewcampaignComponent } from './newcampaign/newcampaign.component';
 import { SelectproductsComponent } from './selectproducts/selectproducts.component';
-import { OrdersComponent  } from './orders/orders.component';
 import { CampaignComponent } from './campaign/campaign.component';
 import { SharecampaignComponent } from './sharecampaign/sharecampaign.component';
 import { CatalogComponent } from './catalog/catalog.component';
@@ -30,9 +28,7 @@ export function HttpFactory(http: Http) {
   declarations: [
     AppComponent,
     DashboardComponent,
-    NewcampaignComponent,
     SelectproductsComponent,
-    OrdersComponent,
     CampaignComponent,
     SharecampaignComponent,
     CatalogComponent,

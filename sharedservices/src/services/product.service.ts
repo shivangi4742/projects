@@ -10,7 +10,6 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class ProductService {
-    private _products: Array<Product>;
     private _campProducts: Array<Product>;
     private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
@@ -79,88 +78,53 @@ export class ProductService {
         return this._transProducts;
     }
 
-    private fillProducts(res: any): Array<Product> {
-        if(res && res.length > 0) {
-            this._products = new Array<Product>();
-            for(let i: number = 0; i < res.length; i++)
-                this._products.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
-                    res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+    private fillProducts(res2: any): any {
+        let prods: Array<Product> = new Array<Product>();
+        let numP: number = 0;
+        if(res2 && res2.benowProductList && res2.benowProductList.length > 0) {
+            numP = res2.totalNoOfPages;
+            let res: any = res2.benowProductList;
+            if(res && res.length > 0) {
+                for(let i: number = 0; i < res.length; i++)
+                    prods.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, res[i].prodDescription, 
+                        res[i].uom, res[i].prodImgUrl));
+            }
         }
 
-        return this._products;
+        return { "products": prods, "numPages": numP };
     }
 
-    getProducts(merchantCode: string): Promise<Array<Product>> {
-        if(this._products && this._products.length > 0)
-            return Promise.resolve(this._products);
-        else
-            return this.http
-                .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
-                    JSON.stringify({
-                        "merchantCode": merchantCode
-                    }), 
-                    { headers: this.utilsService.getHeaders() })
-                .toPromise()
-                .then(res => this.fillProducts(res.json()))
-                .catch(res => this.utilsService.returnGenericError());    
+    getProducts(merchantCode: string, pg: number): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "pageNumber": pg
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillProducts(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
     }
 
     private addedProduct(res: any): Product|null {
-        if(res && res.prodPrice > 0) {
-            if(!this._products)
-                this._products = new Array<Product>();
-
-            let p: Product = new Product(true, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
+        if(res && res.prodPrice > 0)
+            return new Product(true, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
                 res.prodImgUrl);
-            this._products.push(p);
-            return p;
-        }
         else
             return null;
     }
 
-    private editedProduct(res: any, prod: Product): Boolean {
-        if(!prod || !prod.id || !this._products || this._products.length <= 0)
-            return false;
-
-        if(res && res.responseFromAPI == true) {
-            let i: number = 0;
-            let found: boolean = false;
-            for(i = 0; i < this._products.length; i++) {
-                if(this._products[i].id == prod.id) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if(found) {
-                this._products[i] = prod;
-                return true;
-            }
-        }
+    private editedProduct(res: any): Boolean {
+        if(res && res.responseFromAPI == true)
+            return true;
 
         return false;
     }
 
-    private deletedProduct(res: any, id: string): Boolean {
-        if(!id || !this._products || this._products.length <= 0)
-            return false;
-
-        if(res && res.responseFromAPI == true) {
-            let i: number = 0;
-            let found: boolean = false;
-            for(i = 0; i < this._products.length; i++) {
-                if(this._products[i].id == id) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if(found) {
-                this._products.splice(i, 1);
-                return true;
-            }
-        }
+    private deletedProduct(res: any): Boolean {
+        if(res && res.responseFromAPI == true)
+            return true;
 
         return false;        
     }
@@ -183,7 +147,7 @@ export class ProductService {
     } 
 
     editProduct(merchantCode: string, product: Product): Promise<boolean> {
-        if(!product || !product.id || !this._products || this._products.length <= 0)
+        if(!product || !product.id)
             return Promise.resolve(false);
 
         return this.http
@@ -199,12 +163,12 @@ export class ProductService {
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()
-            .then(res => this.editedProduct(res.json(), product))
+            .then(res => this.editedProduct(res.json()))
             .catch(res => this.utilsService.returnGenericError());
     } 
 
     deleteProduct(id: string): Promise<Boolean> {
-        if(!id || !this._products || this._products.length <= 0)
+        if(!id)
             return Promise.resolve(false);
 
         return this.http
@@ -214,7 +178,7 @@ export class ProductService {
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()
-            .then(res => this.deletedProduct(res.json(), id))
+            .then(res => this.deletedProduct(res.json()))
             .catch(res => this.utilsService.returnGenericError());
     } 
 }

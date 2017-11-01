@@ -194,7 +194,8 @@ var prodCont = {
                 if (d && d.merchantCode)
                     helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getBenowProduct', 'POST', req.headers),
                         {
-                            "merchantCode": d.merchantCode
+                            "merchantCode": d.merchantCode,
+                            "pageNumber": d.pageNumber
                         }, cb);
                 else
                     cb(retErr);

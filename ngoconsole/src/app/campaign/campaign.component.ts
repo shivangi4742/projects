@@ -23,6 +23,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   isMobile: boolean = false;
   uploading: boolean = false;
   bannerover: boolean = false;
+  pg: number = 1;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -135,7 +136,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   addProduct() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
     if(!this.allProducts)
-      this.productService.getProducts(this.user.merchantCode)
+      this.productService.getProducts(this.user.merchantCode, this.pg)
         .then(res => this.initializeSPC(res));
     else
       this.initializeSPC(this.allProducts);    
