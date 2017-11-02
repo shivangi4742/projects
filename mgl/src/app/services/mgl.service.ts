@@ -52,7 +52,7 @@ export class MglService {
     return this._mgl;
   }
  
-  mgldetailssave( transactionRef:string, actionData:string, tag2: string): Promise<any> {
+  mgldetailssave( transactionRef:string, actionData:string, tag2: string, tag3:string): Promise<any> {
    
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL,
@@ -62,10 +62,10 @@ export class MglService {
           "actionData": actionData,
           "tag1":"MAHANAGAR GAS",
           "tag2":tag2,
-          "tag3":"Sad1",
-          "val1":"100",
-          "val2":"120",
-          "val3":"140"
+          "tag3":tag3,
+          "val1":"",
+          "val2":"",
+          "val3":""
           
         }), 
         { headers: this.getTempHeaders() })
