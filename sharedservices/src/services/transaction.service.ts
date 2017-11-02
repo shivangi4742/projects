@@ -12,6 +12,7 @@ import { UtilsService } from './utils.service';
 @Injectable()
 export class TransactionService {
     private _urls: any = {
+        getTransactionDetailsURL: 'txn/getTransactionDetails',
         getProductTransactionsURL: 'txn/getProductTransactions',
         getNewProductTransactionsURL: 'txn/getNewProductTransactions'
     }
@@ -90,6 +91,19 @@ export class TransactionService {
             .toPromise()
             .then(res => this.fillProdTransactions(res.json()))
             .catch(res => null);   
+    }
+
+    public getTransactionDetails(merchantCode: string, txnid: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getTransactionDetailsURL, 
+                JSON.stringify({
+                        "merchantCode": merchantCode,
+                        "txnId": txnid
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => null);           
     }
 
     public getProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number): Promise<Array<Transaction>|null> {        

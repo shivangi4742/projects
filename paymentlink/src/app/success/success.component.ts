@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { Product, SDKService, ProductService, SDK } from 'benowservices';
+import { Product, SDKService, ProductService, SDK, TransactionService } from 'benowservices';
 
 @Component({
   selector: 'success',
@@ -15,7 +15,8 @@ export class SuccessComponent implements OnInit {
   pay: any;
   loaded: boolean = false;
 
-  constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService,
+    private transactionService: TransactionService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -37,20 +38,40 @@ export class SuccessComponent implements OnInit {
     }
   }
 
+  getSDKDetailsForNonProduct(sres: SDK) {
+    this.pay = {
+      title: sres.businessName,
+      txnid: this.txnid,
+      amount: 0
+    };
+    this.transactionService.getTransactionDetails(sres.merchantCode, this.txnid)
+      .then(res => this.fillMerchantTransaction(res));
+  }
+
+  fillMerchantTransaction(res: any) {
+    if(res && res.length > 0 && res[0].paymentStatus && res[0].paymentStatus.trim().toUpperCase() == 'PAID')
+      this.pay.amount = res[0].amount;
+
+    this.loaded = true;
+  }
+
   fillProducts(res: Array<Product>) {
-    let total: number = 0;
     if(res && res.length > 0) {
+      let total: number = 0;
       this.products = res;
       for(let i: number = 0; i < this.products.length; i++)
         total += this.products[i].qty * this.products[i].price;
-    }
 
-    this.pay = {
-      amount: total,
-      title: '',
-      txnid: this.txnid
+      this.pay = {
+        amount: total,
+        title: '',
+        txnid: this.txnid
+      }
+      this.sdkService.getPaymentLinkDetails(this.id)
+        .then(sres => this.assignSDKDetails(sres));
     }
-    this.sdkService.getPaymentLinkDetails(this.id)
-      .then(sres => this.assignSDKDetails(sres));
+    else
+      this.sdkService.getPaymentLinkDetails(this.id)
+        .then(sres => this.getSDKDetailsForNonProduct(sres));
   }
 }

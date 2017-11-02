@@ -17,6 +17,34 @@ var transCont = {
             cb(data);
     },
 
+    getTransactionDetailsPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        var me = this;
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if(d && d.merchantCode && d.txnId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers),
+                        {	
+                            "merchantCode": d.merchantCode,
+                            "txnId": d.txnId
+                        }, function(data) {
+                            cb(data)
+                        });
+                else
+                    cb(retErr);                    
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }        
+    },
+
     getNewProductTransactionsPost: function(req, cb) {
         var retErr = {
             "success": false,
@@ -151,6 +179,13 @@ var transCont = {
     getNewProductTransactions: function(req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getNewProductTransactionsPost(req, function (data) {
+            res.json(data);
+        });         
+    },
+
+    getTransactionDetails: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getTransactionDetailsPost(req, function (data) {
             res.json(data);
         });         
     }
