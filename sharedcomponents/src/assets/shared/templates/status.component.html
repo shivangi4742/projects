@@ -1,7 +1,7 @@
-<span *ngIf="status && status.message" class="col s12 center">
-    <div class="col s12 thinFNBN">&nbsp;</div>
+<div *ngIf="status && status.message" class="col s12 thinFNBN">&nbsp;</div>
+<div *ngIf="status && status.message" class="col s12 center">
     <i *ngIf="status.isError" class="material-icons alignMidBN errorIconBN">warning</i>
     <span [ngClass]="status.isSuccess ? 'regNrmS2B1BN msgBN alignMidBN' : 'errNrmS2B1BN msgBN alignMidBN'">
         &nbsp;{{status.message | translate}}&nbsp;</span>
     <img src="../assets/shared/images/Green Check Circle.png" class="alignMidBN" *ngIf="status.isSuccess" />
-</span>
+</div>

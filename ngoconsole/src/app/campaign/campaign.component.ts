@@ -116,16 +116,20 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     me.uploading = false;
     if(res && res.success)
       me.sdk.imageURL = res.fileName;
-    else
+    else {
+      window.scrollTo(0, 0);
       me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
+    }
   }
 
   fileChange(e: any) {
     if(!this.uploading && e.target && e.target.files) {
       if(e.target.files && e.target.files[0]) {
         this.utilsService.setStatus(false, false, '');
-        if(e.target.files[0].size > 2000000)
+        if(e.target.files[0].size > 2000000) {
+          window.scrollTo(0, 0);
           this.utilsService.setStatus(true, false, 'File is bigger than 2 MB!');
+        }
         else {          
           this.uploading = true;
           this.bannerover = false;
@@ -158,7 +162,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.router.navigateByUrl('/sharecampaign/' + res.paymentReqNumber);
     }
     else {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
       this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
     }      
   }
