@@ -32,7 +32,12 @@
 
           <div class="row valign-wrapper" *ngIf="hasError">
             <div class="col s1 m1 l2 hide-on-small-only "></div>
-            <div class="col s12 center errNrmS5BN">{{errorMsg | translate}}</div>
+            <div class="col s12 center errNrmS5BN">{{errorMsg | translate}} </div>
+            <div class="col m1 l2 hide-on-small-only"></div>
+          </div>
+          <div class="row valign-wrapper" *ngIf="hasErro">
+            <div class="col s1 m1 l2 hide-on-small-only "></div>
+            <div class="col s12 center errNrmS5BN ccBN">{{erroMsg | translate}} <span>{{'Your previous Transaction Reference Number :'}} <b>{{tid}}</b></span></div>
             <div class="col m1 l2 hide-on-small-only"></div>
           </div>
         </div>

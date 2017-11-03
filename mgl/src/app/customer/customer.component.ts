@@ -14,10 +14,13 @@ import { Mgl } from '../models/mgl';
 })
 export class CustomerComponent implements OnInit {
   CsmNo: string;
-  //cs : boolean = true;
+ 
   errorMsg : string;
+  erroMsg: string;
   hasError : boolean = false;
+  hasErro : boolean = false;
   mgl: Mgl;
+  tid:string;
   constructor(private router: Router, private mglservice:MglService) { }
 
   ngOnInit() {
@@ -27,19 +30,40 @@ export class CustomerComponent implements OnInit {
   onSubmit() : void {  
    this.mglservice.getmglDetails(this.CsmNo)
      .then(res => this.mgldet(res))
+  
   }
 
   mgldet(res:any) {
    
-    if(res.ca == '0' && res.status == 'N') {
-    this.hasError = true;
-   
-    this.errorMsg = "Please enter a valid CA number";
+    if(res.status== 'Y') {
+    this.mglservice.checkPaymentPreActionData("MahaNagar Gas", res.billno)
+       .then(res => this.mgldett(res));
     }
-    else{
-     this.router.navigateByUrl("/customerpayment");
+    else if(res.ca == '0' && res.status == 'N') {
+    this.hasError = true;
+    this.hasErro = false;
+    this.errorMsg = "Please enter a valid CA number";
+    } 
+    else {
+     this.router.navigateByUrl("/customer");
   }
-  }
+}
+mgldett(res:any) {
+ var pp = JSON.parse(res._body);
+ var t = pp.data;
+
+ if(t.responseFromAPI==true){
+    this.router.navigateByUrl("/customerpayment");
+ } else
+ {
+   this.hasError = false;
+   this.hasErro = true;
+   this.erroMsg = "You have already paid this month's bill!" 
+   this.tid = t.transactionRef;
+ }
+
+
+}
   
   hasAllRequiredFields() {
     if(this.CsmNo == null){
