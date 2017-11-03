@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
       this.status = 1;
 
     if(this.status == 6 || window.location.href.indexOf('/logout') > 1) {
+      this.utilsService.clearStorages();
       let u = this.userService.getCurrUser();
       if(u && u.email)
         window.location.reload();

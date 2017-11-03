@@ -117,12 +117,13 @@ var campCont = {
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
             var title = d.campaignName ? d.campaignName : '';
             var description = d.description ? d.description : '';
+            var expdt = d.expdt ? d.expdt : '';
             helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
                 {
                     "paramType": 'alias',
                     "paramCode": d.merchantCode + '/' + d.alias,
                     "desc1": fullUrl,
-                    "desc2": title + '|||' + description,
+                    "desc2": title + '|||' + description + '|||' + expdt,
                     "desc3": d.imageURL ? d.imageURL : '',
                     "val1": 0,
                     "val2": 0,

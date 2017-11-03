@@ -11,6 +11,7 @@ var uRLs = {
     pplDir: '/paymentlink',
     pplHome: '/paymentlink/index.html',
     invalidLink: '/paymentlink/assets/paymentlink/invalidlink.html',
+    expiredLink: '/paymentlink/assets/paymentlink/expiredlink.html',
     mglDir: '/mgl',
     mglHome: '/mgl/index.html'
 };
