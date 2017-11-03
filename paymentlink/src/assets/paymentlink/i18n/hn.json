@@ -92,5 +92,10 @@
     "Please enter a valid Address": "कपया वैध पता अंकित करें",
     "Waiting for completion of payment through UPI app": "यूपीआई एप के माध्यम से भुगतान पूरा होने की  प्रतीक्षारत",
     "Waiting for approval of collection request": "संग्रह अनुरोध के अनुमोदन की प्रतीक्षारत",
-    "Back to Payment page": "भुगतान पृष्ठ पर वापस जाएं"
+    "Back to Payment page": "भुगतान पृष्ठ पर वापस जाएं",
+    "Payment Failed": "भुगतान असफल हुआ",
+    "Transaction could not be completed": "लेनदेन पूर्ण नहीं हो सका",
+    "You can still pay to": "आप अभी भी भुगतान कर सकते हैं",
+    "using another payment method": "एक अन्य भुगतान विधि का उपयोग करके",
+    "Pay Using Another Method": "भुगतान एक अन्य विधि का उपयोग करें"
 }

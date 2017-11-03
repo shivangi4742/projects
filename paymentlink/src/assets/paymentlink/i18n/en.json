@@ -92,5 +92,10 @@
     "Please enter a valid Address": "Please enter a valid Address",
     "Waiting for completion of payment through UPI app": "Waiting for completion of payment through UPI app",
     "Waiting for approval of collection request": "Waiting for approval of collection request",
-    "Back to Payment page": "Back to Payment page"
+    "Back to Payment page": "Back to Payment page",
+    "Payment Failed": "Payment Failed",
+    "Transaction could not be completed": "Transaction could not be completed",
+    "You can still pay to": "You can still pay to",
+    "using another payment method": "using another payment method",
+    "Pay Using Another Method": "Pay Using Another Method"
 }
