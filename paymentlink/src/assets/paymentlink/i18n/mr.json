@@ -91,5 +91,10 @@
     "Please enter a valid Address": "कृपया एक वैध पत्ता प्रविष्ट करा",
     "Waiting for completion of payment through UPI app": "यूपीआई अनुप्रयोगाद्वारे पैसे भरण्याची प्रतीक्षा करत आहे",
     "Waiting for approval of collection request": "संग्रह विनंतीस मंजूरीसाठी प्रतीक्षा करीत आहे",
-    "Back to Payment page": "परत देयक पृष्ठ"
+    "Back to Payment page": "परत देयक पृष्ठ",
+    "Payment Failed": "भरणा अयशस्वी",
+    "Transaction could not be completed": "व्यवहार पूर्ण होऊ शकला नाही",
+    "You can still pay to": "आपण अद्याप देय शकता",
+    "using another payment method": "दुसरी देयक पद्धत वापरून",
+    "Pay Using Another Method": "दुसरी पद्धत वापरून पे द्या"
 }
