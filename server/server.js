@@ -205,7 +205,7 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
 			}
 
 			if(expdt == true)
-				res.sendFile(urls.expiredLink, {root: __dirname});
+				res.sendFile(urls.expdLink, {root: __dirname});
 			else {
 				nImg = config.uploadsURL + nImg;
 				res.send('<!doctype html>' +

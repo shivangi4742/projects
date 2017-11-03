@@ -33,6 +33,7 @@ export class PayComponent implements OnInit {
   qrError: boolean = false;
   qrlError: boolean = false;
   isMobile: boolean = false;
+  putFocus: boolean = false;
   isPolling: boolean = false;
   supportsCC: boolean = false;
   supportsDC: boolean = false;
@@ -169,46 +170,67 @@ export class PayComponent implements OnInit {
   validate(focus: boolean): boolean {
     if (!this.pay) {
       this.validationError = 'Please provide all valid inputs';
-      let elmnt: any = document.getElementById('amount');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('amount');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (!this.pay.amount || this.pay.amount < 0.01 || this.pay.amount > 9999999.99) {
       this.validationError = 'Please enter a valid amount';
-      let elmnt: any = document.getElementById('amount');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('amount');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (this.pay.askname && this.pay.mndname && (!this.name || this.name.trim().length <= 0)) {
       this.validationError = 'Please enter name to proceed';
-      let elmnt: any = document.getElementById('name');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('name');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 0)) {
       this.validationError = 'Please enter mobile number to proceed';
-      let elmnt: any = document.getElementById('mobileNumber');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('mobileNumber');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (this.pay.askemail && this.pay.mndemail && (!this.pay.email || this.pay.email.trim().length <= 0
       || !this.validateEmail(this.pay.email.trim()))) {
       this.validationError = 'Please enter a valid email';
-      let elmnt: any = document.getElementById('email');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('email');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (this.pay.askpan && this.pay.mndpan && this.pay.minpanamnt < this.pay.amount && (!this.panNumber || this.panNumber.trim().length <= 0)) {
       this.validationError = 'Please enter PAN number to proceed';
-      let elmnt: any = document.getElementById('panNumber');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('panNumber');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else if (this.pay.askadd && this.pay.mndaddress && (!this.address || this.address.trim().length <= 0)) {
       this.validationError = 'Please enter a valid Address';
-      let elmnt: any = document.getElementById('address');
-      if(elmnt)
-        elmnt.focus();
+      if(this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('address');
+        if(elmnt)
+          elmnt.focus();
+      }
     }
     else {
       this.invalidAmount = false;
@@ -349,6 +371,7 @@ export class PayComponent implements OnInit {
   }
 
   showQRLink() {
+    this.putFocus = true;
     if (!this.qrlExpanded) {
       if (this.validate(true))
         this.refreshUPIAmount();
@@ -359,6 +382,7 @@ export class PayComponent implements OnInit {
   }
 
   showQR() {
+    this.putFocus = true;
     if (!this.qrExpanded) {
       if (this.validate(true))
         this.refreshQRAmount();
@@ -428,6 +452,7 @@ export class PayComponent implements OnInit {
     else if(mode == 3)
       this.nbExpanded = true;
 
+    this.putFocus = true;
     if (this.validate(true)) {
       this.mode = mode;
       this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
