@@ -15,7 +15,8 @@ export class MglService {
   'mglDetailURL': 'mglpay/mgldetails', 
   'mglfailureURL': 'mglpay/mglfailure', 
   'mglsuccessURL': 'mglpay/mglsuccess',
-  'mgldetailsSaveURL' : 'payments/mgldetailssave',
+  
+  'mgldetailsSaveURL' : 'mglpay/mgldetailssave',
   'mglpreactionURL':'mglpay/checkPaymentPreActionData'}
 
   constructor(private http: Http, private utilsService: UtilsService) { }
