@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK, Status } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
 
@@ -14,7 +14,6 @@ import { SelectproductsComponent } from './../selectproducts/selectproducts.comp
   styleUrls: ['./campaign.component.css']
 })
 export class CampaignComponent implements OnInit, AfterViewInit {
-  imgErrMsg: string;
   uploadsURL: string;
   sdk: SDK;
   user: User;
@@ -74,6 +73,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   private dtClosed() {
   }
 
+  getStatus(): Status {
+    return this.utilsService.getStatus();
+  }
+
   ngOnInit() {
     this.userService.getUser()
       .then(res => this.initUser(res));
@@ -114,15 +117,15 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(res && res.success)
       me.sdk.imageURL = res.fileName;
     else
-      me.imgErrMsg = res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.';
+      me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
   }
 
   fileChange(e: any) {
     if(!this.uploading && e.target && e.target.files) {
       if(e.target.files && e.target.files[0]) {
-        this.imgErrMsg = null;
+        this.utilsService.setStatus(false, false, '');
         if(e.target.files[0].size > 2000000)
-          this.imgErrMsg = 'File is bigger than 2 MB!';
+          this.utilsService.setStatus(true, false, 'File is bigger than 2 MB!');
         else {          
           this.uploading = true;
           this.bannerover = false;
@@ -155,7 +158,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.router.navigateByUrl('/sharecampaign/' + res.paymentReqNumber);
     }
     else {
-      //TODO: Error handling
+      window.scrollTo(0, 0)
+      this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
     }      
   }
 
