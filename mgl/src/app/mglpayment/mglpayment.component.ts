@@ -21,6 +21,8 @@ export class MglpaymentComponent implements OnInit {
 
     ngOnInit(): void {
         this.payrequestmodel = this.payRequestService.getPayRequest();
+        //TO BE REMOVED AFTER TESTING
+        this.payrequestmodel.amount = "1.00";
         this.requestUrl = this.utilsservice.getRequestURL();
         this.submitMe();
     }

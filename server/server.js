@@ -165,68 +165,34 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
 			nImg = nImg.replace(/ /g, '');
 			var title = '';
 			var description = '';
-			var expdt = false;
 			if(data.desc2) {
 				var d2arr = data.desc2.split('|||');
 				if(d2arr && d2arr.length > 0) {
-					title = d2arr[0];					
+					title = d2arr[0];
 					if(d2arr.length > 1)
 						description = d2arr[1];
-
-					var curDt = new Date();
-					if(d2arr.length > 2 && d2arr[2]) {
-						var dtarr = d2arr[2].split('-');
-						if(dtarr && dtarr.length > 2) {
-							var y = parseInt(dtarr[2]);
-							if(!isNaN(y)) {
-								var cy = parseInt(curDt.getFullYear());
-								if(y < cy)
-									expdt = true;
-								else if(y == cy) {
-									var m = parseInt(dtarr[1]);
-									if(!isNaN(m)) {
-										var cm = parseInt(curDt.getMonth()) + 1;
-										if(m < cm)
-											expdt = true;
-										else if(m == cm) {
-											var nd = parseInt(dtarr[0]);
-											if(!isNaN(nd)) {
-												var cnd = parseInt(curDt.getDate());
-												if(nd < cnd)
-													expdt = true;
-											}
-										}								
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 
-			if(expdt == true)
-				res.sendFile(urls.expiredLink, {root: __dirname});
-			else {
-				nImg = config.uploadsURL + nImg;
-				res.send('<!doctype html>' +
-					'<html>' +
-					'    <head>' +
-					'        <meta charset="utf-8">' +
-					'        <meta name="viewport" content="width=device-width, initial-scale=1">' +
-					'        <title>benow - payment link</title>' +
-					'        <meta property="og:title" content="' + title + '" />' +
-					'        <meta property="og:description" content="' + description + '" />' +
-					'        <meta property="og:url" content="' + data.desc1 + '" />' +
-					'        <meta property="og:image" content="' + nImg + '" />' +
-					'        <meta property="og:image:secure_url" content="' + nImg + '" />' +
-					'        <script>window.onload = function() { window.location = "' + data.desc1 + '"; return false; };</script>' +
-					'    </head>' + 
-					'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' + 
-					'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
-					'    </body>' + 
-					'</html>'
-				);
-			}
+			nImg = config.uploadsURL + nImg;
+			res.send('<!doctype html>' +
+                '<html>' +
+                '    <head>' +
+                '        <meta charset="utf-8">' +
+                '        <meta name="viewport" content="width=device-width, initial-scale=1">' +
+                '        <title>benow - payment link</title>' +
+                '        <meta property="og:title" content="' + title + '" />' +
+                '        <meta property="og:description" content="' + description + '" />' +
+                '        <meta property="og:url" content="' + data.desc1 + '" />' +
+                '        <meta property="og:image" content="' + nImg + '" />' +
+				'        <meta property="og:image:secure_url" content="' + nImg + '" />' +
+				'        <script>window.onload = function() { window.location = "' + data.desc1 + '"; return false; };</script>' +
+				'    </head>' + 
+				'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' + 
+				'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
+				'    </body>' + 
+				'</html>'
+			);
 		}
 		else
 			res.sendFile(urls.invalidLink, {root: __dirname});

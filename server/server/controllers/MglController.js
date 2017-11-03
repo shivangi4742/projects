@@ -36,7 +36,7 @@ var benowCont = {
 
     mglDetails: function (req, res) {
         var me = this;
-        this.mglDetailsPost(req, function (data) {           
+        this.mglDetailsPost(req, function (data) { 
             res.json({ "data": data});
         });
     },
@@ -109,6 +109,46 @@ var benowCont = {
                      "val1":d.val1,
                      "val2":d.val2,
                      "val3":d.val3  
+                    },  cb);
+
+                }
+                else
+                { 
+                    cb(retErr);}
+                    
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },    
+ checkPaymentPreActionData: function (req, res) {
+      var token = this.getToken(req);
+        var me = this;
+        this.checkPaymentPreActionDataPost(req, token, function (data) {           
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data});
+        });
+    },
+
+    checkPaymentPreActionDataPost: function (req, token, cb) {
+         var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+         try {
+            if (!req || !req.body) { 
+                cb(retErr);
+                
+            }
+            else {
+                var d = req.body;     
+                if (d) {
+              helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/checkPaymentPreActionData', 'POST', req.headers),
+                        { 
+                        "tag1":d.tag1,
+                        "tag3":d.tag3
                     },  cb);
 
                 }

@@ -68,9 +68,6 @@ export class CatalogComponent implements OnInit {
 
   private initNewProducts(res: any, isdel: boolean) {
     if(res && res.products && res.products.length > 0) {
-      if(!this.products)
-        this.products = new Array<Product>();
-
       for(let i: number = this.products.length - 1; i >= 0; i--) {
         let op = res.products.filter(p => p.id == this.products[i].id);
         if(!(op && op.length > 0))
@@ -89,21 +86,8 @@ export class CatalogComponent implements OnInit {
 
       this.numPages = res.numPages;
     }
-    else if(res.success != false) {
-      if(isdel) {
-        if(this.pg > 1) {
-          this.numPages--;
-          this.productService.getProducts(this.user.merchantCode, --this.pg)
-            .then(ps => this.initProducts(ps, true));    
-        }
-        else {
-          this.active = 1;    
-          this.products = null;
-        }
-      }
-      else
-        this.active = 1;    
-    }
+    else
+      this.active = 1;    
   }
 
   private initProducts(res: any, isInit: boolean) {

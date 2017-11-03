@@ -15,11 +15,14 @@ export class MglService {
   'mglDetailURL': 'mglpay/mgldetails', 
   'mglfailureURL': 'mglpay/mglfailure', 
   'mglsuccessURL': 'mglpay/mglsuccess',
-  'mgldetailsSaveURL' : 'mglpay/mgldetailssave'}
+  
+  'mgldetailsSaveURL' : 'mglpay/mgldetailssave',
+  'mglpreactionURL':'mglpay/checkPaymentPreActionData'}
 
   constructor(private http: Http, private utilsService: UtilsService) { }
 
   getmglDetails(csmno: string): Promise<any> {
+    
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.mglDetailURL,
       {
@@ -60,7 +63,7 @@ export class MglService {
         
           "transactionRef": transactionRef,
           "actionData": actionData,
-          "tag1":"MAHANAGAR GAS",
+          "tag1":"MahaNagar Gas",
           "tag2":tag2,
           "tag3":tag3,
           "val1":"",
@@ -75,7 +78,7 @@ export class MglService {
   }
 
   gettmglSaveDetails(res:any){
-     console.log(res);
+     //console.log(res);
   }
    private getTempHeaders(): any {
     let headers: any = {
@@ -84,6 +87,21 @@ export class MglService {
     };
 
     return new Headers(headers);
+  }
+  checkPaymentPreActionData( tag1: string, tag3:string): Promise<any> {
+   
+    return this.http.post(
+      this.utilsService.getBaseURL() + this._urls.mglpreactionURL,
+      JSON.stringify({ 
+        
+         "tag1":"MahaNagar Gas",
+	       "tag3":tag3
+          
+        }), 
+        { headers: this.getTempHeaders() })
+      .toPromise()
+      .then(res => res)
+      .catch(res => this.utilsService.returnGenericError());
   }
 
 }

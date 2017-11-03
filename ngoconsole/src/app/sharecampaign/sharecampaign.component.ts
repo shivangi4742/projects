@@ -81,7 +81,7 @@ export class SharecampaignComponent implements OnInit {
       this.saving = true;
       this.utilsService.setStatus(false, false, '');
       this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
-        this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate)
+        this.sdk.description, this.sdk.imageURL)
         .then(res => this.saved(res));
     }
   }

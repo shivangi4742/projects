@@ -79,9 +79,6 @@ export class ProductService {
     }
 
     private fillProducts(res2: any): any {
-        if(!(res2 && res2.benowProductList))
-            return { "success": false };
-        
         let prods: Array<Product> = new Array<Product>();
         let numP: number = 0;
         if(res2 && res2.benowProductList && res2.benowProductList.length > 0) {
