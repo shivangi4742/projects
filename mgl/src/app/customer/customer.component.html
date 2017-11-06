@@ -23,7 +23,8 @@
           <div class="valign-wrapper">
             <div class="col m1 l2 hide-on-small-only"></div>
             <div class="input-field col s12 m10 l8">
-              <input id="CsmNo" name="csm" type="number" class="validate regNrmS4BN" maxlength="12" title="please enter a valid 12 digit consumer no."
+              <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                class="validate regNrmS4BN" maxlength="12" title="please enter a valid 12 digit consumer no."
                 [(ngModel)]="CsmNo"  required>
               <label for="CsmNo">{{'Consumer Number' | translate}}</label>
             </div>
