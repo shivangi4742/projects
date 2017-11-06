@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { SDKService } from './services/sdk.service';
+import { HelpService } from './services/help.service';
 import { FileService } from './services/file.service';
 import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
@@ -25,6 +26,7 @@ export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
 
 export { SDKService } from './services/sdk.service';
+export { HelpService } from './services/help.service';
 export { FileService } from './services/file.service';
 export { UserService } from './services/user.service';
 export { UtilsService } from './services/utils.service';
@@ -48,6 +50,7 @@ export class SharedServicesModule {
       ngModule: SharedServicesModule,
       providers: [
         SDKService,
+        HelpService,
         FileService,
         UserService,
         UtilsService,

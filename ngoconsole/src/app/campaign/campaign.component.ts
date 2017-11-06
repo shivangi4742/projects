@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK, Status } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK, Status, HelpService } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
 
@@ -17,6 +17,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   uploadsURL: string;
   sdk: SDK;
   user: User;
+  helpMsg: any;
   dateParams: any;
   selProducts: Array<Product>;
   isMobile: boolean = false;
@@ -37,6 +38,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   labelYearSelectX: string = 'Select a year';
   labelMonthSelect: string = 'Select a month';
   labelMonthSelectX: string = 'Select a month';
+  showHelp: any = {};
   weekdaysShort: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   weekdaysShortX: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   weekdaysFull: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -49,7 +51,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
-    private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router) { }
+    private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
+    private helpService: HelpService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -77,7 +80,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     return this.utilsService.getStatus();
   }
 
+  initHelp(res: any) {
+    this.helpMsg = res;
+  }
+
   ngOnInit() {
+    this.helpService.getHelpTexts()
+      .then(hres => this.initHelp(hres));
     this.userService.getUser()
       .then(res => this.initUser(res));
     let me = this;
@@ -171,6 +180,29 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.sdk.products = this.selProducts;
     this.campaignService.saveCampaign(this.sdk)
       .then(res => this.created(res));    
+  }
+
+  get_help(key) {
+    if(this.showHelp && this.showHelp[key])
+      return this.showHelp[key];
+
+    return '';    
+  }
+
+  has_help(key) {
+    if(this.helpMsg && this.helpMsg[key])
+      return true;
+
+    return false;
+  }
+
+  toggle_help(key) {
+    if(this.showHelp && this.showHelp[key])
+      this.showHelp[key] = '';
+    else {
+      this.showHelp = {};
+      this.showHelp[key] = this.helpMsg[key];
+    }
   }
 
   ngAfterViewInit() { }

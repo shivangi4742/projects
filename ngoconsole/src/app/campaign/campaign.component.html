@@ -36,7 +36,8 @@
               <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
             </div>                
             <div [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
-              <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+              <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img" 
+                src="../../assets/shared/images/no-image-wide.png" />
               <img [ngClass]="uploading ? 'featuredImageSmallBN responsive-img displayBN' : 'featuredImageSmallBN responsive-img noDisplayBN'" 
                 src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
               <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
@@ -44,10 +45,18 @@
                 <i class="material-icons editOverlaySmallIconBN">mode_edit</i>&nbsp;
               </div>
               <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
-            </div>                
+            </div>    
+            <div class="col s12 noHeightBN">            
+              <i class="material-icons cyanBN inlineBN linkButtonBN shiftUp40BN z100BN" *ngIf="has_help('CMP_BANNER')" 
+                (click)="toggle_help('CMP_BANNER')">live_help</i>
+            </div>
+            <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+              *ngIf="get_help('CMP_BANNER')">{{get_help('CMP_BANNER') | translate}}</div>
             <div class="row allContentBN">
               <div class="col s12 thinFNBN">&nbsp;</div>
               <div class="col s12 center hide-on-small-only truncate">
+                <i class="material-icons alignMidBN inlineBN cyanBN linkButtonBN" *ngIf="has_help('CMP_NAME')" 
+                  (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS2BN titleInputBN" 
                     [(ngModel)]="sdk.title" required>
@@ -56,6 +65,8 @@
                 <span class="inlineBN errHdrS2BN">{{sdk.businessName}}</span>
               </div>
               <div class="col s12 center hide-on-med-and-up truncate">
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_NAME')" 
+                  (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS4BN titleInputSmallBN" 
                     [(ngModel)]="sdk.title" required>
@@ -63,26 +74,38 @@
                 <span class="inlineBN regHdrS4BN"> - {{'by' | translate}}</span>
                 <span class="inlineBN errHdrS4BN">{{sdk.businessName}}</span>
               </div>
+              <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+                *ngIf="get_help('CMP_NAME')">{{get_help('CMP_NAME') | translate}}</div>
               <div class="col s12 center hide-on-small-only truncate">
                 <span class="inlineBN regHdrS2BN">{{'Offer ends on' | translate}} : </span>
                 <div class="input-field inlineBN">
                   <input id="expDt" name="expDt" type="text" class="datepicker regHdrS2BN dtpkrBN dateInputBN" materialize="pickadate"
                     [materializeParams]="dateParams" placeholder="Never" [(ngModel)]="sdk.expiryDate">
                 </div>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_EXP_DT')" 
+                  (click)="toggle_help('CMP_EXP_DT')">live_help</i>
               </div>
-              <div class="col s12 center hide-on-med-and-up truncate">
+              <div class="col s12 center hide-on-med-and-up">
                 <span class="inlineBN regHdrS4BN">{{'Offer ends on' | translate}} : </span>
                 <div class="input-field inlineBN">
                   <input id="expDt" name="expDt" type="text" class="datepicker regHdrS4BN dtpkrBN dateInputBN" materialize="pickadate"
                     [materializeParams]="dateParams" placeholder="Never" [(ngModel)]="sdk.expiryDate">
                 </div>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_EXP_DT')" 
+                  (click)="toggle_help('CMP_EXP_DT')">live_help</i>
               </div>
-              <div class="col s12 input-field noTopMarginBN">
+              <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+                *ngIf="get_help('CMP_EXP_DT')">{{get_help('CMP_EXP_DT') | translate}}</div>
+              <div class="col s12 valign-wrapper input-field noTopMarginBN">
                 <div class="col s10 offset-s1 input-field noTopMarginBN">
                   <textarea id="description" name="description" maxlength="1500" class="materialize-textarea regNrmS5BN descriptionBN noPaddingTopBN" 
                     placeholder="Campaign Description" [(ngModel)]="sdk.description"></textarea>
                 </div>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_DESC')" 
+                  (click)="toggle_help('CMP_DESC')">live_help</i>
               </div>
+              <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+                *ngIf="get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
               <div class="col s12 thinFNBN">&nbsp;</div>
               <div class="col s8 offset-s2 m4 center" *ngFor="let p of selProducts">
                 <productwidget *ngIf="p.id" [forCart]="false" [editQty]="false" [product]="p"></productwidget> 
@@ -92,12 +115,22 @@
                   <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'" 
                     src="../../assets/shared/images/no-image-prod.png" />
                 </div>
+                <i class="material-icons inlineBN shiftUp40BN noHeightBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_PRODS')" 
+                  (click)="toggle_help('CMP_PRODS')">live_help</i>
               </div>
             </div>
+            <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+              *ngIf="get_help('CMP_PRODS')">{{get_help('CMP_PRODS') | translate}}</div>
             <div class="row allContentBN">
               <div class="col s12 thinFNBN">&nbsp;</div>
               <p class="col s12 borderBN"></p>
-              <span class="col s12 regHdrS2BN">{{'User details settings' | translate}}</span>
+              <div class="col s12 regHdrS2BN">
+                <span>{{'User details settings' | translate}}</span>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_USR_DET')" 
+                  (click)="toggle_help('CMP_USR_DET')">live_help</i>
+              </div>
+              <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+                *ngIf="get_help('CMP_USR_DET')">{{get_help('CMP_USR_DET') | translate}}</div>
               <p class="col s12 borderBN"></p>
               <div class="col s12 m6 regNrmS4BN" align="left">{{'Request for name' | translate}}?</div>
               <div class="col m6 regNrmS4BN hide-on-small-only" align="left">

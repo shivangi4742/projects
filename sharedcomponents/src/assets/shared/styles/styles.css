@@ -474,3 +474,64 @@
 .line-breaker {
   white-space: pre-line;
 }
+
+.visibleBN {
+    visibility: visible;
+}
+
+.noVisibleBN {
+    visibility: hidden;
+}
+
+.shiftUp40BN {
+    top: -40px;
+}
+
+.z100BN {
+    z-index: 100;
+}
+
+.noHeightBN {
+    height: 1px;
+}
+
+.helpPopBN {
+    opacity: 1;
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn; 
+    animation-duration: 1.5s;   
+    -webkit-animation-duration: 1.5s;
+    animation-timing-function: ease-in-out; 
+    -webkit-animation-timing-function: ease-in-out;     
+    visibility: visible !important;     
+    position: relative;
+    z-index: 1000;
+    top: -10px;
+    background-color: #00ACC1;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-radius: 20px;
+    color: white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding-left: 0.4rem!important;
+    padding-right: 0.4rem!important;    
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0.0;       
+    }
+    100% {
+        opacity: 1; 
+    }       
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0.0;       
+    }
+    100% {
+        opacity: 1; 
+    }       
+}

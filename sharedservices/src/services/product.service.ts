@@ -71,8 +71,8 @@ export class ProductService {
         if(res && res.length > 0) {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._transProducts.push(new Product(false, false, res[i].quantity, res[i].price, res[i].price, res[i].productId, res[i].prodName, 
-                    res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+                this._transProducts.push(new Product(false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, 
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
         return this._transProducts;
