@@ -72,7 +72,7 @@ export class SDKService {
             else if(this.utilsService.isHB(res.merchantUser.merchantCode))
                 mtype = 3;            
 
-            let ttl: string = res.customerName;
+            let ttl: string = res.campaignName;
             if(mtype == 1)
                 ttl = res.merchantUser.displayName;
 
