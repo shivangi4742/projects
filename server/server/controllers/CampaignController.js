@@ -213,7 +213,7 @@ var campCont = {
         try {
             if (mtype == 2)
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Donor, To contribute for ' + campaignName + ', please click on ' + rUrl),
+                    encodeURI('Dear Donor, To contribute to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
             else
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +

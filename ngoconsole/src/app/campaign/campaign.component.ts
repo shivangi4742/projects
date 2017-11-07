@@ -121,6 +121,20 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       window.location.href = this.utilsService.getLogoutPageURL();      
   }
 
+  getDescLength(): string {
+    if(this.sdk && this.sdk.description)
+      return this.sdk.description.length.toString();
+
+    return '0';    
+  }
+
+  getTitleLength(): string {
+    if(this.sdk && this.sdk.title)
+      return this.sdk.title.length.toString();
+
+    return '0';
+  }
+
   uploadedImage(res: any, me: any) {
     me.uploading = false;
     if(res && res.success)
@@ -159,6 +173,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   invalidForm(): boolean {
     if(this.sdk.askpan && this.sdk.mndpan && (this.sdk.minpanamnt == null || this.sdk.minpanamnt == undefined || this.sdk.minpanamnt < 0))
+      return true;
+
+    if(this.sdk.campaignTarget && (this.sdk.campaignTarget < 1 || this.sdk.campaignTarget > 9999999.99))
       return true;
 
     return false;

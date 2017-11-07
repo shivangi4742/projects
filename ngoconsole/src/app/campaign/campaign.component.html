@@ -59,7 +59,7 @@
                   (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS2BN titleInputBN" 
-                    [(ngModel)]="sdk.title" required>
+                    [(ngModel)]="sdk.title" maxlength="50" required>
                 </div>
                 <span class="inlineBN regHdrS2BN"> - {{'by' | translate}}</span>
                 <span class="inlineBN errHdrS2BN">{{sdk.businessName}}</span>
@@ -69,10 +69,13 @@
                   (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS4BN titleInputSmallBN" 
-                    [(ngModel)]="sdk.title" required>
+                    [(ngModel)]="sdk.title" maxlength="50" required>
                 </div>
                 <span class="inlineBN regHdrS4BN"> - {{'by' | translate}}</span>
                 <span class="inlineBN errHdrS4BN">{{sdk.businessName}}</span>
+              </div>
+              <div class="col s12 regNrmS6BN lenBN">{{getTitleLength()}}/50
+                <span class="hide-on-med-and-up">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               </div>
               <div class="col s12 helpPopBN regNrmS5BN" align="center" 
                 *ngIf="get_help('CMP_NAME')">{{get_help('CMP_NAME') | translate}}</div>
@@ -96,6 +99,26 @@
               </div>
               <div class="col s12 helpPopBN regNrmS5BN" align="center" 
                 *ngIf="get_help('CMP_EXP_DT')">{{get_help('CMP_EXP_DT') | translate}}</div>
+              <div *ngIf="sdk.merchantType == 2" class="col s12 center hide-on-small-only truncate">
+                <span class="inlineBN regHdrS2BN">{{'Campaign Target' | translate}} : </span>
+                <div class="input-field inlineBN">
+                  <input id="target" name="target" type="number" min="1.00" max="9999999.99" step="0.01" class="regHdrS2BN validate dateInputBN" 
+                    [(ngModel)]="sdk.campaignTarget">
+                </div>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_TRGT')" 
+                  (click)="toggle_help('CMP_TRGT')">live_help</i>
+              </div>
+              <div *ngIf="sdk.merchantType == 2" class="col s12 center hide-on-med-and-up">
+                <span class="inlineBN regHdrS4BN">{{'Campaign Target' | translate}} : </span>
+                <div class="input-field inlineBN">
+                  <input id="target" name="target" type="number" min="1.00" max="9999999.99" step="0.01" class="regHdrS4BN validate dateInputBN" 
+                    [(ngModel)]="sdk.campaignTarget">
+                </div>
+                <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_TRGT')" 
+                  (click)="toggle_help('CMP_TRGT')">live_help</i>
+              </div>
+              <div class="col s12 helpPopBN regNrmS5BN" align="center" 
+                *ngIf="get_help('CMP_TRGT')">{{get_help('CMP_TRGT') | translate}}</div>
               <div class="col s12 valign-wrapper input-field noTopMarginBN">
                 <div class="col s10 offset-s1 input-field noTopMarginBN">
                   <textarea id="description" name="description" maxlength="1500" class="materialize-textarea regNrmS5BN descriptionBN noPaddingTopBN" 
@@ -103,6 +126,9 @@
                 </div>
                 <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_DESC')" 
                   (click)="toggle_help('CMP_DESC')">live_help</i>
+              </div>
+              <div class="col s12">
+                <div class="col s10 offset-s1 regNrmS6BN descBN" align="right">{{getDescLength()}}/1500</div>
               </div>
               <div class="col s12 helpPopBN regNrmS5BN" align="center" 
                 *ngIf="get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
@@ -113,7 +139,9 @@
               <div class="col s8 offset-s2 m4 center">
                 <div (click)="addProduct()" class="noProdBN" class="linkButtonBN" (mouseover)="prodover=true;" (mouseout)="prodover=false;">
                   <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'" 
-                    src="../../assets/shared/images/no-image-prod.png" />
+                    src="../../assets/shared/images/no-image-prod.png" *ngIf="sdk.merchantType == 3" />
+                  <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'" 
+                    src="../../assets/shared/images/adddonproduct.png" *ngIf="sdk.merchantType == 2" />
                 </div>
                 <i class="material-icons inlineBN shiftUp40BN noHeightBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_PRODS')" 
                   (click)="toggle_help('CMP_PRODS')">live_help</i>

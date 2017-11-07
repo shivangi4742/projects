@@ -30,20 +30,20 @@
                 </button>
               </div>
             </form>
-            
+            <div *ngIf="savedURL">
               <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'SHARE_URL_MSG' | translate}}</div>
               <div class="col s1 hide-on-med-and-up"></div>
               <span class="col s12">&nbsp;</span>
               <span class="col s12 center regNrmS4B1BN">{{savedURL}}</span>
               <span class="col s12">&nbsp;</span>
-              <form (ngSubmit)="emaiil()" #emailForm="ngForm" *ngIf="savedURL">
+            </div>
+            <form (ngSubmit)="emaiil()" #emailForm="ngForm" *ngIf="savedURL">
               <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'Get this link in email' | translate}}</div>
               <div class="col s8 offset-s2 m4 offset-m4 l4 offset-l4 left input-field regNrmS4BN" align="center">
                 <input id="email" name="email" type="email" 
                   title="please enter a valid Mobile No." class="validate regNrmS4BN" required [(ngModel)]="email">
                 <label for="email" [ngClass]="{active: email}">{{'Email' | translate}}*</label>
               </div>
-             <!-- <span class="col s12">&nbsp;</span>-->
               <div class="col s12" align="center">
                 <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
                   name="saveurl" [disabled]="!emailForm.form.valid || emailsend">{{'Email Campaign Link' | translate}}
@@ -59,7 +59,6 @@
                   title="please enter a valid Mobile No." class="validate regNrmS4BN" required [(ngModel)]="mobileNumber">
                 <label for="mobileNumber" [ngClass]="{active: mobileNumber}">{{'Mobile Number' | translate}}*</label>
               </div>
-              <!--<span class="col s12">&nbsp;</span>-->
               <div class="col s12" align="center">
                 <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
                   name="saveurl" [disabled]="!smsForm.form.valid || sending">{{'SMS Campaign Link' | translate}}

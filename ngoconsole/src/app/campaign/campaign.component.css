@@ -38,6 +38,7 @@
 
 .descriptionBN {
     text-align: center;
+    overflow-x: hidden;
 }
 
 .noTopMarginBN {
@@ -101,4 +102,12 @@
     max-width: 550px;    
     max-height: 100%!important;
     overflow: hidden;
+}
+
+.lenBN {
+    margin-top: -8px;
+}
+
+.descBN {
+    margin-top: -24px;
 }
