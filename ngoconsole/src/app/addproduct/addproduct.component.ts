@@ -117,8 +117,8 @@ export class AddproductComponent implements OnInit {
       if(e.target.files && e.target.files[0]) {
         this.imgErrMsg = null;
         this.utilsService.setStatus(false, false, '')      
-        if(e.target.files[0].size > 1000000)
-          this.imgErrMsg = 'File is bigger than 1 MB!';
+        if(e.target.files[0].size > 5000000)
+          this.imgErrMsg = 'File is bigger than 1 MB!';//5 MB
         else {          
           this.uploading = true;
           this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);

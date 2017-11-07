@@ -23,8 +23,8 @@ var fileCont = {
             this.deleteUploadedFile(fp, 'Unsupported file format!');
 
         var stats = fs.statSync(fp);
-        if(!stats || !stats.size || stats.size > 10000000) 
-            this.deleteUploadedFile(fp, 'File is bigger than 1 MB!');
+        if(!stats || !stats.size || stats.size > 50000000) 
+            this.deleteUploadedFile(fp, 'File is bigger than 1 MB!');//5 MB
         else
             cb();
     },

@@ -149,9 +149,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(!this.uploading && e.target && e.target.files) {
       if(e.target.files && e.target.files[0]) {
         this.utilsService.setStatus(false, false, '');
-        if(e.target.files[0].size > 2000000) {
+        if(e.target.files[0].size > 5000000) {
           window.scrollTo(0, 0);
-          this.utilsService.setStatus(true, false, 'File is bigger than 2 MB!');
+          this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
         }
         else {          
           this.uploading = true;
