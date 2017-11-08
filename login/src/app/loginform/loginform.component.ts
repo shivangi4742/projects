@@ -68,7 +68,8 @@ export class LoginformComponent implements OnInit {
           else
             (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
 
-          this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language });
+          this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language, 
+            lob: this.user.lob });
           if(this.userService.isNGO())
             window.location.href = this.utilsService.getNGODashboardPageURL();
           else

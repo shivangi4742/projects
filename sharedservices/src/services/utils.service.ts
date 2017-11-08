@@ -38,7 +38,10 @@ export class UtilsService {
     return this._redirectURL;
   }
 
-  isHB(mCode: string|null): boolean {
+  isHB(mCode: string|null, lob: string|null): boolean {
+    if(lob && lob.trim().toUpperCase() == 'HB')
+      return true;
+
     if(mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5' || 
       mCode === 'AL7I2' || mCode === 'ALA73')
       return true;

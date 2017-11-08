@@ -105,7 +105,7 @@ export class NotificationComponent  {
         this.user = usr;
         if(this.utilsService.isNGO(this.user.mccCode))
           this.mtype = 2;
-        else if(this.utilsService.isHB(this.user.merchantCode))
+        else if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
           this.mtype = 3;
 
         this.notificationService.getNotifications(this.user.merchantCode, this.page, false, false)

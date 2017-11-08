@@ -366,7 +366,7 @@ var sdkCont = {
                     {	
                         "merchantCode": merchantCode,
                         "transactionRef": txnNumber,
-                        "productId": products[counter].id,
+                        "campaignProductId": products[counter].id,
                         "quantity": products[counter].qty
                     },
                     function (data) {
@@ -375,7 +375,7 @@ var sdkCont = {
             }
             else
                 cb(retVal);
-        }
+            }
         catch (err) {
             cb(retErr);
         }

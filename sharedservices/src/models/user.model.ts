@@ -14,5 +14,6 @@ export class User {
     public displayName: string|null,
     public mobileNumber: string|null,
     public allTils: string[]|null,
-    public tilNumber: string|null) { }
+    public tilNumber: string|null,
+    public lob: string|null) { }
 }

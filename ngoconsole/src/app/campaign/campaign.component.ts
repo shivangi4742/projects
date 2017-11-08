@@ -109,7 +109,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.uploadsURL = this.utilsService.getUploadsURL();      
       this.isMobile = this.utilsService.isAnyMobile();
       let mtype: number = 2;
-      if(this.utilsService.isHB(this.user.merchantCode))
+      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
         mtype = 3;
 
       this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,

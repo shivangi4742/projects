@@ -143,7 +143,7 @@ export class UserTopNavComponent {
   }
 
   onInvices(): boolean {
-    if(this.isNGO || this.user.isSuperAdmin || this.utilsService.isHB(this.user.merchantCode))
+    if(this.isNGO || this.user.isSuperAdmin || this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       return true;
 
     if(this.hasTils && !this.isTilManager)

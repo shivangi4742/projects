@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
   init(usr: User) {
     if(usr && usr.id && usr.id.trim().length > 0) {
-      if(this.utilsService.isHB(usr.merchantCode))
+      if(this.utilsService.isHB(usr.merchantCode, usr.lob))
         this.mtype = 3;
       
       this.user = usr;

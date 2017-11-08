@@ -133,7 +133,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null);
   }
 
   private changedPassword(res: any): any {
@@ -190,6 +190,7 @@ export class UserService {
   private fillUser(email: string, res: any) {    
     this._user.id = null;
     if(res && res.success !== false && res.jwtToken) {
+      this._user.lob = res.business_lob;
       this.fillUserFromToken(res.jwtToken);
       if(res.employee_role) {
         this._user.tilLogin = email;
@@ -234,7 +235,6 @@ export class UserService {
     if(ts && ts.length > 1) {
       let dt = JSON.parse(atob(ts[1]));
       if(dt && dt.sub && dt.data) {
-        this._user.id = dt.data.merchantId;
         this._user.displayName = dt.data.displayName;
         this._user.email = dt.sub;
         this._user.mccCode = dt.data.mccCode;
@@ -247,6 +247,8 @@ export class UserService {
       }
     }
 
+    this._user.id = token.userid;
+    this._user.lob = token.lob;
     this._user.isTilManager = token.isTilManager;
     this._user.hasTils = token.hasTils;
     this._user.tilLogin = token.tilLogin;
@@ -255,7 +257,7 @@ export class UserService {
   }
 
   private isTokenValid(tkn: any): Promise<User> {
-    this._user = new User(false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null);
     if(tkn && tkn.token)
       this.fillUserFromStoredToken(tkn);
 
@@ -263,7 +265,7 @@ export class UserService {
   }
 
   private newUser(): Promise<User> {
-    this._user = new User(false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null);
     return Promise.resolve(this._user);
   }
 

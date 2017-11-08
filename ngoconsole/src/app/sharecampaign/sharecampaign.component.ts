@@ -66,7 +66,7 @@ export class SharecampaignComponent implements OnInit {
     if(this.id && res) {
       this.user = res;
       this.isMobile = this.utilsService.isAnyMobile();
-      if(this.utilsService.isHB(this.user.merchantCode))
+      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
         this.mtype = 3;
       
       this.campaignService.getCampaign(this.id, this.mtype)
@@ -118,11 +118,18 @@ export class SharecampaignComponent implements OnInit {
   }
 
   emaiil() {
+    let slt: string = 'Customer';
+    let pslt: string = 'pay';
+    if(this.sdk.merchantType == 2) {
+      slt = 'Donor';
+      pslt = 'contribute';
+    }
+
     this.emailsend=true;
-    this.text = "Dear Customer, To pay BENOW SMALL  BUSINESS, Please click on " + this.savedURL;
+    this.text = "Dear " + slt + ", To " + pslt + ' to ' + this.user.displayName + ", please click on " + this.savedURL;
     this.cc = "";
     this.bcc ="";
-    this.subject ="Benow Small Business";
+    this.subject = this.sdk.title;
     this.utilsService.setStatus(false, false, '');
     this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc, this.bcc)
       .then (res => this.emailsent(res));

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         window.location.href = this.utilsService.getAdminDashboardPageURL();
       else if(this.utilsService.isNGO(usr.mccCode))
           window.location.href = this.utilsService.getNGODashboardPageURL();
-      else if(this.utilsService.isHB(usr.merchantCode))
+      else if(this.utilsService.isHB(usr.merchantCode, usr.lob))
         window.location.href = this.utilsService.getMyBizDashboardPageURL();
       else if(usr.hasTils && usr.isTilManager)
         window.location.href = this.utilsService.getManagerDashboardPageURL();
