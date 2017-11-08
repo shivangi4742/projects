@@ -338,7 +338,8 @@ export class PayComponent implements OnInit {
         if(res.paymentStatus.trim().toUpperCase() == 'PAID') {
           found = true;
           this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.title, "mode": 0, "txnid": this.txnNo,
-            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products });
+            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products, 
+            "mtype": this.pay.merchantType });
           this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
         }
         else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {

@@ -217,7 +217,7 @@ var campCont = {
                     'POST', hdrs), null, cb);
             else
                 helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Customer, To pay ' + title + ', please click on ' + rUrl),
+                    encodeURI('Dear Customer, To pay to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
         }
         catch (err) {

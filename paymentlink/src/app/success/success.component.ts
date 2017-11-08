@@ -26,6 +26,7 @@ export class SuccessComponent implements OnInit {
     if(this.pay && this.pay.amount > 0) {
       this.products = this.pay.products;
       this.loaded = true;
+      this.mtype = this.pay.mtype;
     }
     else
       this.productService.getProductsForTransaction(this.id, this.txnid)
