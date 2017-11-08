@@ -15,6 +15,7 @@ export class FailureComponent implements OnInit {
   txnid: string;
   payLink: string;
   loaded: boolean = false;
+  mtype: number = 1;
   constructor(private route: ActivatedRoute, private productService: ProductService, private sdkService: SDKService,
     private transactionService: TransactionService) { }
 
@@ -52,6 +53,7 @@ export class FailureComponent implements OnInit {
 
   getSDKDetailsForNonProduct(sres: SDK) {
     this.title = sres.businessName;
+    this.mtype = sres.merchantType;
     this.transactionService.getTransactionDetails(sres.merchantCode, this.txnid)
       .then(res => this.fillMerchantTransaction(res));
   }

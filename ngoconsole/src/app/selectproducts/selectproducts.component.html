@@ -28,7 +28,7 @@
     </div>
     <div class="col s12" *ngIf="!loading">
       <div class="col s6 m4 center" *ngFor="let p of products">
-        <productwidget [forCart]="false" [editQty]="false" [product]="p" (selectedProd)="selected($event)"></productwidget> 
+        <productwidget [forCart]="false" [mtype]="mtype" [editQty]="false" [product]="p" (selectedProd)="selected($event)"></productwidget> 
       </div>
     </div>
     <div class="col s6" align="left" *ngIf="!loading">
@@ -49,7 +49,7 @@
     <p class="borderBN"></p>
     <div class="row" *ngIf="products">
       <div class="col m4 s6 center" *ngFor="let np of newProducts">
-        <productwidget [forCart]="false" [editQty]="false" [product]="np" (selectedProd)="selected($event)"></productwidget> 
+        <productwidget [mtype]="mtype" [forCart]="false" [editQty]="false" [product]="np" (selectedProd)="selected($event)"></productwidget> 
       </div> 
     </div>
   </div>

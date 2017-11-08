@@ -12,6 +12,7 @@ export class ProductWidgetComponent  {
   uploadsURL: string;
   @Input('editQty') editQty: boolean;
   @Input('forCart') forCart: boolean;
+  @Input('mtype') mtype: number;
   @Input('product') product: Product;
   @Output()
   selectedProd: EventEmitter<any> = new EventEmitter();

@@ -6,7 +6,8 @@
     </div>
     <div class="row valign-wrapper payf1BN">
     <div class="col s12 m12 l12 center">
-        <span class="paymntBN">{{'Payment Failed' | translate}}</span>
+        <span *ngIf="mtype != 2" class="paymntBN">{{'Payment Failed' | translate}}</span>
+        <span *ngIf="mtype == 2" class="paymntBN">{{'Contribution Failed' | translate}}</span>
     </div>
     </div>
     <div class="row valign-wrapper payfBN">
@@ -28,13 +29,18 @@
     <div class="row"></div>
     <div class="row valign-wrapper">
     <div class="col s2 m2 l4 center"></div>
-    <div class="col s8 m8 l4 center regNrmS5B2BN"> {{'You can still pay to' | translate}} {{title | translate}} {{'using another payment method' | translate}}</div>
+    <div class="col s8 m8 l4 center regNrmS5B2BN"
+        *ngIf="mtype != 2"> {{'You can still pay to' | translate}} {{title | translate}} {{'using another payment method' | translate}}</div>
+    <div class="col s8 m8 l4 center regNrmS5B2BN"
+        *ngIf="mtype == 2"> {{'You can still contribute to' | translate}} {{title | translate}} {{'using another contribution method' | translate}}</div>
     <div class="col s2 m2 l4 center"></div>
     </div>
     <div class="row valign-wrapper">
     <div class="col s12 m12 l12 center">
-        <a target="_self" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payanother" 
+        <a target="_self" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payanother" *ngIf="mtype != 2"
             [routerLink]="payLink" >{{'Pay Using Another Method' | translate}}  </a>
+        <a target="_self" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payanother" *ngIf="mtype == 2"
+            [routerLink]="payLink" >{{'Contribute Using Another Method' | translate}}  </a>
     </div>
     </div>
     <div class="row"></div>

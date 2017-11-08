@@ -14,7 +14,8 @@
                 (change)="checked()"/>
             <label for="{{product.id}}" class="cblblBN regNrmS5B1BN">
                 <span *ngIf="product.isSelected">&nbsp;</span>
-                <span *ngIf="!product.isSelected">{{'Buy' | translate}}</span>
+                <span *ngIf="!product.isSelected && mtype != 2">{{'Buy' | translate}}</span>
+                <span *ngIf="!product.isSelected && mtype == 2">{{'Donate' | translate}}</span>
             </label>
         </div>
         <div class="col s5 regNrmS5B1BN right" align="left">

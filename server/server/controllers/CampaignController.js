@@ -303,7 +303,7 @@ var campCont = {
                         {	
                             "merchantCode": d.merchantCode,
                             "mtype": d.mtype,
-                            "customerName": d.title,
+                            "campaignName": d.title,
                             "mobileNumber": d.phone ? d.phone : '',
                             "amount": d.amount,
                             "totalbudget": d.campaignTarget,
