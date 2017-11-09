@@ -50,7 +50,6 @@ export class SDKService {
                 vpa = res.merchantUser.defaultAcc.virtualAddress;
 
             let modes: Array<string> = new Array<string>();
-            modes.push('UPI');
             if(res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
                 res.merchantUser.acceptedPaymentMethods.forEach(function(m: any) {
                     if(m && m.paymentMethod) {
@@ -62,9 +61,14 @@ export class SDKService {
                             modes.push('NB');
                         else if ((m.paymentMethod == 'MEAL_COUPON' || m.paymentMethod == 'SODEXO') && modes.indexOf('SODEXO') < 0)
                             modes.push('SODEXO');                        
+                        else if ((m.paymentMethod == 'UPI_OTHER_APP' || m.paymentMethod == 'UPI') && modes.indexOf('UPI') < 0)
+                            modes.push('UPI');
                     }
                 });
             }
+
+            if (modes.length <= 0)
+                modes.push('UPI');
 
             let mtype: number = 1;
             if(this.utilsService.isNGO(res.merchantUser.mccCode))
@@ -73,7 +77,7 @@ export class SDKService {
                 mtype = 3;            
 
             let ttl: string = res.campaignName;
-            if(mtype == 1)
+            if(mtype == 1 || !ttl)
                 ttl = res.merchantUser.displayName;
 
             this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
