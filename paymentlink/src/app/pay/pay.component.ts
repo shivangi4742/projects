@@ -70,6 +70,7 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if(res && res.id) {
       this.pay = res;
+      this.txnNo = res.txnid;
       if(this.pay.mtype == 1) {
         this.pay.askmob = false;
         this.pay.mndmob = false
