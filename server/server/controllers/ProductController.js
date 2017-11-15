@@ -34,7 +34,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.id && d.merchantCode && d.price && d.name)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/editBenowProduct', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/editBenowProduct', 'POST', req.headers),
                         {
                             "id": d.id,	
                             "merchantCode": d.merchantCode,
@@ -65,7 +65,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.id)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/deleteBenowProduct', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/deleteBenowProduct', 'POST', req.headers),
                         {	
                             "id": d.id
                         }, cb);
@@ -90,7 +90,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.merchantCode && d.price && d.name)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveBenowProduct', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveBenowProduct', 'POST', req.headers),
                         {	
                             "merchantCode": d.merchantCode,
                             "prodPrice": d.price,
@@ -192,7 +192,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getBenowProduct', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProduct', 'POST', req.headers),
                         {
                             "merchantCode": d.merchantCode,
                             "pageNumber": d.pageNumber
