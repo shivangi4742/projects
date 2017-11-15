@@ -174,7 +174,7 @@ export class UserService {
     this._user.mccCode = token.mccCode;
     this._user.merchantCode = token.merchantCode;
     this._user.mobileNumber = token.mobileNumber;
-    this._user.id = token.userid;
+    this._user.id = token.userid ? token.userid.toString() : '';
     this._user.lob = token.lob;
     this._user.language = token.language;
     this._user.isTilManager = token.isTilManager;
@@ -227,14 +227,14 @@ export class UserService {
             this._user.allTils = res.tils;
         }
       }
-      else {
-        this._user.lob = 'HB';//res.business_lob;        
-        this._user.id = '1000001';//res.merchantId;        
-        this._user.displayName = 'Demo Merchant';//res.displayName;
-        this._user.email = 'yatishg@gmail.com';//res.email;
-        this._user.mccCode = '';//res.mccCode;
-        this._user.merchantCode = '';//res.merchantCode;
-        this._user.mobileNumber = '9767843495';//res.mobileNumber;
+      else if(res.merchant) {
+        this._user.lob = res.merchant.businessLob ? res.merchant.businessLob : 'HB';
+        this._user.id = res.merchant.id ? res.merchant.id.toString() : '';        
+        this._user.displayName = res.merchant.displayName;
+        this._user.email = res.merchant.emailId;
+        this._user.mccCode = res.merchant.mccCode;
+        this._user.merchantCode = res.merchant.merchantCode;
+        this._user.mobileNumber = res.merchant.mobileNumber;
         this.utilsService.isNGO(this._user.mccCode);
         this.utilsService.setUnregistered(true);
       }
@@ -358,7 +358,9 @@ export class UserService {
   }
 
   private hasToken(): boolean {
-    if(this._uname && this._headers)
+    if(sessionStorage.getItem('bnMRC'))
+      return true;
+    else if(localStorage.getItem('bnMRC'))
       return true;
 
     return false;

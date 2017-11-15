@@ -40,6 +40,9 @@ export class UtilsService {
   }
 
   isHB(mCode: string|null, lob: string|null): boolean {
+    if(this._isUnRegistered)
+      return true;
+    
     if(lob && lob.trim().toUpperCase() == 'HB')
       return true;
 
