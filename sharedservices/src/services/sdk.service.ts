@@ -85,8 +85,8 @@ export class SDKService {
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
                 (mtype == 1) ? res.mobileNumber : '', ttl, 
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, res.expiryDate, vpa, res.description ? res.description : '', 
-                res.merchantUser.merchantCode, res.merchantUser.businessName, res.invoiceNumber, null, null, null, null, null, null, null, null, null, 
-                null, modes, null);
+                res.merchantUser.merchantCode, res.merchantUser.businessName, res.invoiceNumber, res.till, null, null, null, null, null, null, null, 
+                null, null, modes, null);
         }
 
         return this._sdk;
