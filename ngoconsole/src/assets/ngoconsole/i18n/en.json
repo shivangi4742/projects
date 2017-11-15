@@ -141,5 +141,10 @@
     "Email": "Email",
     "Get this link in email": "Get this link in Email",
     "Email Campaign Link": "Email Campaign Link",
-    "Campaign Description": "Campaign Description"
+    "Campaign Description": "Campaign Description",
+    "You need to complete registration to be able to add products to catalog": "You need to complete registration to be able to add donation options",
+    "You need to complete registration to be able to create a campaign": "You need to complete registration to be able to create a campaign",
+    "Your registration is incomplete! You will not be able to use most features.": "Your registration is incomplete! You will not be able to use most features.",
+    "CLICK HERE": "CLICK HERE",
+    "to complete your registration.": "to complete your registration."
 }

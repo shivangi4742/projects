@@ -144,3 +144,10 @@
         </div>
     </div>
 </nav>
+<div *ngIf="isUnregistered" class="row nilPadsBN">
+    <div class="col s10 offset-s1 errNrmS5B1BN center">
+        {{'Your registration is incomplete! You will not be able to use most features.' | translate}}
+        <a href="https://merchant.benow.in/mrlogin/1">{{'CLICK HERE' | translate}}</a>
+        {{'to complete your registration.' | translate}}
+    </div>
+</div>

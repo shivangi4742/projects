@@ -194,9 +194,15 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    this.sdk.products = this.selProducts;
-    this.campaignService.saveCampaign(this.sdk)
-      .then(res => this.created(res));    
+    if(this.utilsService.getUnregistered()) {
+      window.scrollTo(0, 0);
+      this.utilsService.setStatus(true, false, 'You need to complete registration to be able to create an e-Stall');
+    }
+    else {
+      this.sdk.products = this.selProducts;
+      this.campaignService.saveCampaign(this.sdk)
+        .then(res => this.created(res));    
+    }
   }
 
   get_help(key) {

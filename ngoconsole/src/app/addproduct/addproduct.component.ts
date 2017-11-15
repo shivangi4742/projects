@@ -108,8 +108,12 @@ export class AddproductComponent implements OnInit {
       this.newProd = new Product(null, null, null, null, null, null, null, null, null, null);
       this.addedProd.emit(p);
     }
-    else
-      this.imgErrMsg = this.utilsService.returnGenericError().errMsg;
+    else {
+      if(this.utilsService.getUnregistered())
+        this.imgErrMsg = 'You need to complete registration to be able to add products to catalog';
+      else
+        this.imgErrMsg = this.utilsService.returnGenericError().errMsg;
+    }
   }
 
   fileChange(e: any) {

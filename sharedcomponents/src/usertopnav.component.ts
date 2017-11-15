@@ -20,6 +20,7 @@ export class UserTopNavComponent {
   notifications: Notification[]|null;
   isNGO: boolean = false;
   isPolling: boolean = false;
+  isUnregistered: boolean = false;
   hasNotifications: boolean = false;
   notifInitialized: boolean = false;
   numUnreadNotifs: number = 0;
@@ -72,6 +73,7 @@ export class UserTopNavComponent {
     this.name = this.user.displayName;
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
+    this.isUnregistered = this.utilsService.getUnregistered();
     let me = this;
     if(!this.isPolling)
       setTimeout(function() { me.loginPolls(); }, 5000);

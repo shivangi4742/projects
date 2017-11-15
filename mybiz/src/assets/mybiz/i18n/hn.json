@@ -141,5 +141,10 @@
     "Get this link in email":"ईमेल में यह लिंक प्राप्त करें",
     "Email Campaign Link":"ईमेल ई-स्टॉल लिंक",
     "Loading": "लोडिंग",
-    "Campaign Description": "ई-स्टाल का विवरण"
+    "Campaign Description": "ई-स्टाल का विवरण",
+    "You need to complete registration to be able to add products to catalog": "सूची में उत्पादों को जोड़ने के लिए आपको पंजीकरण  पूरा करना होगा",
+    "You need to complete registration to be able to create a campaign": "ई-स्टाल बनाने में सक्षम होने के लिए आपको पंजीकरण पूरा करना होगा",
+    "Your registration is incomplete! You will not be able to use most features.": "आपका पंजीकरण अधूरा है! आप अधिकतर सुविधाओं का उपयोग करने में सक्षम नहीं होंगे।",
+    "CLICK HERE": "यहां क्लिक करें",
+    "to complete your registration.": "अपना पंजीकरण पूरा करने के लिए।"
 }

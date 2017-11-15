@@ -141,5 +141,10 @@
     "Email":"ईमेल",
     "Get this link in email":"हा दुवा ईमेलमध्ये मिळवा",
     "Email Campaign Link":"ईमेल मोहिम दुवा",
-    "Campaign Description": "मोहिमचे वर्णन"    
+    "Campaign Description": "मोहिमचे वर्णन",
+    "You need to complete registration to be able to add products to catalog": "देणगी पर्याय जोडण्यासाठी सक्षम होण्यासाठी  आपल्याला नोंदणी पूर्ण करण्याची आवश्यकता आहे",
+    "You need to complete registration to be able to create a campaign": "मोहिम तयार करण्यासाठी आपण नोंदणी पूर्ण करणे आवश्यक आहे",
+    "Your registration is incomplete! You will not be able to use most features.": "आपका पंजीकरण अधूरा है! आप अधिकतर सुविधाओं का उपयोग करने में सक्षम नहीं होंगे।",
+    "CLICK HERE": "यहां क्लिक करें",
+    "to complete your registration.": "अपना पंजीकरण पूरा करने के लिए।"    
 }

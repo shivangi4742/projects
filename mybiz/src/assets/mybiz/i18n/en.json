@@ -139,5 +139,10 @@
     "Email": "Email",
     "Get this link in email": "Get this link in Email",
     "Email Campaign Link": "Email e-Stall Link",
-    "Campaign Description": "e-Stall Description"
+    "Campaign Description": "e-Stall Description",
+    "You need to complete registration to be able to add products to catalog": "You need to complete registration to be able to add products to catalog",
+    "You need to complete registration to be able to create a campaign": "You need to complete registration to be able to create an e-Stall",
+    "Your registration is incomplete! You will not be able to use most features.": "Your registration is incomplete! You will not be able to use most features.",
+    "CLICK HERE": "CLICK HERE",
+    "to complete your registration.": "to complete your registration."
 }
