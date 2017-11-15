@@ -19,6 +19,7 @@ export class UserTopNavComponent {
   tmLoad: string;
   notifications: Notification[]|null;
   isNGO: boolean = false;
+  isPolling: boolean = false;
   hasNotifications: boolean = false;
   notifInitialized: boolean = false;
   numUnreadNotifs: number = 0;
@@ -53,7 +54,16 @@ export class UserTopNavComponent {
     if(!this.notifInitialized)
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
         .then(res => this.fillNotifications(res));
-   }
+  }
+
+  loginPolls() {
+    if(this.utilsService.getxauth() || this.utilsService.getUnregistered()) {
+      let me = this;
+      setTimeout(function() { me.loginPolls(); }, 5000);        
+    }
+    else
+      window.location.href = this.utilsService.getLogoutPageURL();
+  }
 
   ngOnInit() {
     this.hasTils = this.user.hasTils;
@@ -62,6 +72,10 @@ export class UserTopNavComponent {
     this.name = this.user.displayName;
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
+    let me = this;
+    if(!this.isPolling)
+      setTimeout(function() { me.loginPolls(); }, 5000);
+
     if(this.name && this.name.length > 15)
       this.name = this.name.substring(0, 14) + '...';
 

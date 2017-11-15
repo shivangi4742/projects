@@ -40,10 +40,10 @@ var fileCont = {
                 else if (!req.file || !req.file.filename)
                     res.send({ success: false, errorMsg: 'Unsupported file format or size!' });
                 else {
-                    var h = JSON.parse(req.body.headers);
+                    /* var h = JSON.parse(req.body.headers);
                     if (!h['X-AUTHORIZATION'])
                         res.send({ success: false, errorMsg: 'Unauthorized!' });
-                    else {
+                    else { */
                         var d = JSON.parse(req.body.data);
                         if (!d.sourceId || !d.sourceType)
                             res.send({ success: false, errorMsg: 'Incorrect input!' });
@@ -82,7 +82,7 @@ var fileCont = {
                             }));
                             form.append('file', fs.createReadStream(__dirname + '/../../uploads/' + req.file.filename));
                         }
-                    }
+                    //}
                 }
             });
         }

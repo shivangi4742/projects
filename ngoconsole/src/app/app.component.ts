@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
@@ -13,11 +14,18 @@ export class AppComponent implements OnInit {
   user: User;
   mtype: number = 2;
 
-  constructor(private userService: UserService, private translate: TranslateService, private utilsService: UtilsService) { 
+  constructor(private userService: UserService, private translate: TranslateService, private utilsService: UtilsService, private router: Router) { 
     translate.setDefaultLang('en');
   }
 
   ngOnInit() { 
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd))
+        return;
+
+      document.body.scrollTop = 0;
+    });
+
     this.userService.getUser()
       .then(res => this.init(res));
   }

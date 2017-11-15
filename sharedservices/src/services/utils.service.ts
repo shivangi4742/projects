@@ -11,6 +11,7 @@ export class UtilsService {
   private _status: Status;
 
   private _isNGO: boolean = false;
+  private _isUnRegistered: boolean = false;
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
@@ -153,6 +154,35 @@ export class UtilsService {
       this._headers['X-EMAIL'] = this._uname;
 
     return new Headers(this._headers);
+  }
+
+  setUnregistered(u: boolean) {
+    this._isUnRegistered = u;
+  }
+
+  getUnregistered(): boolean {
+    return this._isUnRegistered;
+  }
+  
+  getxauth(): string {
+    let bnMRC: any;
+    let tkstr;
+    let tk: string|null = sessionStorage.getItem('bnMRC');
+    if(tk)
+      tkstr = tk.toString();
+    else {
+      tk = localStorage.getItem('bnMRC');
+      if(tk)
+        tkstr = tk.toString();
+    }
+
+    if(tkstr)
+      bnMRC = JSON.parse(tkstr);
+
+    if(bnMRC && bnMRC.token)
+      return bnMRC.token.toString();
+    
+    return '';
   }
 
   getFileHeaders(): Headers {

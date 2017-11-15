@@ -3,6 +3,7 @@ export class User {
     public hasTils: boolean,
     public isTilManager: boolean,
     public isSuperAdmin: boolean,
+    public isSuperMerchant: boolean,
     public language: number,
     public tilLogin: string|null,
     public id: string|null,

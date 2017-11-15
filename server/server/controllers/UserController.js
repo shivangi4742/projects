@@ -19,7 +19,7 @@ var userCont = {
         }
     },
     
-    signInTilPost: function (req, token, cb) {
+    signInTilPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -85,7 +85,8 @@ var userCont = {
             }
             else {
                 me.signInTilPost(req, function (empData) {
-                    if (empData && empData.jwtToken && empData.employee_role && empData.employee_role.trim().toLowerCase() == 'benow merchant associate') {
+                    if (empData && empData.jwtToken && empData.employee_role && 
+                            empData.employee_role.trim().toLowerCase() == 'benow merchant associate') {
                         var ts = empData.jwtToken.split('.');
                         if (ts && ts.length > 1) {
                             var dt = JSON.parse(atob(ts[1]));

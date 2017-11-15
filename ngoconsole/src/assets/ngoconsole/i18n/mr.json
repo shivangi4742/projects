@@ -137,5 +137,9 @@
     "User details settings": "आवश्यक दाता तपशील",
     "per": "प्रति",
     "Edit / Delete Products": "देणगी पर्याय संपादित / हटवा",
-    "Loading": "लोडिंग"
+    "Loading": "लोडिंग",
+    "Email":"ईमेल",
+    "Get this link in email":"हा दुवा ईमेलमध्ये मिळवा",
+    "Email Campaign Link":"ईमेल मोहिम दुवा",
+    "Campaign Description": "मोहिमचे वर्णन"    
 }

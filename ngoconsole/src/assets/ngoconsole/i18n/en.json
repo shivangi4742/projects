@@ -137,5 +137,9 @@
     "User details settings": "Donor details required",
     "per": "per",
     "Edit / Delete Products": "Edit / Delete Donation Options",
-    "Loading": "Loading"
+    "Loading": "Loading",
+    "Email": "Email",
+    "Get this link in email": "Get this link in Email",
+    "Email Campaign Link": "Email Campaign Link",
+    "Campaign Description": "Campaign Description"
 }

@@ -58,7 +58,7 @@
                 <i class="material-icons alignMidBN inlineBN cyanBN linkButtonBN" *ngIf="has_help('CMP_NAME')" 
                   (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
-                  <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS2BN titleInputBN" 
+                  <input id="name" name="name" type="text" placeholder="{{'Campaign Name' | translate}} *" class="validate regHdrS2BN titleInputBN" 
                     [(ngModel)]="sdk.title" maxlength="50" required>
                 </div>
                 <span class="inlineBN regHdrS2BN"> - {{'by' | translate}}</span>
@@ -68,7 +68,7 @@
                 <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_NAME')" 
                   (click)="toggle_help('CMP_NAME')">live_help</i>
                 <div class="input-field inlineBN">
-                  <input id="name" name="name" type="text" placeholder="Campaign Name *" class="validate regHdrS4BN titleInputSmallBN" 
+                  <input id="name" name="name" type="text" placeholder="{{'Campaign Name' | translate}} *" class="validate regHdrS4BN titleInputSmallBN" 
                     [(ngModel)]="sdk.title" maxlength="50" required>
                 </div>
                 <span class="inlineBN regHdrS4BN"> - {{'by' | translate}}</span>
@@ -122,7 +122,7 @@
               <div class="col s12 valign-wrapper input-field noTopMarginBN">
                 <div class="col s10 offset-s1 input-field noTopMarginBN">
                   <textarea id="description" name="description" maxlength="1500" class="materialize-textarea regNrmS5BN descriptionBN noPaddingTopBN" 
-                    placeholder="Campaign Description" [(ngModel)]="sdk.description"></textarea>
+                    placeholder="{{'Campaign Description' | translate}}" [(ngModel)]="sdk.description"></textarea>
                 </div>
                 <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_DESC')" 
                   (click)="toggle_help('CMP_DESC')">live_help</i>
