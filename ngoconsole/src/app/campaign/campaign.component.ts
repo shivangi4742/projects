@@ -85,8 +85,6 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.helpService.getHelpTexts()
-      .then(hres => this.initHelp(hres));
     this.userService.getUser()
       .then(res => this.initUser(res));
     let me = this;
@@ -112,6 +110,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
         mtype = 3;
 
+      this.helpService.getHelpTexts(mtype)
+        .then(hres => this.initHelp(hres));
       this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
         mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null, 
         this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, 
