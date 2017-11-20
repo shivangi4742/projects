@@ -129,6 +129,12 @@ export class UtilsService {
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy; 
   }
 
+  public getCurDateString(): string {
+        let dt = new Date();
+        let yy = dt.getFullYear();
+        return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
+  }
+
   public setStatus(isError: boolean, isSuccess: boolean, msg: string) {
     this._status.isError = isError;
     this._status.isSuccess = isSuccess;

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { SDK } from './../models/sdk.model';
+import { CampaignList } from "../models/campaignlist.model";
 import { Campaign } from './../models/campaign.model';
 import { CampaignSummary } from './../models/campaignsummary.model';
 
@@ -173,19 +174,37 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     } 
 
-    getCampaigns(merchantCode: string, fromDate: string, toDate: string): Promise<Campaign[]> {
-        return this.http.post(
-            this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
-            JSON.stringify({
-                "merchantCode": merchantCode,
-                "fromDate": fromDate,
-                "toDate": toDate
-            }),
-            { headers: this.utilsService.getHeaders() }
-        )
-        .toPromise()
-        .then(res => this.setCampaignDetails(res.json()))
-        .catch(res => this.utilsService.returnGenericError());
+    getCampaigns(merchantCode: string, fromDate: string, toDate: string, sortColumn: string, campaignName: string,
+                 pageNumber: number): Promise<CampaignList> {
+        if(campaignName){
+            return this.http.post(
+                this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
+                JSON.stringify({
+                    "campaignName": campaignName,
+                    "pageNumber": pageNumber
+                }),
+                { headers: this.utilsService.getHeaders() }
+            )
+                .toPromise()
+                .then(res => this.setCampaignDetails(res.json()))
+                .catch(res => this.utilsService.returnGenericError());
+        }
+        else{
+            return this.http.post(
+                this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "fromDate": fromDate,
+                    "toDate": toDate,
+                    "sortColumn": sortColumn,
+                    "pageNumber": pageNumber
+                }),
+                { headers: this.utilsService.getHeaders() }
+            )
+                .toPromise()
+                .then(res => this.setCampaignDetails(res.json()))
+                .catch(res => this.utilsService.returnGenericError());
+        }
     }
 
     setCampaignSummary(res: any): CampaignSummary {
@@ -218,96 +237,120 @@ export class CampaignService {
         return campaignSummary;
     }
 
-    setCampaignDetails(res: any): Campaign[] {
-        var campaignList = new Array<Campaign>();
+    setCampaignDetails(res: any): CampaignList {
+        let allCampaigns: Array<Campaign> = new Array<Campaign>();
+        let campaignList: CampaignList;
 
-        if (res && res.data && res.data.length > 0) {
-            res.data.forEach(function (r: any) {
+        if (res) {
+            let numPages = res.totalNoOfPages;
+            let totalCamps = res.totalElements;
 
-                var totalbudget = 0;
-                var progress = 0;
-                var fundraised = 0;
-                var campaignName = "";
-                var expiryDate = "";
+            if(res.getCampaignDetailsResponseVOList && res.getCampaignDetailsResponseVOList.length > 0){
 
-                if (r.totalbudget) {
-                    totalbudget = r.totalbudget;
-                }
+                res.getCampaignDetailsResponseVOList.forEach(function (r: any) {
 
-                if (r.campaignName) {
-                    campaignName = r.campaignName;
-                }
+                    var totalbudget = 0;
+                    var progress = 0;
+                    var fundraised = 0;
+                    var campaignName = "";
+                    var txnrefnumber = "";
+                    var expiryDate = 0;
+                    var description = "";
+                    var creationDate = 0;
 
-                if (r.expiryDate) {
-                    expiryDate = r.expiryDate;
-                    // expiryDate = "27-02-2018 13:20:00";
-                    var dateTime: string[] = expiryDate.split(' ');
-                    var date: string = dateTime[0];
-                    var time: string = dateTime[1];
-
-                    /** Code to convert expiryDate from 28-07-2017 05:30:00 to 2017/07/28 05:30:00 begins here*/
-                    var dateArray: string[] = date.split('-');
-                    var day = dateArray[0];
-                    var month = dateArray[1];
-                    var year = dateArray[2];
-                    var updatedDate = year + '/' + month + '/' + day + " " + time;
-                    /** Ends here */
-
-                    var currentDate: any = new Date();
-                    // var dateString = "28-07-2017 05:30:00";
-                    // var dateString = updatedDate.replace(/-/g, "/");
-                    var expDate: any = new Date(updatedDate);
-                    var diffDate = expDate - currentDate; // diffDate is in milliseconds
-
-                    // console.log('exp date', expDate);
-                    // console.log('current date', currentDate);
-
-                    // var seconds = diffDate / 1000;
-                    // var minutes = seconds / 60;
-                    // var hours = minutes / 60;
-
-                    var days = diffDate / 86400000; // 86400000 is multiplication of 24*60*60*1000
-                    var moduloDays = diffDate % 86400000;
-                    // console.log('days', days);
-                    var hours = moduloDays / 3600000;
-                    var moduloHours = moduloDays % 3600000;
-                    // console.log('hours', hours);
-                    var minutes = moduloHours / 60000;
-                    // console.log('minutes', minutes);
-                    if (parseFloat(days.toString()) < 0) {
-                        expiryDate = "COMPLETED";
+                    if(r.txnrefnumber) {
+                        txnrefnumber = r.txnrefnumber;
                     }
-                    else if (parseInt(days.toString()) >= 0) {
-                        if (parseInt(days.toString()) > 0) {
+
+                    if (r.totalbudget) {
+                        totalbudget = r.totalbudget;
+                    }
+
+                    if (r.campaignName) {
+                        campaignName = r.campaignName;
+                    }
+
+                    if (r.expiryDate) {
+                        expiryDate = r.expiryDate;
+                        /*// expiryDate = "27-02-2018 13:20:00";
+                        var dateTime: string[] = expiryDate.split(' ');
+                        var date: string = dateTime[0];
+                        var time: string = dateTime[1];
+
+                        /!** Code to convert expiryDate from 28-07-2017 05:30:00 to 2017/07/28 05:30:00 begins here*!/
+                        var dateArray: string[] = date.split('-');
+                        var day = dateArray[0];
+                        var month = dateArray[1];
+                        var year = dateArray[2];
+                        var updatedDate = year + '/' + month + '/' + day + " " + time;
+                        /!** Ends here *!/
+
+                        var currentDate: any = new Date();
+                        // var dateString = "28-07-2017 05:30:00";
+                        // var dateString = updatedDate.replace(/-/g, "/");
+                        var expDate: any = new Date(updatedDate);
+                        var diffDate = expDate - currentDate; // diffDate is in milliseconds
+
+                        // console.log('exp date', expDate);
+                        // console.log('current date', currentDate);
+
+                        // var seconds = diffDate / 1000;
+                        // var minutes = seconds / 60;
+                        // var hours = minutes / 60;
+
+                        var days = diffDate / 86400000; // 86400000 is multiplication of 24*60*60*1000
+                        var moduloDays = diffDate % 86400000;
+                        // console.log('days', days);
+                        var hours = moduloDays / 3600000;
+                        var moduloHours = moduloDays % 3600000;
+                        // console.log('hours', hours);
+                        var minutes = moduloHours / 60000;
+                        // console.log('minutes', minutes);
+                        if (parseFloat(days.toString()) < 0) {
+                            expiryDate = "COMPLETED";
+                        }
+                        else if (parseInt(days.toString()) >= 0) {
+                            if (parseInt(days.toString()) > 0) {
+                                expiryDate = parseInt(days.toString()) + " Days " + parseInt(hours.toString()) + " Hours " + parseInt(minutes.toString()) + " minutes ";
+                            }
+                            else if (parseInt(hours.toString()) >= 0) {
+                                if (parseInt(hours.toString()) > 0) {
+                                    expiryDate = parseInt(hours.toString()) + " Hours " + parseInt(minutes.toString()) + " minutes ";
+                                }
+                                else {
+                                    expiryDate = parseInt(minutes.toString()) + " minutes ";
+                                }
+                            }
+                        }
+                        else {
                             expiryDate = parseInt(days.toString()) + " Days " + parseInt(hours.toString()) + " Hours " + parseInt(minutes.toString()) + " minutes ";
-                        }
-                        else if (parseInt(hours.toString()) >= 0) {
-                            if (parseInt(hours.toString()) > 0) {
-                                expiryDate = parseInt(hours.toString()) + " Hours " + parseInt(minutes.toString()) + " minutes ";
-                            }
-                            else {
-                                expiryDate = parseInt(minutes.toString()) + " minutes ";
-                            }
-                        }
-                    }
-                    else {
-                        expiryDate = parseInt(days.toString()) + " Days " + parseInt(hours.toString()) + " Hours " + parseInt(minutes.toString()) + " minutes ";
+                        }*/
                     }
 
-                }
+                    if (r.fundraised) {
+                        fundraised = r.fundraised;
+                    }
 
-                if (r.fundraised) {
-                    fundraised = r.fundraised;
-                }
+                    if (totalbudget > 0) {
+                        progress = r.fundraised / totalbudget;
+                    }
 
-                if (totalbudget > 0) {
-                    progress = r.fundraised / totalbudget;
-                }
+                    if (r.description) {
+                        description = r.description;
+                    }
 
-                campaignList.push(new Campaign(campaignName, progress, expiryDate, totalbudget, fundraised));
-            });
+                    if (r.creationDate) {
+                        creationDate = r.creationDate;
+                    }
+
+                    allCampaigns.push(new Campaign(txnrefnumber, campaignName, progress, expiryDate, totalbudget, fundraised, description, creationDate));
+                });
+            }
+            campaignList = new CampaignList(allCampaigns, numPages, totalCamps);
         }
-
+        else {
+            campaignList = new CampaignList(allCampaigns, 0, 0);
+        }
         return campaignList;
     }
 

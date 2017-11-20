@@ -383,15 +383,21 @@ var campCont = {
                 cb(retErr);
             else {
                 var d = req.body;
-                if (d && d.merchantCode)
+                if (d && d.campaignName)
+                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
+                        {
+                            "campaignName": d.campaignName,
+                            "pageNumber": d.pageNumber
+                        }, cb);
+                else if (d && d.merchantCode)
                     helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
                         {
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
-                            "toDate": d.toDate
+                            "toDate": d.toDate,
+                            "sortColumn": d.sortColumn,
+                            "pageNumber": d.pageNumber
                         }, cb);
-                else
-                    cb(retErr);
             }
         }
         catch (err) {
