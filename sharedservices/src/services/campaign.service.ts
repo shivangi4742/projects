@@ -405,7 +405,7 @@ export class CampaignService {
         return Promise.reject(error.message || error);
     }
 
-    sendEmail(email:any, text:string, subject:string, cc:string, bcc:string): Promise<CampaignSummary> {
+    sendEmail(email:any, text:string, subject:string, cc:string): Promise<CampaignSummary> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.sendEmailURL,
             JSON.stringify({
@@ -413,7 +413,7 @@ export class CampaignService {
                 "text": text,
                 "subject": subject,
                 "cc": cc,
-                "bcc": bcc
+                "bcc": []
             }),
             { headers: this.utilsService.getHeaders() }
         )
