@@ -25,13 +25,13 @@
 
 .productWidgetBN {
     height: 200px;
-    max-height: 200px;
+    max-height: 220px;
     overflow-y: hidden;
 }
 
 .productCartWidgetBN {
-    height: 220px;
-    max-height: 220px;
+    height: 240px;
+    max-height: 260px;
     overflow-y: hidden;
 }
 

@@ -80,11 +80,17 @@ export class SDKService {
             if(mtype == 1 || !ttl)
                 ttl = res.merchantUser.displayName;
 
+            var expiryDate = '';
+            if(res.expiryDate){
+                let dt = new Date(res.expiryDate);
+                expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
+            }
+
             this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
                 res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
                 (mtype == 1) ? res.mobileNumber : '', ttl, 
-                res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, res.expiryDate, vpa, res.description ? res.description : '', 
+                res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
                 res.merchantUser.merchantCode, res.merchantUser.businessName, res.invoiceNumber, res.till, null, null, null, null, null, null, null, 
                 null, null, modes, null);
         }
@@ -185,11 +191,8 @@ export class SDKService {
     }
 
     getPaymentLinkDetails(campaignId: string): Promise<SDK> {
-        if(this._sdk && this._sdk.id)
-            return Promise.resolve(this._sdk);
-        else
-            return this.http
-                .post(this.utilsService.getBaseURL() + this._urls.getPaymentLinkDetailsURL,
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getPaymentLinkDetailsURL,
                 JSON.stringify({
                     "campaignId": campaignId
                 }),

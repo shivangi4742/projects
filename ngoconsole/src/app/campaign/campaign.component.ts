@@ -1,12 +1,15 @@
 import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDK, Status, HelpService } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
+import { Campaign } from "../../../../sharedservices/src/models/campaign.model";
+import { CampaignList } from "../../../../sharedservices/src/models/campaignlist.model";
+import { SDK } from "../../../../sharedservices/src/models/sdk.model";
 
 @Component({
   selector: 'campaign',
@@ -24,12 +27,23 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   uploading: boolean = false;
   bannerover: boolean = false;
   pg: number = 1;
+  campId: string = null;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
   todayX: string = 'Today';
   closeX: string = 'Close';
   clearX: string = 'Clear';
+  isInitial: boolean = true;
+  active: number = 0;
+  numPages: number;
+  page: number = 1;
+  fromDate: string =  this.utilsService.getLastYearDateString()+" 00:00:00";
+  toDate: string = this.utilsService.getCurDateString()+" 23:59:59";
+  sortColumn: string = null;
+  campaignName: string = null;
+  numCampaigns: number = 0;
+  selectedCamp: string;
   labelMonthNext: string = 'Next month';
   labelMonthNextX: string = 'Next month';
   labelMonthPrev: string = 'Previous month';
@@ -48,11 +62,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   modalActions: any = new EventEmitter<string|MaterializeAction>();
+  allCampaigns: Array<Campaign>;
+  campaignList: Array<CampaignList>;
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
 
-  constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService, 
+  constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService,
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
-    private helpService: HelpService) { }
+    private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -97,35 +113,97 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
     this.dateParams = [{format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 2, min: new Date(), monthsFull: this.monthsFull,
       monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
-      close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev, 
+      close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev,
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
+  }
+
+  getAllCampaigns(res: any){
+    this.numPages = res.numPages;
+    this.numCampaigns = res.totalCamps;
+    this.allCampaigns = res.allCampaigns;
+  }
+
+  updateAllCampaigns(){
+    if(this.campaignName){
+      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, this.page)
+        .then(res => this.getAllCampaigns(res));
+    }
+    else{
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, this.page)
+        .then(res => this.getAllCampaigns(res));
+    }
+  }
+
+  sortCampaigns(columnId: string){
+    if(columnId == "1")
+      this.sortColumn = "campaignName";
+    else if(columnId == "2")
+      this.sortColumn = "fundraised";
+    else if(columnId == "3")
+      this.sortColumn = "creationDate";
+    else
+      this.sortColumn = null;
+
+    this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, this.page)
+      .then(res => this.getAllCampaigns(res));
+  }
+
+  searchCampaigns(){
+    document.getElementById("searchCamp")
+      .addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+          document.getElementById("search").click();
+        }
+      });
   }
 
   private initUser(res: User) {
     if(res) {
       this.user = res;
-      this.uploadsURL = this.utilsService.getUploadsURL();      
+      this.uploadsURL = this.utilsService.getUploadsURL();
       this.isMobile = this.utilsService.isAnyMobile();
+
       let mtype: number = 2;
       if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
         mtype = 3;
 
       this.helpService.getHelpTexts(mtype)
         .then(hres => this.initHelp(hres));
-      this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-        mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null, 
-        this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, 
-        null, null, null);        
+
+      this.resetSdk();
+
+      this.campId = this.route.snapshot.params['txnRef'];
+      if (this.campId) {
+        if(this.campId != "new"){
+          this.sdkService.getPaymentLinkDetails(this.campId)
+            .then(dres => this.updateCampaign(dres));
+        }
+      }
+
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, this.page)
+        .then(cres => this.getAllCampaigns(cres));
     }
     else
-      window.location.href = this.utilsService.getLogoutPageURL();      
+      window.location.href = this.utilsService.getLogoutPageURL();
+  }
+
+  resetSdk(){
+    let mtype: number = 2;
+    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
+      mtype = 3;
+
+    this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+      mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
+      this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null,
+      null, null, null);
   }
 
   getDescLength(): string {
     if(this.sdk && this.sdk.description)
       return this.sdk.description.length.toString();
 
-    return '0';    
+    return '0';
   }
 
   getTitleLength(): string {
@@ -153,13 +231,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
           window.scrollTo(0, 0);
           this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
         }
-        else {          
+        else {
           this.uploading = true;
           this.bannerover = false;
           this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
         }
       }
-    }    
+    }
   }
 
   addProduct() {
@@ -169,6 +247,20 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   goToDashboard() {
     window.location.href = this.utilsService.getOldDashboardURL();
+  }
+
+  updateCampaign(cres: any){
+    this.sdk = cres;
+  }
+
+  campaignClicked(campId: any) {
+    this.selectedCamp = campId;
+    this.sdkService.getPaymentLinkDetails(campId)
+      .then(res => this.updateCampaign(res));
+  }
+
+  clone(id){
+    window.location.href='/mybiz/newcampaign/'+id;
   }
 
   invalidForm(): boolean {
@@ -190,7 +282,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     else {
       window.scrollTo(0, 0);
       this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
-    }      
+    }
   }
 
   create() {
@@ -201,7 +293,16 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     else {
       this.sdk.products = this.selProducts;
       this.campaignService.saveCampaign(this.sdk)
-        .then(res => this.created(res));    
+        .then(res => this.created(res));
+    }
+  }
+
+  setActiveTab(t: number) {
+    this.resetSdk();
+    this.selectedCamp = '';
+    if(this.active != t) {
+      this.active = t;
+      this.isInitial = false;
     }
   }
 
@@ -209,7 +310,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(this.showHelp && this.showHelp[key])
       return this.showHelp[key];
 
-    return '';    
+    return '';
   }
 
   has_help(key) {
@@ -229,7 +330,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() { }
-  
+
   closeModal() {
     this.selProducts = this.spc.getSelectedProducts();
     this.modalActions.emit({ action: "modal", params: ['close'] });

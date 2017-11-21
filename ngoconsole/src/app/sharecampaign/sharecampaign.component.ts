@@ -28,7 +28,7 @@ export class SharecampaignComponent implements OnInit {
   mtype: number = 2;
   email:string;
   cc:string;
-  bcc:string;
+  
   text:string;
   subject:string;
 
@@ -128,10 +128,10 @@ export class SharecampaignComponent implements OnInit {
     this.emailsend=true;
     this.text = "Dear " + slt + ", To " + pslt + ' to ' + this.user.displayName + ", please click on " + this.savedURL;
     this.cc = "";
-    this.bcc ="";
+    
     this.subject = this.sdk.title;
     this.utilsService.setStatus(false, false, '');
-    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc, this.bcc)
+    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc)
       .then (res => this.emailsent(res));
   }
 
