@@ -27,7 +27,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   uploading: boolean = false;
   bannerover: boolean = false;
   pg: number = 1;
-  campId: string = null;
+  campExpand: boolean = false;
+  isClone: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -36,7 +37,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   clearX: string = 'Clear';
   isInitial: boolean = true;
   active: number = 0;
-  numPages: number;
+  numPages: number  = 0;
   page: number = 1;
   fromDate: string =  this.utilsService.getLastYearDateString()+" 00:00:00";
   toDate: string = this.utilsService.getCurDateString()+" 23:59:59";
@@ -148,6 +149,37 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       .then(res => this.getAllCampaigns(res));
   }
 
+  next() {
+    let page = ++this.page;
+    this.allCampaigns = null;
+    this.numPages = 0;
+    window.scrollTo(0, 0);
+    if(this.campaignName){
+      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, page)
+        .then(res => this.getAllCampaigns(res));
+    }
+    else{
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, page)
+        .then(res => this.getAllCampaigns(res));
+    }
+  }
+
+  previous() {
+    let page = --this.page;
+    this.allCampaigns = null;
+    this.numPages = 0;
+    window.scrollTo(0, 0);
+    this.utilsService.setStatus(false, false, '');
+    if(this.campaignName){
+      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, page)
+        .then(res => this.getAllCampaigns(res));
+    }
+    else{
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, page)
+        .then(res => this.getAllCampaigns(res));
+    }
+  }
+
   searchCampaigns(){
     document.getElementById("searchCamp")
       .addEventListener("keyup", function(event) {
@@ -173,13 +205,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
       this.resetSdk();
 
-      this.campId = this.route.snapshot.params['txnRef'];
-      if (this.campId) {
-        if(this.campId != "new"){
-          this.sdkService.getPaymentLinkDetails(this.campId)
-            .then(dres => this.updateCampaign(dres));
-        }
-      }
+      let page = this.route.snapshot.params['page'];
+      if(page > 1)
+        this.page = page;
 
       this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, this.page)
         .then(cres => this.getAllCampaigns(cres));
@@ -254,13 +282,21 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   campaignClicked(campId: any) {
-    this.selectedCamp = campId;
+    if(this.selectedCamp != campId){
+      this.selectedCamp = campId;
+      this.campExpand = false;
+    }
+    this.campExpand = !this.campExpand;
     this.sdkService.getPaymentLinkDetails(campId)
       .then(res => this.updateCampaign(res));
   }
 
-  clone(id){
-    window.location.href='/mybiz/newcampaign/'+id;
+
+  clone(){
+    this.isClone = true;
+
+    let createTab = document.getElementById('create');
+    createTab.click();
   }
 
   invalidForm(): boolean {
@@ -298,12 +334,16 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   setActiveTab(t: number) {
-    this.resetSdk();
+    if(!this.isClone)
+      this.resetSdk();
+
     this.selectedCamp = '';
     if(this.active != t) {
       this.active = t;
       this.isInitial = false;
     }
+
+    this.isClone = false;
   }
 
   get_help(key) {
