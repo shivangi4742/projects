@@ -15,7 +15,7 @@ export class UtilsService {
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _requestURL:string = 'http://localhost:9090/paysdk';
+  private _requestURL:string = 'https://localhost/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
