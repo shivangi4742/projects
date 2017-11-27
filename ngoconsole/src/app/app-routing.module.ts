@@ -13,7 +13,6 @@ const routes: Routes = [
     { path: 'campaign', component: CampaignComponent },
     { path: 'sharecampaign/:id', component: SharecampaignComponent },
     { path: 'newcampaign', component: CampaignComponent },
-    { path: 'newcampaign/:txnRef', component: CampaignComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }

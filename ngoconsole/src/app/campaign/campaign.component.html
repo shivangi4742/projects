@@ -3,13 +3,13 @@
     <div class="row"></div>
     <div class="row">
       <div class="col s12 center">
-        <ul materialize="tabs" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
+        <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
           <li class="tab col s6 m6 l6 tabBottomBN">
             <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'"  id="create" (click)="setActiveTab(0)" href="#createCampaign">{{'Create Campaign' | translate}}</a>
             <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
           </li>
           <li class="tab col s6 m6 l6 tabBottomBN">
-            <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Manage Existing Campaigns ' | translate}}({{numCampaigns}})</a>
+            <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Manage Existing Campaigns ' | translate}}({{numCampaigns}})</a>
             <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
           </li>
           <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
@@ -331,7 +331,7 @@
             <li *ngFor="let campaign of allCampaigns; let i = index;">
               <div [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
                 <a class="linkButtonBN col s4 campNameBN" (click)="campaignClicked(campaign.txnrefnumber)">
-                  <i *ngIf="selectedCamp==campaign.txnrefnumber; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  <i *ngIf="selectedCamp==campaign.txnrefnumber && campExpand; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   <ng-template #right>
                     <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                   </ng-template>
@@ -367,7 +367,7 @@
                     <div class="row"></div>
                     <div class="row">
                       <div class="col s12 regNrmS2BN">
-                          <a class="linkButtonBN cloneBN" (click)="clone(campaign.txnrefnumber)">
+                          <a class="linkButtonBN cloneBN" (click)="clone()">
                             <i class="material-icons alignMidBN">content_copy</i>
                             <span class="alignMidBN">Clone Campaign</span>
                           </a>
@@ -378,7 +378,18 @@
               </div>
             </li>
           </ul>
-        </div>
+          <div class="row">
+            <div class="col s12" align="center">
+              <a class="linkButtonBN backToDashboardBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+                <i class="material-icons alignMidBN">navigate_before</i>
+                <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
+              </a>
+              <a class="linkButtonBN nextCampaignBN" (click)="next()" *ngIf="numPages > page">
+                <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
+                <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+              </a>
+            </div>
+          </div>
       </div>
     </div>
   </div>
