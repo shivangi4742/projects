@@ -114,14 +114,14 @@
                 </ul>
                 <ul class="right">
                     <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
-                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-small-only">
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-down">
                         <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
                             <span class="regNrmS5B1BN">{{'Notifications' | translate}}</span>
                             <i class="material-icons iconPrefixBN notifIconBN">notifications</i>
                             <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
                         </a>
                     </li>
-                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-up">
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-large-only">
                         <a (click)="notifModal()" class="noPadsIconBN">
                             <i class="material-icons iconPrefixBN notifIconBN">notifications</i>
                             <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
