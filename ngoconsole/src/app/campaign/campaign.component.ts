@@ -317,20 +317,17 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
     else {
       window.scrollTo(0, 0);
-      this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'You need to complete registration to be able to create an e-Stall');
+      else
+        this.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
     }
   }
 
   create() {
-    if(this.utilsService.getUnregistered()) {
-      window.scrollTo(0, 0);
-      this.utilsService.setStatus(true, false, 'You need to complete registration to be able to create an e-Stall');
-    }
-    else {
-      this.sdk.products = this.selProducts;
-      this.campaignService.saveCampaign(this.sdk)
-        .then(res => this.created(res));
-    }
+    this.sdk.products = this.selProducts;
+    this.campaignService.saveCampaign(this.sdk)
+      .then(res => this.created(res));
   }
 
   setActiveTab(t: number) {

@@ -35,7 +35,7 @@ export class LoginformComponent implements OnInit {
       .then(res => this.signIn(res))     
   }
 
-  signIn(res: any) {        
+  signIn(res: any) {   
     if(res && res.success != false) {
       this.user = this.userService.getCurrUser();
       if(res.jwtToken) {
@@ -81,7 +81,7 @@ export class LoginformComponent implements OnInit {
         }
       }
       else {
-        this.userService.setToken(false, { isUnregistered: true, email: this.user.email, userid: this.user.id, language: this.user.language, 
+        this.userService.setToken(this.keepSignedIn, { isUnregistered: true, email: this.user.email, userid: this.user.id, language: this.user.language, 
           lob: this.user.lob, displayName: this.user.displayName, mccCode: this.user.mccCode, merchantCode: this.user.merchantCode,
           mobileNumber: this.user.mobileNumber });
         window.location.href = this.utilsService.getMerchantDashboardPageURL();                   

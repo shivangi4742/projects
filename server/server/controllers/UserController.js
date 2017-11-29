@@ -112,7 +112,7 @@ var userCont = {
             else if (data && data.validationErrors && 
                 (data.validationErrors.user == 'User registration was not complete. Please register again.' ||
                 data.validationErrors.user == 'Your registration verification is pending. Please login once verification process is complete.')) {
-                me.fetchMerchantDetailsPost(d.email, req.headers, function(unrData) {
+                me.fetchMerchantDetailsPost(req.body.email, req.headers, function(unrData) {
                     if(unrData && unrData.success != false)
                         res.json({ "success": true, "merchant": unrData});
                     else

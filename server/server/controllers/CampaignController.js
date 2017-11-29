@@ -299,7 +299,7 @@ var campCont = {
                     }
 
                     var me = this;                    
-                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	
                             "merchantCode": d.merchantCode,
                             "mtype": d.mtype,

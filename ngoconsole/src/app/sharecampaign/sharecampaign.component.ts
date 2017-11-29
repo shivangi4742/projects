@@ -78,11 +78,17 @@ export class SharecampaignComponent implements OnInit {
 
   saveURL() {
     if(this.campaignURL && this.campaignURL.trim()) {
-      this.saving = true;
-      this.utilsService.setStatus(false, false, '');
-      this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
-        this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate)
-        .then(res => this.saved(res));
+      if(this.utilsService.getUnregistered()) {
+        window.scrollTo(0, 0);
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      }
+      else {
+        this.saving = true;
+        this.utilsService.setStatus(false, false, '');
+        this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
+          this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate)
+          .then(res => this.saved(res));
+      }
     }
   }
 
