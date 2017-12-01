@@ -81,38 +81,41 @@ export class SharecampaignComponent implements OnInit {
 
   saveURL() {
     if(this.campaignURL && this.campaignURL.trim()) {
-      if(this.utilsService.getUnregistered()) {
-        window.scrollTo(0, 0);
-        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
-      }
-      else {
-        this.saving = true;
-        this.utilsService.setStatus(false, false, '');
-        this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
-          this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate, this.sdk.mtype)
-          .then(res => this.saved(res));
-      }
+      this.saving = true;
+      this.utilsService.setStatus(false, false, '');
+      this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
+        this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate, this.sdk.mtype)
+        .then(res => this.saved(res));
     }
   }
 
   saved(res: any) {
     this.saving = false;
+    window.scrollTo(0, 0);
     if(res && res.success == true) {
       this.utilsService.setStatus(false, true, 'Successfully saved payment link');
       this.savedURL = this.campaignURLPrefix + this.campaignURL;
     }
     else if(res.errorCode === 'URL_IN_USE')
       this.utilsService.setStatus(true, false, 'This URL is already in use. Please choose a different URL');
-    else
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    else {
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    }
   }
 
   sent(res: any) {
     this.sending = false;
     if(res === true)
       this.utilsService.setStatus(false, true, 'Successfully sent campaign link in SMS');    
-    else
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+    else {
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);          
+    }
   }
 
   sms() {
@@ -146,11 +149,13 @@ export class SharecampaignComponent implements OnInit {
 
   emailsent(res: any) {
     this.emailsend = false;
-    if(res === true) {
+    if(res === true)
       this.utilsService.setStatus(false, true, 'Successfully sent campaign link in email');    
-  }
     else {
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+    }
   }
-}
 }

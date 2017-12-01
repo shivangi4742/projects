@@ -11,6 +11,7 @@ export class AddproductComponent implements OnInit {
   imgErrMsg: string;
   uploadsURL: string;
   uploading: boolean = false;
+  mtype: number = 3;
   newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
   @Input('edit') edit: boolean;
   @Input('user') user: User;
@@ -21,6 +22,8 @@ export class AddproductComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.utilsService.isNGO(this.user.mccCode))
+      this.mtype = 2;
   }
 
   hasImage(): boolean {
@@ -32,7 +35,7 @@ export class AddproductComponent implements OnInit {
 
   canBeSaved(p: Product): boolean {
     if(this.newProd && this.newProd.id && p && p.id && this.newProd.name && this.newProd.name.trim() && this.newProd.name.trim().length > 0
-      && this.newProd.price > 0) {
+      && (this.newProd.price > 0 || this.mtype != 2)) {
       if(p.name != this.newProd.name)
         return true;
 

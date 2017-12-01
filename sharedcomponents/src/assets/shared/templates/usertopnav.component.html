@@ -11,7 +11,7 @@
     <div id="notifications" class="dropdown-content grey lighten-5 notificationsMenuBN" (touchstart)="stopBubble($event)" (click)="stopBubble($event)">
          <notifications [notifications]="notifications" [user]="user"></notifications> 
     </div>
-    <ul id="account" class="dropdown-content grey lighten-5 topNavDDMenuBN">
+    <ul id="account" [ngClass]="mtype == 2 ? 'dropdown-content grey lighten-5 topNavDDMenuNGOBN' : 'dropdown-content grey lighten-5 topNavDDMenuBN'">
         <li *ngIf="!onTilConsole()">
             <a (click)="goTo('tilconsole')">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 

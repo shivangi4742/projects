@@ -19,6 +19,10 @@ export class AppComponent {
         return;
 
       document.body.scrollTop = 0;
+      if((window as any).ga) {
+        (window as any).ga('set', 'page', window.location.href.replace('https://merchant.benow.in/', ''));
+        (window as any).ga('send', 'pageview');
+      }
     });
   }
 }
