@@ -16,6 +16,7 @@ export class SelectproductsComponent implements OnInit {
   pg: number = 1;
   active: number = 0;
   numPages: number = 1;
+  mtype: number = 1;
   newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
   @Input('user') user: User;
   @Input('modalActions') modalActions: any;
@@ -105,6 +106,11 @@ export class SelectproductsComponent implements OnInit {
   }
 
   initialize() {
+    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
+      this.mtype = 3;
+    else if(this.utilsService.isNGO(this.user.mccCode))
+      this.mtype = 2;
+    
     if(!this.products || this.products.length <= 0) {
       this.pg = 1;
       this.loading = true;

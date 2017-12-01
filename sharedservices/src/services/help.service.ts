@@ -22,13 +22,13 @@ export class HelpService {
         return {};
     }
 
-    getHelpTexts(): Promise<any> {
+    getHelpTexts(mtype: number): Promise<any> {
         if(this._help)
             return Promise.resolve(this._help);
         else
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.getHelpTextsURL,
-                null,
+                JSON.stringify({ mtype: mtype }),
                 { headers: this.utilsService.getHeaders() })
                 .toPromise()
                 .then(res => this.fillHelp(res.json()))

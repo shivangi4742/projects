@@ -19,5 +19,6 @@ export class PG {
     public udf2: string,
     public udf3: string,
     public udf4: string,
-    public udf5: string) { }
+    public udf5: string,
+    public mtype: number) { }
 }

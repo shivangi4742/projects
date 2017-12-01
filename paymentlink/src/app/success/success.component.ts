@@ -14,6 +14,7 @@ export class SuccessComponent implements OnInit {
   products: Array<Product>;
   pay: any;
   loaded: boolean = false;
+  mtype: number = 1;
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService,
     private transactionService: TransactionService) { }
@@ -25,6 +26,7 @@ export class SuccessComponent implements OnInit {
     if(this.pay && this.pay.amount > 0) {
       this.products = this.pay.products;
       this.loaded = true;
+      this.mtype = this.pay.mtype;
     }
     else
       this.productService.getProductsForTransaction(this.id, this.txnid)
@@ -33,12 +35,14 @@ export class SuccessComponent implements OnInit {
 
   assignSDKDetails(res: SDK) {
     if(res && res.id) {
+      this.mtype = res.merchantType;
       this.pay.title = res.businessName;
       this.loaded = true;
     }
   }
 
   getSDKDetailsForNonProduct(sres: SDK) {
+    this.mtype = sres.merchantType;
     this.pay = {
       title: sres.businessName,
       txnid: this.txnid,

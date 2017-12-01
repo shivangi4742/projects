@@ -19,10 +19,14 @@ export class UserTopNavComponent {
   tmLoad: string;
   notifications: Notification[]|null;
   isNGO: boolean = false;
+  isPolling: boolean = false;
+  isUnregistered: boolean = false;
   hasNotifications: boolean = false;
   notifInitialized: boolean = false;
   numUnreadNotifs: number = 0;
+  catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
+  campaignURL: string = '/newestall';
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   @Input('mtype') mtype: number;
   @Input('user') user: User;
@@ -36,24 +40,33 @@ export class UserTopNavComponent {
   }
 
   hasCampaign(): boolean {
-    if(window.location.href.indexOf('campaign') > 1)
+    if(window.location.href.indexOf('campaign') > 1 || window.location.href.indexOf('estall') > 1)
       return false;
 
-    return this.mtype == 3;    
+    return this.mtype > 1;    
   }
 
   hasCatalog(): boolean {
-    if(window.location.href.indexOf('/catalog') > 1)
+    if(window.location.href.indexOf('/catalog') > 1 || window.location.href.indexOf('/donationoptions') > 1)
       return false;
 
-    return this.mtype == 3;
+    return this.mtype > 1;
   }
 
   init() {
     if(!this.notifInitialized)
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
         .then(res => this.fillNotifications(res));
-   }
+  }
+
+  loginPolls() {
+    if(this.utilsService.getxauth() || this.utilsService.getUnregistered()) {
+      let me = this;
+      setTimeout(function() { me.loginPolls(); }, 5000);        
+    }
+    else
+      window.location.href = this.utilsService.getLogoutPageURL();
+  }
 
   ngOnInit() {
     this.hasTils = this.user.hasTils;
@@ -62,6 +75,11 @@ export class UserTopNavComponent {
     this.name = this.user.displayName;
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
+    this.isUnregistered = this.utilsService.getUnregistered();
+    let me = this;
+    if(!this.isPolling)
+      setTimeout(function() { me.loginPolls(); }, 5000);
+
     if(this.name && this.name.length > 15)
       this.name = this.name.substring(0, 14) + '...';
 
@@ -69,6 +87,11 @@ export class UserTopNavComponent {
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
         .then(res => this.fillNotifications(res));
  
+    if(this.mtype == 2) {
+      this.campaignURL = '/newcampaign';      
+      this.catalogURL = '/donationoptions';
+    }
+
     if(this.language < 1)
       this.language = 1;
   }
@@ -143,7 +166,7 @@ export class UserTopNavComponent {
   }
 
   onInvices(): boolean {
-    if(this.isNGO || this.user.isSuperAdmin || this.utilsService.isHB(this.user.merchantCode))
+    if(this.isNGO || this.user.isSuperAdmin || this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       return true;
 
     if(this.hasTils && !this.isTilManager)

@@ -7,7 +7,7 @@
       <div class="row"></div>
       <div class="row valign-wrapper">
         <div class="col m1 l2 hide-on-small-only"></div>
-        <div class="input-field col s12 m10 l8">{{'Pay Your Gas Bill'}}</div>
+        <div class="input-field col s12 m10 l8">Pay your Gas Bill</div>
         <div class="col m1 l2 hide-on-small-only"></div>
       </div>
       <form (ngSubmit)="onSubmit()" #custoForm="ngForm">
@@ -16,7 +16,7 @@
             <div class="col m1 l2 hide-on-small-only"></div>
             <div class="input-field col s12 m10 l8">
               <input id="Operator" name="Operator" type="text" class="validate regNrmS4BN" value="Mahanagar Gas- Mumbai" required>
-              <label for="Operator" class="active">{{'Select Operator' | translate}}</label>
+              <label for="Operator" class="active">Select Operator</label>
             </div>
             <div class="col m1 l2 hide-on-small-only"></div>
           </div>
@@ -26,7 +26,7 @@
               <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
                 class="validate regNrmS4BN" maxlength="12" title="please enter a valid 12 digit consumer no."
                 [(ngModel)]="CsmNo"  required>
-              <label for="CsmNo">{{'Consumer Number' | translate}}</label>
+              <label for="CsmNo">Consumer Number</label>
             </div>
             <div class="col m1 l2 hide-on-small-only"></div>
           </div>
@@ -44,7 +44,7 @@
         </div>
         <div class="row valign-wrapper">
           <div class="col m1 l2 hide-on-small-only"></div>
-          <button [disabled]=" hasAllRequiredFields()" class="btn waves-effect waves-light col s10 m6 l6 red regNrmS2BN buttonBN" type="submit" name="Proceed">{{'Proceed to Bill Pay' | translate}}
+          <button [disabled]=" hasAllRequiredFields()" class="btn waves-effect waves-light col s10 m6 l6 red regNrmS2BN buttonBN" type="submit" name="Proceed">Proceed to Pay Bill
               <i class="material-icons right">send</i>
             </button>
           <div class="col l1 hide-on-med-and-down"></div>

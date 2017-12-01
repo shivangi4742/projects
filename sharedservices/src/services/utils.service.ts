@@ -11,10 +11,11 @@ export class UtilsService {
   private _status: Status;
 
   private _isNGO: boolean = false;
+  private _isUnRegistered: boolean = false;
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _requestURL:string = 'http://localhost:9090/paysdk';
+  private _requestURL:string = 'https://localhost/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
@@ -38,7 +39,13 @@ export class UtilsService {
     return this._redirectURL;
   }
 
-  isHB(mCode: string|null): boolean {
+  isHB(mCode: string|null, lob: string|null): boolean {
+    if(this._isUnRegistered)
+      return true;
+    
+    if(lob && lob.trim().toUpperCase() == 'HB')
+      return true;
+
     if(mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5' || 
       mCode === 'AL7I2' || mCode === 'ALA73')
       return true;
@@ -122,6 +129,12 @@ export class UtilsService {
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy; 
   }
 
+  public getCurDateString(): string {
+        let dt = new Date();
+        let yy = dt.getFullYear();
+        return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
+  }
+
   public setStatus(isError: boolean, isSuccess: boolean, msg: string) {
     this._status.isError = isError;
     this._status.isSuccess = isSuccess;
@@ -150,6 +163,35 @@ export class UtilsService {
       this._headers['X-EMAIL'] = this._uname;
 
     return new Headers(this._headers);
+  }
+
+  setUnregistered(u: boolean) {
+    this._isUnRegistered = u;
+  }
+
+  getUnregistered(): boolean {
+    return this._isUnRegistered;
+  }
+  
+  getxauth(): string {
+    let bnMRC: any;
+    let tkstr;
+    let tk: string|null = sessionStorage.getItem('bnMRC');
+    if(tk)
+      tkstr = tk.toString();
+    else {
+      tk = localStorage.getItem('bnMRC');
+      if(tk)
+        tkstr = tk.toString();
+    }
+
+    if(tkstr)
+      bnMRC = JSON.parse(tkstr);
+
+    if(bnMRC && bnMRC.token)
+      return bnMRC.token.toString();
+    
+    return '';
   }
 
   getFileHeaders(): Headers {

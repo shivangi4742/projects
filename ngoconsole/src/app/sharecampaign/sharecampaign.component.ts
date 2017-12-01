@@ -26,9 +26,10 @@ export class SharecampaignComponent implements OnInit {
   isMobile: boolean = false;
   hasProducts: boolean = false;
   mtype: number = 2;
+  campaignLink: string = '/newcampaign';
   email:string;
   cc:string;
-  bcc:string;
+  
   text:string;
   subject:string;
 
@@ -66,8 +67,10 @@ export class SharecampaignComponent implements OnInit {
     if(this.id && res) {
       this.user = res;
       this.isMobile = this.utilsService.isAnyMobile();
-      if(this.utilsService.isHB(this.user.merchantCode))
+      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)) {
         this.mtype = 3;
+        this.campaignLink = '/newestall';
+      }
       
       this.campaignService.getCampaign(this.id, this.mtype)
         .then(cmp => this.initCampaign(cmp));
@@ -81,29 +84,38 @@ export class SharecampaignComponent implements OnInit {
       this.saving = true;
       this.utilsService.setStatus(false, false, '');
       this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
-        this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate)
+        this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate, this.sdk.mtype)
         .then(res => this.saved(res));
     }
   }
 
   saved(res: any) {
     this.saving = false;
+    window.scrollTo(0, 0);
     if(res && res.success == true) {
       this.utilsService.setStatus(false, true, 'Successfully saved payment link');
       this.savedURL = this.campaignURLPrefix + this.campaignURL;
     }
     else if(res.errorCode === 'URL_IN_USE')
       this.utilsService.setStatus(true, false, 'This URL is already in use. Please choose a different URL');
-    else
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    else {
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    }
   }
 
   sent(res: any) {
     this.sending = false;
     if(res === true)
       this.utilsService.setStatus(false, true, 'Successfully sent campaign link in SMS');    
-    else
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+    else {
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);          
+    }
   }
 
   sms() {
@@ -118,23 +130,32 @@ export class SharecampaignComponent implements OnInit {
   }
 
   emaiil() {
+    let slt: string = 'Customer';
+    let pslt: string = 'pay';
+    if(this.sdk.merchantType == 2) {
+      slt = 'Donor';
+      pslt = 'contribute';
+    }
+
     this.emailsend=true;
-    this.text = "Dear Customer, To pay BENOW SMALL  BUSINESS, Please click on " + this.savedURL;
+    this.text = "Dear " + slt + ", To " + pslt + ' to ' + this.user.displayName + ", please click on " + this.savedURL;
     this.cc = "";
-    this.bcc ="";
-    this.subject ="Benow Small Business";
+    
+    this.subject = this.sdk.title;
     this.utilsService.setStatus(false, false, '');
-    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc, this.bcc)
+    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc)
       .then (res => this.emailsent(res));
   }
 
   emailsent(res: any) {
     this.emailsend = false;
-    if(res === true) {
+    if(res === true)
       this.utilsService.setStatus(false, true, 'Successfully sent campaign link in email');    
-  }
     else {
-      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+      if(this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share campaign URL');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);    
+    }
   }
-}
 }

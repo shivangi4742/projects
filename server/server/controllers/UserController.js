@@ -19,7 +19,7 @@ var userCont = {
         }
     },
     
-    signInTilPost: function (req, token, cb) {
+    signInTilPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -76,16 +76,54 @@ var userCont = {
         }
     },
 
+    fetchMerchantDetailsPost: function(email, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if (!email)
+                cb(retErr);
+            else
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', hdrs),
+                    {
+                        "userId": email
+                    },
+                    cb);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     signIn: function (req, res) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        };
         res.setHeader("X-Frame-Options", "DENY");
         var me = this;
         this.signInPost(req, function (data) {
             if (data && data.jwtToken) {
                 res.json(data);
             }
+            else if (data && data.validationErrors && 
+                (data.validationErrors.user == 'User registration was not complete. Please register again.' ||
+                data.validationErrors.user == 'Your registration verification is pending. Please login once verification process is complete.')) {
+                me.fetchMerchantDetailsPost(req.body.email, req.headers, function(unrData) {
+                    if(unrData && unrData.success != false)
+                        res.json({ "success": true, "merchant": unrData});
+                    else
+                        res.json(retErr);
+                });
+            }
             else {
                 me.signInTilPost(req, function (empData) {
-                    if (empData && empData.jwtToken && empData.employee_role && empData.employee_role.trim().toLowerCase() == 'benow merchant associate') {
+                    if (empData && empData.jwtToken && empData.employee_role && 
+                        (empData.employee_role.trim().toLowerCase() == 'benow merchant associate'
+                        || empData.employee_role.trim().toLowerCase() == 'benow merchant manager')) {
                         var ts = empData.jwtToken.split('.');
                         if (ts && ts.length > 1) {
                             var dt = JSON.parse(atob(ts[1]));

@@ -11,7 +11,7 @@
     <div id="notifications" class="dropdown-content grey lighten-5 notificationsMenuBN" (touchstart)="stopBubble($event)" (click)="stopBubble($event)">
          <notifications [notifications]="notifications" [user]="user"></notifications> 
     </div>
-    <ul id="account" class="dropdown-content grey lighten-5 topNavDDMenuBN">
+    <ul id="account" [ngClass]="mtype == 2 ? 'dropdown-content grey lighten-5 topNavDDMenuNGOBN' : 'dropdown-content grey lighten-5 topNavDDMenuBN'">
         <li *ngIf="!onTilConsole()">
             <a (click)="goTo('tilconsole')">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
@@ -37,7 +37,7 @@
             </a>
         </li>
         <li *ngIf="hasCampaign()">
-            <a [routerLink]="'/newcampaign'">
+            <a [routerLink]="campaignURL">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">loyalty</i>
                     {{'Create Campaign' | translate}} 
@@ -45,7 +45,7 @@
             </a>
         </li>
         <li *ngIf="hasCatalog()">
-            <a [routerLink]="'/catalog'">
+            <a [routerLink]="catalogURL">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">store</i>
                     {{'Manage Catalog' | translate}} 
@@ -114,6 +114,20 @@
                 </ul>
                 <ul class="right">
                     <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-down">
+                        <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
+                            <span class="regNrmS5B1BN">{{'Notifications' | translate}}</span>
+                            <i class="material-icons iconPrefixBN notifIconBN">notifications</i>
+                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
+                        </a>
+                    </li>
+                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-large-only">
+                        <a (click)="notifModal()" class="noPadsIconBN">
+                            <i class="material-icons iconPrefixBN notifIconBN">notifications</i>
+                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
+                        </a>
+                    </li>
+                    <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
                     <li class="navInfoBN hide-on-small-only">
                         <span class="regNrmS4BN">{{'Welcome' | translate}}, </span>
                         <span class="errNrmS4B2BN">{{name}}</span>
@@ -121,22 +135,10 @@
                         <span class="regNrmS7BN">{{tmLoad}}</span>
                     </li>
                     <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
-                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-small-only">
-                        <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="notifications" data-beloworigin="true">
-                            <i class="material-icons iconPrefixBN notifIconBN">email</i>
-                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
-                        </a>
-                    </li>
-                    <li *ngIf="hasNotifications && !onNotifications()" class="hide-on-med-and-up">
-                        <a (click)="notifModal()" class="noPadsIconBN">
-                            <i class="material-icons iconPrefixBN notifIconBN">email</i>
-                            <span class="errNrmS8B1BN notifNumBN" *ngIf="numUnreadNotifs > 0">&nbsp;{{numUnreadNotifs}}&nbsp;</span>
-                        </a>
-                    </li>
-                    <li class="hide-on-small-only">&nbsp;&nbsp;&nbsp;</li>
                     <li>
                         <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
-                            <i class="material-icons iconPrefixBN">more_vert</i>
+                            <i class="hide-on-small-only material-icons iconPrefixBN">menu</i>
+                            <i class="hide-on-med-and-up material-icons iconPrefixBN">more_vert</i>
                         </a>
                     </li>
                 </ul>        
@@ -144,3 +146,10 @@
         </div>
     </div>
 </nav>
+<div *ngIf="isUnregistered" class="row nilPadsBN">
+    <div class="col s10 offset-s1 errNrmS5B1BN center">
+        {{'Your registration is incomplete! You will not be able to use most features.' | translate}}
+        <a href="https://merchant.benow.in/mrlogin/1">{{'CLICK HERE' | translate}}</a>
+        {{'to complete your registration.' | translate}}
+    </div>
+</div>

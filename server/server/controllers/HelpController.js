@@ -14,11 +14,15 @@ var helpCont = {
             "errorCode": "Not able to get help."
         };
 
+        var pcode = '0';
+        if(req.body.mtype == 2)
+            pcode = '1';
+
         try {
             helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getParameters', 'POST', req.headers),
                 {
                     "paramType": "help",
-                    "paramCode": "0"
+                    "paramCode": pcode
                 }, cb);
         }
         catch (err) {

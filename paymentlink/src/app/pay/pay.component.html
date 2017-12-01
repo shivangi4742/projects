@@ -7,8 +7,11 @@
     <div class="row"></div>
     <div class="row"></div>
     <div class="row">
-      <span *ngIf="upiMode == 1" class="col s12 center regNrmS2B1BN">
+      <span *ngIf="upiMode == 1 && pay.merchantType != 2" class="col s12 center regNrmS2B1BN">
         <span>{{'Waiting for completion of payment through UPI app' | translate}}</span>
+      </span>
+      <span *ngIf="upiMode == 1 && pay.merchantType == 2" class="col s12 center regNrmS2B1BN">
+        <span>{{'Waiting for completion of contribution through UPI app' | translate}}</span>
       </span>
       <span *ngIf="upiMode == 2" class="col s12 center regNrmS2B1BN">
         <span>{{'Waiting for approval of collection request' | translate}}</span>
@@ -16,7 +19,10 @@
     </div>
     <div class="row">
       <div class="col s12 m12 l12 center">
-        <a class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payano" (click)="backFromApp()">{{'Back to Payment page' | translate}}</a>
+        <a class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payano" *ngIf="pay.merchantType != 2"
+          (click)="backFromApp()">{{'Back to Payment page' | translate}}</a>
+        <a class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payano" *ngIf="pay.merchantType == 2" 
+          (click)="backFromApp()">{{'Back to Contribution page' | translate}}</a>
       </div>
     </div>
     <div class="row"></div>
@@ -47,7 +53,8 @@
         <div class="row hide-on-small-only"></div>
         <div class="row">
           <div class="valign-wrapper">
-            <span class="col s12 center regNrmS5BN payToPayBN">{{'To Pay' | translate}}</span>
+            <span class="col s12 center regNrmS5BN payToPayBN" *ngIf="pay.merchantType != 2">{{'To Pay' | translate}}</span>
+            <span class="col s12 center regNrmS5BN payToPayBN" *ngIf="pay.merchantType == 2">{{'To Contribute' | translate}}</span>
           </div>
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
@@ -126,7 +133,8 @@
       </div>
       <div class="row">
         <div class="valign-wrapper">
-          <span class="col s12 center regNrmS4B1BN">{{'Select Payment Mode'| translate}}</span>
+          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Select Payment Mode'| translate}}</span>
+          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Select Contribution Mode'| translate}}</span>
         </div>
       </div>
       <div class="row">
@@ -176,7 +184,8 @@
                     <div *ngIf="qrURL">
                       <div class="row"></div>
                       <div class="row">
-                        <span class="col s12 center regNrmS4B1BN">{{'Scan QR code to make payment' | translate}}</span>
+                        <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Scan QR code to make payment' | translate}}</span>
+                        <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Scan QR code to make contribution' | translate}}</span>
                       </div>
                       <div class="row">
                         <div class="valign-wrapper">
@@ -239,7 +248,10 @@
                       <div class="row">
                         <div class="col s12 center">
                           <a target="_blank" [attr.href]="sanitize(upiURL)" (click)="waitForUPIPayment()">
-                            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN">{{'Pay' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
+                            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN"
+                              *ngIf="pay.merchantType != 2">{{'Pay' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
+                            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN"
+                              *ngIf="pay.merchantType == 2">{{'Contribute' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
                           </a>
                         </div>
                       </div>
@@ -249,7 +261,8 @@
                       <div class="row"></div>
                       <div class="row"></div>
                       <div class="row">
-                        <span class="col s12 regNrmS4B1BN">{{'Generating payment link' | translate}}....</span>
+                        <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Generating payment link' | translate}}....</span>
+                        <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Generating contribution link' | translate}}....</span>
                       </div>
                       <div class="row"></div>
                       <div class="row"></div>
@@ -275,7 +288,10 @@
                   <div class="row"></div>
                   <div class="row"></div>
                   <div class="row">
-                    <span class="col s12 errNrmS4B1BN">{{'Error in generating payment link. Please try again.' | translate}}....</span>
+                    <span class="col s12 errNrmS4B1BN"
+                      *ngIf="pay.merchantType != 2">{{'Error in generating payment link. Please try again.' | translate}}....</span>
+                    <span class="col s12 errNrmS4B1BN"
+                      *ngIf="pay.merchantType == 2">{{'Error in generating contribution link. Please try again.' | translate}}....</span>
                   </div>
                   <div class="row"></div>
                   <div class="row"></div>

@@ -28,6 +28,8 @@ var campaignRouter = require('./server/routers/CampaignRouter');
 var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
+var ZgRouter = require('./server/routers/ZgRouter');
+var ZgController = require('./server/controllers/ZgController')
 var MglRouter = require('./server/routers/MglRouter');
 var MglController = require('./server/controllers/MglController')
 function setup(ssl) {
@@ -79,8 +81,10 @@ app.use(config.base + '/product', productRouter);
 app.use(config.base + '/campaign', campaignRouter);
 app.use(config.base + '/ntfctn', notificationRouter);
 app.use(config.base + '/txn', transactionRouter);
+app.use(config.base + '/zgsvc', ZgRouter);
 app.use(config.base + '/mglpay', MglRouter);
 app.use(config.base + '/payments', MglRouter);
+app.use(config.base + '/zg', express.static(__dirname + urls.zgDir));
 app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
@@ -137,7 +141,12 @@ app.get(config.base + '/mgl/*', function (req, res) {
 	res.sendFile(urls.mglHome, { root: __dirname });
 });
 
-app.get(config.base + '/ppl/*', function (req, res) {
+app.get(config.base + '/zg/*', function(req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	res.sendFile(urls.zgHome, {root: __dirname });
+});
+
+app.get(config.base + '/ppl/*', function(req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	res.sendFile(urls.pplHome, { root: __dirname });
 });
@@ -149,14 +158,28 @@ app.post(config.base + '/ppl/paymentsuccess/:id/:txnid', function (req, res) {
 	});
 });
 
-app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function (req, res) {
+app.post(config.base + '/ppl/donationsuccess/:id/:txnid', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.paymentSuccess(req, function() {
+		res.sendFile(urls.pplHome, {root: __dirname });
+	});
+});
+
+app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function(req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	sdkController.paymentFailure(req, function () {
 		res.sendFile(urls.pplHome, { root: __dirname });
 	});
 });
 
-app.get(config.base + '/r/:mid/:link', function (req, res) {
+app.post(config.base + '/ppl/donationfailure/:id/:txnid', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.paymentFailure(req, function() {
+		res.sendFile(urls.pplHome, {root: __dirname });
+	});
+});
+
+app.get(config.base + '/r/:mid/:link', function(req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	sdkController.getCampaignLinkDetails(req.params.mid, req.params.link, req.headers, function (data) {
 		if (data && data.desc1) {

@@ -35,45 +35,56 @@ export class LoginformComponent implements OnInit {
       .then(res => this.signIn(res))     
   }
 
-  signIn(res: any) {        
-    if(res && res.success != false && res.jwtToken) {
-      if(this.user.hasTils) {
-        (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
-        if(this.user.isTilManager) {
-          this.userService.setToken(this.keepSignedIn, { 
-            token: res.jwtToken, 
-            username: this.user.email, 
-            language: this.user.language ,
-            hasTils: this.user.hasTils,
-            tilLogin: this.user.tilLogin,
-            isTilManager: this.user.isTilManager
-          });     
-          window.location.href = this.utilsService.getManagerDashboardPageURL();
+  signIn(res: any) {   
+    if(res && res.success != false) {
+      this.user = this.userService.getCurrUser();
+      if(res.jwtToken) {
+        if(this.user.hasTils) {
+          (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
+          if(this.user.isTilManager) {
+            this.userService.setToken(this.keepSignedIn, { 
+              token: res.jwtToken, 
+              userid: this.user.id,
+              username: this.user.email, 
+              language: this.user.language ,
+              hasTils: this.user.hasTils,
+              tilLogin: this.user.tilLogin,
+              isTilManager: this.user.isTilManager
+            });     
+            window.location.href = this.utilsService.getManagerDashboardPageURL();
+          }
+          else {
+            this.user.tilNumber = '';
+            this.modalActions.emit({action:"modal",params:['open']});
+          }
         }
         else {
-          this.user.tilNumber = '';
-          this.modalActions.emit({action:"modal",params:['open']});
+          if(this.user.isSuperAdmin) {
+            (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - admin console');
+            this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language, 
+              isSuperAdmin: this.user.isSuperAdmin, userid: this.user.id });
+              window.location.href = this.utilsService.getAdminDashboardPageURL();
+          }
+          else {
+            if(this.userService.isNGO())
+              (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - ngo console');
+            else
+              (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
+
+            this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language, 
+              lob: this.user.lob, userid: this.user.id });
+            if(this.userService.isNGO())
+              window.location.href = this.utilsService.getNGODashboardPageURL();
+            else
+              window.location.href = this.utilsService.getMerchantDashboardPageURL();
+          }
         }
       }
       else {
-        if(this.user.isSuperAdmin) {
-          (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - admin console');
-          this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language, 
-            isSuperAdmin: this.user.isSuperAdmin });
-            window.location.href = this.utilsService.getAdminDashboardPageURL();
-        }
-        else {
-          if(this.userService.isNGO())
-            (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - ngo console');
-          else
-            (document as any).title = this.utilsService.getDocTitle(this.user.language, 'benow - merchant console');
-
-          this.userService.setToken(this.keepSignedIn, { token: res.jwtToken, username: this.user.email, language: this.user.language });
-          if(this.userService.isNGO())
-            window.location.href = this.utilsService.getNGODashboardPageURL();
-          else
-            window.location.href = this.utilsService.getMerchantDashboardPageURL();
-        }
+        this.userService.setToken(this.keepSignedIn, { isUnregistered: true, email: this.user.email, userid: this.user.id, language: this.user.language, 
+          lob: this.user.lob, displayName: this.user.displayName, mccCode: this.user.mccCode, merchantCode: this.user.merchantCode,
+          mobileNumber: this.user.mobileNumber });
+        window.location.href = this.utilsService.getMerchantDashboardPageURL();                   
       }
     }
     else {

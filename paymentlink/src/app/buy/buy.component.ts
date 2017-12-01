@@ -53,8 +53,13 @@ export class BuyComponent implements OnInit {
       this.uploadsURL = this.utilsService.getUploadsURL();
       this.products = res;
     }
-    else
-      this.router.navigateByUrl('/pay/' + this.id);
+    else {
+      if(this.sdk.mtype == 2)
+        this.router.navigateByUrl('/donate/' + this.id);
+      else
+        this.router.navigateByUrl('/pay/' + this.id);
+
+    }
   }
 
   isInvalid(): boolean {
@@ -77,7 +82,10 @@ export class BuyComponent implements OnInit {
       }
 
       this.sdkService.setProductsInSDK(selProds);
-      this.router.navigateByUrl('/pay/' + this.id + '/' + btoa(JSON.stringify(input))); 
+      if(this.sdk.mtype == 2)
+        this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify(input))); 
+      else
+        this.router.navigateByUrl('/pay/' + this.id + '/' + btoa(JSON.stringify(input))); 
     }
   }
 }

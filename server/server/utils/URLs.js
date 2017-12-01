@@ -13,6 +13,8 @@ var uRLs = {
     invalidLink: '/paymentlink/assets/paymentlink/invalidlink.html',
     expdLink: '/paymentlink/assets/paymentlink/expiredlink.html',
     mglDir: '/mgl',
+    zgDir: '/zg',
+    zgHome: '/zg/index.html',
     mglHome: '/mgl/index.html'
 };
 

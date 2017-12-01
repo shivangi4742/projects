@@ -133,7 +133,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null);
   }
 
   private changedPassword(res: any): any {
@@ -168,6 +168,25 @@ export class UserService {
     return { success: false, errorCode: res.errorCode };
   }
 
+  fillUnregisteredUser(token: any) {
+    this._user.displayName = token.displayName;
+    this._user.email = token.email;
+    this._user.mccCode = token.mccCode;
+    this._user.merchantCode = token.merchantCode;
+    this._user.mobileNumber = token.mobileNumber;
+    this._user.id = token.userid ? token.userid.toString() : '';
+    this._user.lob = token.lob;
+    this._user.language = token.language;
+    this._user.isTilManager = token.isTilManager;
+    this._user.hasTils = token.hasTils;
+    this._user.tilLogin = token.tilLogin;
+    this._user.tilNumber = token.tilNumber;
+    this._user.isSuperAdmin = token.isSuperAdmin;
+    this._user.isSuperMerchant = token.isSuperMerchant;    
+    this.utilsService.isNGO(this._user.mccCode);
+    this.utilsService.setUnregistered(true);
+  }
+
   private fillUserFromToken(tkn: string) {
     let ts = tkn.split('.');
     if(ts && ts.length > 1) {
@@ -187,23 +206,37 @@ export class UserService {
     }
   }
 
-  private fillUser(email: string, res: any) {    
+  private fillUser(email: string, res: any): any {    
     this._user.id = null;
-    if(res && res.success !== false && res.jwtToken) {
-      this.fillUserFromToken(res.jwtToken);
-      if(res.employee_role) {
-        this._user.tilLogin = email;
-        this._user.hasTils = true;
-        this._user.isTilManager = false;
-        this._user.isSuperAdmin = false;
-        if(res.employee_role.trim().toLowerCase() == 'benow administrator') {
-          this._user.hasTils = false;
-          this._user.isSuperAdmin = true;
+    if(res && res.success !== false) {
+      if(res.jwtToken) {
+        this._user.lob = res.business_lob;
+        this.fillUserFromToken(res.jwtToken);
+        if(res.employee_role) {
+          this._user.tilLogin = email;
+          this._user.hasTils = true;
+          this._user.isTilManager = false;
+          this._user.isSuperAdmin = false;
+          if(res.employee_role.trim().toLowerCase() == 'benow administrator') {
+            this._user.hasTils = false;
+            this._user.isSuperAdmin = true;
+          }
+          if(res.employee_role.trim().toLowerCase() == 'benow merchant manager')
+            this._user.isTilManager = true;
+          else
+            this._user.allTils = res.tils;
         }
-        if(res.employee_role.trim().toLowerCase() == 'benow merchant manager')
-          this._user.isTilManager = true;
-        else
-          this._user.allTils = res.tils;
+      }
+      else if(res.merchant) {
+        this._user.lob = res.merchant.businessLob ? res.merchant.businessLob : 'HB';
+        this._user.id = res.merchant.id ? res.merchant.id.toString() : '';        
+        this._user.displayName = res.merchant.displayName;
+        this._user.email = res.merchant.emailId;
+        this._user.mccCode = res.merchant.mccCode;
+        this._user.merchantCode = res.merchant.merchantCode;
+        this._user.mobileNumber = res.merchant.mobileNumber;
+        this.utilsService.isNGO(this._user.mccCode);
+        this.utilsService.setUnregistered(true);
       }
     }
 
@@ -234,7 +267,6 @@ export class UserService {
     if(ts && ts.length > 1) {
       let dt = JSON.parse(atob(ts[1]));
       if(dt && dt.sub && dt.data) {
-        this._user.id = dt.data.merchantId;
         this._user.displayName = dt.data.displayName;
         this._user.email = dt.sub;
         this._user.mccCode = dt.data.mccCode;
@@ -247,6 +279,8 @@ export class UserService {
       }
     }
 
+    this._user.id = token.userid;
+    this._user.lob = token.lob;
     this._user.isTilManager = token.isTilManager;
     this._user.hasTils = token.hasTils;
     this._user.tilLogin = token.tilLogin;
@@ -255,15 +289,19 @@ export class UserService {
   }
 
   private isTokenValid(tkn: any): Promise<User> {
-    this._user = new User(false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null);
-    if(tkn && tkn.token)
-      this.fillUserFromStoredToken(tkn);
+    this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null);
+    if(tkn) {
+      if(tkn.token)
+        this.fillUserFromStoredToken(tkn);
+      else
+        this.fillUnregisteredUser(tkn);
+    }
 
     return Promise.resolve(this._user);
   }
 
   private newUser(): Promise<User> {
-    this._user = new User(false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null);
     return Promise.resolve(this._user);
   }
 
@@ -297,19 +335,32 @@ export class UserService {
       this.utilsService.setUName(this._uname);
     }
     else {
-      this._uname = '';
-      this._token = '';
-      this._language = 0;
-      this._headers = {
-        'content-type': 'application/json'
-      };      
+      if(bnMRC && bnMRC.isUnregistered) {
+        this._uname = bnMRC.displayName;
+        this._language = +bnMRC.language;
+        this._headers = {
+          'content-type': 'application/json',
+        };
+        if(window.location.href.indexOf('/pay/') < 1 || window.location.href.indexOf('/donate/') < 1)
+          (document as any).title = this.getDocTitle(this._language);
+      }
+      else {
+        this._uname = '';
+        this._token = '';
+        this._language = 0;
+        this._headers = {
+          'content-type': 'application/json'
+        };      
+      }
     }    
 
     this.utilsService.setHeaders(this._headers);
   }
 
   private hasToken(): boolean {
-    if(this._uname && this._headers)
+    if(sessionStorage.getItem('bnMRC'))
+      return true;
+    else if(localStorage.getItem('bnMRC'))
       return true;
 
     return false;

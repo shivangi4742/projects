@@ -17,7 +17,7 @@ var campCont = {
 
         try {
             if (d && d.merchantCode && d.alias)
-                helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getParameters', 'POST', hdrs),
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getParameters', 'POST', hdrs),
                     {
                         "paramType": "alias",
                         "paramCode": d.merchantCode + '/' + d.alias
@@ -48,7 +48,7 @@ var campCont = {
                 else {
                     this.checkAliasAvailability(d, req.headers, function(adata) {
                         if(adata && adata.desc1) {
-                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
                             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
                             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
                             if(adata.desc1 === fullUrl)
@@ -85,7 +85,7 @@ var campCont = {
                 else {
                     this.checkAliasAvailability(d, req.headers, function(adata) {
                         if(adata && adata.desc1) {
-                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
                             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
                             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
                             if(adata.desc1 === fullUrl)
@@ -112,13 +112,13 @@ var campCont = {
         };
 
         try {
-            var lnk = d.hasProds ? '/buy/' : '/pay/';
+            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
             var title = d.campaignName ? d.campaignName : '';
             var description = d.description ? d.description : '';
             var expdt = d.expdt ? d.expdt : '';
-            helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
                 {
                     "paramType": 'alias',
                     "paramCode": d.merchantCode + '/' + d.alias,
@@ -148,12 +148,12 @@ var campCont = {
         };
 
         try {
-            var lnk = d.hasProds ? '/buy/' : '/pay/';
+            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
             var title = d.campaignName ? d.campaignName : '';
             var description = d.description ? d.description : '';
-            helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveParameters', 'POST', hdrs),
                 {
                     "paramType": 'alias',
                     "paramCode": d.merchantCode + '/' + d.alias,
@@ -212,12 +212,12 @@ var campCont = {
 
         try {
             if (mtype == 2)
-                helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Donor, To contribute for ' + campaignName + ', please click on ' + rUrl),
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
+                    encodeURI('Dear Donor, To contribute to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
             else
-                helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Customer, To pay ' + title + ', please click on ' + rUrl),
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
+                    encodeURI('Dear Customer, To pay to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
         }
         catch (err) {
@@ -260,7 +260,7 @@ var campCont = {
     saveCampaignProductsPost: function(merchantCode, products, counter, data, hdrs, cb) {
         if(products && products.length > counter) {
             var me = this;
-            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/saveCampaignProduct',
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/saveCampaignProduct',
                 'POST', hdrs),
                 {
                     "merchantCode": merchantCode,
@@ -299,11 +299,11 @@ var campCont = {
                     }
 
                     var me = this;                    
-                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	
                             "merchantCode": d.merchantCode,
                             "mtype": d.mtype,
-                            "customerName": d.title,
+                            "campaignName": d.title,
                             "mobileNumber": d.phone ? d.phone : '',
                             "amount": d.amount,
                             "totalbudget": d.campaignTarget,
@@ -350,7 +350,7 @@ var campCont = {
             else {
                 var d = req.body;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getCampaignSummary', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignSummary', 'POST', req.headers),
                         {
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
@@ -383,15 +383,21 @@ var campCont = {
                 cb(retErr);
             else {
                 var d = req.body;
-                if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
+                if (d && d.campaignName)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
+                        {
+                            "campaignName": d.campaignName,
+                            "pageNumber": d.pageNumber
+                        }, cb);
+                else if (d && d.merchantCode)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
                         {
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
-                            "toDate": d.toDate
+                            "toDate": d.toDate,
+                            "sortColumn": d.sortColumn,
+                            "pageNumber": d.pageNumber
                         }, cb);
-                else
-                    cb(retErr);
             }
         }
         catch (err) {
@@ -418,7 +424,7 @@ var campCont = {
             else {
                 var d = req.body;
                 if (d)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', req.headers),
                         {
                             "to": d.to,
                             "text": d.text,

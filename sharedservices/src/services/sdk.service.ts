@@ -51,10 +51,9 @@ export class SDKService {
                 vpa = res.merchantUser.defaultAcc.virtualAddress;
 
             let modes: Array<string> = new Array<string>();
-            modes.push('UPI');
-            if (res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
-                res.merchantUser.acceptedPaymentMethods.forEach(function (m: any) {
-                    if (m && m.paymentMethod) {
+            if(res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
+                res.merchantUser.acceptedPaymentMethods.forEach(function(m: any) {
+                    if(m && m.paymentMethod) {
                         if ((m.paymentMethod == 'CREDIT_CARD' || m.paymentMethod == 'CC') && modes.indexOf('CC') < 0)
                             modes.push('CC');
                         else if ((m.paymentMethod == 'DEBIT_CARD' || m.paymentMethod == 'DC') && modes.indexOf('DC') < 0)
@@ -62,28 +61,39 @@ export class SDKService {
                         else if ((m.paymentMethod == 'NET_BANKING' || m.paymentMethod == 'NB') && modes.indexOf('NB') < 0)
                             modes.push('NB');
                         else if ((m.paymentMethod == 'MEAL_COUPON' || m.paymentMethod == 'SODEXO') && modes.indexOf('SODEXO') < 0)
-                            modes.push('SODEXO');
+                            modes.push('SODEXO');                        
+                        else if ((m.paymentMethod == 'UPI_OTHER_APP' || m.paymentMethod == 'UPI') && modes.indexOf('UPI') < 0)
+                            modes.push('UPI');
                     }
                 });
             }
 
+            if (modes.length <= 0)
+                modes.push('UPI');
+
             let mtype: number = 1;
             if (this.utilsService.isNGO(res.merchantUser.mccCode))
                 mtype = 2;
-            else if (this.utilsService.isHB(res.merchantUser.merchantCode))
-                mtype = 3;
+            else if(this.utilsService.isHB(res.merchantUser.merchantCode, res.merchantUser.businessLob))
+                mtype = 3;            
 
-            let ttl: string = res.customerName;
-            if (mtype == 1)
+            let ttl: string = res.campaignName;
+            if(mtype == 1 || !ttl)
                 ttl = res.merchantUser.displayName;
 
-            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
-                res.minpanamnt, 2, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '',
-                (mtype == 1) ? res.mobileNumber : '', ttl,
-                res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, res.expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.businessName, '', null, null, null, null, null, null, null, null, null, null, modes,
-                null);
+            var expiryDate = '';
+            if(res.expiryDate){
+                let dt = new Date(res.expiryDate);
+                expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
+            }
+
+            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
+                res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
+                (mtype == 1) ? res.mobileNumber : '', ttl, 
+                res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.invoiceNumber, res.till, null, null, null, null, null, null, null, 
+                null, null, modes, null);
         }
         else if (res.logFormate) {
             var obj = JSON.parse(res.logText);
@@ -200,11 +210,8 @@ export class SDKService {
     }
 
     getPaymentLinkDetails(campaignId: string): Promise<SDK> {
-        if (this._sdk && this._sdk.id)
-            return Promise.resolve(this._sdk);
-        else
-            return this.http
-                .post(this.utilsService.getBaseURL() + this._urls.getPaymentLinkDetailsURL,
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getPaymentLinkDetailsURL,
                 JSON.stringify({
                     "campaignId": campaignId
                 }),

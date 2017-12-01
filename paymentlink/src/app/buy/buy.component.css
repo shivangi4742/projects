@@ -6,3 +6,8 @@
     max-height: 150px;
     max-width: 550px;
 }
+
+.tenPadsBN {
+    padding-left: 10px;
+    padding-right: 10px;
+}

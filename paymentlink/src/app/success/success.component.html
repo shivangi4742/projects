@@ -16,8 +16,12 @@
             </div>
         </div>
         <div class="row">
-            <span *ngIf="true" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
-            <span *ngIf="false" class="col s12 center regNrmS4B2BN">{{'Paid Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span>
+            <span *ngIf="mtype != 2" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <!-- <span class="col s12 center regNrmS4B2BN"
+                *ngIf="mtype != 2">{{'Paid Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
+            <span *ngIf="mtype == 2" class="col s12 center regNrmS4B2BN">{{'Contributed Successfully' | translate}}</span>
+            <!-- <span class="col s12 center regNrmS4B2BN"
+                *ngIf="mtype == 2">{{'Contributed Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
         </div>
         <div class="row"></div>
         <div class="row">
@@ -28,7 +32,7 @@
         <div class="row" *ngIf="products">
             <div class="col s12"> 
                 <div class="col s6 center" *ngFor="let p of products">
-                    <productwidget [forCart]="true" [editQty]="false" [product]="p"></productwidget> 
+                    <productwidget [mtype]="mtype" [forCart]="true" [editQty]="false" [product]="p"></productwidget> 
                 </div> 
             </div>
         </div>

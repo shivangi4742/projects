@@ -19,13 +19,17 @@
       </div>
       <div class="row allContentBN">
         <div class="col s8 offset-s2 m4 center" *ngFor="let p of products">
-          <productwidget [forCart]="true" [editQty]="true" [product]="p"></productwidget> 
+          <productwidget [forCart]="true" [mtype]="sdk.merchantType" [editQty]="true" [product]="p"></productwidget> 
         </div>
       </div>
       <div class="row">
         <div class="col s12 center">
-            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
+            <button *ngIf="sdk.merchantType != 2" class="btn waves-effect waves-light red regNrmS3BN buttonBN tenPadsBN" type="submit" 
               name="proceed" [disabled]="!buyForm.form.valid || isInvalid()">{{'Proceed to Pay' | translate}} 
+              <span *ngIf="getTotal() > 0">₹ {{getTotal() | number : '1.2-2'}}</span>
+            </button>
+            <button *ngIf="sdk.merchantType == 2" class="btn waves-effect waves-light red regNrmS3BN buttonBN tenPadsBN" type="submit" 
+              name="proceed" [disabled]="!buyForm.form.valid || isInvalid()">{{'Proceed to Contribute' | translate}} 
               <span *ngIf="getTotal() > 0">₹ {{getTotal() | number : '1.2-2'}}</span>
             </button>
         </div>
