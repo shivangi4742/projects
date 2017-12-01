@@ -48,7 +48,7 @@ var campCont = {
                 else {
                     this.checkAliasAvailability(d, req.headers, function(adata) {
                         if(adata && adata.desc1) {
-                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
                             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
                             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
                             if(adata.desc1 === fullUrl)
@@ -85,7 +85,7 @@ var campCont = {
                 else {
                     this.checkAliasAvailability(d, req.headers, function(adata) {
                         if(adata && adata.desc1) {
-                            var lnk = d.hasProds ? '/buy/' : '/pay/';
+                            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
                             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
                             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
                             if(adata.desc1 === fullUrl)
@@ -112,7 +112,7 @@ var campCont = {
         };
 
         try {
-            var lnk = d.hasProds ? '/buy/' : '/pay/';
+            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
             var title = d.campaignName ? d.campaignName : '';
@@ -148,7 +148,7 @@ var campCont = {
         };
 
         try {
-            var lnk = d.hasProds ? '/buy/' : '/pay/';
+            var lnk = d.mtype == 2 ? (d.hasProds ? '/contribute/' : '/donate/') : (d.hasProds ? '/buy/' : '/pay/');
             var ps = d.hasProds ? ('/' + d.merchantCode) : '';
             var fullUrl = config.me + '/ppl' + lnk + d.payLink + ps;
             var title = d.campaignName ? d.campaignName : '';

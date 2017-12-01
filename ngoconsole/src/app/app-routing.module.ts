@@ -13,6 +13,10 @@ const routes: Routes = [
     { path: 'campaign', component: CampaignComponent },
     { path: 'sharecampaign/:id', component: SharecampaignComponent },
     { path: 'newcampaign', component: CampaignComponent },
+    { path: 'donationoptions', component: CatalogComponent },
+    { path: 'estall', component: CampaignComponent },
+    { path: 'shareestall/:id', component: SharecampaignComponent },
+    { path: 'newestall', component: CampaignComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }

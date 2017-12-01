@@ -24,7 +24,9 @@ export class UserTopNavComponent {
   hasNotifications: boolean = false;
   notifInitialized: boolean = false;
   numUnreadNotifs: number = 0;
+  catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
+  campaignURL: string = '/newestall';
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   @Input('mtype') mtype: number;
   @Input('user') user: User;
@@ -38,17 +40,17 @@ export class UserTopNavComponent {
   }
 
   hasCampaign(): boolean {
-    if(window.location.href.indexOf('campaign') > 1)
+    if(window.location.href.indexOf('campaign') > 1 || window.location.href.indexOf('estall') > 1)
       return false;
 
-    return this.mtype == 3;    
+    return this.mtype > 1;    
   }
 
   hasCatalog(): boolean {
-    if(window.location.href.indexOf('/catalog') > 1)
+    if(window.location.href.indexOf('/catalog') > 1 || window.location.href.indexOf('/donationoptions') > 1)
       return false;
 
-    return this.mtype == 3;
+    return this.mtype > 1;
   }
 
   init() {
@@ -85,6 +87,11 @@ export class UserTopNavComponent {
       this.notificationService.getNotifications(this.user.merchantCode, 1, false, false)
         .then(res => this.fillNotifications(res));
  
+    if(this.mtype == 2) {
+      this.campaignURL = '/newcampaign';      
+      this.catalogURL = '/donationoptions';
+    }
+
     if(this.language < 1)
       this.language = 1;
   }

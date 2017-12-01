@@ -139,6 +139,11 @@ var sdkCont = {
             };
             var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
             var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
+            if(req.body.mtype == 2) {
+                surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
+                furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;
+            }
+
             if (req.body.sourceId == 2) {
                 surl = req.body.surl;
                 furl = req.body.furl;
@@ -205,14 +210,14 @@ var sdkCont = {
                 "phone": payload.phone,
                 "username": payload.phone
             };
-            this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res);
+            this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res, req.body.mtype);
         }
         catch (err) {
             res.redirect(config.paymentGateway.furl + paylinkid + '/' + req.body.txnid);
         }
     },
 
-    hashPayloadPost: function (paylinkid, obj, headers, payload, cb1, cb2, rd) {
+    hashPayloadPost: function (paylinkid, obj, headers, payload, cb1, cb2, rd, mtype) {
         try {
             cb2(cb1('/payments/paymentadapter/getWebCalculatedHash', 'POST', headers), obj,
                 function (data) {
@@ -222,26 +227,43 @@ var sdkCont = {
                         request.post({ url: config.paymentGateway.url, form: payload },
                             function (err, remoteResponse, remoteBody) {
                                 try {
-                                    if (err)
-                                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                    if (err) {
+                                        if(mtype == 2)
+                                            rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                                        else
+                                            rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                    }
 
                                     if (remoteResponse && remoteResponse.caseless && remoteResponse.caseless.dict)
                                         rd.redirect(remoteResponse.caseless.dict.location);
-                                    else
-                                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                    else {
+                                        if(mtype == 2)
+                                            rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                                        else
+                                            rd.redirect(config.me + '/paymentfailure/' + paylinkid);                                        
+                                    }
                                 }
                                 catch (error) {
-                                    rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                                    if(mtype == 2)
+                                        rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                                    else
+                                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
                                 }
                             });
                     }
                     else {
-                        rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                        if(mtype == 2)
+                            rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                        else
+                            rd.redirect(config.me + '/paymentfailure/' + paylinkid);
                     }
                 });
         }
         catch (err) {
-            rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+            if(mtype == 2)
+                rd.redirect(config.me + '/donationfailure/' + paylinkid);
+            else
+                rd.redirect(config.me + '/paymentfailure/' + paylinkid);
         }
     },
 

@@ -313,7 +313,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(res && res.paymentReqNumber) {
       this.sdk.id = res.paymentReqNumber;
       this.campaignService.setCampaign(this.sdk);
-      this.router.navigateByUrl('/sharecampaign/' + res.paymentReqNumber);
+      if(this.sdk.mtype == 2)
+        this.router.navigateByUrl('/sharecampaign/' + res.paymentReqNumber);
+      else
+        this.router.navigateByUrl('/shareestall/' + res.paymentReqNumber);
     }
     else {
       window.scrollTo(0, 0);

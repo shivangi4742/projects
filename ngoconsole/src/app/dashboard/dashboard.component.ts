@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
   user: User;
   campaigns: Campaign[];
   campaignSummary: CampaignSummary;
+  campaignLink: string = '/newcampaign';
 
   constructor(private campaignService: CampaignService, private router: Router, private userService: UserService,
     private utilsService: UtilsService) { }
@@ -26,6 +27,9 @@ export class DashboardComponent implements OnInit {
       this.user = usr;
       this.getCampaigns();
       this.getCampaignSummary();
+
+      if(!this.utilsService.isNGO(this.user.mccCode))
+        this.campaignLink = '/newestall';
     }
   }
 

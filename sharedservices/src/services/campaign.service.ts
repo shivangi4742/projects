@@ -141,7 +141,7 @@ export class CampaignService {
     }
 
     saveCampaignLink(replace: boolean, hasProds: boolean, merchantCode: string, payLink: string, alias: string, campaignName: string, 
-        description: string, imageURL: string, expdt: string): Promise<any> {
+        description: string, imageURL: string, expdt: string, mtype: number): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.saveCampaignLinkURL,
             JSON.stringify({
@@ -153,7 +153,8 @@ export class CampaignService {
                 "description": description,
                 "imageURL": imageURL,   
                 "expdt": expdt,            
-                "alias": alias
+                "alias": alias,
+                "mtype": mtype
             }),
             { headers: this.utilsService.getHeaders() }
         )

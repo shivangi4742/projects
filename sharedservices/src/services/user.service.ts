@@ -341,7 +341,7 @@ export class UserService {
         this._headers = {
           'content-type': 'application/json',
         };
-        if(window.location.href.indexOf('/pay/') < 1)
+        if(window.location.href.indexOf('/pay/') < 1 || window.location.href.indexOf('/donate/') < 1)
           (document as any).title = this.getDocTitle(this._language);
       }
       else {

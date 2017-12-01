@@ -26,6 +26,7 @@ export class SharecampaignComponent implements OnInit {
   isMobile: boolean = false;
   hasProducts: boolean = false;
   mtype: number = 2;
+  campaignLink: string = '/newcampaign';
   email:string;
   cc:string;
   
@@ -66,8 +67,10 @@ export class SharecampaignComponent implements OnInit {
     if(this.id && res) {
       this.user = res;
       this.isMobile = this.utilsService.isAnyMobile();
-      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
+      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)) {
         this.mtype = 3;
+        this.campaignLink = '/newestall';
+      }
       
       this.campaignService.getCampaign(this.id, this.mtype)
         .then(cmp => this.initCampaign(cmp));
@@ -86,7 +89,7 @@ export class SharecampaignComponent implements OnInit {
         this.saving = true;
         this.utilsService.setStatus(false, false, '');
         this.campaignService.saveCampaignLink(false, this.hasProducts, this.user.merchantCode, this.sdk.id, this.campaignURL, this.sdk.title, 
-          this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate)
+          this.sdk.description, this.sdk.imageURL, this.sdk.expiryDate, this.sdk.mtype)
           .then(res => this.saved(res));
       }
     }

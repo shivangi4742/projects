@@ -107,8 +107,12 @@ export class PayComponent implements OnInit {
       }
     }
 
-    if(!this.pay.products || this.pay.products.length < 1)
-      this.router.navigateByUrl('/buy/' + this.id + '/' + this.pay.merchantCode);
+    if(!this.pay.products || this.pay.products.length < 1) {
+      if(this.pay.mtype == 2)
+        this.router.navigateByUrl('/contribute/' + this.id + '/' + this.pay.merchantCode);
+      else
+        this.router.navigateByUrl('/buy/' + this.id + '/' + this.pay.merchantCode);
+    }
     else
       this.initialize();
   }
@@ -317,7 +321,7 @@ export class PayComponent implements OnInit {
   }
 
   poll() {
-    if(window.location.href.indexOf('/pay/') > 1 || window.location.href.indexOf('/paysdk') > 1)
+    if(window.location.href.indexOf('/pay/') > 1 || window.location.href.indexOf('/donate/') > 1 || window.location.href.indexOf('/paysdk') > 1)
       this.sdkService.getTransactionStatus(this.pay.merchantCode, this.txnNo)
         .then(res => this.checkMyPayment(res));
   }
@@ -340,14 +344,20 @@ export class PayComponent implements OnInit {
           this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.title, "mode": 0, "txnid": this.txnNo,
             "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products, 
             "mtype": this.pay.merchantType });
-          this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
+          if(this.pay.merchantType == 2)
+            this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
+          else
+            this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
         }
         else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {
           found = true;
           this.sdkService.setPayFailure({ "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg, 
             "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, 
             "products": this.pay.products });
-          this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnNo);
+          if(this.pay.merchantType == 2)
+            this.router.navigateByUrl('/donationfailure/' + this.id + '/' + this.txnNo);
+          else
+            this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnNo);
         }
       }
     }

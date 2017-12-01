@@ -23,6 +23,7 @@
         <input type="hidden" name="udf3" [ngModel]="pg.udf3" />
         <input type="hidden" name="udf4" [ngModel]="pg.udf4" />
         <input type="hidden" name="udf5" [ngModel]="pg.udf5" />
+        <input type="hidden" name="mtype" [ngModel]="pg.mtype" />
     </div>
 </form>
 <h5 align="center" *ngIf="pg.mtype != 2">{{'Redirecting you to payment gateway,' | translate}}</h5>
