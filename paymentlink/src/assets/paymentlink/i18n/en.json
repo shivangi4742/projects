@@ -97,5 +97,7 @@
     "Transaction could not be completed": "Transaction could not be completed",
     "You can still pay to": "You can still pay to",
     "using another payment method": "using another payment method",
-    "Pay Using Another Method": "Pay Using Another Method"
+    "Pay Using Another Method": "Pay Using Another Method",
+
+    "* Extra charges applicable based on the mode of payment": "* Extra charges applicable based on the mode of payment"
 }

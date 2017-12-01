@@ -10,4 +10,5 @@ sdkRouter.post('/createBillString', sdkController.createBillString.bind(sdkContr
 sdkRouter.post('/startPaymentProcess', sdkController.startPaymentProcess.bind(sdkController));
 sdkRouter.post('/getTransactionStatus', sdkController.getTransactionStatus.bind(sdkController));
 sdkRouter.post('/getPaymentLinkDetails', sdkController.getPaymentLinkDetails.bind(sdkController));
+sdkRouter.post('/getLogById', sdkController.getLogById.bind(sdkController));
 module.exports = sdkRouter;

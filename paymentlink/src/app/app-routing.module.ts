@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes }   from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { NotificationComponent } from 'benowcomponents';
 
@@ -15,6 +15,7 @@ const routes: Routes = [
     { path: 'pg/:id', component: PgComponent },
     { path: 'pay/:id/:prods', component: PayComponent },
     { path: 'pay/:id', component: PayComponent },
+    { path: 'pay/:id/:prods/:sdkId', component: PayComponent }, // FOR SDK
     { path: 'buy/:id/:code', component: BuyComponent },
     { path: 'paymentsuccess/:id/:txnid', component: SuccessComponent },
     { path: 'paymentfailure/:id/:txnid', component: FailureComponent },
