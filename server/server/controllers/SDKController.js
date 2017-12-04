@@ -6,7 +6,7 @@ var helper = require('./../utils/Helper');
 var config = require('./../configs/Config');
 
 var sdkCont = {
-    paymentFailure: function(req, cb) {
+    paymentFailure: function (req, cb) {
         try {
             var headers = {
                 'X-AUTHORIZATION': config.defaultToken,
@@ -62,7 +62,7 @@ var sdkCont = {
         }
     },
 
-    paymentSuccess: function(req, cb) {
+    paymentSuccess: function (req, cb) {
         try {
             var headers = {
                 'X-AUTHORIZATION': config.defaultToken,
@@ -120,8 +120,8 @@ var sdkCont = {
         }
     },
 
-    processPayment: function(req, res) {
-    	res.setHeader("X-Frame-Options", "ALLOW");
+    processPayment: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
         var paylinkid = req.body.paylinkid;
         try {
             var cat = req.body.paytype;
@@ -153,10 +153,10 @@ var sdkCont = {
                 furl = config.paymentGateway.sdkfurl + paylinkid + '/' + req.body.txnid;
             }
             else {
-                if(req.body.surl && req.body.surl.length > 4)
+                if (req.body.surl && req.body.surl.length > 4)
                     surl = req.body.surl;
 
-                if(req.body.furl && req.body.furl.length > 4)
+                if (req.body.furl && req.body.furl.length > 4)
                     furl = req.body.furl;
             }
             var payload = {
@@ -188,7 +188,9 @@ var sdkCont = {
             if (cat == 3)
                 payload.pg = 'NB';
 
-            var obj = {
+            var obj;
+
+            obj = {
                 "amount": req.body.payamount,
                 "email": payload.email,
                 "firstName": payload.firstname,
@@ -267,35 +269,35 @@ var sdkCont = {
         }
     },
 
-    getTransactionStatus: function(req, res) {
-    	res.setHeader("X-Frame-Options", "ALLOW");
+    getTransactionStatus: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
         this.getTransactionStatusPost(req, function (data) {
             res.json(data);
-        });  
+        });
     },
 
-    createBillString: function(req, res) {
-    	res.setHeader("X-Frame-Options", "ALLOW");
+    createBillString: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillStringPost(req, function (data) {
             res.json(data);
-        });  
+        });
     },
 
-    createBill: function(req, res) {
-    	res.setHeader("X-Frame-Options", "ALLOW");
+    createBill: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillPost(req, function (data) {
             res.json(data);
-        });  
+        });
     },
 
-    getTransactionStatusPost: function(req, cb) {
+    getTransactionStatusPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
         try {
-            if(req && req.body && req.body.merchantCode && req.body.txnId)
-                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers), 
+            if (req && req.body && req.body.merchantCode && req.body.txnId)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/ecomm/getMerchantTransactionStatus', 'POST', req.headers),
                     {
                         "merchantCode": req.body.merchantCode,
                         "txnId": req.body.txnId
@@ -308,13 +310,13 @@ var sdkCont = {
         }
     },
 
-    createBillStringPost: function(req, cb) {
+    createBillStringPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
         try {
-            if(req && req.body && req.body.merchantCode && req.body.amount) {
+            if (req && req.body && req.body.merchantCode && req.body.amount) {
                 var d = req.body;
                 var obj = {
                     "merchantCode": d.merchantCode,
@@ -329,7 +331,7 @@ var sdkCont = {
                 if (d.til)
                     obj.till = d.til;
 
-                helper.postAndCallbackString(helper.getDefaultExtServerOptions('/merchants/merchant/getDynamicQRString', 'POST', req.headers), 
+                helper.postAndCallbackString(helper.getDefaultExtServerOptions('/merchants/merchant/getDynamicQRString', 'POST', req.headers),
                     obj, cb);
             }
             else
@@ -340,13 +342,13 @@ var sdkCont = {
         }
     },
 
-    createBillPost: function(req, cb) {
+    createBillPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
         try {
-            if(req && req.body && req.body.merchantCode && req.body.amount) {
+            if (req && req.body && req.body.merchantCode && req.body.amount) {
                 var d = req.body;
                 var obj = {
                     "merchantCode": d.merchantCode,
@@ -372,20 +374,20 @@ var sdkCont = {
         }
     },
 
-    startPaymentProcess: function(req, res) {
-    	res.setHeader("X-Frame-Options", "ALLOW");
+    startPaymentProcess: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
         this.startPaymentProcessPost(req, function (data) {
             res.json(data);
-        });  
+        });
     },
 
-    savePayerProducts: function(merchantCode, products, counter, txnNumber, hdrs, retErr, cb) {
+    savePayerProducts: function (merchantCode, products, counter, txnNumber, hdrs, retErr, cb) {
         try {
             var me = this;
             var retVal = { "transactionRef": txnNumber };
-            if(products && products.length > counter) {
+            if (products && products.length > counter) {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/savePayerProduct', 'POST', hdrs),
-                    {	
+                    {
                         "merchantCode": merchantCode,
                         "transactionRef": txnNumber,
                         "campaignProductId": products[counter].id,
@@ -403,7 +405,7 @@ var sdkCont = {
         }
     },
 
-    startPaymentProcessPost: function(req, cb) {
+    startPaymentProcessPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -454,10 +456,10 @@ var sdkCont = {
                         }
                     ]
                 };
-                if(d.tr)
+                if (d.tr)
                     obj.tr = d.tr;
 
-                if(d.til)
+                if (d.til)
                     obj.till = d.til;
 
                 var c = {
@@ -473,7 +475,7 @@ var sdkCont = {
                     },
                     function (uData) {
                         if (uData && uData.responseFromAPI == true) {
-                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/initiatePayWebRequest', 'POST', hdrs), 
+                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/initiatePayWebRequest', 'POST', hdrs),
                                 obj,
                                 function (data) {
                                     if (data && data.hdrTransRefNumber) {
@@ -515,10 +517,10 @@ var sdkCont = {
         res.setHeader("X-Frame-Options", "DENY");
         this.getPaymentLinkDetailsPost(req, function (data) {
             res.json(data);
-        });  
+        });
     },
 
-    getPaymentLinkDetailsPost: function(req, cb) {
+    getPaymentLinkDetailsPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -529,9 +531,9 @@ var sdkCont = {
                 cb(retErr);
             else {
                 var d = req.body;
-                if (d && d.campaignId) 
+                if (d && d.campaignId)
                     helper.getAndCallback(
-                        helper.getDefaultExtServerOptions('/payments/paymentadapter/getPortablePaymentRequest?txnRef=' + d.campaignId, 
+                        helper.getDefaultExtServerOptions('/payments/paymentadapter/getPortablePaymentRequest?txnRef=' + d.campaignId,
                             'GET', req.headers), cb, false);
                 else
                     cb(retErr);
@@ -542,7 +544,7 @@ var sdkCont = {
         }
     },
 
-    getCampaignLinkDetails: function(mid, link, hdrs, cb) {
+    getCampaignLinkDetails: function (mid, link, hdrs, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -562,8 +564,70 @@ var sdkCont = {
         }
         catch (err) {
             cb(retErr);
-        }        
-    }
+        }
+    },
+
+    saveLogs: function (data, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!data)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/logging/saveLog', 'POST', hdrs),
+                    {
+                        "appName": "websdk",
+                        "txnRef": data.txnid,
+                        "correlationId": "",
+                        "logType": "imp",
+                        "val1": "",
+                        "val2": "",
+                        "val3": "",
+                        "description1": "",
+                        "description2": "",
+                        "description3": "",
+                        "logText": JSON.stringify(data),
+                        "logFormate": "json"
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getLogById: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getLogByIdPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getLogByIdPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req.body || !req.body.id)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/logging/getLogById', 'POST', req.headers),
+                    {
+                        "id": req.body.id
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = sdkCont;

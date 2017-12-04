@@ -267,8 +267,9 @@ var helper = {
                     buffer += chunk;
                 });
                 res.on('end', function (err) {
-                    if (res.statusCode === 200)
+                    if (res.statusCode === 200){
                         cb(JSON.parse(buffer));
+                    }
                     else if (res.statusCode === 400 && buffer) {
                         var dta = JSON.parse(buffer);
                         if (dta.validationErrors)

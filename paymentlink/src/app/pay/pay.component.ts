@@ -15,6 +15,7 @@ export class PayComponent implements OnInit {
   upiAmount: number;
   tr: string;
   id: string;
+  sdkId: string;
   name: string;
   prods: string;
   txnNo: string;
@@ -51,16 +52,25 @@ export class PayComponent implements OnInit {
   supportsSodexo: boolean = false;
   upiMode: number = 1;
 
+  hasExtraCharges: boolean = true;
+
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.prods = this.route.snapshot.params['prods'];
+    this.sdkId = this.route.snapshot.params['sdkId'];
     this.uploadsURL = this.utilsService.getUploadsURL();
     this.isMobile = this.utilsService.isAnyMobile();
-    this.sdkService.getPaymentLinkDetails(this.id)
-      .then(res => this.init(res))
+    if (this.sdkId && this.sdkId.length > 0) {
+      this.sdkService.getLogById(this.sdkId)
+        .then(res => this.init(res))
+    }
+    else {
+      this.sdkService.getPaymentLinkDetails(this.id)
+        .then(res => this.init(res))
+    }
   }
 
   sanitize(url: string): SafeUrl {
@@ -68,9 +78,10 @@ export class PayComponent implements OnInit {
   }
 
   init(res: SDK) {
-    if(res && res.id) {
+    if (res && res.id) {
       this.pay = res;
-      if(this.pay.mtype == 1) {
+
+      if (this.pay.mtype == 1) {
         this.pay.askmob = false;
         this.pay.mndmob = false
         this.mobileNumber = this.pay.phone;
@@ -79,7 +90,7 @@ export class PayComponent implements OnInit {
         this.pay.askmob = true;
         this.pay.mndmob = true;
       }
-      if(this.prods && !(res.products && res.products.length > 0)) {
+      if (this.prods && !(res.products && res.products.length > 0)) {
         this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
           .then(pres => this.initProds(pres));
       }
@@ -91,13 +102,13 @@ export class PayComponent implements OnInit {
   }
 
   initProds(res: Array<Product>) {
-    if(res && res.length > 0) {
+    if (res && res.length > 0) {
       let selProds: any = JSON.parse(atob(this.prods));
-      if(selProds && selProds.length > 0) {
+      if (selProds && selProds.length > 0) {
         this.pay.products = new Array<Product>();
-        for(let i: number = 0; i < selProds.length; i++) {
-          for(let j: number = 0; j < res.length; j++) {
-            if(res[j].id == selProds[i].id) {
+        for (let i: number = 0; i < selProds.length; i++) {
+          for (let j: number = 0; j < res.length; j++) {
+            if (res[j].id == selProds[i].id) {
               res[j].qty = selProds[i].qty;
               this.pay.products.push(res[j]);
               break;
@@ -119,23 +130,23 @@ export class PayComponent implements OnInit {
 
   initialize() {
     let total: number = 0;
-    if(this.pay.products && this.pay.products.length > 0) {
-      for(let i: number = 0; i < this.pay.products.length; i++){
-        if(this.pay.products[i].qty > 0) {
+    if (this.pay.products && this.pay.products.length > 0) {
+      for (let i: number = 0; i < this.pay.products.length; i++) {
+        if (this.pay.products[i].qty > 0) {
           total += this.pay.products[i].qty * this.pay.products[i].price;
         }
       }
 
       this.pay.amount = total;
-    }      
+    }
 
-    if(this.pay.amount == 0)
+    if (this.pay.amount == 0)
       this.pay.amount = null;
-    
-    if(!this.pay.amount || this.pay.amount <= 0)
-      this.amountEditable = true;    
 
-    if(this.pay.merchantType == 1)
+    if (!this.pay.amount || this.pay.amount <= 0)
+      this.amountEditable = true;
+
+    if (this.pay.merchantType == 1)
       this.mobileNumber = this.pay.phone;
 
     if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
@@ -174,65 +185,65 @@ export class PayComponent implements OnInit {
   validate(focus: boolean): boolean {
     if (!this.pay) {
       this.validationError = 'Please provide all valid inputs';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('amount');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (!this.pay.amount || this.pay.amount < 0.01 || this.pay.amount > 9999999.99) {
       this.validationError = 'Please enter a valid amount';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('amount');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (this.pay.askname && this.pay.mndname && (!this.name || this.name.trim().length <= 0)) {
       this.validationError = 'Please enter name to proceed';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('name');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 0)) {
       this.validationError = 'Please enter mobile number to proceed';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('mobileNumber');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (this.pay.askemail && this.pay.mndemail && (!this.pay.email || this.pay.email.trim().length <= 0
       || !this.validateEmail(this.pay.email.trim()))) {
       this.validationError = 'Please enter a valid email';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('email');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (this.pay.askpan && this.pay.mndpan && this.pay.minpanamnt < this.pay.amount && (!this.panNumber || this.panNumber.trim().length <= 0)) {
       this.validationError = 'Please enter PAN number to proceed';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('panNumber');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
     else if (this.pay.askadd && this.pay.mndaddress && (!this.address || this.address.trim().length <= 0)) {
       this.validationError = 'Please enter a valid Address';
-      if(this.putFocus) {
+      if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('address');
-        if(elmnt)
+        if (elmnt)
           elmnt.focus();
       }
     }
@@ -257,29 +268,29 @@ export class PayComponent implements OnInit {
 
   backFromApp() {
     this.appLaunched = false;
-    setTimeout(function() {
+    setTimeout(function () {
       let elmnt: any = document.getElementById('address');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
 
       elmnt = document.getElementById('panNumber');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
 
       elmnt = document.getElementById('email');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
 
       elmnt = document.getElementById('mobileNumber');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
 
       elmnt = document.getElementById('name');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
 
       elmnt = document.getElementById('amount');
-      if(elmnt)
+      if (elmnt)
         elmnt.focus();
     }, 100);
   }
@@ -291,9 +302,9 @@ export class PayComponent implements OnInit {
   }
 
   createQRL(out: any) {
-    if(out && out.transactionRef) {
+    if (out && out.transactionRef) {
       this.tr = this.pay.invoiceNumber;
-      this.txnNo = out.transactionRef; 
+      this.txnNo = out.transactionRef;
       this.sdkService.createBillString(this.pay.amount, this.pay.til, this.txnNo,
         new User(null, null, null, null, null, null,null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
         .then(res => this.qRLinkShown(res, this.pay.amount));
@@ -308,7 +319,7 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.upiAmount != this.pay.amount) {
       this.upiURL = null;
-      if(this.txnNo && this.txnNo.length > 0)
+      if (this.txnNo && this.txnNo.length > 0)
         this.createQRL({ "transactionRef": this.txnNo });
       else
         this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
@@ -327,7 +338,7 @@ export class PayComponent implements OnInit {
   }
 
   getArrow(exp: boolean): string {
-    if(exp)
+    if (exp)
       return 'keyboard_arrow_up';
     else
       return 'keyboard_arrow_down';
@@ -335,11 +346,11 @@ export class PayComponent implements OnInit {
 
   checkMyPayment(rest: any) {
     let found: boolean = false;
-    let me: any = this;    
-    if(rest && rest.length > 0) {
+    let me: any = this;
+    if (rest && rest.length > 0) {
       let res: any = rest[0];
-      if(res && res.txnId == this.txnNo && res.paymentStatus) {
-        if(res.paymentStatus.trim().toUpperCase() == 'PAID') {
+      if (res && res.txnId == this.txnNo && res.paymentStatus) {
+        if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
           found = true;
           this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.title, "mode": 0, "txnid": this.txnNo,
             "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products, 
@@ -349,7 +360,7 @@ export class PayComponent implements OnInit {
           else
             this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
         }
-        else if(res.paymentStatus.trim().toUpperCase() == 'FAILED') {
+        else if (res.paymentStatus.trim().toUpperCase() == 'FAILED') {
           found = true;
           this.sdkService.setPayFailure({ "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg, 
             "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, 
@@ -362,8 +373,8 @@ export class PayComponent implements OnInit {
       }
     }
 
-    if(!found)
-      setTimeout(function() { me.poll(); }, 5000);
+    if (!found)
+      setTimeout(function () { me.poll(); }, 5000);
   }
 
   qRShown(res: boolean) {
@@ -404,7 +415,7 @@ export class PayComponent implements OnInit {
   }
 
   createQR(out: any) {
-    if(out && out.transactionRef) {
+    if (out && out.transactionRef) {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBill(this.pay.amount, this.pay.merchantVpa, this.pay.til, this.txnNo,
@@ -421,10 +432,10 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.qrAmount != this.pay.amount) {
       this.qrURL = null;
-      if(this.txnNo && this.txnNo.length > 0)
+      if (this.txnNo && this.txnNo.length > 0)
         this.createQR({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber, 
+        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
@@ -439,28 +450,28 @@ export class PayComponent implements OnInit {
         this.refreshQRAmount();
       else if (this.ccExpanded) {
         let elmnt: any = document.getElementById('ccBtn');
-        if(elmnt)
+        if (elmnt)
           elmnt.click();
       }
       else if (this.dcExpanded) {
         let elmnt: any = document.getElementById('dcBtn');
-        if(elmnt)
+        if (elmnt)
           elmnt.click();
       }
       else if (this.nbExpanded) {
         let elmnt: any = document.getElementById('nbBtn');
-        if(elmnt)
+        if (elmnt)
           elmnt.click();
       }
     }
   }
 
   setMode(mode: number) {
-    if(mode == 1)
+    if (mode == 1)
       this.ccExpanded = true;
-    else if(mode == 2)
+    else if (mode == 2)
       this.dcExpanded = true;
-    else if(mode == 3)
+    else if (mode == 3)
       this.nbExpanded = true;
 
     this.putFocus = true;

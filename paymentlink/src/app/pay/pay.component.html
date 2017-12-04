@@ -25,7 +25,7 @@
           (click)="backFromApp()">{{'Back to Contribution page' | translate}}</a>
       </div>
     </div>
-    <div class="row"></div> 
+    <div class="row"></div>
     <div class="row"></div>
     <div class="row"></div>
     <div class="row"></div>
@@ -59,6 +59,9 @@
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
           </div>
+          <div *ngIf="hasExtraCharges">
+            <span class="col s12 alertTextBN center">{{'* Extra charges applicable based on the mode of payment' | translate}}</span>
+          </div>
         </div>
       </div>
       <div *ngIf="amountEditable">
@@ -66,8 +69,8 @@
           <div class="valign-wrapper">
             <div class="input-field col s10 offset-s1 errNrmS-1B1BN" align="left">
               <span class="prefix errNrmS-1B1BN"> ₹ </span>
-              <input id="amount" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="0.01" max="9999999.99" 
-                class="validate regNrmS-1B1BN" required [(ngModel)]="pay.amount">
+              <input id="amount" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="0.01" max="9999999.99" class="validate regNrmS-1B1BN"
+                required [(ngModel)]="pay.amount">
               <label for="amount" [ngClass]="pay.amount ? 'active regNrmS6IBN' : 'regNrmS4IBN'">&nbsp; &nbsp;{{'Enter Amount' | translate}}*</label>
             </div>
           </div>
@@ -76,8 +79,7 @@
       <div class="row">
         <div class="valign-wrapper" *ngIf="pay.askname">
           <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" 
-              [disabled]="pay.readonlyname">
+            <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
             <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
               <span *ngIf="pay.mndname">*</span>
             </label>
@@ -112,8 +114,8 @@
         </div>
         <div class="valign-wrapper" *ngIf="pay.askadd">
           <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
-            <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" 
-              [disabled]="pay.readonlyaddr" (blur)="refreshAmount()"></textarea>
+            <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" [disabled]="pay.readonlyaddr"
+              (blur)="refreshAmount()"></textarea>
             <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
               <span *ngIf="pay.mndaddress">*</span>
             </label>
@@ -121,10 +123,11 @@
         </div>
         <div class="valign-wrapper" *ngIf="pay.askresidence">
           <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
-            <input type="checkbox" id="resident" class="filled-in checkbox-red" [(ngModel)]="resident" name="resident" 
-              [disabled]="pay.readonlyresidence" />
+            <input type="checkbox" id="resident" class="filled-in checkbox-red" [(ngModel)]="resident" name="resident" [disabled]="pay.readonlyresidence"
+            />
             <label for="resident">{{'I am an Indian resident' | translate}}</label>
-            <br /><br />
+            <br />
+            <br />
           </div>
         </div>
       </div>
@@ -138,8 +141,7 @@
         <div class="col s12 center">
           <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion">
             <li *ngIf="!isMobile && supportsUPI">
-              <div id="qrAcc" (click)="showQR()" 
-                [ngClass]="qrExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
+              <div id="qrAcc" (click)="showQR()" [ngClass]="qrExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
                 <div class="row noPadsNewBN fullWidthBN">
                   <div class="col s2" align="left">
                     <i class="material-icons greenBN">account_balance</i>
@@ -225,8 +227,7 @@
               </div>
             </li>
             <li *ngIf="isMobile && supportsUPI">
-              <div id="qrlAcc" (click)="showQRLink()" 
-                [ngClass]="qrlExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
+              <div id="qrlAcc" (click)="showQRLink()" [ngClass]="qrlExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
                 <div class="row noPadsNewBN fullWidthBN">
                   <div class="col s2" align="left">
                     <i class="material-icons greenBN">account_balance</i>
@@ -318,7 +319,7 @@
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
                 <div *ngIf="!invalidAmount">
-                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                 </div>
               </div>
             </li>
@@ -341,7 +342,7 @@
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
                 <div *ngIf="!invalidAmount">
-                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                 </div>
               </div>
             </li>
@@ -364,7 +365,7 @@
                   <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
                 <div *ngIf="!invalidAmount">
-                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                 </div>
               </div>
             </li>
