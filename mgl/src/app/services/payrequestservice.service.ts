@@ -49,11 +49,7 @@ private payRequest: Payrequestmodel;
         };
 
         let hdrs: any = { 'content-type': 'application/json' };
-        // var jsonData = JSON.parse(JSON.parse(data));
-        // console.log('jsonData', jsonData);
         var json = JSON.parse(JSON.stringify(data));
-        // let stringToHash = json + pr.merchantCode + 'abcd';
-        // console.log('stringToHash', stringToHash);
         var strToHash = pr.amount
             + "|" + pr.description
             + "|" + pr.email
@@ -73,12 +69,11 @@ private payRequest: Payrequestmodel;
         var payloadObj: any = {
             "data": JSON.stringify(json),
             "merchantCode": pr.merchantCode,
-            "salt": "abcd",
             "strToHash": strToHash
         };
 
         return this.http
-            .post(this.utilsservice.getBaseURL() +'hash',
+            .post(this.utilsservice.getBaseURL() +'mglpay/hash',
             payloadObj,
             { headers: hdrs }
             )

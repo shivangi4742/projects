@@ -1,4 +1,5 @@
 var fs = require('fs');
+var crypto = require('crypto');
 var CryptoJS = require('crypto-js');
 var uuid = require('uuid');
 var request = require('request');
@@ -39,6 +40,21 @@ var benowCont = {
         this.mglDetailsPost(req, function (data) { 
             res.json({ "data": data});
         });
+    },
+
+    getMd5: function (dataToHash, saltString) {
+	    return crypto.createHash('md5').update(saltString).update(dataToHash).digest('hex');
+    },
+
+    hash: function (req, res) {
+        var payloadObj = req.body;
+        var inpObj = payloadObj.data;
+        var merchantCode = payloadObj.merchantCode;
+        var salt = 'abcd';
+        var headers = req.headers;
+        var stringToHash = inpObj + merchantCode + salt;
+        var hashData = this.getMd5(payloadObj.strToHash + merchantCode + salt, salt);
+        res.send({ "hash": hashData });
     },
 
     mglDetailsPost: function (req,  cb) {

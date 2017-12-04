@@ -15,6 +15,7 @@ var resAuthenticated = function (req, res, next) {
     return next();
 };
 
+router.post('/hash', isAuthenticated, MglController.hash.bind(MglController));
 router.post('/mgldetails', isAuthenticated, MglController.mglDetails.bind(MglController));
 router.post('/mgldetailssave', isAuthenticated, MglController.mglDetailsSave.bind(MglController));
 router.post('/checkPaymentPreActionData', isAuthenticated, MglController.checkPaymentPreActionData.bind(MglController));

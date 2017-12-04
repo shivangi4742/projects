@@ -28,7 +28,7 @@ export class CustomerpaymentComponent implements OnInit {
     //another option like collect request url
     this.payRequestService.setPayRequest(new Payrequestmodel(2, this.mgl.netpay, false, false, true, true, 'Mahanagar Gas Limited',
       '', this.mglservice.getFailedURL(), this.mgl.name, '','', '/assets/mgl/images/0.png', '1', '5499', 'APVY8', '1', 'APVY8@yesbank',
-       false, false, false, true, '', this.mgl.ca, false,false,false,false, this.mglservice.getSuccessURL(), 'Mahanagar Gas Limited', '', '',
+       false, false, false, true, '', this.mgl.ca, false,false,false,true, this.mglservice.getSuccessURL(), 'Mahanagar Gas Limited', '', '',
      btoa(JSON.stringify(this.mgl.response)), this.mgl.ca,this.mgl.billno, '500000', '', this.supportModes))
       .then(res => this.navigate());
   }
