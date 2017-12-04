@@ -35,7 +35,7 @@ export class AddproductComponent implements OnInit {
 
   canBeSaved(p: Product): boolean {
     if(this.newProd && this.newProd.id && p && p.id && this.newProd.name && this.newProd.name.trim() && this.newProd.name.trim().length > 0
-      && (this.newProd.price > 0 || this.mtype != 2)) {
+      && this.newProd.price > 0) {
       if(p.name != this.newProd.name)
         return true;
 
