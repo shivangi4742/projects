@@ -26,8 +26,8 @@ export class CustomerpaymentComponent implements OnInit {
   
      this.supportModes = ['UPI'];
     //another option like collect request url
-    this.payRequestService.setPayRequest(new Payrequestmodel(2,'1', false, false, true, true, 'Mahanagar Gas Limited',
-      '', this.mglservice.getFailedURL(), this.mgl.name, '','', '/assets/mgl/images/0.jpg', '1', '5499', 'APVY8', '1', 'APVY8@yesbank',
+    this.payRequestService.setPayRequest(new Payrequestmodel(2, this.mgl.netpay, false, false, true, true, 'Mahanagar Gas Limited',
+      '', this.mglservice.getFailedURL(), this.mgl.name, '','', '/assets/mgl/images/0.png', '1', '5499', 'APVY8', '1', 'APVY8@yesbank',
        false, false, false, true, '', this.mgl.ca, false,false,false,false, this.mglservice.getSuccessURL(), 'Mahanagar Gas Limited', '', '',
      btoa(JSON.stringify(this.mgl.response)), this.mgl.ca,this.mgl.billno, '500000', '', this.supportModes))
       .then(res => this.navigate());
