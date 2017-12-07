@@ -104,11 +104,11 @@ export class UserTopNavComponent {
   }
 
   estall() {
-    this.tourModal1Actions.emit({action:"modal",params:['open']});
+    this.tourModal2Actions.emit({action:"modal",params:['open']});
   }
 
   sms() {
-    this.tourModal2Actions.emit({action:"modal",params:['open']});
+    this.tourModal1Actions.emit({action:"modal",params:['open']});
   }
 
   notifModal() {
