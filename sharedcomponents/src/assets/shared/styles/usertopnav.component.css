@@ -155,7 +155,8 @@
 
 .modelBN{
     height: 448px!important;
-    max-width:35%!important;
+    max-width:510px!important;
+    padding: 10px!important;
 }
 
 
