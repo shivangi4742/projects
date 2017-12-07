@@ -100,3 +100,105 @@
     border: 1px solid #E53935;
     border-radius: 10px;    
 }
+.colorBN{
+    color:#e33b35!important
+}
+.carousel .carousel-item>img {
+    width: 7%!important;
+}
+.grey {
+   background-color: #eee!important;
+}
+.coloBN {
+    border: 1px solid #f6a51c!important;
+    border-radius: 21px!important;
+    padding: 11px 11px 10px 20px!important;
+}
+
+.lnBN {
+    line-height: 21pt;
+}
+
+.fonBN {
+    font-size: 15pt!important;;
+}
+.sendBN {
+    padding: 10px 10px 10px 10px;
+    background-color:#e33b35!important;
+    color:white !important;
+}
+.lastBN {
+    width:62px!important;
+}
+.thirdBN {
+    width: 39px!important;
+}
+.third1BN {
+    width: 45px!important;
+}
+.colsecondBN{
+    color: grey!important;
+}
+ .carousel{
+    height: 388px!important
+}
+.modal .modal-content {
+    padding: 0px;
+}
+.crousalBN {
+    transform: translateX(0px) translateY(0px) translateX(0px) translateX(0px) translateZ(0px)!important;
+}
+
+.bottomBN {
+    margin-bottom: 8px!important;
+}
+
+.modelBN{
+    height: 448px!important;
+    max-width:35%!important;
+}
+
+
+.NumberBN {
+   width: 52px!important;
+}
+.pnBn {
+   display: none;
+}
+.screeBN {
+    width:60px!important;
+}
+.padBN {
+    padding: 20px 0px 0px 0px!important;
+}
+.pad1BN {
+    padding: 30px 0px 0px 0px!important;
+}
+.roBN {
+    padding: 9px 0px 12px 0px!important;
+}
+
+.modfooterBN {
+    height: 22px!important;
+}
+.modBN {
+    padding: 12px!important;
+}
+.carousel .indicators .indicator-item.active {
+    background-color: #f44336!important;
+}
+.indicator-item.active {
+    background-color: #f44336!important;
+}
+.linBN {
+    line-height: 35px!important;
+}
+.lasBN {
+    height: 73px!important;
+}
+.lasBN1 {
+    height:38px!important;
+}
+.displyBN {
+    display: none!important;
+}

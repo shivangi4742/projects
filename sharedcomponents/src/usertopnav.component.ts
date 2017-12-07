@@ -77,6 +77,9 @@ export class UserTopNavComponent {
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
     this.isUnregistered = this.utilsService.getUnregistered();
     let me = this;
+
+    setTimeout(function() { var md3 = document.getElementById("modl3");(md3 as any).click(); }, 1000);
+    
     if(!this.isPolling)
       setTimeout(function() { me.loginPolls(); }, 5000);
 
@@ -95,6 +98,17 @@ export class UserTopNavComponent {
     if(this.language < 1)
       this.language = 1;
   }
+
+  estall() {
+    var md1 = document.getElementById("modl1");
+    (md1 as any).click();
+  }
+
+  sms() {
+    var md2 = document.getElementById("modl2");
+    (md2 as any).click();
+  }
+
 
   notifModal() {
     this.modalActions.emit({action:"modal",params:['open']});
