@@ -2,7 +2,7 @@
     <div id="smallScreenT" class="hide-on-med-and-up"></div>
     <div id="mediumScreenT" class="hide-on-small-only hide-on-large-only"></div>
     <div id="largeScreenT" class="hide-on-med-and-down"></div>
-    <div materialize="modal" id="notificationsModal" class="modal viewModalSBN">
+    <div materialize="modal" id="notificationsModal" class="modal viewModalSBN" [materializeActions]="notifModalActions">
         <div class="modal-content">
              <notifications [notifications]="notifications" [user]="user"></notifications> 
             <div class="row"></div>
@@ -68,6 +68,14 @@
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">exit_to_app</i>
                     {{'Sign Out' | translate}} 
+                </span> 
+            </a>
+        </li>
+        <li>
+            <a *ngIf="mtype > 2" (click)="mainModal()">
+                <span class="valign-wrapper topNavDDMenuItemBN"> 
+                    <i class="material-icons iconPrefixBN">help</i>
+                    {{'Take a Tour' | translate}} 
                 </span> 
             </a>
         </li>
@@ -157,10 +165,7 @@
 </div>
 
 <div materialize>
-    <a id="modl3" class="waves-effect waves-light btn modal-trigger displyBN" href="#modal3">Modal</a>
-    <a id="modl1" class="waves-effect waves-light btn modal-trigger displyBN" href="#modal1">Modal</a>
-    <a id="modl2" class="waves-effect waves-light btn modal-trigger displyBN" href="#modal2">Modal</a>
-    <div id="modal3" class="modal modelBN" materialize="modal">
+    <div id="tourModal3" class="modal modelBN" materialize="modal" [materializeActions]="tourModal3Actions">
         <div class="modal-footer modfooterBN">
             <a class="modal-action modal-close ">
                 <span class="alignMidBN colorBN">
@@ -204,7 +209,7 @@
         </div>
     </div>
     <!-- Modal Structure -->
-    <div id="modal1" class="modal modelBN grey" materialize="modal">
+    <div id="tourModal1" class="modal modelBN grey" materialize="modal" [materializeActions]="tourModal1Actions">
         <div class="modal-footer grey modfooterBN">
             <a class="modal-action modal-close ">
                 <span class="alignMidBN colorBN">
@@ -312,7 +317,7 @@
             </div>
         </div>
     </div>
-    <div id="modal2" class="modal modelBN grey" materialize="modal">
+    <div id="tourModal2" class="modal modelBN grey" materialize="modal" [materializeActions]="tourModal2Actions">
         <div class="modal-footer grey modfooterBN">
             <a class="modal-action modal-close ">
                 <span class="alignMidBN colorBN">
