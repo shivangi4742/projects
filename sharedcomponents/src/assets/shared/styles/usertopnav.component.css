@@ -194,9 +194,11 @@
 }
 .lasBN {
     height: 73px!important;
+    width: auto!important;
 }
 .lasBN1 {
     height:38px!important;
+    width: auto!important;
 }
 .displyBN {
     display: none!important;
