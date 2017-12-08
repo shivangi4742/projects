@@ -68,8 +68,8 @@
                 </span> 
             </a>
         </li>
-        <li>
-            <a *ngIf="mtype > 2" (click)="mainModal()">
+        <li *ngIf="mtype > 2">
+            <a (click)="mainModal()">
                 <span class="valign-wrapper topNavDDMenuItemBN"> 
                     <i class="material-icons iconPrefixBN">help</i>
                     {{'Take a Tour' | translate}} 
