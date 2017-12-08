@@ -176,12 +176,13 @@ export class CampaignService {
     } 
 
     getCampaigns(merchantCode: string, fromDate: string, toDate: string, sortColumn: string, campaignName: string,
-                 pageNumber: number): Promise<CampaignList> {
+                 sortDirection: string, pageNumber: number): Promise<CampaignList> {
         if(campaignName){
             return this.http.post(
                 this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
                 JSON.stringify({
                     "campaignName": campaignName,
+                    "sortDirection": sortDirection,
                     "pageNumber": pageNumber
                 }),
                 { headers: this.utilsService.getHeaders() }
@@ -198,6 +199,7 @@ export class CampaignService {
                     "fromDate": fromDate,
                     "toDate": toDate,
                     "sortColumn": sortColumn,
+                    "sortDirection": sortDirection,
                     "pageNumber": pageNumber
                 }),
                 { headers: this.utilsService.getHeaders() }
@@ -255,9 +257,9 @@ export class CampaignService {
                     var fundraised = 0;
                     var campaignName = "";
                     var txnrefnumber = "";
-                    var expiryDate = 0;
+                    var expiryDate;
                     var description = "";
-                    var creationDate = 0;
+                    var creationDate;
 
                     if(r.txnrefnumber) {
                         txnrefnumber = r.txnrefnumber;
