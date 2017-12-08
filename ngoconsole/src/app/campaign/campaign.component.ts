@@ -118,6 +118,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }}];
   }
 
+  hasCampaigns(){
+    if(this.allCampaigns)
+      return true;
+
+    return false;
+  }
+
   getAllCampaigns(res: any){
     this.numPages = res.numPages;
     this.numCampaigns = res.totalCamps;
@@ -126,11 +133,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   updateAllCampaigns(){
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, this.page)
+      this.page = 1;
+      let tempCampName: string = this.campaignName.toUpperCase();
+      this.campaignService.getCampaigns(null, null, null, null, tempCampName, "DESC", this.page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
-      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, this.page)
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, "DESC", this.page)
         .then(res => this.getAllCampaigns(res));
     }
   }
@@ -145,7 +154,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     else
       this.sortColumn = null;
 
-    this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, this.page)
+    this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, "DESC", this.page)
       .then(res => this.getAllCampaigns(res));
   }
 
@@ -155,11 +164,11 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.numPages = 0;
     window.scrollTo(0, 0);
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, page)
+      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
-      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, page)
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
   }
@@ -171,11 +180,11 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     window.scrollTo(0, 0);
     this.utilsService.setStatus(false, false, '');
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, page)
+      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
-      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, null, null, page)
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, null, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
   }
@@ -209,7 +218,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       if(page > 1)
         this.page = page;
 
-      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, this.page)
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, "DESC", this.page)
         .then(cres => this.getAllCampaigns(cres));
     }
     else
@@ -217,6 +226,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   resetSdk(){
+    this.sdk = null;
+    //if(!this.isClone)
+
     let mtype: number = 2;
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       mtype = 3;

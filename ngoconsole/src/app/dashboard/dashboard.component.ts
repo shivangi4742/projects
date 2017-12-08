@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getCampaigns(): void {
-    this.campaignService.getCampaigns(this.user.merchantCode, this.utilsService.getLastYearDateString(), this.utilsService.getNextYearDateString(), null, null, 1)
+    this.campaignService.getCampaigns(this.user.merchantCode, this.utilsService.getLastYearDateString(), this.utilsService.getNextYearDateString(), null, null, "DESC", 1)
       .then(campaigns => this.fillCampaigns(campaigns));
   }
 

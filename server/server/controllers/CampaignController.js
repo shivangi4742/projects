@@ -387,6 +387,7 @@ var campCont = {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
                         {
                             "campaignName": d.campaignName,
+                            "sortDirection": d.sortDirection,
                             "pageNumber": d.pageNumber
                         }, cb);
                 else if (d && d.merchantCode)
@@ -396,6 +397,7 @@ var campCont = {
                             "fromDate": d.fromDate,
                             "toDate": d.toDate,
                             "sortColumn": d.sortColumn,
+                            "sortDirection": d.sortDirection,
                             "pageNumber": d.pageNumber
                         }, cb);
             }
