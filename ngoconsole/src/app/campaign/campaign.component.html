@@ -24,19 +24,20 @@
         <div class="row">
           <div class="col s12" align="center">
             <div id="createCampaign">
-              <form materialize (ngSubmit)="create()" #cmpForm="ngForm">
-                <div materialize="modal" id="productsModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="modalParams"
-                    [materializeActions]="modalActions">
-                  <div class="modal-content" id="productsModalContent">
-                    <selectproducts [user]="user" [modalActions]="modalActions" ></selectproducts>
-                  </div>
-                  <div class="modal-footer footerHgtBN">
-                    <div class="col s12 center">
-                      <a class="btn waves-effect waves-light red regNrmS2BN buttonBN" (click)="closeModal()" name="done">{{'Done' | translate}}</a>
-                  <!-- changes end-->
-                  </div>
-                  </div>
+              <div materialize="modal" id="productsModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="modalParams"
+                  [materializeActions]="modalActions">
+                <div class="modal-content" id="productsModalContent">
+                  <selectproducts [user]="user" [modalActions]="modalActions" ></selectproducts>
                 </div>
+                <div class="modal-footer footerHgtBN">
+                  <div class="col s12 center">
+                    <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" [disabled]="!canBeClosed()" (click)="closeModal()" 
+                      name="done">{{'Done' | translate}}</button>
+                <!-- changes end-->
+                </div>
+                </div>
+              </div>
+              <form materialize (ngSubmit)="create()" #cmpForm="ngForm">
                 <div [ngClass]="isMobile ? 'row allContentBN' : 'row allContentBN card-panel grey lighten-5'">
                   <div class="col s12 center">
                     <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
@@ -154,7 +155,7 @@
                       <div class="col s8 offset-s2 m4 center">
                         <div (click)="addProduct()" class="noProdBN" class="linkButtonBN" (mouseover)="prodover=true;" (mouseout)="prodover=false;">
                           <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
-                              src="../../assets/shared/images/no-image-prod.png" *ngIf="sdk.merchantType == 3" />
+                              src="../../assets/shared/images/no-image-prod-mandatory.jpg" *ngIf="sdk.merchantType == 3" />
                           <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
                               src="../../assets/shared/images/adddonproduct.png" *ngIf="sdk.merchantType == 2" />
                         </div>

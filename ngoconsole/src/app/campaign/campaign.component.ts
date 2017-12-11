@@ -318,6 +318,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(this.sdk.campaignTarget && (this.sdk.campaignTarget < 1 || this.sdk.campaignTarget > 9999999.99))
       return true;
 
+    if(this.sdk.mtype == 3 && (!this.selProducts || this.selProducts.length <= 0))
+      return true;
+
     return false;
   }
 
@@ -382,6 +385,23 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() { }
+
+  hasSelectedProducts(): boolean {
+    if(this.spc) {
+      let p: Array<Product> = this.spc.getSelectedProducts();
+      if(p && p.length > 0)
+        return true;
+    }
+
+    return false;
+  }
+
+  canBeClosed() {
+    if(this.sdk.mtype == 3)
+      return this.hasSelectedProducts();
+
+    return true;
+  }
 
   closeModal() {
     this.selProducts = this.spc.getSelectedProducts();
