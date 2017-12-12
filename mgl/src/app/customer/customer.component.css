@@ -5,3 +5,14 @@
 .imags{
     width:50px;
 }
+
+.clrBN {
+    color:#0171bd!important;
+    font-weight: 600;
+    font-size: 12pt!important;
+}
+
+.proBN {
+    color: black!important;
+    font-size:13pt;
+}
