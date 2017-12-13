@@ -24,14 +24,14 @@
 }
 
 .productWidgetBN {
-    height: 200px;
-    max-height: 220px;
+    height: 230px;
+    max-height: 250px;
     overflow-y: hidden;
 }
 
 .productCartWidgetBN {
-    height: 240px;
-    max-height: 260px;
+    height: 270px;
+    max-height: 290px;
     overflow-y: hidden;
 }
 
