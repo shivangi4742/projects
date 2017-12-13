@@ -52,7 +52,7 @@ export class PayComponent implements OnInit {
   supportsSodexo: boolean = false;
   upiMode: number = 1;
 
-  hasExtraCharges: boolean = true;
+  hasExtraCharges: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer) { }
