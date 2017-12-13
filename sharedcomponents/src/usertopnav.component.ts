@@ -27,7 +27,10 @@ export class UserTopNavComponent {
   catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
   campaignURL: string = '/newestall';
-  modalActions: any = new EventEmitter<string|MaterializeAction>();
+  notifModalActions: any = new EventEmitter<string|MaterializeAction>();
+  tourModal1Actions: any = new EventEmitter<string|MaterializeAction>();
+  tourModal2Actions: any = new EventEmitter<string|MaterializeAction>();
+  tourModal3Actions: any = new EventEmitter<string|MaterializeAction>();
   @Input('mtype') mtype: number;
   @Input('user') user: User;
 
@@ -76,7 +79,7 @@ export class UserTopNavComponent {
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
     this.isUnregistered = this.utilsService.getUnregistered();
-    let me = this;
+    let me = this;    
     if(!this.isPolling)
       setTimeout(function() { me.loginPolls(); }, 5000);
 
@@ -96,12 +99,24 @@ export class UserTopNavComponent {
       this.language = 1;
   }
 
+  mainModal() {
+    this.tourModal3Actions.emit({action:"modal",params:['open']});    
+  }
+
+  estall() {
+    this.tourModal2Actions.emit({action:"modal",params:['open']});
+  }
+
+  sms() {
+    this.tourModal1Actions.emit({action:"modal",params:['open']});
+  }
+
   notifModal() {
-    this.modalActions.emit({action:"modal",params:['open']});
+    this.notifModalActions.emit({action:"modal",params:['open']});
   }
 
   closeNotifModal() {
-    this.modalActions.emit({action:"modal",params:['close']});
+    this.notifModalActions.emit({action:"modal",params:['close']});
   }
 
   fillNotifications(notifs: Notification[]|null) {
