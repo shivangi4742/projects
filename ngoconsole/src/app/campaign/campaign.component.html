@@ -1,5 +1,5 @@
 <div materialize>
-  <div *ngIf="sdk">
+  <div *ngIf="sdk" (click)="resetStatus()">
     <div class="fullWidthBN" align="center">
       <div class="maxWidthBN" align="left">
         <div class="row"></div>
@@ -11,7 +11,7 @@
                 <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
               </li>
               <li class="tab col s6 m6 l6 tabBottomBN">
-                <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Manage Existing Campaigns' | translate}}({{numCampaigns}})</a>
+                <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Manage Existing Campaigns' | translate}}<span *ngIf="numCampaigns > 0">({{numCampaigns}})</span></a>
                 <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
               </li>
               <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
@@ -31,10 +31,9 @@
                 </div>
                 <div class="modal-footer footerHgtBN">
                   <div class="col s12 center">
-                    <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" [disabled]="!canBeClosed()" (click)="closeModal()" 
+                    <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" [disabled]="!canBeClosed()" (click)="closeModal()"
                       name="done">{{'Done' | translate}}</button>
-                <!-- changes end-->
-                </div>
+                  </div>
                 </div>
               </div>
               <form materialize (ngSubmit)="create()" #cmpForm="ngForm">
@@ -359,10 +358,10 @@
                         <div class="row"></div>
                         <div class="row">
                           <div class="col s12" align="left">
-                            <span class="regHdrS2BN">{{'Starts On' | translate}} :</span><span class="regNrmS2BN"> {{campaign.creationDate | date: 'dd/MM/yy HH:mm:ss'}}</span>
+                            <span class="regHdrS2BN">{{'Starts On' | translate}} :</span><span class="regNrmS2BN"> {{campaign.creationDate | date: 'dd/MM/yy'}}</span>
                           </div>
                           <div class="col s12" align="left">
-                            <span *ngIf="campaign.expiryDate" class="regHdrS2BN">{{'Ends On' | translate}} :</span><span class="regNrmS2BN"> {{campaign.expiryDate | date: 'dd/MM/yy HH:mm:ss'}}</span>
+                            <span *ngIf="campaign.expiryDate" class="regHdrS2BN">{{'Ends On' | translate}} :</span><span class="regNrmS2BN"> {{campaign.expiryDate | date: 'dd/MM/yy'}}</span>
                           </div>
                         </div>
                       </div>
