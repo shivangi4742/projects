@@ -119,7 +119,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   hasCampaigns(){
-    if(this.allCampaigns)
+    if(this.allCampaigns && this.allCampaigns.length > 0)
       return true;
 
     return false;
@@ -217,9 +217,6 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       let page = this.route.snapshot.params['page'];
       if(page > 1)
         this.page = page;
-
-      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, "DESC", this.page)
-        .then(cres => this.getAllCampaigns(cres));
     }
     else
       window.location.href = this.utilsService.getLogoutPageURL();
@@ -228,6 +225,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   resetSdk(){
     this.sdk = null;
     //if(!this.isClone)
+    this.selProducts = null;
 
     let mtype: number = 2;
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
@@ -301,14 +299,20 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.campExpand = !this.campExpand;
     this.sdkService.getPaymentLinkDetails(campId)
       .then(res => this.updateCampaign(res));
-  }
 
+    this.productService.getProductsForCampaign(this.user.merchantCode, campId)
+      .then(res => this.fillProds(res));
+  }
 
   clone(){
     this.isClone = true;
-
+    this.sdk.expiryDate = null;
     let createTab = document.getElementById('create');
     createTab.click();
+  }
+
+  fillProds(res: Array<Product>){
+    this.selProducts = res;
   }
 
   invalidForm(): boolean {
@@ -343,14 +347,30 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    this.sdk.products = this.selProducts;
-    this.campaignService.saveCampaign(this.sdk)
-      .then(res => this.created(res));
+    let campName: string = this.sdk.title.trim();
+    if(campName.length > 0){
+      this.sdk.products = this.selProducts;
+      this.campaignService.saveCampaign(this.sdk)
+        .then(res => this.created(res));
+    }
+    else{
+      this.utilsService.setStatus(true, false, 'Please enter a valid Campaign Name.');
+    }
+
+  }
+
+  resetStatus() {
+    this.utilsService.setStatus(false, false, '');
   }
 
   setActiveTab(t: number) {
     if(!this.isClone)
       this.resetSdk();
+
+    if(t==1){
+      this.campaignService.getCampaigns(this.user.merchantCode, this.fromDate, this.toDate, this.sortColumn, this.campaignName, "DESC", this.page)
+        .then(cres => this.getAllCampaigns(cres));
+    }
 
     this.selectedCamp = '';
     if(this.active != t) {

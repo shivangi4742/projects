@@ -41,9 +41,6 @@ export class ProductService {
     }
 
     getProductsForCampaign(merchantCode: string, campaignId: string): Promise<Array<Product>> {
-        if(this._campProducts && this._campProducts.length > 0)
-            return Promise.resolve(this._campProducts);
-        else
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.getProductsForCampaignURL, 
                     JSON.stringify({
