@@ -71,7 +71,7 @@
 
 .regNrmS1B1BN, .regNrmS2B1BN, .regNrmS3B1BN, .regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .regNrmS5B2BN, .regNrmS5BN, .regHdrS1BN, 
     .regNrmS7BN, .regHdrS2BN, .regHdrS4B1BN, .regNrmS6B1BN, .regNrmS6BN, .regNrmS2BN, .regNrmS3BN, .regHdrS2B3BN, .regNrmS5B1BN, .greyBN, .regNrmS8BN, 
-    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN, .regHdrS4BN {
+    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN, .regHdrS4BN, .regHdrS6BN {
     color: #3d3d3d;
 }
 
@@ -94,6 +94,11 @@
 .regHdrS4B1BN, .regHdrS4BN, .errHdrS4BN {
     font-family: 'Fjalla One', sans-serif; 
     font-size: 12pt;    
+}
+
+.regHdrS6BN {
+    font-family: 'Fjalla One', sans-serif; 
+    font-size: 10pt;        
 }
 
 .regNrmS-1B1BN, .errNrmS-1B1BN {
