@@ -16,3 +16,18 @@
     color: black!important;
     font-size:13pt;
 }
+.colrgrey {
+    color: grey;
+    font-family: 'Open Sans', sans-serif!important;
+}
+.regHdrS6BN {
+    font-size: 10pt;
+    font-family: 'Open Sans', sans-serif!important;
+    font-weight: 500;
+}
+.regNrmS2BN1{
+    font-size: 11pt!important;
+}
+.regNrmS2BN {
+    font-size: 12pt!important;
+}
