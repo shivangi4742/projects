@@ -31,3 +31,7 @@
 .regNrmS2BN {
     font-size: 12pt!important;
 }
+.reNrmBn{
+    position: absolute;
+    margin-top: 8pt;
+}
