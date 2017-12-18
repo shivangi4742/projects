@@ -71,19 +71,29 @@
 
 .regNrmS1B1BN, .regNrmS2B1BN, .regNrmS3B1BN, .regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .regNrmS5B2BN, .regNrmS5BN, .regHdrS1BN, 
     .regNrmS7BN, .regHdrS2BN, .regHdrS4B1BN, .regNrmS6B1BN, .regNrmS6BN, .regNrmS2BN, .regNrmS3BN, .regHdrS2B3BN, .regNrmS5B1BN, .greyBN, .regNrmS8BN, 
-    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN, .regHdrS4BN, .regHdrS6BN {
+    .iconPrefixBN, .regNrmS7B1BN, .regNrmS0BN, .regNrmS0B1BN, .regNrmS-1B1BN, .regNrmS4IBN, .regNrmS6IBN, .regHdrS4BN, .regHdrS6BN,
+    .regNrmS2B2BN, .regNrmS3B2BN {
     color: #3d3d3d;
+}
+
+.disNrmS5B1BN, .disNrmS4BN {
+    color: #959e9e;
 }
 
 .errHdrS1BN, .errNrmS0BN, .errNrmS1BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN, .errNrmS5BN, .redBN, .errNrmS6B1BN,
     .errNrmS6BN, .errHdrS2BN, .errNrmS5B2BN, .errorIconBN, .errNrmS2B2BN, .errNrmS1B1BN, .errNrmS6B2BN, .errNrmS5B1BN, .errNrmS8B1BN, .errNrmS-1B1BN,
-    .backToDashboardBN, .errHdrS4BN {
+    .backToDashboardBN, .errHdrS4BN, .errHdrS-1BN {
    color: #E53935;
 }
 
 .regHdrS1BN, .errHdrS1BN, .invHdrS1BN {
     font-family: 'Fjalla One', sans-serif; 
     font-size: 16pt;
+}
+
+.regHdrS-1BN, .errHdrS-1BN {
+    font-family: 'Fjalla One', sans-serif; 
+    font-size: 30pt!important;        
 }
 
 .regHdrS2BN, .errHdrS2BN, .regHdrS2B3BN {
@@ -116,17 +126,17 @@
     font-size: 16pt;
 }
 
-.regNrmS2B1BN, .regNrmS2BN,.regNrmS2B3BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS2B2BN {
+.regNrmS2B1BN, .regNrmS2BN,.regNrmS2B3BN, .errNrmS2B1BN, .errNrmS2BN, .errNrmS2B2BN, .regNrmS2B2BN {
     font-family: 'Open Sans', sans-serif; 
     font-size: 14pt;
 }
 
-.regNrmS3B1BN, .regNrmS3BN, .regNrmS3B3BN{
+.regNrmS3B1BN, .regNrmS3BN, .regNrmS3B3BN, .regNrmS3B2BN {
     font-family: 'Open Sans', sans-serif; 
     font-size: 13pt;
 }
 
-.regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN {
+.regNrmS4BN, .regNrmS4B3BN, .regNrmS4B2BN, .regNrmS4B1BN, .errNrmS4B1BN, .errNrmS4B2BN, .errNrmS4BN, .disNrmS4BN {
     font-family: 'Open Sans', sans-serif; 
     font-size: 12pt;
 }
@@ -168,7 +178,7 @@
     font-weight: 700;    
 }
 
-.errNrmS4B2BN, .regNrmS5B2BN, .regNrmS4B2BN, .errNrmS5B2BN, .errNrmS2B2BN, .errNrmS6B2BN {
+.errNrmS4B2BN, .regNrmS5B2BN, .regNrmS4B2BN, .errNrmS5B2BN, .errNrmS2B2BN, .errNrmS6B2BN, .regNrmS2B2BN, .regNrmS3B2BN {
     font-weight: 600;
 }
 

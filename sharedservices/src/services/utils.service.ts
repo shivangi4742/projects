@@ -19,9 +19,13 @@ export class UtilsService {
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
+  private _profilePageURL: string = 'http://localhost:9090/profile';
+  private _tilConsoleURL: string = 'http://localhost:9090/tilconsole';
+  private _invoicesPageURL: string = 'http://localhost:9090/invoices';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
   private _oldDashboardURL: string = 'http://localhost:9090/dashboard';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
+  private _paymentLinkPageURL: string = 'http://localhost:9090/paymentlink';
   private _ngoDashboardPageURL: string = 'http://localhost:9090/ngocsl/dashboard';
   private _mybizDashboardPageURL: string = 'http://localhost:9090/mybiz/dashboard';
   private _changePasswordPageURL: string = 'http://localhost:9090/lgn/verify/2';
@@ -107,6 +111,22 @@ export class UtilsService {
 
   public getLoginPageURL(): string {
     return this._loginPageURL;
+  }
+
+  public getInvoicesPageURL(): string {
+    return this._invoicesPageURL;    
+  }
+
+  public getTilConsoleURL(): string {
+    return this._tilConsoleURL;
+  }
+
+  public getProfilePageURL(): string {
+    return this._profilePageURL;
+  }
+
+  public getPaymentLinkPageURL(): string {
+    return this._paymentLinkPageURL;
   }
 
   public getOldDashboardURL(): string {

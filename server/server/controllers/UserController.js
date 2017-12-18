@@ -97,6 +97,194 @@ var userCont = {
         }
     },
 
+    register: function (req, res) {
+        var me = this;
+        this.registerPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
+        });
+    },
+
+    registerPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.mobileNumber && d.emailId && d.displayName && d.otp && d.fullName) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
+                        {
+                            "userId":d.emailId,
+	                        "mobileNumber":d.mobileNumber,
+	                        "emailId":d.emailId,
+	                    	"password":d.password,
+                            "displayName":d.displayName,
+                            "contactPerson": d.fullName,
+                            "source":d.source,
+                            "otp":d.otp
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getLead: function (req, res) {
+        var me = this;
+        this.getLeadPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
+        });
+    },
+
+    getLeadPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.mobileNumber) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getLead', 'POST', req.headers),
+                        {
+                            "mobileNumber": d.mobileNumber
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    check: function (req, res) {
+        var me = this;
+        this.checkPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
+        });
+    },
+
+    checkPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.mobileNumber) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/checkMerchant', 'POST', req.headers),
+                        {
+                            "mobileNumber": d.mobileNumber
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    verifyOTP: function (req, res) {
+        var me = this;
+        this.verifyOTPPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
+        });
+    },
+
+    verifyOTPPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.mobileNumber && d.otp) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/registration/checkWebOTP', 'POST', req.headers),
+                        {
+                            "mobileNumber": d.mobileNumber,
+                            "otp": d.otp
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    signUp: function (req, res) {
+        var me = this;
+        this.signUpPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
+        });
+    },
+
+    signUpPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.mobileNumber) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/registration/sendWebOTP', 'POST', req.headers),
+                        {
+                            "mobileNumber": d.mobileNumber
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     signIn: function (req, res) {
         var retErr = {
             "success": false,

@@ -15,14 +15,25 @@ export class UserTopNavComponent {
   hasTils: boolean;
   isTilManager: boolean;
   language: number;
+  lastSwipe: number;
   name: string|null;
   tmLoad: string;
   notifications: Notification[]|null;
   isNGO: boolean = false;
+  plUserAction: boolean = false;
+  esUserAction: boolean = false;
+  plProceeding: boolean = false;
+  estallProceeding: boolean = false;
   isPolling: boolean = false;
   isUnregistered: boolean = false;
   hasNotifications: boolean = false;
   notifInitialized: boolean = false;
+  plx: number = -1;
+  plSlide: number = 1;
+  lastPLSlide: number = -1;
+  plx1: number = -1;
+  estallSlide: number = 1;
+  lastestallSlide: number = -1;
   numUnreadNotifs: number = 0;
   catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
@@ -40,6 +51,19 @@ export class UserTopNavComponent {
   }
 
   goTo(routeStr: string) {    
+    switch(routeStr) {
+      case 'settings':
+        window.location.href = this.utilsService.getProfilePageURL();
+        break;
+      case 'tilconsole':
+        window.location.href = this.utilsService.getTilConsoleURL();
+        break;
+      case 'invoices':
+        window.location.href = this.utilsService.getInvoicesPageURL();
+        break;
+      default:
+        break;
+    }
   }
 
   hasCampaign(): boolean {
@@ -99,16 +123,202 @@ export class UserTopNavComponent {
       this.language = 1;
   }
 
+  plSwipeStart(event: any) {
+    this.plUserAction = true;
+    if(event && event.target && event.target.id == 'createplinkbtn')
+      this.createplink();
+    else {
+      let swt: number = Date.now();
+      if(this.lastSwipe) {
+        if(swt - this.lastSwipe < 800) {
+          this.lastSwipe = swt;
+          return;
+        }
+      }
+
+      this.lastSwipe = swt;
+      this.plx = -1;
+      if(event && event.changedTouches && event.changedTouches[0] && event.changedTouches[0].pageX >= 0)
+        this.plx = event.changedTouches[0].pageX;
+      else if(event && event.screenX >= 0)
+        this.plx = event.screenX;
+      else if(event && event.pageX >= 0)
+        this.plx = event.pageX;
+      else if(event && event.x >= 0)
+        this.plx = event.x;
+    }
+  }
+
+  plSwipeEnd(event: any) {
+    let newplx: number = -1;
+    if(this.plx >= 0 && event && event.changedTouches && event.changedTouches[0] && event.changedTouches[0].pageX >= 0)
+      newplx = event.changedTouches[0].pageX;
+    else if(this.plx >= 0 && event && event.screenX >= 0)
+      newplx = event.screenX;
+    else if(this.plx >= 0 && event && event.pageX >= 0)
+      newplx = event.pageX;
+    else if(this.plx >= 0 && event && event.x >= 0)
+      newplx = event.x;
+
+    if(newplx >= 0) {
+      if(newplx >= this.plx + 10)
+        this.plRight();
+      else
+        this.plLeft();
+
+      this.plx = -1;
+    }
+  }
+
+  plLeft() {
+    if(this.plSlide < 4)
+      ++this.plSlide;
+  }
+
+  plRight() {
+    if(this.plSlide > 1)
+      --this.plSlide;
+  }
+
+  estallSwipeStart(event: any) {
+    this.esUserAction = true;
+    if(event && event.target && event.target.id == 'createestallbtn')
+      this.createstall();
+    else {
+      let swt: number = Date.now();
+      if(this.lastSwipe) {
+        if(swt - this.lastSwipe < 800) {
+          this.lastSwipe = swt;
+          return;
+        }
+      }
+
+      this.lastSwipe = swt;
+      this.plx1 = -1;
+      if(event && event.changedTouches && event.changedTouches[0] && event.changedTouches[0].pageX >= 0)
+        this.plx1 = event.changedTouches[0].pageX;
+      else if(event && event.screenX >= 0)
+        this.plx1 = event.screenX;
+      else if(event && event.pageX >= 0)
+        this.plx1 = event.pageX;
+      else if(event && event.x >= 0)
+        this.plx1 = event.x;
+    }
+  }
+
+  estallSwipeEnd(event: any) {
+    let newplx1: number = -1;
+    if(this.plx1 >= 0 && event && event.changedTouches && event.changedTouches[0] && event.changedTouches[0].pageX >= 0)
+      newplx1 = event.changedTouches[0].pageX;
+    else if(this.plx1 >= 0 && event && event.screenX >= 0)
+      newplx1 = event.screenX;
+    else if(this.plx1 >= 0 && event && event.pageX >= 0)
+      newplx1 = event.pageX;
+    else if(this.plx1 >= 0 && event && event.x >= 0)
+      newplx1 = event.x;
+
+    if(newplx1 >= 0) {
+      if(newplx1 >= this.plx1 + 10)
+        this.estallRight();
+      else
+        this.estallLeft();
+
+      this.plx1 = -1;
+    }
+  }
+
+  estallLeft() {
+    if(this.estallSlide < 5)
+      ++this.estallSlide;
+  }
+
+  estallRight() {
+    if(this.estallSlide > 1)
+      --this.estallSlide;
+  }
+
+  createstall() {
+    this.router.navigateByUrl(this.campaignURL);          
+  }
+
+  createplink() {
+    this.tourModal1Actions.emit({action:"modal",params:['close']});    
+    this.tourModal2Actions.emit({action:"modal",params:['close']});    
+    this.tourModal3Actions.emit({action:"modal",params:['close']});    
+    window.location.href = this.utilsService.getPaymentLinkPageURL();
+  }
+
   mainModal() {
     this.tourModal3Actions.emit({action:"modal",params:['open']});    
   }
 
   estall() {
+    let me: any = this;
+    this.estallSlide = 1;
     this.tourModal2Actions.emit({action:"modal",params:['open']});
+    if(!this.estallProceeding) {
+      this.estallProceeding = true;
+      setTimeout(function() { me.proceedestall(); }, 2000);
+    }
+  }
+
+  proceedestall() {
+    if(!this.esUserAction) {
+      if(this.lastestallSlide >= 1 && this.lastestallSlide == this.estallSlide) {
+        if(this.estallSlide < 5)
+          this.estallLeft();
+      }
+      else
+        this.lastestallSlide = this.estallSlide;
+
+      let me: any = this;
+      setTimeout(function() { me.proceedestall(); }, 2000);
+    }
+  }
+
+  proceed() {
+    if(!this.plUserAction) {
+      if(this.lastPLSlide >= 1 && this.lastPLSlide == this.plSlide) {
+        if(this.plSlide < 4)
+          this.plLeft();
+      }
+      else
+        this.lastPLSlide = this.plSlide;
+
+      let me: any = this;
+      setTimeout(function() { me.proceed(); }, 2000);
+  }
   }
 
   sms() {
+    let me: any = this;
+    this.plSlide = 1;
     this.tourModal1Actions.emit({action:"modal",params:['open']});
+    if(!this.plProceeding) {
+      this.plProceeding = true;
+      setTimeout(function() { me.proceed(); }, 2000);
+    }
+  }
+
+  esSelect(sl: number) {
+    if(this.estallSlide != sl) {
+      this.estallSlide = sl;
+      this.esUserAction = true;
+    }
+  }
+
+  plSelect(sl: number) {
+    if(this.plSlide != sl) {
+      this.plSlide = sl;
+      this.plUserAction = true;
+    }
+  }
+
+  onProfile() {
+    if(this.user.isSuperMerchant || this.user.isSuperAdmin)
+      return true;
+
+    return false;
   }
 
   notifModal() {

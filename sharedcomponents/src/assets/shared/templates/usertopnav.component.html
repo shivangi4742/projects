@@ -52,6 +52,14 @@
                 </span>
             </a>
         </li>
+        <li *ngIf="!onProfile()">
+            <a (click)="goTo('settings')">
+                <span class="valign-wrapper topNavDDMenuItemBN">
+                    <i class="material-icons iconPrefixBN">edit</i>
+                    {{'Merchant Settings' | translate}}
+                </span>
+            </a>
+        </li>
         <li *ngIf="!hasTils">
             <a (click)="changePassword()" >
                 <span class="valign-wrapper topNavDDMenuItemBN">           
@@ -162,274 +170,330 @@
 </div>
 
 <div materialize>
-    <div id="tourModal3" class="modal modelBN" materialize="modal" [materializeActions]="tourModal3Actions">
-        <div class="modal-footer modfooterBN">
+    <div id="tourModal3" class="modal modelBN modal0PadBN grey" materialize="modal" [materializeActions]="tourModal3Actions">
+        <div class="modal-footer modfooterBN grey">
             <a class="modal-action modal-close ">
-                <span class="alignMidBN colorBN">
-                    <i class="material-icons">close</i> {{'Tap to close' | translate}}
+                <span class="alignMidBN colorBN gdCloseBN rightBN">
+                    <i class="material-icons matBN">close</i> &nbsp;&nbsp;{{'Tap to close' | translate}}
                 </span>
             </a>
         </div>
         <br>
-        <div class="modal-content modBN">
-            <span class="regHdrS2BN">
-                <b class="colorBN">{{'Need help getting started on Benow?' | translate}}</b>
-            </span>
-            <br>
-            <span>{{'Click on the following options to learn how to use this services' | translate}}</span>
-            <br>
+        <div class="modal-content modBN modal0PadBN grey">
+            <div class="col s12" align="center">
+                <span class="errHdrS1BN">{{'Need help getting started on Benow?' | translate}}</span>
+                <br />
+                <br />
+                <span class="disNrmS4BN">
+                    <i>{{'Click on the following options to learn how to use these services' | translate}}</i>
+                </span>
+                <br />
+            </div>
             <p class="borderBN"></p>
-            <div class="row roBN center linkButtonBN" (click)="estall()">
-                <div class="col s5 m5 l5 center">
-                    <img src="../assets/shared/images/e-stall@2x.png" class="screeBN" alt="">
-                </div>
-                <div class="col s5 m4 l4 center regHdrS2BN padBN">
-                    {{'How do I setup my e-Stall?' | translate}}
-                </div>
-                <div class="col s1 m3 l2 center pad1BN">
-                    <i class="material-icons">keyboard_arrow_right</i>
+            <div class="row roBN linkButtonBN" (click)="estall()">
+                <div class="valign-wrapper">
+                    <div class="col s5 m4">
+                        <img src="../assets/shared/images/e-stall@2x.png" class="screeBN" alt="">
+                    </div>
+                    <div class="col s5 m6 regNrmS2B2BN">
+                        {{'How do I setup my e-Stall?' | translate}}
+                    </div>
+                    <div class="col s2">
+                        <i class="material-icons pad1BN">keyboard_arrow_right</i>
+                    </div>
                 </div>
             </div>
             <p class="borderBN"></p>
-            <div class="row  center linkButtonBN" (click)="sms()">
-                <div class="col s5 m5 l5 center">
-                    <img src="../assets/shared/images/SMS@2x.png" class="screeBN" alt="">
-                </div>
-                <div class="col s5 m4 l4 regHdrS2BN padBN">
-                    {{'How do I send a SMS Payment Link?' | translate}}
-                </div>
-                <div class="col s1 m3 l2 pad1BN">
-                    <i class="material-icons">keyboard_arrow_right</i>
+            <div class="row linkButtonBN" (click)="sms()">
+                <div class="valign-wrapper">
+                    <div class="col s5 m4">
+                        <img src="../assets/shared/images/SMS@2x.png" class="screeBN" alt="">
+                    </div>
+                    <div class="col s5 m6 regNrmS2B2BN">
+                        {{'How do I send a SMS Payment Link?' | translate}}
+                    </div>
+                    <div class="col s2">
+                        <i class="material-icons pad1BN">keyboard_arrow_right</i>
+                    </div>
                 </div>
             </div>
             <p class="borderBN"></p>
         </div>
     </div>
     <!-- Modal Structure -->
-    <div id="tourModal1" class="modal modelBN grey" materialize="modal" [materializeActions]="tourModal1Actions">
+    <div id="tourModal1" class="modal modelBN grey modal0PadBN" materialize="modal" [materializeActions]="tourModal1Actions">
         <div class="modal-footer grey modfooterBN">
             <a class="modal-action modal-close ">
-                <span class="alignMidBN colorBN">
-                   <i class="material-icons">close</i> {{'Tap to close' | translate}}
+                <span class="alignMidBN colorBN gdCloseBN rightBN">
+                    <i class="material-icons matBN">close</i> &nbsp;&nbsp;{{'Tap to close' | translate}}
                 </span>
             </a>
         </div>
-        <div class="modal-content grey">
-            <div id="carousel" materialize="carousel" class="carousel carousel-slider center" data-indicators="true">
-                <div class="carousel-item grey white-text crousalBN" href="#one!">
-                    <p>
-                        <img src="../assets/shared/images/blue1@2x.png" alt="" class="NumberBN">
-                    </p>
-                    <img src="../assets/shared/images/yellowclick@2x.png" alt="">
-                    <p></p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Click' | translate}}
-                            <b class="colorBN">{{'Send SMS payment link' | translate}}</b>
-                            <br> {{'on the Benow dashboard'| translate}}
+        <div class="modal-content grey modal0PadBN">
+            <div (touchstart)="plSwipeStart($event)" (touchend)="plSwipeEnd($event)" (mousedown)="plSwipeStart($event)" (mouseup)="plSwipeEnd($event)"
+                class="center">
+                <div class="grey white-text">
+                    <div class="carouItemHeightBN" *ngIf="plSlide == 1">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img src="../assets/shared/images/blue1@2x.png" alt="" class="NumberBN">
+                            </p>
+                            <img style="width: 56px!important;" width="56" height="69" src="../assets/shared/images/yellowclick@2x.png" alt="">
+                            <p></p>
                         </div>
-                        <div class="col s1"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="coloBN alignMidBN truncate ">
-                                <i class="material-icons blueBN zeroPaddingLeftMarginBN leftBN">email</i>{{'Send SMS Payment Link'| translate}}
-                                <i class="material-icons">keyboard_arrow_right</i>
-                            </span>
+                        <div class="row">
+                            <div class="col s12 regHdrS2BN center lnBN"> {{'Click' | translate}}
+                                <span class="errHdrS2BN">{{"'Send SMS Payment Link'" | translate}}</span>
+                                {{'on the Benow dashboard'| translate}}
+                            </div>                            
                         </div>
-                        <div class="col s1"></div>
+                        <div class="row">
+                            <div class="col s12 center regNrmS4B2BN">
+                                <span class="coloBN alignMidBN truncate ">
+                                    <i class="material-icons blueBN zeroPaddingLeftMarginBN leftBN">email</i> 
+                                    <span class="hide-on-small-only">&nbsp;&nbsp;</span>{{'Send SMS Payment Link'| translate}}
+                                    <span class="hide-on-small-only">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <i class="material-icons">keyboard_arrow_right</i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#two!">
-                    <p>
-                        <img src="../assets/shared/images/blue2@2x.png" alt="" class="NumberBN">
-                    </p>
-                    <img src="../assets/shared/images/mobile@2x.png" width="4%" alt="">
-                    <p></p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN">{{'Enter' | translate}}
-                            <b class="colorBN">{{'Customer Mobile Number' | translate}}</b>
+                    <div class="carouItemHeightBN" *ngIf="plSlide == 2">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img src="../assets/shared/images/blue2@2x.png" alt="" class="NumberBN">
+                            </p>
+                            <img style="width: 40px!important;" width="40" height="67" src="../assets/shared/images/mobile@2x.png"  alt="">
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <div class="col s10 offset-s1 regHdrS2BN lnBN">{{'Enter' | translate}}
+                                <span class="errHdrS2BN">{{'Customer Mobile Number' | translate}}</span>
+                                <br>
+                            </div>
+                            <div class="col s1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 center">
+                                <span class="italicBN disNrmS4BN">
+                                    {{'An SMS Payment link will be sent' | translate}}
+                                    {{'to this mobile number' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carouItemHeightBN" *ngIf="plSlide == 3">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img class="NumberBN" src="../assets/shared/images/blue3@2x.png" alt="">
+                            </p>
+                            <img style="width: 54px!important;" width="54" height="60" src="../assets/shared/images/invoice@2x.png" alt="">
+                            <br>
                             <br>
                         </div>
-                        <div class="col s1"></div>
+                        <div class="row">
+                            <div class="col s10 offset-s1 center regHdrS2BN lnBN"> {{'Enter' | translate}}
+                                <span class="errHdrS2BN">{{'Invoice Amount'| translate}}</span>
+                                {{'& Invoice Ref No. (If any)' | translate}}
+                            </div>
+                            <div class="col s1"></div>
+                        </div>
+                    </div>
+                    <div class="carouItemHeightBN" *ngIf="plSlide == 4">
+                        <div class="row">
+                            <div class="col s12">
+                                <img style="width: 114px!important;" width="114" height="116" src="../assets/shared/images/finalsms@2x.png" alt="">
+                            </div>
+                            <div class="col s12">&nbsp;</div>
+                            <div class="col s12 lnBN">
+                                <span class="errHdrS-1BN">{{"That's It!" | translate}}</span>
+                                <br />
+                                <br />
+                                <span class="regHdrS2BN">
+                                    {{"Press the 'SEND' button and"| translate}}
+                                    {{'your customer will receive the payment' | translate}}
+                                    {{'link via SMS' | translate}}
+                                </span>
+                                <br />
+                            </div>
+                            <div class="col s12">&nbsp;</div>
+                            <div class="col s10 offset-s1">
+                                <button id="createplinkbtn" class="btn pad10BN waves-effect waves-light red regHdrS2BN buttonBN">
+                                    {{'Send SMS Payment Link' | translate}}
+                                </button>
+                            </div>
+                            <div class="col s1"></div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-
-                            <span class=" colsecondBN">
-                                {{'An SMS Payment link will be sent' | translate}}
-                                <br> {{'to this mobile number' | translate}}
-                            </span>
+                        <div class="col s12 center">
+                            <span (click)="plSelect(1)" 
+                                [ngClass]="plSlide == 1 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="plSelect(2)" 
+                                [ngClass]="plSlide == 2 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="plSelect(3)" 
+                                [ngClass]="plSlide == 3 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="plSelect(4)" 
+                                [ngClass]="plSlide == 4 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </div>
-                        <div class="col s1"></div>
-                    </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#three!">
-                    <p>
-                        <img class="NumberBN" src="../assets/shared/images/blue3@2x.png" alt="">
-                    </p>
-                    <img src="../assets/shared/images/invoice@2x.png" width="4%" alt="">
-                    <br>
-                    <br>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Enter' | translate}}
-                            <b class="colorBN">{{'Invoice Amount'| translate}}</b>
-                            <br> {{'& Invoice Ref No.(If any)' | translate}}
-                        </div>
-                        <div class="col s1"></div>
-                    </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#four!">
-                    <p>
-                        <img class="lastBN" src="../assets/shared/images/finalsms@2x.png" alt="">
-                    </p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN">
-                            <b class="fonBN colorBN">{{"That's It!"| translate}}</b>
-                            <br>
-                            <span class="linBN">
-                                {{"Press the 'SEND' button and"| translate}}
-                                <br> {{'your customer will receive the payment' | translate}}
-                                <br> {{'link via SMS' | translate}}
-                            </span>
-                        </div>
-                        <div class="col s1"></div>
-                    </div>
-                    <div class="row bottomBN">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="alignMidBN truncate sendBN">
-                                {{'Send SMS Payment Link' | translate}}
-                            </span>
-                        </div>
-                        <div class="col s1"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="tourModal2" class="modal modelBN grey" materialize="modal" [materializeActions]="tourModal2Actions">
+    <div id="tourModal2" class="modal modelBN grey modal0PadBN" materialize="modal" [materializeActions]="tourModal2Actions">
         <div class="modal-footer grey modfooterBN">
             <a class="modal-action modal-close ">
-                <span class="alignMidBN colorBN">
-                    <i class="material-icons">close</i>{{'Tap to close' | translate}}</span>
+                <span class="alignMidBN colorBN gdCloseBN rightBN">
+                    <i class="material-icons matBN">close</i>&nbsp;&nbsp;{{'Tap to close' | translate}}</span>
             </a>
         </div>
-        <div class="modal-content grey">
-            <div id="carousel1" materialize="carousel" class="carousel carousel-slider center" data-indicators="true">
-                <div class="carousel-item grey white-text crousalBN">
-                    <p>
-                        <img src="../assets/shared/images/number1@2x.png" alt="" class="thirdBN">
-                    </p>
-                    <img src="../assets/shared/images/Create e-stall2@2x.png" alt="">
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Click' | translate}}
-                            <b class="colorBN">{{"'Create e-Stall'" | translate}}</b> {{'on the' | translate}}
-                            <br>{{'Benow dashboard' | translate}}
+        <div class="modal-content grey modal0PadBN">
+            <div (touchstart)="estallSwipeStart($event)" (touchend)="estallSwipeEnd($event)" (mousedown)="estallSwipeStart($event)" (mouseup)="estallSwipeEnd($event)"
+                class="center">
+                <div class="grey white-text">
+                    <div class="carouItemHeightBN" *ngIf="estallSlide == 1">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img src="../assets/shared/images/number1@2x.png" alt="" class="thirdBN">
+                            </p>
+                            <div>
+                                <img height="69" width="56" style="width:56px!important" src="../assets/shared/images/Create e-stall2@2x.png" alt="">
+                            </div>
                         </div>
-                        <div class="col s1"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="coloBN alignMidBN truncate">
-                                <i class="material-icons blueBN zeroPaddingLeftMarginBN leftBN">email</i>{{'Create e-Stall' | translate}}
-                                <i class="material-icons">keyboard_arrow_right</i>
-                            </span>
+                        <div class="row">
+                            <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Click' | translate}}
+                                <span class="errHdrS2BN">{{"'Create e-Stall'" | translate}}</span> {{'on the' | translate}}
+                                <br>{{'Benow dashboard' | translate}}
+                            </div>
+                            <div class="col s1"></div>
                         </div>
-                        <div class="col s1"></div>
-                    </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#two">
-                    <p>
-                        <img src="../assets/shared/images/number2@2x.png" alt="" class="thirdBN">
-                    </p>
-
-                    <div>
-                        <img src="../assets/shared/images/banner@2x.png" class="lasBN1" alt="">
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Enter' | translate}}
-                            <b class="colorBN">{{'Upload a Banner Image' | translate}}</b>
-                            <br> {{'and enter e-Stall Details' | translate}}
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col s12 center regNrmS3B2BN">
+                                <span class="coloBN alignMidBN truncate">
+                                    <i class="material-icons clearedBN zeroPaddingLeftMarginBN leftBN">business</i> &nbsp;&nbsp;&nbsp;{{'Create e-Stall' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <i class="material-icons">keyboard_arrow_right</i>
+                                </span>
+                            </div>
                         </div>
-                        <div class="col s1"></div>
                     </div>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="alignMidBN truncate colsecondBN">
+                    <div class="carouItemHeightBN" *ngIf="estallSlide == 2">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img src="../assets/shared/images/number2@2x.png" alt="" class="thirdBN">
+                            </p>
+                            <div>
+                                <img src="../assets/shared/images/banner@2x.png" style="width: 113px!important;" height="60" width="113" alt="">
+                            </div>
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <div class="col s10 offset-s1 regHdrS2BN lnBN">
+                                <span class="errHdrS2BN">{{'Upload a Banner Image' | translate}}</span>
+                                <br> {{'and enter e-Stall Details' | translate}}
+                            </div>
+                            <div class="col s1"></div>
+                            <div class="col s12">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="col s10 offset-s1 disNrmS4BN italicBN">
                                 {{'This will help attract more customers' | translate}}
-                                <br> {{'to your e-Stall' | translate}}
-                            </span>
+                                {{'to your e-Stall' | translate}}
+                            </div>                            
                         </div>
-                        <div class="col s1"></div>
                     </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#three">
-                    <p>
-                        <img class="thirdBN" src="../assets/shared/images/number3@2x.png" alt="">
-                    </p>
-                    <span>
-                        <img src="../assets/shared/images/addproducts@2x.png" class="screeBN" alt="">
-                    </span>
-                    <br>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN"> {{'Enter' | translate}}
-                            <b class="colorBN">{{'Add products' | translate}}</b>
-                            <br> {{'to your e-Stall' | translate}}
-                        </div>
-                        <div class="col s1"></div>
-                    </div>
-                    <span>
-                        <img src="../assets/shared/images/addproducts2@2x.png" class="lasBN" alt="">
-                    </span>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#four">
-                    <p>
-                        <img class="thirdBN" src="../assets/shared/images/number4@2x.png" alt="">
-                    </p>
-                    <div>
-                        <img class="lastBN" src="../assets/shared/images/customer details@2x.png" alt="">
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN">
-                            <b class="fonBN colorBN">{{'Choose Customer details Needed'| translate}}</b>
-                            <br>{{'Eg. Name, Email ID, Address, Etc' | translate}}
-                            <br>
-                        </div>
-                        <div class="col s1"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="alignMidBN truncate sendBN">
-                                {{'& Click the Create e-Stall Button' | translate}}
-                            </span>
-                        </div>
-                        <div class="col s1"></div>
-                    </div>
-                </div>
-                <div class="carousel-item grey white-text crousalBN" href="#five">
-                    <p>
-                        <img class="lasBN" src="../assets/shared/images/final@2x.png" alt="">
-                    </p>
-                    <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN lnBN">
-                            <b class="fonBN colorBN">{{"That's It!" | translate}}</b>
-                            <br>
-                            <span class="linBN">
-                                {{'Share Your Unique e-Stall link' | translate}}
-                                <br> {{'on Social Media/SMS'| translate}}
-                                <br>{{'and reach out to your Customer' | translate}}
+                    <div class="carouItemHeightBN" *ngIf="estallSlide == 3">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img class="thirdBN" src="../assets/shared/images/number3@2x.png" alt="">
+                            </p>
+                            <span>
+                                <img src="../assets/shared/images/addproducts@2x.png" height="57" width="57" style="width: 57px!important;" alt="">
                             </span>
                             <br>
                         </div>
-                        <div class="col s1"></div>
+                        <div class="row">
+                            <div class="col s10 offset-s1 regHdrS2BN lnBN">
+                                <span class="errHdrS2BN">{{'Add products' | translate}}</span> {{'to your e-Stall' | translate}}
+                            </div>
+                            <div class="col s1"></div>
+                        </div>
+                        <span>
+                            <img src="../assets/shared/images/addproducts2@2x.png" style="width: 137px!important;" width="137" height="153" alt="">
+                        </span>
+                    </div>
+                    <div class="carouItemHeightBN" *ngIf="estallSlide == 4">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <p>
+                                <img class="thirdBN" src="../assets/shared/images/number4@2x.png" alt="">
+                            </p>
+                            <div>
+                                <img style="width: 80px!important;" width="80" height="64" src="../assets/shared/images/customer details@2x.png" alt="">
+                            </div>
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 lnBN">
+                                <span class="errHdrS2BN">{{'Choose Customer details Needed'| translate}}</span>
+                                <br>
+                                <span class="disNrmS4BN italicBN">{{'Eg. Name, Email ID, Address, Etc' | translate}}</span>
+                                <br>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col s12 center regHdrS2BN">
+                                <span class="alignMidBN truncate sendgreyBN">
+                                    {{'& Click the Create e-Stall Button' | translate}}
+                                </span>
+                            </div>
+                            <div class="col s1"></div>
+                        </div>
+                    </div>
+                    <div class="carouItemHeightBN" *ngIf="estallSlide == 5">
+                        <div class="row">
+                            <div class="col s12">
+                                <img style="width: 114px!important;" width="114" height="116" src="../assets/shared/images/final@2x.png" alt="">
+                            </div>
+                            <div class="col s12">&nbsp;</div>
+                            <div class="col s12 lnBN">
+                                <span class="errHdrS-1BN">{{"That's It!" | translate}}</span>
+                                <br />
+                                <br />
+                                <span class="regHdrS2BN">
+                                    {{'Share Your Unique e-Stall link' | translate}}
+                                    {{'on Social Media/SMS'| translate}}
+                                    {{'and reach out to your Customer' | translate}}
+                                </span>
+                                <br />
+                            </div>
+                            <div class="col s12">&nbsp;</div>
+                            <div class="col s10 offset-s1 regHdrS2BN">
+                                <button id="createestallbtn" class="btn waves-effect waves-light red regHdrS2BN buttonBN">
+                                    {{'Create e-Stall' | translate}}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col s10 offset-s1 regHdrS2BN">
-                            <span class="alignMidBN truncate sendBN">
-                                {{'Create e-Stall' | translate}}
-                            </span>
+                        <div class="col s12 center">
+                            <span (click)="esSelect(1)" 
+                                [ngClass]="estallSlide == 1 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="esSelect(2)" 
+                                [ngClass]="estallSlide == 2 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="esSelect(3)" 
+                                [ngClass]="estallSlide == 3 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="esSelect(4)" 
+                                [ngClass]="estallSlide == 4 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span (click)="esSelect(5)" 
+                                [ngClass]="estallSlide == 5 ? 'dotBN selDotBN' : 'dotBN'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </div>
                     </div>
                 </div>
