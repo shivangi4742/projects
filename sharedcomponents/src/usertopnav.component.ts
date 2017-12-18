@@ -238,13 +238,13 @@ export class UserTopNavComponent {
   }
 
   createstall() {
+    this.tourModal1Actions.emit({action:"modal",params:['close']});    
+    this.tourModal2Actions.emit({action:"modal",params:['close']});    
+    this.tourModal3Actions.emit({action:"modal",params:['close']});    
     this.router.navigateByUrl(this.campaignURL);          
   }
 
   createplink() {
-    this.tourModal1Actions.emit({action:"modal",params:['close']});    
-    this.tourModal2Actions.emit({action:"modal",params:['close']});    
-    this.tourModal3Actions.emit({action:"modal",params:['close']});    
     window.location.href = this.utilsService.getPaymentLinkPageURL();
   }
 
