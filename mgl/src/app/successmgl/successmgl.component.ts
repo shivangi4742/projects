@@ -12,11 +12,11 @@ export class SuccessmglComponent implements OnInit {
   constructor(private mglservice:MglService ) { }
 
   ngOnInit() {
-   this.pay = JSON.parse((document.getElementById('paymentSuccessData') as any).value);
-   this.mglservice.mgldetailssave(this.pay.txnid,atob(this.pay.udf2),this.pay.udf3,this.pay.udf4);
+    this.pay = JSON.parse((document.getElementById('paymentSuccessData') as any).value);
+    this.mglservice.mgldetailssave(this.pay.txnid,atob(this.pay.udf2),this.pay.udf3,this.pay.udf4);
+  }
 
-}
-
-
-
+  closeMe() {
+    window.close();
+  }
 }
