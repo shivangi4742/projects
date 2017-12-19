@@ -130,6 +130,8 @@ export class AddproductComponent implements OnInit {
           this.uploading = true;
           this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
         }
+
+        e.target.value = '';
       }
     }    
   }
