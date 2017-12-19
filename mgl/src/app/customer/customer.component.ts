@@ -13,7 +13,7 @@ import { Mgl } from '../models/mgl';
   
 })
 export class CustomerComponent implements OnInit {
-  CsmNo: string;
+  CsmNo: string = '';
  
   errorMsg : string;
   erroMsg: string;
