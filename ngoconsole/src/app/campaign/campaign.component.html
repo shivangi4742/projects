@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col s12" align="center">
             <div id="createCampaign">
-              <div materialize="modal" id="productsModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="modalParams"
+              <div materialize="modal" id="productsModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="[{dismissible: false}]"
                   [materializeActions]="modalActions">
                 <div class="modal-content" id="productsModalContent">
                   <selectproducts [user]="user" [modalActions]="modalActions" ></selectproducts>
