@@ -352,7 +352,7 @@ export class PayComponent implements OnInit {
       if (res && res.txnId == this.txnNo && res.paymentStatus) {
         if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
           found = true;
-          this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.title, "mode": 0, "txnid": this.txnNo,
+          this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.businessName, "mode": 0, "txnid": this.txnNo,
             "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products, 
             "mtype": this.pay.merchantType });
           if(this.pay.merchantType == 2)

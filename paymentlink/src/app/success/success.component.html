@@ -3,7 +3,8 @@
         <div class="row"></div>
         <div class="row">
             <div class="col s12 center">
-                <img class="alignMidBN" src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img *ngIf="mtype != 2" class="alignMidBN" src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img *ngIf="mtype == 2" class="alignMidBN" src='../../assets/paymentlink/images/donated.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="regNrmS-1B1BN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
             </div>
         </div>
@@ -22,6 +23,10 @@
             <span *ngIf="mtype == 2" class="col s12 center regNrmS4B2BN">{{'Contributed Successfully' | translate}}</span>
             <!-- <span class="col s12 center regNrmS4B2BN"
                 *ngIf="mtype == 2">{{'Contributed Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
+        </div>
+        <div *ngIf="mtype == 2" class="row">
+            <span class="col s12 center regNrmS4B2BN">{{'Thank you for contributing to' | translate}} {{pay.title}}. 
+                {{'Your kind support is valued.' | translate}}</span>
         </div>
         <div class="row"></div>
         <div class="row">
