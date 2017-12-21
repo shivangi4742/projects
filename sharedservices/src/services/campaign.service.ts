@@ -26,6 +26,7 @@ export class CampaignService {
         smsCampaignLinkURL: 'campaign/smsCampaignLink',
         saveCampaignLinkURL: 'campaign/saveCampaignLink',
         sendCampaignLinkURL: 'campaign/sendCampaignLink',
+        getCampaignURLURL: 'campaign/getCampaignURL',
         sendEmailURL: 'campaign/sendEmail'
     }
 
@@ -174,6 +175,19 @@ export class CampaignService {
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
     } 
+
+    getCampaignURL(merchantCode: string, mtype: number, campaignId: string) {
+        return this.http.post( this.utilsService.getBaseURL() + this._urls.getCampaignURLURL,
+            JSON.stringify({
+                "campaignId": campaignId,
+                "merchantCode": merchantCode,
+                "mtype": mtype
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
 
     getCampaigns(merchantCode: string, fromDate: string, toDate: string, sortColumn: string, campaignName: string,
                  sortDirection: string, pageNumber: number): Promise<CampaignList> {
@@ -346,7 +360,8 @@ export class CampaignService {
                         creationDate = r.creationDate;
                     }
 
-                    allCampaigns.push(new Campaign(txnrefnumber, campaignName, progress, expiryDate, totalbudget, fundraised, description, creationDate));
+                    allCampaigns.push(new Campaign(txnrefnumber, campaignName, progress, expiryDate, totalbudget, fundraised, description, 
+                        creationDate, ''));
                 });
             }
             campaignList = new CampaignList(allCampaigns, numPages, totalCamps);

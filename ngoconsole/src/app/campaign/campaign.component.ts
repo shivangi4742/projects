@@ -144,6 +144,22 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getCampaignData(cmpn: Campaign) {
+    if(cmpn && !cmpn.url) {
+      let mtype: number = 2;
+      if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
+        mtype = 3;
+
+      this.campaignService.getCampaignURL(this.user.merchantCode, mtype, cmpn.txnrefnumber)
+        .then(res => this.gotCampaignURL(cmpn, res));
+    }
+  }
+
+  gotCampaignURL(cmpn: Campaign, res: any) {
+    if(res && res.url)
+      cmpn.url = res.url;
+  }
+
   sortCampaigns(columnId: string){
     if(columnId == "1")
       this.sortColumn = "campaignName";

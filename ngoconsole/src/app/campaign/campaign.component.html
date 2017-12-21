@@ -331,7 +331,8 @@
               <div class="row"></div>
               <ul *ngIf="hasCampaigns()" class="collapsible" data-collapsible="accordion" materialize="collapsible">
                 <li *ngFor="let campaign of allCampaigns; let i = index;">
-                  <div [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
+                  <div (click)="getCampaignData(campaign)"
+                    [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
                     <a class="linkButtonBN col s4 campNameBN" (click)="campaignClicked(campaign.txnrefnumber)">
                       <i *ngIf="selectedCamp==campaign.txnrefnumber && campExpand; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
                       <ng-template #right>
@@ -344,6 +345,10 @@
                   </div>
                   <div *ngIf="sdk" class="collapsible-body">
                     <div class="row campDetailsBodyBN">
+					            <div class="col s12">&nbsp;</div>
+                      <div class="col s12 regNrmS4BN center">
+                        <a [href]="campaign.url">{{campaign.url}}</a>
+                      </div>
                       <div class="col m3 l3 campBodyBN">
                         <img *ngIf="!uploading && !sdk.imageURL" src="../../assets/shared/images/no-image.png">
                         <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSdkBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
@@ -371,7 +376,7 @@
                           <div class="col s12 regNrmS2BN">
                               <a class="linkButtonBN cloneBN" (click)="clone()">
                                 <i class="material-icons alignMidBN">content_copy</i>
-                                <span class="alignMidBN">Clone Campaign</span>
+                                <span class="alignMidBN">{{'Clone Campaign' | translate}}</span>
                               </a>
                           </div>
                         </div>

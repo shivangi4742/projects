@@ -372,6 +372,78 @@ var campCont = {
         });
     },
 
+    getCampaignURL: function(req, res) {
+        var me = this;
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getCampaignProductsGet(req, function(data) {
+            var hasProds = false;
+            if(data && data.length > 0 && data[0].prodId)
+                hasProds = true;
+            else if(data && data.success == false) {
+                res.json(data);
+                return;
+            }
+            
+            var d = req.body;
+            var lnk = d.mtype == 2 ? (hasProds ? '/contribute/' : '/donate/') : (hasProds ? '/buy/' : '/pay/');
+            var ps = hasProds ? ('/' + d.merchantCode) : '';
+            var fullUrl = config.me + '/ppl' + lnk + d.campaignId + ps;
+            me.getCampaignURLPost(fullUrl, req.headers, function(uData) {
+                if(uData && uData.paramCode)
+                    res.json({ url: config.me + '/r/' + uData.paramCode });
+                else
+                    res.json({ url: fullUrl });
+            })
+        });
+    },
+
+    getCampaignURLPost: function(fullUrl, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (fullUrl)
+                helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getParametersForDescription', 'POST', hdrs),
+                    {
+                        "desc1": fullUrl,
+                        "paramType": "alias"
+                    }, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getCampaignProductsGet: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.merchantCode && d.campaignId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignProduct', 'POST', req.headers),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "txnRefNumber": d.campaignId
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     getCampaignsPost: function(req, cb) {
         var retErr = {
             "success": false,

@@ -7,6 +7,7 @@ export class Campaign {
         public totalbudget: number,
         public fundraised: number,
         public description: string,
-        public creationDate: number
+        public creationDate: number,
+        public url: string
     ) { }
 }
