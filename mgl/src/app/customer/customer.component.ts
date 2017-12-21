@@ -54,8 +54,8 @@ mgldett(res:any) {
 
  if(t.responseFromAPI==true){
     this.router.navigateByUrl("/customerpayment");
- } else
- {
+ } else{
+  
    this.hasError = false;
    this.hasErro = true;
    this.erroMsg = "You have already paid this month's bill!" 
