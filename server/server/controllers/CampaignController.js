@@ -470,7 +470,8 @@ var campCont = {
                             "toDate": d.toDate,
                             "sortColumn": d.sortColumn,
                             "sortDirection": d.sortDirection,
-                            "pageNumber": d.pageNumber
+                            "pageNumber": d.pageNumber,
+                            "paymentLinkYN":d.includePaymentLink === true ? "Yes" : "No"
                         }, cb);
             }
         }
