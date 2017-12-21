@@ -1,65 +1,119 @@
-<main class="grey lighten-5" *ngIf="pay">
-    <div class="row"></div>
-    <div class="row">
-        <div class="col s1 m3 l3"></div>
-        <div class="col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN">
-            <div class="row"></div>
-            <div class="row"></div>
-            <div class="valign-wrapper">
-                <div class="col s12 center">
-                    <span class="center">
-                        <img src="../../assets/mgl/images/Green Check Circle@2x.png" />
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="valign-wrapper">
-                    <div class="col m1 l1 hide-on-small-only"></div>
-                    <div class="input-field col s12 m10 l10 center regNrmS3BN">
-                        <span>{{'Thank you '}}<b>{{pay.firstname}}</b> <b>{{pay.lastname}}</b>{{' for submitting your details!' | translate }}</span>
-                    </div>
-                    <div class="col m1 l1 hide-on-small-only"></div>
-                </div>
-            </div>
-            <div class="row">
+<main class="grey lighten-5"  *ngIf="pay">
+        <div class="row"></div>
+        <div class="row">
+            <div class="col s1 m3 l3"></div>
+            <div class="col s10 m6 l6 z-depth-2 card-panel  widgetBN thanksBN">
+                <div class="row"></div>
+                <div class="row"></div>
                 <div class="valign-wrapper">
                     <div class="col s12 center">
-                        <img class="alignMidBN" src="../../assets/mgl/images/paid.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="amontsucessBN alignMidBN regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
+                        <span class="center">
+                            <img src="../../assets/mgl/images/Green Check Circle@2x.png" />
+                        </span>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="valign-wrapper">
-                    <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}: 
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <div class="col m1 l1 hide-on-small-only"></div>
+                        <div class="input-field col s12 m10 l10 center regNrmS3BN">
+                            <span>{{'Thank you '}}
+                                <b>{{pay.firstname}}</b>
+                                <b>{{pay.lastname}}</b>{{' for submitting your details!' | translate }}</span>
+                        </div>
+                        <div class="col m1 l1 hide-on-small-only"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <div class="col s12 center">
+                            <img class="alignMidBN" src="../../assets/mgl/images/paid.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="amontsucessBN alignMidBN regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}:
                             <b>{{pay.txnid | translate}}</b>
                         </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="valign-wrapper">
-                    <div class="col s12 center">
-                        <a target="_self" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payano" 
-                            href="https://merchant.benow.in/mgl" >{{'Make another payment' | translate}}  </a>
                     </div>
                 </div>
-            </div>            
-            <div class="row">
-                <div class="valign-wrapper">
-                    <div class="col s12 center regNrmS4B1BN">OR</div>
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <div class="col m1 l1 hide-on-small-only"></div>
+                        <div class="input-field col s12 m10 l10 center regNrmS3BN">
+                            <span>{{'Share this offer to Your friends' | translate }}</span>
+                        </div>
+                        <div class="col m1 l1 hide-on-small-only"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="valign-wrapper">
+                <div class="row">
+                    <div class="col m1 l1 hide-on-small-only"></div>
+    
+                    <div class="col s12 m10 l10 center">
+                        <a width="59" height="20" class="linkButtonBN" width="78" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=https%3A%2F%2Fmerchant.benow.in%2Fmgl%2Fcustomer&display=popup&ref=plugin&src=share_button','', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                            height="50" title="Twitter Tweet Button" style="border: 0; overflow: hidden; vertical-align:middle;
+                            padding-right: 10px; ">
+                            <img src="../../assets/mgl/images/facebook.png" alt="Share on Google+" width="35" height="35" style="
+                            border-radius: 17px;
+                        " />
+                        </a>
+                        
+                        <a class="linkButtonBN" style="border: 0; overflow: hidden; vertical-align:middle;
+                               padding-right: 10px; " data-pin-do="buttonPin" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                            href="https://www.pinterest.com/pin/create/button/?url=https://merchant.benow.in/mgl/customer" data-pin-custom="true"
+                            style="border: 0; overflow: hidden; vertical-align:middle;
+                                padding-right: 10px; ">
+                            <img src="https://addons.opera.com/media/extensions/55/19155/1.1-rev1/icons/icon_64x64.png" width="35" height="35" style="
+                                border-radius: 17px; 
+                            ">
+                        </a>
+    
+                        <a class="linkButtonBN" style="border: 0; overflow: hidden; vertical-align:middle;
+                             padding-right: 5px; " href="https://plus.google.com/share?url=https://merchant.benow.in/mgl/customer"
+                            onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                            <img src="https://www.gstatic.com/images/icons/gplus-64.png" alt="Share on Google+" width="35" height="35" />
+                        </a>
+    
+                        <a class="linkButtonBN" style="border: 0; overflow: hidden; vertical-align:middle;
+                               " onclick="javascript:window.open('https://twitter.com/share?url=https://merchant.benow.in/mgl/customer','', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                            <img src="../../assets/mgl/images/Twitter_Icon.png" alt="Share on Twitter" width="45" height="45" />
+                        </a>
+                        <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle;
+                        padding-right: 10px; " href="whatsapp://send" data-text="" data-href="" style="border: 0; overflow: hidden; vertical-align:middle;
+                        padding-right: 10px; " class="wa_btn wa_btn_m">
+                          <img class="hide-on-large-only" src="../../assets/mgl/images/whatsapp.png" width="35" height="35" style="
+                          border-radius: 17px; 
+                      ">
+                      </a>
+                    </div>
+                    <div class="col m1 l1 hide-on-small-only"></div>
+                </div>
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <div class="col s12 center">
+                            <a target="_self" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="payano" href="https://merchant.benow.in/mgl">{{'Make Another payment' | translate}} </a>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="valign-wrapper">
+                        <div class="col s12 center regNrmS4B1BN">OR</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="valign-wrapper">
                         <div class="col s12 center regNrmS4B1BN">Please close this window for security purpose.</div>
                     </div>
-            </div>            
+                </div>
+            </div>
+            <div class="col s1 m3 l3"></div>
         </div>
-        <div class="col s1 m3 l3"></div>
-    </div>
-    <div class="row"></div>
-    <div class="row"></div>
-    <div class="row"></div>
-    <div class="row"></div>
-    <div class="row"></div>
-</main>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+    </main>
+   
