@@ -550,3 +550,12 @@
         opacity: 1; 
     }       
 }
+
+.nilPadsBN {
+    padding: 0px!important;
+    margin: 0px!important;
+}
+
+.pad5BN {
+    padding: 5px!important;
+}

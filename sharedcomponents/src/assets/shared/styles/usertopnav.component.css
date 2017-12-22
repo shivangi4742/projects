@@ -260,3 +260,32 @@
 .carouItemHeightBN {
     height: 420px;
 }
+
+.redBorderTopBN {
+    border-top: 5px solid #E53935;
+}
+
+.accountBalBN {
+    background-color: #00acc1;
+    color: #ffffff;
+    padding-top: 6px;
+    vertical-align: middle;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    border-radius: 20px;
+    font-size: 24px;
+}
+
+.lowHButtonBN {
+    text-transform: none;
+    color: white;
+    line-height: 40px;
+    height: 40px;
+    background-color: #E53935!important;
+}
+
+.btnSmallPaddingBN {
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}
