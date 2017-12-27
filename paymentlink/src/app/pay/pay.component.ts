@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
+import { MaterializeAction } from 'angular2-materialize';
+
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -26,9 +28,11 @@ export class PayComponent implements OnInit {
   firstName: string;
   panNumber: string;
   uploadsURL: string;
+  fundRaiserId: string;
   mobileNumber: string;
   validationError: string;
   pay: SDK;
+  fundraiser: Fundraiser;
   loaded: boolean = false;
   resident: boolean = true;
   qrError: boolean = false;
@@ -51,7 +55,8 @@ export class PayComponent implements OnInit {
   amountEditable: boolean = false;
   supportsSodexo: boolean = false;
   upiMode: number = 1;
-
+  numSupportedModes: number = 0;
+  collapsibleActions: any = new EventEmitter<string|MaterializeAction>();
   hasExtraCharges: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
@@ -61,6 +66,7 @@ export class PayComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.prods = this.route.snapshot.params['prods'];
     this.sdkId = this.route.snapshot.params['sdkId'];
+    this.fundRaiserId = this.route.snapshot.params['fund'];
     this.uploadsURL = this.utilsService.getUploadsURL();
     this.isMobile = this.utilsService.isAnyMobile();
     if (this.sdkId && this.sdkId.length > 0) {
@@ -70,6 +76,17 @@ export class PayComponent implements OnInit {
     else {
       this.sdkService.getPaymentLinkDetails(this.id)
         .then(res => this.init(res))
+    }
+
+    if(this.fundRaiserId) {
+      this.sdkService.getFundraiserDetails(this.fundRaiserId, this.id)
+        .then(res => this.gotFundraiser(res));
+    }
+  }
+
+  gotFundraiser(res: Fundraiser) {
+    if(res && res.id > 0) {
+      this.fundraiser = res;
     }
   }
 
@@ -90,7 +107,7 @@ export class PayComponent implements OnInit {
         this.pay.askmob = true;
         this.pay.mndmob = true;
       }
-      if (this.prods && !(res.products && res.products.length > 0)) {
+      if (this.prods && this.prods != '0' && !(res.products && res.products.length > 0)) {
         this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
           .then(pres => this.initProds(pres));
       }
@@ -149,21 +166,32 @@ export class PayComponent implements OnInit {
     if (this.pay.merchantType == 1)
       this.mobileNumber = this.pay.phone;
 
+    this.numSupportedModes = 0;
     if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
-      if (this.pay.supportedModes.indexOf('UPI') >= 0)
+      if (this.pay.supportedModes.indexOf('UPI') >= 0) {
         this.supportsUPI = true;
+        this.numSupportedModes++;
+      }
 
-      if (this.pay.supportedModes.indexOf('CC') >= 0)
-        this.supportsCC = true;
+      if (this.pay.supportedModes.indexOf('CC') >= 0) {
+        this.numSupportedModes++;
+        this.supportsCC = true;        
+      }
 
-      if (this.pay.supportedModes.indexOf('DC') >= 0)
+      if (this.pay.supportedModes.indexOf('DC') >= 0) {
+        this.numSupportedModes++;
         this.supportsDC = true;
+      }
 
-      if (this.pay.supportedModes.indexOf('NB') >= 0)
+      if (this.pay.supportedModes.indexOf('NB') >= 0) {
+        this.numSupportedModes++;
         this.supportsNB = true;
+      }
 
-      if (this.pay.supportedModes.indexOf('SODEXO') >= 0)
+      if (this.pay.supportedModes.indexOf('SODEXO') >= 0) {
+        this.numSupportedModes++;
         this.supportsSodexo = true;
+      }
     }
 
     if (this.pay && this.pay.firstName && !this.pay.lastName && this.pay.firstName.indexOf(' ') > 0) {
@@ -175,6 +203,50 @@ export class PayComponent implements OnInit {
     }
 
     this.loaded = true;
+    this.invokeIfModeGiven();
+  }
+
+  invokeIfModeGiven() {
+    if(this.numSupportedModes == 1) {
+      if(this.supportsUPI)
+        this.pay.mode = 'UPI';
+      else if(this.supportsCC)
+        this.pay.mode = 'CC';
+      else if(this.supportsDC)
+        this.pay.mode = 'DC';
+      else if(this.supportsNB)
+        this.pay.mode = 'NB';
+      else if(this.supportsSodexo)
+        this.pay.mode = 'SODEXO';
+    }
+
+    if(this.pay.mode && (this.pay.mode == 'CC' || this.pay.mode == 'DC' || this.pay.mode == 'UPI' || this.pay.mode == 'NB' ||
+      this.pay.mode == 'SODEXO')) {
+      if(this.validate(false)) {
+        let me: any = this;
+        switch(this.pay.mode) {
+          case 'UPI':
+            setTimeout(function() { me.collapsibleActions.emit({ action: "collapsible", params: ['open', 0] }); }, 500);
+            if(this.isMobile)
+              this.showQRLink();
+            else
+              this.showQR();
+
+            break;
+          case 'CC':
+            this.setMode(1);
+            break;
+          case 'DC':
+            this.setMode(2);
+            break;
+          case 'NB':
+            this.setMode(3);
+            break;
+          case 'SODEXO':
+            break;
+        }        
+      }
+    }
   }
 
   validateEmail(email: string) {

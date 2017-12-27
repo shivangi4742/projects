@@ -276,6 +276,13 @@ var sdkCont = {
         });
     },
 
+    getFundraiserDetails: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.getFundraiserDetailsPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
     createBillString: function (req, res) {
         res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillStringPost(req, function (data) {
@@ -288,6 +295,26 @@ var sdkCont = {
         this.createBillPost(req, function (data) {
             res.json(data);
         });
+    },
+
+    getFundraiserDetailsPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if (req && req.body && req.body.campaignId && req.body.fundraiserId)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getFundraiserForCampaign', 'POST', req.headers),
+                    {
+                        "txnRefNumber": req.body.campaignId,
+                        "fundraiserId": req.body.fundraiserId
+                    }, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     getTransactionStatusPost: function (req, cb) {

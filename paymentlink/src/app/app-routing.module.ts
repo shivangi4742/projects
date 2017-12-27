@@ -19,6 +19,7 @@ const routes: Routes = [
     { path: 'buy/:id/:code', component: BuyComponent },
     { path: 'paymentsuccess/:id/:txnid', component: SuccessComponent },
     { path: 'paymentfailure/:id/:txnid', component: FailureComponent },
+    { path: 'donate/:id/:prods/:fund', component: PayComponent },
     { path: 'donate/:id/:prods', component: PayComponent },
     { path: 'donate/:id', component: PayComponent },
     { path: 'contribute/:id/:code', component: BuyComponent },
