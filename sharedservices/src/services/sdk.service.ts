@@ -28,6 +28,7 @@ export class SDKService {
         startPaymentProcessURL: 'sdk/startPaymentProcess',
         getFundraiserDetailsURL: 'sdk/getFundraiserDetails',
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails',
+        updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
         getLogByIdURL: 'sdk/getLogById'
     }
 
@@ -159,6 +160,27 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => null);
+    }
+
+    updateFundraiserCollection(amount: number, fundraiserId: string, campaignId: string): Promise<boolean> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.updateFundraiserCollectionURL,
+            JSON.stringify({
+                "amount": amount,
+                "campaignId": campaignId,
+                "fundraiserId": fundraiserId
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.updatedFundraiserCollection(res.json()))
+            .catch(res => false);
+    }
+
+    updatedFundraiserCollection(res: any): boolean {
+        if(res && res.responseFromAPI == true)
+            return true;
+            
+        return false;
     }
 
     getFundraiserDetails(fundraiserId: string, campaignId: string): Promise<Fundraiser|null> {
