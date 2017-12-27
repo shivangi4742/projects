@@ -23,6 +23,7 @@ const routes: Routes = [
     { path: 'donate/:id/:prods', component: PayComponent },
     { path: 'donate/:id', component: PayComponent },
     { path: 'contribute/:id/:code', component: BuyComponent },
+    { path: 'donationsuccess/:id/:txnid/:fund', component: SuccessComponent },
     { path: 'donationsuccess/:id/:txnid', component: SuccessComponent },
     { path: 'donationfailure/:id/:txnid', component: FailureComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
