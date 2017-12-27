@@ -570,9 +570,14 @@ export class PayComponent implements OnInit {
           this.lastName = sp[1];
       }
 
+      let hasFundraiser: boolean = false;
+      if(this.fundraiser && this.fundraiser.id)
+        hasFundraiser = true;
+
       this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email, 
         this.pay.phone, this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName, 
-        this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5, this.pay.merchantType));
+        this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5, this.pay.merchantType, hasFundraiser,
+        this.fundRaiserId));
       this.router.navigateByUrl('/pg/' + this.id);
     }
     else {

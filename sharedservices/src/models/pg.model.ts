@@ -20,5 +20,7 @@ export class PG {
     public udf3: string,
     public udf4: string,
     public udf5: string,
-    public mtype: number) { }
+    public mtype: number,
+    public hasFundraiser: boolean,
+    public fundraiserId: string) { }
 }

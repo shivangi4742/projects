@@ -165,6 +165,13 @@ app.post(config.base + '/ppl/donationsuccess/:id/:txnid', function(req, res) {
 	});
 });
 
+app.post(config.base + '/ppl/donationsuccess/:id/:txnid/:fund', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	sdkController.paymentSuccess(req, function() {
+		res.sendFile(urls.pplHome, {root: __dirname });
+	});
+});
+
 app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function(req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	sdkController.paymentFailure(req, function () {

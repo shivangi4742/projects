@@ -52,11 +52,14 @@
       <div *ngIf="fundraiser">
         <div class="row">
           <div class="col s6 regNrmS5B1BN" align="right">{{'Fundraiser' | translate}} :</div>
-          <div class="col s6 regNrmS5BN">{{fundraiser.fundraiserName}}</div>
+          <div class="col s4 regNrmS5BN" align="right">{{fundraiser.fundraiserName}}</div>
+          <div class="col s2">&nbsp;</div>
           <div class="col s6 regNrmS5B1BN" align="right">{{'Collection' | translate}} :</div>
-          <div class="col s6 regNrmS5BN">{{fundraiser.collection}}</div>
+          <div class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.collection | number : '1.2-2'}}</div>
+          <div class="col s2">&nbsp;</div>
           <div class="col s6 regNrmS5B1BN" align="right">{{'Target' | translate}} :</div>
-          <span class="col s6 regNrmS5BN">{{fundraiser.target}}</span>
+          <span class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.target | number : '1.2-2'}}</span>
+          <div class="col s2">&nbsp;</div>
         </div>
       </div>
       <div *ngIf="!amountEditable">
