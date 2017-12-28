@@ -31,8 +31,8 @@ var config = {
 /*		curl: '',
 		key: 'BxGvnf',
 		url: 'https://test.payu.in/_payment',*/
-		dfurl: 'http://localhost:9090/donationfailure/',
-		dsurl: 'http://localhost:9090/donationsuccess/',
+		dfurl: 'http://localhost:9090/ppl/donationfailure/',
+		dsurl: 'http://localhost:9090/ppl/donationsuccess/',
 		furl: 'http://localhost:9090/paymentfailure/',
 		surl: 'http://localhost:9090/paymentsuccess/',
  		newfurl: 'http://localhost:9090/ppl/paymentfailure/',

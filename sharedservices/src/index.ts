@@ -20,6 +20,7 @@ export { Status } from './models/status.model';
 export { Product } from './models/product.model';
 export { Campaign } from './models/campaign.model';
 export { CampaignList } from './models/campaignlist.model';
+export { Fundraiser } from './models/fundraiser.model';
 export { PayRequest } from './models/payrequest.model';
 export { Attachment } from './models/attachment.model';
 export { Transaction } from './models/transaction.model';

@@ -49,6 +49,19 @@
           <span class="col s12 center regNrmS5BN line-breaker">{{pay.description}}</span>
         </div>
       </div>
+      <div *ngIf="fundraiser">
+        <div class="row">
+          <div class="col s6 regNrmS5B1BN" align="right">{{'Fundraiser' | translate}} :</div>
+          <div class="col s4 regNrmS5BN" align="right">{{fundraiser.fundraiserName}}</div>
+          <div class="col s2">&nbsp;</div>
+          <div class="col s6 regNrmS5B1BN" align="right">{{'Collection' | translate}} :</div>
+          <div class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.collection | number : '1.2-2'}}</div>
+          <div class="col s2">&nbsp;</div>
+          <div class="col s6 regNrmS5B1BN" align="right">{{'Target' | translate}} :</div>
+          <span class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.target | number : '1.2-2'}}</span>
+          <div class="col s2">&nbsp;</div>
+        </div>
+      </div>
       <div *ngIf="!amountEditable">
         <div class="row hide-on-small-only"></div>
         <div class="row">
@@ -139,7 +152,8 @@
       </div>
       <div class="row">
         <div class="col s12 center">
-          <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion">
+          <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion" [materializeActions]="collapsibleActions"
+            [materializeParams]="params">
             <li *ngIf="!isMobile && supportsUPI">
               <div id="qrAcc" (click)="showQR()" [ngClass]="qrExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
                 <div class="row noPadsNewBN fullWidthBN">

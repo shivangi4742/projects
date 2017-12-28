@@ -8,6 +8,7 @@ import { PG } from './../models/pg.model';
 import { SDK } from './../models/sdk.model';
 import { User } from './../models/user.model';
 import { Product } from './../models/product.model';
+import { Fundraiser } from './../models/fundraiser.model';
 import { PayRequest } from './../models/payrequest.model';
 
 import { UtilsService } from './utils.service';
@@ -25,7 +26,9 @@ export class SDKService {
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
         startPaymentProcessURL: 'sdk/startPaymentProcess',
+        getFundraiserDetailsURL: 'sdk/getFundraiserDetails',
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails',
+        updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
         getLogByIdURL: 'sdk/getLogById'
     }
 
@@ -157,6 +160,48 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => null);
+    }
+
+    updateFundraiserCollection(amount: number, fundraiserId: string, campaignId: string): Promise<boolean> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.updateFundraiserCollectionURL,
+            JSON.stringify({
+                "amount": amount,
+                "campaignId": campaignId,
+                "fundraiserId": fundraiserId
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.updatedFundraiserCollection(res.json()))
+            .catch(res => false);
+    }
+
+    updatedFundraiserCollection(res: any): boolean {
+        if(res && res.responseFromAPI == true)
+            return true;
+            
+        return false;
+    }
+
+    getFundraiserDetails(fundraiserId: string, campaignId: string): Promise<Fundraiser|null> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getFundraiserDetailsURL,
+            JSON.stringify({
+                "campaignId": campaignId,
+                "fundraiserId": fundraiserId
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillFundraiser(res.json()))
+            .catch(res => null);
+    }
+
+    fillFundraiser(res: any): Fundraiser|null {
+        if(res && res.id > 0) {
+            return new Fundraiser(res.id, res.totalTarget, res.actualCollection, res.fundraiserId, res.txnRefNumber, res.fundraiserName);
+        }
+
+        return null;
     }
 
     createBillString(amount: number, til: string, tr: string, usr: User): Promise<string> {

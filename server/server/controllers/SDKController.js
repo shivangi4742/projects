@@ -68,6 +68,9 @@ var sdkCont = {
                 'X-AUTHORIZATION': config.defaultToken,
                 'Content-Type': 'application/json'
             };
+            var fundraiserid = req.params.fund;
+            if(fundraiserid)
+                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.body.amount, headers, function(fundata) {});
 
             var status = req.body.status;
             var statusMsg = 'Failed';
@@ -140,8 +143,14 @@ var sdkCont = {
             var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
             var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
             if(req.body.mtype == 2) {
-                surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
-                furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;
+                if(req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
+                    surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
+                    furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;    
+                }
+                else {
+                    surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
+                    furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;    
+                }
             }
 
             if (req.body.sourceId == 2) {
@@ -276,6 +285,20 @@ var sdkCont = {
         });
     },
 
+    updateFundraiserCollection: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.updateFundraiserCollectionPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getFundraiserDetails: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.getFundraiserDetailsPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
     createBillString: function (req, res) {
         res.setHeader("X-Frame-Options", "ALLOW");
         this.createBillStringPost(req, function (data) {
@@ -288,6 +311,51 @@ var sdkCont = {
         this.createBillPost(req, function (data) {
             res.json(data);
         });
+    },
+
+    updateFundraiserCollectionPostCall(fundraiserId, campaignId, amount, hdrs, cb) {
+        helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/updateFundraiserForCampaign', 'POST', hdrs),
+        {
+            "txnRefNumber": campaignId,
+            "fundraiserId": fundraiserId,
+            "actualCollection": amount
+        }, cb);
+    },
+
+    updateFundraiserCollectionPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if (req && req.body && req.body.amount && req.body.campaignId && req.body.fundraiserId)
+                this.updateFundraiserCollectionPostCall(req.body.fundraiserId, req.body.campaignId, req.body.amount, req.headers, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getFundraiserDetailsPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if (req && req.body && req.body.campaignId && req.body.fundraiserId)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getFundraiserForCampaign', 'POST', req.headers),
+                    {
+                        "txnRefNumber": req.body.campaignId,
+                        "fundraiserId": req.body.fundraiserId
+                    }, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     getTransactionStatusPost: function (req, cb) {
