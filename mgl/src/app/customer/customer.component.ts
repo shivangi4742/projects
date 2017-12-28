@@ -15,6 +15,7 @@ import { Mgl } from '../models/mgl';
 export class CustomerComponent implements OnInit {
   CsmNo: string = '';
  
+  mobno:string;
   errorMsg : string;
   erroMsg: string;
   hasError : boolean = false;
@@ -28,7 +29,7 @@ export class CustomerComponent implements OnInit {
   }
   
   onSubmit() : void {  
-   this.mglservice.getmglDetails(this.CsmNo)
+   this.mglservice.getmglDetails(this.CsmNo, this.mobno)
      .then(res => this.mgldet(res))
   
   }
@@ -53,8 +54,12 @@ mgldett(res:any) {
  var t = pp.data;
 
  if(t.responseFromAPI==true){
-    this.router.navigateByUrl("/customerpayment");
- } else{
+   if((window as any).fbq){
+    (window as any).fbq('init', '513424812324766'); 
+    (window as any).fbq('track', 'PageView');
+   }
+       this.router.navigateByUrl("/customerpayment");
+ } else {
   
    this.hasError = false;
    this.hasErro = true;
@@ -66,17 +71,16 @@ mgldett(res:any) {
 }
   
   hasAllRequiredFields() {
-    if(this.CsmNo == null){
+    if(this.CsmNo == null) {
        this.CsmNo = '';
     }
    var x = this.CsmNo;
-   if((x.toString().length)== 12){
-    return false;
+   if((x.toString().length)== 12 && this.mobno) {
+     return false;
    }
    else {
      return true;
-   }
+    }
   }
- 
  }
 

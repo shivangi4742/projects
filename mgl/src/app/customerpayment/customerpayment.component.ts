@@ -16,6 +16,9 @@ import { PayrequestService } from '../services/payrequestservice.service';
 export class CustomerpaymentComponent implements OnInit {
   mgl: Mgl;
   supportModes: string[];
+  billno:string;
+ // pp:string;
+ // ppp:string;
   constructor(private mglservice: MglService, private router: Router,  private payRequestService: PayrequestService) { }
     
   ngOnInit() {
@@ -23,17 +26,24 @@ export class CustomerpaymentComponent implements OnInit {
   }
 
   Submit() {
-  
-     this.supportModes = ['UPI'];
+    if((window as any).fbq) {
+      (window as any).fbq('init', '513424812324766'); 
+      (window as any).fbq('track', 'PageView');
+     }
+   // this.ppp=JSON.stringify(this.mgl.response);
+    /* this.mglservice.mgldetailssave(this.mgl.billno, this.ppp, this.mgl.ca, this.mgl.mobno);  
+  */
+    this.supportModes = ['UPI'];
     //another option like collect request url
     this.payRequestService.setPayRequest(new Payrequestmodel(2, this.mgl.netpay, false, false, true, true, 'Mahanagar Gas Limited',
-      '', this.mglservice.getFailedURL(), this.mgl.name, '','', '/assets/mgl/images/0.png', '1', '5499', 'APVY8', '1', 'APVY8@yesbank',
-       false, false, false, true, '', this.mgl.ca, false,false,false,true, this.mglservice.getSuccessURL(), 'Mahanagar Gas Limited', '', '',
+      '', this.mglservice.getFailedURL(),this.mgl.name, '','', '/assets/mgl/images/0.png', '1', '5499', 'APVY8', '1', 'APVY8@yesbank',
+       false, false, false, true, '', this.mgl.mobno, false,false,false,true, this.mglservice.getSuccessURL(), 'Mahanagar Gas Limited', '', '',
      btoa(JSON.stringify(this.mgl.response)), this.mgl.ca,this.mgl.billno, '500000', '', this.supportModes))
       .then(res => this.navigate());
   }
 
   navigate() {
+
     this.router.navigateByUrl('/mglpayment');
 
   }
