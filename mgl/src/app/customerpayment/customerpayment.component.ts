@@ -27,7 +27,7 @@ export class CustomerpaymentComponent implements OnInit {
 
   Submit() {
     if((window as any).fbq) {
-      (window as any).fbq('init', '513424812324766'); 
+     
       (window as any).fbq('track', 'AddPaymentInfo');
      }
    // this.ppp=JSON.stringify(this.mgl.response);
