@@ -25,7 +25,10 @@ export class CustomerComponent implements OnInit {
   constructor(private router: Router, private mglservice:MglService) { }
 
   ngOnInit() {
-    
+    if((window as any).fbq){
+      (window as any).fbq('init', '513424812324766'); 
+      (window as any).fbq('track', 'PageView');
+     }
   }
   
   onSubmit() : void {  
@@ -54,9 +57,9 @@ mgldett(res:any) {
  var t = pp.data;
 
  if(t.responseFromAPI==true){
-   if((window as any).fbq){
+  if((window as any).fbq) {
     (window as any).fbq('init', '513424812324766'); 
-    (window as any).fbq('track', 'PageView');
+    (window as any).fbq('track', 'InitiateCheckout');
    }
        this.router.navigateByUrl("/customerpayment");
  } else {
