@@ -21,19 +21,20 @@
             </div>
             <div class="col m1 hide-on-small-only"></div>
           </div>
-          <div class="valign-wrapper">
-            <div class="input-field col s12 m10 offset-m1">
-              <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
-                class="validate regNrmS4BN " maxlength="12" title="please enter a valid 12 digit consumer no." [(ngModel)]="CsmNo" required>
-              <label for="CsmNo">Enter Consumer Number*</label>
-            </div>
-            <div class="col m1 hide-on-small-only"></div>
-          </div>
+          
           <div class="valign-wrapper">
               <div class="input-field col s12 m10 offset-m1">
                 <input id="mobno" name="mobno" type="tel" 
                   class="validate regNrmS4BN "  [(ngModel)]="mobno" required>
                 <label for="mobno">Enter Mobile Number*</label>
+              </div>
+              <div class="col m1 hide-on-small-only"></div>
+            </div>
+            <div class="valign-wrapper">
+              <div class="input-field col s12 m10 offset-m1">
+                <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                  class="validate regNrmS4BN " maxlength="12" title="please enter a valid 12 digit consumer no." [(ngModel)]="CsmNo" required>
+                <label for="CsmNo">Enter Consumer Number*</label>
               </div>
               <div class="col m1 hide-on-small-only"></div>
             </div>
