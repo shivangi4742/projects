@@ -10,6 +10,7 @@ import { User, UtilsService } from 'benowservices';
 export class MglService {
   private _user: User;  
   private _mgl: Mgl;
+  private _mobnumber:string;
   private _headers: any;
   private _urls: any = { 
   'mglDetailURL': 'mglpay/mgldetails', 
@@ -21,8 +22,8 @@ export class MglService {
 
   constructor(private http: Http, private utilsService: UtilsService) { }
 
-  getmglDetails(csmno: string): Promise<any> {
-    
+  getmglDetails(csmno: string, mobno:string): Promise<any> {
+    this._mobnumber = mobno;
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.mglDetailURL,
       {
@@ -46,7 +47,7 @@ export class MglService {
    
     let response = JSON.parse(res._body);
     let d: any = response.data.RECORD;
-    this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0],d);
+    this._mgl = new Mgl(d.STATUS[0], d.BP[0], d.CA[0], d.BILLNO[0], d.NETPAY[0], d.NAME[0], d.BILLDT[0], d.DUEDT[0], d.DESPDT[0], d.BILLMON[0], d.GROUP[0],d, this._mobnumber);
    
     return this._mgl;
   }
@@ -59,9 +60,8 @@ export class MglService {
    
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.mgldetailsSaveURL,
-      JSON.stringify({ 
-        
-          "transactionRef": transactionRef,
+      JSON.stringify({
+          "transactionRef":transactionRef,
           "actionData": actionData,
           "tag1":"MahaNagar Gas",
           "tag2":tag2,

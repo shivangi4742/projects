@@ -11,7 +11,8 @@ export class Mgl {
     public despdt:string,
     public billmon:string,
     public group:string,
-    public response:string){}
+    public response:string,
+    public mobno:string){}
 }
 
 

@@ -15,6 +15,7 @@ import { Mgl } from '../models/mgl';
 export class CustomerComponent implements OnInit {
   CsmNo: string = '';
  
+  mobno:string;
   errorMsg : string;
   erroMsg: string;
   hasError : boolean = false;
@@ -24,11 +25,14 @@ export class CustomerComponent implements OnInit {
   constructor(private router: Router, private mglservice:MglService) { }
 
   ngOnInit() {
+    if((window as any).fbq){
     
+      (window as any).fbq('track', 'PageView');
+     }
   }
   
   onSubmit() : void {  
-   this.mglservice.getmglDetails(this.CsmNo)
+   this.mglservice.getmglDetails(this.CsmNo, this.mobno)
      .then(res => this.mgldet(res))
   
   }
@@ -53,8 +57,12 @@ mgldett(res:any) {
  var t = pp.data;
 
  if(t.responseFromAPI==true){
-    this.router.navigateByUrl("/customerpayment");
- } else{
+  if((window as any).fbq) {
+  
+    (window as any).fbq('track', 'InitiateCheckout');
+   }
+       this.router.navigateByUrl("/customerpayment");
+ } else {
   
    this.hasError = false;
    this.hasErro = true;
@@ -66,17 +74,16 @@ mgldett(res:any) {
 }
   
   hasAllRequiredFields() {
-    if(this.CsmNo == null){
+    if(this.CsmNo == null) {
        this.CsmNo = '';
     }
    var x = this.CsmNo;
-   if((x.toString().length)== 12){
-    return false;
+   if((x.toString().length)== 12 && this.mobno) {
+     return false;
    }
    else {
      return true;
-   }
+    }
   }
- 
  }
 
