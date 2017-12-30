@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
-import { RouterModule }   from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,7 +8,7 @@ import { MaterializeModule } from 'angular2-materialize';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 import { SharedServicesModule } from 'benowservices';
-import { SharedComponentsModule } from 'benowcomponents'; 
+import { SharedComponentsModule } from 'benowcomponents';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -40,7 +40,7 @@ export function HttpFactory(http: Http) {
     BrowserModule,
     AppRoutingModule,
     MaterializeModule,
-    SharedComponentsModule, 
+    SharedComponentsModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,

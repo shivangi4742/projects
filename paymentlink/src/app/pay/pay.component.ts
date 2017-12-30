@@ -3,6 +3,8 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
+import { ZgService } from "./../../../../zg/src/app/services/zg.service";
+import { ChargesModel } from "./../../../../zg/src/app/models/charges.model";
 
 @Component({
   selector: 'pay',
@@ -55,7 +57,7 @@ export class PayComponent implements OnInit {
   hasExtraCharges: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
-    private productService: ProductService, private sanitizer: DomSanitizer) { }
+    private productService: ProductService, private sanitizer: DomSanitizer, private zgService: ZgService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -63,6 +65,14 @@ export class PayComponent implements OnInit {
     this.sdkId = this.route.snapshot.params['sdkId'];
     this.uploadsURL = this.utilsService.getUploadsURL();
     this.isMobile = this.utilsService.isAnyMobile();
+
+    var chargesModel = this.zgService.getCharges();
+    if (chargesModel) {
+      if (this.id == chargesModel.id) { 
+        console.log('ID', chargesModel.id);
+      }
+    }
+
     if (this.sdkId && this.sdkId.length > 0) {
       this.sdkService.getLogById(this.sdkId)
         .then(res => this.init(res))
@@ -98,7 +108,7 @@ export class PayComponent implements OnInit {
         this.initialize();
     }
     else
-      this.router.navigateByUrl('/notfound');      
+      this.router.navigateByUrl('/notfound');
   }
 
   initProds(res: Array<Product>) {
@@ -118,8 +128,8 @@ export class PayComponent implements OnInit {
       }
     }
 
-    if(!this.pay.products || this.pay.products.length < 1) {
-      if(this.pay.mtype == 2)
+    if (!this.pay.products || this.pay.products.length < 1) {
+      if (this.pay.mtype == 2)
         this.router.navigateByUrl('/contribute/' + this.id + '/' + this.pay.merchantCode);
       else
         this.router.navigateByUrl('/buy/' + this.id + '/' + this.pay.merchantCode);
@@ -306,7 +316,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBillString(this.pay.amount, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null,null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
         .then(res => this.qRLinkShown(res, this.pay.amount));
     }
     else {
@@ -332,7 +342,7 @@ export class PayComponent implements OnInit {
   }
 
   poll() {
-    if(window.location.href.indexOf('/pay/') > 1 || window.location.href.indexOf('/donate/') > 1 || window.location.href.indexOf('/paysdk') > 1)
+    if (window.location.href.indexOf('/pay/') > 1 || window.location.href.indexOf('/donate/') > 1 || window.location.href.indexOf('/paysdk') > 1)
       this.sdkService.getTransactionStatus(this.pay.merchantCode, this.txnNo)
         .then(res => this.checkMyPayment(res));
   }
@@ -362,10 +372,12 @@ export class PayComponent implements OnInit {
         }
         else if (res.paymentStatus.trim().toUpperCase() == 'FAILED') {
           found = true;
-          this.sdkService.setPayFailure({ "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg, 
-            "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, 
-            "products": this.pay.products });
-          if(this.pay.merchantType == 2)
+          this.sdkService.setPayFailure({
+            "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg,
+            "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate,
+            "products": this.pay.products
+          });
+          if (this.pay.merchantType == 2)
             this.router.navigateByUrl('/donationfailure/' + this.id + '/' + this.txnNo);
           else
             this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnNo);
@@ -419,7 +431,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBill(this.pay.amount, this.pay.merchantVpa, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null,null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
         .then(res => this.qRShown(res));
     }
     else {
@@ -495,8 +507,8 @@ export class PayComponent implements OnInit {
           this.lastName = sp[1];
       }
 
-      this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email, 
-        this.pay.phone, this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName, 
+      this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email,
+        this.pay.phone, this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName,
         this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5, this.pay.merchantType));
       this.router.navigateByUrl('/pg/' + this.id);
     }
