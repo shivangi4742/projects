@@ -2,9 +2,9 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
+import { Fundraiser } from "./../../../../sharedservices/src/models/fundraiser.model";
 import { MaterializeAction } from 'angular2-materialize';
-
-import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -12,6 +12,7 @@ import { SDK, SDKService, UtilsService, Product, ProductService, User, PayReques
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
+
   mode: number;
   qrAmount: number;
   upiAmount: number;
@@ -60,7 +61,7 @@ export class PayComponent implements OnInit {
   hasExtraCharges: boolean = false;
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
-    private productService: ProductService, private sanitizer: DomSanitizer, private zgService: ZgService) { }
+    private productService: ProductService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -69,13 +70,6 @@ export class PayComponent implements OnInit {
     this.fundRaiserId = this.route.snapshot.params['fund'];
     this.uploadsURL = this.utilsService.getUploadsURL();
     this.isMobile = this.utilsService.isAnyMobile();
-
-    var chargesModel = this.zgService.getCharges();
-    if (chargesModel) {
-      if (this.id == chargesModel.id) { 
-        console.log('ID', chargesModel.id);
-      }
-    }
 
     if (this.sdkId && this.sdkId.length > 0) {
       this.sdkService.getLogById(this.sdkId)
@@ -431,14 +425,13 @@ export class PayComponent implements OnInit {
       let res: any = rest[0];
       if (res && res.txnId == this.txnNo && res.paymentStatus) {
         if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
-          found = true;
-          if(this.fundraiser && this.fundraiser.id > 0)
-            this.sdkService.updateFundraiserCollection(this.pay.amount, this.fundRaiserId, this.id);
-
-          this.sdkService.setPaySuccess({ "amount": this.pay.amount, "title": this.pay.businessName, "mode": 0, "txnid": this.txnNo,
-            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products, 
-            "mtype": this.pay.merchantType });
-          if(this.pay.merchantType == 2)
+          found = true; 
+          this.sdkService.setPaySuccess({
+            "amount": this.pay.amount, "title": this.pay.businessName, "mode": 0, "txnid": this.txnNo,
+            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products,
+            "mtype": this.pay.merchantType
+          });
+          if (this.pay.merchantType == 2)
             this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
           else
             this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
