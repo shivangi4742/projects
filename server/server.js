@@ -1,6 +1,7 @@
 // Library inclusions.
 var fs = require('fs');
 var cors = require('cors');
+var uuid = require('uuid');
 var express = require('express');
 var busboy = require('connect-busboy');
 var bodyParser = require('body-parser');
@@ -308,6 +309,25 @@ function start(app, options) {
 }
 
 var options = setup(config.ssl);
-start(app, options).listen(config.port);
+const svr = start(app, options).listen(config.port);
+var io = require('socket.io').listen(svr);
+io.sockets.on('connection', function(socket) {
+	socket.on('merchantroom', function(room) {
+		socket.join(room.room);
+	});
+});
+
+app.get(config.base + '/test/:mcode', function (req, res) {
+	io.sockets.in(req.params.mcode).emit('paymentreceived', {
+		amount: 10,
+		id: uuid.v1(),
+		tr: uuid.v1(),
+		mode: 'UPI',
+		vpa: 'Yatish',
+		till: '001',
+		dt: new Date()
+	});
+	res.send('emitted');
+});
 
 sTask.migrate();

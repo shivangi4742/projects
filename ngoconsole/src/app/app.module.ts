@@ -20,6 +20,8 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ProductlineComponent } from './productline/productline.component';
 
+import { SocketService } from './socket.service';
+
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
 }
@@ -49,7 +51,7 @@ export function HttpFactory(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
