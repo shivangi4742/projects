@@ -70,9 +70,6 @@
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
           </div>
-          <div *ngIf="hasExtraCharges">
-            <span class="col s12 alertTextBN center">{{'* Extra charges applicable based on the mode of payment' | translate}}</span>
-          </div>
         </div>
       </div>
       <div *ngIf="amountEditable">
@@ -309,43 +306,6 @@
               </div>
             </li>
             <li *ngIf="supportsDC">
-              <div class="row valign-wrapper" *ngIf="upiCharges ;then charges else other_content">
-                <ng-template #charges>
-                  <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                    <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
-                      <div class="col s2" align="left">
-                        <i class="material-icons yellowBN">credit_card</i>
-                      </div>
-                      <div class="col s8" align="left">
-                        <span class="truncate regNrmS4BN">{{'Debit Card' | translate}}</span>
-                      </div>
-                      <div class="col s2" align="right">
-                        <i class="material-icons greyBN">keyboard_arrow_right</i>
-                      </div>
-                    </button>
-                  </div>
-                  <div class="collapsible-body">
-                    <div *ngIf="invalidAmount">
-                      <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
-                    </div>
-                    <div *ngIf="!invalidAmount">
-                      <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
-                    </div>
-                    <div *ngIf="upiCharges.category == 'PERCENT' ;then percentage else other_content"></div>
-                    <ng-template #other_content>
-                      <div *ngIf="upiCharges.category == 'FLAT' ;then flat else else_content"></div>
-                    </ng-template>
-                    <ng-template #percentage>
-                      <label for="upi">UPI @ {{upiCharges.charge}}% of payment amount</label>
-                    </ng-template>
-                    <ng-template #flat>
-                      <label for="upi">UPI @ Flat INR {{upiCharges.charge}}</label>
-                    </ng-template>
-                    <ng-template #else_content>
-                    </ng-template>
-                  </div>
-                </ng-template>
-                <ng-template #other_content>
                   <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
                     <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
                       <div class="col s2" align="left">
@@ -367,8 +327,6 @@
                       <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                     </div>
                   </div>
-                </ng-template>
-              </div>
             </li>
             <li *ngIf="supportsCC">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
