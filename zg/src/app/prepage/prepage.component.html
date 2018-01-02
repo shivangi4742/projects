@@ -1,7 +1,8 @@
 <main>
   <div materialize>
     <div class="row container">
-      <form class="col s10 m10 l10 card-panel grey lighten-5 widgetBN loginLongBN offset-s1" (ngSubmit)="savePrePage()" #preForm="ngForm">
+      <form class="col s12 m10 l10 card-panel grey lighten-5 widgetBN loginLongBN offset-l1 offset-m1" (ngSubmit)="savePrePage()"
+        #preForm="ngForm">
         <div class="row">
           <div *ngIf="hasPayPin" class="input-field col s12">
             <input disabled value="{{payPin}}" id="paypin" type="text" class="validate">
@@ -26,33 +27,39 @@
 
         <div *ngIf="hasPayPin">
           <div class="row valign-wrapper">
-            <div class="col s6 m6 l6">Community code</div>
-            <div class="col s1 m1 l1">: </div>
-            <div class="col s5 m5 l5">{{payPinModel.community_name}}</div>
+            <div class="col s5" align="left">Community code</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6 truncate" align="left">{{payPinModel.community_name}}</div>
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s6 m6 l6">Flat code</div>
-            <div class="col s1 m1 l1">: </div>
-            <div class="col s5 m5 l5">{{payPinModel.flat}}</div>
+            <div class="col s5" align="left">Flat code</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6 truncate" align="left">{{payPinModel.flat}}</div>
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s6 m6 l6">Payer name</div>
-            <div class="col s1 m1 l1">: </div>
-            <div class="col s5 m5 l5">{{payPinModel.payee_first_name}} {{payPinModel.payee_last_name}}</div>
+            <div class="col s5" align="left">Payer name</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6 truncate" align="left">{{payPinModel.payee_first_name}} {{payPinModel.payee_last_name}}</div>
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s6 m6 l6">Email address</div>
-            <div class="col s1 m1 l1">: </div>
-            <div class="col s5 m5 l5">{{payPinModel.email_id}}</div>
+            <div class="col s5" align="left">Email address</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6 truncate" align="left">{{payPinModel.email_id}}</div>
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s6 m6 l6">Mobile number</div>
-            <div class="col s1 m1 l1">: </div>
-            <div class="col s5 m5 l5">{{payPinModel.contact_number}}</div>
+            <div class="col s5" align="left">Mobile number</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6 truncate" align="left">{{payPinModel.contact_number}}</div>
+          </div>
+
+          <div class="row valign-wrapper">
+            <div class="col s5" align="left">Due date</div>
+            <div class="col s1" align="left">: </div> 
+            <div class="col s6 truncate" align="left">{{payPinModel.due_date}}</div>
           </div>
 
           <div *ngIf="!subLedgerList">
@@ -78,10 +85,10 @@
                 <li>
                   <div class="collapsible-header">
                     <div class="row noPadsNewBN fullWidthBN">
-                      <div class="col s6" align="left">
+                      <div class="col s5" align="left">
                         <span class="truncate">Bill</span>
                       </div>
-                      <div class="col s5" align="right">
+                      <div class="col s6" align="right">
                         <span class="truncate">INR {{totalBillAmount}}</span>
                       </div>
                       <div class="col s1" align="right">
@@ -91,8 +98,8 @@
                   </div>
                   <div class="collapsible-body">
                     <div class="row valign-wrapper" *ngFor="let subLedger of subLedgerList; let i = index">
-                      <div class="col s8" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
-                      <div class="col s4">
+                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
+                      <div class="col m4 l4 s6">
                         <div class="input-field col s12">
                           <input value="{{subLedger.amount}}" id="amount" type="text" class="validate" (input)="onEnterPayment($event.target.value, i)">
                           <label class="active" for="amount">Amount</label>
@@ -104,10 +111,10 @@
                 <li>
                   <div class="collapsible-header">
                     <div class="row noPadsNewBN fullWidthBN">
-                      <div class="col s6" align="left">
+                      <div class="col s5" align="left">
                         <span class="truncate">Sub ledger</span>
                       </div>
-                      <div class="col s5" align="right">
+                      <div class="col s6" align="right">
                         <span class="truncate">INR {{totalSubledgerAmount}}</span>
                       </div>
                       <div class="col s1" align="right">
@@ -117,8 +124,8 @@
                   </div>
                   <div class="collapsible-body">
                     <div class="row valign-wrapper" *ngFor="let subLedger of allSubLedgerList; let i = index">
-                      <div class="col s8" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
-                      <div class="col s4">
+                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
+                      <div class="col m4 l4 s6">
                         <div class="input-field col s12">
                           <input value="{{subLedger.amount}}" id="amount" type="text" class="validate" (input)="onEnterSubLedger($event.target.value, i)">
                           <label class="active" for="amount">Amount</label>
@@ -217,17 +224,17 @@
           </div>
 
           <div hidden class="row valign-wrapper">
-            <div class="input-field col s3">
+            <div class="input-field col l3 m3 s5">
               <input disabled value="{{amountWithoutCharge}}" id="total" type="text" class="validate">
               <label class="active" for="total">Payment</label>
             </div>
-            <span class="col s1">+</span>
-            <div class="input-field col s3">
+            <span class="col l1 m1 s1">+</span>
+            <div class="input-field col l3 m3 s5">
               <input disabled value="INR {{convenienceFee | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Convenience</label>
             </div>
-            <span class="col s1">=</span>
-            <div class="input-field col s3">
+            <span class="col l1 m1 s1 hide-on-small-only">=</span>
+            <div class="input-field col l3 m3 s5 hide-on-small-only">
               <input disabled value="INR {{totalAmount | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Total</label>
             </div>
@@ -242,7 +249,7 @@
 
           <div class="row valign-wrapper">
             <div class="col s12 m12 l12" align="center">
-              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" name="till" [disabled]="!hasAllRequiredFields()">Pay {{totalAmount | number : '1.2-2'}}
+              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" name="till" [disabled]="!hasAllRequiredFields()">Pay INR {{totalAmount | number : '1.2-2'}}
                 <i class="material-icons right">send</i>
               </button>
             </div>
