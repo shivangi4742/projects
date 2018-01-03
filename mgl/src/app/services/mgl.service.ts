@@ -18,8 +18,9 @@ export class MglService {
   'mglsuccessURL': 'mglpay/mglsuccess',
   
   'mgldetailsSaveURL' : 'mglpay/mgldetailssave',
-  'mglpreactionURL':'mglpay/checkPaymentPreActionData'}
-
+  'mglpreactionURL':'mglpay/checkPaymentPreActionData',
+  'mglpreURL':'mglpay/mglpreaction'}
+  
   constructor(private http: Http, private utilsService: UtilsService) { }
 
   getmglDetails(csmno: string, mobno:string): Promise<any> {
@@ -76,7 +77,31 @@ export class MglService {
       .then(res => this.gettmglSaveDetails(res))
       .catch(res => this.utilsService.returnGenericError());
   }
-
+  mglremainsave(actionData:string, tag2: string, tag3:string,tag4:string): Promise<any> {
+    
+     return this.http.post(
+       this.utilsService.getBaseURL() + this._urls.mglpreURL,
+       JSON.stringify({
+        "tag1":actionData,
+        "tag2":tag2,
+        "tag3":tag3,
+        "tag4":tag4,
+        "tag5":"",
+         "val1":"",
+         "val2":"",
+         "val3":"",
+         "val4":"",
+         "val5":""
+           
+         }), 
+         { headers: this.getTempHeaders() })
+       .toPromise()
+       .then(res => this.getremaintmglSaveDetails(res))
+       .catch(res => this.utilsService.returnGenericError());
+   }
+   getremaintmglSaveDetails(res:any){
+    console.log(res);
+ }
   gettmglSaveDetails(res:any){
      //console.log(res);
   }

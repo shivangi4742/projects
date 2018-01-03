@@ -58,7 +58,6 @@ mgldett(res:any) {
 
  if(t.responseFromAPI==true){
   if((window as any).fbq) {
-  
     (window as any).fbq('track', 'InitiateCheckout');
    }
        this.router.navigateByUrl("/customerpayment");
