@@ -17,21 +17,35 @@
       <div class="row allContentBN">
         <div class="col s12 regNrmS5BN center line-breaker">{{sdk.description}}</div>
       </div>
-      <div class="row allContentBN">
+      <div class="row allContentBN noProdMarginBN">
         <div class="col s8 offset-s2 m4 center" *ngFor="let p of products">
           <productwidget [forCart]="true" [mtype]="sdk.merchantType" [editQty]="true" [product]="p"></productwidget>
         </div>
       </div>
-      <div class="row" *ngIf="sdk.mtype == 2">
+      <div class="row hide-on-small-only" *ngIf="sdk.mtype == 2">
           <span class="center orBN col s12">- {{'Or' | translate}} -</span>
           <div class="col s9 offset-s2">
               <div class="col s2 invHdrS1BN rupeeBN">₹ </div>
-              <div class="input-field col s10 m6 l6 regNrmS4B2BN">
+              <div class="input-field col s5 regNrmS4B2BN">
                 <input id="amountPay" name="amountPay" type="number" class="inputBoxBN" [(ngModel)]="payAmount" [disabled]="isProdSelected()" style="margin:0px"/>
                 <label for="amountPay" [ngClass]="{active: payAmount}">{{'Enter Amount to Donate' | translate}}</label>
-                <span class="downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
+
               </div>
+            <div class="col s4"></div>
+            <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
           </div>
+      </div>
+      <div class="row hide-on-med-and-up" *ngIf="sdk.mtype == 2">
+        <span class="center orBN col s12">- {{'Or' | translate}} -</span>
+        <div class="col s10 offset-s1">
+          <div class="col s1 invHdrS1BN rupeeBN">₹ </div>
+          <div class="input-field col s10 regNrmS4B2BN">
+            <input id="amountPay" name="amountPay" type="number" class="inputBoxBN" [(ngModel)]="payAmount" [disabled]="isProdSelected()" style="margin:0px"/>
+            <label for="amountPay" [ngClass]="{active: payAmount}">{{'Enter Amount to Donate' | translate}}</label>
+
+          </div>
+          <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
+        </div>
       </div>
       <div class="row">
         <div class="col s12 center">
