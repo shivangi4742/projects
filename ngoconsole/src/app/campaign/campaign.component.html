@@ -323,8 +323,10 @@
               <div class="row mCampTitles rowBorderBN">
                 <span class="col s4 regHdrS1BN">{{'Campaign Name' | translate}}&nbsp;
                   <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
-                <span class="col s4 regHdrS1BN">{{'Order Value' | translate}}&nbsp;
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(2)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
+                <span class="col s4 regHdrS1BN">
+                  <!--{{'Order Value' | translate}};
+                  <a class="redBN linkButtonBN" (click)="sortCampaigns(2)"><i class="material-icons alignMidBN">sort_by_alpha</i></a>-->
+                </span>
                 <span class="col s4 regHdrS1BN">{{'Date Created' | translate}}&nbsp;
                   <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
               </div>
@@ -340,7 +342,9 @@
                       </ng-template>
                       <span class="alignMidBN">{{campaign.campaignName}}</span>
                     </a>
-                    <span class="col s4">₹ {{campaign.fundraised | number : '1.2-2'}}</span>
+                    <span class="col s4">
+                      <!--₹ {{campaign.fundraised | number : '1.2-2'}}-->
+                    </span>
                     <span class="col s4">{{campaign.creationDate | date: 'dd-MMM-yyyy'}}</span>
                   </div>
                   <div *ngIf="sdk" class="collapsible-body">

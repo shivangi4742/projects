@@ -138,6 +138,55 @@ var benowCont = {
             cb(retErr);
         }
     },    
+    mglremainSave: function (req, res) {
+        var token = this.getToken(req);
+          var me = this;
+          this.mglremainSavePost(req, token, function (data) { 
+              res.setHeader("X-Frame-Options", "DENY");
+              res.json({ "data": data});
+          });
+      },
+  
+      mglremainSavePost: function (req, token, cb) {
+           var retErr = {
+              "success": false,
+              "token": null,
+              "errorCode": "Something went wrong. Please try again."
+          };
+           try {
+              if (!req || !req.body) { 
+                  cb(retErr);
+                  
+              }
+              else {
+                  var d = req.body; 
+                  console.log(d);     
+                  if (d) {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/savePreActionLog', 'POST', req.headers),
+                          { 
+                            "tag1":d.tag1,
+                            "tag2":d.tag2,
+                            "tag3":d.tag3,
+                            "tag4":d.tag4,
+                            "tag5":"",
+                            "val1":"",
+                            "val2":"",
+                            "val3":"",
+                            "val4":"",
+                            "val5":""
+                      },  cb);
+  
+                  }
+                  else
+                  { 
+                      cb(retErr);}
+                      
+              }
+          }
+          catch (err) {
+              cb(retErr);
+          }
+      },    
  checkPaymentPreActionData: function (req, res) {
       var token = this.getToken(req);
         var me = this;

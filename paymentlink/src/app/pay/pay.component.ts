@@ -33,6 +33,7 @@ export class PayComponent implements OnInit {
   mobileNumber: string;
   validationError: string;
   pay: SDK;
+  payAmount: number = null;
   fundraiser: Fundraiser;
   loaded: boolean = false;
   resident: boolean = true;
@@ -71,6 +72,10 @@ export class PayComponent implements OnInit {
     this.uploadsURL = this.utilsService.getUploadsURL();
     this.isMobile = this.utilsService.isAnyMobile();
 
+    if(this.route.snapshot.params['amount']){
+      this.payAmount = JSON.parse(atob(this.route.snapshot.params['amount']));
+    }
+
     if (this.sdkId && this.sdkId.length > 0) {
       this.sdkService.getLogById(this.sdkId)
         .then(res => this.init(res))
@@ -102,7 +107,7 @@ export class PayComponent implements OnInit {
 
       if (this.pay.mtype == 1) {
         this.pay.askmob = false;
-        this.pay.mndmob = false
+        this.pay.mndmob = false;
         this.mobileNumber = this.pay.phone;
       }
       else {
@@ -137,9 +142,11 @@ export class PayComponent implements OnInit {
       }
     }
 
-    if (!this.pay.products || this.pay.products.length < 1) {
-      if (this.pay.mtype == 2)
+    if ((!this.pay.products || this.pay.products.length < 1) && !this.payAmount) {
+      if (this.pay.mtype == 2){
         this.router.navigateByUrl('/contribute/' + this.id + '/' + this.pay.merchantCode);
+      }
+
       else
         this.router.navigateByUrl('/buy/' + this.id + '/' + this.pay.merchantCode);
     }
@@ -155,9 +162,12 @@ export class PayComponent implements OnInit {
           total += this.pay.products[i].qty * this.pay.products[i].price;
         }
       }
-
-      this.pay.amount = total;
     }
+
+    if(this.payAmount && this.payAmount > 0)
+      total = this.payAmount;
+
+    this.pay.amount = total;
 
     if (this.pay.amount == 0)
       this.pay.amount = null;
@@ -177,7 +187,7 @@ export class PayComponent implements OnInit {
 
       if (this.pay.supportedModes.indexOf('CC') >= 0) {
         this.numSupportedModes++;
-        this.supportsCC = true;        
+        this.supportsCC = true;
       }
 
       if (this.pay.supportedModes.indexOf('DC') >= 0) {
@@ -246,7 +256,7 @@ export class PayComponent implements OnInit {
             break;
           case 'SODEXO':
             break;
-        }        
+        }
       }
     }
   }
@@ -425,7 +435,7 @@ export class PayComponent implements OnInit {
       let res: any = rest[0];
       if (res && res.txnId == this.txnNo && res.paymentStatus) {
         if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
-          found = true; 
+          found = true;
           this.sdkService.setPaySuccess({
             "amount": this.pay.amount, "title": this.pay.businessName, "mode": 0, "txnid": this.txnNo,
             "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products,
@@ -572,13 +582,13 @@ export class PayComponent implements OnInit {
         if (sp && sp.length > 1)
           this.lastName = sp[1];
       }
- 
+
       let hasFundraiser: boolean = false;
       if(this.fundraiser && this.fundraiser.id)
         hasFundraiser = true;
 
-      this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email, 
-        this.pay.phone, this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName, 
+      this.sdkService.setPG(new PG(this.mode, this.pay.amount, this.pay.sourceId, this.utilsService.isAnyMobile() ? 1 : 0, this.pay.email,
+        this.pay.phone, this.mobileNumber, this.pay.title, res.transactionRef, this.pay.surl, this.pay.furl, this.lastName, this.id, this.firstName,
         this.pay.merchantId, this.pay.merchantCode, this.pay.udf2, this.pay.udf3, this.pay.udf4, this.pay.udf5, this.pay.merchantType, hasFundraiser,
         this.fundRaiserId));
       this.router.navigateByUrl('/pg/' + this.id);
