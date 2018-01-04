@@ -102,65 +102,70 @@ export class ZgService {
 
   setPayPinResponse(res: any): PayPinResponseModel {
     var me = this;
-    JSON.parse(res.data).benow.payPinDetails.forEach(function (payPinDetail: any) {
-      var billAmount = payPinDetail.bill_amount;
-      var communityName = payPinDetail.community_name;
-      var contactNumber = payPinDetail.contact_number;
-      var dueDate = payPinDetail.due_date;
-      var emailId = payPinDetail.email_id;
-      var flat = payPinDetail.flat;
-      var payableAmount = payPinDetail.payable_amount;
-      var firstName = payPinDetail.payee_first_name;
-      var lastName = payPinDetail.payee_last_name;
-      var payPin = payPinDetail.pay_pin;
-      var remark = payPinDetail.remark;
+    if (!JSON.parse(res.data).success) {
+      this.payPinResponse = new PayPinResponseModel(null, false); // False hardcoded because the api sometimes returns null value
+    }
+    else {
+      JSON.parse(res.data).benow.payPinDetails.forEach(function (payPinDetail: any) {
+        var billAmount = payPinDetail.bill_amount;
+        var communityName = payPinDetail.community_name;
+        var contactNumber = payPinDetail.contact_number;
+        var dueDate = payPinDetail.due_date;
+        var emailId = payPinDetail.email_id;
+        var flat = payPinDetail.flat;
+        var payableAmount = payPinDetail.payable_amount;
+        var firstName = payPinDetail.payee_first_name;
+        var lastName = payPinDetail.payee_last_name;
+        var payPin = payPinDetail.pay_pin;
+        var remark = payPinDetail.remark;
 
-      payPinDetail.payment_gateway_details.forEach(function (pgDetails: any) {
-        var netbank = pgDetails.netbank;
-        var creditCard = pgDetails.creditcard;
-        var debitCard = pgDetails.debitcard;
+        payPinDetail.payment_gateway_details.forEach(function (pgDetails: any) {
+          var netbank = pgDetails.netbank;
+          var creditCard = pgDetails.creditcard;
+          var debitCard = pgDetails.debitcard;
 
-        var netBankModel = new PgChargesModel(netbank.category, netbank.charge, netbank.gst_percent);
-        var ccModel = new PgChargesModel(creditCard.category, creditCard.charge, creditCard.gst_percent);
-        var dcModel = new PgChargesModel(debitCard.category, debitCard.charge, debitCard.gst_percent);
+          var netBankModel = new PgChargesModel(netbank.category, netbank.charge, netbank.gst_percent);
+          var ccModel = new PgChargesModel(creditCard.category, creditCard.charge, creditCard.gst_percent);
+          var dcModel = new PgChargesModel(debitCard.category, debitCard.charge, debitCard.gst_percent);
 
-        var pgChargesDetail = new PgChargesDetails(netBankModel, dcModel, ccModel);
-        me.pgChargesDetailArray.push(pgChargesDetail);
+          var pgChargesDetail = new PgChargesDetails(netBankModel, dcModel, ccModel);
+          me.pgChargesDetailArray.push(pgChargesDetail);
+        });
+
+        payPinDetail.upi_details.forEach(function (upiDetails: any) {
+          var netbank = upiDetails.netbank;
+
+          var netBankModel = new PgChargesModel(netbank.category, netbank.charge, netbank.gst_percent);
+
+          var upiChargesDetail = new UpiChargesDetails(netBankModel);
+          me.upiChargesDetailArray.push(upiChargesDetail);
+        });
+
+        payPinDetail.subledger_list.forEach(function (subledger: any) {
+          var amount = subledger.amount;
+          var subledger_code = subledger.subledger_code;
+          var type = subledger.type;
+
+          var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
+          me.subLedgerArray.push(subLedger);
+        });
+
+        payPinDetail.allsubledger_list.forEach(function (subledger: any) {
+          var amount = subledger.amount;
+          var subledger_code = subledger.subledger_code;
+          var type = subledger.type;
+
+          var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
+          me.allSubLedgerArray.push(subLedger);
+        });
+
+        var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray);
+        me.payPinModelArray.push(payPinModel);
       });
 
-      payPinDetail.upi_details.forEach(function (upiDetails: any) {
-        var netbank = upiDetails.netbank;
-
-        var netBankModel = new PgChargesModel(netbank.category, netbank.charge, netbank.gst_percent);
-
-        var upiChargesDetail = new UpiChargesDetails(netBankModel);
-        me.upiChargesDetailArray.push(upiChargesDetail);
-      });
-
-      payPinDetail.subledger_list.forEach(function (subledger: any) {
-        var amount = subledger.amount;
-        var subledger_code = subledger.subledger_code;
-        var type = subledger.type;
-
-        var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
-        me.subLedgerArray.push(subLedger);
-      });
-
-      payPinDetail.allsubledger_list.forEach(function (subledger: any) {
-        var amount = subledger.amount;
-        var subledger_code = subledger.subledger_code;
-        var type = subledger.type;
-
-        var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
-        me.allSubLedgerArray.push(subLedger);
-      });
-
-      var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray);
-      me.payPinModelArray.push(payPinModel);
-    });
-
-    this.benowModel = new BenowModel(me.payPinModelArray);
-    this.payPinResponse = new PayPinResponseModel(this.benowModel, res.success);
+      this.benowModel = new BenowModel(me.payPinModelArray);
+      this.payPinResponse = new PayPinResponseModel(this.benowModel, res.success);
+    }
 
     return this.payPinResponse;
   }

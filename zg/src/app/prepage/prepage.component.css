@@ -5,3 +5,8 @@
     font-size: 12px;
     color: rgba(0,0,0,0.54);
 }
+
+.error-text {
+    font-weight: bold;
+    color: red;
+}
