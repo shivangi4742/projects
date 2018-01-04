@@ -11,3 +11,27 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.orBN{
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 16pt;
+  color: gray;
+}
+
+.rupeeBN{
+  padding-top: 5px;
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 29pt;
+  color: #323334;
+  text-align: right;
+}
+
+.downLabelBN{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 9pt;
+  color: #E53935;
+}
+
+.noProdMarginBN{
+  margin-bottom: 0px!important;
+}

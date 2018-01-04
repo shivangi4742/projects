@@ -12,6 +12,12 @@
             <input id="paypin" type="text" class="validate" (input)="onEnterPayPin($event.target.value)">
             <label for="paypin">Pay-Pin ID</label>
             <span class="helper-text" data-error="wrong" data-success="right">You can find your Pay-Pin ID in the bill</span>
+            <div *ngIf="invalidPaypin ;then showError else other_content"></div>
+            <ng-template #showError>
+              <div align="left" class="error-text col s12">This is not a valid Paypin</div>
+            </ng-template>
+            <ng-template #other_content>
+            </ng-template>
           </div>
         </div>
         <div class="row" *ngIf="!hasPayPin">
@@ -29,7 +35,7 @@
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Community code</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6 truncate" align="left">{{payPinModel.community_name}}</div>
+            <div class="col s6" align="left">{{payPinModel.community_name}}</div>
           </div>
 
           <div class="row valign-wrapper">
@@ -47,7 +53,7 @@
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Email address</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6 truncate" align="left">{{payPinModel.email_id}}</div>
+            <div class="col s6" align="left">{{payPinModel.email_id}}</div>
           </div>
 
           <div class="row valign-wrapper">
@@ -58,7 +64,7 @@
 
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Due date</div>
-            <div class="col s1" align="left">: </div> 
+            <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">{{payPinModel.due_date}}</div>
           </div>
 
@@ -94,6 +100,12 @@
                       <div class="col s1" align="right">
                         <i class="material-icons greyBN">keyboard_arrow_down</i>
                       </div>
+                      <div *ngIf="totalAmount > 1000000 ;then showError else other_content"></div>
+                      <ng-template #showError>
+                        <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+                      </ng-template>
+                      <ng-template #other_content>
+                      </ng-template>
                     </div>
                   </div>
                   <div class="collapsible-body">
@@ -101,7 +113,7 @@
                       <div class="col m8 l8 s6" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
                       <div class="col m4 l4 s6">
                         <div class="input-field col s12">
-                          <input value="{{subLedger.amount}}" id="amount" type="text" class="validate" (input)="onEnterPayment($event.target.value, i)">
+                          <input value="{{subLedger.amount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
                           <label class="active" for="amount">Amount</label>
                         </div>
                       </div>
@@ -120,6 +132,12 @@
                       <div class="col s1" align="right">
                         <i class="material-icons greyBN">keyboard_arrow_down</i>
                       </div>
+                      <div *ngIf="totalAmount > 1000000 && totalSubledgerAmount > 0;then showError else other_content"></div>
+                      <ng-template #showError>
+                        <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+                      </ng-template>
+                      <ng-template #other_content>
+                      </ng-template>
                     </div>
                   </div>
                   <div class="collapsible-body">
@@ -154,7 +172,7 @@
                   <label for="upi">UPI @ {{upiCharges.charge}}% of payment amount with {{upiCharges.gst_percent}}% GST</label>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="upi">UPI @ Flat INR {{upiCharges.charge}} with {{upiCharges.gst_percent}}% GST</label>
+                  <label for="upi">UPI @ Flat INR {{upiCharges.charge}} plus payment amount with {{upiCharges.gst_percent}}% GST</label>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -174,7 +192,7 @@
                   <label for="netBanking">Netbanking @ {{netBankingCharges.charge}}% with {{netBankingCharges.gst_percent}}% GST of payment amount</label>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="netBanking">Netbanking @ Flat INR {{netBankingCharges.charge}} with {{netBankingCharges.gst_percent}}% GST</label>
+                  <label for="netBanking">Netbanking @ Flat INR {{netBankingCharges.charge}} plus payment amount with {{netBankingCharges.gst_percent}}% GST</label>
                 </ng-template>
                 <ng-template #else_content>
 
@@ -194,7 +212,7 @@
                   <label for="debit">Debit card @ {{dcCharges.charge}}% with {{dcCharges.gst_percent}}% GST of payment amount</label>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="debit">Debit card @ Flat INR {{dcCharges.charge}} with {{dcCharges.gst_percent}}% GST</label>
+                  <label for="debit">Debit card @ Flat INR {{dcCharges.charge}} plus payment amount with {{dcCharges.gst_percent}}% GST</label>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -213,7 +231,7 @@
                   <label for="credit">Credit card @ {{ccCharges.charge}}% with {{ccCharges.gst_percent}}% GST of payment amount</label>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="credit">Credit card @ Flat INR {{ccCharges.charge}} with {{ccCharges.gst_percent}}% GST</label>
+                  <label for="credit">Credit card @ Flat INR {{ccCharges.charge}} plus payment amount with {{ccCharges.gst_percent}}% GST</label>
                 </ng-template>
                 <ng-template #else_content>
 
@@ -225,7 +243,7 @@
 
           <div hidden class="row valign-wrapper">
             <div class="input-field col l3 m3 s5">
-              <input disabled value="{{amountWithoutCharge}}" id="total" type="text" class="validate">
+              <input disabled value="{{amountWithoutCharge | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Payment</label>
             </div>
             <span class="col l1 m1 s1">+</span>

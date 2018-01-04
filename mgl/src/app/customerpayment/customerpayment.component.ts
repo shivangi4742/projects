@@ -18,11 +18,12 @@ export class CustomerpaymentComponent implements OnInit {
   supportModes: string[];
   billno:string;
  // pp:string;
- // ppp:string;
+  ppp:string;
   constructor(private mglservice: MglService, private router: Router,  private payRequestService: PayrequestService) { }
     
   ngOnInit() {
       this.mgl = this.mglservice.getmgldata();
+      
   }
 
   Submit() {
@@ -30,9 +31,9 @@ export class CustomerpaymentComponent implements OnInit {
      
       (window as any).fbq('track', 'AddPaymentInfo');
      }
-   // this.ppp=JSON.stringify(this.mgl.response);
-    /* this.mglservice.mgldetailssave(this.mgl.billno, this.ppp, this.mgl.ca, this.mgl.mobno);  
-  */
+    this.ppp=JSON.stringify(this.mgl.response);
+    this.mglservice.mglremainsave( this.ppp, this.mgl.ca,  this.mgl.billno, this.mgl.mobno);  
+ 
   //console.log(this.mgl.mobno,this.mgl.ca, this.mgl.billno,this.mgl.name);
     this.supportModes = ['UPI'];
     //another option like collect request url

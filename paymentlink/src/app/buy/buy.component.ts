@@ -14,6 +14,8 @@ export class BuyComponent implements OnInit {
   merchantCode: string;
   sdk: SDK;
   products: Array<Product>;
+  payAmount: number = null;
+  mtype : number;
 
   constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router, private sdkService: SDKService,
     private utilsService: UtilsService) { }
@@ -33,6 +35,10 @@ export class BuyComponent implements OnInit {
           total += this.products[i].qty * this.products[i].price;
         }
       }
+    }
+
+    if(this.payAmount && this.payAmount > 0){
+      total = this.payAmount;
     }
 
     return total;
@@ -58,8 +64,21 @@ export class BuyComponent implements OnInit {
         this.router.navigateByUrl('/donate/' + this.id);
       else
         this.router.navigateByUrl('/pay/' + this.id);
-
     }
+  }
+
+  isProdSelected(): boolean{
+    let prodCheck: boolean = false;
+    if(this.products && this.products.length > 0){
+      for(let i:number = 0; i < this.products.length; i++){
+        if(this.products[i].isSelected){
+          prodCheck = true;
+          this.payAmount = null;
+          break;
+        }
+      }
+    }
+    return prodCheck;
   }
 
   isInvalid(): boolean {
@@ -71,6 +90,7 @@ export class BuyComponent implements OnInit {
     if(total > 0) {
       let input: Array<any> = new Array<any>();
       let selProds: Array<Product> = new Array<Product>();
+      let amount: number = 0;
       for(let i: number = 0; i < this.products.length; i++) {
         if(this.products[i].isSelected) {
           input.push({
@@ -81,11 +101,21 @@ export class BuyComponent implements OnInit {
         }
       }
 
+      if(this.payAmount && this.payAmount > 0){
+        amount = this.payAmount;
+      }
+
       this.sdkService.setProductsInSDK(selProds);
-      if(this.sdk.mtype == 2)
-        this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify(input))); 
+      if(this.sdk.mtype == 2){
+        if(amount > 0){
+          this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify('0')) + '/' + btoa(JSON.stringify('0')) + '/' + btoa(JSON.stringify(amount)));
+        }
+        else{
+          this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify(input)));
+        }
+      }
       else
-        this.router.navigateByUrl('/pay/' + this.id + '/' + btoa(JSON.stringify(input))); 
+        this.router.navigateByUrl('/pay/' + this.id + '/' + btoa(JSON.stringify(input)));
     }
   }
 }

@@ -21,6 +21,8 @@ router.post('/mgldetailssave', isAuthenticated, MglController.mglDetailsSave.bin
 router.post('/checkPaymentPreActionData', isAuthenticated, MglController.checkPaymentPreActionData.bind(MglController));
 router.post('/mglsuccess', isAuthenticated, MglController.paymentSuccess.bind(MglController));
 router.post('/mglfailure', isAuthenticated, MglController.paymentfailure.bind(MglController));
+router.post('/mglpreaction', isAuthenticated, MglController.mglremainSave.bind(MglController));
+
 router.isAuthenticated = isAuthenticated;
 router.resAuthenticated = resAuthenticated;
 module.exports = router;

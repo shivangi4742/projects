@@ -54,6 +54,8 @@ export class PrepageComponent implements OnInit {
   amountWithoutCharge: number;
   convenienceFee: number = 0;
 
+  invalidPaypin: boolean = false;
+
   constructor(private route: ActivatedRoute,
     private zgService: ZgService,
     private router: Router) { }
@@ -73,52 +75,59 @@ export class PrepageComponent implements OnInit {
 
   setPayPinModel(res: PayPinResponseModel): void {
 
-    this.enteredPayPin = '';
+    if (res.success ==  false) { 
+      this.invalidPaypin = true;
+    }
+    else {
+      this.enteredPayPin = '';
+      this.invalidPaypin = false;
 
-    this.payPinResponse = res;
-    this.payPinModel = this.payPinResponse.benow.payPinDetails[0];
-    this.payPin = this.payPinModel.pay_pin;
+      this.payPinResponse = res;
+      this.payPinModel = this.payPinResponse.benow.payPinDetails[0];
+      this.payPin = this.payPinModel.pay_pin;
 
-    if (this.payPin && this.payPin.length > 0) {
-      this.hasPayPin = true;
+      if (this.payPin && this.payPin.length > 0) {
+        this.hasPayPin = true;
+      }
+
+      // Assign UPI charges
+      if (this.payPinModel.upi_details && this.payPinModel.upi_details.length > 0) {
+        this.upiCharges = this.payPinModel.upi_details[0].netbank;
+      }
+
+      // Assign CC charges
+      if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].creditcard) {
+        this.ccCharges = this.payPinModel.pg_details[0].creditcard;
+      }
+
+      // Assign DC charges
+      if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].debitcard) {
+        this.dcCharges = this.payPinModel.pg_details[0].debitcard;
+      }
+
+      // Assign Netbanking charges
+      if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].netbank) {
+        this.netBankingCharges = this.payPinModel.pg_details[0].netbank;
+      }
+
+      if (this.payPinModel.subledger_list && this.payPinModel.subledger_list.length > 0) {
+        this.subLedgerList = this.payPinModel.subledger_list;
+      }
+
+      if (this.payPinModel.allsubledger_list && this.payPinModel.allsubledger_list.length > 0) {
+        this.allSubLedgerList = this.payPinModel.allsubledger_list;
+
+        this.allSubLedgerList.forEach(obj => {
+          this.totalSubledgerAmount += obj.amount;
+        })
+
+      }
+
+      this.totalBillAmount = this.payPinModel.bill_amount;
+      this.payableAmount = this.payPinModel.payable_amount;
+      this.calculateTotalAmount();
     }
 
-    // Assign UPI charges
-    if (this.payPinModel.upi_details && this.payPinModel.upi_details.length > 0) {
-      this.upiCharges = this.payPinModel.upi_details[0].netbank;
-    }
-
-    // Assign CC charges
-    if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].creditcard) {
-      this.ccCharges = this.payPinModel.pg_details[0].creditcard;
-    }
-
-    // Assign DC charges
-    if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].debitcard) {
-      this.dcCharges = this.payPinModel.pg_details[0].debitcard;
-    }
-
-    // Assign Netbanking charges
-    if (this.payPinModel.pg_details && this.payPinModel.pg_details[0].netbank) {
-      this.netBankingCharges = this.payPinModel.pg_details[0].netbank;
-    }
-
-    if (this.payPinModel.subledger_list && this.payPinModel.subledger_list.length > 0) {
-      this.subLedgerList = this.payPinModel.subledger_list;
-    }
-
-    if (this.payPinModel.allsubledger_list && this.payPinModel.allsubledger_list.length > 0) {
-      this.allSubLedgerList = this.payPinModel.allsubledger_list;
-
-      this.allSubLedgerList.forEach(obj => {
-        this.totalSubledgerAmount += obj.amount;
-      })
-
-    }
-
-    this.totalBillAmount = this.payPinModel.bill_amount;
-    this.payableAmount = this.payPinModel.payable_amount;
-    this.calculateTotalAmount();
   }
 
   savePrePage(): void {
@@ -215,6 +224,7 @@ export class PrepageComponent implements OnInit {
   }
 
   onEnterPayPin(payPin: string) {
+    this.invalidPaypin = false; 
     this.enteredPayPin = payPin;
   }
 
@@ -224,6 +234,7 @@ export class PrepageComponent implements OnInit {
 
   onEnterPayment(amount: string, position: number) {
     // if(index)
+
     var subledgerObj: SubLedgerModel;
     var billAmount: number = 0;
     subledgerObj = this.subLedgerList[position];
@@ -239,6 +250,7 @@ export class PrepageComponent implements OnInit {
 
   onEnterSubLedger(amount: string, position: number) {
     // if(index)
+
     var subledgerObj: SubLedgerModel;
     var billAmount: number = 0;
     subledgerObj = this.allSubLedgerList[position];
@@ -269,12 +281,11 @@ export class PrepageComponent implements OnInit {
       }
       var gst = (this.convenienceFee * +this.selectedCharges.gst_percent) / 100; //GST calculation
       this.convenienceFee = this.convenienceFee + gst;
-      // Verify if GST calculated on payment amount or after adding convinience fee 
     }
   }
 
   hasAllRequiredFields() {
-    return this.paymentMode && this.remarks;
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000;
   }
 
 }
