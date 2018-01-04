@@ -24,16 +24,15 @@
       </div>
       <div class="row hide-on-small-only" *ngIf="sdk.mtype == 2">
           <span class="center orBN col s12">- {{'Or' | translate}} -</span>
-          <div class="col s9 offset-s2">
+          <div class="col s9 offset-s3">
               <div class="col s2 invHdrS1BN rupeeBN">₹ </div>
               <div class="input-field col s5 regNrmS4B2BN">
                 <input id="amountPay" name="amountPay" type="number" class="inputBoxBN" [(ngModel)]="payAmount" [disabled]="isProdSelected()" style="margin:0px"/>
                 <label for="amountPay" [ngClass]="{active: payAmount}">{{'Enter Amount to Donate' | translate}}</label>
-
               </div>
             <div class="col s4"></div>
-            <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
           </div>
+        <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
       </div>
       <div class="row hide-on-med-and-up" *ngIf="sdk.mtype == 2">
         <span class="center orBN col s12">- {{'Or' | translate}} -</span>
