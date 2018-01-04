@@ -2,9 +2,9 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG } from 'benowservices';
-import { Fundraiser } from "./../../../../sharedservices/src/models/fundraiser.model";
 import { MaterializeAction } from 'angular2-materialize';
+
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -12,7 +12,6 @@ import { MaterializeAction } from 'angular2-materialize';
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
-
   mode: number;
   qrAmount: number;
   upiAmount: number;
@@ -162,12 +161,12 @@ export class PayComponent implements OnInit {
           total += this.pay.products[i].qty * this.pay.products[i].price;
         }
       }
+
+      this.pay.amount = total;
     }
 
     if(this.payAmount && this.payAmount > 0)
-      total = this.payAmount;
-
-    this.pay.amount = total;
+      this.pay.amount = this.payAmount;
 
     if (this.pay.amount == 0)
       this.pay.amount = null;
