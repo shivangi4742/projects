@@ -26,6 +26,7 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.8",
     "rimraf": "^2.5.2",
+    "socket.io": "^2.0.4",
     "winston": "^1.0.0"
   },
   "devDependencies": {

@@ -38,8 +38,8 @@ export class TransactionService {
         if(res && res.length > 0) {
             let txns = new Array<Transaction>();
             for(let i: number = 0; i < res.length; i++) {
-                let txn = new Transaction(false, res[i].amountPaid, null, null, res[i].payHistHdrTxnRefNo, res[i].tr, null, res[i].displayName, 
-                    res[i].merchantVPA, this.utilsService.formatDT(res[i].orderDate, '/', true, true, false), null, null, null);
+                let txn = new Transaction(false, res[i].amountPaid, null, null, res[i].payHistHdrTxnRefNo, res[i].tr, null, res[i].displayName,
+                    res[i].till, res[i].merchantVPA, this.utilsService.formatDT(res[i].orderDate, '/', true, true, false), null, null, null);
                 if(res[i].methodTypes && res[i].methodTypes.length > 0) {
                     if(res[i].methodTypes.length == 1)
                         txn.mode = this.getMethodName(res[i].methodTypes[0]);

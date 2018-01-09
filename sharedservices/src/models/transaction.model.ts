@@ -10,6 +10,7 @@ export class Transaction {
     public tr: string,
     public mode: string|null,
     public vPA: string,
+    public till: string,
     public merchantVPA: string,
     public dateAndTime: string,
     public cbTid: string|null,
