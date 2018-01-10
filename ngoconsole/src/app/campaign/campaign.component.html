@@ -199,9 +199,11 @@
                         </div>
                         <span class="hide-on-small-only" *ngIf="!sdk.askname">&nbsp;</span>
                       </div>
+                      <div *ngIf="sdk.mtype==2">
                       <p class="col s12 borderBN"></p>
 
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Employee Name' | translate}}?</div>
+                     
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Employee Id' | translate}}?</div>
                       <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                         <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
@@ -252,7 +254,7 @@
                         </div>
                         <span class="hide-on-small-only" *ngIf="!sdk.askcompanyname">&nbsp;</span>
                       </div>
-
+                    </div>
                       <p class="col s12 borderBN"></p>
                       <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
                       <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
@@ -376,6 +378,7 @@
               </div>
               <div class="row mCampTitles rowBorderBN">
                 <span class="col s4 regHdrS1BN">{{'Campaign Name' | translate}}&nbsp;
+                 
                   <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
                 </span>
                 <span *ngIf="sdk.mtype == 2" class="col s4 regHdrS1BN">
@@ -383,6 +386,7 @@
                 </span>
                 <span *ngIf="sdk.mtype != 2" class="col s4 regHdrS1BN"></span>
                 <span class="col s4 regHdrS1BN">{{'Date Created' | translate}}&nbsp;
+                 
                   <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
                 </span>
               </div>
@@ -391,6 +395,7 @@
                 <li *ngFor="let campaign of allCampaigns; let i = index;">
                   <div (click)="getCampaignData(campaign)"
                     [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
+                   
                     <a class="linkButtonBN col s4 campNameBN">
                       <i *ngIf="selectedCamp==campaign.txnrefnumber && campExpand; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
                       <ng-template #right>
@@ -398,6 +403,7 @@
                       </ng-template>
                       <span class="alignMidBN">{{campaign.campaignName}}</span>
                     </a>
+                   
                     <span *ngIf="campaign.totalbudget > 0 && sdk.mtype == 2" class="col s4">
                       ₹ {{campaign.totalbudget | number : '1.2-2'}}
                     </span>
