@@ -27,6 +27,13 @@ export class ProductlineComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
+  isNGO(): boolean {
+    if(this.utilsService.isNGO(this.user.mccCode))
+      return true;
+
+    return false;
+  }
+
   deleted(res: Boolean) {
     if(res == true)
       this.deletedProd.emit(this.product.id);

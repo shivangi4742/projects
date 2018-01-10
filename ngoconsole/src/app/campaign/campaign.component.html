@@ -41,7 +41,10 @@
                   <div class="col s12 center">
                     <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
                         (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">
-                      <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+                      <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3" class="featuredImageBN responsive-img" 
+                        src="../../assets/shared/images/no-image-wide.png" />
+                      <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2" class="featuredImageBN responsive-img" 
+                        src="../../assets/shared/images/banner@2x.jpg" />
                       <img [ngClass]="uploading ? 'featuredImageBN responsive-img displayBN' : 'featuredImageBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
                       <img *ngIf="!uploading && sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
@@ -354,7 +357,8 @@
                         <a [href]="campaign.url" target="_blank">{{campaign.url}}</a>
                       </div>
                       <div class="col m3 l3 campBodyBN">
-                        <img *ngIf="!uploading && !sdk.imageURL" src="../../assets/shared/images/no-image.png">
+                        <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3" src="../../assets/shared/images/no-image.png">
+                        <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2" src="../../assets/shared/images/donate-green.png">
                         <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSdkBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
                       </div>
                       <div class="col m6 l6 campBodyBN">
