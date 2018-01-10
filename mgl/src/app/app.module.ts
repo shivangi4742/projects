@@ -22,6 +22,7 @@ import { PayrequestService } from './services/payrequestservice.service';
 import { SuccessmglComponent } from './successmgl/successmgl.component';
 import { FailuremglComponent } from './failuremgl/failuremgl.component';
 import { MglpaymentComponent } from './mglpayment/mglpayment.component';
+import { SuccesstestComponent } from './successtest/successtest.component';
 
 
 export function HttpFactory(http: Http) {
@@ -35,7 +36,8 @@ export function HttpFactory(http: Http) {
     CustomerpaymentComponent,
     SuccessmglComponent,
     FailuremglComponent,
-    MglpaymentComponent 
+    MglpaymentComponent,
+    SuccesstestComponent 
 
   ],
   imports: [

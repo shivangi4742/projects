@@ -266,6 +266,28 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
 	});
 });
 
+app.get(config.base + '/mglshare', function(req, res) {
+	res.send('<!doctype html>' +
+		'<html>' +
+		'    <head>' +
+		'        <meta charset="utf-8">' +
+		'        <meta name="viewport" content="width=device-width, initial-scale=1">' +
+		'        <title>Benow - Mahanagar Gas Bill</title>' +
+		'        <meta property="og:title" content="Get ₹ 50 Cashback" />' +
+		'        <meta property="og:description" content="I just paid my Mahanagar Gas bill successfully. Get ₹ 50 cashback by paying your bill with this link. *T&C apply." />' +
+		'        <meta property="og:url" content="https://merchant.benow.in/mglshare" />' +
+		'        <meta property="og:image" content="https://merchant.benow.in/assets/mgl/images/axisbenow.png" />' +
+		'        <meta property="og:image:secure_url" content="https://merchant.benow.in/assets/mgl/images/axisbenow.png" />' +
+		'        <script>window.onload = function() { window.location = "https://merchant.benow.in/mgl"; return false; };</script>' +
+		'    </head>' +
+		'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' +
+		'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
+		'    </body>' +
+		'</html>'
+	);
+
+});
+
 app.post(config.base + '/paysdk', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	var headers = {
