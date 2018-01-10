@@ -227,7 +227,7 @@
                       </div>
 
                       <p class="col s12 borderBN"></p>
-                      
+
                       <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Company Name' | translate}}?</div>
                       <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                         <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
@@ -252,7 +252,7 @@
                         </div>
                         <span class="hide-on-small-only" *ngIf="!sdk.askcompanyname">&nbsp;</span>
                       </div>
-                      
+
                       <p class="col s12 borderBN"></p>
                       <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
                       <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
@@ -376,29 +376,35 @@
               </div>
               <div class="row mCampTitles rowBorderBN">
                 <span class="col s4 regHdrS1BN">{{'Campaign Name' | translate}}&nbsp;
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
-                <span class="col s4 regHdrS1BN">
-                  <!--{{'Order Value' | translate}};
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(2)"><i class="material-icons alignMidBN">sort_by_alpha</i></a>-->
+                  <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
                 </span>
+                <span *ngIf="sdk.mtype == 2" class="col s4 regHdrS1BN">
+                  {{'Campaign Target' | translate}}
+                </span>
+                <span *ngIf="sdk.mtype != 2" class="col s4 regHdrS1BN"></span>
                 <span class="col s4 regHdrS1BN">{{'Date Created' | translate}}&nbsp;
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
+                  <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
+                </span>
               </div>
               <div class="row"></div>
               <ul *ngIf="hasCampaigns()" class="collapsible" data-collapsible="accordion" materialize="collapsible">
                 <li *ngFor="let campaign of allCampaigns; let i = index;">
                   <div (click)="getCampaignData(campaign)"
                     [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
-                    <a class="linkButtonBN col s4 campNameBN" (click)="campaignClicked(campaign.txnrefnumber)">
+                    <a class="linkButtonBN col s4 campNameBN">
                       <i *ngIf="selectedCamp==campaign.txnrefnumber && campExpand; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
                       <ng-template #right>
                         <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                       </ng-template>
                       <span class="alignMidBN">{{campaign.campaignName}}</span>
                     </a>
-                    <span class="col s4">
-                      <!--₹ {{campaign.fundraised | number : '1.2-2'}}-->
+                    <span *ngIf="campaign.totalbudget > 0 && sdk.mtype == 2" class="col s4">
+                      ₹ {{campaign.totalbudget | number : '1.2-2'}}
                     </span>
+                    <span *ngIf="campaign.totalbudget == 0 && sdk.mtype == 2" class="col s4">
+                      --
+                    </span>
+                    <span *ngIf="sdk.mtype != 2" class="col s4"></span>
                     <span class="col s4">{{campaign.creationDate | date: 'dd-MMM-yyyy'}}</span>
                   </div>
                   <div *ngIf="sdk" class="collapsible-body">

@@ -145,6 +145,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   getCampaignData(cmpn: Campaign) {
+    this.campaignClicked(cmpn.txnrefnumber);
     if(cmpn && !cmpn.url) {
       let mtype: number = 2;
       if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
@@ -230,9 +231,12 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
       this.resetSdk();
 
-      let page = this.route.snapshot.params['page'];
-      if(page > 1)
-        this.page = page;
+      if(this.sdk){
+        let select = this.route.snapshot.params['select'];
+        if(select == 'manage'){
+          this.setActiveTab(1);
+        }
+      }
     }
     else
       window.location.href = this.utilsService.getLogoutPageURL();
@@ -240,7 +244,6 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   resetSdk(){
     this.sdk = null;
-    //if(!this.isClone)
     this.selProducts = null;
 
     let mtype: number = 2;
@@ -251,6 +254,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
       this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null,
       null, null, null);
+
   }
 
   getDescLength(): string {
