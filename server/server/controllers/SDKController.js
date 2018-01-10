@@ -492,6 +492,8 @@ var sdkCont = {
                 var mobileNo = d.mobileNo;
                 var pan = d.pan;
                 var resident = d.resident;
+                var employeeId = d.employeeId;
+                var companyName = d.companyName;
                 var pt = 'UPI_OTHER_APP';
                 if (d.paytype === 1)
                     pt = 'CREDIT_CARD';
@@ -559,7 +561,9 @@ var sdkCont = {
                                                 "paymentLinkRef": paylinkid,
                                                 "merchantCode": d.merchantcode,
                                                 "amount": d.payamount,
-                                                "txnDate": me.getCurDateTimeString
+                                                "txnDate": me.getCurDateTimeString,
+                                                "employeeId": employeeId,
+                                                "companyName": companyName
                                             },
                                             function (sdata) {
                                                 me.savePayerProducts(d.merchantcode, products, 0, data.hdrTransRefNumber, hdrs, retErr, cb);

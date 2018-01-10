@@ -135,7 +135,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(this.campaignName){
       this.page = 1;
       let tempCampName: string = this.campaignName.toUpperCase();
-      this.campaignService.getCampaigns(null, null, null, null, tempCampName, "DESC", this.page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, tempCampName, "DESC", this.page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
@@ -145,6 +145,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   getCampaignData(cmpn: Campaign) {
+    this.campaignClicked(cmpn.txnrefnumber);
     if(cmpn && !cmpn.url) {
       let mtype: number = 2;
       if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
@@ -180,7 +181,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.numPages = 0;
     window.scrollTo(0, 0);
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
@@ -196,7 +197,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     window.scrollTo(0, 0);
     this.utilsService.setStatus(false, false, '');
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
@@ -230,9 +231,12 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
       this.resetSdk();
 
-      let page = this.route.snapshot.params['page'];
-      if(page > 1)
-        this.page = page;
+      if(this.sdk){
+        let select = this.route.snapshot.params['select'];
+        if(select == 'manage'){
+          this.setActiveTab(1);
+        }
+      }
     }
     else
       window.location.href = this.utilsService.getLogoutPageURL();
@@ -240,17 +244,17 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   resetSdk(){
     this.sdk = null;
-    //if(!this.isClone)
     this.selProducts = null;
 
     let mtype: number = 2;
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       mtype = 3;
 
-    this.sdk = new SDK(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+    this.sdk = new SDK(null, false, false, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
       mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
       this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null,
       null, null, null);
+
   }
 
   getDescLength(): string {

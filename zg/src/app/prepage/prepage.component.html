@@ -4,17 +4,20 @@
       <form class="col s12 m10 l10 card-panel grey lighten-5 widgetBN loginLongBN offset-l1 offset-m1" (ngSubmit)="savePrePage()"
         #preForm="ngForm">
         <div class="row">
-          <div *ngIf="hasPayPin" class="input-field col s12">
-            <input disabled value="{{payPin}}" id="paypin" type="text" class="validate">
-            <label class="active" for="paypin">Pay-Pin ID</label>
+          <div *ngIf="hasPayPin" class="valign-wrapper">
+            <div class="input-field col s11">
+              <input disabled value="{{payPin}}" id="paypin" type="text" class="validate">
+              <label class="active" for="paypin">PAY PIN ID</label>
+            </div>
+            <i class="material-icons left col s1" (click)="onEditClick()">edit</i>
           </div>
           <div *ngIf="!hasPayPin" class="input-field col s12">
             <input id="paypin" type="text" class="validate" (input)="onEnterPayPin($event.target.value)">
-            <label for="paypin">Pay-Pin ID</label>
-            <span class="helper-text" data-error="wrong" data-success="right">You can find your Pay-Pin ID in the bill</span>
+            <label for="paypin">PAY PIN ID</label>
+            <span class="helper-text" data-error="wrong" data-success="right">You can find your PAY PIN ID in the bill</span>
             <div *ngIf="invalidPaypin ;then showError else other_content"></div>
             <ng-template #showError>
-              <div align="left" class="error-text col s12">This is not a valid Paypin</div>
+              <div align="left" class="error-text col s12">This is not a valid PAY PIN ID</div>
             </ng-template>
             <ng-template #other_content>
             </ng-template>
@@ -28,6 +31,13 @@
           <div class="col s12 center-align">
             <br>or
             <a class="red-text" href="https://app.zipgrid.com/login">Login via Zipgrid</a>
+          </div>
+          <div class="col s12 center-align">
+            <br> For queries please contact:
+            <a class="red-text" href="mailto:zipdesk@zipgrid.com" target="_top">zipdesk@zipgrid.com</a>
+             / 
+            <!-- Cross-platform compatible (Android + iPhone) -->
+            <a class="red-text" href="tel://9579474743">9579474743</a>
           </div>
         </div>
 
@@ -85,7 +95,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div hidden class="row">
             <div class="col s12 center">
               <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion">
                 <li>
@@ -156,9 +166,23 @@
             </div>
           </div>
 
+          <div class="row center-align" *ngFor="let subLedger of subLedgerList; let i = index">
+            <div class="input-field col s12">
+              <input value="{{subLedger.amount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
+              <label class="active" for="amount">Amount</label>
+            </div>
+            <br>
+            <span align="left" class="paymentHelper col s12">Against maintenance bill ({{payPin}} INR {{subLedger.oAmount}})</span>
+            <div *ngIf="totalAmount > 1000000 ;then showError else other_content"></div>
+            <ng-template #showError>
+              <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+            </ng-template>
+            <ng-template #other_content>
+            </ng-template>
+          </div>
 
           <div>
-            <p>Pay using</p>
+            <p class="title">Pay using</p>
 
             <div class="row valign-wrapper" *ngIf="upiCharges">
               <div class="col s12">
@@ -169,10 +193,14 @@
                   <div *ngIf="upiCharges.category == 'FLAT' ;then flat else else_content"></div>
                 </ng-template>
                 <ng-template #percentage>
-                  <label for="upi">UPI @ {{upiCharges.charge}}% of payment amount with {{upiCharges.gst_percent}}% GST</label>
+                  <label class="title" for="upi">UPI</label>
+                  <br>
+                  <span class="subTitle">{{upiCharges.charge}}% Convenience Fees* applicable</span>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="upi">UPI @ Flat INR {{upiCharges.charge}} plus payment amount with {{upiCharges.gst_percent}}% GST</label>
+                  <label class="title" for="upi">UPI</label>
+                  <br>
+                  <span class="subTitle">Flat INR {{upiCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -189,10 +217,14 @@
                   <div *ngIf="netBankingCharges.category == 'FLAT' ;then flat else else_content"></div>
                 </ng-template>
                 <ng-template #percentage>
-                  <label for="netBanking">Netbanking @ {{netBankingCharges.charge}}% with {{netBankingCharges.gst_percent}}% GST of payment amount</label>
+                  <label class="title" for="netBanking">Internet Banking</label>
+                  <br>
+                  <span class="subTitle">{{netBankingCharges.charge}}% Convenience Fees* applicable</span>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="netBanking">Netbanking @ Flat INR {{netBankingCharges.charge}} plus payment amount with {{netBankingCharges.gst_percent}}% GST</label>
+                  <label class="title" for="netBanking">Internet Banking</label>
+                  <br>
+                  <span class="subTitle">Flat INR {{netBankingCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                 </ng-template>
                 <ng-template #else_content>
 
@@ -209,10 +241,14 @@
                   <div *ngIf="dcCharges.category == 'FLAT' ;then flat else else_content"></div>
                 </ng-template>
                 <ng-template #percentage>
-                  <label for="debit">Debit card @ {{dcCharges.charge}}% with {{dcCharges.gst_percent}}% GST of payment amount</label>
+                  <label class="title" for="debit">Debit Card</label>
+                  <br>
+                  <span class="subTitle">{{dcCharges.charge}}% Convenience Fees* applicable</span>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="debit">Debit card @ Flat INR {{dcCharges.charge}} plus payment amount with {{dcCharges.gst_percent}}% GST</label>
+                  <label class="title" for="debit">Debit Card</label>
+                  <br>
+                  <span class="subTitle">Flat INR {{dcCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -228,10 +264,14 @@
                   <div *ngIf="ccCharges.category == 'FLAT' ;then flat else else_content"></div>
                 </ng-template>
                 <ng-template #percentage>
-                  <label for="credit">Credit card @ {{ccCharges.charge}}% with {{ccCharges.gst_percent}}% GST of payment amount</label>
+                  <label class="title" for="credit">Credit Card</label>
+                  <br>
+                  <span class="subTitle">{{ccCharges.charge}}% Convenience Fees* applicable</span>
                 </ng-template>
                 <ng-template #flat>
-                  <label for="credit">Credit card @ Flat INR {{ccCharges.charge}} plus payment amount with {{ccCharges.gst_percent}}% GST</label>
+                  <label class="title" for="credit">Credit Card</label>
+                  <br>
+                  <span class="subTitle">Flat INR {{ccCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                 </ng-template>
                 <ng-template #else_content>
 
@@ -239,15 +279,72 @@
               </div>
             </div>
 
+            <div class="row valign-wrapper">
+              <span class="subTitle">&nbsp;&nbsp;&nbsp;&nbsp;*Convenience Fees is excluding 18% GST on such fees.</span>
+            </div>
           </div>
 
-          <div hidden class="row valign-wrapper">
-            <div class="input-field col l3 m3 s5">
+          <div class="row valign-wrapper noBottomMargin">
+            <div class="col s5" align="left">Total amount</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6" align="right">INR {{amountWithoutCharge | number : '1.2-2'}}</div>
+          </div>
+
+          <div class="row valign-wrapper noBottomMargin">
+            <div class="col s5" align="left">Convenience fees</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6" align="right">INR {{convenienceFee | number : '1.2-2'}}</div>
+          </div>
+
+          <div class="row valign-wrapper noBottomMargin">
+            <div class="col s5" align="left">Net payable</div>
+            <div class="col s1" align="left">: </div>
+            <div class="col s6" align="right">INR {{totalAmount | number : '1.2-2'}}</div>
+          </div>
+
+          <div class="row valign-wrapper noBottomMargin hyperlink" (click)="onTaxClck()">
+            <div class="col s12" align="left">Tax breakup</div>
+          </div>
+
+          <!-- Modal Structure -->
+          <div materialize="modal" id="taxModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="[{dismissible: false}]"
+            [materializeActions]="modalActions">
+            <div class="modal-content">
+              <h4>Tax Breakup</h4>
+
+              <div class="row valign-wrapper">
+                <div class="col s5" align="left">Total amount</div>
+                <div class="col s1" align="left">: </div>
+                <div class="col s6" align="right">INR {{amountWithoutCharge | number : '1.2-2'}}</div>
+              </div>
+
+              <div class="row valign-wrapper">
+                <div class="col s5" align="left">Convenience fees</div>
+                <div class="col s1" align="left">: </div>
+                <div class="col s6" align="right">INR {{convenienceFee | number : '1.2-2'}}</div>
+              </div>
+
+              <div class="row valign-wrapper">
+                <div class="col s5" align="left">GST @ 18%</div>
+                <div class="col s1" align="left">: </div>
+                <div class="col s6" align="right">INR {{gst | number : '1.2-2'}}</div>
+              </div>
+
+            </div>
+            <div class="modal-footer footerHgtBN">
+              <div class="col s12 center">
+                <div class="title" (click)="closeModal()">Close</div>
+              </div>
+            </div>
+          </div>
+
+          <div hidden class="row">
+            <div class="input-field col l3 m3 s6">
               <input disabled value="{{amountWithoutCharge | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Payment</label>
             </div>
             <span class="col l1 m1 s1">+</span>
-            <div class="input-field col l3 m3 s5">
+            <div class="input-field col l3 m3 s6">
               <input disabled value="INR {{convenienceFee | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Convenience</label>
             </div>
@@ -272,7 +369,6 @@
               </button>
             </div>
           </div>
-
         </div>
       </form>
     </div>

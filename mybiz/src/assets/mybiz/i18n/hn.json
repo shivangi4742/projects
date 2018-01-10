@@ -195,5 +195,11 @@
     "Received": "प्राप्त किया",
     "from": "से",
     "on": "पर",
-    "Till": "टिल"    
+    "Till": "टिल",
+    "Enter Employee Id":"कर्मचारी आईडी दर्ज करें",
+    "Enter Comapny Name":"कंपनी नाम दर्ज करें",
+    "Request for Company Name":"कंपनी नाम के लिए अनुरोध",
+    "Request for Employee Id":"कर्मचारी आईडी के लिए अनुरोध",
+    "Date Created": "रचना तिथि"
+    
 }

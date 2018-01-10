@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PayPinResponseModel } from "./../models/paypinresponse.model";
@@ -14,6 +14,8 @@ import { ZgService } from "./../services/zg.service";
 import { forEach } from '@angular/router/src/utils/collection';
 import { SubLedgerList } from '../models/subledgerlist.model';
 import { window } from 'rxjs/operators/window';
+
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'app-prepage',
@@ -53,6 +55,10 @@ export class PrepageComponent implements OnInit {
   totalAmount: number;
   amountWithoutCharge: number;
   convenienceFee: number = 0;
+  totalConvenienceFee: number = 0;
+  gst: number = 0;
+
+  modalActions: any = new EventEmitter<string | MaterializeAction>();
 
   invalidPaypin: boolean = false;
 
@@ -73,9 +79,13 @@ export class PrepageComponent implements OnInit {
 
   }
 
+  onEditClick(): void {
+    this.hasPayPin = false;
+  }
+
   setPayPinModel(res: PayPinResponseModel): void {
 
-    if (res.success ==  false) { 
+    if (res.success == false) {
       this.invalidPaypin = true;
     }
     else {
@@ -224,7 +234,7 @@ export class PrepageComponent implements OnInit {
   }
 
   onEnterPayPin(payPin: string) {
-    this.invalidPaypin = false; 
+    this.invalidPaypin = false;
     this.enteredPayPin = payPin;
   }
 
@@ -267,8 +277,7 @@ export class PrepageComponent implements OnInit {
   calculateTotalAmount() {
     this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
     this.calculateConvenienceFee();
-    this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.convenienceFee;
-    // this.totalAmount = this.payableAmount + this.convenienceFee;
+    this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
   }
 
   calculateConvenienceFee() {
@@ -279,13 +288,21 @@ export class PrepageComponent implements OnInit {
       else if (this.selectedCharges.category == "FLAT") {
         this.convenienceFee = +this.selectedCharges.charge;
       }
-      var gst = (this.convenienceFee * +this.selectedCharges.gst_percent) / 100; //GST calculation
-      this.convenienceFee = this.convenienceFee + gst;
+      this.gst = (this.convenienceFee * +this.selectedCharges.gst_percent) / 100; //GST calculation
+      this.totalConvenienceFee = this.convenienceFee + this.gst;
     }
   }
 
   hasAllRequiredFields() {
     return this.paymentMode && this.remarks && this.totalAmount <= 1000000;
+  }
+
+  onTaxClck() {
+    this.modalActions.emit({ action: "modal", params: ['open'] });
+  }
+
+  closeModal() {
+    this.modalActions.emit({ action: "modal", params: ['close'] });
   }
 
 }

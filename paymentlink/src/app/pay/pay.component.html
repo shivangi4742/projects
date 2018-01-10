@@ -53,10 +53,12 @@
           <div class="col s4 regNrmS5BN" align="right">{{fundraiser.fundraiserName}}</div>
           <div class="col s2">&nbsp;</div>
           <div class="col s6 regNrmS5B1BN" align="right">{{'Collection' | translate}} :</div>
-          <div class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.collection | number : '1.2-2'}}</div>
+          <div class="col s4 regNrmS5BN" align="right">
+            <b>₹</b> {{fundraiser.collection | number : '1.2-2'}}</div>
           <div class="col s2">&nbsp;</div>
           <div class="col s6 regNrmS5B1BN" align="right">{{'Target' | translate}} :</div>
-          <span class="col s4 regNrmS5BN" align="right"><b>₹</b> {{fundraiser.target | number : '1.2-2'}}</span>
+          <span class="col s4 regNrmS5BN" align="right">
+            <b>₹</b> {{fundraiser.target | number : '1.2-2'}}</span>
           <div class="col s2">&nbsp;</div>
         </div>
       </div>
@@ -69,9 +71,6 @@
           </div>
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
-          </div>
-          <div *ngIf="hasExtraCharges">
-            <span class="col s12 alertTextBN center">{{'* Extra charges applicable based on the mode of payment' | translate}}</span>
           </div>
         </div>
       </div>
@@ -88,11 +87,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="valign-wrapper" *ngIf="pay.askname">
+
+        
+        <div class="valign-wrapper" *ngIf="pay.askcompanyname">
           <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
-            <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
-              <span *ngIf="pay.mndname">*</span>
+            <input id="companyName" name="companyName" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="companyName">
+            <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Comapny Name' | translate}}
+              <span *ngIf="pay.mndcompanyname">*</span>
             </label>
           </div>
         </div>
@@ -111,6 +112,22 @@
               [disabled]="pay.readonlyemail">
             <label for="email" [ngClass]="pay.email ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter E-mail' | translate}}
               <span *ngIf="pay.mndemail">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="valign-wrapper" *ngIf="pay.askname">
+          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+            <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
+            <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
+              <span *ngIf="pay.mndname">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="valign-wrapper" *ngIf="pay.askemployeeId">
+          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+            <input id="employeeId" name="employeeId" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="employeeId">
+            <label for="employeeId" [ngClass]="employeeId ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Employee Id' | translate}}
+              <span *ngIf="pay.mndemployeeId">*</span>
             </label>
           </div>
         </div>
@@ -309,43 +326,6 @@
               </div>
             </li>
             <li *ngIf="supportsDC">
-              <div class="row valign-wrapper" *ngIf="upiCharges ;then charges else other_content">
-                <ng-template #charges>
-                  <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                    <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
-                      <div class="col s2" align="left">
-                        <i class="material-icons yellowBN">credit_card</i>
-                      </div>
-                      <div class="col s8" align="left">
-                        <span class="truncate regNrmS4BN">{{'Debit Card' | translate}}</span>
-                      </div>
-                      <div class="col s2" align="right">
-                        <i class="material-icons greyBN">keyboard_arrow_right</i>
-                      </div>
-                    </button>
-                  </div>
-                  <div class="collapsible-body">
-                    <div *ngIf="invalidAmount">
-                      <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
-                    </div>
-                    <div *ngIf="!invalidAmount">
-                      <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
-                    </div>
-                    <div *ngIf="upiCharges.category == 'PERCENT' ;then percentage else other_content"></div>
-                    <ng-template #other_content>
-                      <div *ngIf="upiCharges.category == 'FLAT' ;then flat else else_content"></div>
-                    </ng-template>
-                    <ng-template #percentage>
-                      <label for="upi">UPI @ {{upiCharges.charge}}% of payment amount</label>
-                    </ng-template>
-                    <ng-template #flat>
-                      <label for="upi">UPI @ Flat INR {{upiCharges.charge}}</label>
-                    </ng-template>
-                    <ng-template #else_content>
-                    </ng-template>
-                  </div>
-                </ng-template>
-                <ng-template #other_content>
                   <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
                     <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
                       <div class="col s2" align="left">
@@ -367,8 +347,6 @@
                       <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                     </div>
                   </div>
-                </ng-template>
-              </div>
             </li>
             <li *ngIf="supportsCC">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">

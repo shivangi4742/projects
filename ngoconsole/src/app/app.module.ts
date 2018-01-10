@@ -7,7 +7,7 @@ import { MaterializeModule } from 'angular2-materialize';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
 
 import { SharedServicesModule } from 'benowservices';
-import { SharedComponentsModule } from 'benowcomponents'; 
+import { SharedComponentsModule } from 'benowcomponents';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -19,6 +19,7 @@ import { SharecampaignComponent } from './sharecampaign/sharecampaign.component'
 import { CatalogComponent } from './catalog/catalog.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ProductlineComponent } from './productline/productline.component';
+import { CustomerlistComponent } from './customerlist/customerlist.component';
 
 import { SocketService } from './socket.service';
 
@@ -35,7 +36,8 @@ export function HttpFactory(http: Http) {
     SharecampaignComponent,
     CatalogComponent,
     AddproductComponent,
-    ProductlineComponent
+    ProductlineComponent,
+    CustomerlistComponent
   ],
   imports: [
     HttpModule,
@@ -43,7 +45,7 @@ export function HttpFactory(http: Http) {
     BrowserModule,
     AppRoutingModule,
     MaterializeModule,
-    SharedComponentsModule, 
+    SharedComponentsModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,

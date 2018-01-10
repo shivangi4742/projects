@@ -73,7 +73,7 @@ export class CampaignService {
                 });
             }
 
-            return new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
+            return new SDK(res.employeeId,res.askempid, res.mndempid,res.companyName,res.askcompname, res.mndcompname , res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
                 res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
                 res.minpanamnt, mtype, res.totalbudget, res.txnrefnumber, '', res.surl, res.furl, '', res.mobileNumber, res.customerName, 
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '', 
@@ -195,6 +195,7 @@ export class CampaignService {
             return this.http.post(
                 this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
                 JSON.stringify({
+                    "merchantCode": merchantCode,
                     "campaignName": campaignName,
                     "sortDirection": sortDirection,
                     "pageNumber": pageNumber
