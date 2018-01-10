@@ -15,7 +15,8 @@
   </div>
   <div [ngClass]="deleting ? 'row hide-on-small-only workingBN' : 'row hide-on-small-only'">
     <div class="col m2 center" align="center">
-      <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!product.imageURL && !isNGO()" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!product.imageURL && isNGO()" class="prodImageBN" src="../../assets/shared/images/donate-green.png" />
       <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
     </div>
     <div class="col m5" align="left">
@@ -36,7 +37,8 @@
   <div [ngClass]="deleting ? 'row hide-on-med-and-up noPadsIconBN noMarginBN workingBN' : 'row hide-on-med-and-up noPadsIconBN noMarginBN'" 
     align="center">
     <div class="col s12 noPadsIconBN noMarginBN">
-      <img *ngIf="!product.imageURL" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!product.imageURL && !isNGO()" class="prodImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!product.imageURL && isNGO()" class="prodImageBN" src="../../assets/shared/images/donate-green.png" />
       <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />
     </div>
     <span class="col s12 thinFNBN">&nbsp;</span>

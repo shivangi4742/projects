@@ -4,7 +4,8 @@
       <div class="errNrmS6BN col s12 center">{{imgErrMsg | translate}}</div>
     </div>
     <div class="file-field input-field col s10 offset-s1 m4">
-      <img *ngIf="!uploading && !hasImage()" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!uploading && !hasImage() && mtype == 3" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!uploading && !hasImage() && mtype == 2" class="responsive-img editProdImageBN" src="../../assets/shared/images/donate-green.png" />
       <img [ngClass]="uploading ? 'editProdImageBN responsive-img uploadingImageBN displayBN' : 'editProdImageBN responsive-img noDisplayBN'" 
         src="../../assets/ngoconsole/images/output_BP0wHw.gif" />
       <img *ngIf="!uploading && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{newProd.imageURL}} />
