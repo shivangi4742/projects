@@ -97,6 +97,48 @@ var userCont = {
         }
     },
 
+    getMerchantDetailsForVerification: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.secretCode)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getParameters', 'POST', h),
+                    {
+                        "paramType": "registrationverification",
+                        "paramCode": d.secretCode
+                    }, function(data1) {
+                        if(data1 && data1.desc1 && data1.desc2 && data1.val1) {
+                            var dtdiff = Date.now() - data1.val1;
+                            if(dtdiff > 3600000)
+                                res.json({isExpired: true});
+                            else
+                                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
+                                    {
+                                        "merchantCode": data1.desc1
+                                    }, function(data2) {
+                                        if(data2 && data2.merchantCode) 
+                                            res.json(data2);
+                                        else
+                                            res.json(retErr);
+                                    });
+                        }
+                        else
+                            res.json(retErr);
+                    });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
     register: function (req, res) {
         var me = this;
         this.registerPost(req, function (data) {
