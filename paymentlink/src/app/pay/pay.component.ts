@@ -27,6 +27,8 @@ export class PayComponent implements OnInit {
   lastName: string;
   firstName: string;
   panNumber: string;
+  companyName : string;
+  employeeId :string;
   uploadsURL: string;
   fundRaiserId: string;
   mobileNumber: string;
@@ -321,8 +323,26 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
+    else if (this.pay.askcompanyname && this.pay.mndcompanyname  && (!this.companyName || this.companyName.trim().length <= 0)) {
+      this.validationError = 'Please enter Company Name';
+      if (this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('companyName');
+        if (elmnt)
+          elmnt.focus();
+      }
+    }
+    else if (this.pay.askemployeeId && this.pay.mndemployeeId  && (!this.employeeId || this.employeeId.trim().length <= 0)) {
+      this.validationError = 'Please enter Employee Id';
+      if (this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('employeeId');
+        if (elmnt)
+          elmnt.focus();
+      }
+    }
     else if (this.pay.askadd && this.pay.mndaddress && (!this.address || this.address.trim().length <= 0)) {
-      this.validationError = 'Please enter a valid Address';
+      this.validationError = 'Please enter address';
       if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('address');
@@ -405,7 +425,7 @@ export class PayComponent implements OnInit {
       if (this.txnNo && this.txnNo.length > 0)
         this.createQRL({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQRL(res));
@@ -522,7 +542,7 @@ export class PayComponent implements OnInit {
       if (this.txnNo && this.txnNo.length > 0)
         this.createQR({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess( this.employeeId,this.companyName,this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
@@ -564,7 +584,7 @@ export class PayComponent implements OnInit {
     this.putFocus = true;
     if (this.validate(true)) {
       this.mode = mode;
-      this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
         .then(res => this.goToPG(res));

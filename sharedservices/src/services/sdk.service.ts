@@ -90,7 +90,7 @@ export class SDKService {
                 expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
             }
 
-            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
+            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
                 res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
                 (mtype == 1) ? res.mobileNumber : '', ttl, 
@@ -108,7 +108,7 @@ export class SDKService {
             //     obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.invoiceAmount,
             //     obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
 
-            this._sdk = new SDK(JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
+            this._sdk = new SDK(JSON.parse(res.employeeId), JSON.parse(res.askempid), JSON.parse(res.mndempid), JSON.parse(res.companyName), JSON.parse(res.askcompname), JSON.parse(res.mndcompname),JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
                 JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob), 
                 JSON.parse(obj.readonlypan), JSON.parse(obj.readonlyname), JSON.parse(obj.askresidence), JSON.parse(obj.readonlyaddr), Boolean(obj.readonlyemail),
                 Boolean(obj.allowMultipleSelect), Boolean(obj.readonlyresidnce), obj.mtype, obj.amount, obj.language, obj.sourceId, obj.minpanamnt, obj.merchantType,
@@ -120,7 +120,7 @@ export class SDKService {
         return this._sdk;
     }
 
-    startPaymentProcess(paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
+    startPaymentProcess(employeeId:string, companyName:string, paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
         payamount: number, phone: string, merchantcode: string, merchantname: string, merchantVPA: string, paytype: number, tr: string,
         til: string, products: Array<Product>): Promise<any> {
         return this.http
@@ -141,7 +141,9 @@ export class SDKService {
                 "paytype": paytype,
                 "tr": tr,
                 "til": til,
-                "products": products
+                "products": products,
+                "employeeId": employeeId ,
+                "companyName": companyName
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()

@@ -2,6 +2,12 @@ import { Product } from './product.model';
 
 export class SDK {
   constructor(
+    public employeeId: string,
+    public askemployeeId: boolean,
+    public mndemployeeId: boolean,
+    public companyName: string,
+    public askcompanyname: boolean,
+    public mndcompanyname: boolean,
     public askmob: boolean,
     public askadd: boolean,
     public mndmob: boolean,
