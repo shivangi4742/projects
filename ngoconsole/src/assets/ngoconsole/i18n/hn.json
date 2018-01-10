@@ -182,5 +182,9 @@
     "from": "से",
     "on": "पर",
     "Till": "टिल",
-    "Date Created": "रचना तिथि"
+    "Date Created": "रचना तिथि",
+    "Enter Employee Id":"कर्मचारी आईडी दर्ज करें",
+    "Enter Comapny Name":"कंपनी नाम दर्ज करें",
+    "Request for Company Name":"कंपनी नाम के लिए अनुरोध",
+    "Request for Employee Id":"कर्मचारी आईडी के लिए अनुरोध"
 }
