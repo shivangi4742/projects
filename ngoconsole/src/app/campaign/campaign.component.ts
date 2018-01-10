@@ -180,7 +180,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.numPages = 0;
     window.scrollTo(0, 0);
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{

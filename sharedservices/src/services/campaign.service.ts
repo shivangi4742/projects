@@ -195,6 +195,7 @@ export class CampaignService {
             return this.http.post(
                 this.utilsService.getBaseURL() + this._urls.getCampaignsURL,
                 JSON.stringify({
+                    "merchantCode": merchantCode,
                     "campaignName": campaignName,
                     "sortDirection": sortDirection,
                     "pageNumber": pageNumber

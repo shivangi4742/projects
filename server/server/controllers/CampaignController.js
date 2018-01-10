@@ -458,6 +458,7 @@ var campCont = {
                 if (d && d.campaignName)
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCampaignDetails', 'POST', req.headers),
                         {
+                            "merchantCode": d.merchantCode,
                             "campaignName": d.campaignName,
                             "sortDirection": d.sortDirection,
                             "pageNumber": d.pageNumber
