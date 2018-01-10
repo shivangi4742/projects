@@ -135,7 +135,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(this.campaignName){
       this.page = 1;
       let tempCampName: string = this.campaignName.toUpperCase();
-      this.campaignService.getCampaigns(null, null, null, null, tempCampName, "DESC", this.page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, tempCampName, "DESC", this.page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
@@ -196,7 +196,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     window.scrollTo(0, 0);
     this.utilsService.setStatus(false, false, '');
     if(this.campaignName){
-      this.campaignService.getCampaigns(null, null, null, null, this.campaignName, "DESC", page)
+      this.campaignService.getCampaigns(this.user.merchantCode, null, null, null, this.campaignName, "DESC", page)
         .then(res => this.getAllCampaigns(res));
     }
     else{
