@@ -193,5 +193,9 @@
     "Received": "Received",
     "from": "from",
     "on": "on",
-    "Till": "Till"    
+    "Till": "Till",
+    "Enter Employee Id":"Enter Employee Id",
+    "Enter Comapny Name":"Enter Comapny Name",
+    "Request for Company Name":"Request for Company Name",
+    "Request for Employee Id":"Request for Employee Id"
 }

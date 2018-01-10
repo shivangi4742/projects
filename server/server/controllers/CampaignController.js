@@ -297,7 +297,7 @@ var campCont = {
                         if (spExDt && spExDt.length > 2)
                             expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0];
                     }
-
+                    //console.log("hello", d);
                     var me = this;                    
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	
@@ -324,7 +324,13 @@ var campCont = {
                             "mndpan": d.mndpan,
                             "minpanamnt": d.minpanamnt,
                             "askresidence": d.askresidence,
-                            "prodMultiselect": d.allowMultiSelect
+                            "prodMultiselect": d.allowMultiSelect,
+                            "employeeId": d.employeeId,
+                            "askEmpId": d.askemployeeId,
+                            "mndEmpId": d. mndemployeeId,
+                            "companyName": d.companyName,
+                            "askCompName": d.askcompanyname,
+                            "mndCompName": d.mndcompanyname
                         }, function(data) {
                             me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
                         });
