@@ -57,6 +57,7 @@ export class PayComponent implements OnInit {
   invalidAmount: boolean = false;
   amountEditable: boolean = false;
   supportsSodexo: boolean = false;
+  wp: number = 1;
   upiMode: number = 1;
   numSupportedModes: number = 0;
   collapsibleActions: any = new EventEmitter<string|MaterializeAction>();
@@ -153,6 +154,10 @@ export class PayComponent implements OnInit {
     }
     else
       this.initialize();
+  }
+
+  proceed() {
+    this.wp = 2;
   }
 
   initialize() {
