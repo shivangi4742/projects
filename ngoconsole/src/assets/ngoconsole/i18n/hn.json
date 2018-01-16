@@ -188,5 +188,7 @@
     "Request for Company Name":"कंपनी नाम के लिए अनुरोध",
     "Request for Employee Id":"कर्मचारी आईडी के लिए अनुरोध",
     "Edit Campaign": "अभियान संपादित करें",
-	"Save Campaign": "अभियान सहेजें"
+	"Save Campaign": "अभियान सहेजें",
+    "Please add a product in Campaign.": "कृपया अभियान में एक उत्पाद जोड़ें।",
+    "Successfully saved Campaign.": "अभियान को सफलतापूर्वक सहेजा गया।"
 }

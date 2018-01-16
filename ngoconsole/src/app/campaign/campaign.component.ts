@@ -208,7 +208,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     document.getElementById("searchCamp")
       .addEventListener("keyup", function(event) {
         event.preventDefault();
-        if (event.keyCode === 13) {
+        if (event.keyCode === 13) {//THIS SHOULD HAVE BEEN NGENTER
           document.getElementById("search").click();
         }
       });
@@ -400,17 +400,30 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
+  edited() {
+    window.scrollTo(0, 0);
+    this.utilsService.setStatus(false, true, 'Successfully saved Campaign.');
+    let editTab = document.getElementById('manage');
+    editTab.click();           
+  }
+
   create() {
     let campName: string = this.sdk.title.trim();
-    if(campName.length > 0) {
+    if(campName.length > 0 && (this.sdk.mtype == 2 || (this.selProducts && this.selProducts.length > 0))) {
       this.sdk.products = this.selProducts;
-      this.campaignService.saveCampaign(this.sdk)
-        .then(res => this.created(res));
+      if(this.editing)
+        this.edited();
+      else
+        this.campaignService.saveCampaign(this.sdk)
+          .then(res => this.created(res));
     }
-    else{
-      this.utilsService.setStatus(true, false, 'Please enter a valid Campaign Name.');
+    else {
+      window.scrollTo(0, 0);
+      if(campName.length > 0)
+        this.utilsService.setStatus(true, false, 'Please add a product in Campaign.');
+      else
+        this.utilsService.setStatus(true, false, 'Please enter a valid Campaign Name.');
     }
-
   }
 
   resetStatus() {

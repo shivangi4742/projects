@@ -188,5 +188,7 @@
     "Request for Company Name":"कंपनीचे नाव यासाठी विनंती",
     "Request for Employee Id":"कर्मचारी आयडी साठी विनंती",
     "Edit Campaign": "मोहिम संपादित करा",
-	"Save Campaign": "मोहीम जतन करा"
+	"Save Campaign": "मोहीम जतन करा",
+    "Please add a product in Campaign.": "कृपया मोहिमेत उत्पादन जोडा।",
+    "Successfully saved Campaign.": "मोहिम यशस्वीपणे जतन केली।"
 }

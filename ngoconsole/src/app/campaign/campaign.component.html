@@ -354,7 +354,9 @@
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s12" align="center">
                         <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit"
-                                name="create" [disabled]="!cmpForm.form.valid || invalidForm()">{{'Create Campaign' | translate}}
+                          name="create" [disabled]="!cmpForm.form.valid || invalidForm()">
+                          <span *ngIf="!editing">{{'Create Campaign' | translate}}</span>
+                          <span *ngIf="editing">{{'Save Campaign' | translate}}</span>
                         </button>
                       </div>
                       <div class="col s12">&nbsp;</div>
