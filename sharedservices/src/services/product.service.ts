@@ -10,6 +10,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class ProductService {
+    private _selProducts: Array<Product>;
     private _campProducts: Array<Product>;
     private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
@@ -23,6 +24,14 @@ export class ProductService {
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    setSelectedProducts(ps: Array<Product>) {
+        this._selProducts = ps;
+    }
+
+    getSelectedProducts(): Array<Product> {
+        return this._selProducts;
+    }
 
     getProductsForTransaction(campaignId: string, txnId: string): Promise<Array<Product>> {
         if(this._transProducts && this._transProducts.length > 0)
@@ -57,7 +66,7 @@ export class ProductService {
         if(res && res.length > 0) {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._campProducts.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
+                this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
                     res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
@@ -68,7 +77,7 @@ export class ProductService {
         if(res && res.length > 0) {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._transProducts.push(new Product(false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, 
+                this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, 
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
@@ -86,7 +95,7 @@ export class ProductService {
             let res: any = res2.benowProductList;
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
-                    prods.push(new Product(false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, res[i].prodDescription, 
+                    prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, res[i].prodDescription, 
                         res[i].uom, res[i].prodImgUrl));
             }
         }
@@ -109,7 +118,7 @@ export class ProductService {
 
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
-            return new Product(true, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
+            return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
                 res.prodImgUrl);
         else
             return null;

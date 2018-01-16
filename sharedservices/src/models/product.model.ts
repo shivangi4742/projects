@@ -1,6 +1,7 @@
 export class Product {
   constructor(
     public isNew: boolean,
+    public isEdit: boolean,
     public isSelected: boolean,
     public qty: number|null,
     public price: number,

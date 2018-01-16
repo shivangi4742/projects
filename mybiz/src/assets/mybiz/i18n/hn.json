@@ -200,6 +200,7 @@
     "Enter Comapny Name":"कंपनी नाम दर्ज करें",
     "Request for Company Name":"कंपनी नाम के लिए अनुरोध",
     "Request for Employee Id":"कर्मचारी आईडी के लिए अनुरोध",
-    "Date Created": "रचना तिथि"
-    
+    "Date Created": "रचना तिथि",
+    "Edit Campaign": "अभियान संपादित करें",
+	"Save Campaign": "अभियान सहेजें"
 }

@@ -4,12 +4,9 @@ import {Router, ActivatedRoute} from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService } from 'benowservices';
+import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService, Campaign, CampaignList, SDK } from 'benowservices';
 
 import { SelectproductsComponent } from './../selectproducts/selectproducts.component';
-import { Campaign } from "../../../../sharedservices/src/models/campaign.model";
-import { CampaignList } from "../../../../sharedservices/src/models/campaignlist.model";
-import { SDK } from "../../../../sharedservices/src/models/sdk.model";
 
 @Component({
   selector: 'campaign',
@@ -23,6 +20,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   helpMsg: any;
   dateParams: any;
   selProducts: Array<Product>;
+  editing: boolean = false;
   isMobile: boolean = false;
   uploading: boolean = false;
   bannerover: boolean = false;
@@ -242,10 +240,18 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       window.location.href = this.utilsService.getLogoutPageURL();
   }
 
+  selected(e: any) {
+    if(e && e.product && e.product.id && e.checked == false && this.selProducts && this.selProducts.length > 0) {
+      let sp: Array<Product> = this.selProducts.filter(p => p.id != e.product.id);
+      this.productService.setSelectedProducts(sp);
+      this.selProducts = this.productService.getSelectedProducts();
+    }
+  }
+
   resetSdk(){
     this.sdk = null;
-    this.selProducts = null;
-
+    this.productService.setSelectedProducts(new Array<Product>());
+    this.selProducts = this.productService.getSelectedProducts();
     let mtype: number = 2;
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       mtype = 3;
@@ -326,6 +332,24 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       .then(res => this.fillProds(res));
   }
 
+  editCampaign(res: SDK) {
+    if(res && res.id) {
+      this.sdk = res;
+      this.editing = true;
+      setTimeout(function() {
+        let createTab = document.getElementById('create');
+        createTab.click();           
+      }, 300);
+    }
+  }
+
+  edit(cmpn: Campaign) {
+    if(cmpn && cmpn.txnrefnumber) {
+      this.sdkService.getPaymentLinkDetails(cmpn.txnrefnumber)
+        .then(res => this.editCampaign(res));
+    }       
+  }
+
   clone(){
     this.isClone = true;
     this.sdk.expiryDate = null;
@@ -334,7 +358,15 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   fillProds(res: Array<Product>){
-    this.selProducts = res;
+    if(res && res.length > 0) {
+      for(let i: number = 0; i < res.length; i++) {
+        res[i].isSelected = true;
+        res[i].isEdit = true;
+      }
+    }
+
+    this.productService.setSelectedProducts(res);
+    this.selProducts = this.productService.getSelectedProducts();
   }
 
   invalidForm(): boolean {
@@ -370,7 +402,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   create() {
     let campName: string = this.sdk.title.trim();
-    if(campName.length > 0){
+    if(campName.length > 0) {
       this.sdk.products = this.selProducts;
       this.campaignService.saveCampaign(this.sdk)
         .then(res => this.created(res));
@@ -386,6 +418,17 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   setActiveTab(t: number) {
+    if(this.editing) {
+      if(this.active != t) {
+        this.active = t;
+        this.isInitial = false;
+      }
+
+      this.selectedCamp = '';
+      this.isClone = false;
+      return;
+    }
+
     if(!this.isClone)
       this.resetSdk();
 
@@ -430,7 +473,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   hasSelectedProducts(): boolean {
     if(this.spc) {
-      let p: Array<Product> = this.spc.getSelectedProducts();
+      let p: Array<Product> = this.productService.getSelectedProducts();
       if(p && p.length > 0)
         return true;
     }
@@ -446,7 +489,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   closeModal() {
-    this.selProducts = this.spc.getSelectedProducts();
+    this.selProducts = this.productService.getSelectedProducts();
     this.modalActions.emit({ action: "modal", params: ['close'] });
   }
 }

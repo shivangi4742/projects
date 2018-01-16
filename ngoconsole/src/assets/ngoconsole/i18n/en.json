@@ -186,5 +186,7 @@
     "Enter Comapny Name":"Enter Comapny Name",
     "Request for Company Name":"Request for Company Name",
     "Request for Employee Id":"Request for Employee Id",
-    "Date Created": "Date Created"
+    "Date Created": "Date Created",
+    "Edit Campaign": "Edit Campaign",
+	"Save Campaign": "Save Campaign"
 }

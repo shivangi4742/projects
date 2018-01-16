@@ -152,7 +152,7 @@
                           *ngIf="get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s8 offset-s2 m4 center" *ngFor="let p of selProducts">
-                        <productwidget *ngIf="p.id" [mtype]="sdk.merchantType" [forCart]="false" [editQty]="false" [product]="p"></productwidget>
+                        <productwidget (selectedProd)="selected($event)" *ngIf="p.id" [mtype]="sdk.merchantType" [forCart]="false" [editQty]="false" [product]="p"></productwidget>
                       </div>
                       <div class="col s8 offset-s2 m4 center">
                         <div (click)="addProduct()" class="noProdBN" class="linkButtonBN" (mouseover)="prodover=true;" (mouseout)="prodover=false;">
@@ -452,6 +452,13 @@
                                 <i class="material-icons alignMidBN">content_copy</i>
                                 <span class="alignMidBN">{{'Clone Campaign' | translate}}</span>
                               </a>
+                          </div>
+                          <div class="col s12">&nbsp;</div>
+                          <div class="col s12 regNrmS2BN">
+                            <a class="linkButtonBN cloneBN" (click)="edit(campaign)">
+                              <i class="material-icons alignMidBN">edit</i>
+                              <span class="alignMidBN">{{'Edit Campaign' | translate}}</span>
+                            </a>
                           </div>
                         </div>
                       </div>

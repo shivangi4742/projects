@@ -186,5 +186,7 @@
     "Enter Employee Id":"कर्मचारी संख्या प्रविष्ट करा",
     "Enter Comapny Name":"कंपनीचे नाव प्रविष्ट करा",
     "Request for Company Name":"कंपनीचे नाव यासाठी विनंती",
-    "Request for Employee Id":"कर्मचारी आयडी साठी विनंती"
+    "Request for Employee Id":"कर्मचारी आयडी साठी विनंती",
+    "Edit Campaign": "मोहिम संपादित करा",
+	"Save Campaign": "मोहीम जतन करा"
 }
