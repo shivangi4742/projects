@@ -10,5 +10,6 @@ userRouter.post('/signUp', userController.signUp.bind(userController));
 userRouter.post('/getLead', userController.getLead.bind(userController));
 userRouter.post('/register', userController.register.bind(userController));
 userRouter.post('/verifyOTP', userController.verifyOTP.bind(userController));
+userRouter.post('/completeRegistration', userController.completeRegistration.bind(userController));
 userRouter.post('/getMerchantDetailsForVerification', userController.getMerchantDetailsForVerification.bind(userController));
 module.exports = userRouter;
