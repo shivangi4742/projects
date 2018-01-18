@@ -27,3 +27,8 @@
     height: 120px;
     width: 120px;        
 }
+
+.minAmountBN {
+    margin-top: -15px;
+    padding-bottom: 15px;
+}

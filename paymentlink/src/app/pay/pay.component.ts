@@ -282,7 +282,7 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (!this.pay.amount || this.pay.amount < 0.01 || this.pay.amount > 9999999.99) {
+    else if (!this.pay.amount || (this.pay.amount < 10 && this.pay.merchantType == 3) || (this.pay.amount < 1 && this.pay.merchantType != 3) || this.pay.amount > 9999999.99) {
       this.validationError = 'Please enter a valid amount';
       if (this.putFocus) {
         this.putFocus = false;

@@ -35,7 +35,7 @@ export class AddproductComponent implements OnInit {
 
   canBeSaved(p: Product): boolean {
     if(this.newProd && this.newProd.id && p && p.id && this.newProd.name && this.newProd.name.trim() && this.newProd.name.trim().length > 0
-      && this.newProd.price > 0) {
+      && (this.newProd.price >= 1 && this.mtype != 3 || this.mtype == 3 && this.newProd.price >= 10)) {
       if(p.name != this.newProd.name)
         return true;
 
@@ -92,7 +92,7 @@ export class AddproductComponent implements OnInit {
   }
 
   addProduct() {
-    if(this.newProd.name && this.newProd.price > 0) {
+    if(this.newProd.name && ((this.newProd.price >= 10 && this.mtype == 3) || (this.newProd.price >= 1 && this.mtype != 3))) {
       this.productService.addProduct(this.user.merchantCode, this.newProd)
         .then(res => this.addedProduct(res));
     }
