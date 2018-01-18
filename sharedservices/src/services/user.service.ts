@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from './../models/user.model';
+import { Customer } from "../models/customer.model";
+import { CustomerList } from "../models/customerlist.model";
 
 import { UtilsService } from './utils.service';
 
@@ -15,6 +17,8 @@ export class UserService {
   private _uname: string;
   private _user: User;  
   private _headers: any;
+  private _customer: Array<Customer>;
+  private _customerList: CustomerList;
   
   private _isNGO: boolean = false;
   private _urls: any = {
@@ -22,7 +26,8 @@ export class UserService {
     allocateTill: 'merchant/tillAllocate',
     releaseTill: 'merchant/tillRelease',
     sendVerificationMail: 'merchant/sendVerificationMail',
-    changePassword: 'merchant/changePassword'
+    changePassword: 'merchant/changePassword',
+    getCustomerList: 'user/getCustomerList',
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -50,6 +55,19 @@ export class UserService {
 
   isNGO(): boolean {
     return this._isNGO;
+  }
+
+  getCustomerList(merchantCode: string, pageNumber: number){
+    return this.http
+        .post(this.utilsService.getBaseURL() + this._urls.getCustomerList,
+            JSON.stringify({
+                "merchantCode": merchantCode,
+                "pageNumber": pageNumber
+            }),
+            { headers: this.utilsService.getHeaders() })
+        .toPromise()
+        .then(res => this.fillCustomer(res.json()))
+        .catch(res => this.handleError(res.json()));
   }
 
   setUserLanguage(lang: number) {
@@ -241,6 +259,24 @@ export class UserService {
     }
 
     return res;
+  }
+
+  private fillCustomer(res: any): CustomerList{
+    console.log('Customer',res);
+    if(res && res.customerList){
+      this._customer = new Array<Customer>();
+      for(let i: number = 0; i < res.customerList.length; i++){
+        this._customer.push(new Customer(res.customerList[i].customerName, res.customerList[i].customerEmail,
+            res.customerList[i].customerMobileNumber, res.customerList[i].noOfDonation, res.customerList[i].totalDonation,
+            res.customerList[i].lastDonationDate));
+      }
+      this._customerList = new CustomerList(res.totalElements, res.totalNoOfPages, this._customer);
+    }
+    else{
+      this._customer = [];
+    }
+
+    return this._customerList;
   }
 
   private getToken(): any {

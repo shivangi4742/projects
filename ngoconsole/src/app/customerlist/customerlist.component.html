@@ -19,7 +19,7 @@
       <div class="row mCampTitles rowBorderBN">
         <span class="col s1"></span>
         <span class="col s2 regHdrS4B1BN">{{'Donor Name' | translate}}&nbsp;
-          <a class="redBN linkButtonBN"><i class="material-icons alignMidBN">sort_by_alpha</i></a>
+          <a class="redBN linkButtonBN"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
         </span>
         <span class="col s2 regHdrS4B1BN">{{'Mobile No.' | translate}}
 
@@ -28,56 +28,54 @@
 
         </span>
         <span class="col s3 regHdrS4B1BN">{{'Donations Recieved(Value)' | translate}}&nbsp;
-          <a class="redBN linkButtonBN"><i class="material-icons alignMidBN">sort_by_alpha</i></a>
+          <a class="redBN linkButtonBN"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
         </span>
         <span class="col s1"></span>
       </div>
-      <div class="row">
-            <div class="col s1 checko">
-              <input type="checkbox" class="filled-in checkbox-red" id="donorSelect" name="donorSelect"/>
-              <label for="donorSelect" class=""></label>
-            </div>
-            <span class="col s2 regNrmS5BN">
-              Ambujan Nair
+      <div class="row"></div>
+      <div *ngIf="hasCustomer()" class="row">
+        <div *ngFor="let customers of customer; let i = index;" [ngClass]="i%2 == 0? 'adjustBN row greyBackBN':'adjustBN row'">
+          <div class="col s1 checko">
+            <input type="checkbox" class="filled-in checkbox-red" [id]="customers.customerMobileNumber" name="donorSelect"/>
+            <label [for]="customers.customerMobileNumber" class=""></label>
+          </div>
+          <span class="col s2 regNrmS5BN truncate">
+              {{customers.customerName}}
             </span>
-            <span class="col s2 regNrmS5BN">
-              8320192363
+          <span class="col s2 regNrmS5BN truncate">
+              {{customers.customerMobileNumber}}
             </span>
-            <span class="col s3 regNrmS5BN">
-              ambujan.nair@oneture.com
+          <span class="col s3 regNrmS5BN truncate">
+              {{customers.customerEmail}}
             </span>
-            <span class="col s3 regNrmS5BN">
-              04 (₹4000)
+          <span class="col s3 regNrmS5BN truncate">
+              {{customers.numDonations}} (₹{{customers.totalDonationAmount}})
             </span>
-            <span class="col s1">
+          <span class="col s1">
               <i class="material-icons alignMidBN" style="padding-right: 10px">edit</i>
               <i class="material-icons alignMidBN">delete</i>
             </span>
-      </div>
-      <div class="row" style="background-color: rgb(250,250,250)">
-        <div class="col s1 checko">
-          <input type="checkbox" class="filled-in checkbox-red" id="donorSelect" name="donorSelect"/>
-          <label for="donorSelect" class=""></label>
         </div>
-        <span class="col s2 regNrmS5BN">
-              Najubma Nair
-            </span>
-        <span class="col s2 regNrmS5BN">
-              8320192363
-            </span>
-        <span class="col s3 regNrmS5BN">
-              najubma.nair@oneture.com
-            </span>
-        <span class="col s3 regNrmS5BN">
-              106 (₹7000000)
-            </span>
-        <span class="col s1">
-              <i class="material-icons alignMidBN" style="padding-right: 10px">edit</i>
-              <i class="material-icons alignMidBN">delete</i>
-            </span>
+      </div>
+      <div *ngIf="!hasCustomer()" class="row">
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row">
+          <span class="col s12 center regNrmS3B1BN">{{'No Customer Found' | translate}}</span>
+        </div>
       </div>
       <div class="row">
-
+        <div class="col s12" align="right">
+          <a class="linkButtonBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+            <i class="material-icons alignMidBN errorIconBN">navigate_before</i>
+          </a>
+          <span class="errNrmS4B1BN alignMidBN">{{page}} of {{numPages}}</span>
+          <a class="linkButtonBN" (click)="next()" *ngIf="numPages > page">
+            <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+          </a>
+        </div>
       </div>
     </div>
   </div>

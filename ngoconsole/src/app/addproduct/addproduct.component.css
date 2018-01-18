@@ -4,7 +4,7 @@
 
 .editProdImageBN {
     max-height: 120px;
-    max-width: 120px;    
+    max-width: 120px;
 }
 
 .editOverlayBN {
@@ -25,10 +25,22 @@
 
 .uploadingImageBN {
     height: 120px;
-    width: 120px;        
+    width: 120px;
 }
 
 .minAmountBN {
     margin-top: -15px;
     padding-bottom: 15px;
+}
+
+.buttonModalBN{
+  text-transform: none;
+  color: white!important;
+  height: 30px;
+  line-height: 30px;
+  background-color: #E53935!important;
+}
+
+.productIconModalBN{
+  max-width: 400px;
 }

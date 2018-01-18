@@ -12,5 +12,7 @@ campaignRouter.post('/sendCampaignLink', campaignController.sendCampaignLink.bin
 campaignRouter.post('/saveCampaignLink', campaignController.saveCampaignLink.bind(campaignController));
 campaignRouter.post('/getCampaignsSummary', campaignController.getCampaignsSummary.bind(campaignController));
 campaignRouter.post('/sendEmail', campaignController.sendEmail.bind(campaignController));
+campaignRouter.post('/getAllNGOTransactions', campaignController.getAllNGOTransactions.bind(campaignController));
+campaignRouter.post('/fetchMerchantDetails', campaignController.fetchMerchantDetails.bind(campaignController));
 
 module.exports = campaignRouter;

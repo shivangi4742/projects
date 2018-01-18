@@ -20,6 +20,7 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ProductlineComponent } from './productline/productline.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
+import { ImageCropperModule } from 'ng2-img-cropper';
 
 import { SocketService } from './socket.service';
 
@@ -46,6 +47,7 @@ export function HttpFactory(http: Http) {
     AppRoutingModule,
     MaterializeModule,
     SharedComponentsModule,
+    ImageCropperModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,

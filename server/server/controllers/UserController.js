@@ -176,6 +176,43 @@ var userCont = {
         }
     },
 
+    getCustomerList: function(req, res) {
+        console.log('herelist')
+        this.getCustomerListPost(req, function(data) {
+           res.setHeader("X-Frame-Options", "DENY");
+           res.json(data);
+        });
+    },
+
+    getCustomerListPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.merchantCode) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCustomerList', 'POST', req.headers),
+                        {
+                            "merchantCode":d.merchantCode,
+                            "pageNumber":d.pageNumber
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     register: function (req, res) {
         var me = this;
         this.registerPost(req, function (data) {
