@@ -47,6 +47,13 @@ export class SDKService {
             this._sdk.products = products;
     }
 
+    private formatDTMT(md: string) {
+        if(md && md.length < 2)
+            return '0' + md;
+
+        return md;
+    }
+
     private fillSDK(res: any): SDK | null {
         if (res && res.merchantUser) {
             let vpa: string = res.merchantUser.merchantCode + '@yesbank';
@@ -87,7 +94,7 @@ export class SDKService {
             var expiryDate = '';
             if(res.expiryDate){
                 let dt = new Date(res.expiryDate);
-                expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
+                expiryDate = this.formatDTMT(dt.getDate().toString()) + '-' + this.formatDTMT((dt.getMonth() + 1).toString()) + '-' + dt.getFullYear();
             }
 
             this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 

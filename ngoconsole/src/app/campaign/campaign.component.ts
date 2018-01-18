@@ -400,8 +400,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
-  edited() {
+  edited(res: any) {
     window.scrollTo(0, 0);
+    this.editing = false;
     this.utilsService.setStatus(false, true, 'Successfully saved Campaign.');
     let editTab = document.getElementById('manage');
     editTab.click();           
@@ -411,11 +412,17 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     let campName: string = this.sdk.title.trim();
     if(campName.length > 0 && (this.sdk.mtype == 2 || (this.selProducts && this.selProducts.length > 0))) {
       this.sdk.products = this.selProducts;
-      if(this.editing)
-        this.edited();
-      else
+      if(this.editing) {
+        console.log('edit', JSON.stringify(this.sdk));
+        this.edited(null);
+/*         this.campaignService.editCampaign(this.sdk)
+          .then(res => this.edited(res)); */
+      }
+      else {
+        console.log('save', JSON.stringify(this.sdk));
         this.campaignService.saveCampaign(this.sdk)
           .then(res => this.created(res));
+      }
     }
     else {
       window.scrollTo(0, 0);

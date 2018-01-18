@@ -27,7 +27,8 @@ export class CampaignService {
         saveCampaignLinkURL: 'campaign/saveCampaignLink',
         sendCampaignLinkURL: 'campaign/sendCampaignLink',
         getCampaignURLURL: 'campaign/getCampaignURL',
-        sendEmailURL: 'campaign/sendEmail'
+        sendEmailURL: 'campaign/sendEmail',
+        editCampaignURL: 'campaign/editCampaign'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -162,6 +163,18 @@ export class CampaignService {
         .toPromise()
         .then(res => res.json())
         .catch(res => this.utilsService.returnGenericError());
+    }
+
+    editCampaign(sdk: SDK): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.editCampaignURL,
+            JSON.stringify({
+                "sdk": sdk
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
     }
 
     saveCampaign(sdk: SDK): Promise<any> {

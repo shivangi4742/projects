@@ -60,7 +60,7 @@ export class TransactionService {
                     txn.products = new Array<Product>();
                     for(let j: number = 0; j < res[i].products.length; j++) {
                         txn.products.push(new Product(false, false, false, res[i].products[j].quantity, res[i].products[j].price, 
-                            res[i].products[j].price, res[i].products[j].id, res[i].products[j].prodName, '', res[i].products[j].uom, ''));
+                            res[i].products[j].price, res[i].products[j].id, null, res[i].products[j].prodName, '', res[i].products[j].uom, ''));
                     }
                 }
 

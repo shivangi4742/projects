@@ -66,8 +66,8 @@ export class ProductService {
         if(res && res.length > 0) {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, 
-                    res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+                this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
         return this._campProducts;
@@ -77,7 +77,7 @@ export class ProductService {
         if(res && res.length > 0) {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
-                this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, 
+                this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
         }
 
@@ -95,8 +95,8 @@ export class ProductService {
             let res: any = res2.benowProductList;
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
-                    prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodName, res[i].prodDescription, 
-                        res[i].uom, res[i].prodImgUrl));
+                    prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName, 
+                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
             }
         }
 
@@ -118,7 +118,7 @@ export class ProductService {
 
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
-            return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, res.prodName, res.prodDescription, res.uom, 
+            return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
                 res.prodImgUrl);
         else
             return null;
