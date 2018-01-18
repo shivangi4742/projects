@@ -97,6 +97,32 @@ var userCont = {
         }
     },
 
+    completeRegistration: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.id)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', h),
+                {
+                    "id": d.id
+                },
+                function(data) {
+                    res.json(data);
+                });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
     getMerchantDetailsForVerification: function(req, res) {
         var retErr = {
             "success": false,
@@ -123,8 +149,19 @@ var userCont = {
                                     {
                                         "merchantCode": data1.desc1
                                     }, function(data2) {
-                                        if(data2 && data2.merchantCode) 
-                                            res.json(data2);
+                                        if(data2 && data2.merchantCode) {
+                                            data2.agentCode = data1.desc2;
+                                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/registration/sendWebOTP', 'POST', h),
+                                            {
+                                                "mobileNumber": data2.mobileNumber
+                                            },
+                                            function(data3) {
+                                                if(data3 && data3.responseFromAPI == true)
+                                                    res.json(data2);
+                                                else
+                                                    res.json(retErr);
+                                            });
+                                        }
                                         else
                                             res.json(retErr);
                                     });
