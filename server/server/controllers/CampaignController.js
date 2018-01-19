@@ -1,5 +1,7 @@
 var helper = require('./../utils/Helper');
 var config = require('./../configs/Config');
+var fs = require('fs');
+var Jimp = require("jimp");
 
 var campCont = {    
     getCampaignsSummary: function (req, res) {
@@ -479,6 +481,41 @@ var campCont = {
         }
     },
 
+    getAllNGOTransactions: function (req, res) {
+        var me = this;
+        this.getAllNGOTransactionsGet(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data":data});
+        })
+    },
+
+    getAllNGOTransactionsGet: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+
+                var d = req.body;
+                if (d && d.txnRefNumber)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getDataByPaymentLinkByCriteria',
+                        'POST', req.headers),
+                        {
+                            "txnRefNumber": d.txnRefNumber
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     getCampaigns: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getCampaignsPost(req, function (data) {
@@ -529,6 +566,95 @@ var campCont = {
         }
         catch (err) {
             cb(retErr);
+        }
+    },
+
+    fetchMerchantDetails: function (req, res) {
+        var me = this;
+        this.fetchMerchantDetailsPost(req, function (data) {
+            var logoURL;
+            if (data && data.documentResponseVO) {
+                var p = data.documentResponseVO.documentList;
+                if (p && p.length > 0) {
+                    for (var i = 0; i < p.length; i++) {
+                        if (p[i].documentName == 'Merchant_logo')
+                            logoURL = p[i].documentUrl;
+                    }
+                }
+            }
+
+            if (data && logoURL) {
+                me.downloadLogo(logoURL, data.userId, function (ldata) {
+                    data.merchantLogoUrl = ldata;
+                    res.setHeader("X-Frame-Options", "DENY");
+                    res.json({ "data": data });
+                });
+            }
+            else {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({ "data": data });
+            }
+        });
+    },
+
+    fetchMerchantDetailsPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+
+            if (!req || !req.body){
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+
+                if (d && d.userId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails', 'POST', req.headers),
+                        {
+                            "userId": d.userId,
+                            "sourceId": d.sourceId,
+                            "sourceType": d.sourceType
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    downloadLogo: function (url, userId, cb) {
+        try {
+            if (!url)
+                cb('');
+            else {
+                var extn = '.png';
+                var lIndex = url.lastIndexOf('.');
+                if (lIndex > 0)
+                    extn = url.substring(lIndex);
+
+                var fName = 'logos/' + userId + extn;
+
+                var file = fs.createWriteStream(fName);
+                Jimp.read(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/'
+                    + url, function (err, lenna) {
+                    lenna.resize(190, 105);
+                    var image = new Jimp(210, 120, function (err, image) {
+                        image.background(0xFFFFFFFF)
+                            .composite(lenna, 10, 5);
+                        image.write(fName);
+
+                        cb(fName);
+                    });
+                });
+            }
+        }
+        catch (err) {
+            cb(err);
         }
     },
 
