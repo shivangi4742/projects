@@ -341,11 +341,11 @@ var campCont = {
                     if (expDt && expDt.length > 9) {
                         var spExDt = expDt.split('-');
                         if (spExDt && spExDt.length > 2)
-                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0];
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
                     }
 
                     var me = this;                    
-                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', hdrs),
+                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', hdrs),
                         {	
                             "id": d.id,
                             "merchantCode": d.merchantCode,
@@ -380,6 +380,7 @@ var campCont = {
                             "mndCompName": d.mndcompanyname
                         }, function(data) {
                             data.id = d.id;
+                            data.paymentReqNumber = d.campaignCode;
                             me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
                         });
                 }
@@ -405,9 +406,9 @@ var campCont = {
                     if (expDt && expDt.length > 9) {
                         var spExDt = expDt.split('-');
                         if (spExDt && spExDt.length > 2)
-                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0];
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
                     }
-                    //console.log("hello", d);
+
                     var me = this;                    
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	
