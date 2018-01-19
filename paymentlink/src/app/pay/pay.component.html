@@ -90,11 +90,11 @@
       </div>
       <div *ngIf="pay.merchantType != 3 || wp == 1">
         <div class="row">          
-          <div class="valign-wrapper" *ngIf="pay.askcompanyname">
+          <div class="valign-wrapper" *ngIf="pay.askname">
             <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-              <input id="companyName" name="companyName" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="companyName">
-              <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Comapny Name' | translate}}
-                <span *ngIf="pay.mndcompanyname">*</span>
+              <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
+              <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
+                <span *ngIf="pay.mndname">*</span>
               </label>
             </div>
           </div>
@@ -116,19 +116,12 @@
               </label>
             </div>
           </div>
-          <div class="valign-wrapper" *ngIf="pay.askname">
-            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-              <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
-              <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
-                <span *ngIf="pay.mndname">*</span>
-              </label>
-            </div>
-          </div>
-          <div class="valign-wrapper" *ngIf="pay.askemployeeId">
-            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-              <input id="employeeId" name="employeeId" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="employeeId">
-              <label for="employeeId" [ngClass]="employeeId ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Employee Id' | translate}}
-                <span *ngIf="pay.mndemployeeId">*</span>
+          <div class="valign-wrapper" *ngIf="pay.askadd">
+            <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
+              <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" [disabled]="pay.readonlyaddr"
+                (blur)="refreshAmount()"></textarea>
+              <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
+                <span *ngIf="pay.mndaddress">*</span>
               </label>
             </div>
           </div>
@@ -141,12 +134,19 @@
               </label>
             </div>
           </div>
-          <div class="valign-wrapper" *ngIf="pay.askadd">
-            <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
-              <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" [disabled]="pay.readonlyaddr"
-                (blur)="refreshAmount()"></textarea>
-              <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
-                <span *ngIf="pay.mndaddress">*</span>
+          <div class="valign-wrapper" *ngIf="pay.askcompanyname">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="companyName" name="companyName" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="companyName">
+              <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Comapny Name' | translate}}
+                <span *ngIf="pay.mndcompanyname">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askemployeeId">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="employeeId" name="employeeId" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="employeeId">
+              <label for="employeeId" [ngClass]="employeeId ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Employee Id' | translate}}
+                <span *ngIf="pay.mndemployeeId">*</span>
               </label>
             </div>
           </div>
