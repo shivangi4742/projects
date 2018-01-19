@@ -453,10 +453,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   edited(res: any) {
     window.scrollTo(0, 0);
-    this.editing = false;
-    this.utilsService.setStatus(false, true, 'Successfully saved Campaign.');
-    let editTab = document.getElementById('manage');
-    editTab.click();
+    if(res && res.responseFromAPI == true)
+      this.utilsService.setStatus(false, true, 'Successfully saved Campaign.');
+    else
+      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
   }
 
   create() {
