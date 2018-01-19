@@ -47,6 +47,13 @@ export class SDKService {
             this._sdk.products = products;
     }
 
+    private formatDTMT(md: string) {
+        if(md && md.length < 2)
+            return '0' + md;
+
+        return md;
+    }
+
     private fillSDK(res: any): SDK | null {
         if (res && res.merchantUser) {
             let vpa: string = res.merchantUser.merchantCode + '@yesbank';
@@ -87,7 +94,7 @@ export class SDKService {
             var expiryDate = '';
             if(res.expiryDate){
                 let dt = new Date(res.expiryDate);
-                expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
+                expiryDate = this.formatDTMT(dt.getDate().toString()) + '-' + this.formatDTMT((dt.getMonth() + 1).toString()) + '-' + dt.getFullYear();
             }
 
             this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
@@ -95,8 +102,8 @@ export class SDKService {
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
                 (mtype == 1) ? res.mobileNumber : '', ttl, 
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.displayName, res.invoiceNumber, res.till, null, null, null, null, null, null, null, 
-                null, null, modes, null);
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null, 
+                null, null, null, null, null, modes, null);
         }
         else if (res.logFormate) {
             var obj = JSON.parse(res.logText);
@@ -113,8 +120,9 @@ export class SDKService {
                 JSON.parse(obj.readonlypan), JSON.parse(obj.readonlyname), JSON.parse(obj.askresidence), JSON.parse(obj.readonlyaddr), Boolean(obj.readonlyemail),
                 Boolean(obj.allowMultipleSelect), Boolean(obj.readonlyresidnce), obj.mtype, obj.amount, obj.language, obj.sourceId, obj.minpanamnt, obj.merchantType,
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
-                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.invoiceAmount,
-                obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
+                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber, 
+                obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, 
+                obj.supportedModes, obj.products);
         }
 
         return this._sdk;

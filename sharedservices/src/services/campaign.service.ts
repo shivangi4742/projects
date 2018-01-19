@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { SDK } from './../models/sdk.model';
@@ -32,6 +33,7 @@ export class CampaignService {
         sendCampaignLinkURL: 'campaign/sendCampaignLink',
         getCampaignURLURL: 'campaign/getCampaignURL',
         sendEmailURL: 'campaign/sendEmail',
+        editCampaignURL: 'campaign/editCampaign',
         getAllNGOTransactionsURL: 'campaign/getAllNGOTransactions',
         fetchMerchantDetails: 'campaign/fetchMerchantDetails'
     }
@@ -84,8 +86,8 @@ export class CampaignService {
                 res.minpanamnt, mtype, res.totalbudget, res.txnrefnumber, '', res.surl, res.furl, '', res.mobileNumber, res.customerName,
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '',
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
-                res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.invoiceNumber,
-                res.till, null, null, null, null, null, null, null, null, null, modes, null);
+                res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
+                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null);
         }
 
         return null;
@@ -168,6 +170,18 @@ export class CampaignService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    editCampaign(sdk: SDK): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.editCampaignURL,
+            JSON.stringify({
+                "sdk": sdk
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
     }
 
     saveCampaign(sdk: SDK): Promise<any> {

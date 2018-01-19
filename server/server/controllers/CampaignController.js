@@ -227,6 +227,32 @@ var campCont = {
         }
     },
 
+    editCampaign: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                if(d && d.sdk) {
+                    var hdrs = req.headers;
+                    this.editCampaignPost(d.sdk, hdrs, function (data) {
+                        res.json(data);
+                    }); 
+                }
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
     saveCampaign: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         var me = this;
@@ -262,24 +288,107 @@ var campCont = {
     saveCampaignProductsPost: function(merchantCode, products, counter, data, hdrs, cb) {
         if(products && products.length > counter) {
             var me = this;
-            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/saveCampaignProduct',
-                'POST', hdrs),
-                {
-                    "merchantCode": merchantCode,
-	                "campaignId": data.id,
-	                "txnRefNumber": data.paymentReqNumber,
-	                "prodId": products[counter].id,
-	                "prodPrice": products[counter].price,
-                    "prodDescription": products[counter].description,
-                    "prodName":products[counter].name,
-                    "uom": products[counter].uom,
-	                "prodImgUrl": products[counter].imageURL
-                }, function(data2) {
-                    me.saveCampaignProductsPost(merchantCode, products, ++counter, data, hdrs, cb);
-                }); 
+            if(products[counter].isEdit == true)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/updateCampaignProducts',
+                    'POST', hdrs),
+                    {
+                        "id": products[counter].id,
+                        "merchantCode": merchantCode,
+                        "campaignId": data.id,
+                        "txnRefNumber": data.paymentReqNumber,
+                        "prodId": products[counter].prodId,
+                        "prodPrice": products[counter].price,
+                        "prodDescription": products[counter].description,
+                        "prodName":products[counter].name,
+                        "uom": products[counter].uom,
+                        "prodImgUrl": products[counter].imageURL
+                    }, function(data2) {
+                        me.saveCampaignProductsPost(merchantCode, products, ++counter, data, hdrs, cb);
+                    }); 
+            else
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/saveCampaignProduct',
+                    'POST', hdrs),
+                    {
+                        "merchantCode": merchantCode,
+                        "campaignId": data.id,
+                        "txnRefNumber": data.paymentReqNumber,
+                        "prodId": products[counter].id,
+                        "prodPrice": products[counter].price,
+                        "prodDescription": products[counter].description,
+                        "prodName":products[counter].name,
+                        "uom": products[counter].uom,
+                        "prodImgUrl": products[counter].imageURL
+                    }, function(data2) {
+                        me.saveCampaignProductsPost(merchantCode, products, ++counter, data, hdrs, cb);
+                    }); 
         }
         else
             cb(data);
+    },
+
+    editCampaignPost: function(d, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!d)
+                cb(retErr);
+            else {
+                if(d && d.merchantCode) {
+                    var expDt = d.expiryDate;
+                    if (expDt && expDt.length > 9) {
+                        var spExDt = expDt.split('-');
+                        if (spExDt && spExDt.length > 2)
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
+                    }
+
+                    var me = this;                    
+                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', hdrs),
+                        {	
+                            "id": d.id,
+                            "merchantCode": d.merchantCode,
+                            "mtype": d.mtype,
+                            "campaignName": d.title,
+                            "mobileNumber": d.phone ? d.phone : '',
+                            "amount": d.amount,
+                            "totalbudget": d.campaignTarget,
+                            "description": d.description,
+                            "fileURL": d.imageURL,
+                            "refNumber": d.invoiceNumber,
+                            "till": d.til,
+                            "expiryDate": expDt,
+                            "askname": d.askname,
+                            "askemail": d.askemail,
+                            "askmob": d.askmob,
+                            "askadd": d.askadd,
+                            "mndname": d.mndname,
+                            "mndemail": d.mndemail,
+                            "mndaddress": d.mndaddress,
+                            "mndmob": d.mndmob,
+                            "panaccepted": d.askpan,
+                            "mndpan": d.mndpan,
+                            "minpanamnt": d.minpanamnt,
+                            "askresidence": d.askresidence,
+                            "prodMultiselect": d.allowMultiSelect,
+                            "employeeId": d.employeeId,
+                            "askEmpId": d.askemployeeId,
+                            "mndEmpId": d. mndemployeeId,
+                            "companyName": d.companyName,
+                            "askCompName": d.askcompanyname,
+                            "mndCompName": d.mndcompanyname
+                        }, function(data) {
+                            data.id = d.id;
+                            data.paymentReqNumber = d.campaignCode;
+                            me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
+                        });
+                }
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
     },
 
     saveCampaignPost: function(d, hdrs, cb) {
@@ -297,9 +406,9 @@ var campCont = {
                     if (expDt && expDt.length > 9) {
                         var spExDt = expDt.split('-');
                         if (spExDt && spExDt.length > 2)
-                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0];
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
                     }
-                    //console.log("hello", d);
+
                     var me = this;                    
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	

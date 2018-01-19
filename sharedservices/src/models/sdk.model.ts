@@ -50,6 +50,7 @@ export class SDK {
     public description: string,
     public merchantCode: string,
     public businessName: string,
+    public campaignCode: string,
     public invoiceNumber: string,
     public til: string|null,
     public vpa: string|null,
