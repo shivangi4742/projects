@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import * as jsPDF from 'jspdf';
+declare var jsPDF: any;
 
 import { Product, SDKService, ProductService, SDK, TransactionService, CampaignService, UtilsService, PrintPayment, Merchant, User, UserService } from 'benowservices';
 
@@ -82,7 +82,7 @@ export class SuccessComponent implements OnInit {
       let me = this;
 
       if (this.merchantmodel.merchantLogoUrl && !this.imgData) {
-        me.utilsService.convertImgToBase64URL(this.utilsService.getBaseURL() +'server/'+ this.merchantmodel.merchantLogoUrl,'image/png')
+        me.utilsService.convertImgToBase64URL(this.utilsService.getBaseURL() + this.merchantmodel.merchantLogoUrl,'image/png')
           .then(data => console.log('Yuhooo',data));
 
         me.campaignService.getAllNGOTransactions(txnId)
