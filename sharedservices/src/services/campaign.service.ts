@@ -429,8 +429,7 @@ export class CampaignService {
     }
 
     private fillCertificate(tres: any) {
-        let res = tres.data;
-        console.log('80G Certi', res[0]);
+        let res = tres.data[0];
         if (!res)
             return this.utilsService.returnGenericError();
 
