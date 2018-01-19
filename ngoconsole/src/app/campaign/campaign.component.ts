@@ -25,6 +25,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   isMobile: boolean = false;
   uploading: boolean = false;
   bannerover: boolean = false;
+  editingTab: boolean = false;
   pg: number = 1;
   campExpand: boolean = false;
   isClone: boolean = false;
@@ -387,6 +388,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if (res && res.id) {
       this.sdk = res;
       this.editing = true;
+      this.editingTab = true;
       setTimeout(function () {
         let createTab = document.getElementById('create');
         createTab.click();
@@ -486,7 +488,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   setActiveTab(t: number) {
-    if (this.editing) {
+    if (this.editingTab) {
       if (this.active != t) {
         this.active = t;
         this.isInitial = false;
@@ -494,6 +496,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
       this.selectedCamp = '';
       this.isClone = false;
+      this.editingTab = false;
       return;
     }
 
@@ -509,6 +512,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if (this.active != t) {
       this.active = t;
       this.isInitial = false;
+      this.editing = false;
     }
 
     this.isClone = false;

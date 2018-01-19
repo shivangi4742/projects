@@ -70,7 +70,8 @@ var sdkCont = {
             };
             var fundraiserid = req.params.fund;
             if(fundraiserid)
-                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.body.amount, headers, function(fundata) {});
+                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.params.txnid, req.body.amount, headers, 
+                    function(fundata) {});
 
             var status = req.body.status;
             var statusMsg = 'Failed';
@@ -313,11 +314,12 @@ var sdkCont = {
         });
     },
 
-    updateFundraiserCollectionPostCall(fundraiserId, campaignId, amount, hdrs, cb) {
+    updateFundraiserCollectionPostCall(fundraiserId, campaignId, paymentTxnId, amount, hdrs, cb) {
         helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/updateFundraiserForCampaign', 'POST', hdrs),
         {
             "txnRefNumber": campaignId,
             "fundraiserId": fundraiserId,
+            "paymentTxnRefNumber": paymentTxnId,
             "actualCollection": amount
         }, cb);
     },
