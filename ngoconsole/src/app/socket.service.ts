@@ -95,6 +95,7 @@ export class SocketService {
     if(till)
       room += '|' + till;
 
+    console.log('joining room ' + room);
     this._socket.emit('merchantroom', { "room": room });
   }
 
