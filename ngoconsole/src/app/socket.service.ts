@@ -17,7 +17,6 @@ export class SocketService {
     this._socket = io();
     let me: any = this;
     this._socket.on('paymentreceived', function(paymentData: any) {
-      console.log('s1', paymentData);
       me.showNewPayments(paymentData);
     });
   }
@@ -30,7 +29,6 @@ export class SocketService {
     let me: any = this;
     this._newPayments.push(new Transaction(false, paymentData.amount, null, null, paymentData.id, paymentData.tr, paymentData.mode, paymentData.vpa,
       paymentData.till, null, paymentData.dt, null, null, null));
-    console.log('s2', this._newPayments);
     if(this._newPayments.length <= 1) {
       setTimeout(function() { me.fadeInNewPayments(); }, 500);
       setTimeout(function() { me.removePayment(paymentData.id); }, 3500);
@@ -42,7 +40,6 @@ export class SocketService {
   }
 
   removePayment(id: string) {
-    console.log('s3');
     if(this._newPayments && this._newPayments.length > 0) {
       let indx: number = this._newPayments.findIndex(p => p.id == id);
       if(indx >= 0)
@@ -72,7 +69,6 @@ export class SocketService {
   fadeInNewPayments() {
     let me = this;
     let el: any = document.getElementById('dummyIncomingMsgBN');
-    console.log('s4', el);
     if(el) {
       el.style.opacity = 0;
       el.style.display = 'block';
@@ -95,7 +91,6 @@ export class SocketService {
     if(till)
       room += '|' + till;
 
-    console.log('joining room ' + room);
     this._socket.emit('merchantroom', { "room": room });
   }
 
