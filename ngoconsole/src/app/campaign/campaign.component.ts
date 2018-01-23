@@ -409,6 +409,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
+  bannerImage(): string {
+    if(this.sdk.imageURL)
+      return 'Banner Image';
+    else
+      return 'Select Banner Image';
+  }
+
   clone() {
     this.isClone = true;
     this.sdk.expiryDate = null;

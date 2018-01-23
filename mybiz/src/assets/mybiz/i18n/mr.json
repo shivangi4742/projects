@@ -205,5 +205,9 @@
 	"Save Campaign": "मोहीम जतन करा",
     "Please add a product in Campaign.": "कृपया मोहिमेत उत्पादन जोडा।",
     "Successfully saved Campaign.": "मोहिम यशस्वीपणे जतन केली।",
-    "min": "किमान"
+    "min": "किमान",
+    "No Campaign Image Selected": "कोणतीही मोहिम प्रतिमा निवडली नाही",
+    "Add Product": "उत्पादन जोडा",
+    "Banner Image": "बॅनर प्रतिमा",
+    "Select Banner Image": "बॅनर प्रतिमा निवडा"
 }

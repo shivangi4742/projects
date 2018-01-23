@@ -190,5 +190,9 @@
     "Edit Campaign": "अभियान संपादित करें",
 	"Save Campaign": "अभियान सहेजें",
     "Please add a product in Campaign.": "कृपया अभियान में एक उत्पाद जोड़ें।",
-    "Successfully saved Campaign.": "अभियान को सफलतापूर्वक सहेजा गया।"
+    "Successfully saved Campaign.": "अभियान को सफलतापूर्वक सहेजा गया।",
+    "No Campaign Image Selected": "कोई अभियान छवि चयनित नहीं",
+    "Add Product": "दान विकल्प जोड़ें",
+    "Banner Image": "बैनर छवि",
+    "Select Banner Image": "बैनर छवि का चयन करें"
 }
