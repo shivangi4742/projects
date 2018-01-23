@@ -19,6 +19,7 @@ export class ProductService {
         addProductURL: 'product/addProduct',
         deleteProductURL: 'product/deleteProduct',
         editProductURL: 'product/editProduct',
+        deleteCampaignProductURL: 'product/deleteCampaignProduct',
         getProductsForCampaignURL: 'product/getProductsForCampaign',
         getProductsForTransactionURL: 'product/getProductsForTransaction'
     }
@@ -124,14 +125,21 @@ export class ProductService {
             return null;
     }
 
-    private editedProduct(res: any): Boolean {
+    private editedProduct(res: any): boolean {
         if(res && res.responseFromAPI == true)
             return true;
 
         return false;
     }
 
-    private deletedProduct(res: any): Boolean {
+    private deletedCampaignProduct(res: any): boolean {
+        if(res && res.responseFromAPI == true)
+            return true;
+
+        return false;        
+    }
+
+    private deletedProduct(res: any): boolean {
         if(res && res.responseFromAPI == true)
             return true;
 
@@ -176,7 +184,22 @@ export class ProductService {
             .catch(res => this.utilsService.returnGenericError());
     } 
 
-    deleteProduct(id: string): Promise<Boolean> {
+    deleteCampaignProduct(id: string): Promise<boolean> {
+        if(!id)
+            return Promise.resolve(false);
+
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.deleteCampaignProductURL,
+            JSON.stringify({
+                "id": id
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.deletedCampaignProduct(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
+    } 
+
+    deleteProduct(id: string): Promise<boolean> {
         if(!id)
             return Promise.resolve(false);
 

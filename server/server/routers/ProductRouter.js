@@ -8,6 +8,7 @@ productRouter.post('/addProduct', productController.addProduct.bind(productContr
 productRouter.post('/editProduct', productController.editProduct.bind(productController));
 productRouter.post('/getProducts', productController.getProducts.bind(productController));
 productRouter.post('/deleteProduct', productController.deleteProduct.bind(productController));
+productRouter.post('/deleteCampaignProduct', productController.deleteCampaignProduct.bind(productController));
 productRouter.post('/getProductsForCampaign', productController.getProductsForCampaign.bind(productController));
 productRouter.post('/getProductsForTransaction', productController.getProductsForTransaction.bind(productController));
 module.exports = productRouter;

@@ -259,12 +259,18 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       window.location.href = this.utilsService.getLogoutPageURL();
   }
 
-  selected(e: any) {
-    if (e && e.product && e.product.id && e.checked == false && this.selProducts && this.selProducts.length > 0) {
-      let sp: Array<Product> = this.selProducts.filter(p => p.id != e.product.id);
+  deletedCampaignProduct(res: boolean, id: string) {
+    if(res) {
+      let sp: Array<Product> = this.selProducts.filter(p => p.id != id);
       this.productService.setSelectedProducts(sp);
-      this.selProducts = this.productService.getSelectedProducts();
+      this.selProducts = this.productService.getSelectedProducts();  
     }
+  }
+
+  selected(e: any) {
+    if (e && e.product && e.product.id && e.checked == false && this.selProducts && this.selProducts.length > 0)
+      this.productService.deleteCampaignProduct(e.product.id)
+        .then(res => this.deletedCampaignProduct(res, e.product.id));
   }
 
   resetSdk() {
