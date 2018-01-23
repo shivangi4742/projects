@@ -77,11 +77,15 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) {
     this.cropperSettings = new CropperSettings();
+    this.cropperSettings.width = 480;
+    this.cropperSettings.height = 150;
     this.cropperSettings.canvasWidth = 480;
     this.cropperSettings.canvasHeight = 150;
     this.cropperSettings.minWidth = 10;
     this.cropperSettings.minHeight = 10;
     this.cropperSettings.noFileInput = true;
+    this.cropperSettings.keepAspect = false;
+    this.cropperSettings.preserveSize = true;
 
     this.data = {};
   }
@@ -263,7 +267,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     if(res) {
       let sp: Array<Product> = this.selProducts.filter(p => p.id != id);
       this.productService.setSelectedProducts(sp);
-      this.selProducts = this.productService.getSelectedProducts();  
+      this.selProducts = this.productService.getSelectedProducts();
     }
   }
 
