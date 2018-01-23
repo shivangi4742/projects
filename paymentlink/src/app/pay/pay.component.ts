@@ -300,8 +300,11 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 0)) {
+    else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 9)) {
       this.validationError = 'Please enter mobile number to proceed';
+      if(this.pay.merchantType != 1 && !this.pay.readonlymob && this.mobileNumber && this.mobileNumber.trim().length <= 9)
+        this.validationError = 'Mobile number should have at least 10 digits';
+
       if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('mobileNumber');

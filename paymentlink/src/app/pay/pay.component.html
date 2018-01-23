@@ -101,7 +101,7 @@
           <div class="valign-wrapper" *ngIf="pay.askmob && pay.merchantType != 1">
             <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
               <input id="mobileNumber" name="mobileNumber" (blur)="refreshAmount()" type="tel" class="validate regNrmS4BN" [(ngModel)]="mobileNumber"
-                [disabled]="pay.readonlymob">
+                [disabled]="pay.readonlymob" minlength="10">
               <label for="mobileNumber" [ngClass]="mobileNumber ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Mobile Number' | translate}}
                 <span *ngIf="pay.mndmob">*</span>
               </label>
