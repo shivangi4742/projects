@@ -41,17 +41,19 @@
                   <div class="col s12 center">
                     <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
                         (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">
-                      <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3" class="featuredImageBN responsive-img"
-                        src="../../assets/shared/images/no-image-wide.png" />
-                      <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2" class="featuredImageBN responsive-img"
-                        src="../../assets/shared/images/banner@2x.jpg" />
+                      <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3" 
+                        class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+                      <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2" 
+                        class="featuredImageBN responsive-img" src="../../assets/shared/images/banner@2x.jpg" />
                       <img [ngClass]="uploading ? 'featuredImageBN responsive-img displayBN' : 'featuredImageBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
-                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+                      <img *ngIf="!uploading && sdk.imageURL" title="{{sdk.imageURL}}" class="featuredImageBN responsive-img" 
+                        src={{uploadsURL}}{{sdk.imageURL}} />
                       <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN">
                         <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;
                       </div>
-                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+                      <input [disabled]="uploading" title="{{bannerImage() | translate}}" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" 
+                        (change)="fileChange($event)">
                     </div>
                     <div materialize="modal" id="imageCropModal" class="modal" [materializeParams]="[{dismissible: false}]"
                          [materializeActions]="modalActions2">
@@ -70,15 +72,17 @@
                       </div>
                     </div>
                     <div [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
-                      <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img"
-                          src="../../assets/shared/images/no-image-wide.png" />
+                      <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img" 
+                        title="{{'No Campaign Image Selected' | translate}}" src="../../assets/shared/images/no-image-wide.png" />
                       <img [ngClass]="uploading ? 'featuredImageSmallBN responsive-img displayBN' : 'featuredImageSmallBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
-                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} 
+                        title={{sdk.imageURL}}/>
                       <div *ngIf="!uploading && sdk.imageURL" class="editOverlaySmallBN"> &nbsp;
                         <i class="material-icons editOverlaySmallIconBN">mode_edit</i>&nbsp;
                       </div>
-                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)"
+                        title="{{bannerImage() | translate}}">
                     </div>
                     <div class="col s12 noHeightBN">
                       <i class="material-icons cyanBN inlineBN linkButtonBN shiftUp40BN z100BN" *ngIf="has_help('CMP_BANNER')"
@@ -172,9 +176,9 @@
                       </div>
                       <div class="col s8 offset-s2 m4 center">
                         <div (click)="addProduct()" class="noProdBN" class="linkButtonBN" (mouseover)="prodover=true;" (mouseout)="prodover=false;">
-                          <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
+                          <img title="{{'Add Product' | translate}}*" [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
                               src="../../assets/shared/images/no-image-prod-mandatory.jpg" *ngIf="sdk.merchantType == 3" />
-                          <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
+                          <img title="{{'Add Product' | translate}}" [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
                               src="../../assets/shared/images/adddonproduct.png" *ngIf="sdk.merchantType == 2" />
                         </div>
                         <i class="material-icons inlineBN shiftUp40BN noHeightBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_PRODS')"

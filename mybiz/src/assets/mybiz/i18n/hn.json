@@ -205,5 +205,9 @@
 	"Save Campaign": "अभियान सहेजें",
     "Please add a product in Campaign.": "कृपया अभियान में एक उत्पाद जोड़ें।",
     "Successfully saved Campaign.": "अभियान को सफलतापूर्वक सहेजा गया।",
-    "min": "न्यूनतम"
+    "min": "न्यूनतम",
+    "No Campaign Image Selected": "कोई अभियान छवि चयनित नहीं",
+    "Add Product": "उत्पाद जोड़ें",
+    "Banner Image": "बैनर छवि",
+    "Select Banner Image": "बैनर छवि का चयन करें"
 }
