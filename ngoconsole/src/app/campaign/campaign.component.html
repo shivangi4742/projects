@@ -48,7 +48,7 @@
                       <img [ngClass]="uploading ? 'featuredImageBN responsive-img displayBN' : 'featuredImageBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
                       <img *ngIf="!uploading && sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
-                      <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN"> &nbsp;
+                      <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN">
                         <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;
                       </div>
                       <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
@@ -58,7 +58,7 @@
                       <div class="modal-content" id="imageCropModalContent">
                         <div class="row">
                           <div class="col s12">
-                            <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+                            <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)"></img-cropper>
                           </div>
                           <div class="col s12">
                             <div class="col s2"></div>

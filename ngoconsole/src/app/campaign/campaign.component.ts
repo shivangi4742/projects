@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angu
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
+import {ImageCropperComponent, CropperSettings, CropPosition, Bounds} from 'ng2-img-cropper';
 import { MaterializeAction } from 'angular2-materialize';
 
 import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService, Campaign, CampaignList, SDK } from 'benowservices';
@@ -67,7 +67,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   allCampaigns: Array<Campaign>;
   campaignList: Array<CampaignList>;
   cropperSettings: CropperSettings;
+  cropPosition: CropPosition;
   data: any;
+  imag: any;
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
   @ViewChild('cropper', undefined) cropper: ImageCropperComponent;
 
@@ -75,12 +77,10 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) {
     this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 480;
-    this.cropperSettings.height = 150;
-    this.cropperSettings.croppedWidth = 480;
-    this.cropperSettings.croppedHeight = 150;
     this.cropperSettings.canvasWidth = 480;
     this.cropperSettings.canvasHeight = 150;
+    this.cropperSettings.minWidth = 10;
+    this.cropperSettings.minHeight = 10;
     this.cropperSettings.noFileInput = true;
 
     this.data = {};
@@ -354,6 +354,18 @@ export class CampaignComponent implements OnInit, AfterViewInit {
         }
         else {
           this.bannerover = false;
+          var myReader: FileReader = new FileReader();
+          let me = this;
+          myReader.readAsDataURL(e.target.files[0]);
+          myReader.onload = function (es: any) {
+            var image: any = new Image();
+            image.src = es.target.result;
+            image.onload = function() {
+              var height = this.height;
+              var width = this.width;
+
+            }
+          };
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
