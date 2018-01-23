@@ -63,5 +63,6 @@ export class SDK {
     public mode: string|null,
     public txnid: string|null,
     public supportedModes: Array<string>,
-    public products: Array<Product>|null) { }
+    public products: Array<Product>|null,
+    public deletedProducts: Array<string>|null) { }
 }

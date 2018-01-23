@@ -285,6 +285,20 @@ var campCont = {
         }
     },
 
+    deleteCampaignProductsPost: function(delProducts, counter, data, hdrs, cb) {
+        if(delProducts && delProducts.length > counter) {
+            var me = this;
+            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', hdrs),
+            {	
+                "id": delProducts[counter]
+            }, function(data2) {
+                me.deleteCampaignProductsPost(delProducts, ++counter, data, hdrs, cb);
+            });
+        }
+        else
+            cb(data);
+    },
+
     saveCampaignProductsPost: function(merchantCode, products, counter, data, hdrs, cb) {
         if(products && products.length > counter) {
             var me = this;
@@ -379,9 +393,18 @@ var campCont = {
                             "askCompName": d.askcompanyname,
                             "mndCompName": d.mndcompanyname
                         }, function(data) {
-                            data.id = d.id;
-                            data.paymentReqNumber = d.campaignCode;
-                            me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
+                            if(d.deletedProducts && d.deletedProducts.length > 0) {
+                                me.deleteCampaignProductsPost(d.deletedProducts, 0, data, hdrs, function(data2) {
+                                    data.id = d.id;
+                                    data.paymentReqNumber = d.campaignCode;
+                                    me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
+                                });
+                            }
+                            else {
+                                data.id = d.id;
+                                data.paymentReqNumber = d.campaignCode;
+                                me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);    
+                            }
                         });
                 }
             }

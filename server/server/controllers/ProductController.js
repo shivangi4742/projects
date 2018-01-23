@@ -73,7 +73,7 @@ var prodCont = {
             else {
                 var d = req.body;
                 if (d && d.id)
-                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', req.headers),
+                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', req.headers),
                         {	
                             "id": d.id
                         }, cb);

@@ -263,18 +263,16 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       window.location.href = this.utilsService.getLogoutPageURL();
   }
 
-  deletedCampaignProduct(res: boolean, id: string) {
-    if(res) {
-      let sp: Array<Product> = this.selProducts.filter(p => p.id != id);
+  selected(e: any) {
+    if (e && e.product && e.product.id && e.checked == false && this.selProducts && this.selProducts.length > 0) {
+      if(!this.sdk.deletedProducts)
+        this.sdk.deletedProducts = new Array<string>();
+
+      this.sdk.deletedProducts.push(e.product.id);
+      let sp: Array<Product> = this.selProducts.filter(p => p.id != e.product.id);
       this.productService.setSelectedProducts(sp);
       this.selProducts = this.productService.getSelectedProducts();
     }
-  }
-
-  selected(e: any) {
-    if (e && e.product && e.product.id && e.checked == false && this.selProducts && this.selProducts.length > 0)
-      this.productService.deleteCampaignProduct(e.product.id)
-        .then(res => this.deletedCampaignProduct(res, e.product.id));
   }
 
   resetSdk() {
@@ -288,7 +286,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.sdk = new SDK(null, false, false, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
       mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
       this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, null,
-      null, null, null);
+      null, null, null, null);
 
   }
 

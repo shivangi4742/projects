@@ -87,7 +87,7 @@ export class CampaignService {
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '',
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
                 res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
-                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null);
+                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null);
         }
 
         return null;
