@@ -74,6 +74,8 @@ export class SDKService {
                             modes.push('SODEXO');                        
                         else if ((m.paymentMethod == 'UPI_OTHER_APP' || m.paymentMethod == 'UPI') && modes.indexOf('UPI') < 0)
                             modes.push('UPI');
+                        else if ((m.paymentMethod == 'CASH' || m.paymentMethod == 'COD') && modes.indexOf('CASH') < 0)
+                            modes.push('CASH');
                     }
                 });
             }

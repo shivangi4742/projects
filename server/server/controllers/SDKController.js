@@ -83,6 +83,8 @@ var sdkCont = {
                 pmtype = 'CREDIT_CARD';
             else if (req.body.mode = 'NB')
                 pmtype = 'NET_BANKING';
+            else if (req.body.mode == 'CASH')
+                pmtype = 'CASH'
 
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
@@ -503,6 +505,8 @@ var sdkCont = {
                     pt = 'DEBIT_CARD';
                 else if (d.paytype === 3)
                     pt = 'NET_BANKING';
+                else if (d.paytype === 5)
+                    pt = 'CASH';
 
                 var obj = {
                     "amount": d.payamount,

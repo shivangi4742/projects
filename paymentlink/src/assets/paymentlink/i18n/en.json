@@ -128,5 +128,6 @@
     "Fundraiser": "Fundraiser",
     "Collection": "Collection",
     "Target": "Target",
-    "Mobile number should have at least 10 digits": "Mobile number should have at least 10 digits"
+    "Mobile number should have at least 10 digits": "Mobile number should have at least 10 digits",
+    "Cash On Delivery": "Cash On Delivery"
 }

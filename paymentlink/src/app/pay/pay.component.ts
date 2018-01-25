@@ -50,6 +50,7 @@ export class PayComponent implements OnInit {
   dcExpanded: boolean = false;
   nbExpanded: boolean = false;
   qrExpanded: boolean = false;
+  supportsCOD: boolean = false;
   hasProducts: boolean = false;
   qrlExpanded: boolean = false;
   supportsUPI: boolean = false;
@@ -206,6 +207,11 @@ export class PayComponent implements OnInit {
         this.supportsNB = true;
       }
 
+      if (this.pay.supportedModes.indexOf('CASH') >= 0) {
+        this.numSupportedModes++;
+        this.supportsCOD = true;
+      }
+
       if (this.pay.supportedModes.indexOf('SODEXO') >= 0) {
         this.numSupportedModes++;
         this.supportsSodexo = true;
@@ -224,6 +230,18 @@ export class PayComponent implements OnInit {
     this.invokeIfModeGiven();
   }
 
+  finishCashPayment(res: any) {
+    console.log(res);
+  }
+
+  payCash() {
+    if (this.validate(true))
+      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 5, this.pay.invoiceNumber,
+        this.pay.til, this.pay.products)
+        .then(res => this.finishCashPayment(res));
+  }
+
   invokeIfModeGiven() {
     if(this.numSupportedModes == 1) {
       if(this.supportsUPI)
@@ -234,12 +252,14 @@ export class PayComponent implements OnInit {
         this.pay.mode = 'DC';
       else if(this.supportsNB)
         this.pay.mode = 'NB';
+      else if(this.supportsCOD)
+        this.pay.mode = 'CASH';
       else if(this.supportsSodexo)
         this.pay.mode = 'SODEXO';
     }
 
     if(this.pay.mode && (this.pay.mode == 'CC' || this.pay.mode == 'DC' || this.pay.mode == 'UPI' || this.pay.mode == 'NB' ||
-      this.pay.mode == 'SODEXO')) {
+      this.pay.mode == 'SODEXO' || this.pay.mode == 'CASH')) {
       if(this.validate(false)) {
         let me: any = this;
         switch(this.pay.mode) {
@@ -259,6 +279,8 @@ export class PayComponent implements OnInit {
             break;
           case 'NB':
             this.setMode(3);
+            break;
+          case 'CASH':
             break;
           case 'SODEXO':
             break;

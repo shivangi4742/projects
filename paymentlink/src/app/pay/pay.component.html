@@ -405,6 +405,27 @@
                   </div>
                 </div>
               </li>
+              <li *ngIf="false">
+                <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
+                  <button id="codBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="payCash()">
+                    <div class="col s2 codIconBN" align="left">₹</div>
+                    <div class="col s8" align="left">
+                      <span class="truncate regNrmS4BN">{{'Cash On Delivery' | translate}}</span>
+                    </div>
+                    <div class="col s2">
+                      <i class="material-icons greyBN">keyboard_arrow_right</i>
+                    </div>
+                  </button>
+                </div>
+                <div class="collapsible-body">
+                  <div *ngIf="invalidAmount">
+                    <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                  </div>
+                  <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
