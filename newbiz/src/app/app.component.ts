@@ -13,6 +13,10 @@ export class AppComponent {
   }
 
   getMainHeight(): string {
-    return document.getElementById('absoluteMain').offsetHeight + 'px';
+    let h: number = document.getElementById('absoluteMain').offsetHeight;
+    if(h < screen.height - 178)
+      h = screen.height - 178;
+
+    return h + 'px';
   }
 }

@@ -1,15 +1,15 @@
 <header>
   <biztopnav></biztopnav>
 </header>
-<main id="absoluteMain" class="minHeightBN">
-  <div class="row">
-    <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN">
-      <leftnav></leftnav>
-    </ul>
-    <div class="col s10 offsetNavBN">
+<main>
+  <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN">
+    <leftnav></leftnav>
+  </ul>
+  <div class="row noMarginRowBN">
+    <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
       <router-outlet></router-outlet>
     </div> 
-    <div class="col hide-on-small-only m2 rightNavBN">
+    <div class="col hide-on-small-only m3 rightNavBN" [style.height]="getMainHeight()">
       <rightnav></rightnav>
     </div>
   </div>
