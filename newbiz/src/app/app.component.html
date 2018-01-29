@@ -2,11 +2,11 @@
   <biztopnav></biztopnav>
 </header>
 <main>
-  <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN">
-    <leftnav></leftnav>
-  </ul>
   <div class="row noMarginRowBN">
-    <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
+    <div class="col hide-on-med-and-down m3 sidenavBN" [style.height]="getMainHeight()">
+      <leftnav></leftnav>
+    </div>
+    <div id="absoluteMain" class="col s12 m6 minHeightBN">
       <router-outlet></router-outlet>
     </div> 
     <div class="col hide-on-small-only m3 rightNavBN" [style.height]="getMainHeight()">
