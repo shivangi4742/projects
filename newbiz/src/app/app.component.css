@@ -1,0 +1,24 @@
+ul.side-nav.fixed {
+    overflow: hidden;
+    margin-top: 64px;
+}
+
+.sidenavBN {
+    background-color: #413A5A;
+    width: 250px;
+    position: absolute;
+}
+
+.minHeightBN {
+    min-height: 600px;
+}
+
+main {
+    padding-left: 250px;
+}
+
+@media only screen and (max-width : 992px) {
+    main {
+      padding-left: 0;
+    }
+}

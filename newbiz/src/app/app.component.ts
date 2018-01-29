@@ -11,4 +11,8 @@ export class AppComponent {
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('en');  
   }
+
+  getMainHeight(): string {
+    return document.getElementById('absoluteMain').offsetHeight + 'px';
+  }
 }

@@ -16,6 +16,8 @@ import { AppComponent } from './app.component';
 import { BiztopnavComponent } from './biztopnav/biztopnav.component';
 import { BizfooterbarComponent } from './bizfooterbar/bizfooterbar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LeftnavComponent } from './leftnav/leftnav.component';
+import { RightnavComponent } from './rightnav/rightnav.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -26,7 +28,9 @@ export function HttpFactory(http: Http) {
     AppComponent,
     BiztopnavComponent,
     BizfooterbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    LeftnavComponent,
+    RightnavComponent
   ],
   imports: [
     HttpModule,

@@ -1,0 +1,35 @@
+.smallLNGapBN {
+    font-size: 8pt;
+}
+
+.whiteFontBN {
+    color: white;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+}
+
+.leftnavBtnBN {
+    cursor: pointer;
+    border: solid 2px white;
+    border-radius: 10.7pt;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.separatorBN {
+    border-bottom: solid 1px white;
+}
+
+.leftNavIconBN {
+    font-size: 17pt;
+}
+
+.alignMidBN {
+    display: inline-flex!important;
+    vertical-align: middle!important;    
+}
+
+.leftNavLinkBN {
+    line-height: 19.4pt;
+    letter-spacing: 0 em;
+}

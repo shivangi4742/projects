@@ -1,8 +1,18 @@
 <header>
   <biztopnav></biztopnav>
 </header>
-<main>
-  <router-outlet></router-outlet>
+<main id="absoluteMain" class="minHeightBN">
+  <div class="row">
+    <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN">
+      <leftnav></leftnav>
+    </ul>
+    <div class="col s10 offsetNavBN">
+      <router-outlet></router-outlet>
+    </div> 
+    <div class="col hide-on-small-only m2 rightNavBN">
+      <rightnav></rightnav>
+    </div>
+  </div>
 </main>
 <footer>
   <bizfooterbar></bizfooterbar> 
