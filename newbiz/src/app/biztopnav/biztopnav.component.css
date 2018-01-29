@@ -1,0 +1,28 @@
+.biztopNavBN {
+    background-color: #E53935
+}
+
+.bizLogoBN {
+    padding-left: 50px;
+    margin-top: 15px;
+}
+
+.bizHdrIconBN {
+    font-size: 23pt;
+    padding-right: 15px;
+}
+
+.bizHdrSoloIconBN {
+    font-size: 23pt;
+    padding-right: 20px;    
+}
+
+.bizHdrLastIconBN {
+    font-size: 23pt;
+    padding-right: 35px;    
+}
+
+.bizUserBN {
+    max-width: 250px;
+    padding-right: 20px;    
+}

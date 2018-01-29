@@ -1,3 +1,23 @@
-<p>
-  biztopnav works!
-</p>
+<div materialize>
+  <nav materialize class="nav biztopNavBN">
+    <div class="nav-wrapper">            
+      <a class="brand-logo left linkButtonBN" (click)="goHome()">
+        <img class="bizLogoBN" src="../assets/shared/images/benow1x.png" />
+      </a>
+      <ul class="right">
+        <li>
+          <i class="material-icons bizHdrSoloIconBN">notifications</i>
+        </li>
+        <li>
+          <i class="material-icons bizHdrIconBN">account_circle</i>
+        </li>
+        <li>
+          <span class="truncate bizUserBN">{{user.displayName}}</span>
+        </li>
+        <li>
+            <i class="material-icons bizHdrLastIconBN">more_vert</i>
+        </li>
+      </ul>      
+    </div>
+  </nav>
+</div>
