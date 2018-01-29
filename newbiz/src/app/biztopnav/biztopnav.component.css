@@ -1,9 +1,21 @@
+.leftMenuBN {
+    padding-left: 35px;    
+}
+
+.leftMenuSBN {
+    padding-left: 20px;    
+}
+
 .biztopNavBN {
     background-color: #E53935
 }
 
 .bizLogoBN {
     padding-left: 50px;
+    margin-top: 15px;
+}
+
+.bizLogoBN {
     margin-top: 15px;
 }
 
@@ -17,9 +29,19 @@
     padding-right: 20px;    
 }
 
+.bizHdrSoloIconSBN {
+    font-size: 23pt;
+    padding-right: 10px;
+}
+
 .bizHdrLastIconBN {
     font-size: 23pt;
     padding-right: 35px;    
+}
+
+.bizHdrLastIconSBN {
+    font-size: 23pt;
+    padding-right: 20px;    
 }
 
 .bizUserBN {
