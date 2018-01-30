@@ -3,9 +3,13 @@
   border-color: rgb(204,204,204);
 }
 
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+}
+
 .titleBN{
   font-family: Barlow;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 16px;
   color: rgb(61,61,61);
   margin-top: 10px;
@@ -22,9 +26,8 @@
 
 .inputTextBN{
   font-family: Barlow;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 14px;
-  color: rgb(179, 179, 179);
 }
 
 .iconAlignMedBN{
@@ -53,4 +56,8 @@
 .accordionPLBN{
   border: none;
   box-shadow: none;
+}
+
+.noBottomMarginBN{
+  margin-bottom: 0px!important;
 }

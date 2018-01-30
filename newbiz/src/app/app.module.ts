@@ -19,6 +19,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { RightnavComponent } from './rightnav/rightnav.component';
 import { CreatepaymentlinkComponent } from './createpaymentlink/createpaymentlink.component';
+import { SucesspaymentlinkComponent } from './sucesspaymentlink/sucesspaymentlink.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -32,7 +33,8 @@ export function HttpFactory(http: Http) {
     DashboardComponent,
     LeftnavComponent,
     RightnavComponent,
-    CreatepaymentlinkComponent
+    CreatepaymentlinkComponent,
+    SucesspaymentlinkComponent
   ],
   imports: [
     HttpModule,

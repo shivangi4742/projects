@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService, Campaign, CampaignList, SDK } from 'benowservices';
+import { UtilsService, User, UserService, SDKService, Status } from 'benowservices';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { UtilsService, User, UserService, Product, ProductService, CampaignServi
 export class CreatepaymentlinkComponent implements OnInit {
 
   dateParams: any;
+  dashboard: string = "/dashboard";
   sampleDate: any;
   purpose: string;
   amount: number;
