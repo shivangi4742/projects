@@ -155,6 +155,13 @@ export class UtilsService {
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
   }
 
+  public getNextDateString(): string {
+    let dt = new Date();
+    let yy = dt.getFullYear();
+    let day = dt.getDate() + 1;
+    return this.getDate(day) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
+  }
+
   public setStatus(isError: boolean, isSuccess: boolean, msg: string) {
     this._status.isError = isError;
     this._status.isSuccess = isSuccess;
@@ -502,29 +509,24 @@ export class UtilsService {
     return blob;
   }
 
-  convertImgToBase64URL(url: string, outputFormat: string) {
-    return new Promise((resolve, reject) => {
-      // console.log(url);
-      var img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = function () {
-        let canvas: any = document.createElement('CANVAS');
-        //let canvas = document.createElement("canvas");
-        //console.log('canvas', canvas);
-        let ctx = canvas.getContext("2d");
-        // console.log('ctx', ctx);
-        var dataURL;
-        canvas.height = img.height;
-        canvas.width = img.width;
-
-        ctx.drawImage(img, 10, 10);
-
-        dataURL = canvas.toDataURL(outputFormat);
-        // console.log('pp', dataURL);
-        resolve(dataURL);
-        canvas = null;
-      };
-      img.src = url;
-    });
-  }
+  convertImgToBase64URL(url: any, outputFormat: any, callback: any) {
+    console.log('coming in utils?', url);
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas: any = document.createElement("canvas");
+            //console.log('canvas', canvas);
+            var ctx = canvas.getContext("2d");
+            // console.log('ctx', ctx);
+            var dataURL;
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 10, 10);
+            dataURL = canvas.toDataURL(outputFormat);
+            // console.log('pp', dataURL);
+            callback(dataURL);
+            canvas = null;
+        };
+        img.src = url;
+    }
 }

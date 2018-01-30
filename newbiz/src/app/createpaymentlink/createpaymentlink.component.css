@@ -1,0 +1,56 @@
+.roundBorderMainBN{
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+}
+
+.titleBN{
+  font-family: Barlow;
+  font-size: 14px;
+  line-height: 16px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.labelPLBN{
+  font-family: Barlow;
+  font-size: 16px;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgb(179, 179, 179);
+}
+
+.iconAlignMedBN{
+  right: -390px;
+  position: relative;
+  top: -51px;
+}
+
+.iconAlignBN{
+  float: right;
+  position: relative;
+  top: -51px;
+  left: -2%;
+}
+
+.noLeftMarginBN{
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.checkHeight{
+  line-height: 10px!important;
+  height: 30px!important;
+}
+
+.accordionPLBN{
+  border: none;
+  box-shadow: none;
+}
