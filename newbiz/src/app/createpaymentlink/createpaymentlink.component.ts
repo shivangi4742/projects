@@ -14,6 +14,7 @@ import { UtilsService, User, UserService, SDKService, Status } from 'benowservic
 export class CreatepaymentlinkComponent implements OnInit {
 
   dateParams: any;
+  user: User;
   dashboard: string = "/dashboard";
   sampleDate: any;
   purpose: string;
@@ -70,6 +71,26 @@ export class CreatepaymentlinkComponent implements OnInit {
   private dtClosed() {
   }
 
+  ngOnInit() {
+    this.userService.getUser()
+      .then(res => this.user = res);
+    let me = this;
+    /*this.translate.onLangChange.subscribe((event: any) => {
+      this.translate.getTranslation(this.translate.currentLang)
+        .subscribe(res => me.translateCalStrings(res, true));
+    });
+    this.translate.getTranslation(this.translate.currentLang)
+      .subscribe(res => me.translateCalStrings(res, false));
+    */
+
+    this.dateParams = [{
+      format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 2, min: this.utilsService.getNextDateString(), monthsFull: this.monthsFull,
+      monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
+      close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev,
+      labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
+    }];
+  }
+
   getStatus(): Status {
     return this.utilsService.getStatus();
   }
@@ -78,9 +99,19 @@ export class CreatepaymentlinkComponent implements OnInit {
     this.detailsExpanded = !this.detailsExpanded;
   }
 
+  isCreated(res: any){
+    if(res){
+      console.log('Responsyo', res);
+      this.router.navigateByUrl('/successpaylink');
+    }
+    else{
+      alert('Error in creating Payment Link!');
+    }
+  }
+
   onSubmit(){
-    console.log('Submitted Successfully!');
-    console.log('a');
+    this.sdkService.createPaymentLink(this.user.merchantCode, this.purpose, this.amount, this.invoiceNum, this.sampleDate)
+      .then(res => this.isCreated(res));
   }
 
   validateForm(): boolean {
@@ -92,23 +123,6 @@ export class CreatepaymentlinkComponent implements OnInit {
     return false;
   }
 
-  ngOnInit() {
 
-    let me = this;
-    /*this.translate.onLangChange.subscribe((event: any) => {
-      this.translate.getTranslation(this.translate.currentLang)
-        .subscribe(res => me.translateCalStrings(res, true));
-    });
-    this.translate.getTranslation(this.translate.currentLang)
-      .subscribe(res => me.translateCalStrings(res, false));
-*/
-
-    this.dateParams = [{
-      format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 2, min: this.utilsService.getNextDateString(), monthsFull: this.monthsFull,
-      monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
-      close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev,
-      labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
-    }];
-  }
 
 }

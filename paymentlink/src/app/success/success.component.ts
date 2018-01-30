@@ -31,6 +31,7 @@ export class SuccessComponent implements OnInit {
     this.userService.getUser()
       .then(res => this.user = res);
 
+
     if(this.pay && this.pay.amount > 0) {
       this.products = this.pay.products;
       this.loaded = true;
@@ -82,14 +83,16 @@ export class SuccessComponent implements OnInit {
       let me = this;
 
       if (this.merchantmodel.merchantLogoUrl && !this.imgData) {
-        me.utilsService.convertImgToBase64URL(this.utilsService.getBaseURL() + this.merchantmodel.merchantLogoUrl,'image/png')
-          .then(data => console.log('Yuhooo',data));
-
-        me.campaignService.getAllNGOTransactions(txnId)
+        this.utilsService.convertImgToBase64URL(this.utilsService.getBaseURL() + this.merchantmodel.merchantLogoUrl,
+          'image/png', function (data: any) {
+          console.log('whats the data?', data);
+            me.imgData = data;
+            me.campaignService.getAllNGOTransactions(txnId)
               .then(res => me.createcertificatePDF(res));
-
+          });
       }
       else {
+        console.log('else');
         me.campaignService.getAllNGOTransactions(txnId)
           .then(res => me.createcertificatePDF(res));
       }
@@ -97,14 +100,15 @@ export class SuccessComponent implements OnInit {
   }
 
   createcertificatePDF(res: any) {
+    console.log('entry: ', res);
     if (!res || res.success == false) {
       this.utilsService.setStatus(true, false, "Something went wrong. Please try again.");
       window.scrollTo(0, 0);
       this.certificatePDF = false;
     }
     else {
+      console.log('here yet?');
       let t: PrintPayment = res.printTxns;
-      // var zip = new JSZip();
         var doc = jsPDF();
         if (t.name == null) {
           t.name = ' ';
@@ -134,7 +138,7 @@ export class SuccessComponent implements OnInit {
         }
 
         doc.setTextColor(40);
-        doc.rect(5, 5, 200, 280)
+        doc.rect(5, 5, 200, 280);
         doc.setFontType('bold');
 
 
@@ -146,7 +150,7 @@ export class SuccessComponent implements OnInit {
         doc.text(this.merchantmodel.business, (doc.internal.pageSize.width / 2), 47, null, null, 'center');
         doc.setFontStyle('normal');
         doc.setFontSize(12);
-        doc.setFontType('normal')
+        doc.setFontType('normal');
 
         doc.text(this.merchantmodel.Address, (doc.internal.pageSize.width / 2), 55, null, null, 'center');
         // doc.text(this.merchantmodel.locality, (doc.internal.pageSize.width / 2), 60, null, null, 'center');
@@ -229,8 +233,8 @@ export class SuccessComponent implements OnInit {
         }
 
 
-        var amout = 'The Sum of Rs. ' + t.amount.toString() + " (" + pp + ") " + ' donated via ' + modes;
-        var tgo = doc.splitTextToSize(amout, 190);
+        var amount = 'The Sum of Rs. ' + t.amount.toString() + " (" + pp + ") " + ' donated via ' + modes;
+        var tgo = doc.splitTextToSize(amount, 190);
         doc.text(10, 135, tgo);
         //doc.text(10, 140, 'donated via ');
         doc.setFontSize(10);
@@ -291,7 +295,7 @@ export class SuccessComponent implements OnInit {
         amount: total,
         title: '',
         txnid: this.txnid
-      }
+      };
 
       this.sdkService.getPaymentLinkDetails(this.id)
         .then(sres => this.assignSDKDetails(sres));

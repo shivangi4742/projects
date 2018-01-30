@@ -591,6 +591,73 @@ var sdkCont = {
         }
     },
 
+    createPaymentLink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                if(d) {
+                    var hdrs = req.headers;
+
+                    this.createPaymentLinkPost(d, hdrs, function (data) {
+                        res.json(data);
+                    });
+                }
+                else
+                    res.json(retErr);
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    createPaymentLinkPost: function(d, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!d)
+                cb(retErr);
+            else {
+                if(d && d.merchantCode) {
+                    var expDt = d.expiryDate;
+                    if (expDt && expDt.length > 9) {
+                        var spExDt = expDt.split('-');
+                        if (spExDt && spExDt.length > 2)
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
+                    }
+
+                    var me = this;
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "mobileNumber": d.phone ? d.phone : '',
+                            "amount": d.amount,
+                            "description": d.description,
+                            "refNumber": d.invoiceNumber,
+                            "expiryDate": expDt
+                        }, cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     getPaymentLinkDetails: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getPaymentLinkDetailsPost(req, function (data) {

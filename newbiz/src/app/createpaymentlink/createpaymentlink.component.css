@@ -9,8 +9,8 @@
 
 .titleBN{
   font-family: Barlow;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 14pt;
+  line-height: 17px;
   color: rgb(61,61,61);
   margin-top: 10px;
   font-weight: bold;
@@ -18,7 +18,7 @@
 
 .labelPLBN{
   font-family: Barlow;
-  font-size: 16px;
+  font-size: 14pt;
   line-height: 12px;
   color: rgb(65,58,90);
   font-weight: bold;
@@ -26,8 +26,8 @@
 
 .inputTextBN{
   font-family: Barlow;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 12pt!important;
+  line-height: 14px!important;
 }
 
 .iconAlignMedBN{
@@ -51,6 +51,10 @@
 .checkHeight{
   line-height: 10px!important;
   height: 30px!important;
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  font-weight: bold;
 }
 
 .accordionPLBN{

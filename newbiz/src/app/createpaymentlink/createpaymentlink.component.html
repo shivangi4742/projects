@@ -1,12 +1,14 @@
 <div materialize>
-  <div class="row" >
+  <div class="row"></div>
+  <div class="row">
     <div class="col s12 noLeftPaddingBN">
-      <a class="linkButtonBN errNrmS4B1BN" [routerLink]="dashboard">
+      <a class="linkButtonBN inputTextBN" style="color: #E53935; font-weight: bold" [routerLink]="dashboard">
         <i class="material-icons alignMidBN">arrow_back</i>
         <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
       </a>
     </div>
     <div class="row"></div>
+    <!-- Desktop View Below -->
     <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
       <div class="row">
         <div class="titleBN col s12 center">
@@ -17,17 +19,17 @@
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
           <div class="row">
             <div class="input-field col s10 offset-s1">
-              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate regNrmS4BN" maxlength="20"
+              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="20"
                      placeholder="What is this payment for?" required >
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10 offset-s1">
-              <input id="amount" name="purpose" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN regNrmS4BN"
+              <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
                      placeholder="Enter the amount" required>
-              <label for="purpose" class ="active labelPLBN">{{'Amount*' | translate}}</label>
-              <span class="errNrmS6B2BN">{{'*Minimum Amount: ₹10' | translate}}</span>
+              <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
+              <span class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
           </div>
           <div class="row">
@@ -41,14 +43,14 @@
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate regNrmS4BN" maxlength="20"
+                      <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate inputTextBN" maxlength="20"
                              placeholder="Invoice Number (Optional)">
                       <label for="invoice" class ="active labelPLBN">{{'Invoice Number' | translate}}</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN dateInputBN" materialize="pickadate"
+                      <input id="expDt" name="expDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
                              [materializeParams]="dateParams" placeholder="{{'Select Date (Optional)' | translate}}" [(ngModel)]="sampleDate">
                       <label for="expDt" class="active labelPLBN">{{'Expiry By' | translate}}</label>
                     </div>
@@ -67,10 +69,10 @@
         </form>
       </div>
     </div>
-
+    <!-- Mobile View Below -->
     <div class="NoBorderMainBN col s12 hide-on-med-and-up noLeftPaddingBN">
       <div class="row">
-        <div class="titleBN col s12 ">
+        <div class="titleBN col s12">
           {{'Create a Payment Link' | translate}}
         </div>
       </div>
@@ -78,17 +80,17 @@
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
           <div class="row">
             <div class="input-field col s12">
-              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate regNrmS4BN" maxlength="20"
+              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="20"
                      placeholder="What is this payment for?">
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="amount" name="purpose" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN regNrmS4BN"
+              <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
                      placeholder="Enter the amount">
-              <label for="purpose" class ="active labelPLBN">{{'Amount*' | translate}}</label>
-              <span class="errNrmS6B2BN">{{'*Minimum Amount: ₹10' | translate}}</span>
+              <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
+              <span class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
           </div>
           <div class="row">
@@ -102,14 +104,14 @@
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate regNrmS4BN" maxlength="20"
+                      <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate inputTextBN" maxlength="20"
                              placeholder="Invoice Number (Optional)">
                       <label for="invoice" class ="active labelPLBN">{{'Invoice Number' | translate}}</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="expDt" name="expDt" type="text" class="datepicker regNrmS4BN dtpkrBN dateInputBN" materialize="pickadate"
+                      <input id="expDt" name="expDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
                              [materializeParams]="dateParams" placeholder="{{'Select Date (Optional)' | translate}}" [(ngModel)]="sampleDate">
                       <label for="expDt" class="active labelPLBN">{{'Expiry By' | translate}}</label>
                     </div>
