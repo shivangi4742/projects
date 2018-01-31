@@ -34,7 +34,28 @@ var upload = multer({
   } 
 });
 
+var upload2 = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        var extn = path.extname(file.originalname);
+        if (extn)
+            extn = extn.toLowerCase();
+
+        var mime = file.mimetype;
+        if (mime)
+            mime = mime.toLowerCase();
+
+        if ((mime !== 'image/png' && mime !== 'image/jpg' && mime !== 'image/jpeg' && mime !== 'application/pdf') || (extn !== '.jpg' && extn !== '.jpeg' && extn !== '.pdf' && extn !== '.png')) {
+            req.fileValidationError = 'Unsupported file format!';
+            return cb(null, false)
+        }
+
+        cb(null, true);
+    }
+});
+
 // Initializations.
 var fileRouter = express.Router();
 fileRouter.post('/upload', upload.single("file", 12), fileController.upload.bind(fileController));
+fileRouter.post('/sendEmailNotify', upload2.single("file", 12), fileController.sendEmailNotify.bind(fileController));
 module.exports = fileRouter;

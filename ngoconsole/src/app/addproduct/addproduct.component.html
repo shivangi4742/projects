@@ -3,7 +3,7 @@
     <div class="valign-wrapper" *ngIf="imgErrMsg">
       <div class="errNrmS6BN col s12 center">{{imgErrMsg | translate}}</div>
     </div>
-    <div class="file-field input-field col s10 offset-s1 m4">
+    <div *ngIf="!isImageOptimizing()" class="file-field input-field col s10 offset-s1 m4">
       <img *ngIf="!uploading && !hasImage() && mtype == 3" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
       <img *ngIf="!uploading && !hasImage() && mtype == 2" class="responsive-img editProdImageBN" src="../../assets/shared/images/donate-green.png" />
       <img [ngClass]="uploading ? 'editProdImageBN responsive-img uploadingImageBN displayBN' : 'editProdImageBN responsive-img noDisplayBN'"
@@ -12,22 +12,17 @@
       <div *ngIf="!uploading && hasImage()" align="left" class="editOverlayBN"> &nbsp;<i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
       <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
     </div>
-    <!--<div materialize="modal" id="imageCropModal" class="modal productIconModalBN" [materializeParams]="[{dismissible: false}]"
-         [materializeActions]="modalActions">
-      <div class="modal-content" id="imageCropModalContent">
-        <div class="row">
-          <div class="col s12 center">
-            <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-          </div>
-          <div class="col s12">
-            <div class="col s1 m2 l2"></div>
-            <div class="buttonModalBN linkButtonBN col s4 m3 l3 center" (click)="saveImage()">{{'Done' | translate}}</div>
-            <div class="col s1 m2 l2"></div>
-            <div class="buttonModalBN linkButtonBN col s4 m3 l3 center" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
-          </div>
+    <div *ngIf="isImageOptimizing()" class="col s10 offset-s1 m4" id="imageCropContent">
+      <div class="row">
+        <div class="col s12 center">
+          <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        </div>
+        <div class="col s12">
+          <div class="buttonModalBN linkButtonBN col s5 offset-s1 center" style="margin-right: 5px;" (click)="saveImage()">{{'Done' | translate}}</div>
+          <div class="buttonModalBN linkButtonBN col s5 center" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
         </div>
       </div>
-    </div>-->
+    </div>
     <div class="col s1 hide-on-med-and-up"></div>
 
     <div class="col s12 m8">

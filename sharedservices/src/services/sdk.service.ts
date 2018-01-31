@@ -29,7 +29,8 @@ export class SDKService {
         getFundraiserDetailsURL: 'sdk/getFundraiserDetails',
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails',
         updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
-        getLogByIdURL: 'sdk/getLogById'
+        getLogByIdURL: 'sdk/getLogById',
+        createPaymentLinkURL: 'sdk/createPaymentLink'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -52,6 +53,22 @@ export class SDKService {
             return '0' + md;
 
         return md;
+    }
+
+    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.createPaymentLinkURL,
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "description": description,
+                    "amount": amount,
+                    "refNumber": refNumber,
+                    "expiryDate": expiryDate
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
     }
 
     private fillSDK(res: any): SDK | null {
