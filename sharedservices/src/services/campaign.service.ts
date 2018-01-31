@@ -66,7 +66,9 @@ export class CampaignService {
         if (res && res.txnrefnumber) {
             let modes: Array<string> = new Array<string>();
             modes.push('UPI');
+            let convFee: boolean = false;
             if (res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
+                convFee = res.merchantUser.chargeConvenienceFee;
                 res.merchantUser.acceptedPaymentMethods.forEach(function (m: any) {
                     if (m && m.paymentMethod) {
                         if ((m.paymentMethod == 'CREDIT_CARD' || m.paymentMethod == 'CC') && modes.indexOf('CC') < 0)
@@ -87,7 +89,7 @@ export class CampaignService {
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '',
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
                 res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
-                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null);
+                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee);
         }
 
         return null;

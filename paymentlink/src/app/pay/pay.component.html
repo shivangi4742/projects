@@ -72,6 +72,28 @@
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
           </div>
+          <div *ngIf="pay.mtype == 3 && pay.chargeConvenienceFee">
+            <div class="row">
+              <div class="valign-wrapper">
+                <span class="col s12 center errNrmS5B1BN linkButtonBN" (click)="breakdown()">
+                  <span class="alignMidBN"> ({{'Breakdown' | translate}})</span><i 
+                    class="material-icons redBN alignMidBN breakdownBN">{{getArrowDrop()}}</i>
+                </span>
+              </div>
+              <div *ngIf="break">
+                <div class="valign-wrapper">
+                    <div class="col s6 regNrmS5B1BN" align="right">{{'Purchase Amount' | translate}}:</div>
+                    <div class="col s4 regNrmS5BN" align="right">₹ {{purchaseAmount | number : '1.2-2'}}</div>
+                    <div class="col s2">&nbsp;</div>      
+                </div>
+                <div class="valign-wrapper">
+                  <div class="col s6 regNrmS5B1BN" align="right">{{'Convenience Fee' | translate}}:</div>
+                  <div class="col s4 regNrmS5BN" align="right">₹ {{convFee | number : '1.2-2'}}</div>
+                  <div class="col s2">&nbsp;</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div *ngIf="amountEditable">

@@ -64,5 +64,6 @@ export class SDK {
     public txnid: string|null,
     public supportedModes: Array<string>,
     public products: Array<Product>|null,
-    public deletedProducts: Array<string>|null) { }
+    public deletedProducts: Array<string>|null,
+    public chargeConvenienceFee: boolean) { }
 }

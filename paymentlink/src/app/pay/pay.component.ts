@@ -13,8 +13,10 @@ import { SDK, SDKService, UtilsService, Product, ProductService, User, PayReques
 })
 export class PayComponent implements OnInit {
   mode: number;
+  convFee: number;
   qrAmount: number;
   upiAmount: number;
+  purchaseAmount: number;
   tr: string;
   id: string;
   sdkId: string;
@@ -36,6 +38,7 @@ export class PayComponent implements OnInit {
   pay: SDK;
   payAmount: number = null;
   fundraiser: Fundraiser;
+  break: boolean = false;
   loaded: boolean = false;
   resident: boolean = true;
   qrError: boolean = false;
@@ -66,6 +69,17 @@ export class PayComponent implements OnInit {
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer) { }
+
+  getArrowDrop(): string {
+    if(this.break)
+      return 'arrow_drop_up';
+
+    return 'arrow_drop_down';
+  }
+
+  breakdown() {
+    this.break = !this.break;
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -181,6 +195,12 @@ export class PayComponent implements OnInit {
 
     if (!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;
+
+    if(this.pay.mtype == 3 && !this.amountEditable && this.pay.chargeConvenienceFee) {
+      this.purchaseAmount = Math.round(this.pay.amount * 100)/100;
+      this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100)/100;
+      this.convFee = this.pay.amount - this.purchaseAmount;
+    }
 
     if (this.pay.merchantType == 1)
       this.mobileNumber = this.pay.phone;
