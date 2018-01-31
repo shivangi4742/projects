@@ -34,7 +34,7 @@
                 <b>{{pay.txnid | translate}}</b>
             </span>
         </div>
-        <div class="row">
+        <div *ngIf="mtype == 2" class="row">
           <span class="col s12 center">
             <a class="errNrmS4BN linkButtonBN" (click)="downloadCertificate(pay.txnid)">Click here to download your 80G Receipt</a>
           </span>
