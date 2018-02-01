@@ -102,7 +102,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   isCreated(res: any){
     if(res){
       console.log('Responsyo', res);
-      this.router.navigateByUrl('/successpaylink');
+      this.router.navigateByUrl('/successpaylink/'+res.paymentReqNumber);
     }
     else{
       alert('Error in creating Payment Link!');

@@ -1,3 +1,103 @@
-<p>
-  sucesspaymentlink works!
-</p>
+<div materialize>
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN inputTextBN" style="color: #E53935; font-weight: bold" [routerLink]="createPaymentLink">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Create Payment Link' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <!-- Desktop View Below -->
+    <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
+      <div class="row">
+        <!--<div class="col s12 center">
+          <img src="../../assets/shared/images/success@2x.png" class="alignMidBN"/>
+        </div>-->
+        <div class="titleBN col s12 center" style="color: teal; margin-bottom: 10px; margin-top: 20px;">
+          <img src="../../assets/shared/images/success.png" class="alignMidBN" style="margin-right: 10px"/><span class="alignMidBN"> {{'LINK SUCCESSFULLY CREATED' | translate}}</span>
+        </div>
+        <div class="row"></div>
+        <span class="col s12 center inputTextBN">
+          {{'Share this link with your customer to receive payments online' | translate}}
+        </span>
+      </div>
+      <div class="row"></div>
+      <div class="row">
+        <div class="">
+          <div class="" style="border-bottom: 1px solid #dddddd;">
+            <img src="../../assets/shared/images/link.png" width="23px" height="23px" class="alignMidBN">
+            <span class="smallFontBN">https://merchant.benow.in/ppl/pay/{{txnId}}</span>
+            <img src="../../assets/shared/images/copy.png" class="alignMidBN" style="margin-left: 10px;">
+            <span class="smallFontBN" style="margin-right: 15px;">COPY</span>
+            <span class="smallFontBN" style="border: 1px solid black; border-radius: 10px; padding: 4px">{{'PREVIEW' | translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center smallFontBN">
+          {{'Share this payment link via' | translate}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          <img src="../../assets/shared/images/test/sms.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/mail.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/whatsapp2.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/messenger.png" class="alignMidBN">
+        </div>
+      </div>
+    </div>
+    <!-- Mobile View Below -->
+    <div class="noBorderMainBN col s12 hide-on-med-and-up noLeftPaddingBN">
+      <div class="row">
+        <div class="col s12 center">
+          <img src="../../assets/shared/images/success@2x.png" class="alignMidBN"/>
+        </div>
+        <div class="titleBN col s12 center" style="color: teal; margin-bottom: 10px;">
+          {{'LINK SUCCESSFULLY CREATED' | translate}}
+        </div>
+        <div class="row"></div>
+        <span class="col s12 center inputTextBN">
+          {{'Share this link with your customer to receive payments online' | translate}}
+        </span>
+      </div>
+      <div class="row"></div>
+      <div class="row">
+        <div class="">
+          <div class="" style="border-bottom: 1px solid #dddddd;">
+            <img src="../../assets/shared/images/link.png" width="23px" height="23px" class="alignMidBN">
+            <span class="smallFontBN">https://merchant.benow.in/ppl/pay/{{txnId}}</span>
+            <img src="../../assets/shared/images/copy.png" class="alignMidBN" style="margin-left: 10px;">
+            <span class="smallFontBN" style="margin-right: 15px;">COPY</span>
+            <span class="smallFontBN" style="border: 1px solid black; border-radius: 10px; padding: 4px">{{'PREVIEW' | translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center smallFontBN">
+          {{'Share this payment link via' | translate}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          <img src="../../assets/shared/images/test/sms.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/mail.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/whatsapp2.png" style="margin-right: 5px;" class="alignMidBN">
+          <img src="../../assets/shared/images/test/messenger.png" class="alignMidBN">
+        </div>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row valign-wrapper">
+      <div class="" style="margin-left: 9%;margin-right: 10px">
+        <button class="btn waves-effect waves-light buttonBN smallFontBN center" style="height: 25px; background-color: #413a5a!important;" type="submit" name="create">
+          {{'SEE ALL PREVIOUS PAYMENT LINKS' | translate}}</button>
+      </div>
+      <div class="">
+        <button class="btn waves-effect waves-light buttonBN smallFontBN center" style="height: 25px;" type="submit" name="create">
+          {{'CREATE NEW PAYMENT LINK' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

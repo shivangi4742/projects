@@ -438,37 +438,39 @@ export class CampaignService {
         let me: any = this;
         let totalAmount: number = 0;
         let pmnt: PrintPayment = new PrintPayment(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, res[0], null);;
-        if (res && res.length > 0) {
-            if (res.length > 1)
-                pmnt.name = res[1];
+            null, null, res.paymentLinkRef, null);;
+        if (res) {
+            if (res.name)
+                pmnt.name = res.name;
 
-            if (res.length > 2)
-                pmnt.email = res[2];
+            if (res.email)
+                pmnt.email = res.email;
 
-            if (res.length > 3)
-                pmnt.address = res[3];
+            if (res.address)
+                pmnt.address = res.address;
 
-            if (res.length > 4)
-                pmnt.phone = res[4];
+            if (res.mobileNo)
+                pmnt.phone = res.mobileNo;
 
-            if (res.length > 5)
-                pmnt.dateAndTime = me.utilsService.getDateOnlyString(new Date(res[5]));
+            if (res.transactionDate){
+                var a = res.transactionDate.split(' ');
+                var final = a[0].split('-');
+                pmnt.dateAndTime = final[0]+'/'+final[1]+'/'+final[2];
+            }
 
-            if (res.length > 6) {
-                pmnt.amount = parseFloat(res[6]);
+            if (res.paidAmount) {
+                pmnt.amount = parseFloat(res.paidAmount);
                 totalAmount += pmnt.amount;
             }
 
-            if (res.length > 8) {
-                pmnt.transactionid = res[8];
+            if (res.txnRefNumber) {
+                pmnt.transactionid = res.txnRefNumber;
 
             }
-            if (res.length > 9) {
-                pmnt.mode = res[9];
+            if (res.paymentMethodType) {
+                pmnt.mode = res.paymentMethodType;
 
             }
-
         }
 
         return { "success": true, "printTxns": pmnt };
