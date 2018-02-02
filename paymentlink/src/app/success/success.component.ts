@@ -31,6 +31,7 @@ export class SuccessComponent implements OnInit {
               private utilsService: UtilsService, private fileService: FileService) { }
 
   ngOnInit() {
+    
     this.id = this.route.snapshot.params['id'];
     this.txnid = this.route.snapshot.params['txnid'];
     this.pay = this.sdkService.getPaySuccess();
@@ -50,7 +51,9 @@ export class SuccessComponent implements OnInit {
 
   init(res: any) {
     this.user = res;
-
+     if((window as any).fbq) {
+      (window as any).fbq('track', 'Purchase', {value: '0.00', currency: 'USD'});
+     }
     if(this.utilsService.isNGO(this.user.mccCode)){
       this.mtype = 2;
     }
