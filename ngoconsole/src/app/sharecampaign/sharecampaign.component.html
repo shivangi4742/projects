@@ -1,35 +1,102 @@
-<div *ngIf="sdk && loaded">
-  <div *ngIf="sdk.id">
-    <div class="row"></div>
-    <status [status]="utilsService.getStatus()"></status>
-    <div class="row">
-      <div class="col s12 center regHdrS1BN">
-        <u>{{'Share Campaign' | translate}}</u>
+<div materialize>
+  <div *ngIf="sdk && loaded">
+    <div *ngIf="sdk.id">
+      <div class="row"></div>
+      <status [status]="utilsService.getStatus()"></status>
+      <div class="row">
+        <div class="col s12 center regHdrS1BN">
+          <u>{{'Share Campaign' | translate}}</u>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col s12 l8 offset-l2" align="center">    
+      <div materialize="modal" id="prodModal2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="modalActions">
+        <div class="modal-content">
+          <form (ngSubmit)=" smssave()" #smsForm="ngForm" *ngIf="savedURL">
+            <div class="row">
+              <div class="col s12 center regNrmS2B2BN">
+                Get this link on SMS
+              </div>
+            </div>
+             <div class="row"></div>
+              <div class="row"></div>
+            <div class="row">
+
+              <div class="col m1 l1 hide-on-small-only"></div>
+              <div class="col s12 m10 l10 center">
+
+                <input id="mobileNumber" name="mobileNumber" maxlength="10" type="tel" pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
+                  class="validate regNrmS4BN" required [(ngModel)]="mobileNumber" placeholder="{{'Mobile Number' | translate}}*">
+               
+              </div>
+
+              <div class="col m1 l1 hide-on-small-only"></div>
+            </div>
+            <div class="row">
+              <div class="col s5 center">
+                <a class="btn waves-effect waves-light red regNrmS1BN buttonBN" (click)="cancel()" name="cancel">{{'Cancel' | translate}}</a>
+              </div>
+              <div class="col s7 center">
+                <button class="btn waves-effect waves-light red regNrmS1BN buttonBN" type="submit" name="saveurl" [disabled]="!smsForm.form.valid || sending">{{'SMS Campaign Link' | translate}}
+                </button> </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div materialize="modal" id="prodModal1" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="modalActions1">
+        <div class="modal-content">
+          <form (ngSubmit)="emaiil()" #emailForm="ngForm" *ngIf="savedURL">
+            <div class="row">
+              <div class="col s12 center regNrmS2B2BN">
+                Get this link on Email
+              </div>
+            </div>
+            <div class="row"></div>
+              <div class="row"></div>
+            <div class="row">
+
+              <div class="col m1 l1 hide-on-small-only"></div>
+              <div class="col s12 l10 m10 center">
+                <input id="email" name="email" type="email" placeholder="{{'Email' | translate}}*" title="please enter a valid Mobile No." class="validate regNrmS4BN" required
+                  [(ngModel)]="email">
+               
+              </div>
+
+              <div class="col m1 l1 hide-on-small-only"></div>
+            </div>
+            <div class="row">
+              <div class="col s5 center">
+                <a class="btn waves-effect waves-light red regNrmS1BN buttonBN" (click)="cancel1()" name="cancel">{{'Cancel' | translate}}</a>
+              </div>
+              <div class="col s7 center">
+                <button class="btn waves-effect waves-light red regNrmS1BN buttonBN" type="submit" name="saveurl" [disabled]="!emailForm.form.valid || sending">{{'Email Campaign Link' | translate}}
+                </button> </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col s12 l8 offset-l2" align="center">
           <div [ngClass]="isMobile ? 'row allContentBN' : 'row allContentBN card-panel grey lighten-5'">
             <form (ngSubmit)="saveURL()" #urlForm="ngForm" *ngIf="!savedURL">
               <div class="col s10 offset-s1 m12 center regNrmS4BN">
-                  {{'Your Campaign is ready, customize your URL and Save it for sharing.' | translate}}</div>
+                {{'Your Campaign is ready, customize your URL and Save it for sharing.' | translate}}</div>
               <div class="col s1 hide-on-med-and-up"></div>
               <span class="col s12">&nbsp;</span>
               <div class="col s12 regNrmS5B1BN">
                 <span class="inlineBN greyBGBN linkPaddingBN hide-on-small-only">{{campaignURLPrefix}}</span>
-                <span class="inlineBN greyBGBN linkPaddingBN hide-on-med-and-up" 
-                  *ngIf="campaignURLPrefix">{{campaignURLPrefix.substring(campaignURLPrefix.indexOf('://') + 3)}}</span>
-                <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width90BN inlineBN hide-on-small-only" 
-                  [(ngModel)]="campaignURL" required>
-                <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width60BN inlineBN hide-on-med-and-up" 
-                  [(ngModel)]="campaignURL" required>
-              </div>          
+                <span class="inlineBN greyBGBN linkPaddingBN hide-on-med-and-up" *ngIf="campaignURLPrefix">{{campaignURLPrefix.substring(campaignURLPrefix.indexOf('://') + 3)}}</span>
+                <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width90BN inlineBN hide-on-small-only" [(ngModel)]="campaignURL"
+                  required>
+                <input id="cmpurl" name="cmpurl" pattern="[a-zA-Z0-9]+" type="text" class="width60BN inlineBN hide-on-med-and-up" [(ngModel)]="campaignURL"
+                  required>
+              </div>
               <div class="col s12" align="center">
-                <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-                  name="saveurl" [disabled]="!urlForm.form.valid || saving">{{'Save Campaign URL' | translate}}
+                <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" name="saveurl" [disabled]="!urlForm.form.valid || saving">{{'Save Campaign URL' | translate}}
                 </button>
               </div>
             </form>
+
             <div *ngIf="savedURL">
               <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'SHARE_URL_MSG' | translate}}</div>
               <div class="col s1 hide-on-med-and-up"></div>
@@ -37,35 +104,71 @@
               <span class="col s12 center regNrmS4B1BN">{{savedURL}}</span>
               <span class="col s12">&nbsp;</span>
             </div>
-            <form (ngSubmit)="emaiil()" #emailForm="ngForm" *ngIf="savedURL">
-              <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'Get this link in email' | translate}}</div>
-              <div class="col s8 offset-s2 m4 offset-m4 l4 offset-l4 left input-field regNrmS4BN" align="center">
-                <input id="email" name="email" type="email" 
-                  title="please enter a valid Mobile No." class="validate regNrmS4BN" required [(ngModel)]="email">
-                <label for="email" [ngClass]="{active: email}">{{'Email' | translate}}*</label>
+            <div class="row" *ngIf="savedURL">
+              <div class="col m1 l1 hide-on-small-only"></div>
+
+              <div class="col s12 m10 l11 center noPadsMGLBN">
+                <div class="input-field inlineBN">
+                  <input id="name" name="name" type="text" class="col s9 alignMidBN validate regHdrS2BN titleInputBN" [(ngModel)]="savedURL"
+                    maxlength="50" [readonly]="read" required>
+                  <span class="col s3 alignMidBN padsdBN linkButtonBN" (click)="copy()">
+                    <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;
+                  </span>
+                </div>
               </div>
-              <div class="col s12" align="center">
-                <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-                  name="saveurl" [disabled]="!emailForm.form.valid || emailsend">{{'Email Campaign Link' | translate}}
-                </button>
+              <div class="col m1 l0 hide-on-small-only"></div>
+            </div>
+            <div class="row" *ngIf="savedURL">
+              <div class="col m1 l1 hide-on-small-only"></div>
+
+              <div class="col s12 m10 l10 center noPadsMGLBN">
+                <div class="input-field inlineBN">
+                  <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="done" (click)="edit()">{{'Edit' | translate}}</button>
+                  <a class="btn waves-effect waves-light red regNrmS2BN buttonBN" [href]="savedURL" target="_blank " name="done">{{'Preview' | translate}}</a>
+                </div>
               </div>
-              <span class="col s12">&nbsp;</span>
-              </form>
-              <form (ngSubmit)="sms()" #smsForm="ngForm" *ngIf="savedURL">
-              <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'Get this link in SMS' | translate}}</div>
-            
-              <div class="col s8 offset-s2 m4 offset-m4 l4 offset-l4 left input-field regNrmS4BN" align="center">
-                <input id="mobileNumber" name="mobileNumber" maxlength="10"  type="tel" pattern="[7-9]{1}[0-9]{9}" 
-                  title="please enter a valid Mobile No." class="validate regNrmS4BN" required [(ngModel)]="mobileNumber">
-                <label for="mobileNumber" [ngClass]="{active: mobileNumber}">{{'Mobile Number' | translate}}*</label>
-              </div>
-              <div class="col s12" align="center">
-                <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-                  name="saveurl" [disabled]="!smsForm.form.valid || sending">{{'SMS Campaign Link' | translate}}
-                </button>
-              </div>
-            </form>
+              <div class="col m1 l1 hide-on-small-only"></div>
+            </div>
+
             <div class="col s12">&nbsp;</div>
+            <div class="row" *ngIf="savedURL">
+              <div class="col m1 l1 hide-on-small-only"></div>
+
+              <div class="col s12 m10 l10 center noPadsMGLBN">
+                {{'Share this campaign via –' | translate}}
+              </div>
+              <div class="col m1 l1 hide-on-small-only"></div>
+            </div>
+            <div class="row" *ngIf="savedURL">
+              <div class="col m1 l1 hide-on-small-only"></div>
+
+              <div class="col s12 m10 l10 center noPadsMGLBN">
+                <a width="59" height="20" class="linkButtonBN" width="78" (click)="emailm()" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                  <img src="../../assets/ngoconsole/images/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+                </a>
+                <a width="59" height="20" class="linkButtonBN" width="78" (click)="sms()" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                  <img src="../../assets/ngoconsole/images/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+                </a>
+                <a width="59" height="20" class="linkButtonBN" width="78" (click)="fbClick()" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                  <img src="../../assets/ngoconsole/images/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+                  />
+                </a>
+
+                <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+                  title="Twitter Tweet Button" (click)="twitterbutton()">
+                  <img src="../../assets/ngoconsole/images/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
+                </a>
+                <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
+                  title="Twitter Tweet Button" (click)="twitterbutton()">
+                  <img src="../../assets/ngoconsole/images/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
+                </a>
+                <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" [href]="'whatsapp://send?text=' + savedURL"
+                  data-text="" data-href="" title="Whatsapp Share Button" class="wa_btn wa_btn_m">
+                  <img class="" src="../../assets/ngoconsole/images/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
+                </a>
+              </div>
+              <div class="col m1 l1 hide-on-small-only"></div>
+            </div>
             <div class="col s12">&nbsp;</div>
             <div class="col s12 redBN linkButtonBN" [routerLink]="campaignLink" align="left">
               <i class="material-icons alignMidBN">navigate_before</i>
@@ -80,6 +183,7 @@
               <span class="errNrmS4B1BN alignMidBN">{{'Dashboard' | translate}}</span>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
