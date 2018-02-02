@@ -772,6 +772,35 @@ var sdkCont = {
             cb(retErr);
         }
     },
+     getmerchantpaymentlink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getMerchantPaymentlinkPost(req, function (data) {
+            
+            res.json(data);
+        });
+    },
+
+    getMerchantPaymentlinkPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+      console.log(req.body.merchantCode);
+        try {
+            if (!req.body || !req.body.merchantCode)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
+                    {
+                       "merchantCode": req.body.merchantCode
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = sdkCont;

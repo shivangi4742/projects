@@ -11,6 +11,7 @@ import { CampaignSummary } from './../models/campaignsummary.model';
 import { Customer } from "../models/customer.model";
 import { PrintPayment } from "../models/printpayment.model";
 import { Merchant } from "../models/merchant.model";
+import { PaymentLinks} from "../models/paymentlinks.model"
 
 import { UtilsService } from './utils.service';
 
@@ -19,6 +20,7 @@ export class CampaignService {
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
+    private _PaymentLinks:PaymentLinks[];
     private _urls: any = {
         getCampaignsURL: 'campaign/getCampaigns',
         getCampaignSummaryURL: 'campaign/getCampaignsSummary',
@@ -35,7 +37,8 @@ export class CampaignService {
         sendEmailURL: 'campaign/sendEmail',
         editCampaignURL: 'campaign/editCampaign',
         getAllNGOTransactionsURL: 'campaign/getAllNGOTransactions',
-        fetchMerchantDetails: 'campaign/fetchMerchantDetails'
+        fetchMerchantDetails: 'campaign/fetchMerchantDetails',
+        getCampaignlinkURL: 'sdk/getmerchantpaymentlink',
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -183,7 +186,7 @@ export class CampaignService {
             { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => res.json())
-            .catch(res => this.utilsService.returnGenericError());        
+            .catch(res => this.utilsService.returnGenericError());
     }
 
     saveCampaign(sdk: SDK): Promise<any> {
@@ -452,10 +455,10 @@ export class CampaignService {
             if (res.mobileNo)
                 pmnt.phone = res.mobileNo;
 
-            if (res.transactionDate){
+            if (res.transactionDate) {
                 var a = res.transactionDate.split(' ');
                 var final = a[0].split('-');
-                pmnt.dateAndTime = final[0]+'/'+final[1]+'/'+final[2];
+                pmnt.dateAndTime = final[0] + '/' + final[1] + '/' + final[2];
             }
 
             if (res.paidAmount) {
@@ -492,6 +495,37 @@ export class CampaignService {
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
     }
+
+    merchantpaymentlink(merchantCode: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.getCampaignlinkURL,
+            JSON.stringify({
+                "merchantCode": merchantCode
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+            .toPromise()
+            .then(res => this.merchantpaymentlinkpost(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
+    merchantpaymentlinkpost(res: any) {
+        let me = this;  
+        
+        if (res && res.length > 0) {
+            this._PaymentLinks = new Array<PaymentLinks>();
+            for (let i:number = 0; i < res.length; i++ ) {
+                if((res[i].description)){
+                      var p= (res[i].description).substring(0,30);
+                }
+                me._PaymentLinks.push(new PaymentLinks(p,res[i].url, res[i].creationDate, res[i].expiryDate,
+                   res[i].amount, res[i].fileURL ));
+            }
+        }
+        
+        return me._PaymentLinks;
+    }
+
 
 
 }

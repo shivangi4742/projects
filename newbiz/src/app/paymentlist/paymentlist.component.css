@@ -26,15 +26,24 @@
     padding: 6px;
 }
 .payrBN {
-width: 160px;
+
 height: 122px;
 border: 1px dashed grey;
 border-radius: 19px;
 }
 .mrgNBN {
-    margin-left: 180px;
+    margin-left: 150px;
 }
 .redBN{
 color:white!important;
 padding:10px!important;
+}
+.paddBN {
+
+    padding-left: 0px!important;
+}
+.bordrBN {
+    border-radius: 90px;
+    color: #E53935;
+    background-color: white;
 }

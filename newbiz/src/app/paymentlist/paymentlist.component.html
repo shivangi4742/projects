@@ -68,192 +68,67 @@
       </div>
       <div class="row">
           <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-              <li class="active">
+              <li class="active" *ngFor="let p of paymentlink">
                 <div class="collapsible-header active">
-                    <a class="linkButtonBN col s12 campNameBN">
+                    <a class="linkButtonBN col s12 campNameBN regNrmS6BN">
                         <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                         
                         <ng-template #right>
                             <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
                         </ng-template>
-                        <span class="alignMidBN">{{'cycle'}}</span>
-                        <span class="mrgNBN "> ₹ 3000</span>
+                        <span class="alignMidBN">{{p.discription}}</span>
+                        <span class="mrgNBN "> ₹ {{p.amount}}</span>
                         <i class="material-icons right">share</i>
                     </a>
                    
                 </div>
                 <div class="collapsible-body" style="display: block;">
                   <div class="row">
-                    <div class="col s12 m4 l4">
-                        <div class="featuredImageSdkBN responsive-img payrBN"></div>
+                    <div class="col s12 m3 l3">
+                        
+                          <img src="../../assets/newbiz/imgs/payment link placeholder@1.5x.png" alt="">
+                        
                       </div>
-                    <div class="col s12 m8 l8">
+                    <div class="col s12 m9 l9">
+                      <div *ngIf="p.url">
                         Payment link <br>
                         <span class="dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; m.benow.in/medicines
+                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
                           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                          <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;</span>
-      
-                          <br><br><br><div class="row">
-                              <div class="col s12 m6 l6 regNrmS6BN">
-                                 Starts on (DD:MM:YY)</div>
+                          <i class="material-icons alignMidBN" >content_copy</i> &nbsp;copy &nbsp;</span>
+                          <i class="material-icons alignMidBN">visibility</i> Preview
+                          <br><br><br>
+                          </div>
+                           <div *ngIf="!p.url">
+                             <div class="row"></div>
+                              <div class="row"></div>
+                             
+                              <div class="row"></div>
+                           </div>
+                          <div class="row">
+                              <div class="col s12 m6 l6 regNrmS6BN paddBN">
+                                 Starts on ({{p.startdate}})</div>
                                  <div class="col s12 m6 l6 regNrmS6BN">
-                        Ends on (DD:MM:YY)</div>
+                        Ends on ({{p.expirydate}})</div>
                         </div>
+                    
                     </div>
                  
                 </div>
                 <div class="row red redBN">
                   <div class="col s12 m4 l4 left">
-                    <i class="material-icons alignMidBN">close</i> Expire Link
+                    <i class="material-icons alignMidBN bordrBN">close</i> Expire Link
                     </div>
                   <div class="col s12 m8 l8 right">
-                      See Sales 
-                      Edit <i class="material-icons alignMidBN linkButtonBN" >edit</i>
+                    <span class="right">
+                    <i class="material-icons alignMidBN">show_chart</i> See Sales 
+                    </span>
                   </div>
                
               </div>
                 </div>
               </li>
-              <li class="active">
-                <div class="collapsible-header active">
-                    <a class="linkButtonBN col s12 campNameBN">
-                        <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-                        
-                        <ng-template #right>
-                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
-                        </ng-template>
-                        <span class="alignMidBN">{{'Shampoo'}}</span>
-                        <span class="mrgNBN "> ₹ 3000</span>
-                        <i class="material-icons right">share</i>
-                    </a>
-                   
-                </div>
-                <div class="collapsible-body" style="display: block;">
-                  <div class="row">
-                    <div class="col s12 m4 l4">
-                        <div class="featuredImageSdkBN responsive-img payrBN"></div>
-                      </div>
-                    <div class="col s12 m8 l8">
-                        Payment link <br>
-                        <span class="dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; m.benow.in/medicines
-                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                          <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;</span>
-      
-                          <br><br><br><div class="row">
-                              <div class="col s12 m6 l6 regNrmS6BN">
-                                 Starts on (DD:MM:YY)</div>
-                                 <div class="col s12 m6 l6 regNrmS6BN">
-                        Ends on (DD:MM:YY)</div>
-                        </div>
-                    </div>
-                 
-                </div>
-                <div class="row red redBN">
-                  <div class="col s12 m4 l4 left">
-                    <i class="material-icons alignMidBN">close</i> Expire Link
-                    </div>
-                  <div class="col s12 m8 l8 right">
-                      See Sales 
-                      Edit <i class="material-icons alignMidBN linkButtonBN" >edit</i>
-                  </div>
-               
-              </div>
-                </div>
-              </li> <li class="active">
-                <div class="collapsible-header active">
-                    <a class="linkButtonBN col s12 campNameBN">
-                        <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-                        
-                        <ng-template #right>
-                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
-                        </ng-template>
-                        <span class="alignMidBN">{{'Butter chicken'}}</span>
-                        <span class="mrgNBN "> ₹ 3000</span>
-                        <i class="material-icons right">share</i>
-                    </a>
-                   
-                </div>
-                <div class="collapsible-body" style="display: block;">
-                  <div class="row">
-                    <div class="col s12 m4 l4">
-                        <div class="featuredImageSdkBN responsive-img payrBN"></div>
-                      </div>
-                    <div class="col s12 m8 l8">
-                        Payment link <br>
-                        <span class="dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; m.benow.in/medicines
-                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                          <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;</span>
-      
-                          <br><br><br><div class="row">
-                              <div class="col s12 m6 l6 regNrmS6BN">
-                                 Starts on (DD:MM:YY)</div>
-                                 <div class="col s12 m6 l6 regNrmS6BN">
-                        Ends on (DD:MM:YY)</div>
-                        </div>
-                    </div>
-                 
-                </div>
-                <div class="row red redBN">
-                  <div class="col s12 m4 l4 left">
-                    <i class="material-icons alignMidBN">close</i> Expire Link
-                    </div>
-                  <div class="col s12 m8 l8 right">
-                      See Sales 
-                      Edit <i class="material-icons alignMidBN linkButtonBN" >edit</i>
-                  </div>
-               
-              </div>
-                </div>
-              </li> <li class="active">
-                <div class="collapsible-header active">
-                    <a class="linkButtonBN col s12 campNameBN">
-                        <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-                        
-                        <ng-template #right>
-                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
-                        </ng-template>
-                        <span class="alignMidBN">{{'Food Workshop'}}</span>
-                        <span class="mrgNBN "> ₹ 3000</span>
-                        <i class="material-icons right">share</i>
-                    </a>
-                   
-                </div>
-                <div class="collapsible-body" style="display: block;">
-                  <div class="row">
-                    <div class="col s12 m4 l4">
-                        <div class="featuredImageSdkBN responsive-img payrBN"></div>
-                      </div>
-                    <div class="col s12 m8 l8">
-                        Payment link <br>
-                        <span class="dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; m.benow.in/medicines
-                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                          <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;</span>
-      
-                          <br><br><br><div class="row">
-                              <div class="col s12 m6 l6 regNrmS6BN">
-                                 Starts on (DD:MM:YY)</div>
-                                 <div class="col s12 m6 l6 regNrmS6BN">
-                        Ends on (DD:MM:YY)</div>
-                        </div>
-                    </div>
-                 
-                </div>
-                <div class="row red redBN">
-                  <div class="col s12 m4 l4 left">
-                    <i class="material-icons alignMidBN">close</i> Expire Link
-                    </div>
-                  <div class="col s12 m8 l8 right">
-                      See Sales 
-                      Edit <i class="material-icons alignMidBN linkButtonBN" >edit</i>
-                  </div>
-               
-              </div>
-                </div>
-              </li>
+              
              
             </ul>
       </div>

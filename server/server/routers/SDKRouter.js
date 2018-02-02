@@ -14,4 +14,5 @@ sdkRouter.post('/getPaymentLinkDetails', sdkController.getPaymentLinkDetails.bin
 sdkRouter.post('/updateFundraiserCollection', sdkController.updateFundraiserCollection.bind(sdkController));
 sdkRouter.post('/getLogById', sdkController.getLogById.bind(sdkController));
 sdkRouter.post('/createPaymentLink', sdkController.createPaymentLink.bind(sdkController));
+sdkRouter.post('/getmerchantpaymentlink', sdkController.getmerchantpaymentlink.bind(sdkController));
 module.exports = sdkRouter;

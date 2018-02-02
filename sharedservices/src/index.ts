@@ -30,6 +30,7 @@ export { Customer } from './models/customer.model';
 export { CustomerList } from './models/customerlist.model';
 export { PrintPayment } from './models/printpayment.model';
 export { Merchant } from './models/merchant.model';
+export { PaymentLinks } from './models/paymentlinks.model';
 
 export { SDKService } from './services/sdk.service';
 export { HelpService } from './services/help.service';
