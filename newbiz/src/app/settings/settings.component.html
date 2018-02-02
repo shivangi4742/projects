@@ -1,0 +1,276 @@
+<div class="row">
+  <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'payment Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s12">
+            <div class="switch"><span class="regNrmS5B2BN">{{'Convenience Fee' | translate}}&nbsp;&nbsp;</span>
+              <!--<label>
+                                        <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
+                                        <span class="lever"></span><span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span></label>-->
+            </div>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 regNrmS6BN">{{'Your customer will pay a nominal fee of 2% (+ GST) on every payment that you receive' | translate}}.</div>
+          <div class="col s12 regNrmS6BN">{{"You won't be charged the platform fee" | translate}}.</div>
+        </div>
+
+      </div>
+    </li>
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'Personal Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Your Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" placeholder="Enter Your Name"
+            class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"></label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Your Email Address</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" placeholder="Enter Your Email Address"/>
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"></label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Your Mobile Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" placeholder="Enter Your Mobile Number"/>
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"></label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Your Password</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" placeholder="Enter Your Password" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"></label>
+          </div>
+
+        </div>
+      </div>
+    </li>
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'Business Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Display Name (Brand name)</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"> Enter (or Show) Display Name</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Business Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}"> Enter (or Show) Business Name</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Business Address</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}">Enter (or Show) Business Address</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Pin Code</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName"
+              (keyup)="saveBusinessProfile()" />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}">Enter (or Show) Pin Code</label>
+          </div>
+
+        </div>
+      </div>
+    </li>
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'PAN Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Your PAN Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="PANNumber" name="PANNumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="PANNumber" (keyup)="saveBusinessProfile()"
+            />
+            <label for="PANNumber" [ngClass]="{active: businessName}">Enter (or Show) PAN Number</label>
+          </div>
+
+        </div>
+      </div>
+    </li>
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'Bank Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Account Holder's Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="accountholdername" name="accountholdername" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="accountholdername"
+              (keyup)="saveBusinessProfile()" />
+            <label for="accountholdername" [ngClass]="{active: accountholdername}"> Enter (or Show) Account Holder's Name</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Account Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="accountnumber" name="accountnumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="accountnumber"
+              (keyup)="saveBusinessProfile()" />
+            <label for="accountnumber" [ngClass]="{active: businessName}"> Enter (or Show) Account Number</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Confirm Account Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="accountnumber" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="conaccountnumber"
+              (keyup)="saveBusinessProfile()" />
+            <label for="accountnumber" [ngClass]="{active: accountnumber}">Enter (or Show) Account Number</label>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS3BN">Bank IFSC</span>
+          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="IFSC" (keyup)="saveBusinessProfile()"
+            />
+            <label for="ngoCertiNum" [ngClass]="{active: businessName}">Enter (or Show) IFSC</label>
+          </div>
+
+        </div>
+      </div>
+    </li>
+    <li >
+      <div class="collapsible-header active">
+        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
+          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          <ng-template #right>
+            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
+          </ng-template>
+          <span class="alignMidBN">{{'GST Setting'}}</span>
+
+
+        </a>
+
+      </div>
+      <div class="collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN">
+          <div class="valign-wrapper busDetails detailBodyBN">
+            <div class="col s12 m6 l6 coloBN1">
+              {{'Is your business registered with GST?' | translate}}
+            </div>
+            <div class="col s0 m6 l6 coloBN1">
+
+            </div>
+          </div>
+          <div class="row busDetails detailBodyBN">
+            <div class="col s6 m6 l6 regNrmS5B2BN">
+              <input id="test1" name="gst" type="radio" class="with-gap" (click)="setount(true)" />
+              <label for="test1">{{'Yes' | translate}}</label>
+
+            </div>
+            <div class="col s6 m6 l6 regNrmS5B2BN">
+              <input id="test2" name="gst" type="radio" class="with-gap" (click)="setount(false)" checked="checked" />
+              <label for="test2">{{'No' | translate}}</label>
+
+            </div>
+
+          </div>
+          <div *ngIf="gst">
+            <div class="valign-wrapper ">
+              <div class="coloBN1 input-field col s12 ">
+                {{'GST Number' | translate}}
+              </div>
+            </div>
+            <div class="row busDetails detailBodyBN">
+              <div class="input-field col s8 l6 m6 regNrmS4B2BN">
+                <input id="gst" type="text" maxlength="15" name="gst" class="prBN inputboxBN validate margBN" [(ngModel)]="businessProfile.gstno"
+                  (keyup)="validategst()" />
+                <label for="gst" [ngClass]="{active: businessProfile.gstno}">{{'Enter your GST Number' | translate}}</label>
+                <span class="errNrmS6BN" *ngIf="errgstvalidate">{{errorgst | translate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  </ul>
+</div>
