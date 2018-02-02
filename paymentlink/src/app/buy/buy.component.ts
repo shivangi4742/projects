@@ -21,6 +21,9 @@ export class BuyComponent implements OnInit {
     private utilsService: UtilsService) { }
 
   ngOnInit() {
+    if((window as any).fbq) {
+      (window as any).fbq('track', 'Purchase', {value: '0.00', currency: 'USD'});
+    }
     this.id = this.route.snapshot.params['id'];
     this.merchantCode = this.route.snapshot.params['code'];
     this.sdkService.getPaymentLinkDetails(this.id)
