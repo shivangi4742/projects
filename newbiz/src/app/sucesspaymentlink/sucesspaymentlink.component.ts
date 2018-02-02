@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-sucesspaymentlink',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SucesspaymentlinkComponent implements OnInit {
 
-  constructor() { }
+  createPaymentLink: string = '/createpaylink';
+  txnId: string;
+  url: string;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.txnId = this.route.snapshot.params['id'];
+    this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
   }
 
 }

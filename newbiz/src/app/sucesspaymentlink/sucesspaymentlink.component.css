@@ -1,0 +1,29 @@
+.roundBorderMainBN{
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+  border-radius: 30px;
+}
+.noBorderMainBN{
+
+}
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+}
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+.smallFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+}

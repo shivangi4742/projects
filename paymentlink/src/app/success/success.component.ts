@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 declare var jsPDF: any;
 
-import { Product, SDKService, ProductService, SDK, TransactionService, CampaignService, UtilsService, PrintPayment, Merchant, User, UserService } from 'benowservices';
+import { Product, SDKService, ProductService, SDK, TransactionService, CampaignService, UtilsService, PrintPayment, Merchant, User, UserService, FileService } from 'benowservices';
 
 @Component({
   selector: 'success',
@@ -20,16 +20,22 @@ export class SuccessComponent implements OnInit {
   merchantmodel: Merchant;
   imgData: string;
   user: User;
+  isEmailAvailable: boolean = false;
+  buyerMailContent: string;
+  sellerMailContent: string;
+  toMail: boolean = false;
+  data: any = new FormData();
+  benowLogo: string = 'data:image/png;base64,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';
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService, private userService: UserService, private transactionService: TransactionService, private campaignService: CampaignService,
-              private utilsService: UtilsService) { }
+              private utilsService: UtilsService, private fileService: FileService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.txnid = this.route.snapshot.params['txnid'];
     this.pay = this.sdkService.getPaySuccess();
     this.userService.getUser()
-      .then(res => this.user = res);
+      .then(res => this.init(res));
 
 
     if(this.pay && this.pay.amount > 0) {
@@ -42,13 +48,398 @@ export class SuccessComponent implements OnInit {
         .then(res => this.fillProducts(res));
   }
 
+  init(res: any) {
+    this.user = res;
+
+    if(this.utilsService.isNGO(this.user.mccCode)){
+      this.mtype = 2;
+    }
+
+    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)){
+      this.mtype = 3;
+    }
+
+    this.campaignService.fetchMerchantDetails(this.user.email, this.user.id)
+      .then(tres => this.merchantmodel = tres);
+
+    this.campaignService.getAllNGOTransactions(this.txnid)
+      .then(cres => this.checkDetails(cres));
+  }
+
+  prepareMail(res: any) {
+    let dets: PrintPayment = res;
+
+    if(this.mtype == 2) {
+      this.buyerMailContent = '<html> ' +
+        '<head> ' +
+        '  <style> ' +
+        '  table { ' +
+        '      font-family: \'Open Sans\', sans-serif; ' +
+        '      font-size: 1.75vw; ' +
+        '      border-collapse: collapse; ' +
+        '      width: 100%; ' +
+        '  } ' +
+        '  td, th { ' +
+        '      border-bottom: 1px solid #dddddd; ' +
+        '      text-align: left; ' +
+        '      padding: 12px; ' +
+        '  } ' +
+        '  .mainContent{ ' +
+        '    margin-left: 15%; ' +
+        '    margin-right: 15%; ' +
+        '    padding: 10px; ' +
+        '    font-family: \'Open Sans\', sans-serif; ' +
+        '    font-size: 1.5vw; ' +
+        '  } ' +
+        '  .logoImage{ ' +
+        '    text-align: center; ' +
+        '    margin-bottom: 10px; ' +
+        '  } ' +
+        '  .title{ ' +
+        '    text-align: center; ' +
+        '    padding: 12px; ' +
+        '    font-size: 1.8vw; ' +
+        '  } ' +
+        '  .heading{ ' +
+        '    font-size: 1.5vw; ' +
+        '    font-weight: bold; ' +
+        '    margin-bottom: 5px; ' +
+        '  } ' +
+        '  .table{ ' +
+        '    margin-bottom: 20px; ' +
+        '  } ' +
+        '  .columnnames{ ' +
+        '    background-color: #f5f4f4; ' +
+        '    color: #e53935; ' +
+        '    width: 40%; ' +
+        '  } ' +
+        '  .data{ ' +
+        ' ' +
+        '  } ' +
+        '  .helpdesk{ ' +
+        '    margin-bottom: 30px; ' +
+        '  } ' +
+        '  a{ ' +
+        '    color: royalblue; ' +
+        '    text-decoration:  none; ' +
+        '  } ' +
+        '  a:hover{ ' +
+        '    cursor: pointer; ' +
+        '  } ' +
+        '  .footer{ ' +
+        '    border-color: #cccccc; ' +
+        '    text-align: center; ' +
+        '  } ' +
+        ' ' +
+        '  </style> ' +
+        '</head> ' +
+        '<body> ' +
+        '  <div class="mainContent"> ' +
+        '    <div class="logoImage"> ' +
+        '      <img src="https://pbs.twimg.com/profile_images/915212352873578498/qa3oS9PZ_400x400.jpg"  width="108px" height="77"> ' +
+        '    </div> ' +
+        '    <div class="title"> ' +
+        '      Your donation is successful.<br> ' +
+        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully donated. ' +
+        '    </div> ' +
+        '    <div class="heading"> ' +
+        '      Donation Details ' +
+        '    </div> ' +
+        '    <div class="table"> ' +
+        '      <table> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Name</td> ' +
+        '          <td>'+this.user.displayName+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Number</td> ' +
+        '          <td>'+this.user.mobileNumber+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Email</td> ' +
+        '          <td>'+this.user.email+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Payment ID</td> ' +
+        '          <td>'+dets.transactionid+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Amount</td> ' +
+        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '        </tr> ' +
+        '      </table> ' +
+        '    </div> ' +
+        '    <div class="helpdesk"> ' +
+        '      <a href="mailto:helpdesk@benow.in" target="_top">Raise an issue</a>, if there is a problem with this ' +
+        '    </div> ' +
+        '    <div class="footer"> ' +
+        '      © 2018 Benow. All Rights Reserved.<br><br> ' +
+        'Hiranandani Lighthall, Tower A, 507 Above Maruti Suzuki Showroom Saki Vihar Road, Andheri East Mumbai 400072 ' +
+        '    </div> ' +
+        '  </div> ' +
+        '</body> ' +
+        '</html> ';
+    }
+    else{
+      this.buyerMailContent = '<html> ' +
+        '<head> ' +
+        '  <style> ' +
+        '  table { ' +
+        '      font-family: \'Open Sans\', sans-serif; ' +
+        '      font-size: 1.75vw; ' +
+        '      border-collapse: collapse; ' +
+        '      width: 100%; ' +
+        '  } ' +
+        '  td, th { ' +
+        '      border-bottom: 1px solid #dddddd; ' +
+        '      text-align: left; ' +
+        '      padding: 12px; ' +
+        '  } ' +
+        '  .mainContent{ ' +
+        '    margin-left: 15%; ' +
+        '    margin-right: 15%; ' +
+        '    padding: 10px; ' +
+        '    font-family: \'Open Sans\', sans-serif; ' +
+        '    font-size: 1.5vw; ' +
+        '  } ' +
+        '  .logoImage{ ' +
+        '    text-align: center; ' +
+        '    margin-bottom: 10px; ' +
+        '  } ' +
+        '  .title{ ' +
+        '    text-align: center; ' +
+        '    padding: 12px; ' +
+        '    font-size: 1.8vw; ' +
+        '  } ' +
+        '  .heading{ ' +
+        '    font-size: 1.5vw; ' +
+        '    font-weight: bold; ' +
+        '    margin-bottom: 5px; ' +
+        '  } ' +
+        '  .table{ ' +
+        '    margin-bottom: 20px; ' +
+        '  } ' +
+        '  .columnnames{ ' +
+        '    background-color: #f5f4f4; ' +
+        '    color: #e53935; ' +
+        '    width: 40%; ' +
+        '  } ' +
+        '  .data{ ' +
+        ' ' +
+        '  } ' +
+        '  .helpdesk{ ' +
+        '    margin-bottom: 30px; ' +
+        '  } ' +
+        '  a{ ' +
+        '    color: royalblue; ' +
+        '    text-decoration:  none; ' +
+        '  } ' +
+        '  a:hover{ ' +
+        '    cursor: pointer; ' +
+        '  } ' +
+        '  .footer{ ' +
+        '    border-color: #cccccc; ' +
+        '    text-align: center; ' +
+        '  } ' +
+        ' ' +
+        '  </style> ' +
+        '</head> ' +
+        '<body> ' +
+        '  <div class="mainContent"> ' +
+        '    <div class="logoImage"> ' +
+        '      <img src="http://www.benow.in/wp-content/uploads/2017/11/logo@2x.png"  width="108px" height="77"> ' +
+        '    </div> ' +
+        '    <div class="title"> ' +
+        '      Your payment is successful.<br> ' +
+        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully paid. ' +
+        '    </div> ' +
+        '    <div class="heading"> ' +
+        '      Payment Details ' +
+        '    </div> ' +
+        '    <div class="table"> ' +
+        '      <table> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Name</td> ' +
+        '          <td>'+this.user.displayName+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Number</td> ' +
+        '          <td>'+this.user.mobileNumber+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Merchant Email</td> ' +
+        '          <td>'+this.user.email+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Payment ID</td> ' +
+        '          <td>'+dets.transactionid+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Amount</td> ' +
+        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '        </tr> ' +
+        '      </table> ' +
+        '    </div> ' +
+        '    <div class="helpdesk"> ' +
+        '      <a href="mailto:helpdesk@benow.in" target="_top">Raise an issue</a>, if there is a problem with this ' +
+        '    </div> ' +
+        '    <div class="footer"> ' +
+        '      © 2018 Benow. All Rights Reserved.<br><br> ' +
+        'Hiranandani Lighthall, Tower A, 507 Above Maruti Suzuki Showroom Saki Vihar Road, Andheri East Mumbai 400072 ' +
+        '    </div> ' +
+        '  </div> ' +
+        '</body> ' +
+        '</html> ';
+
+      this.sellerMailContent = '<html> ' +
+        '<head> ' +
+        '  <style> ' +
+        '  table { ' +
+        '      font-family: \'Open Sans\', sans-serif; ' +
+        '      font-size: 1.75vw; ' +
+        '      border-collapse: collapse; ' +
+        '      width: 100%; ' +
+        '  } ' +
+        '  td, th { ' +
+        '      border-bottom: 1px solid #dddddd; ' +
+        '      text-align: left; ' +
+        '      padding: 12px; ' +
+        '  } ' +
+        '  .mainContent{ ' +
+        '    margin-left: 15%; ' +
+        '    margin-right: 15%; ' +
+        '    padding: 10px; ' +
+        '    font-family: \'Open Sans\', sans-serif; ' +
+        '    font-size: 1.5vw; ' +
+        '  } ' +
+        '  .logoImage{ ' +
+        '    text-align: center; ' +
+        '    margin-bottom: 10px; ' +
+        '  } ' +
+        '  .title{ ' +
+        '    text-align: center; ' +
+        '    padding: 12px; ' +
+        '    font-size: 1.8vw; ' +
+        '  } ' +
+        '  .heading{ ' +
+        '    font-size: 1.5vw; ' +
+        '    font-weight: bold; ' +
+        '    margin-bottom: 5px; ' +
+        '  } ' +
+        '  .table{ ' +
+        '    margin-bottom: 20px; ' +
+        '  } ' +
+        '  .columnnames{ ' +
+        '    background-color: #f5f4f4; ' +
+        '    color: #e53935; ' +
+        '    width: 40%; ' +
+        '  } ' +
+        '  .data{ ' +
+        ' ' +
+        '  } ' +
+        '  .helpdesk{ ' +
+        '    margin-bottom: 30px; ' +
+        '  } ' +
+        '  a{ ' +
+        '    color: royalblue; ' +
+        '    text-decoration:  none; ' +
+        '  } ' +
+        '  a:hover{ ' +
+        '    cursor: pointer; ' +
+        '  } ' +
+        '  .footer{ ' +
+        '    border-color: #cccccc; ' +
+        '    text-align: center; ' +
+        '  } ' +
+        ' ' +
+        '  </style> ' +
+        '</head> ' +
+        '<body> ' +
+        '  <div class="mainContent"> ' +
+        '    <div class="logoImage"> ' +
+        '      <img src="http://www.benow.in/wp-content/uploads/2017/11/logo@2x.png" width="108px" height="77"> ' +
+        '    </div> ' +
+        '    <div class="title"> ' +
+        '      Payment Received.<br> ' +
+        '      <img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully received. ' +
+        '    </div> ' +
+        '    <div class="heading"> ' +
+        '      Payment Details ' +
+        '    </div> ' +
+        '    <div class="table"> ' +
+        '      <table> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Amount</td> ' +
+        '          <td><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Payment ID</td> ' +
+        '          <td>'+dets.transactionid+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Name</td> ' +
+        '          <td>'+dets.name+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Mobile Number</td> ' +
+        '          <td>'+dets.phone+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Email</td> ' +
+        '          <td class="data">'+dets.email+'</td> ' +
+        '        </tr> ' +
+        '        <tr> ' +
+        '          <td class="columnnames">Address</td> ' +
+        '          <td class="data">'+dets.address+'</td> ' +
+        '        </tr> ' +
+        '      </table> ' +
+        '    </div> ' +
+        '    <div class="helpdesk"> ' +
+        '      <a href="mailto:helpdesk@benow.in" target="_top">Raise an issue</a>, if there is a problem with this ' +
+        '    </div> ' +
+        '    <div class="footer"> ' +
+        '      © 2018 Benow. All Rights Reserved.<br><br> ' +
+        'Hiranandani Lighthall, Tower A, 507 Above Maruti Suzuki Showroom Saki Vihar Road, Andheri East Mumbai 400072 ' +
+        '    </div> ' +
+        '  </div> ' +
+        '</body> ' +
+        '</html> ';
+    }
+  }
+
+  checkDetails(res: any) {
+    let dets = res.printTxns;
+    if(dets.email == null){
+      this.isEmailAvailable = false;
+    }
+    else{
+      this.isEmailAvailable = true;
+      this.prepareMail(dets);
+
+      if(this.mtype == 2){
+        this.toMail = true;
+        this.createcertificatePDF(res);
+        this.fileService.sendEmailNotify(this.data, dets.email, 'Donation Details', this.buyerMailContent,this.success,this);
+      }
+      else{
+        this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Payment Details', '')
+          .then(mres => console.log(mres));
+        this.campaignService.sendEmail(this.user.email, this.sellerMailContent, 'Payment Details', '')
+          .then(gres => console.log(gres));
+      }
+
+    }
+  }
+
+  success(res: any, me: any){
+
+    console.log('80G Sent!', res);
+  }
+
   assignSDKDetails(res: SDK) {
     if(res && res.id) {
       this.mtype = res.merchantType;
       this.pay.title = res.businessName;
-
-      this.campaignService.fetchMerchantDetails(this.user.email, this.user.id)
-        .then(tres => this.merchantmodel = tres);
 
       this.loaded = true;
 
@@ -63,9 +454,6 @@ export class SuccessComponent implements OnInit {
       amount: 0
     };
 
-    this.campaignService.fetchMerchantDetails(this.user.email, this.user.id)
-      .then(tres => this.merchantmodel = tres);
-
     this.transactionService.getTransactionDetails(sres.merchantCode, this.txnid)
       .then(res => this.fillMerchantTransaction(res));
   }
@@ -79,20 +467,19 @@ export class SuccessComponent implements OnInit {
 
   downloadCertificate(txnId: any) {
     if (!this.certificatePDF) {
+      this.toMail = false;
       this.certificatePDF = true;
       let me = this;
 
       if (this.merchantmodel.merchantLogoUrl && !this.imgData) {
         this.utilsService.convertImgToBase64URL(this.utilsService.getBaseURL() + this.merchantmodel.merchantLogoUrl,
           'image/png', function (data: any) {
-          console.log('whats the data?', data);
             me.imgData = data;
             me.campaignService.getAllNGOTransactions(txnId)
               .then(res => me.createcertificatePDF(res));
           });
       }
       else {
-        console.log('else');
         me.campaignService.getAllNGOTransactions(txnId)
           .then(res => me.createcertificatePDF(res));
       }
@@ -100,14 +487,12 @@ export class SuccessComponent implements OnInit {
   }
 
   createcertificatePDF(res: any) {
-    console.log('entry: ', res);
     if (!res || res.success == false) {
       this.utilsService.setStatus(true, false, "Something went wrong. Please try again.");
       window.scrollTo(0, 0);
       this.certificatePDF = false;
     }
     else {
-      console.log('here yet?');
       let t: PrintPayment = res.printTxns;
         var doc = jsPDF();
         if (t.name == null) {
@@ -277,10 +662,18 @@ export class SuccessComponent implements OnInit {
 
         doc.addImage(imgdata, 'JPEG', 162, 250);
         var nam = t.name + '_' + t.phone + '_' + t.dateAndTime;
-        doc.save(nam);
 
+        if(this.toMail){
+          var pdf = doc.output(); //returns raw body of resulting PDF returned as a string as per the plugin documentation.
+          //var data = new FormData();
+          this.data.append(nam , pdf);
+          this.toMail = false;
+        }
+        else{
+          doc.save(nam);
+        }
 
-      this.certificatePDF = false;
+        this.certificatePDF = false;
     }
   }
 

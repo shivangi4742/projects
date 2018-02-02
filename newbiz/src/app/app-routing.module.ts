@@ -7,7 +7,7 @@ import {PaymentlistComponent} from "./paymentlist/paymentlist.component";
 import {SucesspaymentlinkComponent} from "./sucesspaymentlink/sucesspaymentlink.component";
 
 const routes: Routes = [
-    { path: 'successpaylink', component: SucesspaymentlinkComponent },
+    { path: 'successpaylink/:id', component: SucesspaymentlinkComponent },
     { path: 'createpaylink', component: CreatepaymentlinkComponent },
     { path: 'paymentlist', component: PaymentlistComponent },
     { path: 'dashboard', component: DashboardComponent },
