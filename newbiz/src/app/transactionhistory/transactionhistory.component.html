@@ -1,0 +1,54 @@
+<div materialize>
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="dashboard">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s7 searchBorderBN">
+        <i class="col s2 material-icons searchIconBN">search</i>
+        <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
+               type="text" [(ngModel)]="searchText">
+      </div>
+      <div class="col s5 exportBN">
+        <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
+        <i class="material-icons alignMidBN exportIconBN">file_download</i>
+      </div>
+    </div>
+    <div class="row"></div>
+    <!--<div class="row">
+      <div class="col s12">
+        <ul materialize class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header coloro">
+              <span class="col s4"><i class="material-icons">keyboard_right</i>Date Here</span>
+              <span class="col s4">Name Here</span>
+              <span class="col s4">Data Here</span>
+            </div>
+            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+          </li>
+          <li>
+            <div class="collapsible-header coloro">
+              <span class="col s4"><i class="material-icons">keyboard_right</i>Date Here2</span>
+              <span class="col s4">Name Here2</span>
+              <span class="col s4">Data Here2</span>
+            </div>
+            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+          </li>
+          <li>
+            <div class="collapsible-header coloro">
+              <span class="col s4"><i class="material-icons">keyboard_right</i>Date Here3</span>
+              <span class="col s4">Name Here3</span>
+              <span class="col s4">Data Here3</span>
+            </div>
+            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>-->
+  </div>
+</div>

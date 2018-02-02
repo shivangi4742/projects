@@ -1,0 +1,69 @@
+.roundBorderMainBN{
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+}
+
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+}
+
+.dashboardRedirectBN{
+  color: #E53935;
+  font-weight: bold;
+}
+
+.searchBorderBN{
+  border: 1px solid grey;
+  border-radius: 43px;
+}
+
+.searchIconBN{
+  padding-top: 8px;
+}
+
+.searchBN{
+  margin: 0px!important;
+  border: 0px solid white!important;
+}
+
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.labelPLBN{
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+.exportBN{
+  padding-top: 10px;
+  float: right;
+}
+.exportTextBN{
+  float: right;
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+  padding-top: 5px;
+}
+.exportIconBN{
+  float: right;
+}
+.coloro:nth-child(even) {
+  background-color: #dddddd;
+}
