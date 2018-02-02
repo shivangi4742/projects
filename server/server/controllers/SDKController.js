@@ -642,7 +642,6 @@ var sdkCont = {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {
                             "merchantCode": d.merchantCode,
-                            "mobileNumber": d.phone ? d.phone : '',
                             "amount": d.amount,
                             "description": d.description,
                             "refNumber": d.invoiceNumber,
