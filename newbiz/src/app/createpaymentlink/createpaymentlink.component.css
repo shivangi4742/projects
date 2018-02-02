@@ -7,6 +7,11 @@
   padding-left: 0px!important;
 }
 
+.dashboardRedirectBN{
+  color: #E53935;
+  font-weight: bold;
+}
+
 .titleBN{
   font-family: Barlow;
   font-size: 14pt;
@@ -28,6 +33,11 @@
   font-family: Barlow;
   font-size: 12pt!important;
   line-height: 14px!important;
+}
+
+.advanceBN{
+  font-weight: bold;
+  padding-top: 5px;
 }
 
 .iconAlignMedBN{
@@ -60,6 +70,11 @@
 .accordionPLBN{
   border: none;
   box-shadow: none;
+}
+
+.accordionHeaderBN{
+  background-color: #f2f2f2!important;
+  border-radius: 46px;
 }
 
 .noBottomMarginBN{

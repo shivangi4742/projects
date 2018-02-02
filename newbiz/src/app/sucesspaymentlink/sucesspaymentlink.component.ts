@@ -9,8 +9,11 @@ import { ActivatedRoute } from "@angular/router";
 export class SucesspaymentlinkComponent implements OnInit {
 
   createPaymentLink: string = '/createpaylink';
+  paymentList: string = '/paymentlist';
+  dashboard: string = '/dashboard';
   txnId: string;
   url: string;
+  isCopied1: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
 

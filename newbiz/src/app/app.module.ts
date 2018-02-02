@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { SharedServicesModule } from 'benowservices';
 import { SharedComponentsModule } from 'benowcomponents';
@@ -22,6 +23,7 @@ import { RightnavComponent } from './rightnav/rightnav.component';
 import { CreatepaymentlinkComponent } from './createpaymentlink/createpaymentlink.component';
 import { SucesspaymentlinkComponent } from './sucesspaymentlink/sucesspaymentlink.component';
 import { SettingsComponent } from './settings/settings.component';
+import { TransactionhistoryComponent } from './transactionhistory/transactionhistory.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -38,7 +40,8 @@ LeftnavComponent,
     RightnavComponent,
     CreatepaymentlinkComponent,
     SucesspaymentlinkComponent,
-    SettingsComponent
+    SettingsComponent,
+    TransactionhistoryComponent
   ],
   imports: [
     HttpModule,
@@ -47,6 +50,7 @@ LeftnavComponent,
     AppRoutingModule,
     MaterializeModule,
     SharedComponentsModule,
+    ClipboardModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,
