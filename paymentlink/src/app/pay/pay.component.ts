@@ -152,6 +152,7 @@ export class PayComponent implements OnInit {
             if (res[j].id == selProds[i].id) {
               res[j].qty = selProds[i].qty;
               this.pay.products.push(res[j]);
+              this.hasProducts = true;
               break;
             }
           }

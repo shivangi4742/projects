@@ -432,7 +432,7 @@
                   </div>
                 </div>
               </li>
-              <li *ngIf="pay.mtype == 3 && supportsCOD">
+              <li *ngIf="pay.mtype == 3 && supportsCOD && hasProducts">
                 <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
                   <button id="codBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="payCash()">
                     <div class="col s2 codIconBN" align="left">₹</div>
