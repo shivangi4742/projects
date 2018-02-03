@@ -14,4 +14,6 @@ userRouter.post('/completeRegistration', userController.completeRegistration.bin
 userRouter.post('/getCustomerList', userController.getCustomerList.bind(userController));
 userRouter.post('/getMerchantDetails', userController.getMerchantDetails.bind(userController));
 userRouter.post('/getMerchantDetailsForVerification', userController.getMerchantDetailsForVerification.bind(userController));
+userRouter.post('/markSelfMerchantVerified', userController.markSelfMerchantVerified.bind(userController));
+userRouter.post('/registerSelfMerchant', userController.registerSelfMerchant.bind(userController));
 module.exports = userRouter;

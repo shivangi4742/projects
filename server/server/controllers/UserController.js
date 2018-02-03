@@ -476,6 +476,108 @@ var userCont = {
             }
         });
     },
+     markSelfMerchantVerified: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.markSelfMerchantVerifiedpost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
+
+    markSelfMerchantVerifiedpost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                //                console.log(d);
+                if (d && d.id) {
+                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
+                        {
+                            "id": d.id,
+                            "ifsc": d.ifsc,
+                            "accountRefNumber": d.accountRefNumber,
+                            "panNumber": d.panNumber,
+                            "bankName": d.bankName,
+                            "merchantName": d.merchantName,
+                            "accountHolderName": d.accountHolderName,
+                            "filePassword": d.filePassword
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    registerSelfMerchant: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.registerSelfMerchantpost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": me.encryptPayload(data, token, false) });
+        });
+    },
+
+    registerSelfMerchantpost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+
+                var d = this.decryptPayLoad(req.body.data, token, false);
+                //   console.log(d);
+                if (d && d.id) {
+                    this.postAndCallback(this.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
+                        {
+                            "gstNumber": d.gstNumber,
+                            "businessName": d.businessName,
+                            "businessType": d.businessType,
+                            "contactEmailId": d.contactEmailId,
+                            "category": d.category,
+                            "subCategory": d.subCategory,
+                            "city": d.city,
+                            "locality": d.locality,
+                            "contactPerson": d.contactPerson,
+                            "contactMobileNumber": d.contactMobileNumber,
+                            "address": d.address,
+                            "pinCode": d.pinCode,
+                            "businessTypeCode": d.businessTypeCode,
+                            "businessType": d.businessType,
+                            "id": d.id,
+                            "numberOfOutlets": d.numberOfOutlets,
+                            "agentId": d.agentId,
+                            "contactPersonDesignation": d.contactPersonDesignation
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = userCont;
