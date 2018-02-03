@@ -69,3 +69,12 @@
 .imgRightMarginBN{
   margin-right: 5px;
 }
+.copyBN{
+  color: black;
+  cursor: pointer;
+}
+.notifyBN{
+  color: forestgreen;
+  font-weight: bold;
+}
+

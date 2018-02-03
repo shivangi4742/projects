@@ -28,11 +28,15 @@
           </div>
         </div>
         <div class="col m6 l6 smallFontBN noLeftPaddingBN">
-          <a class="" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
+          <a class="copyBN" [class.btn-success]= "isCopied1"
+          type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
             <i class="material-icons alignMidBN">content_copy</i>
             <span class="alignMidBN" style="margin-right: 10px;">{{'COPY' | translate}}</span>
           </a>
           <a class="alignMidBN linkButtonBN previewBN" [href]="url" target="_blank">{{'PREVIEW' | translate}}</a>
+        </div>
+        <div *ngIf="isCopied1" class="col s12 center notifyBN">
+          {{'Link is Copied!' | translate}}
         </div>
       </div>
       <div class="row">
