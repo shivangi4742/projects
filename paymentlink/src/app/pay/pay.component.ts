@@ -258,6 +258,14 @@ export class PayComponent implements OnInit {
     return this.utilsService.getStatus();
   }
 
+  getStatusMessage(): boolean {
+    let st: Status = this.utilsService.getStatus();
+    if(st && st.message)
+      return true;
+
+    return false;
+  }
+
   finishCashPayment(res: any) {
     if(res && res.transactionRef) {
       this.txnNo = res.transactionRef;
