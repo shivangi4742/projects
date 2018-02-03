@@ -15,7 +15,6 @@ import { CampaignService, UserService, UtilsService, SDK, User, ProductService, 
 export class SharecampaignComponent implements OnInit {
   id: string;
   isCopied1: boolean = false;
-  isCopied2: boolean = false;
   read: boolean = true;
   savedURL: string;
   campaignURL: string;

@@ -16,8 +16,8 @@
                 Get this link on SMS
               </div>
             </div>
-             <div class="row"></div>
-              <div class="row"></div>
+            <div class="row"></div>
+            <div class="row"></div>
             <div class="row">
 
               <div class="col m1 l1 hide-on-small-only"></div>
@@ -25,7 +25,7 @@
 
                 <input id="mobileNumber" name="mobileNumber" maxlength="10" type="tel" pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
                   class="validate regNrmS4BN" required [(ngModel)]="mobileNumber" placeholder="{{'Mobile Number' | translate}}*">
-               
+
               </div>
 
               <div class="col m1 l1 hide-on-small-only"></div>
@@ -51,14 +51,14 @@
               </div>
             </div>
             <div class="row"></div>
-              <div class="row"></div>
+            <div class="row"></div>
             <div class="row">
 
               <div class="col m1 l1 hide-on-small-only"></div>
               <div class="col s12 l10 m10 center">
-                <input id="email" name="email" type="email" placeholder="{{'Email' | translate}}*" title="please enter a valid Mobile No." class="validate regNrmS4BN" required
-                  [(ngModel)]="email">
-               
+                <input id="email" name="email" type="email" placeholder="{{'Email' | translate}}*" title="please enter a valid Mobile No."
+                  class="validate regNrmS4BN" required [(ngModel)]="email">
+
               </div>
 
               <div class="col m1 l1 hide-on-small-only"></div>
@@ -111,9 +111,13 @@
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" class="col s9 alignMidBN validate regHdrS2BN titleInputBN" [(ngModel)]="savedURL"
                     maxlength="50" [readonly]="read" required>
-                  <span class="col s3 alignMidBN padsdBN linkButtonBN" (click)="copy()">
-                    <i class="material-icons alignMidBN">content_copy</i> &nbsp;copy &nbsp;
-                  </span>
+                  <a class="col s3 alignMidBN padsdBN linkButtonBN copyBN regNrmS4BN" [class.btn-success]="isCopied1"
+                   type="button" ngxClipboard [cbContent]="savedURL"
+                    (cbOnSuccess)="isCopied1 = true">
+                    <i class="material-icons alignMidBN">content_copy</i>
+                    <span class="alignMidBN" style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+
                 </div>
               </div>
               <div class="col m1 l0 hide-on-small-only"></div>
