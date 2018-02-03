@@ -30,7 +30,8 @@ export class SDKService {
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails',
         updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
         getLogByIdURL: 'sdk/getLogById',
-        createPaymentLinkURL: 'sdk/createPaymentLink'
+        createPaymentLinkURL: 'sdk/createPaymentLink',
+        saveCashPaymentSuccessURL: 'sdk/saveCashPaymentSuccess'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -53,6 +54,25 @@ export class SDKService {
             return '0' + md;
 
         return md;
+    }
+
+    saveCashPaymentSuccess(amount: number, txnid: string, phone: string, merchantCode: string, merchantName: string, linkId: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.saveCashPaymentSuccessURL,
+                JSON.stringify({
+                    "status": 'success',
+                    "mode": 'CASH',
+                    "amount": amount,
+                    "txnid": txnid,
+                    "phone": phone,
+                    "udf3": merchantName,
+                    "udf4": merchantCode,
+                    "udf5": linkId
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
     }
 
     createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string): Promise<any> {

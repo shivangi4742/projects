@@ -4,7 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser } from 'benowservices';
+import { SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -250,8 +250,24 @@ export class PayComponent implements OnInit {
     this.invokeIfModeGiven();
   }
 
+  codMarked(res: any) {
+    this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);    
+  }
+
+  getStatus(res: any): Status {
+    return this.utilsService.getStatus();
+  }
+
   finishCashPayment(res: any) {
-    console.log(res);
+    if(res && res.transactionRef) {
+      this.txnNo = res.transactionRef;
+      this.sdkService.saveCashPaymentSuccess(this.pay.amount, this.txnNo, this.mobileNumber, this.pay.merchantCode, this.pay.title, this.id)
+        .then(res => this.codMarked(res));
+    }
+    else {
+      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+      window.scrollTo(0, 0);
+    }
   }
 
   payCash() {

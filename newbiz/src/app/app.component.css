@@ -13,3 +13,24 @@
 .rightNavBN {
     background-color: #f2f2f2;
 }
+
+ul.side-nav.fixed {
+    overflow: hidden;
+    margin-top: 64px;
+}
+
+.sidenavBN {
+    background-color: #413A5A;
+    width: 200px;
+    position: absolute;
+}
+
+main {
+    padding-left: 200px;
+}
+
+@media only screen and (max-width : 992px) {
+    main {
+      padding-left: 0;
+    }
+}
