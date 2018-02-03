@@ -97,6 +97,32 @@ var userCont = {
         }
     },
 
+    getMerchantDetails: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.merchantCode)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
+                { 
+                    "merchantCode": d.merchantCode
+                },
+                function(data) {
+                    res.json(data);
+                });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
     completeRegistration: function(req, res) {
         var retErr = {
             "success": false,

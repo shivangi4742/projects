@@ -20,8 +20,11 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
+            else if (req.body.mode === 'CASH')
+                pmtype = 'CASH';
+
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
                     "amount": req.body.amount,
@@ -62,6 +65,13 @@ var sdkCont = {
         }
     },
 
+    saveCashPaymentSuccess: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.paymentSuccess(req, function (data) {
+            res.json(data);
+        });
+    },
+
     paymentSuccess: function (req, cb) {
         try {
             var headers = {
@@ -81,7 +91,7 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
             else if (req.body.mode == 'CASH')
                 pmtype = 'CASH'
