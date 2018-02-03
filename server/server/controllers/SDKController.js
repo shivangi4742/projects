@@ -20,8 +20,11 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
+            else if (req.body.mode === 'CASH')
+                pmtype = 'CASH';
+
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
                     "amount": req.body.amount,
@@ -62,6 +65,13 @@ var sdkCont = {
         }
     },
 
+    saveCashPaymentSuccess: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.paymentSuccess(req, function (data) {
+            res.json(data);
+        });
+    },
+
     paymentSuccess: function (req, cb) {
         try {
             var headers = {
@@ -81,7 +91,7 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
             else if (req.body.mode == 'CASH')
                 pmtype = 'CASH'
@@ -642,7 +652,6 @@ var sdkCont = {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {
                             "merchantCode": d.merchantCode,
-                            "mobileNumber": d.phone ? d.phone : '',
                             "amount": d.amount,
                             "description": d.description,
                             "refNumber": d.invoiceNumber,
@@ -765,6 +774,35 @@ var sdkCont = {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/logging/getLogById', 'POST', req.headers),
                     {
                         "id": req.body.id
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+     getmerchantpaymentlink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getMerchantPaymentlinkPost(req, function (data) {
+            
+            res.json(data);
+        });
+    },
+
+    getMerchantPaymentlinkPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+      console.log(req.body.merchantCode);
+        try {
+            if (!req.body || !req.body.merchantCode)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
+                    {
+                       "merchantCode": req.body.merchantCode
                     },
                     cb);
             }

@@ -1,0 +1,139 @@
+<div materialize>
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s12">
+      <a class="linkButtonBN errNrmS4B1BN">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="false">
+    <div class="row"></div>
+    <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
+      <div class="row">
+        <div class="titleBN col s12 center greyBN">
+          {{'You have not created any payment links...' | translate}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="titleBN col s12 center">
+          <img src="../../assets/newbiz/imgs/PAYMENTLINK.png" alt="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="titleBN col s12 center regNrmS2BN">
+          {{"Lets's get you started!" | translate}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          <button class="btn waves-effect waves-light buttonPLBN red regNrmS4BN colrnewBN center" type="submit" name="create">{{'Create your first payment link Now!' | translate}}</button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="true">
+    <div class="row">
+      <div class="col s12 m8 l6 center serchbrderBN">
+        <i class="material-icons col s2 alignMidBN srcBN">search</i>
+        <input id="searchCamp" placeholder="{{'Search Payment Links' | translate}}.." name="searchCamp"
+         class="regNrmS6IBN searchBN col s10 inptBN"
+          type="text" [(ngModel)]="campaignName" (click)="searchCampaigns()">
+        <button id="search" (click)="updateAllCampaigns()" style="display:none;"></button>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col s12 center">
+          <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
+            <li class="tab col s6 m6 l6 tabBottomBN">
+              <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'"  id="create" (click)="setActiveTab(0)" href="#createCampaign">{{'Active payment link' | translate}}</a>
+              <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
+            </li>
+            <li class="tab col s6 m6 l6 tabBottomBN">
+              <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Inactive payment link' | translate}}<span *ngIf="numCampaigns > 0">({{numCampaigns}})</span></a>
+              <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
+            </li>
+            <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
+          </ul>
+        </div>
+
+        
+        <div class="col s12">
+          <status [status]="getStatus()"></status>
+        </div>
+      </div>
+      <div class="row">
+          <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+              <li class="active" *ngFor="let p of paymentlink">
+                <div class="collapsible-header active">
+                    <a class="linkButtonBN col s12 campNameBN regNrmS6BN">
+                        <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+                        
+                        <ng-template #right>
+                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
+                        </ng-template>
+                        <span class="alignMidBN">{{p.discription}}</span>
+                        <span class="mrgNBN "> ₹ {{p.amount}}</span>
+                        <i class="material-icons right">share</i>
+                    </a>
+                   
+                </div>
+                <div class="collapsible-body" style="display: block;">
+                  <div class="row">
+                    <div class="col s12 m3 l3">
+                        
+                          <img src="../../assets/newbiz/imgs/payment link placeholder@1.5x.png" alt="">
+                        
+                      </div>
+                    <div class="col s12 m9 l9">
+                      <div *ngIf="p.url">
+                        Payment link <br>
+                        <span class="dashBN alignMidBN">
+                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
+                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                          <i class="material-icons alignMidBN" >content_copy</i> &nbsp;copy &nbsp;</span>
+                          <i class="material-icons alignMidBN">visibility</i> Preview
+                          <br><br><br>
+                          </div>
+                           <div *ngIf="!p.url">
+                             <div class="row"></div>
+                              <div class="row"></div>
+                             
+                              <div class="row"></div>
+                           </div>
+                          <div class="row">
+                              <div class="col s12 m6 l6 regNrmS6BN paddBN">
+                                 Starts on ({{p.startdate}})</div>
+                                 <div class="col s12 m6 l6 regNrmS6BN">
+                        Ends on ({{p.expirydate}})</div>
+                        </div>
+                    
+                    </div>
+                 
+                </div>
+                <div class="row red redBN">
+                  <div class="col s12 m4 l4 left">
+                    <i class="material-icons alignMidBN bordrBN">close</i> Expire Link
+                    </div>
+                  <div class="col s12 m8 l8 right">
+                    <span class="right">
+                    <i class="material-icons alignMidBN">show_chart</i> See Sales 
+                    </span>
+                  </div>
+               
+              </div>
+                </div>
+              </li>
+              
+             
+            </ul>
+      </div>
+  
+
+</div>
+</div>
+

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from './../models/user.model';
+import { Businesspro } from './../models/businesspro.model';
+import { Accountpro } from './../models/accountpro.model';
 import { Customer } from "../models/customer.model";
 import { CustomerList } from "../models/customerlist.model";
 
@@ -16,6 +18,8 @@ export class UserService {
   private _token: string;
   private _uname: string;
   private _user: User;  
+  private _businesspro:Businesspro;
+  private _accountpro:Accountpro;
   private _headers: any;
   private _customer: Array<Customer>;
   private _customerList: CustomerList;
@@ -28,6 +32,8 @@ export class UserService {
     sendVerificationMail: 'merchant/sendVerificationMail',
     changePassword: 'merchant/changePassword',
     getCustomerList: 'user/getCustomerList',
+    markSelfMerchantVerified: 'user/markSelfMerchantVerified',
+    registerSelfMerchant: 'user/registerSelfMerchant',
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -401,4 +407,86 @@ export class UserService {
 
     return false;
   }
+    registerSelfMerchant(id: string, businessName: string, contactEmailId: string, category: string,
+    subCategory: string, city: string, locality: string, contactPerson: string, address: string,
+     contactMobileNumber: string, businessTypeCode: string, businessType:string, pinCode: string, gstno:string) {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.markSelfMerchantVerified,
+      JSON.stringify({
+          "id": id,
+          "gstNumber": gstno,
+          "businessName": businessName,
+          "contactEmailId": contactEmailId,
+          "category": category,
+          "subCategory": subCategory,
+          "city": city,
+          "locality": locality,
+          "contactPerson": contactPerson,
+          "address": address,
+          "contactMobileNumber": contactMobileNumber,
+          "businessTypeCode": businessTypeCode,
+          "businessType": businessType,
+          "pinCode": pinCode
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillMerchantProfile(res.json()))
+      .catch(res => this.handleError(res.json()));
+  }
+
+  markSelfMerchantVerified(id: string, ifsc: string, accountRefNumber: string, panNumber: string,
+    bankName: string, merchantName: string, accountHolderName: string, filePassword:string) {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
+      JSON.stringify({
+        
+          "id": id,
+          "ifsc": ifsc,
+          "accountRefNumber": accountRefNumber,
+          "panNumber": panNumber,
+          "bankName": bankName,
+          "merchantName": merchantName,
+          "accountHolderName": accountHolderName,
+          "filePassword":filePassword
+        
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillAccountProfile(res.json()))
+      .catch(res => this.handleError(res.json()));
+  }
+   fillMerchantProfile(res: any): Businesspro {
+      // this._businesspro = new Businesspro(null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+    if (res.merchantUser) {
+      this._businesspro.businessName = res.merchantUser.businessName;
+      this._businesspro.businessType = res.merchantUser.businessType;
+      this._businesspro.category = res.merchantUser.category;
+      this._businesspro.subCategory = res.merchantUser.subCategory;
+      this._businesspro.contactPerson = res.merchantUser.contactPerson;
+      this._businesspro.address = res.merchantUser.address;
+      this._businesspro.numberOfOutlets = res.merchantUser.numberOfOutlets;
+      this._businesspro.contactPersonDesignation = res.merchantUser.contactPersonDesignation;
+      this._businesspro.city = res.merchantUser.city;
+      this._businesspro.contactEmailId = res.merchantUser.contactEmailId;
+      this._businesspro.pincode = res.merchantUser.pinCode;
+      this._businesspro.locality = res.merchantUser.locality;
+      this._businesspro.businessTypeCode = res.merchantUser.businessTypeCode;
+      this._businesspro.gstno = res.merchantUser.gstNumber;
+    }
+    return this._businesspro;
+  }
+
+  fillAccountProfile(res: any): Accountpro {
+   // this._accountpro = new Accountpro(null, null, null, null, null,null);
+    if (res.merchantUser) {
+      this._accountpro.accountHolderName = res.merchantUser.accountHolderName;
+      this._accountpro.accountRefNumber = res.merchantUser.accountRefNumber;
+      this._accountpro.panNumber = res.merchantUser.panNumber;
+      this._accountpro.ifsc = res.merchantUser.ifsc;
+      this._accountpro.bankName = res.merchantUser.bankName;
+      this._accountpro.filePassword =res.merchantUser.filePassword;
+    }
+    return this._accountpro;
+  }
+  
 }

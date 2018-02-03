@@ -21,6 +21,9 @@ export class BuyComponent implements OnInit {
     private utilsService: UtilsService) { }
 
   ngOnInit() {
+    if((window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout');
+    }
     this.id = this.route.snapshot.params['id'];
     this.merchantCode = this.route.snapshot.params['code'];
     this.sdkService.getPaymentLinkDetails(this.id)
@@ -108,9 +111,15 @@ export class BuyComponent implements OnInit {
       this.sdkService.setProductsInSDK(selProds);
       if(this.sdk.mtype == 2){
         if(amount > 0){
+           if((window as any).fbq) {
+             (window as any).fbq('track', 'AddPaymentInfo');
+           }
           this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify('0')) + '/' + btoa(JSON.stringify('0')) + '/' + btoa(JSON.stringify(amount)));
         }
         else{
+          if((window as any).fbq) {
+             (window as any).fbq('track', 'AddPaymentInfo');
+           }
           this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify(input)));
         }
       }

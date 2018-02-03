@@ -58,7 +58,7 @@ var transCont = {
                 var d = req.body;
                 var lastTxnId = d.lastTxnId;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
                         {	
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,

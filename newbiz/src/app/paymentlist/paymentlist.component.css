@@ -1,0 +1,49 @@
+.colrnewBN{
+    color:white!important;
+    font-size: 10pt!important;
+}
+.greyBN{
+    color: grey!important;
+}
+.serchbrderBN{
+    border: 1px solid grey;
+    border-radius: 43px;
+}
+.srcBN {
+    margin-top: 10px!important;
+}
+.inptBN{
+        margin: 0 !important;
+         border-bottom: 0px solid white!important;
+}
+.tabs .tab a:hover, .tabs .tab a.active {
+    background-color: #413A5A!important;
+    color: white!important;
+}
+.dashBN {
+    border: 1px dashed grey;
+    border-radius: 12px;
+    padding: 6px;
+}
+.payrBN {
+
+height: 122px;
+border: 1px dashed grey;
+border-radius: 19px;
+}
+.mrgNBN {
+    margin-left: 150px;
+}
+.redBN{
+color:white!important;
+padding:10px!important;
+}
+.paddBN {
+
+    padding-left: 0px!important;
+}
+.bordrBN {
+    border-radius: 90px;
+    color: #E53935;
+    background-color: white;
+}

@@ -1,0 +1,27 @@
+<div materialize>
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="dashboard">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s7 searchBorderBN">
+        <i class="col s2 material-icons searchIconBN">search</i>
+        <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
+               type="text" [(ngModel)]="searchText">
+      </div>
+      <div class="col s5 exportBN">
+        <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
+        <i class="material-icons alignMidBN exportIconBN">file_download</i>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+
+    </div>
+  </div>
+</div>

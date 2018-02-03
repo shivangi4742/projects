@@ -21,6 +21,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   amount: number;
   invoiceNum: string;
   detailsExpanded: boolean = false;
+  isAmountLess: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -99,10 +100,30 @@ export class CreatepaymentlinkComponent implements OnInit {
     this.detailsExpanded = !this.detailsExpanded;
   }
 
+  changeIcon(){
+    let a: any = document.getElementById('advance');
+    a.click();
+    this.arrowChange();
+  }
+
+  changeIconMob(){
+    let a: any = document.getElementById('advanceMob');
+    a.click();
+    this.arrowChange();
+  }
+
+  checkAmount(){
+    if(this.amount < 10){
+      this.isAmountLess = true;
+    }
+    else{
+      this.isAmountLess = false;
+    }
+  }
+
   isCreated(res: any){
     if(res){
-      console.log('Responsyo', res);
-      this.router.navigateByUrl('/successpaylink');
+      this.router.navigateByUrl('/successpaylink/'+res.paymentReqNumber);
     }
     else{
       alert('Error in creating Payment Link!');
@@ -122,7 +143,5 @@ export class CreatepaymentlinkComponent implements OnInit {
 
     return false;
   }
-
-
 
 }

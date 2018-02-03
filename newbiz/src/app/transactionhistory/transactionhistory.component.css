@@ -12,6 +12,20 @@
   font-weight: bold;
 }
 
+.searchBorderBN{
+  border: 1px solid grey;
+  border-radius: 43px;
+}
+
+.searchIconBN{
+  padding-top: 8px;
+}
+
+.searchBN{
+  margin: 0px!important;
+  border: 0px solid white!important;
+}
+
 .titleBN{
   font-family: Barlow;
   font-size: 14pt;
@@ -23,7 +37,7 @@
 
 .labelPLBN{
   font-family: Barlow;
-  font-size: 14pt;
+  font-size: 10pt;
   line-height: 12px;
   color: rgb(65,58,90);
   font-weight: bold;
@@ -34,49 +48,19 @@
   font-size: 12pt!important;
   line-height: 14px!important;
 }
-
-.advanceBN{
-  font-weight: bold;
-  padding-top: 5px;
-}
-
-.iconAlignMedBN{
-  right: -390px;
-  position: relative;
-  top: -51px;
-}
-
-.iconAlignBN{
+.exportBN{
+  padding-top: 10px;
   float: right;
-  position: relative;
-  top: -51px;
-  left: -2%;
 }
-
-.noLeftMarginBN{
-  margin-left: 0px;
-  padding-left: 0px;
-}
-
-.checkHeight{
-  line-height: 10px!important;
-  height: 30px!important;
+.exportTextBN{
+  float: right;
   font-family: Barlow;
   font-size: 10pt;
   line-height: 12px;
+  color: rgb(65,58,90);
   font-weight: bold;
+  padding-top: 5px;
 }
-
-.accordionPLBN{
-  border: none;
-  box-shadow: none;
-}
-
-.accordionHeaderBN{
-  background-color: #f2f2f2!important;
-  border-radius: 46px;
-}
-
-.noBottomMarginBN{
-  margin-bottom: 0px!important;
+.exportIconBN{
+  float: right;
 }

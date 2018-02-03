@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 
 import { SharedServicesModule } from 'benowservices';
 import { SharedComponentsModule } from 'benowcomponents';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -48,6 +49,7 @@ export function HttpFactory(http: Http) {
     MaterializeModule,
     SharedComponentsModule,
     ImageCropperModule,
+    ClipboardModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,

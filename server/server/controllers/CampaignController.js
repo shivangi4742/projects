@@ -780,6 +780,7 @@ var campCont = {
             cb(retErr);
         }
     }
+    
 }
 
 module.exports = campCont;

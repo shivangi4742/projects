@@ -2,7 +2,7 @@
   <div class="row"></div>
   <div class="row">
     <div class="col s12 noLeftPaddingBN">
-      <a class="linkButtonBN inputTextBN" style="color: #E53935; font-weight: bold" [routerLink]="dashboard">
+      <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="dashboard">
         <i class="material-icons alignMidBN">arrow_back</i>
         <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
       </a>
@@ -27,18 +27,20 @@
           <div class="row">
             <div class="input-field col s10 offset-s1">
               <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
-                     placeholder="Enter the amount" required>
+                     placeholder="Enter the amount" (keyup)="checkAmount()" required>
               <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
-              <span class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
           </div>
           <div class="row">
             <ul class="col s10 offset-s1 accordionPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
               <li>
-                <div class="collapsible-header noLeftMarginBN" (click)="arrowChange()">
-                  <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-                  <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-                  <span class="inputTextBN" style="font-weight: bold">{{'Advance Options' | translate}}</span>
+                <div id="advance" class="collapsible-header noLeftMarginBN accordionHeaderBN" (click)="arrowChange()">
+                  <span (click)="changeIcon()">
+                    <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
+                  <span class="inputTextBN advanceBN">{{'Advance Options' | translate}}</span>
                 </div>
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
@@ -81,25 +83,27 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="20"
-                     placeholder="What is this payment for?">
+                     placeholder="What is this payment for?" required>
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
-                     placeholder="Enter the amount">
+                     placeholder="Enter the amount" (keyup)="checkAmount()" required>
               <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
-              <span class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
           </div>
           <div class="row">
             <ul class="col s12 accordionPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
               <li>
-                <div class="collapsible-header noLeftMarginBN" (click)="arrowChange()">
-                  <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-                  <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-                  <span class="inputTextBN" style="font-weight: bold">{{'Advance Options' | translate}}</span>
+                <div id="advanceMob" class="collapsible-header noLeftMarginBN accordionHeaderBN" (click)="arrowChange()">
+                  <span (click)="changeIconMob()">
+                    <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
+                  <span class="inputTextBN advanceBN">{{'Advance Options' | translate}}</span>
                 </div>
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
@@ -123,7 +127,7 @@
           </div>
           <div class="row valign-wrapper">
             <div class="col s12 center">
-              <button class="btn waves-effect waves-light buttonPLBN inputTextBN center" type="submit" name="create"
+              <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="create"
                       [disabled]="!validateForm() || !paymentLinkForm.form.valid">{{'CREATE PAYMENT LINK' | translate}}</button>
             </div>
           </div>

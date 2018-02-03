@@ -18,8 +18,8 @@
           <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
         </div>
         <div class="col s12">
-          <div class="buttonModalBN linkButtonBN col s5 offset-s1 center" style="margin-right: 5px;" (click)="saveImage()">{{'Done' | translate}}</div>
-          <div class="buttonModalBN linkButtonBN col s5 center" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+          <div class="buttonModalBN linkButtonBN col s6 center" style="margin-right: 5px;" (click)="saveImage()">{{'Confirm' | translate}}</div>
+          <div class="buttonModalBN linkButtonBN col s5 center" style="padding: 0px" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
         </div>
       </div>
     </div>
@@ -57,9 +57,9 @@
       <div class="col s1 hide-on-med-and-up"></div>
       <div class="col s10 m4 offset-s1" align="right">
           <button *ngIf="!edit && mtype == 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
-              name="product" [disabled]="!productForm.form.valid || newProd.price < 10">{{'Add' | translate}}</button>
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 10 || isImageProcess">{{'Add' | translate}}</button>
           <button *ngIf="!edit && mtype != 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
-              name="product" [disabled]="!productForm.form.valid || newProd.price < 1">{{'Add' | translate}}</button>
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 1 || isImageProcess">{{'Add' | translate}}</button>
       </div>
       <div class="col s1 hide-on-med-and-up"></div>
     </div>
