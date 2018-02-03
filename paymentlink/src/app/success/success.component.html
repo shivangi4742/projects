@@ -18,7 +18,8 @@
             </div>
         </div>
         <div class="row">
-            <span *ngIf="mtype != 2" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <span *ngIf="mtype != 2 && !hasProducts" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <span *ngIf="mtype != 2 && hasProducts" class="col s12 center regNrmS4B2BN">{{'Ordered Successfully' | translate}}</span>
             <!-- <span class="col s12 center regNrmS4B2BN"
                 *ngIf="mtype != 2">{{'Paid Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
             <span *ngIf="mtype == 2" class="col s12 center regNrmS4B2BN">{{'Contributed Successfully' | translate}}</span>
