@@ -44,6 +44,10 @@ export class SharecampaignComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    let url: string = this.route.snapshot.params['url'];
+    if(url)
+      this.savedURL = JSON.parse(atob(url)).url;
+
     this.utilsService.setStatus(false, false, '');
     this.userService.getUser()
       .then(res => this.initUser(res));

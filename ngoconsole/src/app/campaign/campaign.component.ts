@@ -16,6 +16,7 @@ import { SelectproductsComponent } from './../selectproducts/selectproducts.comp
 })
 export class CampaignComponent implements OnInit, AfterViewInit {
   uploadsURL: string;
+  cmpnurl: string;
   sdk: SDK;
   user: User;
   helpMsg: any;
@@ -40,7 +41,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   numPages: number = 0;
   page: number = 1;
   fromDate: string = this.utilsService.getLastYearDateString() + " 00:00:00";
-  toDate: string = this.utilsService.getCurDateString() + " 23:59:59";
+  toDate: string = this.utilsService.getNextYearDateString() + " 23:59:59";
   sortColumn: string = null;
   campaignName: string = null;
   numCampaigns: number = 0;
@@ -462,6 +463,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   edit(cmpn: Campaign) {
     if (cmpn && cmpn.txnrefnumber) {
+      this.cmpnurl = cmpn.url;
       this.sdkService.getPaymentLinkDetails(cmpn.txnrefnumber)
         .then(res => this.editCampaign(res));
     }
@@ -526,8 +528,13 @@ export class CampaignComponent implements OnInit, AfterViewInit {
 
   edited(res: any) {
     window.scrollTo(0, 0);
-    if(res && res.responseFromAPI == true)
-      this.utilsService.setStatus(false, true, 'Successfully saved Campaign.');
+    if(res && res.responseFromAPI == true) {
+      this.campaignService.setCampaign(this.sdk);
+      if (this.sdk.mtype == 2)
+        this.router.navigateByUrl('/sharecampaign/' + this.sdk.campaignCode + '/' + btoa(JSON.stringify({url: this.cmpnurl})));
+      else
+        this.router.navigateByUrl('/shareestall/' + this.sdk.campaignCode + '/' + btoa(JSON.stringify({url: this.cmpnurl})));
+    }
     else
       this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
   }
