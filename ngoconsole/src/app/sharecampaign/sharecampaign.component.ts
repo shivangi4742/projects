@@ -15,7 +15,6 @@ import { CampaignService, UserService, UtilsService, SDK, User, ProductService, 
 export class SharecampaignComponent implements OnInit {
   id: string;
   isCopied1: boolean = false;
-  read: boolean = true;
   savedURL: string;
   campaignURL: string;
   mobileNumber: string;
@@ -209,7 +208,10 @@ cancel1(){
   }
 
   edit() {
-    this.read = false;
+    if(this.mtype == 2)
+      this.router.navigateByUrl('/newcampaign/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
+    else
+      this.router.navigateByUrl('/newestall/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
   }
 
   twitterbutton() {

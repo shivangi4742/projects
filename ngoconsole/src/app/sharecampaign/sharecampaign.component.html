@@ -110,7 +110,7 @@
               <div class="col s12 m10 l11 center noPadsMGLBN">
                 <div class="input-field inlineBN">
                   <input id="name" name="name" type="text" class="col s9 alignMidBN validate regHdrS2BN titleInputBN" [(ngModel)]="savedURL"
-                    maxlength="50" [readonly]="read" required>
+                    maxlength="50" [readonly]="true" required>
                   <a class="col s3 alignMidBN padsdBN linkButtonBN copyBN regNrmS4BN" [class.btn-success]="isCopied1"
                    type="button" ngxClipboard [cbContent]="savedURL"
                     (cbOnSuccess)="isCopied1 = true">

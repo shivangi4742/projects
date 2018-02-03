@@ -269,6 +269,17 @@ export class CampaignComponent implements OnInit, AfterViewInit {
         if (select == 'manage') {
           this.setActiveTab(1);
         }
+        else if(select == 'edit') {
+          let data: string = this.route.snapshot.params['data'];
+          if(data) {
+            let ddata = JSON.parse(atob(data));
+            this.cmpnurl = ddata.url;
+            this.productService.getProductsForCampaign(this.user.merchantCode, ddata.id)
+              .then(res => this.fillProds(res));
+            this.sdkService.getPaymentLinkDetails(ddata.id)
+              .then(res => this.editCampaign(res));                
+          }
+        }
       }
     }
     else
