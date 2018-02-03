@@ -6,6 +6,7 @@ import { CreatepaymentlinkComponent } from "./createpaymentlink/createpaymentlin
 import { PaymentlistComponent } from "./paymentlist/paymentlist.component";
 import { SucesspaymentlinkComponent } from "./sucesspaymentlink/sucesspaymentlink.component";
 import { TransactionhistoryComponent } from "./transactionhistory/transactionhistory.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 const routes: Routes = [
     { path: 'transactionhistory', component: TransactionhistoryComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'createpaylink', component: CreatepaymentlinkComponent },
     { path: 'paymentlist', component: PaymentlistComponent },
     { path: 'dashboard', component: DashboardComponent },
+    { path: 'settings', component: SettingsComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
