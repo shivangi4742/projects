@@ -435,7 +435,7 @@ export class UserService {
       { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillMerchantProfile(res.json()))
-      .catch(res => this.handleError(res.json()));
+      .catch(res => false);
   }
 
   markSelfMerchantVerified(id: string, ifsc: string, accountRefNumber: string, panNumber: string,
@@ -457,12 +457,13 @@ export class UserService {
       { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAccountProfile(res.json()))
-      .catch(res => this.handleError(res.json()));
+      .catch(res => false);
   }
-  fillMerchantProfile(res: any): Businesspro {
-    // this._businesspro = new Businesspro(null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+  fillMerchantProfile(res: any): Businesspro|null {
+    
      console.log(res,'helele');
     if (res.merchantUser) {
+      console.log(res.merchantUser.businessName);
       this._businesspro.businessName = res.merchantUser.businessName;
       this._businesspro.businessType = res.merchantUser.businessType;
       this._businesspro.category = res.merchantUser.category;
@@ -482,8 +483,8 @@ export class UserService {
     return this._businesspro;
   }
 
-  fillAccountProfile(res: any): Accountpro {
-     console.log(res,'helele1');
+  fillAccountProfile(res: any): Accountpro|null {
+     console.log(res.merchantUser, res.merchantUser.accountHolderName, 'helele1');
     // this._accountpro = new Accountpro(null, null, null, null, null,null);
     if (res.merchantUser) {
       this._accountpro.accountHolderName = res.merchantUser.accountHolderName;
@@ -509,7 +510,7 @@ export class UserService {
 
         .toPromise()
         .then(res => this.fillMerchantProfile(res.json()))
-        .catch(res => this.handleError(res.json()));
+        .catch(res => false);
     }
     else {
       return this.http
@@ -522,7 +523,7 @@ export class UserService {
 
         .toPromise()
         .then(res => this.fillAccountProfile(res.json()))
-        .catch(res => this.handleError(res.json()));
+        .catch(res => false);
     }
   }
   getfetchMerchantForEditDetails(email: string, Id: string): Promise<any> {
@@ -539,7 +540,7 @@ export class UserService {
       { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAllgetfetchMerchantForEditDetails(res.json()))
-      .catch(res => null);
+      .catch(res => false);
   }
 
   fillAllgetfetchMerchantForEditDetails(res: any): Merchant {

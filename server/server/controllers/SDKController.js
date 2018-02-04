@@ -795,7 +795,7 @@ var sdkCont = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
-      console.log(req.body.merchantCode);
+     
         try {
             if (!req.body || !req.body.merchantCode)
                 cb(retErr);

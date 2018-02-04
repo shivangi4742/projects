@@ -1,26 +1,23 @@
-<div class="row">
+<div class="row" *ngIf="user">
   <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
     <li>
-      <div class="collapsible-header active">
-        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
-          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+      <div id="paybn" (click)="paymentdetail1()" 
+      [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+        <span class="mrlBN" (click)="paymentdetail()">
+           <i  *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          <ng-template #right>
-            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
-          </ng-template>
-          <span class="alignMidBN">{{'payment Setting'}}</span>
-
-
-        </a>
-
+          </span>{{'payment Setting'}}
       </div>
-      <div class="collapsible-body" style="display: block;">
+      <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row">
           <div class="col s12">
             <div class="switch"><span class="regNrmS5B2BN">{{'Convenience Fee' | translate}}&nbsp;&nbsp;</span>
               <!--<label>
-                                        <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
-                                        <span class="lever"></span><span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span></label>-->
+               <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
+               <span class="lever"></span><span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span>
+               </label>-->
             </div>
           </div>
           <div class="col s12">&nbsp;</div>
@@ -28,183 +25,223 @@
           <div class="col s12 regNrmS6BN">{{"You won't be charged the platform fee" | translate}}.</div>
         </div>
 
+
       </div>
     </li>
     <li>
-      <div class="collapsible-header active">
-        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
-          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+      <div id="personalbn" (click)="personaldetail1()" 
+      [ngClass]="!ispan1Expanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+        <span class="mrlBN" (click)="personaldetail()">
+           <i  *ngIf="ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          <ng-template #right>
-            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
-          </ng-template>
-          <span class="alignMidBN">{{'Personal Setting'}}</span>
-
-
-        </a>
+          </span>
+       {{'Personal Setting'}}
 
       </div>
-      <div class="collapsible-body" style="display: block;">
+      <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Your Name</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
+          <span class="col s12 regNrmS5B2BN">Your Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
             <input id="businessName" name="businessEntityName" type="text" placeholder="Enter Your Name" class="pr1BN inputboxBN validate"
               [(ngModel)]="name" />
             <label for="ngoCertiNum" [ngClass]="{active: name}"></label>
           </div>
-
+          <span class="alignMidBN editButBN"> <i class="material-icons iconPrefixBN alignMidBN">edit</i> Edit </span>
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Your Email Address</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="businessName" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="email" placeholder="Enter Your Email Address"
+          <span class="col s12 regNrmS5B2BN">Your Email Address</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="businessName" name="businessEntityName" type="text" class="inputboxBN validate" [(ngModel)]="user.email" placeholder="Enter Your Email Address"
             />
-            <label for="ngoCertiNum" [ngClass]="{active: email}"></label>
+            <label for="ngoCertiNum" [ngClass]="{active: user.email}"></label>
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Your Mobile Number</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="mobilenumber" name="mobilenumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="mobilenumber" placeholder="Enter Your Mobile Number"
+          <span class="col s12 regNrmS5B2BN">Your Mobile Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="mobilenumber" name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="user.mobileNumber" placeholder="Enter Your Mobile Number"
             />
             <label for="mobilenumber" [ngClass]="{active: mobilenumber}"></label>
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Your Password</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="Password" name="Password" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="Password" placeholder="Enter Your Password"
+          <span class="col s12 regNrmS5B2BN">Your Password</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="Password" name="Password" type="text" class="inputboxBN validate" [(ngModel)]="Password" placeholder="Enter Your Password"
             />
             <label for="Password" [ngClass]="{active: Password}"></label>
           </div>
+           <span class="alignMidBN editButBN"> <i class="material-icons iconPrefixBN alignMidBN">edit</i> Edit </span>
+        </div>
+         <div class="row busDetails detailBodyBN mrgnBn">
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+             <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
+              type="submit" (click)="save()" name="submit" >
+              {{'SUBMIT' | translate}}
+             </button>
+          </div>
 
         </div>
       </div>
     </li>
-    <li>
-      <div class="collapsible-header active">
-        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
-          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+    <li >
+      <div id="acbns" (click)="bankdetail11()" 
+      [ngClass]="!isPanExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+       
+        <span class="mrlBN" (click)="bankdetails()">
+           <i  *ngIf="isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          <ng-template #right>
-            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
-          </ng-template>
-          <span class="alignMidBN">{{'Business Setting'}}</span>
-
-
-        </a>
+          </span>
+        {{'Business Setting'}}
 
       </div>
-      <div class="collapsible-body" style="display: block;">
+      <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Display Name (Brand name)</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="DisplayName" name="DisplayName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName" />
-            <label for="DisplayName" [ngClass]="{active: DisplayName}">   Enter Display Name</label>
+          <span class="col s12 regNrmS5B2BN">Display Name (Brand name)</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="DisplayName" name="DisplayName" type="text" class="inputboxBN validate" 
+            placeholder="Enter Display Name" [(ngModel)]="user.DisplayName" />
+           
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Business Name</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="businessName" name="businessName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="businessName" />
-            <label for="businessName" [ngClass]="{active: businessName}">   Enter Business Name</label>
+          <span class="col s12 regNrmS5B2BN">Business Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="businessName" name="businessName" type="text"class="inputboxBN validate" 
+            placeholder="Enter Business Name" [(ngModel)]="businessName" />
+            
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Business Address</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="BusinessAddress" name="BusinessAddress" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="BusinessAddress"
+          <span class="col s12 regNrmS5B2BN">Business Address</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="BusinessAddress" name="BusinessAddress" type="text"
+             placeholder="Enter Business Address" class="inputboxBN validate" [(ngModel)]="address"
             />
-            <label for="BusinessAddress" [ngClass]="{active: BusinessAddress}">  Enter Business Address</label>
+            
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Pin Code</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="pincode" name="pincode" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="pincode" />
-            <label for="pincode" [ngClass]="{active: pincode}">  Enter Pin Code</label>
+          <span class="col s12 regNrmS5B2BN">Pin Code</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="pincode" name="pincode" type="text" class="inputboxBN validate" maxlength="6"
+            placeholder="Enter Pin Code" [(ngModel)]="pincode"  (keyup)="savepincode()"/>
+             <span class="errNrmS6BN" *ngIf="errpincodevalidate">{{ errorpincode | translate}}</span>
+           
           </div>
 
         </div>
-      </div>
-    </li>
-    <li>
-      <div class="collapsible-header active">
-        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
-          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-
-          <ng-template #right>
-            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
-          </ng-template>
-          <span class="alignMidBN">{{'PAN Setting'}}</span>
-
-
-        </a>
-
-      </div>
-      <div class="collapsible-body" style="display: block;">
-        <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Your PAN Number</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="PANNumber" name="PANNumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="PANNumber" />
-            <label for="PANNumber" [ngClass]="{active: businessName}">  Enter PAN Number</label>
+         <div class="row busDetails detailBodyBN mrgnBn">
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+             <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
+              type="submit" (click)="save()" name="submit" >
+              {{'SUBMIT' | translate}}
+             </button>
           </div>
 
         </div>
       </div>
     </li>
     <li>
-      <div class="collapsible-header active">
-        <a class="regNrmS3BN linkButtonBN col s12 campNameBN">
-          <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+      <div id="acbn" (click)="accountdetail1()" 
+      [ngClass]="!isBusExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+       
+        <span class="mrlBN" (click)="accountdetail()">
+           <i  *ngIf="isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          <ng-template #right>
-            <i class="material-icons alignMidBN">keyboard_arrow_down</i>
-          </ng-template>
-          <span class="alignMidBN">{{'Bank Setting'}}</span>
-
-
-        </a>
+          </span>
+        {{'PAN Setting'}}
 
       </div>
-      <div class="collapsible-body" style="display: block;">
+      <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Account Holder's Name</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="accountholdername" name="accountholdername" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="accountholdername"
+          <span class="col s12 regNrmS5B2BN">Your PAN Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="PANNumber" name="PANNumber" type="text" class="pr1BN inputboxBN validate" 
+            placeholder="Enter PAN Number" [(ngModel)]="PANNumber" (keyup)="validatePAN()"/>
+            <span class="errNrmS6BN" *ngIf="errpancard">{{ errorpanmsg | translate}}</span>
+          </div>
+
+        </div>
+         <div class="row busDetails detailBodyBN mrgnBn">
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+             <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
+              type="submit" (click)="saveaccount() " name="submit" >
+              {{'SUBMIT' | translate}}
+             </button>
+          </div>
+
+        </div>
+      </div>
+    </li>
+    <li >
+      <div id="bnkset" (click)="bankdetail1()" 
+      [ngClass]="!isNgoExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+       <span class="mrlBN" (click)="bankdetail()">
+           <i  *ngIf="isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          </span>
+       {{'Bank Setting'}}
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <span class="col s12 regNrmS5B2BN">Account Holder's Name</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="accountholdername" name="accountholdername" type="text" placeholder="Enter Account Holder's Name" 
+            class="pr1BN inputboxBN validate" [(ngModel)]="accountHolderName"
             />
-            <label for="accountholdername" [ngClass]="{active: accountholdername}">   EnterAccount Holder's Name</label>
+             
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Account Number</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="accountnumber" name="accountnumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="accountnumber"
+          <span class="col s12 regNrmS5B2BN">Account Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="accountnumber" name="accountnumber" type="text" placeholder="Enter Account Number" 
+            class="inputboxBN validate" [(ngModel)]="accountRefNumber"
             />
-            <label for="accountnumber" [ngClass]="{active: accountnumber}">  Enter Account Number</label>
+           
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Confirm Account Number</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="conaccountnumber" name="conaccountnumber" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="conaccountnumber"
+          <span class="col s12 regNrmS5B2BN">Confirm Account Number</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="conaccountnumber" name="conaccountnumber" placeholder="Enter Account Number"
+             type="text" class="inputboxBN validate" [(ngModel)]="conaccountnumber"
             />
-            <label for="conaccountnumber" [ngClass]="{active: conaccountnumber}">  Enter Account Number</label>
+           
           </div>
 
         </div>
         <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS3BN">Bank IFSC</span>
-          <div class="input-field col s12 m6 l6 regNrmS4B2BN">
-            <input id="IFSC" name="businessEntityName" type="text" class="pr1BN inputboxBN validate" [(ngModel)]="IFSC" />
-            <label for="IFSC" [ngClass]="{active: IFSC}">  Enter IFSC</label>
+          <span class="col s12 regNrmS5B2BN">Bank IFSC</span>
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+            <input id="IFSC" name="businessEntityName" type="text" placeholder="{{'Enter IFSC'| translate}}" 
+            class="pr1BN inputboxBN validate" [(ngModel)]="ifsc" (keyup)="validateifsc()"/>
+             <span class="errNrmS6BN" *ngIf="errvalidate">{{errorifsc | translate}}</span>
+          </div>
+
+        </div>
+        <div class="row busDetails detailBodyBN mrgnBn">
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+             <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
+              type="submit" name="submit" >
+              {{'SUBMIT' | translate}}
+             </button>
           </div>
 
         </div>
@@ -222,7 +259,7 @@
           </span>
             {{'GST Setting' | translate}}
       </div>
-      <div class="collapsible-body" style="display: block;">
+      <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row busDetails detailBodyBN">
           <div class="valign-wrapper busDetails detailBodyBN">
             <div class="col s12 m6 l6 coloBN1">
@@ -245,17 +282,17 @@
             </div>
 
           </div>
-          <div>
+          <div *ngIf="gst">
             <div class="valign-wrapper" >
               <div class="coloBN1 input-field col s12 ">
                 {{'GST Number' | translate}}
               </div>
             </div>
             <div class="row busDetails detailBodyBN">
-              <div class="input-field col s8 l6 m6 regNrmS4B2BN">
-                <input id="gst" type="text" maxlength="15" name="gst" class="prBN inputboxBN validate margBN" [(ngModel)]="gstno" />
-                <label for="gst" [ngClass]="{active: gstno}">{{'Enter your GST Number' | translate}}</label>
-                <!--<span class="errNrmS6BN" *ngIf="errgstvalidate">{{errorgst | translate}}</span>-->
+              <div class="input-field col s8 l6 m6 regNrmS4BN">
+                <input id="gst" type="text" maxlength="15" name="gst" class="prBN inputboxBN validate margBN" placeholder="{{'Enter your GST Number' | translate}}" [(ngModel)]="gstno" (keyup)="validategst()" />
+                <label for="gst" [ngClass]="{active: gstno}"></label>
+                <span class="errNrmS6BN" *ngIf="errgstvalidate">{{errorgst | translate}}</span>
               </div>
             </div>
           </div>

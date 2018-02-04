@@ -478,7 +478,6 @@ var userCont = {
     },
      markSelfMerchantVerified: function (req, res) {
         var me = this;
-        var token = this.getToken(req);
         this.markSelfMerchantVerifiedpost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": data });
@@ -524,7 +523,6 @@ var userCont = {
     },
     registerSelfMerchant: function (req, res) {
         var me = this;
-        var token = this.getToken(req);
         this.registerSelfMerchantpost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": data});

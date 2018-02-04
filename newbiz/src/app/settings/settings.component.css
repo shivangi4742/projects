@@ -31,3 +31,23 @@
 .mrlBN{
      margin-left: 12px;
 }
+.pr1BN{
+    text-transform: uppercase;
+}
+.checkHeight{
+  line-height: 10px!important;
+  height: 30px!important;
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  font-weight: bold;
+}
+ .paddindfBN {
+padding-left: 82px;
+} 
+.busDetails{
+    padding-top: 12px;
+}
+.editButBN{
+        padding-top: 24px;
+}
