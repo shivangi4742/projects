@@ -481,7 +481,7 @@ var userCont = {
         var token = this.getToken(req);
         this.markSelfMerchantVerifiedpost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
-            res.json({ "data": me.encryptPayload(data, token, false) });
+            res.json({ "data": data });
         });
     },
 
@@ -498,10 +498,10 @@ var userCont = {
             }
             else {
 
-                var d = this.decryptPayLoad(req.body.data, token, false);
+                var d = req.body;
                 //                console.log(d);
                 if (d && d.id) {
-                    this.postAndCallback(this.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
                         {
                             "id": d.id,
                             "ifsc": d.ifsc,
@@ -527,7 +527,7 @@ var userCont = {
         var token = this.getToken(req);
         this.registerSelfMerchantpost(req, token, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
-            res.json({ "data": me.encryptPayload(data, token, false) });
+            res.json({ "data": data});
         });
     },
 
@@ -539,34 +539,34 @@ var userCont = {
         }
 
         try {
-            if (!req || !req.body || !req.body.data) {
+            if (!req || !req.body ) {
                 cb(retErr);
             }
             else {
 
-                var d = this.decryptPayLoad(req.body.data, token, false);
+             
                 //   console.log(d);
-                if (d && d.id) {
-                    this.postAndCallback(this.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
+                if ( req.body && req.body.id) {
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
                         {
-                            "gstNumber": d.gstNumber,
-                            "businessName": d.businessName,
-                            "businessType": d.businessType,
-                            "contactEmailId": d.contactEmailId,
-                            "category": d.category,
-                            "subCategory": d.subCategory,
-                            "city": d.city,
-                            "locality": d.locality,
-                            "contactPerson": d.contactPerson,
-                            "contactMobileNumber": d.contactMobileNumber,
-                            "address": d.address,
-                            "pinCode": d.pinCode,
-                            "businessTypeCode": d.businessTypeCode,
-                            "businessType": d.businessType,
-                            "id": d.id,
-                            "numberOfOutlets": d.numberOfOutlets,
-                            "agentId": d.agentId,
-                            "contactPersonDesignation": d.contactPersonDesignation
+                            "gstNumber": req.body.gstNumber,
+                            "businessName": req.body.businessName,
+                            "businessType": req.body.businessType,
+                            "contactEmailId": req.body.contactEmailId,
+                            "category": req.body.category,
+                            "subCategory": req.body.subCategory,
+                            "city": req.body.city,
+                            "locality": req.body.locality,
+                            "contactPerson": req.body.contactPerson,
+                            "contactMobileNumber": req.body.contactMobileNumber,
+                            "address": req.body.address,
+                            "pinCode": req.body.pinCode,
+                            "businessTypeCode": req.body.businessTypeCode,
+                            "businessType": req.body.businessType,
+                            "id": req.body.id,
+                            "numberOfOutlets": req.body.numberOfOutlets,
+                            "agentId": req.body.agentId,
+                            "contactPersonDesignation": req.body.contactPersonDesignation
                         },
                         cb);
                 }
@@ -578,6 +578,94 @@ var userCont = {
             cb(retErr);
         }
     },
+     fetchMerchantForEditDetails: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.fetchMerchantForEditDetailsPost(req, token, function (data) {
+            // console.log(data);
+            var logoURL;
+            if (data && data.documentResponseVO) {
+                var p = data.documentResponseVO.documentList;
+                if (p && p.length > 0) {
+                    for (var i = 0; i < p.length; i++) {
+                        if (p[i].documentName == 'Merchant_logo')
+                            logoURL = p[i].documentUrl;
+
+                    }
+                }
+            }
+
+            if (data && logoURL) {
+                me.downloadLogo(logoURL, data.userId, function (ldata) {
+                    data.merchantLogoUrl = ldata;
+                    res.setHeader("X-Frame-Options", "DENY");
+                    res.json({ "data": data});
+                });
+            }
+            else {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({ "data":data});
+            }
+        });
+    },
+     fetchMerchantForEditDetailsPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+
+            if (!req || !req.body || !req.body.data)
+                cb(retErr);
+            else {
+
+                if (req.body.userId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails', 'POST', req.headers),
+                        {
+                            "userId": req.body.userId,
+                            "sourceId": req.body.sourceId,
+                            "sourceType": req.body.sourceType
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+     downloadLogo: function (url, userId, cb) {
+        try {
+            if (!url)
+                cb('');
+            else {
+                var extn = '.png';
+                var lIndex = url.lastIndexOf('.');
+                if (lIndex > 0)
+                    extn = url.substring(lIndex);
+
+                var fName = 'logos/' + userId + extn;
+
+                var file = fs.createWriteStream(fName);
+                Jimp.read(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/'
+                    + url, function (err, lenna) {
+                        lenna.resize(190, 105)
+                        var image = new Jimp(210, 120, function (err, image) {
+                            image.background(0xFFFFFFFF)
+                                .composite(lenna, 10, 5);
+                            image.write(fName)
+
+                            cb(fName);
+                        });
+                    });
+            }
+        }
+        catch (err) {
+            cb('');
+        }
+    },
+
 }
 
 module.exports = userCont;
