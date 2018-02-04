@@ -17,6 +17,23 @@
     max-width: 200px;
 }
 
+.hoverBN {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.hoverBN:hover {
+    background-color: #E53935;
+}
+
+.leftnavBtnBN:hover {
+    background-color: #E53935;
+    border: solid 2px #E53935;
+    border-radius: 10.7pt;
+}
+
 .separatorBN {
     border-bottom: solid 1px white;
 }
