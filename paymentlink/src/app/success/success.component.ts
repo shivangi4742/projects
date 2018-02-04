@@ -26,13 +26,12 @@ export class SuccessComponent implements OnInit {
   toMail: boolean = false;
   hasProducts: boolean = false;
   data: any = new FormData();
-  benowLogo: string = 'data:image/png;base64,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';
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService, private userService: UserService, private transactionService: TransactionService, private campaignService: CampaignService,
               private utilsService: UtilsService, private fileService: FileService) { }
 
   ngOnInit() {
-    
+
     this.id = this.route.snapshot.params['id'];
     this.txnid = this.route.snapshot.params['txnid'];
     this.pay = this.sdkService.getPaySuccess();
@@ -413,7 +412,7 @@ export class SuccessComponent implements OnInit {
 
   checkDetails(res: any) {
     let dets = res.printTxns;
-    if(dets.email == null){
+    /*if(dets.email == null){
       this.isEmailAvailable = false;
     }
     else{
@@ -432,7 +431,7 @@ export class SuccessComponent implements OnInit {
           .then(gres => console.log(gres));
       }
 
-    }
+    }*/
   }
 
   success(res: any, me: any){
