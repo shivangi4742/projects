@@ -24,6 +24,7 @@ import { CreatepaymentlinkComponent } from './createpaymentlink/createpaymentlin
 import { SucesspaymentlinkComponent } from './sucesspaymentlink/sucesspaymentlink.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TransactionhistoryComponent } from './transactionhistory/transactionhistory.component';
+import { SocketService } from './socket.service';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -58,7 +59,7 @@ LeftnavComponent,
       deps: [Http]
     })
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

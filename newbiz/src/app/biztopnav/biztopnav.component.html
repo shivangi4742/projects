@@ -1,4 +1,4 @@
-<div materialize>
+<div materialize *ngIf="user">
   <nav materialize class="nav biztopNavBN">
     <div class="nav-wrapper">            
       <a class="brand-logo linkButtonBN" [routerLink]="'/dashboard'">
@@ -7,18 +7,22 @@
       </a>
       <ul class="left hide-on-large-only">
         <li class="hide-on-small-only">
-          <i class="material-icons leftMenuBN">menu</i>
+          <a materialize="sideNav" data-activates="slide-out3" class="button-collapse linkButtonBN">
+            <i class="material-icons linkButtonBN">menu</i>
+          </a>
         </li>
         <li class="hide-on-med-only">
-          <i class="material-icons leftMenuSBN">menu</i>
+          <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN">
+            <i class="material-icons linkButtonBN">menu</i>
+          </a>
         </li>
       </ul>
       <ul class="right">
         <li class="hide-on-small-only">
-          <i class="material-icons bizHdrSoloIconBN">notifications</i>
+          <i class="material-icons bizHdrSoloIconBN linkButtonBN">notifications</i>
         </li>
         <li class="hide-on-med-and-up">
-          <i class="material-icons bizHdrSoloIconSBN">notifications</i>
+          <i class="material-icons bizHdrSoloIconSBN linkButtonBN">notifications</i>
         </li>
         <li class="hide-on-med-and-down">
           <i class="material-icons bizHdrIconBN">account_circle</i>
@@ -27,10 +31,10 @@
           <span class="truncate bizUserBN">{{user.displayName}}</span>
         </li>
         <li class="hide-on-small-only">
-            <i class="material-icons bizHdrLastIconBN">more_vert</i>
+            <i class="material-icons bizHdrLastIconBN linkButtonBN">more_vert</i>
         </li>
         <li class="hide-on-med-and-up">
-            <i class="material-icons bizHdrLastIconSBN">more_vert</i>
+            <i class="material-icons bizHdrLastIconSBN linkButtonBN">more_vert</i>
         </li>
       </ul>      
     </div>

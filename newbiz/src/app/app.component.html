@@ -1,9 +1,15 @@
 <header>
-  <biztopnav></biztopnav>
+  <biztopnav [user]="user"></biztopnav>
 </header>
 <main>
   <div materialize>
-    <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN">
+    <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN hide-on-med-and-down">
+      <leftnav></leftnav>
+    </ul>
+    <ul id="slide-out2" class="side-nav fixed sidenavsmallBN hide-on-med-and-up">
+      <leftnav></leftnav>
+    </ul>
+    <ul id="slide-out3" class="side-nav fixed sidenavmediumBN hide-on-small-only hide-on-large-only">
       <leftnav></leftnav>
     </ul>
     <div class="row noMarginRowBN">
