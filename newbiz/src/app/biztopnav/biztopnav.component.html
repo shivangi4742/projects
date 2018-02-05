@@ -1,4 +1,31 @@
 <div materialize *ngIf="user">
+  <ul id="account" class="dropdown-content rightMenuBN">
+    <li class="menuitemhoverBN">
+      <div class="row nopadsBN">
+        <div class="col s10 offset-s1">
+          <select materialize="material_select" (ngModelChange)="langChanged($event)" [(ngModel)]="language">
+            <option value="1">English</option>
+            <option value="2">हिंदी</option>
+            <option value="3">मराठी</option>
+          </select>
+        </div>
+      </div>
+    </li>
+    <li class="menuitemhoverBN">
+      <a class="nopadstopbottomBN whiteTextBN" (click)="signOut()">
+        <span class="valign-wrapper"> 
+          <i class="material-icons iconPrefixBN whiteTextBN">settings</i> {{'Change Password' | translate}} 
+        </span> 
+      </a>
+    </li>
+    <li class="menuitemhoverBN">
+      <a class="nopadstopbottomBN whiteTextBN" (click)="signOut()">
+        <span class="valign-wrapper"> 
+          <i class="material-icons iconPrefixBN whiteTextBN">exit_to_app</i> {{'Sign Out' | translate}} 
+        </span> 
+      </a>
+    </li>
+</ul>  
   <nav materialize class="nav biztopNavBN">
     <div class="nav-wrapper">            
       <a class="brand-logo linkButtonBN" [routerLink]="'/dashboard'">
@@ -30,11 +57,11 @@
         <li class="hide-on-med-and-down">
           <span class="truncate bizUserBN">{{user.displayName}}</span>
         </li>
-        <li class="hide-on-small-only">
-            <i class="material-icons bizHdrLastIconBN linkButtonBN">more_vert</i>
-        </li>
-        <li class="hide-on-med-and-up">
-            <i class="material-icons bizHdrLastIconSBN linkButtonBN">more_vert</i>
+        <li>
+            <a materialize="dropdown" class="dropdown-button" data-activates="account" data-beloworigin="true">
+              <i class="material-icons bizHdrLastIconBN linkButtonBN hide-on-small-only">more_vert</i>
+              <i class="material-icons bizHdrLastIconSBN linkButtonBN hide-on-med-and-up">more_vert</i>
+            </a>
         </li>
       </ul>      
     </div>
