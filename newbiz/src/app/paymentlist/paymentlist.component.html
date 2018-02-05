@@ -8,7 +8,34 @@
       </a>
     </div>
   </div>
-  <div *ngIf="false">
+
+  <ul id="account" Class="dropdown-content dropBN grey lighten-5 topNavDDMenuNGOBN">
+    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+
+    <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="Twitter Tweet Button" >
+      <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
+    </a>
+    <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
+      title="Twitter Tweet Button" >
+      <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
+    </a>
+    <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" 
+      data-text="" data-href="" title="Whatsapp Share Button" class="wa_btn wa_btn_m">
+      <img class="" src="../../assets/newbiz/imgs/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
+    </a>
+  </ul>
+
+  <div *ngIf="!paymentlink">
     <div class="row"></div>
     <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
       <div class="row">
@@ -36,104 +63,113 @@
     </div>
   </div>
 
-  <div *ngIf="true">
+  <div *ngIf="paymentlink">
     <div class="row">
       <div class="col s12 m8 l6 center serchbrderBN">
         <i class="material-icons col s2 alignMidBN srcBN">search</i>
-        <input id="searchCamp" placeholder="{{'Search Payment Links' | translate}}.." name="searchCamp"
-         class="regNrmS6IBN searchBN col s10 inptBN"
+        <input id="searchCamp" placeholder="{{'Search Payment Links' | translate}}.." name="searchCamp" class="regNrmS6IBN searchBN col s10 inptBN"
           type="text" [(ngModel)]="campaignName" (click)="searchCampaigns()">
         <button id="search" (click)="updateAllCampaigns()" style="display:none;"></button>
       </div>
     </div>
     <div class="row">
-        <div class="col s12 center">
-          <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
-            <li class="tab col s6 m6 l6 tabBottomBN">
-              <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'"  id="create" (click)="setActiveTab(0)" href="#createCampaign">{{'Active payment link' | translate}}</a>
-              <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
-            </li>
-            <li class="tab col s6 m6 l6 tabBottomBN">
-              <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Inactive payment link' | translate}}<span *ngIf="numCampaigns > 0">({{numCampaigns}})</span></a>
-              <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
-            </li>
-            <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
-          </ul>
-        </div>
-
-        
-        <div class="col s12">
-          <status [status]="getStatus()"></status>
-        </div>
+      <div class="col  m1 l2 "></div>
+      <div class="col s12 m8 l8 center">
+        <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
+          <li class="tab col s6 m6 l6 ">
+            <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="create" (click)="setActiveTab(0)" href="#createCampaign">{{'Active Payment Link' | translate}}</a>
+            <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
+          </li>
+          <li class="tab col s6 m6 l6 ">
+            <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Inactive Payment Link' | translate}}<span *ngIf="numCampaigns > 0">({{numCampaigns}})</span></a>
+            <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
+          </li>
+          <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>
+        </ul>
       </div>
-      <div class="row">
-          <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-              <li class="active" *ngFor="let p of paymentlink">
-                <div class="collapsible-header active">
-                    <a class="linkButtonBN col s12 campNameBN regNrmS6BN">
+      <div class="col  m1 l2 "></div>
+
+
+      <div class="col s12">
+        <status [status]="getStatus()"></status>
+      </div>
+    </div>
+    <div class="row">
+      <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li class="active" *ngFor="let p of paymentlink">
+          <div class="collapsible-header active">
+            <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
                         <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                         
                         <ng-template #right>
                             <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
                         </ng-template>
                         <span class="alignMidBN">{{p.discription}}</span>
-                        <span class="mrgNBN "> ₹ {{p.amount}}</span>
-                        <i class="material-icons right">share</i>
-                    </a>
-                   
-                </div>
-                <div class="collapsible-body" style="display: block;">
-                  <div class="row">
-                    <div class="col s12 m3 l3">
-                        
-                          <img src="../../assets/newbiz/imgs/payment link placeholder@1.5x.png" alt="">
-                        
-                      </div>
-                    <div class="col s12 m9 l9">
-                      <div *ngIf="p.url">
-                        Payment link <br>
-                        <span class="dashBN alignMidBN">
+            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+              <i class="material-icons right ">share</i>
+            </a>
+
+            <span class="mrgNBN right"> ₹ {{p.amount}}</span>
+            </span>
+
+          </div>
+          <div class="collapsible-body colpBodyBN" style="display: block;">
+            <div class="row">
+              <div class="col s12 m2 l2 center">
+
+                <img src="../../assets/newbiz/imgs/payment link default.png" alt="">
+
+              </div>
+              <div class="col s12 m10 l10" *ngIf="p.url">
+                
+                  {{'Payment link' | translate}}<br>
+                  <span class="dashBN alignMidBN">
                           <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
                           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                          <i class="material-icons alignMidBN" >content_copy</i> &nbsp;copy &nbsp;</span>
-                          <i class="material-icons alignMidBN">visibility</i> Preview
-                          <br><br><br>
-                          </div>
-                           <div *ngIf="!p.url">
-                             <div class="row"></div>
-                              <div class="row"></div>
-                             
-                              <div class="row"></div>
-                           </div>
-                          <div class="row">
-                              <div class="col s12 m6 l6 regNrmS6BN paddBN">
-                                 Starts on ({{p.startdate}})</div>
-                                 <div class="col s12 m6 l6 regNrmS6BN">
-                        Ends on ({{p.expirydate}})</div>
-                        </div>
-                    
-                    </div>
-                 
+                           <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
+          type="button" ngxClipboard [cbContent]="p.url" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN ">content_copy</i>
+            <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+                  </span>
+                  <a [href]="p.url" target="_blank" class="copyBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                  </a>
+                  <br><br><br>
+               
+                <div *ngIf="!p.url">
+                  <div class="row"></div>
+                  <div class="row"></div>
+
+                  <div class="row"></div>
                 </div>
-                <div class="row red redBN">
-                  <div class="col s12 m4 l4 left">
-                    <i class="material-icons alignMidBN bordrBN">close</i> Expire Link
-                    </div>
-                  <div class="col s12 m8 l8 right">
-                    <span class="right">
+                <div class="row">
+                  <div class="col s12 m6 l6 regNrmS6BN paddBN">
+                    Starts on ({{p.startdate}})</div>
+                  <div class="col s12 m6 l6 regNrmS6BN" >
+                  <span *ngIf="p.expirydate">  Ends on ({{p.expirydate}})</span></div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="row red redBN">
+              <div class="col s6 m4 l4 left">
+                <i class="material-icons alignMidBN bordrBN">close</i> Expire Link
+              </div>
+              <div class="col s6 m8 l8 right">
+                <span class="right">
                     <i class="material-icons alignMidBN">show_chart</i> See Sales 
                     </span>
-                  </div>
-               
               </div>
-                </div>
-              </li>
-              
-             
-            </ul>
-      </div>
-  
 
-</div>
-</div>
+            </div>
+          </div>
+        </li>
 
+
+      </ul>
+    </div>
+
+
+  </div>
+</div>

@@ -17,6 +17,8 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CampaignService {
+    tomdd1: string;
+    fromdd:string;
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
@@ -512,13 +514,29 @@ export class CampaignService {
     merchantpaymentlinkpost(res: any) {
         let me = this;  
         
-        if (res && res.length > 0) {
+        if(res.responseFromAPI == false){
+            return res.responseFromAPI;
+        }
+        else if (res && res.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i:number = 0; i < res.length; i++ ) {
+                
                 if((res[i].description)){
                       var p= (res[i].description).substring(0,30);
                 }
-                me._PaymentLinks.push(new PaymentLinks(p,res[i].url, res[i].creationDate, res[i].expiryDate,
+                if((res[i].creationDate)){
+                    var crdate = res[i].creationDate
+                    let dta: string[] = crdate.split(' ');       
+                    let dtf :string[]= dta[0].split('-');
+                    this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
+                }
+                 if((res[i].expiryDate)){
+                    var crdate = res[i].expiryDate
+                    let dta1: string[] = crdate.split(' ');       
+                    let dtf :string[]= dta1[0].split('-');
+                    this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];        
+                }
+                me._PaymentLinks.push(new PaymentLinks(p,res[i].url, this.fromdd, this.tomdd1,
                    res[i].amount, res[i].fileURL ));
             }
         }

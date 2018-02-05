@@ -2,7 +2,7 @@
     margin-bottom: 0px!important;
 }
 .headingBN{
-    font-family: Barlow-Medium;
+     font-family: 'Barlow', sans-serif;
     font-size: 12px;
     color:rgba(61,61,61,1);
     font-style: normal;
@@ -11,16 +11,17 @@
     letter-spacing: 0em;
 }
 .heBN{
-    font-family: Barlow-Regular;
-    font-size: 12px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11pt;
     color:rgba(61,61,61,1);
     font-style: normal;
     text-align: left;
     line-height: 14.4px;
     letter-spacing: 0em;
+    font-weight: 600;
 }
 .he1BN{
-    font-family: Barlow-Medium;
+    font-family: 'Barlow', sans-serif;
     font-size: 14px;
     color:rgba(61,61,61,1);
     font-style: normal;
@@ -30,4 +31,30 @@
 }
 .mrlBN{
      margin-left: 12px;
+}
+.pr1BN{
+    text-transform: uppercase;
+}
+.checkHeight{
+  line-height: 10px!important;
+  height: 30px!important;
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  font-weight: bold;
+}
+ .paddindfBN {
+    padding: 8px 0px 5px 55px!important;
+} 
+.busDetails{
+    padding-top: 12px;
+}
+.editButBN{
+        padding-top: 24px;
+}
+.prrBN{
+    text-transform: capitalize;
+}
+.inputBN{
+    margin: 0 0 8px 0!important;
 }
