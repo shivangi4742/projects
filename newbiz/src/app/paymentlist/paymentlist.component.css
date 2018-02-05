@@ -32,7 +32,7 @@ border: 1px dashed grey;
 border-radius: 19px;
 }
 .mrgNBN {
-    margin-left: 150px;
+    margin-right: 35px;
 }
 .redBN{
 color:white!important;
@@ -46,4 +46,13 @@ padding:10px!important;
     border-radius: 90px;
     color: #E53935;
     background-color: white;
+    font-size: 18px!important;
+}
+.dropBN {
+    min-width: 19%!important;
+    padding: 10px!important;
+    left: 724px!important;
+}
+.colpBodyBN{
+    padding: 1rem!important;
 }

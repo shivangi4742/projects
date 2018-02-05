@@ -1,4 +1,14 @@
-<div class="row" *ngIf="user">
+<div class="row"></div>
+  <div class="row">
+    <div class="col s12">
+      <a class="linkButtonBN errNrmS4B1BN">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+  </div>
+  <div class="row" *ngIf="user">
+
   <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
     <li>
       <div id="paybn" (click)="paymentdetail1()" 
@@ -8,7 +18,7 @@
            <i  *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
             <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span>{{'payment Setting'}}
+          </span>{{'Payment Setting'}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row">
@@ -44,7 +54,7 @@
         <div class="row busDetails detailBodyBN mrgnBn">
           <span class="col s12 regNrmS5B2BN">Your Name</span>
           <div class="input-field col s12 m6 l6 regNrmS4BN">
-            <input id="businessName" name="businessEntityName" type="text" placeholder="Enter Your Name" class="pr1BN inputboxBN validate"
+            <input id="businessName" name="businessEntityName" type="text" placeholder="Enter Your Name" class="prrBN inputboxBN validate"
               [(ngModel)]="name" />
             <label for="ngoCertiNum" [ngClass]="{active: name}"></label>
           </div>
@@ -68,15 +78,7 @@
           </div>
 
         </div>
-        <div class="row busDetails detailBodyBN mrgnBn">
-          <span class="col s12 regNrmS5B2BN">Your Password</span>
-          <div class="input-field col s12 m6 l6 regNrmS4BN">
-            <input id="Password" name="Password" type="text" class="inputboxBN validate" [(ngModel)]="Password" placeholder="Enter Your Password"
-            />
-            <label for="Password" [ngClass]="{active: Password}"></label>
-          </div>
-           <span class="alignMidBN editButBN"> <i class="material-icons iconPrefixBN alignMidBN">edit</i> Edit </span>
-        </div>
+       
          <div class="row busDetails detailBodyBN mrgnBn">
           <div class="input-field col s12 m6 l6 regNrmS4BN">
              <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
@@ -296,6 +298,15 @@
               </div>
             </div>
           </div>
+           <div class="row busDetails detailBodyBN mrgnBn">
+          <div class="input-field col s12 m6 l6 regNrmS4BN">
+             <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight"
+              type="submit" (click)="save()" name="submit" >
+              {{'SUBMIT' | translate}}
+             </button>
+          </div>
+
+        </div>
         </div>
       </div>
     </li>

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+
 import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, EventEmitter } from '@angular/core';
+
+import { MaterializeAction } from 'angular2-materialize';
 
 import { FileService, UtilsService, User, PaymentLinks, UserService,
    Product, ProductService, CampaignService, SDKService, Status, HelpService, 
@@ -14,21 +17,38 @@ import { TranslateService } from 'ng2-translate';
 export class PaymentlistComponent implements OnInit {
   active: number = 0;
   isInitial: boolean = true;
+  isCopied1: boolean = false;
   paymentlink: PaymentLinks[];
+   user:User;
+   modalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService,
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) { }
 
   ngOnInit() {
-    this.campaignService.merchantpaymentlink('AA3O1')
-        .then(paymentlink => this.paymentlink = paymentlink);
+     this.utilsService.setStatus(false, false, '');
+    this.userService.getUser()
+      .then(res => this.init(res));
+    
+  }
+   init(usr: User) {
+    if (usr && usr.id) {
+      this.user = usr;
+     this.campaignService.merchantpaymentlink(this.user.merchantCode)
+        .then(res => this.initdtail(res));
+    }
+
   }
   setActiveTab(t: number) {
-    console.log(t);
     this.active = t;
   }
   getStatus(): Status {
     return this.utilsService.getStatus();
+  }
+
+  initdtail(paymentlink:PaymentLinks[]){
+    this.paymentlink = paymentlink;
+    
   }
 
 

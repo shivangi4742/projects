@@ -51,3 +51,6 @@ padding-left: 82px;
 .editButBN{
         padding-top: 24px;
 }
+.prrBN{
+    text-transform: capitalize;
+}
