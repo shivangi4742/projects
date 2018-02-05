@@ -1,3 +1,17 @@
+.startnowBtnBN {
+    background-color: #413A5A!important;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    color: #FFECB3;
+    height: 45px;
+    letter-spacing: 0em;
+    border-radius: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    min-width: 110px;
+}
+
 .videosTextBN {
     font-family: 'Barlow', sans-serif;
     font-weight: 600;
@@ -48,4 +62,26 @@
 .dividerBN {
     border-bottom: 1px solid #CCCDCE;
     padding-bottom: 10px;
+}
+
+.noTransFeeBN {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 17.4pt;
+    color: #413A5A;
+    line-height: 20.9pt;
+    letter-spacing: 0em;    
+}
+
+.zeroPercentBN {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 25.5pt;
+    color: #E53935;
+    line-height: 30.6pt;
+    letter-spacing: 0em;    
+}
+
+.rishabhBN {
+    max-height: 175px;
 }
