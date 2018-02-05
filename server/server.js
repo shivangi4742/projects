@@ -142,12 +142,12 @@ app.get(config.base + '/mgl/*', function (req, res) {
 	res.sendFile(urls.mglHome, { root: __dirname });
 });
 
-app.get(config.base + '/zg/*', function(req, res) {
+app.get(config.base + '/zg/*', function (req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
-	res.sendFile(urls.zgHome, {root: __dirname });
+	res.sendFile(urls.zgHome, { root: __dirname });
 });
 
-app.get(config.base + '/ppl/*', function(req, res) {
+app.get(config.base + '/ppl/*', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	res.sendFile(urls.pplHome, { root: __dirname });
 });
@@ -159,35 +159,35 @@ app.post(config.base + '/ppl/paymentsuccess/:id/:txnid', function (req, res) {
 	});
 });
 
-app.post(config.base + '/ppl/donationsuccess/:id/:txnid', function(req, res) {
+app.post(config.base + '/ppl/donationsuccess/:id/:txnid', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
-	sdkController.paymentSuccess(req, function() {
-		res.sendFile(urls.pplHome, {root: __dirname });
+	sdkController.paymentSuccess(req, function () {
+		res.sendFile(urls.pplHome, { root: __dirname });
 	});
 });
 
-app.post(config.base + '/ppl/donationsuccess/:id/:txnid/:fund', function(req, res) {
+app.post(config.base + '/ppl/donationsuccess/:id/:txnid/:fund', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
-	sdkController.paymentSuccess(req, function() {
-		res.sendFile(urls.pplHome, {root: __dirname });
+	sdkController.paymentSuccess(req, function () {
+		res.sendFile(urls.pplHome, { root: __dirname });
 	});
 });
 
-app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function(req, res) {
+app.post(config.base + '/ppl/paymentfailure/:id/:txnid', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	sdkController.paymentFailure(req, function () {
 		res.sendFile(urls.pplHome, { root: __dirname });
 	});
 });
 
-app.post(config.base + '/ppl/donationfailure/:id/:txnid', function(req, res) {
+app.post(config.base + '/ppl/donationfailure/:id/:txnid', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
-	sdkController.paymentFailure(req, function() {
-		res.sendFile(urls.pplHome, {root: __dirname });
+	sdkController.paymentFailure(req, function () {
+		res.sendFile(urls.pplHome, { root: __dirname });
 	});
 });
 
-app.get(config.base + '/r/:mid/:link', function(req, res) {
+app.get(config.base + '/r/:mid/:link', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
 	sdkController.getCampaignLinkDetails(req.params.mid, req.params.link, req.headers, function (data) {
 		if (data && data.desc1) {
@@ -266,7 +266,7 @@ app.get(config.base + '/r/:mid/:link', function(req, res) {
 	});
 });
 
-app.get(config.base + '/mglshare', function(req, res) {
+app.get(config.base + '/mglshare', function (req, res) {
 	res.send('<!doctype html>' +
 		'<html>' +
 		'    <head>' +
@@ -302,7 +302,7 @@ app.post(config.base + '/paysdk', function (req, res) {
 				'    <head>' +
 				'        <meta charset="utf-8">' +
 				'        <meta name="viewport" content="width=device-width, initial-scale=1">' +
-				'        <title>benow - payment link</title>' + 
+				'        <title>benow - payment link</title>' +
 				'        <script>window.onload = function() { window.location = "' + 'http://localhost:4200' + '/pay/' + data.id + '/SDK/' + data.id + '"; return false; };</script>' +
 				'    </head>' +
 				'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' +
@@ -333,8 +333,8 @@ function start(app, options) {
 var options = setup(config.ssl);
 const svr = start(app, options).listen(config.port);
 var io = require('socket.io').listen(svr);
-io.sockets.on('connection', function(socket) {
-	socket.on('merchantroom', function(room) {
+io.sockets.on('connection', function (socket) {
+	socket.on('merchantroom', function (room) {
 		socket.join(room.room);
 	});
 });

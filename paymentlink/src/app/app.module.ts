@@ -9,6 +9,7 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 
 import { SharedServicesModule } from 'benowservices';
 import { SharedComponentsModule } from 'benowcomponents';
+import { WindowRef } from "./windowref.service";
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -19,6 +20,7 @@ import { PayComponent } from './pay/pay.component';
 import { PgComponent } from './pg/pg.component';
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
+import { RazorpayComponent } from './razorpay/razorpay.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
@@ -32,7 +34,8 @@ export function HttpFactory(http: Http) {
     PayComponent,
     PgComponent,
     SuccessComponent,
-    FailureComponent
+    FailureComponent,
+    RazorpayComponent
   ],
   imports: [
     HttpModule,
@@ -48,7 +51,7 @@ export function HttpFactory(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [],
+  providers: [WindowRef],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

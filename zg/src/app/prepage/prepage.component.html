@@ -1,6 +1,12 @@
 <main>
+  <div *ngIf="showprogress">
+    <div class="progress">
+      <div class="indeterminate"></div> 
+    </div>
+    <h5 align="center">Fetching your details please wait.</h5>
+  </div>
   <div materialize>
-    <div class="row container">
+    <div class="row container" *ngIf="!showprogress">
       <form class="col s12 m10 l10 card-panel grey lighten-5 widgetBN loginLongBN offset-l1 offset-m1" (ngSubmit)="savePrePage()"
         #preForm="ngForm">
         <div class="row">
@@ -35,7 +41,7 @@
           <div class="col s12 center-align">
             <br> For queries please contact:
             <a class="red-text" href="mailto:zipdesk@zipgrid.com" target="_top">zipdesk@zipgrid.com</a>
-             / 
+            /
             <!-- Cross-platform compatible (Android + iPhone) -->
             <a class="red-text" href="tel://9579474743">9579474743</a>
           </div>

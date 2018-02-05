@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { PG } from './../models/pg.model';
 import { SDK } from './../models/sdk.model';
+import { RazorPayModel } from "./../models/razorpay.model";
 import { User } from './../models/user.model';
 import { Product } from './../models/product.model';
 import { Fundraiser } from './../models/fundraiser.model';
@@ -17,6 +18,7 @@ import { UtilsService } from './utils.service';
 export class SDKService {
     private _pg: PG;
     private _sdk: SDK;
+    private _razorpay: RazorPayModel;
     private _lastBill: PayRequest;
     private _paySuccess: any;
     private _payFailure: any;
@@ -47,6 +49,16 @@ export class SDKService {
             this._sdk.products = products;
     }
 
+    public setRazorPay(razorPay: RazorPayModel): void {
+        this._razorpay = new RazorPayModel(razorPay.amount, razorPay.title, razorPay.description, razorPay.firstName, razorPay.lastName, razorPay.email);
+    }
+
+    public getRazorPay(): RazorPayModel {
+        return this._razorpay;
+    }
+
+    
+
     private fillSDK(res: any): SDK | null {
         if (res && res.merchantUser) {
             let vpa: string = res.merchantUser.merchantCode + '@yesbank';
@@ -54,9 +66,9 @@ export class SDKService {
                 vpa = res.merchantUser.defaultAcc.virtualAddress;
 
             let modes: Array<string> = new Array<string>();
-            if(res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
-                res.merchantUser.acceptedPaymentMethods.forEach(function(m: any) {
-                    if(m && m.paymentMethod) {
+            if (res.merchantUser.acceptedPaymentMethods && res.merchantUser.acceptedPaymentMethods.length > 0) {
+                res.merchantUser.acceptedPaymentMethods.forEach(function (m: any) {
+                    if (m && m.paymentMethod) {
                         if ((m.paymentMethod == 'CREDIT_CARD' || m.paymentMethod == 'CC') && modes.indexOf('CC') < 0)
                             modes.push('CC');
                         else if ((m.paymentMethod == 'DEBIT_CARD' || m.paymentMethod == 'DC') && modes.indexOf('DC') < 0)
@@ -64,9 +76,11 @@ export class SDKService {
                         else if ((m.paymentMethod == 'NET_BANKING' || m.paymentMethod == 'NB') && modes.indexOf('NB') < 0)
                             modes.push('NB');
                         else if ((m.paymentMethod == 'MEAL_COUPON' || m.paymentMethod == 'SODEXO') && modes.indexOf('SODEXO') < 0)
-                            modes.push('SODEXO');                        
+                            modes.push('SODEXO');
                         else if ((m.paymentMethod == 'UPI_OTHER_APP' || m.paymentMethod == 'UPI') && modes.indexOf('UPI') < 0)
                             modes.push('UPI');
+                        else if ((m.paymentMethod == 'RAZORPAY' || m.paymentMethod == 'RAZORPAY') && modes.indexOf('RAZORPAY') < 0)
+                            modes.push('RAZORPAY');
                     }
                 });
             }
@@ -77,25 +91,25 @@ export class SDKService {
             let mtype: number = 1;
             if (this.utilsService.isNGO(res.merchantUser.mccCode))
                 mtype = 2;
-            else if(this.utilsService.isHB(res.merchantUser.merchantCode, res.merchantUser.businessLob))
-                mtype = 3;            
+            else if (this.utilsService.isHB(res.merchantUser.merchantCode, res.merchantUser.businessLob))
+                mtype = 3;
 
             let ttl: string = res.campaignName;
-            if(mtype == 1 || !ttl)
+            if (mtype == 1 || !ttl)
                 ttl = res.merchantUser.displayName;
 
             var expiryDate = '';
-            if(res.expiryDate){
+            if (res.expiryDate) {
                 let dt = new Date(res.expiryDate);
                 expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
             }
 
-            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
-                res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
-                (mtype == 1) ? res.mobileNumber : '', ttl, 
+            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
+                res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '',
+                (mtype == 1) ? res.mobileNumber : '', ttl,
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.displayName, res.invoiceNumber, res.till, null, null, null, null, null, null, null, 
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.invoiceNumber, res.till, null, null, null, null, null, null, null,
                 null, null, modes, null);
         }
         else if (res.logFormate) {
@@ -109,7 +123,7 @@ export class SDKService {
             //     obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
 
             this._sdk = new SDK(JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
-                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob), 
+                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob),
                 JSON.parse(obj.readonlypan), JSON.parse(obj.readonlyname), JSON.parse(obj.askresidence), JSON.parse(obj.readonlyaddr), Boolean(obj.readonlyemail),
                 Boolean(obj.allowMultipleSelect), Boolean(obj.readonlyresidnce), obj.mtype, obj.amount, obj.language, obj.sourceId, obj.minpanamnt, obj.merchantType,
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
@@ -177,13 +191,13 @@ export class SDKService {
     }
 
     updatedFundraiserCollection(res: any): boolean {
-        if(res && res.responseFromAPI == true)
+        if (res && res.responseFromAPI == true)
             return true;
-            
+
         return false;
     }
 
-    getFundraiserDetails(fundraiserId: string, campaignId: string): Promise<Fundraiser|null> {
+    getFundraiserDetails(fundraiserId: string, campaignId: string): Promise<Fundraiser | null> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getFundraiserDetailsURL,
             JSON.stringify({
@@ -196,8 +210,8 @@ export class SDKService {
             .catch(res => null);
     }
 
-    fillFundraiser(res: any): Fundraiser|null {
-        if(res && res.id > 0) {
+    fillFundraiser(res: any): Fundraiser | null {
+        if (res && res.id > 0) {
             return new Fundraiser(res.id, res.totalTarget, res.actualCollection, res.fundraiserId, res.txnRefNumber, res.fundraiserName);
         }
 
@@ -257,13 +271,13 @@ export class SDKService {
     getPaymentLinkDetails(campaignId: string): Promise<SDK> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getPaymentLinkDetailsURL,
-                JSON.stringify({
-                    "campaignId": campaignId
-                }),
-                { headers: this.utilsService.getHeaders() })
-                .toPromise()
-                .then(res => this.fillSDK(res.json()))
-                .catch(res => this.utilsService.returnGenericError());
+            JSON.stringify({
+                "campaignId": campaignId
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillSDK(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
     }
 
     getLogById(sdkId: string): Promise<any> {

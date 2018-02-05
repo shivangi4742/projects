@@ -69,8 +69,8 @@ var sdkCont = {
                 'Content-Type': 'application/json'
             };
             var fundraiserid = req.params.fund;
-            if(fundraiserid)
-                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.body.amount, headers, function(fundata) {});
+            if (fundraiserid)
+                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.body.amount, headers, function (fundata) { });
 
             var status = req.body.status;
             var statusMsg = 'Failed';
@@ -128,100 +128,106 @@ var sdkCont = {
         var paylinkid = req.body.paylinkid;
         try {
             var cat = req.body.paytype;
-            var drop_cat = 'DC,NB,EMI,CASH';
-            if (cat == 1)
-                drop_cat = 'DC,NB,EMI,CASH';
-            else if (cat == 2)
-                drop_cat = 'CC,NB,EMI,CASH';
-            else if (cat == 3)
-                drop_cat = 'CC,DC,EMI,CASH';
-
-            var headers = {
-                'X-AUTHORIZATION': config.paymentGateway.xauth,
-                'Content-Type': 'application/json'
-            };
-            var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
-            var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
-            if(req.body.mtype == 2) {
-                if(req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
-                    surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
-                    furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;    
-                }
-                else {
-                    surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
-                    furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;    
-                }
-            }
-
-            if (req.body.sourceId == 2) {
-                surl = req.body.surl;
-                furl = req.body.furl;
-            }
-            else if (req.body.sourceId == 1) {
-                surl = config.paymentGateway.sdksurl + paylinkid + '/' + req.body.txnid;
-                furl = config.paymentGateway.sdkfurl + paylinkid + '/' + req.body.txnid;
+            if (cat == 5) { // RAZORPAY flow
+                res.redirect(config.base + '/ppl/razorpay/' + paylinkid);
+                // res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods);
             }
             else {
-                if (req.body.surl && req.body.surl.length > 4)
+                var drop_cat = 'DC,NB,EMI,CASH';
+                if (cat == 1)
+                    drop_cat = 'DC,NB,EMI,CASH';
+                else if (cat == 2)
+                    drop_cat = 'CC,NB,EMI,CASH';
+                else if (cat == 3)
+                    drop_cat = 'CC,DC,EMI,CASH';
+
+                var headers = {
+                    'X-AUTHORIZATION': config.paymentGateway.xauth,
+                    'Content-Type': 'application/json'
+                };
+                var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
+                var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
+                if (req.body.mtype == 2) {
+                    if (req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
+                        surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
+                        furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
+                    }
+                    else {
+                        surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
+                        furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;
+                    }
+                }
+
+                if (req.body.sourceId == 2) {
                     surl = req.body.surl;
-
-                if (req.body.furl && req.body.furl.length > 4)
                     furl = req.body.furl;
+                }
+                else if (req.body.sourceId == 1) {
+                    surl = config.paymentGateway.sdksurl + paylinkid + '/' + req.body.txnid;
+                    furl = config.paymentGateway.sdkfurl + paylinkid + '/' + req.body.txnid;
+                }
+                else {
+                    if (req.body.surl && req.body.surl.length > 4)
+                        surl = req.body.surl;
+
+                    if (req.body.furl && req.body.furl.length > 4)
+                        furl = req.body.furl;
+                }
+                var payload = {
+                    "key": config.paymentGateway.key,
+                    "curl": config.paymentGateway.curl,
+                    "surl": surl,
+                    "furl": furl,
+                    "udf1": req.body.udf1 ? req.body.udf1 : '',
+                    "udf2": req.body.udf2 ? req.body.udf2 : '',
+                    "udf3": req.body.merchantname,
+                    "udf4": req.body.merchantcode,
+                    "udf5": paylinkid ? paylinkid : '',
+                    "udf6": req.body.udf6 ? req.body.udf6 : '',
+                    "udf7": req.body.udf7 ? req.body.udf7 : '',
+                    "udf8": '',
+                    "udf9": '',
+                    "udf10": '',
+                    "ismobileview": req.body.ismobileview,
+                    "txnid": req.body.txnid,
+                    "drop_category": drop_cat,
+                    "phone": req.body.mobileNo,
+                    "amount": req.body.payamount,
+                    "lastname": req.body.lastname,
+                    "firstname": req.body.firstname,
+                    "productinfo": req.body.merchantname,
+                    "email": req.body.email ? req.body.email : ""
+                };
+
+                if (cat == 3)
+                    payload.pg = 'NB';
+
+                var obj;
+
+                obj = {
+                    "amount": req.body.payamount,
+                    "email": payload.email,
+                    "firstName": payload.firstname,
+                    "furl": payload.furl,
+                    "merchantKey": payload.key,
+                    "productInfo": payload.productinfo,
+                    "surl": payload.surl,
+                    "transactionNumber": req.body.txnid,
+                    "udf1": payload.udf1,
+                    "udf2": payload.udf2,
+                    "udf3": payload.udf3,
+                    "udf4": payload.udf4,
+                    "udf5": payload.udf5,
+                    "udf6": payload.udf6,
+                    "udf7": payload.udf7,
+                    "udf8": payload.udf8,
+                    "udf9": payload.udf9,
+                    "udf10": payload.udf10,
+                    "phone": payload.phone,
+                    "username": payload.phone
+                };
+                this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res, req.body.mtype);
             }
-            var payload = {
-                "key": config.paymentGateway.key,
-                "curl": config.paymentGateway.curl,
-                "surl": surl,
-                "furl": furl,
-                "udf1": req.body.udf1 ? req.body.udf1 : '',
-                "udf2": req.body.udf2 ? req.body.udf2 : '',
-                "udf3": req.body.merchantname,
-                "udf4": req.body.merchantcode,
-                "udf5": paylinkid ? paylinkid : '',
-                "udf6": req.body.udf6 ? req.body.udf6 : '',
-                "udf7": req.body.udf7 ? req.body.udf7 : '',
-                "udf8": '',
-                "udf9": '',
-                "udf10": '',
-                "ismobileview": req.body.ismobileview,
-                "txnid": req.body.txnid,
-                "drop_category": drop_cat,
-                "phone": req.body.mobileNo,
-                "amount": req.body.payamount,
-                "lastname": req.body.lastname,
-                "firstname": req.body.firstname,
-                "productinfo": req.body.merchantname,
-                "email": req.body.email ? req.body.email : ""
-            };
-
-            if (cat == 3)
-                payload.pg = 'NB';
-
-            var obj;
-
-            obj = {
-                "amount": req.body.payamount,
-                "email": payload.email,
-                "firstName": payload.firstname,
-                "furl": payload.furl,
-                "merchantKey": payload.key,
-                "productInfo": payload.productinfo,
-                "surl": payload.surl,
-                "transactionNumber": req.body.txnid,
-                "udf1": payload.udf1,
-                "udf2": payload.udf2,
-                "udf3": payload.udf3,
-                "udf4": payload.udf4,
-                "udf5": payload.udf5,
-                "udf6": payload.udf6,
-                "udf7": payload.udf7,
-                "udf8": payload.udf8,
-                "udf9": payload.udf9,
-                "udf10": payload.udf10,
-                "phone": payload.phone,
-                "username": payload.phone
-            };
-            this.hashPayloadPost(paylinkid, obj, headers, payload, helper.getDefaultExtServerOptions, helper.postAndCallback, res, req.body.mtype);
         }
         catch (err) {
             res.redirect(config.paymentGateway.furl + paylinkid + '/' + req.body.txnid);
@@ -239,7 +245,7 @@ var sdkCont = {
                             function (err, remoteResponse, remoteBody) {
                                 try {
                                     if (err) {
-                                        if(mtype == 2)
+                                        if (mtype == 2)
                                             rd.redirect(config.me + '/donationfailure/' + paylinkid);
                                         else
                                             rd.redirect(config.me + '/paymentfailure/' + paylinkid);
@@ -248,14 +254,14 @@ var sdkCont = {
                                     if (remoteResponse && remoteResponse.caseless && remoteResponse.caseless.dict)
                                         rd.redirect(remoteResponse.caseless.dict.location);
                                     else {
-                                        if(mtype == 2)
+                                        if (mtype == 2)
                                             rd.redirect(config.me + '/donationfailure/' + paylinkid);
                                         else
-                                            rd.redirect(config.me + '/paymentfailure/' + paylinkid);                                        
+                                            rd.redirect(config.me + '/paymentfailure/' + paylinkid);
                                     }
                                 }
                                 catch (error) {
-                                    if(mtype == 2)
+                                    if (mtype == 2)
                                         rd.redirect(config.me + '/donationfailure/' + paylinkid);
                                     else
                                         rd.redirect(config.me + '/paymentfailure/' + paylinkid);
@@ -263,7 +269,7 @@ var sdkCont = {
                             });
                     }
                     else {
-                        if(mtype == 2)
+                        if (mtype == 2)
                             rd.redirect(config.me + '/donationfailure/' + paylinkid);
                         else
                             rd.redirect(config.me + '/paymentfailure/' + paylinkid);
@@ -271,7 +277,7 @@ var sdkCont = {
                 });
         }
         catch (err) {
-            if(mtype == 2)
+            if (mtype == 2)
                 rd.redirect(config.me + '/donationfailure/' + paylinkid);
             else
                 rd.redirect(config.me + '/paymentfailure/' + paylinkid);
@@ -315,11 +321,11 @@ var sdkCont = {
 
     updateFundraiserCollectionPostCall(fundraiserId, campaignId, amount, hdrs, cb) {
         helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/updateFundraiserForCampaign', 'POST', hdrs),
-        {
-            "txnRefNumber": campaignId,
-            "fundraiserId": fundraiserId,
-            "actualCollection": amount
-        }, cb);
+            {
+                "txnRefNumber": campaignId,
+                "fundraiserId": fundraiserId,
+                "actualCollection": amount
+            }, cb);
     },
 
     updateFundraiserCollectionPost: function (req, cb) {
@@ -467,7 +473,7 @@ var sdkCont = {
             }
             else
                 cb(retVal);
-            }
+        }
         catch (err) {
             cb(retErr);
         }
@@ -499,6 +505,8 @@ var sdkCont = {
                     pt = 'DEBIT_CARD';
                 else if (d.paytype === 3)
                     pt = 'NET_BANKING';
+                else if (d.paytype === 5)
+                    pt = 'RAZORPAY';
 
                 var obj = {
                     "amount": d.payamount,

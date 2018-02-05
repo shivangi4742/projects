@@ -26,6 +26,7 @@ import { MaterializeAction } from 'angular2-materialize';
 export class PrepageComponent implements OnInit {
 
   hasPayPin: boolean;
+  showprogress: boolean;
   id: string;
   payPin: string;
   enteredPayPin: string;
@@ -72,9 +73,11 @@ export class PrepageComponent implements OnInit {
     if (this.id && this.id.length > 0) {
       this.enteredPayPin = '';
       this.getPayPinValues(this.id);
+      this.showprogress = true;
     }
     else {
       this.hasPayPin = false;
+      this.showprogress = false;
     }
 
   }
@@ -89,6 +92,8 @@ export class PrepageComponent implements OnInit {
       this.invalidPaypin = true;
     }
     else {
+      this.showprogress = false;
+
       this.enteredPayPin = '';
       this.invalidPaypin = false;
 

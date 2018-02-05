@@ -26,6 +26,7 @@
         <input type="hidden" name="mtype" [ngModel]="pg.mtype" />
         <input type="hidden" name="hasfundraiser" [ngModel]="pg.hasFundraiser" />
         <input type="hidden" name="fundraiserid" [ngModel]="pg.fundraiserId" />
+        <input type="hidden" name="prods" [ngModel]="prods" />
     </div>
 </form>
 <h5 align="center" *ngIf="pg.mtype != 2">{{'Redirecting you to payment gateway,' | translate}}</h5>

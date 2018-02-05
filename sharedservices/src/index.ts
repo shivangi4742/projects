@@ -15,6 +15,7 @@ import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
 export { PG } from './models/pg.model';
 export { SDK } from './models/sdk.model';
+export { RazorPayModel } from './models/razorpay.model';
 export { User } from './models/user.model';
 export { Status } from './models/status.model';
 export { Product } from './models/product.model';

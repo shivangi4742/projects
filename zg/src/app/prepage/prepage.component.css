@@ -34,3 +34,11 @@
     font-size: 12px;
     color: red;   
 }
+
+.progress .indeterminate {
+    background-color: red;
+}
+
+.progress {
+    background-color: #ecbbac; 
+}
