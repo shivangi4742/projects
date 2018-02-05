@@ -43,8 +43,14 @@ export class SettingsComponent implements OnInit {
   errorpanmsg: string;
   errvalidate: boolean = false;
   errorifsc: string;
-   errpincodevalidate: boolean = false;
-    errorpincode : string;
+  errpincodevalidate: boolean = false;
+  errorpincode: string;
+  erraddressvalidate: boolean = false;
+  erroraddres: string;
+  errbusinessvalidate:boolean =false;
+  errorbusiness:string;
+   errdisplayvalidate:boolean =false;
+  errordisplay:string;
 
 
 
@@ -272,22 +278,48 @@ export class SettingsComponent implements OnInit {
       this.errorifsc = 'Please enter correct IFSC code.'
     }
   }
-     savepincode() {
-        var pincode = this.pincode;
-        //console.log(pincode);
-        if (pincode.length == 6) {
-            this.errpincodevalidate = false;
-            this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+  savepincode() {
+    var pincode = this.pincode;
+    //console.log(pincode);
+    if (pincode.length == 6) {
+      this.errpincodevalidate = false;
+      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
         this.businesspro.contactEmailId, this.businesspro.category,
         this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
         this.businesspro.contactPerson, this.businesspro.address,
         this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
         this.businesspro.gstno);
-        }
-        else {
-            this.errpincodevalidate = true;
-            this.errorpincode = 'Please enter correct Pincode.';
-        }
+    }
+    else {
+      this.errpincodevalidate = true;
+      this.errorpincode = 'Please enter correct Pincode.';
+    }
 
-}
+  }
+  validatebusiness() {
+    var TCode = this.businessName
+
+    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
+      this.errbusinessvalidate = true;
+      this.errorbusiness ='Business name should not contain special symbol.';
+     
+    } else {
+      
+      this.errbusinessvalidate = false;
+    }
+  }
+   
+    validaatedisplay() {
+    var TCode = this.user.displayName;
+
+    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
+      this.errdisplayvalidate = true;
+      this.errordisplay ='Special Character are Not allowed.';
+     
+    } else {
+      
+      this.errdisplayvalidate = false;
+    }
+  }
+
 }
