@@ -513,31 +513,31 @@ export class CampaignService {
 
     merchantpaymentlinkpost(res: any) {
         let me = this;  
-        
+        let pt= res.merchantPPVoList;
         if(res.responseFromAPI == false){
             return res.responseFromAPI;
         }
-        else if (res && res.length > 0) {
+        else if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
-            for (let i:number = 0; i < res.length; i++ ) {
-                
-                if((res[i].description)){
-                      var p= (res[i].description).substring(0,30);
-                }
-                if((res[i].creationDate)){
-                    var crdate = res[i].creationDate
+            for (let i:number = 0; i < pt.length; i++ ) {   
+                if((pt[i].description)){
+                      var p= (pt[i].description).substring(0,30);
+                }     
+                if((pt[i].creationDate)){
+                    var crdate = pt[i].creationDate
                     let dta: string[] = crdate.split(' ');       
                     let dtf :string[]= dta[0].split('-');
                     this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
                 }
-                 if((res[i].expiryDate)){
-                    var crdate = res[i].expiryDate
+               
+                 if((pt[i].expiryDate)){
+                    var crdate = pt[i].expiryDate
                     let dta1: string[] = crdate.split(' ');       
                     let dtf :string[]= dta1[0].split('-');
                     this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];        
                 }
-                me._PaymentLinks.push(new PaymentLinks(p,res[i].url, this.fromdd, this.tomdd1,
-                   res[i].amount, res[i].fileURL ));
+                me._PaymentLinks.push(new PaymentLinks(p,pt[i].url, this.fromdd, this.tomdd1,
+                   pt[i].amount, pt[i].fileURL ));
             }
         }
         
