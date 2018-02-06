@@ -1,7 +1,7 @@
 <div class="row whiteFontBN">
   <div class="col s12">&nbsp;</div>
   <div class="col s10 center offset-s1">
-    <div class="leftnavBtnBN">
+    <div class="leftnavBtnBN" [routerLink]="createPaymentLink">
       {{'Create Payment Link' | translate}}
     </div>
   </div>
@@ -24,7 +24,7 @@
   <div class="col s12 separatorBN"></div>
   <div class="col s12">&nbsp;</div>
   <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+    <div class="col s10 offset-s1 linkButtonBN" [routerLink]="createPaymentLink">
       <i class="material-icons leftNavIconBN alignMidBN">link</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Payment Links' | translate}}</span>
     </div>
@@ -45,7 +45,7 @@
     <div class="col s1"></div>
   </div>
   <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+    <div class="col s10 offset-s1 linkButtonBN" [routerLink]="transactionHistory">
       <i class="material-icons leftNavIconBN alignMidBN">history</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Transaction History' | translate}}</span>
     </div>

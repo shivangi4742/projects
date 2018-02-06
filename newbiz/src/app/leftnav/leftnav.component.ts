@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'leftnav',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftnavComponent implements OnInit {
 
-  constructor() { }
+  createPaymentLink: string = '/createpaylink';
+  transactionHistory: string = '/transactionhistory';
+
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
