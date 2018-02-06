@@ -27,6 +27,14 @@ export class BiztopnavComponent implements OnInit {
   }
 
   signOut() {
+    this.utilsService.clearStorages();
+    this.userService.resetUser();
+    window.location.href = this.utilsService.getLogoutPageURL();
+  }
 
+  changePassword() {
+    this.utilsService.clearStorages();
+    this.userService.resetUser();
+    window.location.href = this.utilsService.getChangePasswordPageURL();    
   }
 }
