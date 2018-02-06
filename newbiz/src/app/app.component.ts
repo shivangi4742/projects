@@ -57,8 +57,7 @@ export class AppComponent {
     if(usr && usr.id && usr.id.trim().length > 0) {
       this.user = usr;
       //TODO: Login polls, socket implementation, signup & kyc
-/*      this.socketService.joinMerchantRoom(this.user.merchantCode, this.user.tilNumber);
-      this.newPayments = this.socketService.getNewPayments();*/
+      this.socketService.joinMerchantRoom(this.user.merchantCode);      
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));    
       let me = this;
       setTimeout(function() { me.loginPolls(); }, 5000);
