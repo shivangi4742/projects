@@ -480,14 +480,14 @@ var userCont = {
         var me = this;
         this.markSelfMerchantVerifiedpost(req,  function (data) {
            // res.setHeader("X-Frame-Options", "DENY");
-            res.json({ "data": data });
+            
+            res.json( data);
         });
     },
 
     markSelfMerchantVerifiedpost: function (req,  cb) {
         var retErr = {
             "success": false,
-            "token": null,
             "errorCode": "Something went wrong. Please try again."
         }
 
@@ -523,8 +523,8 @@ var userCont = {
     registerSelfMerchant: function (req, res) {
         var me = this;
         this.registerSelfMerchantpost(req, function (data) {
-            res.setHeader("X-Frame-Options", "DENY");
-            res.json({ "data": data});
+            //res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
         });
     },
 
@@ -540,10 +540,7 @@ var userCont = {
                 cb(retErr);
             }
             else {
-
-             
-                //   console.log(d);
-                if ( req.body && req.body.id) {
+                if (req.body && req.body.id) {
                     helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
                         {
                             "gstNumber": req.body.gstNumber,
