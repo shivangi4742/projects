@@ -12,4 +12,6 @@ export class RightnavComponent implements OnInit {
   ngOnInit() {
   }
 
+  startnow() {
+  }
 }
