@@ -26,7 +26,7 @@
   <div class="col s12 hoverBN">
     <div class="col s10 offset-s1 linkButtonBN">
       <i class="material-icons leftNavIconBN alignMidBN">link</i>&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN">{{'Payment Links' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN" [routerLink]="'/paymentlist'">{{'Payment Links' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
@@ -61,7 +61,7 @@
   <div class="col s12 hoverBN">
     <div class="col s10 offset-s1 linkButtonBN">
       <i class="material-icons leftNavIconBN alignMidBN">settings_applications</i>&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN">{{'Merchant Settings' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN" [routerLink]="'/settings'">{{'Merchant Settings' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
