@@ -478,13 +478,13 @@ var userCont = {
     },
      markSelfMerchantVerified: function (req, res) {
         var me = this;
-        this.markSelfMerchantVerifiedpost(req, token, function (data) {
-            res.setHeader("X-Frame-Options", "DENY");
+        this.markSelfMerchantVerifiedpost(req,  function (data) {
+           // res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": data });
         });
     },
 
-    markSelfMerchantVerifiedpost: function (req, token, cb) {
+    markSelfMerchantVerifiedpost: function (req,  cb) {
         var retErr = {
             "success": false,
             "token": null,
@@ -492,13 +492,12 @@ var userCont = {
         }
 
         try {
-            if (!req || !req.body || !req.body.data) {
+            if (!req || !req.body ) {
                 cb(retErr);
             }
             else {
-
                 var d = req.body;
-                //                console.log(d);
+                console.log(d);
                 if (d && d.id) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
                         {
@@ -523,16 +522,16 @@ var userCont = {
     },
     registerSelfMerchant: function (req, res) {
         var me = this;
-        this.registerSelfMerchantpost(req, token, function (data) {
+        this.registerSelfMerchantpost(req, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json({ "data": data});
         });
     },
 
-    registerSelfMerchantpost: function (req, token, cb) {
+    registerSelfMerchantpost: function (req,  cb) {
         var retErr = {
             "success": false,
-            "token": null,
+           
             "errorCode": "Something went wrong. Please try again."
         }
 
@@ -578,8 +577,8 @@ var userCont = {
     },
      fetchMerchantForEditDetails: function (req, res) {
         var me = this;
-        var token = this.getToken(req);
-        this.fetchMerchantForEditDetailsPost(req, token, function (data) {
+        
+        this.fetchMerchantForEditDetailsPost(req, function (data) {
             // console.log(data);
             var logoURL;
             if (data && data.documentResponseVO) {
@@ -606,7 +605,7 @@ var userCont = {
             }
         });
     },
-     fetchMerchantForEditDetailsPost: function (req, token, cb) {
+     fetchMerchantForEditDetailsPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
