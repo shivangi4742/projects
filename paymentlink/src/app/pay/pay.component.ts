@@ -29,8 +29,8 @@ export class PayComponent implements OnInit {
   lastName: string;
   firstName: string;
   panNumber: string;
-  companyName : string;
-  employeeId :string;
+  companyName: string;
+  employeeId: string;
   uploadsURL: string;
   fundRaiserId: string;
   mobileNumber: string;
@@ -72,7 +72,7 @@ export class PayComponent implements OnInit {
     private productService: ProductService, private sanitizer: DomSanitizer) { }
 
   getArrowDrop(): string {
-    if(this.break)
+    if (this.break)
       return 'arrow_drop_up';
 
     return 'arrow_drop_down';
@@ -198,9 +198,9 @@ export class PayComponent implements OnInit {
     if (!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;
 
-    if(this.pay.mtype == 3 && !this.amountEditable && this.pay.chargeConvenienceFee) {
-      this.purchaseAmount = Math.round(this.pay.amount * 100)/100;
-      this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100)/100;
+    if (this.pay.mtype == 3 && !this.amountEditable && this.pay.chargeConvenienceFee) {
+      this.purchaseAmount = Math.round(this.pay.amount * 100) / 100;
+      this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100) / 100;
       this.convFee = this.pay.amount - this.purchaseAmount;
     }
 
@@ -259,7 +259,7 @@ export class PayComponent implements OnInit {
   }
 
   codMarked(res: any) {
-    this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);    
+    this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
   }
 
   getStatus(res: any): Status {
@@ -268,14 +268,14 @@ export class PayComponent implements OnInit {
 
   getStatusMessage(): boolean {
     let st: Status = this.utilsService.getStatus();
-    if(st && st.message)
+    if (st && st.message)
       return true;
 
     return false;
   }
 
   finishCashPayment(res: any) {
-    if(res && res.transactionRef) {
+    if (res && res.transactionRef) {
       this.txnNo = res.transactionRef;
       this.sdkService.saveCashPaymentSuccess(this.pay.amount, this.txnNo, this.mobileNumber, this.pay.merchantCode, this.pay.title, this.id)
         .then(res => this.codMarked(res));
@@ -288,7 +288,7 @@ export class PayComponent implements OnInit {
 
   payCash() {
     if (this.validate(true))
-      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+      this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 5, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
         .then(res => this.finishCashPayment(res));
@@ -304,9 +304,9 @@ export class PayComponent implements OnInit {
         this.pay.mode = 'DC';
       else if (this.supportsNB)
         this.pay.mode = 'NB';
-      else if(this.supportsCOD)
+      else if (this.supportsCOD)
         this.pay.mode = 'CASH';
-      else if(this.supportsSodexo)
+      else if (this.supportsSodexo)
         this.pay.mode = 'SODEXO';
       else if (this.supportsRazorPay)
         this.pay.mode = 'RAZORPAY';
@@ -339,7 +339,7 @@ export class PayComponent implements OnInit {
           case 'SODEXO':
             break;
           case 'RAZORPAY':
-            this.setMode(5);
+            this.setMode(6);
         }
       }
     }
@@ -380,7 +380,7 @@ export class PayComponent implements OnInit {
     }
     else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 9)) {
       this.validationError = 'Please enter mobile number to proceed';
-      if(this.pay.merchantType != 1 && !this.pay.readonlymob && this.mobileNumber && this.mobileNumber.trim().length <= 9)
+      if (this.pay.merchantType != 1 && !this.pay.readonlymob && this.mobileNumber && this.mobileNumber.trim().length <= 9)
         this.validationError = 'Mobile number should have at least 10 digits';
 
       if (this.putFocus) {
@@ -409,7 +409,7 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (this.pay.askcompanyname && this.pay.mndcompanyname  && (!this.companyName || this.companyName.trim().length <= 0)) {
+    else if (this.pay.askcompanyname && this.pay.mndcompanyname && (!this.companyName || this.companyName.trim().length <= 0)) {
       this.validationError = 'Please enter Company Name';
       if (this.putFocus) {
         this.putFocus = false;
@@ -418,7 +418,7 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (this.pay.askemployeeId && this.pay.mndemployeeId  && (!this.employeeId || this.employeeId.trim().length <= 0)) {
+    else if (this.pay.askemployeeId && this.pay.mndemployeeId && (!this.employeeId || this.employeeId.trim().length <= 0)) {
       this.validationError = 'Please enter Employee Id';
       if (this.putFocus) {
         this.putFocus = false;
@@ -628,7 +628,7 @@ export class PayComponent implements OnInit {
       if (this.txnNo && this.txnNo.length > 0)
         this.createQR({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess( this.employeeId,this.companyName,this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
@@ -672,14 +672,16 @@ export class PayComponent implements OnInit {
     else if (mode == 3)
       this.nbExpanded = true;
     else if (mode == 5) {
-      // this.sdkService.setRazorPay(new RazorPayModel(this.pay.amount, this.pay.title, this.pay.description, this.pay.firstName, this.pay.lastName, this.pay.email));
       this.intPayExpanded = true;
+    }
+    else if (mode == 6) {
+      this.sdkService.setRazorPay(new RazorPayModel(this.pay.amount, this.pay.title, this.pay.description, this.pay.firstName, this.pay.lastName, this.pay.email));
     }
 
     this.putFocus = true;
     if (this.validate(true)) {
       this.mode = mode;
-      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+      this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
         .then(res => this.goToPG(res));

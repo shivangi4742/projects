@@ -141,7 +141,7 @@ var sdkCont = {
         var paylinkid = req.body.paylinkid;
         try {
             var cat = req.body.paytype;
-            if (cat == 5) { // RAZORPAY flow
+            if (cat == 6) { // RAZORPAY flow
                 res.redirect(config.base + '/ppl/razorpay/' + paylinkid);
                 // res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods);
             }
@@ -521,7 +521,7 @@ var sdkCont = {
                     pt = 'DEBIT_CARD';
                 else if (d.paytype === 3)
                     pt = 'NET_BANKING';
-                else if (d.paytype === 5)
+                else if (d.paytype === 6)
                     pt = 'RAZORPAY';
                 else if (d.paytype === 5)
                     pt = 'CASH';
