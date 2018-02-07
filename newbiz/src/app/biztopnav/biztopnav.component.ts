@@ -13,7 +13,7 @@ import { User, UserService, UtilsService, Transaction, SocketService } from 'ben
 })
 export class BiztopnavComponent implements OnInit {
   subscription: Subscription;
-  newPayments: Array<Transaction>;
+  newPayments: Array<Transaction> = new Array<Transaction>();
   @Input('language') language: number;
   @Input('user') user: User;
 
