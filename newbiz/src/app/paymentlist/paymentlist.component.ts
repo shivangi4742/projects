@@ -46,8 +46,9 @@ export class PaymentlistComponent implements OnInit {
     return this.utilsService.getStatus();
   }
 
-  initdtail(paymentlink:PaymentLinks[]){
-    this.paymentlink = paymentlink;
+  initdtail(res:any){
+    console.log(res);
+    this.paymentlink = res;
     
   }
 

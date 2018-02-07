@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-declare var jsPDF: any;
+import * as jsPDF from 'jspdf';
 
 import { Product, SDKService, ProductService, SDK, TransactionService, CampaignService, UtilsService, PrintPayment, Merchant, User, UserService, FileService } from 'benowservices';
 
@@ -25,7 +25,8 @@ export class SuccessComponent implements OnInit {
   sellerMailContent: string;
   toMail: boolean = false;
   hasProducts: boolean = false;
-  data: any = new FormData();
+  data: File;
+  sdk: SDK;
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService, private userService: UserService, private transactionService: TransactionService, private campaignService: CampaignService,
               private utilsService: UtilsService, private fileService: FileService) { }
@@ -35,7 +36,7 @@ export class SuccessComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.txnid = this.route.snapshot.params['txnid'];
     this.pay = this.sdkService.getPaySuccess();
-    this.userService.getUser()
+    this.sdkService.getPaymentLinkDetails(this.id)
       .then(res => this.init(res));
 
 
@@ -50,19 +51,13 @@ export class SuccessComponent implements OnInit {
   }
 
   init(res: any) {
-    this.user = res;
+    this.sdk = res;
      if((window as any).fbq) {
       (window as any).fbq('track', 'Purchase', {value: '0.00', currency: 'USD'});
      }
-    if(this.utilsService.isNGO(this.user.mccCode)){
-      this.mtype = 2;
-    }
+   this.mtype = this.sdk.mtype;
 
-    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)){
-      this.mtype = 3;
-    }
-
-    this.campaignService.fetchMerchantDetails(this.user.email, this.user.id)
+    this.campaignService.fetchMerchantDetails(this.sdk.email, this.sdk.merchantId)
       .then(tres => this.merchantmodel = tres);
 
     this.campaignService.getAllNGOTransactions(this.txnid)
@@ -152,15 +147,15 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Name</td> ' +
-        '          <td>'+this.user.displayName+'</td> ' +
+        '          <td>'+this.merchantmodel.business+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Number</td> ' +
-        '          <td>'+this.user.mobileNumber+'</td> ' +
+        '          <td>'+this.merchantmodel.mobileNumber+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Email</td> ' +
-        '          <td>'+this.user.email+'</td> ' +
+        '          <td>'+this.merchantmodel.userId+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +
@@ -263,15 +258,15 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Name</td> ' +
-        '          <td>'+this.user.displayName+'</td> ' +
+        '          <td>'+this.merchantmodel.business+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Number</td> ' +
-        '          <td>'+this.user.mobileNumber+'</td> ' +
+        '          <td>'+this.merchantmodel.mobileNumber+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Email</td> ' +
-        '          <td>'+this.user.email+'</td> ' +
+        '          <td>'+this.merchantmodel.userId+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +
@@ -412,7 +407,7 @@ export class SuccessComponent implements OnInit {
 
   checkDetails(res: any) {
     let dets = res.printTxns;
-    /*if(dets.email == null){
+    if(dets.email == null){
       this.isEmailAvailable = false;
     }
     else{
@@ -421,17 +416,18 @@ export class SuccessComponent implements OnInit {
 
       if(this.mtype == 2){
         this.toMail = true;
-        this.createcertificatePDF(res);
-        this.fileService.sendEmailNotify(this.data, dets.email, 'Donation Details', this.buyerMailContent,this.success,this);
+        //this.createcertificatePDF(res);
+        //this.fileService.sendEmailNotify(this.data, dets.email, 'Donation Details', this.buyerMailContent,this.success,this);
+        this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Donated Successfully', '')
+          .then(nres => console.log(nres));
       }
       else{
-        this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Payment Details', '')
+        this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Paid Successfully', '')
           .then(mres => console.log(mres));
-        this.campaignService.sendEmail(this.user.email, this.sellerMailContent, 'Payment Details', '')
+        this.campaignService.sendEmail(this.sdk.email, this.sellerMailContent, 'Payment Received on Benow', '')
           .then(gres => console.log(gres));
       }
-
-    }*/
+    }
   }
 
   success(res: any, me: any){
@@ -666,15 +662,7 @@ export class SuccessComponent implements OnInit {
         doc.addImage(imgdata, 'JPEG', 162, 250);
         var nam = t.name + '_' + t.phone + '_' + t.dateAndTime;
 
-        if(this.toMail){
-          var pdf = doc.output(); //returns raw body of resulting PDF returned as a string as per the plugin documentation.
-          //var data = new FormData();
-          this.data.append(nam , pdf);
-          this.toMail = false;
-        }
-        else{
-          doc.save(nam);
-        }
+        doc.save(nam);
 
         this.certificatePDF = false;
     }

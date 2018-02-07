@@ -415,7 +415,7 @@ export class UserService {
     subCategory: string, city: string, locality: string, contactPerson: string, address: string,
     contactMobileNumber: string, businessTypeCode: string, businessType: string, pinCode: string, gstno: string) {
     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.markSelfMerchantVerified,
+      .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
       JSON.stringify({
         "id": id,
         "gstNumber": gstno,
@@ -441,7 +441,7 @@ export class UserService {
   markSelfMerchantVerified(id: string, ifsc: string, accountRefNumber: string, panNumber: string,
     bankName: string, merchantName: string, accountHolderName: string, filePassword: string) {
     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
+      .post(this.utilsService.getBaseURL() + this._urls.markSelfMerchantVerified,
       JSON.stringify({
 
         "id": id,
@@ -459,42 +459,27 @@ export class UserService {
       .then(res => this.fillAccountProfile(res.json()))
       .catch(res => false);
   }
-  fillMerchantProfile(res: any): Businesspro|null {
+  fillMerchantProfile(res: any): Businesspro | null {
     
-     console.log(res,'helele');
+    //this._businesspro=new Businesspro(null,null, null, null, null,null, null, nullnull,null, null, nullnull,null, null, null)
     if (res.merchantUser) {
-      console.log(res.merchantUser.businessName);
-      this._businesspro.businessName = res.merchantUser.businessName;
-      this._businesspro.businessType = res.merchantUser.businessType;
-      this._businesspro.category = res.merchantUser.category;
-      this._businesspro.subCategory = res.merchantUser.subCategory;
-      this._businesspro.contactPerson = res.merchantUser.contactPerson;
-      this._businesspro.address = res.merchantUser.address;
-      this._businesspro.numberOfOutlets = res.merchantUser.numberOfOutlets;
-      this._businesspro.contactPersonDesignation = res.merchantUser.contactPersonDesignation;
-      this._businesspro.city = res.merchantUser.city;
-      this._businesspro.contactEmailId = res.merchantUser.contactEmailId;
-      this._businesspro.pincode = res.merchantUser.pinCode;
-      this._businesspro.locality = res.merchantUser.locality;
-      this._businesspro.businessTypeCode = res.merchantUser.businessTypeCode;
-      this._businesspro.gstno = res.merchantUser.gstNumber;
+      let pt = res.merchantUser;
+      this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
+         pt.address, pt.numberOfOutlets,pt.contactPersonDesignation, pt.city, pt.contactEmailId,pt.locality,pt.businessTypeCode,pt.pinCode,pt.gstNumber);
     }
-     console.log(this._businesspro,'helele11');
+    console.log(this._businesspro);
     return this._businesspro;
   }
 
   fillAccountProfile(res: any): Accountpro|null {
-     console.log(res.merchantUser, res.merchantUser.accountHolderName, 'helele1');
-    // this._accountpro = new Accountpro(null, null, null, null, null,null);
+   
     if (res.merchantUser) {
-      this._accountpro.accountHolderName = res.merchantUser.accountHolderName;
-      this._accountpro.accountRefNumber = res.merchantUser.accountRefNumber;
-      this._accountpro.panNumber = res.merchantUser.panNumber;
-      this._accountpro.ifsc = res.merchantUser.ifsc;
-      this._accountpro.bankName = res.merchantUser.bankName;
-      this._accountpro.filePassword = res.merchantUser.filePassword;
+      let pt1 = res.merchantUser;
+      this._accountpro = new Accountpro( pt1.panNumber,pt1.accountHolderName, pt1.accountRefNumber
+     ,pt1.ifsc,pt1.bankName, pt1.filePassword);
     }
-    console.log(this._accountpro,'helele');
+   
+    
     return this._accountpro;
   }
   checkMerchant(mobileNumber: string, profile: string): Promise<any> {
