@@ -13,6 +13,7 @@ export default {
     '@angular/platform-browser': 'ng.platform-browser',
     'rxjs/Observable': 'Rx',
     'rxjs/ReplaySubject': 'Rx',
+    'rxjs/Subscription': 'Rx.Subscription',
     'rxjs/add/operator/map': 'Rx.Observable.prototype',
     'rxjs/add/operator/mergeMap': 'Rx.Observable.prototype',
     'rxjs/add/observable/fromEvent': 'Rx.Observable',

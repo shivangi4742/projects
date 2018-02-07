@@ -12,12 +12,14 @@ export class UtilsService {
   private _status: Status;
 
   private _isNGO: boolean = false;
+  private _initialized: boolean = false;
   private _isUnRegistered: boolean = false;
+  private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
   private _requestURL: string = 'https://localhost/paysdk';
-
+  
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
   private _profilePageURL: string = 'http://localhost:9090/profile';
@@ -517,6 +519,26 @@ export class UtilsService {
     return blob;
   }
 
+  
+  playAudio() {
+    let ado: any = new Audio(this._audioFile);    
+    if(ado) {
+      ado.muted = false;
+      ado.play();
+    }
+  }
+
+  startAudio() {
+    if(!this._initialized && this.isAnyMobile()) {
+      let ado: any = new Audio(this._audioFile);
+      if(ado) {
+        ado.muted = true;
+        ado.play();
+        this._initialized = true;
+      }
+    }
+  }
+  
   convertImgToBase64URL(url: any, outputFormat: any, callback: any) {
     console.log('coming in utils?', url);
         var img = new Image();

@@ -3,7 +3,7 @@
         <div class="row"></div>
         <div class="row">
             <div class="col s12 center">
-                <img *ngIf="mtype != 2 && !hasProducts" class="alignMidBN" 
+                <img *ngIf="mtype != 2 && !hasProducts" class="alignMidBN"
                     src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <img *ngIf="mtype == 2" class="alignMidBN" src='../../assets/paymentlink/images/donated.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="regNrmS-1B1BN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
@@ -36,7 +36,7 @@
                 <b>{{pay.txnid | translate}}</b>
             </span>
         </div>
-        <div *ngIf="mtype == 2" class="row hide">
+        <div *ngIf="mtype == 2" class="row">
           <!--<span class="col s12 center errNrmS4BN">
 
           </span>-->

@@ -5,8 +5,6 @@ import { TranslateService } from 'ng2-translate';
 
 import { UserService, User, UtilsService } from 'benowservices';
 
-import { SocketService } from './socket.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,8 +13,7 @@ import { SocketService } from './socket.service';
 export class AppComponent {
   user: User;
 
-  constructor(private translate: TranslateService, private router: Router, private userService: UserService, private utilsService: UtilsService,
-    private socketService: SocketService) {
+  constructor(private translate: TranslateService, private router: Router, private userService: UserService, private utilsService: UtilsService) {
     translate.setDefaultLang('en');  
   }
 
@@ -44,13 +41,22 @@ export class AppComponent {
       .then(res => this.init(res));
   }
 
+  loginPolls() {
+    if(this.utilsService.getxauth() || this.utilsService.getUnregistered()) {
+      let me = this;
+      setTimeout(function() { me.loginPolls(); }, 5000);        
+    }
+    else
+      window.location.href = this.utilsService.getLogoutPageURL();  
+  }
+
   init(usr: User) {
     if(usr && usr.id && usr.id.trim().length > 0) {
       this.user = usr;
-      //TODO: Login polls, socket implementation, signup & kyc
-/*      this.socketService.joinMerchantRoom(this.user.merchantCode, this.user.tilNumber);
-      this.newPayments = this.socketService.getNewPayments();
-      this.translate.use(this.utilsService.getLanguageCode(this.user.language));    */
+      //TODO: socket implementation, signup & kyc
+      this.translate.use(this.utilsService.getLanguageCode(this.user.language));    
+      let me = this;
+      setTimeout(function() { me.loginPolls(); }, 5000);
     }
     else
       window.location.href = this.utilsService.getLoginPageURL();

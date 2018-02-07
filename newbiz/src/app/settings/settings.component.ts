@@ -43,8 +43,14 @@ export class SettingsComponent implements OnInit {
   errorpanmsg: string;
   errvalidate: boolean = false;
   errorifsc: string;
-   errpincodevalidate: boolean = false;
-    errorpincode : string;
+  errpincodevalidate: boolean = false;
+  errorpincode: string;
+  erraddressvalidate: boolean = false;
+  erroraddres: string;
+  errbusinessvalidate:boolean =false;
+  errorbusiness:string;
+   errdisplayvalidate:boolean =false;
+  errordisplay:string;
 
 
 
@@ -203,16 +209,17 @@ export class SettingsComponent implements OnInit {
 
   }
   save() {
-    this.userService.registerSelfMerchant('46873', this.businesspro.businessName,
-      this.businesspro.address, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
-      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
-      this.businesspro.contactPerson, this.businesspro.businessName, this.businesspro.businessName,
-      this.businesspro.pincode, this.businesspro.gstno)
+    console.log(this.businesspro.pincode,'hello');
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality,this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno);
   }
   saveaccount() {
-    this.userService.markSelfMerchantVerified('46873', this.accountpro.panNumber,
-      this.accountpro.accountHolderName, this.accountpro.accountRefNumber, this.accountpro.ifsc, this.accountpro.bankName,
-      this.accountpro.filePassword, this.businesspro.contactPerson);
+    this.userService.markSelfMerchantVerified(this.user.id,  this.accountpro.ifsc, this.accountpro.accountRefNumber,
+    this.accountpro.panNumber, this.accountpro.bankName,
+    this.businesspro.contactPerson,  this.accountpro.accountHolderName,this.accountpro.filePassword);
   }
   getSwitchText(flag: boolean) {
     if (flag)
@@ -226,17 +233,11 @@ export class SettingsComponent implements OnInit {
   }
   validategst() {
     console.log(this.businesspro.gstno, 'jeje');
-    var gst1 = this.gstno;
+    var gst1 = this.businesspro.gstno;
 
     var reg = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
     if (gst1.match(reg)) {
       this.errgstvalidate = false;
-      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
-        this.businesspro.contactEmailId, this.businesspro.category,
-        this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
-        this.businesspro.contactPerson, this.businesspro.address,
-        this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
-        this.businesspro.gstno);
     }
     else {
       this.errgstvalidate = true;
@@ -248,9 +249,6 @@ export class SettingsComponent implements OnInit {
     var panFormat = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
     if (panFormat.test(this.accountpro.panNumber)) {
       this.errpancard = false;
-      this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
-        this.accountpro.panNumber, this.accountpro.bankName, this.businesspro.contactPerson,
-        this.accountpro.accountHolderName, this.accountpro.filePassword);
     }
     else {
       this.errpancard = true;
@@ -258,36 +256,53 @@ export class SettingsComponent implements OnInit {
     }
   }
   validateifsc() {
-    var ifsc = this.IFSC;
+    var ifsc = this.accountpro.ifsc;
     var reg = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;
 
     if (ifsc.match(reg)) {
       this.errvalidate = false;
-      this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
-        this.accountpro.panNumber, this.accountpro.bankName, this.businesspro.contactPerson,
-        this.accountpro.accountHolderName, this.accountpro.filePassword);
+     
     }
     else {
       this.errvalidate = true;
       this.errorifsc = 'Please enter correct IFSC code.'
     }
   }
-     savepincode() {
-        var pincode = this.pincode;
-        //console.log(pincode);
-        if (pincode.length == 6) {
-            this.errpincodevalidate = false;
-            this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
-        this.businesspro.contactEmailId, this.businesspro.category,
-        this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
-        this.businesspro.contactPerson, this.businesspro.address,
-        this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
-        this.businesspro.gstno);
-        }
-        else {
-            this.errpincodevalidate = true;
-            this.errorpincode = 'Please enter correct Pincode.';
-        }
+  savepincode() {
+    var pincode = this.businesspro.pincode;
+    //console.log(pincode);
+    if (pincode.length == 6) {
+      this.errpincodevalidate = false;
+    }
+    else {
+      this.errpincodevalidate = true;
+      this.errorpincode = 'Please enter correct Pincode.';
+    }
 
-}
+  }
+  validatebusiness() {
+    var TCode = this.businesspro.businessName;
+
+    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
+      this.errbusinessvalidate = true;
+      this.errorbusiness ='Business name should not contain special symbol.';
+     
+    } else {
+      
+      this.errbusinessvalidate = false;
+    }
+  }
+   
+    validaatedisplay() {
+    var TCode = this.user.displayName;
+    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
+      this.errdisplayvalidate = true;
+      this.errordisplay ='Special Character are Not allowed.';
+     
+    } else {
+      
+      this.errdisplayvalidate = false;
+    }
+  }
+
 }

@@ -23,8 +23,6 @@ import { ProductlineComponent } from './productline/productline.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
 import { ImageCropperModule } from 'ng2-img-cropper';
 
-import { SocketService } from './socket.service';
-
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
 }
@@ -57,7 +55,7 @@ export function HttpFactory(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [SocketService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,13 @@
+.nopadsBN {
+    padding: 0px!important;
+    margin-bottom: 0px!important;
+}
+
+.nopadstopbottomBN {
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+}
+
 .leftMenuBN {
     padding-left: 35px;    
 }
@@ -30,7 +40,7 @@
 }
 
 .bizHdrSoloIconSBN {
-    font-size: 23pt;
+    font-size: 18pt;
     padding-right: 10px;
 }
 
@@ -40,11 +50,68 @@
 }
 
 .bizHdrLastIconSBN {
-    font-size: 23pt;
-    padding-right: 20px;    
+    font-size: 18pt;
 }
 
 .bizUserBN {
     max-width: 250px;
     padding-right: 20px;    
+}
+
+.regcolorBN {
+    color: #3D3D3D;
+}
+
+.rightMenuBN {
+    min-width: 230px;
+    overflow: hidden;
+    background-color: #413A5A!important;
+}
+
+.dropdown-content {
+    background-color: #413A5A!important;
+}
+
+.dropdown-content li > a:hover, .dropdown-content li > span:hover {
+    background-color: #E53935;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+    color: white;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+}
+
+.select-wrapper span.caret {
+    color: white;
+}
+
+.select-wrapper input.select-dropdown {
+    color: white;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+} 
+
+.menuitemhoverBN:hover {
+    background-color: #E53935!important;
+}
+
+.whiteTextBN {
+    color: white;
+}
+
+.incomingMsgBN {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    left: 0px;
+    display: none;
+}
+
+.incomingMsgTxtBN {
+    background-color: #00C853;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #388E3C;
+    color: #FFFFFF;
 }

@@ -1,18 +1,5 @@
 <header (click)="startAudio()">
   <usertopnav *ngIf="user" [user]="user" [mtype]="mtype"></usertopnav>
-  <div class="incomingMsgBN" id="dummyIncomingMsgBN" *ngIf="newPayments">
-    <div *ngFor="let newPayment of newPayments" class="row">
-      <div class="col s12 center">
-        <span class="incomingMsgTxtBN">{{'Received' | translate}} 
-          <b>₹ {{newPayment.amount | number : '1.2-2'}}</b> {{'from' | translate}} 
-          <b>{{newPayment.vPA}}</b>
-          <span *ngIf="newPayment.till">{{'on' | translate}} 
-            <b>{{'Till' | translate}} {{newPayment.till}}</b>
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>  
 </header>
 <main (click)="startAudio()">
   <router-outlet></router-outlet>

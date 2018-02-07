@@ -1,10 +1,11 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
+import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { User, UserService, UtilsService, Notification, NotificationService } from 'benowservices';
+import { User, UserService, UtilsService, Notification, NotificationService, SocketService, Transaction } from 'benowservices';
 
 @Component({
   selector: 'usertopnav',
@@ -19,6 +20,7 @@ export class UserTopNavComponent {
   name: string|null;
   tmLoad: string;
   notifications: Notification[]|null;
+  subscription: Subscription;
   isNGO: boolean = false;
   plUserAction: boolean = false;
   esUserAction: boolean = false;
@@ -38,6 +40,7 @@ export class UserTopNavComponent {
   catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
   campaignURL: string = '/newestall';
+  newPayments: Array<Transaction> = new Array<Transaction>();
   notifModalActions: any = new EventEmitter<string|MaterializeAction>();
   tourModal1Actions: any = new EventEmitter<string|MaterializeAction>();
   tourModal2Actions: any = new EventEmitter<string|MaterializeAction>();
@@ -46,8 +49,75 @@ export class UserTopNavComponent {
   @Input('user') user: User;
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private notificationService: NotificationService,
-    private userService: UserService, private router: Router) {  
+    private userService: UserService, private router: Router, private socketService: SocketService) {  
     translate.setDefaultLang('en');      
+    let me: any = this;
+    this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  fadeInNewPayments() {
+    let me = this;
+    let el: any = document.getElementById('dummyIncomingMsgBN');
+    if(el) {
+      el.style.opacity = 0;
+      el.style.display = 'block';
+      (function fade() {
+        var val = parseFloat(el.style.opacity);
+        if (!((val += .03) > 1)) {
+          el.style.opacity = val;
+          requestAnimationFrame(fade);
+        }
+      })();  
+    }
+
+    this.utilsService.playAudio();
+  }    
+    
+  fadeOutNewPayments() {
+    let el: any = document.getElementById('dummyIncomingMsgBN');
+    if(el) {
+      el.style.opacity = 1;
+      (function fade() {
+        if ((el.style.opacity -= .03) < 0) {
+          el.style.display = "none";
+        } else {
+          requestAnimationFrame(fade);
+        }
+      })();
+    }
+  }
+
+  removePayment(id: string) {
+    if(this.newPayments && this.newPayments.length > 0) {
+      let indx: number = this.newPayments.findIndex(p => p.id == id);
+      if(indx >= 0)
+        this.newPayments.splice(indx, 1);
+
+      if(!(this.newPayments && this.newPayments.length > 0))
+        this.fadeOutNewPayments();
+    }
+    else
+      this.fadeOutNewPayments();
+  }
+
+  receivedPayment(res: any) {
+    if (res && res.data && res.out == true) {
+      let me: any = this;
+      this.newPayments.push(new Transaction(false, res.data.amount, null, null, res.data.id, res.data.tr, res.data.mode, res.data.vpa, res.data.till, 
+        null, res.data.dt, null, null, null));
+      if(this.newPayments.length <= 1) {
+        setTimeout(function() { me.fadeInNewPayments(); }, 500);
+        setTimeout(function() { me.removePayment(res.data.id); }, 3500);
+      }
+      else {
+        this.utilsService.playAudio();
+        setTimeout(function() { me.removePayment(res.data.id); }, 3000);            
+      }
+    }
   }
 
   goTo(routeStr: string) {    
@@ -121,6 +191,8 @@ export class UserTopNavComponent {
 
     if(this.language < 1)
       this.language = 1;
+
+    this.socketService.joinMerchantRoom(this.user.merchantCode ? this.user.merchantCode : '', this.user.tilNumber);
   }
 
   plSwipeStart(event: any) {

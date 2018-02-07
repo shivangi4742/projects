@@ -21,11 +21,12 @@ export class BuyComponent implements OnInit {
     private utilsService: UtilsService) { }
 
   ngOnInit() {
-    if((window as any).fbq) {
-      (window as any).fbq('track', 'InitiateCheckout');
-    }
+
     this.id = this.route.snapshot.params['id'];
     this.merchantCode = this.route.snapshot.params['code'];
+     if((window as any).fbq) {
+         (window as any).fbq('track', 'InitiateCheckout');
+       }
     this.sdkService.getPaymentLinkDetails(this.id)
       .then(res => this.initProducts(res));
   }
@@ -63,10 +64,18 @@ export class BuyComponent implements OnInit {
       this.products = res;
     }
     else {
-      if(this.sdk.mtype == 2)
+      if(this.sdk.mtype == 2){
+         if((window as any).fbq) {
+             (window as any).fbq('track', 'AddPaymentInfo');
+           }
         this.router.navigateByUrl('/donate/' + this.id);
-      else
+      }
+      else {
+         if((window as any).fbq) {
+             (window as any).fbq('track', 'AddPaymentInfo');
+           }
         this.router.navigateByUrl('/pay/' + this.id);
+      }
     }
   }
 
@@ -123,8 +132,12 @@ export class BuyComponent implements OnInit {
           this.router.navigateByUrl('/donate/' + this.id + '/' + btoa(JSON.stringify(input)));
         }
       }
-      else
+      else {
+        if((window as any).fbq) {
+             (window as any).fbq('track', 'AddPaymentInfo');
+           }
         this.router.navigateByUrl('/pay/' + this.id + '/' + btoa(JSON.stringify(input)));
+      }
     }
   }
 }
