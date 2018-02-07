@@ -289,3 +289,19 @@
     padding-left: 10px!important;
     padding-right: 10px!important;
 }
+
+.incomingMsgBN {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    left: 0px;
+    display: none;
+}
+
+.incomingMsgTxtBN {
+    background-color: #00C853;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #388E3C;
+    color: #FFFFFF;
+}

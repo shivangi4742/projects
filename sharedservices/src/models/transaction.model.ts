@@ -11,7 +11,7 @@ export class Transaction {
     public mode: string|null,
     public vPA: string,
     public till: string,
-    public merchantVPA: string,
+    public merchantVPA: string|null,
     public dateAndTime: string,
     public cbTid: string|null,
     public cbMode: string|null,
