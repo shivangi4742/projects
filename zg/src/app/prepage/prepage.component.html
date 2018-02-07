@@ -1,7 +1,7 @@
 <main>
   <div *ngIf="showprogress">
     <div class="progress">
-      <div class="indeterminate"></div> 
+      <div class="indeterminate"></div>
     </div>
     <h5 align="center">Fetching your details please wait.</h5>
   </div>
@@ -63,19 +63,25 @@
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Payer name</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6 truncate" align="left">{{payPinModel.payee_first_name}} {{payPinModel.payee_last_name}}</div>
+            <div class="col s6 truncate" align="left">
+              <input value="{{payPinModel.payee_first_name}} {{payPinModel.payee_last_name}}" id="name" type="text" class="validate">
+            </div>
           </div>
 
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Email address</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6" align="left">{{payPinModel.email_id}}</div>
+            <div class="col s6" align="left"> 
+              <input value="{{payPinModel.email_id}}" id="name" type="text" class="validate">
+            </div>
           </div>
 
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Mobile number</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6 truncate" align="left">{{payPinModel.contact_number}}</div>
+            <div class="col s6 truncate" align="left">
+              <input value="{{payPinModel.contact_number}}" id="mobile" type="text" class="validate">
+            </div>
           </div>
 
           <div class="row valign-wrapper">
@@ -201,12 +207,20 @@
                 <ng-template #percentage>
                   <label class="title" for="upi">UPI</label>
                   <br>
-                  <span class="subTitle">{{upiCharges.charge}}% Convenience Fees* applicable</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">{{upiCharges.charge}}% Convenience Fees* applicable</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #flat>
                   <label class="title" for="upi">UPI</label>
                   <br>
-                  <span class="subTitle">Flat INR {{upiCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">Flat INR {{upiCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -225,12 +239,20 @@
                 <ng-template #percentage>
                   <label class="title" for="netBanking">Internet Banking</label>
                   <br>
-                  <span class="subTitle">{{netBankingCharges.charge}}% Convenience Fees* applicable</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">{{netBankingCharges.charge}}% Convenience Fees* applicable</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #flat>
                   <label class="title" for="netBanking">Internet Banking</label>
                   <br>
-                  <span class="subTitle">Flat INR {{netBankingCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">Flat INR {{netBankingCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #else_content>
 
@@ -249,12 +271,20 @@
                 <ng-template #percentage>
                   <label class="title" for="debit">Debit Card</label>
                   <br>
-                  <span class="subTitle">{{dcCharges.charge}}% Convenience Fees* applicable</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">{{dcCharges.charge}}% Convenience Fees* applicable</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #flat>
                   <label class="title" for="debit">Debit Card</label>
                   <br>
-                  <span class="subTitle">Flat INR {{dcCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">Flat INR {{dcCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #else_content>
                 </ng-template>
@@ -272,12 +302,20 @@
                 <ng-template #percentage>
                   <label class="title" for="credit">Credit Card</label>
                   <br>
-                  <span class="subTitle">{{ccCharges.charge}}% Convenience Fees* applicable</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">{{ccCharges.charge}}% Convenience Fees* applicable</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #flat>
                   <label class="title" for="credit">Credit Card</label>
                   <br>
-                  <span class="subTitle">Flat INR {{ccCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                  <div class="subTitleContainer">
+                    <div class="emptySpace">
+                      <span class="subTitle">Flat INR {{ccCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                    </div>
+                  </div>
                 </ng-template>
                 <ng-template #else_content>
 

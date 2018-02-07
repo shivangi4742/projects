@@ -1,11 +1,13 @@
 export class Product {
   constructor(
     public isNew: boolean,
+    public isEdit: boolean,
     public isSelected: boolean,
     public qty: number|null,
     public price: number,
     public originalPrice: number,
     public id: string,
+    public prodId: string|null,
     public name: string,
     public description: string,
     public uom: string,

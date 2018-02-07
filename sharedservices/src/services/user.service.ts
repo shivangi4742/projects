@@ -5,6 +5,11 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from './../models/user.model';
+import { Businesspro } from './../models/businesspro.model';
+import { Accountpro } from './../models/accountpro.model';
+import { Customer } from "../models/customer.model";
+import { CustomerList } from "../models/customerlist.model";
+import { Merchant } from "../models/merchant.model";
 
 import { UtilsService } from './utils.service';
 
@@ -13,16 +18,25 @@ export class UserService {
   private _language: number;
   private _token: string;
   private _uname: string;
-  private _user: User;  
+  private _user: User;
+  private _businesspro: Businesspro;
+  private _accountpro: Accountpro;
   private _headers: any;
-  
+  private _customer: Array<Customer>;
+  private _customerList: CustomerList;
+  private _merchantmodel: Merchant;
   private _isNGO: boolean = false;
   private _urls: any = {
     signIn: 'user/signIn',
     allocateTill: 'merchant/tillAllocate',
     releaseTill: 'merchant/tillRelease',
     sendVerificationMail: 'merchant/sendVerificationMail',
-    changePassword: 'merchant/changePassword'
+    changePassword: 'merchant/changePassword',
+    getCustomerList: 'user/getCustomerList',
+    markSelfMerchantVerified: 'user/markSelfMerchantVerified',
+    registerSelfMerchant: 'user/registerSelfMerchant',
+    checkMerchant: 'user/check',
+    fetchmerchantdetail: 'user/fetchmerchantdetail'
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -38,8 +52,8 @@ export class UserService {
   }
 
   getUser(): Promise<User> {
-    if(!this._user) {
-      if(this.hasToken()) 
+    if (!this._user) {
+      if (this.hasToken())
         return this.isTokenValid(this.getToken());
       else
         return this.newUser();
@@ -52,55 +66,68 @@ export class UserService {
     return this._isNGO;
   }
 
+  getCustomerList(merchantCode: string, pageNumber: number) {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.getCustomerList,
+      JSON.stringify({
+        "merchantCode": merchantCode,
+        "pageNumber": pageNumber
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillCustomer(res.json()))
+      .catch(res => this.handleError(res.json()));
+  }
+
   setUserLanguage(lang: number) {
-    if(this._user)
-      this._user.language = lang;    
+    if (this._user)
+      this._user.language = lang;
   }
 
   signIn(email: string, password: string): Promise<any> {
     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.signIn, 
-        JSON.stringify({ 
-            "email": email, 
-            "password": password 
-        }), 
-        { headers: this.utilsService.getHeaders() })
+      .post(this.utilsService.getBaseURL() + this._urls.signIn,
+      JSON.stringify({
+        "email": email,
+        "password": password
+      }),
+      { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillUser(email, res.json()))
       .catch(res => this.handleError(res.json()));
   }
 
   setToken(local: boolean, tokenObj: any) {
-    if(local)
+    if (local)
       localStorage.setItem('bnMRC', JSON.stringify(tokenObj));
-    else 
+    else
       sessionStorage.setItem('bnMRC', JSON.stringify(tokenObj));
 
     this.refresh();
   }
 
-  tillAllocate(til: string): Promise<any> { 
-     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.allocateTill, 
-        JSON.stringify({ 
-          "till":til,
-          "merchantCode": this._user.merchantCode,
-          "employeeUserCode": this._user.tilLogin
-        }), 
-         { headers: this.getTempHeaders() })
+  tillAllocate(til: string): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.allocateTill,
+      JSON.stringify({
+        "till": til,
+        "merchantCode": this._user.merchantCode,
+        "employeeUserCode": this._user.tilLogin
+      }),
+      { headers: this.getTempHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
 
-  tillRelease(til: string|null): Promise<any> {  
-     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.releaseTill, 
-        JSON.stringify({ 
-          "till":til,
-          "merchantCode":this._user.merchantCode
-        }), 
-         { headers: this.getTempHeaders() })
+  tillRelease(til: string | null): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.releaseTill,
+      JSON.stringify({
+        "till": til,
+        "merchantCode": this._user.merchantCode
+      }),
+      { headers: this.getTempHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
@@ -108,11 +135,11 @@ export class UserService {
 
   sendVerificationCode(email: string): Promise<any> {
     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.sendVerificationMail, 
-        JSON.stringify({
-          "email": email, 
-        }), 
-        { headers: this.utilsService.getHeaders() })
+      .post(this.utilsService.getBaseURL() + this._urls.sendVerificationMail,
+      JSON.stringify({
+        "email": email,
+      }),
+      { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.sentMail(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -121,12 +148,12 @@ export class UserService {
   changePassword(vCode: string, pwd: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.changePassword,
-        JSON.stringify({
-          "email" : this._user.email,
-          "verificationCode": vCode,
-          "password": pwd
-        }),
-        { headers: this.utilsService.getHeaders() })
+      JSON.stringify({
+        "email": this._user.email,
+        "verificationCode": vCode,
+        "password": pwd
+      }),
+      { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.changedPassword(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -137,18 +164,18 @@ export class UserService {
   }
 
   private changedPassword(res: any): any {
-    if(res && res.responseFromAPI == true)
+    if (res && res.responseFromAPI == true)
       return { 'success': true, 'errorCode': null };
-    else if(res && res.validationErrors && res.validationErrors.WrongVerificationCode)
+    else if (res && res.validationErrors && res.validationErrors.WrongVerificationCode)
       return { 'success': false, 'errorCode': res.validationErrors.WrongVerificationCode }
     else
-      return { 'success': false, 'errorCode': 'Something went wrong. Please try again.' };    
+      return { 'success': false, 'errorCode': 'Something went wrong. Please try again.' };
   }
 
   private sentMail(res: any): any {
-    if(res && res.responseFromAPI == true)
+    if (res && res.responseFromAPI == true)
       return { 'success': true, 'errorCode': null };
-    else if(res && res.validationErrors && res.validationErrors.emailId)
+    else if (res && res.validationErrors && res.validationErrors.emailId)
       return { 'success': false, 'errorCode': res.validationErrors.emailId };
     else
       return { 'success': false, 'errorCode': 'Something went wrong. Please try again.' };
@@ -182,16 +209,16 @@ export class UserService {
     this._user.tilLogin = token.tilLogin;
     this._user.tilNumber = token.tilNumber;
     this._user.isSuperAdmin = token.isSuperAdmin;
-    this._user.isSuperMerchant = token.isSuperMerchant;    
+    this._user.isSuperMerchant = token.isSuperMerchant;
     this.utilsService.isNGO(this._user.mccCode);
     this.utilsService.setUnregistered(true);
   }
 
   private fillUserFromToken(tkn: string) {
     let ts = tkn.split('.');
-    if(ts && ts.length > 1) {
+    if (ts && ts.length > 1) {
       let dt = JSON.parse(atob(ts[1]));
-      if(dt && dt.sub && dt.data) {
+      if (dt && dt.sub && dt.data) {
         this._user.id = dt.data.merchantId;
         this._user.displayName = dt.data.displayName;
         this._user.email = dt.sub;
@@ -200,36 +227,36 @@ export class UserService {
         this._user.mobileNumber = dt.data.mobileNumber;
         this._user.privateId = dt.data.privateId;
         this._user.token = tkn;
-        if(this._user.mccCode)
+        if (this._user.mccCode)
           this.setNGO(this._user.mccCode);
       }
     }
   }
 
-  private fillUser(email: string, res: any): any {    
+  private fillUser(email: string, res: any): any {
     this._user.id = null;
-    if(res && res.success !== false) {
-      if(res.jwtToken) {
+    if (res && res.success !== false) {
+      if (res.jwtToken) {
         this._user.lob = res.business_lob;
         this.fillUserFromToken(res.jwtToken);
-        if(res.employee_role) {
+        if (res.employee_role) {
           this._user.tilLogin = email;
           this._user.hasTils = true;
           this._user.isTilManager = false;
           this._user.isSuperAdmin = false;
-          if(res.employee_role.trim().toLowerCase() == 'benow administrator') {
+          if (res.employee_role.trim().toLowerCase() == 'benow administrator') {
             this._user.hasTils = false;
             this._user.isSuperAdmin = true;
           }
-          if(res.employee_role.trim().toLowerCase() == 'benow merchant manager')
+          if (res.employee_role.trim().toLowerCase() == 'benow merchant manager')
             this._user.isTilManager = true;
           else
             this._user.allTils = res.tils;
         }
       }
-      else if(res.merchant) {
+      else if (res.merchant) {
         this._user.lob = res.merchant.businessLob ? res.merchant.businessLob : 'HB';
-        this._user.id = res.merchant.id ? res.merchant.id.toString() : '';        
+        this._user.id = res.merchant.id ? res.merchant.id.toString() : '';
         this._user.displayName = res.merchant.displayName;
         this._user.email = res.merchant.emailId;
         this._user.mccCode = res.merchant.mccCode;
@@ -243,19 +270,37 @@ export class UserService {
     return res;
   }
 
+  private fillCustomer(res: any): CustomerList {
+    console.log('Customer', res);
+    if (res && res.customerList) {
+      this._customer = new Array<Customer>();
+      for (let i: number = 0; i < res.customerList.length; i++) {
+        this._customer.push(new Customer(res.customerList[i].customerName, res.customerList[i].customerEmail,
+          res.customerList[i].customerMobileNumber, res.customerList[i].noOfDonation, res.customerList[i].totalDonation,
+          res.customerList[i].lastDonationDate));
+      }
+      this._customerList = new CustomerList(res.totalElements, res.totalNoOfPages, this._customer);
+    }
+    else {
+      this._customer = [];
+    }
+
+    return this._customerList;
+  }
+
   private getToken(): any {
     let bnMRC: any;
-    if(sessionStorage.getItem('bnMRC')) {
+    if (sessionStorage.getItem('bnMRC')) {
       bnMRC = JSON.parse((sessionStorage.getItem('bnMRC') as any).toString());
     }
-    else if(localStorage.getItem('bnMRC'))
+    else if (localStorage.getItem('bnMRC'))
       bnMRC = JSON.parse((localStorage.getItem('bnMRC') as any).toString());
 
     return bnMRC;
   }
 
   private setNGO(mccCode: string): boolean {
-    if(mccCode === '8398')
+    if (mccCode === '8398')
       this._isNGO = true;
 
     return this._isNGO;
@@ -264,9 +309,9 @@ export class UserService {
   private fillUserFromStoredToken(token: any) {
     let tkn = token.token;
     let ts = tkn.split('.');
-    if(ts && ts.length > 1) {
+    if (ts && ts.length > 1) {
       let dt = JSON.parse(atob(ts[1]));
-      if(dt && dt.sub && dt.data) {
+      if (dt && dt.sub && dt.data) {
         this._user.displayName = dt.data.displayName;
         this._user.email = dt.sub;
         this._user.mccCode = dt.data.mccCode;
@@ -274,7 +319,7 @@ export class UserService {
         this._user.mobileNumber = dt.data.mobileNumber;
         this._user.privateId = dt.data.privateId;
         this._user.token = tkn;
-        if(this._user.mccCode)
+        if (this._user.mccCode)
           this.setNGO(this._user.mccCode);
       }
     }
@@ -290,8 +335,8 @@ export class UserService {
 
   private isTokenValid(tkn: any): Promise<User> {
     this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null);
-    if(tkn) {
-      if(tkn.token)
+    if (tkn) {
+      if (tkn.token)
         this.fillUserFromStoredToken(tkn);
       else
         this.fillUnregisteredUser(tkn);
@@ -306,26 +351,26 @@ export class UserService {
   }
 
   private getDocTitle(lang: number) {
-    switch(lang) {
+    switch (lang) {
       case 2:
         return 'बीनाव - व्यापारी कन्सोल';
       case 3:
         return 'बीनाव - व्यापारी कन्सोल';
       default:
-        return 'benow - merchant console';      
+        return 'benow - merchant console';
     }
   }
 
-  private refresh() {    
+  private refresh() {
     let bnMRC: any;
-    if(sessionStorage.getItem('bnMRC'))
+    if (sessionStorage.getItem('bnMRC'))
       bnMRC = JSON.parse((sessionStorage.getItem('bnMRC') as any).toString());
-    else if(localStorage.getItem('bnMRC'))
+    else if (localStorage.getItem('bnMRC'))
       bnMRC = JSON.parse((localStorage.getItem('bnMRC') as any).toString());
 
-    if(bnMRC && bnMRC.token && bnMRC.username) {
+    if (bnMRC && bnMRC.token && bnMRC.username) {
       this._uname = bnMRC.username.toString();
-      this._language = +bnMRC.language;        
+      this._language = +bnMRC.language;
       this._token = bnMRC.token;
       this._headers = {
         'content-type': 'application/json',
@@ -335,13 +380,13 @@ export class UserService {
       this.utilsService.setUName(this._uname);
     }
     else {
-      if(bnMRC && bnMRC.isUnregistered) {
+      if (bnMRC && bnMRC.isUnregistered) {
         this._uname = bnMRC.displayName;
         this._language = +bnMRC.language;
         this._headers = {
           'content-type': 'application/json',
         };
-        if(window.location.href.indexOf('/pay/') < 1 || window.location.href.indexOf('/donate/') < 1)
+        if (window.location.href.indexOf('/pay/') < 1 || window.location.href.indexOf('/donate/') < 1)
           (document as any).title = this.getDocTitle(this._language);
       }
       else {
@@ -350,19 +395,164 @@ export class UserService {
         this._language = 0;
         this._headers = {
           'content-type': 'application/json'
-        };      
+        };
       }
-    }    
+    }
 
     this.utilsService.setHeaders(this._headers);
   }
 
   private hasToken(): boolean {
-    if(sessionStorage.getItem('bnMRC'))
+    if (sessionStorage.getItem('bnMRC'))
       return true;
-    else if(localStorage.getItem('bnMRC'))
+    else if (localStorage.getItem('bnMRC'))
       return true;
 
     return false;
   }
+
+  registerSelfMerchant(id: string, businessName: string, contactEmailId: string, category: string,
+    subCategory: string, city: string, locality: string, contactPerson: string, address: string,
+    contactMobileNumber: string, businessTypeCode: string, businessType: string, pinCode: string, gstno: string) {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.markSelfMerchantVerified,
+      JSON.stringify({
+        "id": id,
+        "gstNumber": gstno,
+        "businessName": businessName,
+        "contactEmailId": contactEmailId,
+        "category": category,
+        "subCategory": subCategory,
+        "city": city,
+        "locality": locality,
+        "contactPerson": contactPerson,
+        "address": address,
+        "contactMobileNumber": contactMobileNumber,
+        "businessTypeCode": businessTypeCode,
+        "businessType": businessType,
+        "pinCode": pinCode
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillMerchantProfile(res.json()))
+      .catch(res => false);
+  }
+
+  markSelfMerchantVerified(id: string, ifsc: string, accountRefNumber: string, panNumber: string,
+    bankName: string, merchantName: string, accountHolderName: string, filePassword: string) {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
+      JSON.stringify({
+
+        "id": id,
+        "ifsc": ifsc,
+        "accountRefNumber": accountRefNumber,
+        "panNumber": panNumber,
+        "bankName": bankName,
+        "merchantName": merchantName,
+        "accountHolderName": accountHolderName,
+        "filePassword": filePassword
+
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillAccountProfile(res.json()))
+      .catch(res => false);
+  }
+  fillMerchantProfile(res: any): Businesspro|null {
+    
+     console.log(res,'helele');
+    if (res.merchantUser) {
+      console.log(res.merchantUser.businessName);
+      this._businesspro.businessName = res.merchantUser.businessName;
+      this._businesspro.businessType = res.merchantUser.businessType;
+      this._businesspro.category = res.merchantUser.category;
+      this._businesspro.subCategory = res.merchantUser.subCategory;
+      this._businesspro.contactPerson = res.merchantUser.contactPerson;
+      this._businesspro.address = res.merchantUser.address;
+      this._businesspro.numberOfOutlets = res.merchantUser.numberOfOutlets;
+      this._businesspro.contactPersonDesignation = res.merchantUser.contactPersonDesignation;
+      this._businesspro.city = res.merchantUser.city;
+      this._businesspro.contactEmailId = res.merchantUser.contactEmailId;
+      this._businesspro.pincode = res.merchantUser.pinCode;
+      this._businesspro.locality = res.merchantUser.locality;
+      this._businesspro.businessTypeCode = res.merchantUser.businessTypeCode;
+      this._businesspro.gstno = res.merchantUser.gstNumber;
+    }
+     console.log(this._businesspro,'helele11');
+    return this._businesspro;
+  }
+
+  fillAccountProfile(res: any): Accountpro|null {
+     console.log(res.merchantUser, res.merchantUser.accountHolderName, 'helele1');
+    // this._accountpro = new Accountpro(null, null, null, null, null,null);
+    if (res.merchantUser) {
+      this._accountpro.accountHolderName = res.merchantUser.accountHolderName;
+      this._accountpro.accountRefNumber = res.merchantUser.accountRefNumber;
+      this._accountpro.panNumber = res.merchantUser.panNumber;
+      this._accountpro.ifsc = res.merchantUser.ifsc;
+      this._accountpro.bankName = res.merchantUser.bankName;
+      this._accountpro.filePassword = res.merchantUser.filePassword;
+    }
+    console.log(this._accountpro,'helele');
+    return this._accountpro;
+  }
+  checkMerchant(mobileNumber: string, profile: string): Promise<any> {
+    if (profile == "b") {
+      return this.http
+        .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
+        JSON.stringify({
+
+          "mobileNumber": mobileNumber
+
+        }),
+        { headers: this.utilsService.getHeaders() })
+
+        .toPromise()
+        .then(res => this.fillMerchantProfile(res.json()))
+        .catch(res => false);
+    }
+    else {
+      return this.http
+        .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
+        JSON.stringify({
+          "mobileNumber": mobileNumber
+
+        }),
+        { headers: this.utilsService.getHeaders() })
+
+        .toPromise()
+        .then(res => this.fillAccountProfile(res.json()))
+        .catch(res => false);
+    }
+  }
+  getfetchMerchantForEditDetails(email: string, Id: string): Promise<any> {
+
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
+      JSON.stringify({
+
+        "userId": email,
+        "sourceId": Id,
+        "sourceType": "MERCHANT_REG"// hard code
+
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillAllgetfetchMerchantForEditDetails(res.json()))
+      .catch(res => false);
+  }
+
+  fillAllgetfetchMerchantForEditDetails(res: any): Merchant {
+
+    let dt = res;
+    let me = this;
+  
+    if (dt) {
+      this._merchantmodel = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum);
+    }
+    return me._merchantmodel;
+  }
+
+
 }

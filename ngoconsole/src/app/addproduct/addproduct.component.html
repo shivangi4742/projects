@@ -3,14 +3,26 @@
     <div class="valign-wrapper" *ngIf="imgErrMsg">
       <div class="errNrmS6BN col s12 center">{{imgErrMsg | translate}}</div>
     </div>
-    <div class="file-field input-field col s10 offset-s1 m4">
-      <img *ngIf="!uploading && !hasImage()" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
-      <img [ngClass]="uploading ? 'editProdImageBN responsive-img uploadingImageBN displayBN' : 'editProdImageBN responsive-img noDisplayBN'" 
+    <div *ngIf="!isImageOptimizing()" class="file-field input-field col s10 offset-s1 m4">
+      <img *ngIf="!uploading && !hasImage() && mtype == 3" class="responsive-img editProdImageBN" src="../../assets/shared/images/no-image.png" />
+      <img *ngIf="!uploading && !hasImage() && mtype == 2" class="responsive-img editProdImageBN" src="../../assets/shared/images/donate-green.png" />
+      <img [ngClass]="uploading ? 'editProdImageBN responsive-img uploadingImageBN displayBN' : 'editProdImageBN responsive-img noDisplayBN'"
         src="../../assets/ngoconsole/images/output_BP0wHw.gif" />
       <img *ngIf="!uploading && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{newProd.imageURL}} />
       <div *ngIf="!uploading && hasImage()" align="left" class="editOverlayBN"> &nbsp;<i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
       <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
-    </div>                
+    </div>
+    <div *ngIf="isImageOptimizing()" class="col s10 offset-s1 m4" id="imageCropContent">
+      <div class="row">
+        <div class="col s12 center">
+          <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        </div>
+        <div class="col s12">
+          <div class="buttonModalBN linkButtonBN col s6 center" style="margin-right: 5px;" (click)="saveImage()">{{'Confirm' | translate}}</div>
+          <div class="buttonModalBN linkButtonBN col s5 center" style="padding: 0px" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+        </div>
+      </div>
+    </div>
     <div class="col s1 hide-on-med-and-up"></div>
 
     <div class="col s12 m8">
@@ -21,9 +33,12 @@
       <div class="col s1 hide-on-med-and-up"></div>
 
       <div class="col s10 offset-s1 m4 input-field">
-        <input [(ngModel)]="newProd.price" class="validate regNrmS4BN" type="number" step="0.01" min="0" max="9999999.99" 
+        <input *ngIf="mtype == 3" [(ngModel)]="newProd.price" class="validate regNrmS4BN" type="number" step="0.01" min="10.00" max="9999999.99"
+            name="price" id="price" required>
+        <input *ngIf="mtype != 3" [(ngModel)]="newProd.price" class="validate regNrmS4BN" type="number" step="0.01" min="1.00" max="9999999.99"
             name="price" id="price" required>
         <label for="price" [ngClass]="newProd.price ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Price'| translate}}*</label>
+        <div class="errNrmS6BN minAmountBN" *ngIf="mtype == 3">({{'min' | translate}}  ₹ 10.00)</div>
       </div>
       <div class="col s1 hide-on-med-and-up"></div>
 
@@ -32,7 +47,7 @@
         <label for="uom" [ngClass]="newProd.uom ? 'active regNrmS6IBN truncate' : 'regNrmS4IBN truncate'">{{'UOM'| translate}}</label>
       </div>
       <div class="col s1 hide-on-med-and-up"></div> -->
-      
+
       <div class="col m8 s10 offset-s1 input-field">
         <textarea id="description" name="description" maxlength="150" class="materialize-textarea regNrmS4BN highTextAreaBN"
           [(ngModel)]="newProd.description"></textarea>
@@ -41,10 +56,12 @@
       </div>
       <div class="col s1 hide-on-med-and-up"></div>
       <div class="col s10 m4 offset-s1" align="right">
-          <button *ngIf="!edit" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit" 
-              name="product" [disabled]="!productForm.form.valid || newProd.price <= 0">{{'Add' | translate}}</button>
+          <button *ngIf="!edit && mtype == 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 10 || isImageProcess">{{'Add' | translate}}</button>
+          <button *ngIf="!edit && mtype != 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 1 || isImageProcess">{{'Add' | translate}}</button>
       </div>
       <div class="col s1 hide-on-med-and-up"></div>
     </div>
   </div>
-</form> 
+</form>

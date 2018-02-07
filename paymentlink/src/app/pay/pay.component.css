@@ -44,3 +44,13 @@
 .alertTextBN {
     color: #E53935;
 }
+
+.codIconBN {
+    color: #E53935;
+    font-size: 20pt;
+    padding-left: 16px;
+}
+
+.breakdownBN {
+    font-size: 32pt;
+}

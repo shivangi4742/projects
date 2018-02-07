@@ -2,6 +2,12 @@ import { Product } from './product.model';
 
 export class SDK {
   constructor(
+    public employeeId: string,
+    public askemployeeId: boolean,
+    public mndemployeeId: boolean,
+    public companyName: string,
+    public askcompanyname: boolean,
+    public mndcompanyname: boolean,
     public askmob: boolean,
     public askadd: boolean,
     public mndmob: boolean,
@@ -44,6 +50,7 @@ export class SDK {
     public description: string,
     public merchantCode: string,
     public businessName: string,
+    public campaignCode: string,
     public invoiceNumber: string,
     public til: string|null,
     public vpa: string|null,
@@ -56,5 +63,7 @@ export class SDK {
     public mode: string|null,
     public txnid: string|null,
     public supportedModes: Array<string>,
-    public products: Array<Product>|null) { }
+    public products: Array<Product>|null,
+    public deletedProducts: Array<string>|null,
+    public chargeConvenienceFee: boolean) { }
 }

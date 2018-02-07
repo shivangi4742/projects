@@ -8,7 +8,7 @@
 
 .featuredImageBN {
     max-height: 150px;
-    max-width: 550px;
+    max-width: 480px;
 }
 
 .featuredImageSmallBN {
@@ -68,8 +68,7 @@
     font-size: 30px;
     position: relative;
     display: inline;
-    left: -60px;
-    top: -20px;
+    top: -47px;
 }
 
 .editOverlayIconBN {
@@ -154,4 +153,11 @@
 }
 .nextCampaignBN{
   float: right;
+}
+.buttonModalBN{
+  text-transform: none;
+  color: white!important;
+  height: 30px;
+  line-height: 30px;
+  background-color: #E53935!important;
 }

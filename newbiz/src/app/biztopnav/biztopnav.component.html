@@ -1,0 +1,42 @@
+<div materialize *ngIf="user">
+  <nav materialize class="nav biztopNavBN">
+    <div class="nav-wrapper">            
+      <a class="brand-logo linkButtonBN" [routerLink]="'/dashboard'">
+        <img class="bizLogoBN hide-on-med-and-down" src="../assets/shared/images/benow1x.png" />
+        <img class="bizLogoSBN hide-on-large-only" src="../assets/shared/images/benow1x.png" />
+      </a>
+      <ul class="left hide-on-large-only">
+        <li class="hide-on-small-only">
+          <a materialize="sideNav" data-activates="slide-out3" class="button-collapse linkButtonBN">
+            <i class="material-icons linkButtonBN">menu</i>
+          </a>
+        </li>
+        <li class="hide-on-med-only">
+          <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN">
+            <i class="material-icons linkButtonBN">menu</i>
+          </a>
+        </li>
+      </ul>
+      <ul class="right">
+        <li class="hide-on-small-only">
+          <i class="material-icons bizHdrSoloIconBN linkButtonBN">notifications</i>
+        </li>
+        <li class="hide-on-med-and-up">
+          <i class="material-icons bizHdrSoloIconSBN linkButtonBN">notifications</i>
+        </li>
+        <li class="hide-on-med-and-down">
+          <i class="material-icons bizHdrIconBN">account_circle</i>
+        </li>
+        <li class="hide-on-med-and-down">
+          <span class="truncate bizUserBN">{{user.displayName}}</span>
+        </li>
+        <li class="hide-on-small-only">
+            <i class="material-icons bizHdrLastIconBN linkButtonBN">more_vert</i>
+        </li>
+        <li class="hide-on-med-and-up">
+            <i class="material-icons bizHdrLastIconSBN linkButtonBN">more_vert</i>
+        </li>
+      </ul>      
+    </div>
+  </nav>
+</div>

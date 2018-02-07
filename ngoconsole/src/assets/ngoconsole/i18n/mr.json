@@ -181,5 +181,18 @@
     "Received": "मिळाले",
     "from": "पासून",
     "on": "च्यावर",
-    "Till": "टील"    
+    "Till": "टील",
+    "Date Created": "निर्मितीची तारीख",
+    "Enter Employee Id":"कर्मचारी संख्या प्रविष्ट करा",
+    "Enter Comapny Name":"कंपनीचे नाव प्रविष्ट करा",
+    "Request for Company Name":"कंपनीचे नाव यासाठी विनंती",
+    "Request for Employee Id":"कर्मचारी आयडी साठी विनंती",
+    "Edit Campaign": "मोहिम संपादित करा",
+	"Save Campaign": "मोहीम जतन करा",
+    "Please add a product in Campaign.": "कृपया मोहिमेत उत्पादन जोडा।",
+    "Successfully saved Campaign.": "मोहिम यशस्वीपणे जतन केली।",
+    "No Campaign Image Selected": "कोणतीही मोहिम प्रतिमा निवडली नाही",
+    "Add Product": "देणगी पर्याय जोडा",
+    "Banner Image": "बॅनर प्रतिमा",
+    "Select Banner Image": "बॅनर प्रतिमा निवडा"
 }

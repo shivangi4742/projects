@@ -299,7 +299,7 @@ export class PrepageComponent implements OnInit {
   }
 
   hasAllRequiredFields() {
-    return this.paymentMode && this.remarks && this.totalAmount <= 1000000;
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1;
   }
 
   onTaxClck() {

@@ -1,0 +1,51 @@
+.noMarginRowBN {
+    margin-bottom: 0;
+}
+
+.sidenavBN {
+    background-color: #413A5A;
+}
+
+.minHeightBN {
+    min-height: 600px;
+}
+
+.rightNavBN {
+    background-color: #f2f2f2;
+}
+
+ul.side-nav.fixed {
+    overflow: hidden;
+    margin-top: 64px;
+}
+
+.sidenavmediumBN {
+    background-color: #413A5A;
+    width: 200px;
+    position: absolute;
+    overflow: auto!important;
+}
+
+.sidenavsmallBN {
+    background-color: #413A5A;
+    width: 200px;
+    position: absolute;
+    overflow: auto!important;
+    margin-top: 56px!important;    
+}
+
+.sidenavBN {
+    background-color: #413A5A;
+    width: 200px;
+    position: absolute;
+}
+
+main {
+    padding-left: 200px;
+}
+
+@media only screen and (max-width : 992px) {
+    main {
+      padding-left: 0;
+    }
+}

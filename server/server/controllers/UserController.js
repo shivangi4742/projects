@@ -97,6 +97,148 @@ var userCont = {
         }
     },
 
+    getMerchantDetails: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.merchantCode)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
+                { 
+                    "merchantCode": d.merchantCode
+                },
+                function(data) {
+                    res.json(data);
+                });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    completeRegistration: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.id)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', h),
+                {
+                    "id": d.id
+                },
+                function(data) {
+                    res.json(data);
+                });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    getMerchantDetailsForVerification: function(req, res) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if(!req || !req.body || !req.body.secretCode)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                var h = req.headers;
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getParameters', 'POST', h),
+                    {
+                        "paramType": "registrationverification",
+                        "paramCode": d.secretCode
+                    }, function(data1) {
+                        if(data1 && data1.desc1 && data1.desc2 && data1.val1) {
+                            var dtdiff = Date.now() - data1.val1;
+                            if(dtdiff > 3600000)
+                                res.json({isExpired: true});
+                            else
+                                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
+                                    {
+                                        "merchantCode": data1.desc1
+                                    }, function(data2) {
+                                        if(data2 && data2.merchantCode) {
+                                            data2.agentCode = data1.desc2;
+                                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/registration/sendWebOTP', 'POST', h),
+                                            {
+                                                "mobileNumber": data2.mobileNumber
+                                            },
+                                            function(data3) {
+                                                if(data3 && data3.responseFromAPI == true)
+                                                    res.json(data2);
+                                                else
+                                                    res.json(retErr);
+                                            });
+                                        }
+                                        else
+                                            res.json(retErr);
+                                    });
+                        }
+                        else
+                            res.json(retErr);
+                    });
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    getCustomerList: function(req, res) {
+        console.log('herelist')
+        this.getCustomerListPost(req, function(data) {
+           res.setHeader("X-Frame-Options", "DENY");
+           res.json(data);
+        });
+    },
+
+    getCustomerListPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.merchantCode) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCustomerList', 'POST', req.headers),
+                        {
+                            "merchantCode":d.merchantCode,
+                            "pageNumber":d.pageNumber
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
     register: function (req, res) {
         var me = this;
         this.registerPost(req, function (data) {
@@ -334,6 +476,194 @@ var userCont = {
             }
         });
     },
+     markSelfMerchantVerified: function (req, res) {
+        var me = this;
+        this.markSelfMerchantVerifiedpost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+
+    markSelfMerchantVerifiedpost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body || !req.body.data) {
+                cb(retErr);
+            }
+            else {
+
+                var d = req.body;
+                //                console.log(d);
+                if (d && d.id) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
+                        {
+                            "id": d.id,
+                            "ifsc": d.ifsc,
+                            "accountRefNumber": d.accountRefNumber,
+                            "panNumber": d.panNumber,
+                            "bankName": d.bankName,
+                            "merchantName": d.merchantName,
+                            "accountHolderName": d.accountHolderName,
+                            "filePassword": d.filePassword
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    registerSelfMerchant: function (req, res) {
+        var me = this;
+        this.registerSelfMerchantpost(req, token, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data});
+        });
+    },
+
+    registerSelfMerchantpost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "token": null,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body ) {
+                cb(retErr);
+            }
+            else {
+
+             
+                //   console.log(d);
+                if ( req.body && req.body.id) {
+                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
+                        {
+                            "gstNumber": req.body.gstNumber,
+                            "businessName": req.body.businessName,
+                            "businessType": req.body.businessType,
+                            "contactEmailId": req.body.contactEmailId,
+                            "category": req.body.category,
+                            "subCategory": req.body.subCategory,
+                            "city": req.body.city,
+                            "locality": req.body.locality,
+                            "contactPerson": req.body.contactPerson,
+                            "contactMobileNumber": req.body.contactMobileNumber,
+                            "address": req.body.address,
+                            "pinCode": req.body.pinCode,
+                            "businessTypeCode": req.body.businessTypeCode,
+                            "businessType": req.body.businessType,
+                            "id": req.body.id,
+                            "numberOfOutlets": req.body.numberOfOutlets,
+                            "agentId": req.body.agentId,
+                            "contactPersonDesignation": req.body.contactPersonDesignation
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+     fetchMerchantForEditDetails: function (req, res) {
+        var me = this;
+        var token = this.getToken(req);
+        this.fetchMerchantForEditDetailsPost(req, token, function (data) {
+            // console.log(data);
+            var logoURL;
+            if (data && data.documentResponseVO) {
+                var p = data.documentResponseVO.documentList;
+                if (p && p.length > 0) {
+                    for (var i = 0; i < p.length; i++) {
+                        if (p[i].documentName == 'Merchant_logo')
+                            logoURL = p[i].documentUrl;
+
+                    }
+                }
+            }
+
+            if (data && logoURL) {
+                me.downloadLogo(logoURL, data.userId, function (ldata) {
+                    data.merchantLogoUrl = ldata;
+                    res.setHeader("X-Frame-Options", "DENY");
+                    res.json({ "data": data});
+                });
+            }
+            else {
+                res.setHeader("X-Frame-Options", "DENY");
+                res.json({ "data":data});
+            }
+        });
+    },
+     fetchMerchantForEditDetailsPost: function (req, token, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+
+            if (!req || !req.body || !req.body.data)
+                cb(retErr);
+            else {
+
+                if (req.body.userId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails', 'POST', req.headers),
+                        {
+                            "userId": req.body.userId,
+                            "sourceId": req.body.sourceId,
+                            "sourceType": req.body.sourceType
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+     downloadLogo: function (url, userId, cb) {
+        try {
+            if (!url)
+                cb('');
+            else {
+                var extn = '.png';
+                var lIndex = url.lastIndexOf('.');
+                if (lIndex > 0)
+                    extn = url.substring(lIndex);
+
+                var fName = 'logos/' + userId + extn;
+
+                var file = fs.createWriteStream(fName);
+                Jimp.read(config.beNowSvc.https + config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/'
+                    + url, function (err, lenna) {
+                        lenna.resize(190, 105)
+                        var image = new Jimp(210, 120, function (err, image) {
+                            image.background(0xFFFFFFFF)
+                                .composite(lenna, 10, 5);
+                            image.write(fName)
+
+                            cb(fName);
+                        });
+                    });
+            }
+        }
+        catch (err) {
+            cb('');
+        }
+    },
+
 }
 
 module.exports = userCont;

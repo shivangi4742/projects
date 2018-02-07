@@ -1,0 +1,27 @@
+<header>
+  <biztopnav [user]="user"></biztopnav>
+</header>
+<main>
+  <div materialize>
+    <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN hide-on-med-and-down">
+      <leftnav></leftnav>
+    </ul>
+    <ul id="slide-out2" class="side-nav fixed sidenavsmallBN hide-on-med-and-up">
+      <leftnav></leftnav>
+    </ul>
+    <ul id="slide-out3" class="side-nav fixed sidenavmediumBN hide-on-small-only hide-on-large-only">
+      <leftnav></leftnav>
+    </ul>
+    <div class="row noMarginRowBN">
+      <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
+        <router-outlet></router-outlet>
+      </div> 
+      <div class="col hide-on-small-only m3 rightNavBN" [style.height]="getMainHeight()">
+        <rightnav></rightnav>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <bizfooterbar></bizfooterbar> 
+</footer>

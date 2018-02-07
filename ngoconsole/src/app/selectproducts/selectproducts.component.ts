@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, ViewChild} from '@angular/core';
 
 import { User, UtilsService, Product, FileService, ProductService } from 'benowservices';
 
@@ -17,7 +17,7 @@ export class SelectproductsComponent implements OnInit {
   active: number = 0;
   numPages: number = 1;
   mtype: number = 1;
-  newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null);
+  newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null, null, null);
   @Input('user') user: User;
   @Input('modalActions') modalActions: any;
 
@@ -32,13 +32,13 @@ export class SelectproductsComponent implements OnInit {
       let sp: Array<Product>;
       let np: Array<Product>;
       if(this.products && this.products.length > 0)
-        p = this.products.filter(pp => pp.id == e.product.id);      
+        p = this.products.filter(pp => pp.id == e.product.id);
 
       if(this.selectedProducts && this.selectedProducts.length > 0)
-        sp = this.selectedProducts.filter(pp => pp.id == e.product.id); 
-      
+        sp = this.selectedProducts.filter(pp => pp.id == e.product.id);
+
       if(this.newProducts && this.newProducts.length > 0)
-        np = this.newProducts.filter(pp => pp.id == e.product.id);      
+        np = this.newProducts.filter(pp => pp.id == e.product.id);
 
       if(p && p.length > 0)
         p[0].isSelected = e.checked;
@@ -47,6 +47,7 @@ export class SelectproductsComponent implements OnInit {
         np[0].isSelected = e.checked;
 
       if(e.checked) {
+        this.selectedProducts = this.productService.getSelectedProducts();
         if(!this.selectedProducts)
           this.selectedProducts = new Array<Product>();
 
@@ -66,10 +67,8 @@ export class SelectproductsComponent implements OnInit {
         }
       }
     }
-  }
 
-  getSelectedProducts(): Array<Product> {
-    return this.selectedProducts;
+    this.productService.setSelectedProducts(this.selectedProducts);
   }
 
   added(e: Product) {
@@ -82,8 +81,9 @@ export class SelectproductsComponent implements OnInit {
 
       this.newProducts.splice(0, 0, e);
       this.selectedProducts.push(e);
+      this.productService.setSelectedProducts(this.selectedProducts);
       this.productService.getProducts(this.user.merchantCode, this.pg)
-        .then(ps => this.initializeProds(ps, false));    
+        .then(ps => this.initializeProds(ps, false));
     }
   }
 
@@ -110,7 +110,7 @@ export class SelectproductsComponent implements OnInit {
       this.mtype = 3;
     else if(this.utilsService.isNGO(this.user.mccCode))
       this.mtype = 2;
-    
+
     if(!this.products || this.products.length <= 0) {
       this.pg = 1;
       this.loading = true;

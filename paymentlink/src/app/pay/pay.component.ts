@@ -4,7 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser } from 'benowservices';
+import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -13,8 +13,10 @@ import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, 
 })
 export class PayComponent implements OnInit {
   mode: number;
+  convFee: number;
   qrAmount: number;
   upiAmount: number;
+  purchaseAmount: number;
   tr: string;
   id: string;
   sdkId: string;
@@ -27,6 +29,8 @@ export class PayComponent implements OnInit {
   lastName: string;
   firstName: string;
   panNumber: string;
+  companyName : string;
+  employeeId :string;
   uploadsURL: string;
   fundRaiserId: string;
   mobileNumber: string;
@@ -34,6 +38,7 @@ export class PayComponent implements OnInit {
   pay: SDK;
   payAmount: number = null;
   fundraiser: Fundraiser;
+  break: boolean = false;
   loaded: boolean = false;
   resident: boolean = true;
   qrError: boolean = false;
@@ -49,6 +54,7 @@ export class PayComponent implements OnInit {
   nbExpanded: boolean = false;
   intPayExpanded: boolean = false;
   qrExpanded: boolean = false;
+  supportsCOD: boolean = false;
   hasProducts: boolean = false;
   qrlExpanded: boolean = false;
   supportsUPI: boolean = false;
@@ -57,12 +63,24 @@ export class PayComponent implements OnInit {
   amountEditable: boolean = false;
   supportsSodexo: boolean = false;
   supportsRazorPay: boolean = false;
+  wp: number = 1;
   upiMode: number = 1;
   numSupportedModes: number = 0;
   collapsibleActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer) { }
+
+  getArrowDrop(): string {
+    if(this.break)
+      return 'arrow_drop_up';
+
+    return 'arrow_drop_down';
+  }
+
+  breakdown() {
+    this.break = !this.break;
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -135,6 +153,7 @@ export class PayComponent implements OnInit {
             if (res[j].id == selProds[i].id) {
               res[j].qty = selProds[i].qty;
               this.pay.products.push(res[j]);
+              this.hasProducts = true;
               break;
             }
           }
@@ -152,6 +171,10 @@ export class PayComponent implements OnInit {
     }
     else
       this.initialize();
+  }
+
+  proceed() {
+    this.wp = 2;
   }
 
   initialize() {
@@ -174,6 +197,12 @@ export class PayComponent implements OnInit {
 
     if (!this.pay.amount || this.pay.amount <= 0)
       this.amountEditable = true;
+
+    if(this.pay.mtype == 3 && !this.amountEditable && this.pay.chargeConvenienceFee) {
+      this.purchaseAmount = Math.round(this.pay.amount * 100)/100;
+      this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100)/100;
+      this.convFee = this.pay.amount - this.purchaseAmount;
+    }
 
     if (this.pay.merchantType == 1)
       this.mobileNumber = this.pay.phone;
@@ -200,6 +229,11 @@ export class PayComponent implements OnInit {
         this.supportsNB = true;
       }
 
+      if (this.pay.supportedModes.indexOf('CASH') >= 0) {
+        this.numSupportedModes++;
+        this.supportsCOD = true;
+      }
+
       if (this.pay.supportedModes.indexOf('SODEXO') >= 0) {
         this.numSupportedModes++;
         this.supportsSodexo = true;
@@ -224,6 +258,42 @@ export class PayComponent implements OnInit {
     this.invokeIfModeGiven();
   }
 
+  codMarked(res: any) {
+    this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);    
+  }
+
+  getStatus(res: any): Status {
+    return this.utilsService.getStatus();
+  }
+
+  getStatusMessage(): boolean {
+    let st: Status = this.utilsService.getStatus();
+    if(st && st.message)
+      return true;
+
+    return false;
+  }
+
+  finishCashPayment(res: any) {
+    if(res && res.transactionRef) {
+      this.txnNo = res.transactionRef;
+      this.sdkService.saveCashPaymentSuccess(this.pay.amount, this.txnNo, this.mobileNumber, this.pay.merchantCode, this.pay.title, this.id)
+        .then(res => this.codMarked(res));
+    }
+    else {
+      this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+      window.scrollTo(0, 0);
+    }
+  }
+
+  payCash() {
+    if (this.validate(true))
+      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 5, this.pay.invoiceNumber,
+        this.pay.til, this.pay.products)
+        .then(res => this.finishCashPayment(res));
+  }
+
   invokeIfModeGiven() {
     if (this.numSupportedModes == 1) {
       if (this.supportsUPI)
@@ -234,14 +304,16 @@ export class PayComponent implements OnInit {
         this.pay.mode = 'DC';
       else if (this.supportsNB)
         this.pay.mode = 'NB';
-      else if (this.supportsSodexo)
+      else if(this.supportsCOD)
+        this.pay.mode = 'CASH';
+      else if(this.supportsSodexo)
         this.pay.mode = 'SODEXO';
       else if (this.supportsRazorPay)
         this.pay.mode = 'RAZORPAY';
     }
 
     if (this.pay.mode && (this.pay.mode == 'CC' || this.pay.mode == 'DC' || this.pay.mode == 'UPI' || this.pay.mode == 'NB' ||
-      this.pay.mode == 'SODEXO' || this.pay.mode == 'RAZORPAY')) {
+      this.pay.mode == 'SODEXO' || this.pay.mode == 'RAZORPAY' || this.pay.mode == 'CASH')) {
       if (this.validate(false)) {
         let me: any = this;
         switch (this.pay.mode) {
@@ -261,6 +333,8 @@ export class PayComponent implements OnInit {
             break;
           case 'NB':
             this.setMode(3);
+            break;
+          case 'CASH':
             break;
           case 'SODEXO':
             break;
@@ -286,7 +360,7 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (!this.pay.amount || this.pay.amount < 0.01 || this.pay.amount > 9999999.99) {
+    else if (!this.pay.amount || (this.pay.amount < 10 && this.pay.merchantType == 3) || (this.pay.amount < 1 && this.pay.merchantType != 3) || this.pay.amount > 9999999.99) {
       this.validationError = 'Please enter a valid amount';
       if (this.putFocus) {
         this.putFocus = false;
@@ -304,8 +378,11 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
-    else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 0)) {
+    else if (this.pay.askmob && this.pay.mndmob && (!this.mobileNumber || this.mobileNumber.trim().length <= 9)) {
       this.validationError = 'Please enter mobile number to proceed';
+      if(this.pay.merchantType != 1 && !this.pay.readonlymob && this.mobileNumber && this.mobileNumber.trim().length <= 9)
+        this.validationError = 'Mobile number should have at least 10 digits';
+
       if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('mobileNumber');
@@ -332,8 +409,26 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
+    else if (this.pay.askcompanyname && this.pay.mndcompanyname  && (!this.companyName || this.companyName.trim().length <= 0)) {
+      this.validationError = 'Please enter Company Name';
+      if (this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('companyName');
+        if (elmnt)
+          elmnt.focus();
+      }
+    }
+    else if (this.pay.askemployeeId && this.pay.mndemployeeId  && (!this.employeeId || this.employeeId.trim().length <= 0)) {
+      this.validationError = 'Please enter Employee Id';
+      if (this.putFocus) {
+        this.putFocus = false;
+        let elmnt: any = document.getElementById('employeeId');
+        if (elmnt)
+          elmnt.focus();
+      }
+    }
     else if (this.pay.askadd && this.pay.mndaddress && (!this.address || this.address.trim().length <= 0)) {
-      this.validationError = 'Please enter a valid Address';
+      this.validationError = 'Please enter address';
       if (this.putFocus) {
         this.putFocus = false;
         let elmnt: any = document.getElementById('address');
@@ -416,7 +511,7 @@ export class PayComponent implements OnInit {
       if (this.txnNo && this.txnNo.length > 0)
         this.createQRL({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQRL(res));
@@ -533,7 +628,7 @@ export class PayComponent implements OnInit {
       if (this.txnNo && this.txnNo.length > 0)
         this.createQR({ "transactionRef": this.txnNo });
       else
-        this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.sdkService.startPaymentProcess( this.employeeId,this.companyName,this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
           .then(res => this.createQR(res));
@@ -584,7 +679,7 @@ export class PayComponent implements OnInit {
     this.putFocus = true;
     if (this.validate(true)) {
       this.mode = mode;
-      this.sdkService.startPaymentProcess(this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+      this.sdkService.startPaymentProcess(this.employeeId,this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
         .then(res => this.goToPG(res));

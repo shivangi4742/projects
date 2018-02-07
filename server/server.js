@@ -30,7 +30,7 @@ var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
 var ZgRouter = require('./server/routers/ZgRouter');
-var ZgController = require('./server/controllers/ZgController')
+var ZgController = require('./server/controllers/ZgController');
 var MglRouter = require('./server/routers/MglRouter');
 var MglController = require('./server/controllers/MglController')
 function setup(ssl) {
@@ -90,6 +90,7 @@ app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));
 app.use(config.base + '/mybiz', express.static(__dirname + urls.mybizDir));
+app.use(config.base + '/biz', express.static(__dirname + urls.newbizDir));
 app.use(config.base + '/lgn', express.static(__dirname + urls.loginDir));
 app.use(config.base + '/qrs', express.static(__dirname + urls.qrDir));
 app.use(config.base + '/assets', express.static(__dirname + urls.assetsDir));
@@ -130,6 +131,11 @@ app.get(config.base + '/lgn/*', function (req, res) {
 app.get(config.base + '/mybiz/*', function (req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.mybizHome, { root: __dirname });
+});
+
+app.get(config.base + '/biz/*', function (req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	res.sendFile(urls.newbizHome, { root: __dirname });
 });
 
 app.get(config.base + '/ngocsl/*', function (req, res) {

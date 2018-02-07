@@ -20,8 +20,11 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
+            else if (req.body.mode === 'CASH')
+                pmtype = 'CASH';
+
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
                     "amount": req.body.amount,
@@ -62,6 +65,13 @@ var sdkCont = {
         }
     },
 
+    saveCashPaymentSuccess: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.paymentSuccess(req, function (data) {
+            res.json(data);
+        });
+    },
+
     paymentSuccess: function (req, cb) {
         try {
             var headers = {
@@ -69,8 +79,9 @@ var sdkCont = {
                 'Content-Type': 'application/json'
             };
             var fundraiserid = req.params.fund;
-            if (fundraiserid)
-                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.body.amount, headers, function (fundata) { });
+            if(fundraiserid)
+                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.params.txnid, req.body.amount, headers, 
+                    function(fundata) {});
 
             var status = req.body.status;
             var statusMsg = 'Failed';
@@ -80,8 +91,10 @@ var sdkCont = {
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
                 pmtype = 'CREDIT_CARD';
-            else if (req.body.mode = 'NB')
+            else if (req.body.mode === 'NB')
                 pmtype = 'NET_BANKING';
+            else if (req.body.mode == 'CASH')
+                pmtype = 'CASH'
 
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
@@ -319,13 +332,14 @@ var sdkCont = {
         });
     },
 
-    updateFundraiserCollectionPostCall(fundraiserId, campaignId, amount, hdrs, cb) {
+    updateFundraiserCollectionPostCall(fundraiserId, campaignId, paymentTxnId, amount, hdrs, cb) {
         helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/updateFundraiserForCampaign', 'POST', hdrs),
-            {
-                "txnRefNumber": campaignId,
-                "fundraiserId": fundraiserId,
-                "actualCollection": amount
-            }, cb);
+        {
+            "txnRefNumber": campaignId,
+            "fundraiserId": fundraiserId,
+            "paymentTxnRefNumber": paymentTxnId,
+            "actualCollection": amount
+        }, cb);
     },
 
     updateFundraiserCollectionPost: function (req, cb) {
@@ -498,6 +512,8 @@ var sdkCont = {
                 var mobileNo = d.mobileNo;
                 var pan = d.pan;
                 var resident = d.resident;
+                var employeeId = d.employeeId;
+                var companyName = d.companyName;
                 var pt = 'UPI_OTHER_APP';
                 if (d.paytype === 1)
                     pt = 'CREDIT_CARD';
@@ -507,6 +523,8 @@ var sdkCont = {
                     pt = 'NET_BANKING';
                 else if (d.paytype === 5)
                     pt = 'RAZORPAY';
+                else if (d.paytype === 5)
+                    pt = 'CASH';
 
                 var obj = {
                     "amount": d.payamount,
@@ -567,7 +585,9 @@ var sdkCont = {
                                                 "paymentLinkRef": paylinkid,
                                                 "merchantCode": d.merchantcode,
                                                 "amount": d.payamount,
-                                                "txnDate": me.getCurDateTimeString
+                                                "txnDate": me.getCurDateTimeString,
+                                                "employeeId": employeeId,
+                                                "companyName": companyName
                                             },
                                             function (sdata) {
                                                 me.savePayerProducts(d.merchantcode, products, 0, data.hdrTransRefNumber, hdrs, retErr, cb);
@@ -583,6 +603,72 @@ var sdkCont = {
             }
             else
                 cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    createPaymentLink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        var me = this;
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                res.json(retErr);
+            else {
+                var d = req.body;
+                if(d) {
+                    var hdrs = req.headers;
+
+                    this.createPaymentLinkPost(d, hdrs, function (data) {
+                        res.json(data);
+                    });
+                }
+                else
+                    res.json(retErr);
+            }
+        }
+        catch (err) {
+            res.json(retErr);
+        }
+    },
+
+    createPaymentLinkPost: function(d, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!d)
+                cb(retErr);
+            else {
+                if(d && d.merchantCode) {
+                    var expDt = d.expiryDate;
+                    if (expDt && expDt.length > 9) {
+                        var spExDt = expDt.split('-');
+                        if (spExDt && spExDt.length > 2)
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
+                    }
+
+                    var me = this;
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "amount": d.amount,
+                            "description": d.description,
+                            "refNumber": d.invoiceNumber,
+                            "expiryDate": expDt
+                        }, cb);
+                }
+                else
+                    cb(retErr);
+            }
         }
         catch (err) {
             cb(retErr);
@@ -696,6 +782,35 @@ var sdkCont = {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/logging/getLogById', 'POST', req.headers),
                     {
                         "id": req.body.id
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+     getmerchantpaymentlink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getMerchantPaymentlinkPost(req, function (data) {
+            
+            res.json(data);
+        });
+    },
+
+    getMerchantPaymentlinkPost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+     
+        try {
+            if (!req.body || !req.body.merchantCode)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
+                    {
+                       "merchantCode": req.body.merchantCode
                     },
                     cb);
             }

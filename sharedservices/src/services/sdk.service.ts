@@ -31,7 +31,9 @@ export class SDKService {
         getFundraiserDetailsURL: 'sdk/getFundraiserDetails',
         getPaymentLinkDetailsURL: 'sdk/getPaymentLinkDetails',
         updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
-        getLogByIdURL: 'sdk/getLogById'
+        getLogByIdURL: 'sdk/getLogById',
+        createPaymentLinkURL: 'sdk/createPaymentLink',
+        saveCashPaymentSuccessURL: 'sdk/saveCashPaymentSuccess'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -59,8 +61,52 @@ export class SDKService {
 
     
 
+    private formatDTMT(md: string) {
+        if(md && md.length < 2)
+            return '0' + md;
+
+        return md;
+    }
+
+    saveCashPaymentSuccess(amount: number, txnid: string, phone: string, merchantCode: string, merchantName: string, linkId: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.saveCashPaymentSuccessURL,
+                JSON.stringify({
+                    "status": 'success',
+                    "mode": 'CASH',
+                    "amount": amount,
+                    "txnid": txnid,
+                    "phone": phone,
+                    "udf3": merchantName,
+                    "udf4": merchantCode,
+                    "udf5": linkId
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
+    }
+
+    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.createPaymentLinkURL,
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "description": description,
+                    "amount": amount,
+                    "refNumber": refNumber,
+                    "expiryDate": expiryDate
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
     private fillSDK(res: any): SDK | null {
+        let convFee: boolean = false;
         if (res && res.merchantUser) {
+            convFee = res.merchantUser.chargeConvenienceFee;
             let vpa: string = res.merchantUser.merchantCode + '@yesbank';
             if (res.merchantUser.defaultAcc && res.merchantUser.defaultAcc.virtualAddress)
                 vpa = res.merchantUser.defaultAcc.virtualAddress;
@@ -79,6 +125,8 @@ export class SDKService {
                             modes.push('SODEXO');
                         else if ((m.paymentMethod == 'UPI_OTHER_APP' || m.paymentMethod == 'UPI') && modes.indexOf('UPI') < 0)
                             modes.push('UPI');
+                        else if ((m.paymentMethod == 'CASH' || m.paymentMethod == 'COD') && modes.indexOf('CASH') < 0)
+                            modes.push('CASH');
                         else if ((m.paymentMethod == 'RAZORPAY' || m.paymentMethod == 'RAZORPAY') && modes.indexOf('RAZORPAY') < 0)
                             modes.push('RAZORPAY');
                     }
@@ -101,16 +149,16 @@ export class SDKService {
             var expiryDate = '';
             if (res.expiryDate) {
                 let dt = new Date(res.expiryDate);
-                expiryDate = dt.getDate() + '-' + (dt.getMonth().toString()) + '-' + dt.getFullYear();
+                expiryDate = this.formatDTMT(dt.getDate().toString()) + '-' + this.formatDTMT((dt.getMonth() + 1).toString()) + '-' + dt.getFullYear();
             }
 
-            this._sdk = new SDK(res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
-                res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '',
-                (mtype == 1) ? res.mobileNumber : '', ttl,
+            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
+                res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '', 
+                (mtype == 1) ? res.mobileNumber : '', ttl, 
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.displayName, res.invoiceNumber, res.till, null, null, null, null, null, null, null,
-                null, null, modes, null);
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null, 
+                null, null, null, null, null, modes, null, null, convFee);
         }
         else if (res.logFormate) {
             var obj = JSON.parse(res.logText);
@@ -122,19 +170,20 @@ export class SDKService {
             //     obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.invoiceAmount,
             //     obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
 
-            this._sdk = new SDK(JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
-                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob),
+            this._sdk = new SDK(JSON.parse(res.employeeId), JSON.parse(res.askempid), JSON.parse(res.mndempid), JSON.parse(res.companyName), JSON.parse(res.askcompname), JSON.parse(res.mndcompname),JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
+                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob), 
                 JSON.parse(obj.readonlypan), JSON.parse(obj.readonlyname), JSON.parse(obj.askresidence), JSON.parse(obj.readonlyaddr), Boolean(obj.readonlyemail),
                 Boolean(obj.allowMultipleSelect), Boolean(obj.readonlyresidnce), obj.mtype, obj.amount, obj.language, obj.sourceId, obj.minpanamnt, obj.merchantType,
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
-                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.invoiceAmount,
-                obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
+                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber, 
+                obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, 
+                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee);
         }
 
         return this._sdk;
     }
 
-    startPaymentProcess(paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
+    startPaymentProcess(employeeId:string, companyName:string, paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
         payamount: number, phone: string, merchantcode: string, merchantname: string, merchantVPA: string, paytype: number, tr: string,
         til: string, products: Array<Product>): Promise<any> {
         return this.http
@@ -155,7 +204,9 @@ export class SDKService {
                 "paytype": paytype,
                 "tr": tr,
                 "til": til,
-                "products": products
+                "products": products,
+                "employeeId": employeeId ,
+                "companyName": companyName
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()

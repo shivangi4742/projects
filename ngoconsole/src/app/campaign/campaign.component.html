@@ -31,7 +31,7 @@
                 </div>
                 <div class="modal-footer footerHgtBN">
                   <div class="col s12 center">
-                    <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" [disabled]="!canBeClosed()" (click)="closeModal()"
+                    <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" (click)="closeModal()"
                       name="done">{{'Done' | translate}}</button>
                   </div>
                 </div>
@@ -41,25 +41,62 @@
                   <div class="col s12 center">
                     <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
                         (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">
-                      <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+                      <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3"
+                        class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
+                      <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2"
+                        class="featuredImageBN responsive-img" src="../../assets/shared/images/banner@2x.jpg" />
                       <img [ngClass]="uploading ? 'featuredImageBN responsive-img displayBN' : 'featuredImageBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
-                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
-                      <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN"> &nbsp;
+                      <img *ngIf="!uploading && sdk.imageURL" title="{{sdk.imageURL}}" class="featuredImageBN responsive-img"
+                        src={{uploadsURL}}{{sdk.imageURL}} />
+                      <div *ngIf="!uploading && sdk.imageURL" class="editOverlayBN">
                         <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;
                       </div>
-                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+                      <input [disabled]="uploading" title="{{bannerImage() | translate}}" accept=".jpg, .jpeg, .png" id="uploadImg" type="file"
+                        (change)="fileChange($event)">
+                    </div>
+                    <div materialize="modal" id="imageCropModal" class="modal" [materializeParams]="[{dismissible: false}]"
+                         [materializeActions]="modalActions2">
+                      <div class="modal-content" id="imageCropModalContent">
+                        <!--<div *ngIf="!isImageSmall" class="row">
+                          <div class="col s12">
+                            <img-cropper #cropper [image]="data" [settings]="cropperSettings" ></img-cropper>
+                          </div>
+                          <div class="col s12">
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="saveImage()">{{'Done' | translate}}</div>
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+                          </div>
+                        </div>-->
+                        <div class="row">
+                          <div class="col s12">
+                            <img-cropper #cropperSmall [image]="dataSmall" [settings]="cropperSettingsSmall" ></img-cropper>
+                          </div>
+                          <div class="col s12">
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="saveImageSmall()">{{'Done' | translate}}</div>
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+                          </div>
+                          <div class="col s12 center white">
+                            <img [src]="dataSmall.image" >
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
                       <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img"
-                          src="../../assets/shared/images/no-image-wide.png" />
+                        title="{{'No Campaign Image Selected' | translate}}" src="../../assets/shared/images/no-image-wide.png" />
                       <img [ngClass]="uploading ? 'featuredImageSmallBN responsive-img displayBN' : 'featuredImageSmallBN responsive-img noDisplayBN'"
                           src="../../assets/ngoconsole/images/output_Zll0Y4.gif" />
-                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
+                      <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSmallBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}}
+                        title={{sdk.imageURL}}/>
                       <div *ngIf="!uploading && sdk.imageURL" class="editOverlaySmallBN"> &nbsp;
                         <i class="material-icons editOverlaySmallIconBN">mode_edit</i>&nbsp;
                       </div>
-                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+                      <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)"
+                        title="{{bannerImage() | translate}}">
                     </div>
                     <div class="col s12 noHeightBN">
                       <i class="material-icons cyanBN inlineBN linkButtonBN shiftUp40BN z100BN" *ngIf="has_help('CMP_BANNER')"
@@ -149,13 +186,13 @@
                           *ngIf="get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s8 offset-s2 m4 center" *ngFor="let p of selProducts">
-                        <productwidget *ngIf="p.id" [mtype]="sdk.merchantType" [forCart]="false" [editQty]="false" [product]="p"></productwidget>
+                        <productwidget (selectedProd)="selected($event)" *ngIf="p.id" [mtype]="sdk.merchantType" [forCart]="false" [editQty]="false" [product]="p"></productwidget>
                       </div>
                       <div class="col s8 offset-s2 m4 center">
                         <div (click)="addProduct()" class="noProdBN" class="linkButtonBN" (mouseover)="prodover=true;" (mouseout)="prodover=false;">
-                          <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
+                          <img title="{{'Add Product' | translate}}*" [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
                               src="../../assets/shared/images/no-image-prod-mandatory.jpg" *ngIf="sdk.merchantType == 3" />
-                          <img [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
+                          <img title="{{'Add Product' | translate}}" [ngClass]="prodover ? 'addProdImageBN responsive-img prodOverBN' : 'addProdImageBN responsive-img'"
                               src="../../assets/shared/images/adddonproduct.png" *ngIf="sdk.merchantType == 2" />
                         </div>
                         <i class="material-icons inlineBN shiftUp40BN noHeightBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_PRODS')"
@@ -175,11 +212,11 @@
                       <div class="col s12 helpPopBN regNrmS5BN" align="center"
                           *ngIf="get_help('CMP_USR_DET')">{{get_help('CMP_USR_DET') | translate}}</div>
                       <p class="col s12 borderBN"></p>
-                      <div class="col s12 m6 regNrmS4BN" align="left">{{'Request for name' | translate}}?</div>
-                      <div class="col m6 regNrmS4BN hide-on-small-only" align="left">
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for name' | translate}}?</div>
+                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                         <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m7" align="left">
                         <input name="nameGrp" type="radio" id="yesName" [(ngModel)]="sdk.askname" [value]="true" />
                         <label for="yesName">{{'Yes' | translate}}</label>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -189,7 +226,7 @@
                       <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
                         <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m5" align="left">
                         <div *ngIf="sdk.askname">
                           <input name="nameMndGrp" type="radio" id="yesMndName" [(ngModel)]="sdk.mndname" [value]="true" />
                           <label for="yesMndName">{{'Yes' | translate}}</label>
@@ -199,12 +236,68 @@
                         </div>
                         <span class="hide-on-small-only" *ngIf="!sdk.askname">&nbsp;</span>
                       </div>
+                      <div *ngIf="sdk.mtype==2">
                       <p class="col s12 borderBN"></p>
-                      <div class="col s12 m6 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
-                      <div class="col m6 regNrmS4BN hide-on-small-only" align="left">
+
+
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Employee Id' | translate}}?</div>
+                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                        <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
+                      </div>
+                      <div class="col s12 m7" align="left">
+                        <input name="nameGrp1" type="radio" id="yesemployeeId" [(ngModel)]="sdk.askemployeeId" [value]="true" />
+                        <label for="yesemployeeId">{{'Yes' | translate}}</label>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <input name="nameGrp1" type="radio" id="noemployeeId"  [(ngModel)]="sdk.askemployeeId" [value]="false" />
+                        <label for="noemployeeId">{{'No' | translate}}</label>
+                      </div>
+                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                        <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
+                      </div>
+                      <div class="col s12 m5" align="left">
+                        <div *ngIf="sdk.askemployeeId">
+                          <input name="employeeIdMndGrp" type="radio" id="yesMndemployeeId" [(ngModel)]="sdk.mndemployeeId" [value]="true" />
+                          <label for="yesMndemployeeId">{{'Yes' | translate}}</label>
+                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          <input name="employeeIdMndGrp" type="radio" id="noMndemployeeId"  [(ngModel)]="sdk.mndemployeeId" [value]="false" />
+                          <label for="noMndemployeeId">{{'No' | translate}}</label>
+                        </div>
+                        <span class="hide-on-small-only" *ngIf="!sdk.askemployeeId">&nbsp;</span>
+                      </div>
+
+                      <p class="col s12 borderBN"></p>
+
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Company Name' | translate}}?</div>
+                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                        <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
+                      </div>
+                      <div class="col s12 m7" align="left">
+                        <input name="CompanyNameGrp" type="radio" id="yesCompanyName" [(ngModel)]="sdk.askcompanyname" [value]="true" />
+                        <label for="yesCompanyName">{{'Yes' | translate}}</label>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <input name="CompanyNameGrp" type="radio" id="noCompanyName"  [(ngModel)]="sdk.askcompanyname" [value]="false" />
+                        <label for="noCompanyName">{{'No' | translate}}</label>
+                      </div>
+                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                        <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
+                      </div>
+                      <div class="col s12 m5" align="left">
+                        <div *ngIf="sdk.askcompanyname">
+                          <input name="companynameMndGrp" type="radio" id="yesMndcompanyname" [(ngModel)]="sdk.mndcompanyname" [value]="true" />
+                          <label for="yesMndcompanyname">{{'Yes' | translate}}</label>
+                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                          <input name="companynameMndGrp" type="radio" id="noMndcompanyname"  [(ngModel)]="sdk.mndcompanyname" [value]="false" />
+                          <label for="noMndcompanyname">{{'No' | translate}}</label>
+                        </div>
+                        <span class="hide-on-small-only" *ngIf="!sdk.askcompanyname">&nbsp;</span>
+                      </div>
+                    </div>
+                      <p class="col s12 borderBN"></p>
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
+                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                         <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m7" align="left">
                         <input name="emailGrp" type="radio" id="yesEmail" [(ngModel)]="sdk.askemail" [value]="true" />
                         <label for="yesEmail">{{'Yes' | translate}}</label>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -214,7 +307,7 @@
                       <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
                         <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m5" align="left">
                         <div *ngIf="sdk.askemail">
                           <input name="emailMndGrp" type="radio" id="yesMndEmail" [(ngModel)]="sdk.mndemail" [value]="true" />
                           <label for="yesMndEmail">{{'Yes' | translate}}</label>
@@ -225,11 +318,11 @@
                         <span class="hide-on-small-only" *ngIf="!sdk.askemail">&nbsp;</span>
                       </div>
                       <p class="col s12 borderBN"></p>
-                      <div class="col s12 m6 regNrmS4BN" align="left">{{'Request for address' | translate}}?</div>
-                      <div class="col m6 regNrmS4BN hide-on-small-only" align="left">
+                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for address' | translate}}?</div>
+                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                         <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m7" align="left">
                         <input name="addrGrp" type="radio" id="yesAddr" [(ngModel)]="sdk.askadd" [value]="true" />
                         <label for="yesAddr">{{'Yes' | translate}}</label>
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -239,7 +332,7 @@
                       <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
                         <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
                       </div>
-                      <div class="col s12 m6" align="left">
+                      <div class="col s12 m5" align="left">
                         <div *ngIf="sdk.askadd">
                           <input name="addrMndGrp" type="radio" id="yesMndAddr" [(ngModel)]="sdk.mndaddress" [value]="true" />
                           <label for="yesMndAddr">{{'Yes' | translate}}</label>
@@ -251,11 +344,11 @@
                       </div>
                       <div *ngIf="sdk.mtype == 2">
                         <p class="col s12 borderBN"></p>
-                        <div class="col s12 m6 regNrmS4BN" align="left">{{'Request for PAN' | translate}}?</div>
-                        <div class="col m6 regNrmS4BN hide-on-small-only" align="left">
+                        <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for PAN' | translate}}?</div>
+                        <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
                           <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
                         </div>
-                        <div class="col s12 m6" align="left">
+                        <div class="col s12 m7" align="left">
                           <input name="panGrp" type="radio" id="yesPAN" [(ngModel)]="sdk.askpan" [value]="true" />
                           <label for="yesPAN">{{'Yes' | translate}}</label>
                           <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -265,7 +358,7 @@
                         <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
                           <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
                         </div>
-                        <div class="col s12 m6" align="left">
+                        <div class="col s12 m5" align="left">
                           <div *ngIf="sdk.askpan">
                             <input name="panMndGrp" type="radio" id="yesMndPAN" [(ngModel)]="sdk.mndpan" [value]="true" />
                             <label for="yesMndPAN">{{'Yes' | translate}}</label>
@@ -295,7 +388,9 @@
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s12" align="center">
                         <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit"
-                                name="create" [disabled]="!cmpForm.form.valid || invalidForm()">{{'Create Campaign' | translate}}
+                          name="create" [disabled]="!cmpForm.form.valid || invalidForm()">
+                          <span *ngIf="!editing">{{'Create Campaign' | translate}}</span>
+                          <span *ngIf="editing">{{'Save Campaign' | translate}}</span>
                         </button>
                       </div>
                       <div class="col s12">&nbsp;</div>
@@ -322,29 +417,37 @@
               </div>
               <div class="row mCampTitles rowBorderBN">
                 <span class="col s4 regHdrS1BN">{{'Campaign Name' | translate}}&nbsp;
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
-                <span class="col s4 regHdrS1BN">
-                  <!--{{'Order Value' | translate}};
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(2)"><i class="material-icons alignMidBN">sort_by_alpha</i></a>-->
+
+                  <a class="redBN linkButtonBN" (click)="sortCampaigns(1)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
                 </span>
+                <span *ngIf="sdk.mtype == 2" class="col s4 regHdrS1BN">
+                  {{'Campaign Target' | translate}}
+                </span>
+                <span *ngIf="sdk.mtype != 2" class="col s4 regHdrS1BN"></span>
                 <span class="col s4 regHdrS1BN">{{'Date Created' | translate}}&nbsp;
-                  <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><i class="material-icons alignMidBN">sort_by_alpha</i></a></span>
+                  <a class="redBN linkButtonBN" (click)="sortCampaigns(3)"><img src="../../assets/shared/images/sort.png" class="alignMidBN"/></a>
+                </span>
               </div>
               <div class="row"></div>
               <ul *ngIf="hasCampaigns()" class="collapsible" data-collapsible="accordion" materialize="collapsible">
                 <li *ngFor="let campaign of allCampaigns; let i = index;">
                   <div (click)="getCampaignData(campaign)"
                     [ngClass]=" i%2==0? 'collapsible-header col s12 bgGreyBN regNrmS4BN campDetailsBN':'collapsible-header col s12 regNrmS4BN campDetailsBN'">
-                    <a class="linkButtonBN col s4 campNameBN" (click)="campaignClicked(campaign.txnrefnumber)">
+                    <a class="linkButtonBN col s4 campNameBN">
                       <i *ngIf="selectedCamp==campaign.txnrefnumber && campExpand; else right" class="material-icons alignMidBN">keyboard_arrow_down</i>
                       <ng-template #right>
                         <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                       </ng-template>
                       <span class="alignMidBN">{{campaign.campaignName}}</span>
                     </a>
-                    <span class="col s4">
-                      <!--₹ {{campaign.fundraised | number : '1.2-2'}}-->
+
+                    <span *ngIf="campaign.totalbudget > 0 && sdk.mtype == 2" class="col s4">
+                      ₹ {{campaign.totalbudget | number : '1.2-2'}}
                     </span>
+                    <span *ngIf="campaign.totalbudget == 0 && sdk.mtype == 2" class="col s4">
+                      --
+                    </span>
+                    <span *ngIf="sdk.mtype != 2" class="col s4"></span>
                     <span class="col s4">{{campaign.creationDate | date: 'dd-MMM-yyyy'}}</span>
                   </div>
                   <div *ngIf="sdk" class="collapsible-body">
@@ -354,7 +457,8 @@
                         <a [href]="campaign.url" target="_blank">{{campaign.url}}</a>
                       </div>
                       <div class="col m3 l3 campBodyBN">
-                        <img *ngIf="!uploading && !sdk.imageURL" src="../../assets/shared/images/no-image.png">
+                        <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3" src="../../assets/shared/images/no-image.png">
+                        <img *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2" src="../../assets/shared/images/donate-green.png">
                         <img *ngIf="!uploading && sdk.imageURL" class="featuredImageSdkBN responsive-img" src={{uploadsURL}}{{sdk.imageURL}} />
                       </div>
                       <div class="col m6 l6 campBodyBN">
@@ -382,6 +486,13 @@
                                 <i class="material-icons alignMidBN">content_copy</i>
                                 <span class="alignMidBN">{{'Clone Campaign' | translate}}</span>
                               </a>
+                          </div>
+                          <div class="col s12">&nbsp;</div>
+                          <div class="col s12 regNrmS2BN">
+                            <a class="linkButtonBN cloneBN" (click)="edit(campaign)">
+                              <i class="material-icons alignMidBN">edit</i>
+                              <span class="alignMidBN">{{'Edit Campaign' | translate}}</span>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -414,5 +525,6 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </div>

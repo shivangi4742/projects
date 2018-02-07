@@ -11,7 +11,8 @@ import { UtilsService } from './utils.service';
 export class FileService {
     private _urls: any = {
         uploadURL: 'file/upload',
-        downloadURL: 'file/download'
+        downloadURL: 'file/download',
+        sendEmailURL: 'file/sendEmailNotify'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -22,6 +23,17 @@ export class FileService {
         formData.append('headers', JSON.stringify(this.utilsService.getFileHeaders()));
         formData.append('file', file, file['name']); 
         this.http.post(this.utilsService.getBaseURL() + this._urls.uploadURL, formData)
+            .map(files => files.json())
+            .subscribe((data) => cb(data, cbParams),
+                (err) => cb(err, cbParams));
+    }
+
+    sendEmailNotify(file: File, to: string, subject: string, text: string, cb: any, cbParams: any) {
+        const formData: any = new FormData();
+        formData.append('data', JSON.stringify({ "to": to, "subject": subject, "text": text }));
+        formData.append('headers', JSON.stringify(this.utilsService.getFileHeaders()));
+        formData.append('file', file, file['name']);
+        this.http.post(this.utilsService.getBaseURL() + this._urls.sendEmailURL, formData)
             .map(files => files.json())
             .subscribe((data) => cb(data, cbParams),
                 (err) => cb(err, cbParams));

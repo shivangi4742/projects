@@ -27,6 +27,13 @@ export { Attachment } from './models/attachment.model';
 export { Transaction } from './models/transaction.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
+export { Customer } from './models/customer.model';
+export { CustomerList } from './models/customerlist.model';
+export { PrintPayment } from './models/printpayment.model';
+export { Merchant } from './models/merchant.model';
+export { PaymentLinks } from './models/paymentlinks.model';
+export { Businesspro } from './models/businesspro.model';
+export { Accountpro } from './models/accountpro.model';
 
 export { SDKService } from './services/sdk.service';
 export { HelpService } from './services/help.service';

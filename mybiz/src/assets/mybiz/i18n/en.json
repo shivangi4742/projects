@@ -193,5 +193,19 @@
     "Received": "Received",
     "from": "from",
     "on": "on",
-    "Till": "Till"    
+    "Till": "Till",
+    "Enter Employee Id":"Enter Employee Id",
+    "Enter Comapny Name":"Enter Comapny Name",
+    "Request for Company Name":"Request for Company Name",
+    "Request for Employee Id":"Request for Employee Id",
+    "Date Created": "Date Created",
+    "Edit Campaign": "Edit Campaign",
+    "Save Campaign": "Save Campaign",
+    "Please add a product in Campaign.": "Please add a product in Campaign.",
+    "Successfully saved Campaign.": "Successfully saved Campaign.",
+    "min": "min",
+    "No Campaign Image Selected": "No Campaign Image Selected",
+    "Add Product": "Add Product",
+    "Banner Image": "Banner Image",
+    "Select Banner Image": "Select Banner Image"
 }

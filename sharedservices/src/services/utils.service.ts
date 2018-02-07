@@ -37,6 +37,7 @@ export class UtilsService {
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
 
+
   constructor() {
     this._status = new Status(false, false, '');
   }
@@ -155,6 +156,13 @@ export class UtilsService {
     let dt = new Date();
     let yy = dt.getFullYear();
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
+  }
+
+  public getNextDateString(): string {
+    let dt = new Date();
+    let yy = dt.getFullYear();
+    let day = dt.getDate() + 1;
+    return this.getDate(day) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
   }
 
   public setStatus(isError: boolean, isSuccess: boolean, msg: string) {
@@ -288,6 +296,47 @@ export class UtilsService {
 
   returnGenericError(): any {
     return { "success": false, "errMsg": "Something went wrong. Please try again." };
+  }
+
+  inWords(totalRent: any) {
+    let rupeePrefix: string = 'rupees ';
+    let paisaPrefix: string = 'paise';
+    let and: string = 'and ';
+    if (totalRent >= 1 && totalRent < 2)
+      rupeePrefix = 'rupee ', '';
+
+    if (totalRent < 1) {
+      and = '';
+      rupeePrefix = '';
+    }
+
+    if ((Math.round(totalRent * 100) % 100) >= 1 && (Math.round(totalRent * 100) % 100) < 2) {
+      paisaPrefix = 'paisa';
+    }
+
+    var n: any;
+    var d: any;
+    var a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+    var b = ['', '', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+    var number = parseFloat(totalRent).toFixed(2).split(".");
+    var num = parseInt(number[0]);
+    var digit = parseInt(number[1]);
+    if ((num.toString(n)).length > 9)
+      return 'overflow';
+
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    d = ('00' + digit).substr(-2).match(/^(\d{2})$/);;
+    if (!n) return; var str = '';
+
+    str += rupeePrefix, '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : ' ';
+
+    str += (d[1] != 0) ? ((str != '') ? and : '') + (a[Number(d[1])] || b[d[1][0]] + ' ' + a[d[1][1]]) + paisaPrefix + ' only ' : 'only';
+    return str;
   }
 
   getDateOnlyString(dt: Date): string {
@@ -443,4 +492,49 @@ export class UtilsService {
     return this.razorpay_key;
   }
 
+
+  b64toBlob(b64Data: any, contentType: any, sliceSize: any) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  convertImgToBase64URL(url: any, outputFormat: any, callback: any) {
+    console.log('coming in utils?', url);
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas: any = document.createElement("canvas");
+            //console.log('canvas', canvas);
+            var ctx = canvas.getContext("2d");
+            // console.log('ctx', ctx);
+            var dataURL;
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 10, 10);
+            dataURL = canvas.toDataURL(outputFormat);
+            // console.log('pp', dataURL);
+            callback(dataURL);
+            canvas = null;
+        };
+        img.src = url;
+    }
 }

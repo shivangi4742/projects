@@ -54,8 +54,12 @@ export class FailureComponent implements OnInit {
   getSDKDetailsForNonProduct(sres: SDK) {
     this.title = sres.businessName;
     this.mtype = sres.merchantType;
-    if(this.mtype == 2)
-      this.payLink = '/donate/' + this.id;
+    if(this.mtype == 2) {
+      if(this.payLink && this.payLink.trim().length > 0)
+        this.payLink = this.payLink.replace('/pay/', '/donate/');
+      else
+        this.payLink = '/donate/' + this.id;
+    }
       
     this.transactionService.getTransactionDetails(sres.merchantCode, this.txnid)
       .then(res => this.fillMerchantTransaction(res));

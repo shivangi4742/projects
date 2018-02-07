@@ -1,0 +1,21 @@
+#search{
+  display: none;
+}
+
+.searchBN{
+  width: 40%!important;
+}
+
+.checko{
+  padding-left: 60px;
+}
+
+.greyBackBN{
+  background-color: rgb(250,250,250);
+}
+
+.adjustBN{
+  margin-bottom: 10px!important;
+  padding-top: 5px!important;
+  padding-bottom: 5px!important;
+}

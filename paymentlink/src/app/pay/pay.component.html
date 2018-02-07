@@ -29,6 +29,11 @@
     <div class="row"></div>
   </div>
 </div>
+<div class="row" *ngIf="loaded && !appLaunched && getStatusMessage()">
+  <div class="col s12">
+    <status [status]="getStatus()"></status>
+  </div>  
+</div>
 <div materialize class="row" *ngIf="loaded && !appLaunched">
   <div class="valign-wrapper">
     <div class="col s12 l4 offset-l4 m6 offset-m3">
@@ -72,6 +77,28 @@
           <div class="valign-wrapper">
             <span class="col s12 center regNrmS-1B1BN">₹ {{pay.amount | number : '1.2-2'}}</span>
           </div>
+          <div *ngIf="pay.mtype == 3 && pay.chargeConvenienceFee">
+            <div class="row">
+              <div class="valign-wrapper">
+                <span class="col s12 center errNrmS5B1BN linkButtonBN" (click)="breakdown()">
+                  <span class="alignMidBN"> ({{'Breakdown' | translate}})</span><i 
+                    class="material-icons redBN alignMidBN breakdownBN">{{getArrowDrop()}}</i>
+                </span>
+              </div>
+              <div *ngIf="break">
+                <div class="valign-wrapper">
+                    <div class="col s6 regNrmS5B1BN" align="right">{{'Purchase Amount' | translate}}:</div>
+                    <div class="col s4 regNrmS5BN" align="right">₹ {{purchaseAmount | number : '1.2-2'}}</div>
+                    <div class="col s2">&nbsp;</div>      
+                </div>
+                <div class="valign-wrapper">
+                  <div class="col s6 regNrmS5B1BN" align="right">{{'Convenience Fee' | translate}}:</div>
+                  <div class="col s4 regNrmS5BN" align="right">₹ {{convFee | number : '1.2-2'}}</div>
+                  <div class="col s2">&nbsp;</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div *ngIf="amountEditable">
@@ -79,212 +106,255 @@
           <div class="valign-wrapper">
             <div class="input-field col s10 offset-s1 errNrmS-1B1BN" align="left">
               <span class="prefix errNrmS-1B1BN"> ₹ </span>
-              <input id="amount" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="0.01" max="9999999.99" class="validate regNrmS-1B1BN"
-                required [(ngModel)]="pay.amount">
+              <input id="amount" *ngIf="pay.merchantType != 3" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="1.00" max="9999999.99" 
+                class="validate regNrmS-1B1BN" required [(ngModel)]="pay.amount">
+              <input id="amount" *ngIf="pay.merchantType == 3" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="10.00" max="9999999.99" 
+                class="validate regNrmS-1B1BN" required [(ngModel)]="pay.amount">
               <label for="amount" [ngClass]="pay.amount ? 'active regNrmS6IBN' : 'regNrmS4IBN'">&nbsp; &nbsp;{{'Enter Amount' | translate}}*</label>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="valign-wrapper" *ngIf="pay.askname">
-          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
-            <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
-              <span *ngIf="pay.mndname">*</span>
-            </label>
+      <div *ngIf="pay.merchantType != 3 || wp == 1">
+        <div class="row">          
+          <div class="valign-wrapper" *ngIf="pay.askname">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="name" name="name" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="name" [disabled]="pay.readonlyname">
+              <label for="name" [ngClass]="name ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Name' | translate}}
+                <span *ngIf="pay.mndname">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askmob && pay.merchantType != 1">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="mobileNumber" name="mobileNumber" (blur)="refreshAmount()" type="tel" class="validate regNrmS4BN" [(ngModel)]="mobileNumber"
+                [disabled]="pay.readonlymob" minlength="10">
+              <label for="mobileNumber" [ngClass]="mobileNumber ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Mobile Number' | translate}}
+                <span *ngIf="pay.mndmob">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askemail">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="email" name="email" type="email" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="pay.email"
+                [disabled]="pay.readonlyemail">
+              <label for="email" [ngClass]="pay.email ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter E-mail' | translate}}
+                <span *ngIf="pay.mndemail">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askadd">
+            <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
+              <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" [disabled]="pay.readonlyaddr"
+                (blur)="refreshAmount()"></textarea>
+              <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
+                <span *ngIf="pay.mndaddress">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askpan">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="panNumber" name="panNumber" (blur)="refreshAmount()" type="text" class="validate regNrmS4BN" [(ngModel)]="panNumber"
+                [disabled]="pay.readonlypan">
+              <label for="panNumber" [ngClass]="panNumber ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter PAN Number' | translate}}
+                <span *ngIf="pay.mndpan && pay.amount > pay.minpanamnt">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askcompanyname">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="companyName" name="companyName" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="companyName">
+              <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Comapny Name' | translate}}
+                <span *ngIf="pay.mndcompanyname">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askemployeeId">
+            <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
+              <input id="employeeId" name="employeeId" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="employeeId">
+              <label for="employeeId" [ngClass]="employeeId ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Employee Id' | translate}}
+                <span *ngIf="pay.mndemployeeId">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="valign-wrapper" *ngIf="pay.askresidence">
+            <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
+              <input type="checkbox" id="resident" class="filled-in checkbox-red" [(ngModel)]="resident" name="resident" [disabled]="pay.readonlyresidence"
+              />
+              <label for="resident">{{'I am an Indian resident' | translate}}</label>
+              <br />
+              <br />
+            </div>
           </div>
         </div>
-        <div class="valign-wrapper" *ngIf="pay.askmob && pay.merchantType != 1">
-          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="mobileNumber" name="mobileNumber" (blur)="refreshAmount()" type="tel" class="validate regNrmS4BN" [(ngModel)]="mobileNumber"
-              [disabled]="pay.readonlymob">
-            <label for="mobileNumber" [ngClass]="mobileNumber ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Mobile Number' | translate}}
-              <span *ngIf="pay.mndmob">*</span>
-            </label>
-          </div>
-        </div>
-        <div class="valign-wrapper" *ngIf="pay.askemail">
-          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="email" name="email" type="email" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="pay.email"
-              [disabled]="pay.readonlyemail">
-            <label for="email" [ngClass]="pay.email ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter E-mail' | translate}}
-              <span *ngIf="pay.mndemail">*</span>
-            </label>
-          </div>
-        </div>
-        <div class="valign-wrapper" *ngIf="pay.askpan">
-          <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
-            <input id="panNumber" name="panNumber" (blur)="refreshAmount()" type="text" class="validate regNrmS4BN" [(ngModel)]="panNumber"
-              [disabled]="pay.readonlypan">
-            <label for="panNumber" [ngClass]="panNumber ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter PAN Number' | translate}}
-              <span *ngIf="pay.mndpan && pay.amount > pay.minpanamnt">*</span>
-            </label>
-          </div>
-        </div>
-        <div class="valign-wrapper" *ngIf="pay.askadd">
-          <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
-            <textarea id="address" name="address" maxlength="150" class="materialize-textarea regNrmS4BN" [(ngModel)]="address" [disabled]="pay.readonlyaddr"
-              (blur)="refreshAmount()"></textarea>
-            <label for="address" [ngClass]="address ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Address' | translate}}
-              <span *ngIf="pay.mndaddress">*</span>
-            </label>
-          </div>
-        </div>
-        <div class="valign-wrapper" *ngIf="pay.askresidence">
-          <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
-            <input type="checkbox" id="resident" class="filled-in checkbox-red" [(ngModel)]="resident" name="resident" [disabled]="pay.readonlyresidence"
-            />
-            <label for="resident">{{'I am an Indian resident' | translate}}</label>
-            <br />
-            <br />
+        <div *ngIf="pay.merchantType == 3 && wp == 1" class="row">
+          <div class="col s12 center">
+            <button class="btn waves-effect waves-light red regNrmS3BN buttonBN tenPadsBN" (click)="proceed()"
+              name="proceed" [disabled]="!validate(false)">{{'Proceed to Pay' | translate}}
+              <span *ngIf="pay.amount > 0">₹ {{pay.amount | number : '1.2-2'}}</span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="valign-wrapper">
-          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Select Payment Mode'| translate}}</span>
-          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Select Contribution Mode'| translate}}</span>
+      <div *ngIf="pay.merchantType != 3 || wp == 2">
+        <div class="row">
+          <div class="valign-wrapper">
+            <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Select Payment Mode'| translate}}</span>
+            <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Select Contribution Mode'| translate}}</span>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col s12 center">
-          <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion" [materializeActions]="collapsibleActions"
-            [materializeParams]="params">
-            <li *ngIf="!isMobile && supportsUPI">
-              <div id="qrAcc" (click)="showQR()" [ngClass]="qrExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
-                <div class="row noPadsNewBN fullWidthBN">
-                  <div class="col s2" align="left">
-                    <i class="material-icons greenBN">account_balance</i>
-                  </div>
-                  <div class="col s8" align="left">
-                    <span class="truncate">{{'UPI QR Code' | translate}}</span>
-                  </div>
-                  <div class="col s2" align="right">
-                    <i class="material-icons greyBN">{{getArrow(qrExpanded)}}</i>
+        <div class="row">
+          <div class="col s12 center">
+            <ul materialize="collapsible" class="collapsible accordionBN" data-collapsible="accordion" [materializeActions]="collapsibleActions"
+              [materializeParams]="params">
+              <li *ngIf="!isMobile && supportsUPI">
+                <div id="qrAcc" (click)="showQR()" [ngClass]="qrExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
+                  <div class="row noPadsNewBN fullWidthBN">
+                    <div class="col s2" align="left">
+                      <i class="material-icons greenBN">account_balance</i>
+                    </div>
+                    <div class="col s8" align="left">
+                      <span class="truncate">{{'UPI QR Code' | translate}}</span>
+                    </div>
+                    <div class="col s2" align="right">
+                      <i class="material-icons greyBN">{{getArrow(qrExpanded)}}</i>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="collapsible-body accordionBodyBN">
-                <div *ngIf="qrError">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row">
-                    <span class="col s12 errNrmS4B1BN">{{'Error in generating QR code! Please try again.' | translate}}....</span>
-                  </div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                </div>
-                <div *ngIf="!qrError">
-                  <div *ngIf="invalidAmount">
+                <div class="collapsible-body accordionBodyBN">
+                  <div *ngIf="qrError">
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row">
-                      <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                      <span class="col s12 errNrmS4B1BN">{{'Error in generating QR code! Please try again.' | translate}}....</span>
                     </div>
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row"></div>
                   </div>
-                  <div *ngIf="!invalidAmount">
-                    <div *ngIf="qrURL">
+                  <div *ngIf="!qrError">
+                    <div *ngIf="invalidAmount">
+                      <div class="row"></div>
+                      <div class="row"></div>
                       <div class="row"></div>
                       <div class="row">
-                        <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Scan QR code to make payment' | translate}}</span>
-                        <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Scan QR code to make contribution' | translate}}</span>
+                        <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                       </div>
-                      <div class="row">
-                        <div class="valign-wrapper">
+                      <div class="row"></div>
+                      <div class="row"></div>
+                      <div class="row"></div>
+                      <div class="row"></div>
+                    </div>
+                    <div *ngIf="!invalidAmount">
+                      <div *ngIf="qrURL">
+                        <div class="row"></div>
+                        <div class="row">
+                          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Scan QR code to make payment' | translate}}</span>
+                          <span class="col s12 center regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Scan QR code to make contribution' | translate}}</span>
+                        </div>
+                        <div class="row">
+                          <div class="valign-wrapper">
+                            <div class="col s12 center">
+                              <img class="hide-on-small-only qrImgBN" [src]="qrURL" />
+                              <img class="hide-on-med-and-up qrImgSmallBN" [src]="qrURL" />
+                            </div>
+                          </div>
+                          <div class="valign-wrapper">
+                            <div class="col s8 offset-s2" align="right">
+                              <span class="regNrmS2BN qrLine1BN">₹ {{qrAmount | number : '1.2-2'}}/-</span>
+                              <br />
+                              <span class="regNrmS4BN">{{pay.merchantVpa}}</span>
+                            </div>
+                            <div class="col s2"></div>
+                          </div>
+                          <div class="valign-wrapper">
+                            <span class="col s12">&nbsp;</span>
+                          </div>
+                          <div class="valign-wrapper">
+                            <span class="col s12 center regNrmS5B1BN" *ngIf="showTempMsg">Scan QR using UPI App to pay. Your payment confirmation will be provided in the app.</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="!qrURL">
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row">
+                          <span class="col s12 regNrmS4B1BN">{{'Generating QR code' | translate}}....</span>
+                        </div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row"></div>
+                </div>
+              </li>
+              <li *ngIf="isMobile && supportsUPI">
+                <div id="qrlAcc" (click)="showQRLink()" [ngClass]="qrlExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
+                  <div class="row noPadsNewBN fullWidthBN">
+                    <div class="col s2" align="left">
+                      <i class="material-icons greenBN">account_balance</i>
+                    </div>
+                    <div class="col s8" align="left">
+                      <span class="truncate">{{'UPI App' | translate}}</span>
+                    </div>
+                    <div class="col s2" align="right">
+                      <i class="material-icons greyBN">{{getArrow(qrlExpanded)}}</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="collapsible-body accordionBodyBN">
+                  <div *ngIf="!qrlError">
+                    <div *ngIf="!invalidAmount">
+                      <div *ngIf="upiURL">
+                        <div class="row"></div>
+                        <div class="row">
                           <div class="col s12 center">
-                            <img class="hide-on-small-only qrImgBN" [src]="qrURL" />
-                            <img class="hide-on-med-and-up qrImgSmallBN" [src]="qrURL" />
+                            <a target="_blank" [attr.href]="sanitize(upiURL)" (click)="waitForUPIPayment()">
+                              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" *ngIf="pay.merchantType != 2">{{'Pay' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
+                              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" *ngIf="pay.merchantType == 2">{{'Contribute' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
+                            </a>
                           </div>
                         </div>
-                        <div class="valign-wrapper">
-                          <div class="col s8 offset-s2" align="right">
-                            <span class="regNrmS2BN qrLine1BN">₹ {{qrAmount | number : '1.2-2'}}/-</span>
-                            <br />
-                            <span class="regNrmS4BN">{{pay.merchantVpa}}</span>
-                          </div>
-                          <div class="col s2"></div>
-                        </div>
-                        <div class="valign-wrapper">
-                          <span class="col s12">&nbsp;</span>
-                        </div>
-                        <div class="valign-wrapper">
-                          <span class="col s12 center regNrmS5B1BN" *ngIf="showTempMsg">Scan QR using UPI App to pay. Your payment confirmation will be provided in the app.</span>
-                        </div>
                       </div>
+                      <div *ngIf="!upiURL">
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row">
+                          <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Generating payment link' | translate}}....</span>
+                          <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Generating contribution link' | translate}}....</span>
+                        </div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                        <div class="row"></div>
+                      </div>
+                      <div class="row"></div>
                     </div>
-                    <div *ngIf="!qrURL">
+                    <div *ngIf="invalidAmount">
                       <div class="row"></div>
                       <div class="row"></div>
                       <div class="row"></div>
                       <div class="row">
-                        <span class="col s12 regNrmS4B1BN">{{'Generating QR code' | translate}}....</span>
+                        <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                       </div>
+                      <div class="row"></div>
                       <div class="row"></div>
                       <div class="row"></div>
                       <div class="row"></div>
                     </div>
                   </div>
-                </div>
-                <div class="row"></div>
-              </div>
-            </li>
-            <li *ngIf="isMobile && supportsUPI">
-              <div id="qrlAcc" (click)="showQRLink()" [ngClass]="qrlExpanded ? 'collapsible-header accordionHdrExpBN regNrmS4BN accBtnBN' : 'collapsible-header accordionHdrBN regNrmS4BN accBtnBN'">
-                <div class="row noPadsNewBN fullWidthBN">
-                  <div class="col s2" align="left">
-                    <i class="material-icons greenBN">account_balance</i>
-                  </div>
-                  <div class="col s8" align="left">
-                    <span class="truncate">{{'UPI App' | translate}}</span>
-                  </div>
-                  <div class="col s2" align="right">
-                    <i class="material-icons greyBN">{{getArrow(qrlExpanded)}}</i>
-                  </div>
-                </div>
-              </div>
-              <div class="collapsible-body accordionBodyBN">
-                <div *ngIf="!qrlError">
-                  <div *ngIf="!invalidAmount">
-                    <div *ngIf="upiURL">
-                      <div class="row"></div>
-                      <div class="row">
-                        <div class="col s12 center">
-                          <a target="_blank" [attr.href]="sanitize(upiURL)" (click)="waitForUPIPayment()">
-                            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" *ngIf="pay.merchantType != 2">{{'Pay' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
-                            <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" *ngIf="pay.merchantType == 2">{{'Contribute' | translate}} ₹ {{upiAmount | number : '1.2-2'}}</button>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div *ngIf="!upiURL">
-                      <div class="row"></div>
-                      <div class="row"></div>
-                      <div class="row"></div>
-                      <div class="row">
-                        <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Generating payment link' | translate}}....</span>
-                        <span class="col s12 regNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Generating contribution link' | translate}}....</span>
-                      </div>
-                      <div class="row"></div>
-                      <div class="row"></div>
-                      <div class="row"></div>
-                    </div>
-                    <div class="row"></div>
-                  </div>
-                  <div *ngIf="invalidAmount">
+                  <div *ngIf="qrlError">
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row"></div>
                     <div class="row">
-                      <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                      <span class="col s12 errNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Error in generating payment link. Please try again.' | translate}}....</span>
+                      <span class="col s12 errNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Error in generating contribution link. Please try again.' | translate}}....</span>
                     </div>
                     <div class="row"></div>
                     <div class="row"></div>
@@ -292,91 +362,77 @@
                     <div class="row"></div>
                   </div>
                 </div>
-                <div *ngIf="qrlError">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row">
-                    <span class="col s12 errNrmS4B1BN" *ngIf="pay.merchantType != 2">{{'Error in generating payment link. Please try again.' | translate}}....</span>
-                    <span class="col s12 errNrmS4B1BN" *ngIf="pay.merchantType == 2">{{'Error in generating contribution link. Please try again.' | translate}}....</span>
-                  </div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="row"></div>
+              </li>
+              <li *ngIf="supportsDC">
+                    <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
+                      <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
+                        <div class="col s2" align="left">
+                          <i class="material-icons yellowBN">credit_card</i>
+                        </div>
+                        <div class="col s8" align="left">
+                          <span class="truncate regNrmS4BN">{{'Debit Card' | translate}}</span>
+                        </div>
+                        <div class="col s2" align="right">
+                          <i class="material-icons greyBN">keyboard_arrow_right</i>
+                        </div>
+                      </button>
+                    </div>
+                    <div class="collapsible-body">
+                      <div *ngIf="invalidAmount">
+                        <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                      </div>
+                      <div *ngIf="!invalidAmount">
+                        <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                      </div>
+                    </div>
+              </li>
+              <li *ngIf="supportsCC">
+                <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
+                  <button id="ccBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(1)">
+                    <div class="col s2" align="left">
+                      <i class="material-icons cyanBN">credit_card</i>
+                    </div>
+                    <div class="col s8" align="left">
+                      <span class="truncate regNrmS4BN">{{'Credit Card' | translate}}</span>
+                    </div>
+                    <div class="col s2" align="right">
+                      <i class="material-icons greyBN">keyboard_arrow_right</i>
+                    </div>
+                  </button>
                 </div>
-              </div>
-            </li>
-            <li *ngIf="supportsDC">
-              <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button id="dcBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(2)">
-                  <div class="col s2" align="left">
-                    <i class="material-icons yellowBN">credit_card</i>
+                <div class="collapsible-body">
+                  <div *ngIf="invalidAmount">
+                    <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                   </div>
-                  <div class="col s8" align="left">
-                    <span class="truncate regNrmS4BN">{{'Debit Card' | translate}}</span>
+                  <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                   </div>
-                  <div class="col s2" align="right">
-                    <i class="material-icons greyBN">keyboard_arrow_right</i>
-                  </div>
-                </button>
-              </div>
-              <div class="collapsible-body">
-                <div *ngIf="invalidAmount">
-                  <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
-                <div *ngIf="!invalidAmount">
-                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+              </li>
+              <li *ngIf="supportsNB">
+                <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
+                  <button id="nbBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(3)">
+                    <div class="col s2" align="left">
+                      <i class="material-icons cyanBN">credit_card</i>
+                    </div>
+                    <div class="col s8" align="left">
+                      <span class="truncate regNrmS4BN">{{'NetBanking' | translate}}</span>
+                    </div>
+                    <div class="col s2">
+                      <i class="material-icons greyBN">keyboard_arrow_right</i>
+                    </div>
+                  </button>
                 </div>
-              </div>
-            </li>
-            <li *ngIf="supportsCC">
-              <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button id="ccBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(1)">
-                  <div class="col s2" align="left">
-                    <i class="material-icons cyanBN">credit_card</i>
+                <div class="collapsible-body">
+                  <div *ngIf="invalidAmount">
+                    <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                   </div>
-                  <div class="col s8" align="left">
-                    <span class="truncate regNrmS4BN">{{'Credit Card' | translate}}</span>
+                  <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
                   </div>
-                  <div class="col s2" align="right">
-                    <i class="material-icons greyBN">keyboard_arrow_right</i>
-                  </div>
-                </button>
-              </div>
-              <div class="collapsible-body">
-                <div *ngIf="invalidAmount">
-                  <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                 </div>
-                <div *ngIf="!invalidAmount">
-                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
-                </div>
-              </div>
-            </li>
-            <li *ngIf="supportsNB">
-              <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                <button id="nbBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(3)">
-                  <div class="col s2" align="left">
-                    <i class="material-icons cyanBN">credit_card</i>
-                  </div>
-                  <div class="col s8" align="left">
-                    <span class="truncate regNrmS4BN">{{'NetBanking' | translate}}</span>
-                  </div>
-                  <div class="col s2">
-                    <i class="material-icons greyBN">keyboard_arrow_right</i>
-                  </div>
-                </button>
-              </div>
-              <div class="collapsible-body">
-                <div *ngIf="invalidAmount">
-                  <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
-                </div>
-                <div *ngIf="!invalidAmount">
-                  <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
-                </div>
-              </div>
-            </li>
-            <li *ngIf="supportsRazorPay">
+              </li>
+<li *ngIf="supportsRazorPay">
               <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
                 <button id="razorPayBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(5)">
                   <div class="col s2" align="left">
@@ -399,7 +455,29 @@
                 </div>
               </div>
             </li>
-          </ul>
+              <li *ngIf="pay.mtype == 3 && supportsCOD && hasProducts">
+                <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
+                  <button id="codBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="payCash()">
+                    <div class="col s2 codIconBN" align="left">₹</div>
+                    <div class="col s8" align="left">
+                      <span class="truncate regNrmS4BN">{{'Cash On Delivery' | translate}}</span>
+                    </div>
+                    <div class="col s2">
+                      <i class="material-icons greyBN">keyboard_arrow_right</i>
+                    </div>
+                  </button>
+                </div>
+                <div class="collapsible-body">
+                  <div *ngIf="invalidAmount">
+                    <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
+                  </div>
+                  <div *ngIf="!invalidAmount">
+                    <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

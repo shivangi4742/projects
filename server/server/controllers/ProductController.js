@@ -2,22 +2,30 @@ var helper = require('./../utils/Helper');
 
 var prodCont = {    
     addProduct: function (req, res) {
-         res.setHeader("X-Frame-Options", "DENY");
+        res.setHeader("X-Frame-Options", "DENY");
         this.addProductPost(req, function (data) {
             res.json(data);
         }); 
     },
 
     editProduct: function (req, res) {
-         res.setHeader("X-Frame-Options", "DENY");
+        res.setHeader("X-Frame-Options", "DENY");
         this.editProductPost(req, function (data) {
             res.json(data);
         }); 
     },
 
     deleteProduct: function (req, res) {
-         res.setHeader("X-Frame-Options", "DENY");
+        res.setHeader("X-Frame-Options", "DENY");
         this.deleteProductPost(req, function (data) {
+            res.json(data);
+        }); 
+    },
+
+    deleteCampaignProduct: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.deleteCampaignProductPost(req, function (data) {
+            console.log(data);
             res.json(data);
         }); 
     },
@@ -43,6 +51,31 @@ var prodCont = {
                             "prodImgUrl": d.imageURL,
                             "prodName": d.name,
                             "uom": d.uom
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    deleteCampaignProductPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.id)
+                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', req.headers),
+                        {	
+                            "id": d.id
                         }, cb);
                 else
                     cb(retErr);

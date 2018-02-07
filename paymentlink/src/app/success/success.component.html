@@ -3,7 +3,8 @@
         <div class="row"></div>
         <div class="row">
             <div class="col s12 center">
-                <img *ngIf="mtype != 2" class="alignMidBN" src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img *ngIf="mtype != 2 && !hasProducts" class="alignMidBN" 
+                    src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <img *ngIf="mtype == 2" class="alignMidBN" src='../../assets/paymentlink/images/donated.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="regNrmS-1B1BN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
             </div>
@@ -17,7 +18,8 @@
             </div>
         </div>
         <div class="row">
-            <span *ngIf="mtype != 2" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <span *ngIf="mtype != 2 && !hasProducts" class="col s12 center regNrmS4B2BN">{{'Paid Successfully' | translate}}</span>
+            <span *ngIf="mtype != 2 && hasProducts" class="col s12 center regNrmS4B2BN">{{'Ordered Successfully' | translate}}</span>
             <!-- <span class="col s12 center regNrmS4B2BN"
                 *ngIf="mtype != 2">{{'Paid Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
             <span *ngIf="mtype == 2" class="col s12 center regNrmS4B2BN">{{'Contributed Successfully' | translate}}</span>
@@ -25,20 +27,28 @@
                 *ngIf="mtype == 2">{{'Contributed Successfully Using' | translate}} {{getPaymentModeString(pay.mode) | translate}}</span> -->
         </div>
         <div *ngIf="mtype == 2" class="row">
-            <span class="col s12 center regNrmS4B2BN">{{'Thank you for contributing to' | translate}} {{pay.title}}. 
+            <span class="col s12 center regNrmS4B2BN">{{'Thank you for contributing to' | translate}} {{pay.title}}.
                 {{'Your kind support is valued.' | translate}}</span>
         </div>
         <div class="row"></div>
         <div class="row">
-            <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}: 
+            <span class="col s12 center regNrmS4BN">{{'Transaction Id' | translate}}:
                 <b>{{pay.txnid | translate}}</b>
             </span>
         </div>
+        <div *ngIf="mtype == 2" class="row hide">
+          <!--<span class="col s12 center errNrmS4BN">
+
+          </span>-->
+          <span class="col s12 center">
+            <a class="errNrmS4BN linkButtonBN" (click)="downloadCertificate(pay.txnid)">Click here to download your 80G Receipt</a>
+          </span>
+        </div>
         <div class="row" *ngIf="products">
-            <div class="col s12"> 
+            <div class="col s12">
                 <div class="col s6 center" *ngFor="let p of products">
-                    <productwidget [mtype]="mtype" [forCart]="true" [editQty]="false" [product]="p"></productwidget> 
-                </div> 
+                    <productwidget [mtype]="mtype" [forCart]="true" [editQty]="false" [product]="p"></productwidget>
+                </div>
             </div>
         </div>
     </div>
