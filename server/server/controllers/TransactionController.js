@@ -141,7 +141,7 @@ var transCont = {
             else {
                 var d = req.body;
                 if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getPaymentsAndOrders', 'POST', req.headers),
                         {	
                             "merchantCode": d.merchantCode,
                             "fromDate": d.fromDate,
