@@ -10,12 +10,15 @@ import { Product, SDKService, ProductService, SDK, TransactionService, CampaignS
   styleUrls: ['./success.component.css']
 })
 export class SuccessComponent implements OnInit {
+  convFee: number;
+  purchaseAmount: number;
   id: string;
   txnid: string;
   products: Array<Product>;
   pay: any;
   loaded: boolean = false;
   mtype: number = 1;
+  break: boolean = false;
   certificatePDF = false;
   merchantmodel: Merchant;
   imgData: string;
@@ -48,6 +51,17 @@ export class SuccessComponent implements OnInit {
     else
       this.productService.getProductsForTransaction(this.id, this.txnid)
         .then(res => this.fillProducts(res));
+  }
+
+  breakdown() {
+    this.break = !this.break;
+  }
+
+  getArrowDrop(): string {
+    if (this.break)
+      return 'arrow_drop_up';
+
+    return 'arrow_drop_down';
   }
 
   init(res: any) {
@@ -440,13 +454,9 @@ export class SuccessComponent implements OnInit {
       this.mtype = res.merchantType;
       this.pay.title = res.businessName;
       if(res.chargeConvenienceFee) {
-        let total = 0;
-        for (let i: number = 0; i < this.products.length; i++) {
-          this.products[i].price = Math.round(this.products[i].price * 1.0236 * 100)/100;
-          total += this.products[i].price * this.products[i].qty;
-        }
-
-        this.pay.amount = total;
+        this.purchaseAmount = Math.round(this.pay.amount * 100) / 100;
+        this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100) / 100;
+        this.convFee = this.pay.amount - this.purchaseAmount;
       }
 
       this.loaded = true;      
