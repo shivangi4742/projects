@@ -6,7 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 import { FileService, UtilsService, User, PaymentLinks, UserService,
    Product, ProductService, CampaignService, SDKService, Status, HelpService, 
-   Campaign, CampaignList, SDK } from 'benowservices';
+   Campaign, CampaignList, SDK, LocationService } from 'benowservices';
 import { TranslateService } from 'ng2-translate';
 
 @Component({
@@ -23,9 +23,10 @@ export class PaymentlistComponent implements OnInit {
    modalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService,
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
-    private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) { }
+    private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService, private locationService: LocationService) { }
 
   ngOnInit() {
+    this.locationService.setLocation('paymentlist');
      this.utilsService.setStatus(false, false, '');
     this.userService.getUser()
       .then(res => this.init(res));

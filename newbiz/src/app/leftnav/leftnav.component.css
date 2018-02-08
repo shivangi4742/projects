@@ -34,6 +34,15 @@
     border-radius: 10.7pt;
 }
 
+.selectedLeftNavBtnBN {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    max-width: 200px;
+    background-color: #E53935;
+    border: solid 2px #E53935;
+    border-radius: 10.7pt;    
+}
+
 .separatorBN {
     border-bottom: solid 1px white;
 }
@@ -50,4 +59,13 @@
 .leftNavLinkBN {
     line-height: 19.4pt;
     letter-spacing: 0 em;
+}
+
+.selectedBN {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    outline: 0;
+    background-color: #E53935;    
 }

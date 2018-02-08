@@ -9,6 +9,7 @@ import { UtilsService } from './services/utils.service';
 import { SocketService } from './services/socket.service';
 import { ProductService } from './services/product.service';
 import { CampaignService } from './services/campaign.service';
+import { LocationService } from './services/location.service';
 import { TransactionService } from './services/transaction.service';
 import { NotificationService } from './services/notification.service';
 
@@ -44,6 +45,7 @@ export { UtilsService } from './services/utils.service';
 export { SocketService } from './services/socket.service';
 export { ProductService } from './services/product.service';
 export { CampaignService } from './services/campaign.service';
+export { LocationService } from './services/location.service';
 export { TransactionService } from './services/transaction.service';
 export { NotificationService } from './services/notification.service';
 
@@ -69,6 +71,7 @@ export class SharedServicesModule {
         SocketService,
         ProductService,
         CampaignService,
+        LocationService,
         TransactionService,
         NotificationService
       ]
