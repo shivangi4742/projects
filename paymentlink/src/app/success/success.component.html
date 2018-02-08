@@ -3,10 +3,12 @@
         <div class="row"></div>
         <div class="row">
             <div class="col s12 center">
-                <img *ngIf="mtype != 2 && !hasProducts" class="alignMidBN"
-                    src='../../assets/paymentlink/images/paid.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <img *ngIf="mtype == 2" class="alignMidBN" src='../../assets/paymentlink/images/donated.png' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="regNrmS-1B1BN alignMidBN">₹ {{pay.amount | number : '1.2-2'}}</span>
+                <img *ngIf="mtype != 2 && !hasProducts" style="max-width: 90px;" class="alignMidBN"
+                    src='../../assets/paymentlink/images/paid.png' />
+                    <img *ngIf="mtype != 2 && hasProducts" style="max-width: 90px;" class="alignMidBN"
+                    src='../../assets/paymentlink/images/ordered.png' />
+                <img *ngIf="mtype == 2" class="alignMidBN" style="max-width: 90px;" src='../../assets/paymentlink/images/donated.png' />
+                <span class="regNrmS-1B1BN alignMidBN" style="font-size: 25pt!important;">&nbsp;&nbsp;₹ {{pay.amount | number : '1.2-2'}}</span>
             </div>
         </div>
         <div class="row">

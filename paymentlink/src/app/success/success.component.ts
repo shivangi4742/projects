@@ -439,9 +439,17 @@ export class SuccessComponent implements OnInit {
     if(res && res.id) {
       this.mtype = res.merchantType;
       this.pay.title = res.businessName;
+      if(res.chargeConvenienceFee) {
+        let total = 0;
+        for (let i: number = 0; i < this.products.length; i++) {
+          this.products[i].price = Math.round(this.products[i].price * 1.0236 * 100)/100;
+          total += this.products[i].price * this.products[i].qty;
+        }
 
-      this.loaded = true;
+        this.pay.amount = total;
+      }
 
+      this.loaded = true;      
     }
   }
 
