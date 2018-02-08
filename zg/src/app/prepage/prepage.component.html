@@ -46,7 +46,9 @@
             <a class="red-text" href="tel://9579474743">9579474743</a>
           </div>
         </div>
-
+        <div class="row" *ngIf="validationError">
+          <div align="center" class="error-text col s12">{{validationError}}</div>
+        </div>
         <div *ngIf="hasPayPin">
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Community code</div>
@@ -64,15 +66,15 @@
             <div class="col s5" align="left">Payer name</div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
-              <input value="{{payPinModel.payee_first_name}} {{payPinModel.payee_last_name}}" id="name" type="text" class="validate">
+              <input id="name" type="text" name="name" class="validate" required [(ngModel)]="strFullName" (input)="onEnterText($event.target.value)">
             </div>
           </div>
 
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Email address</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6" align="left"> 
-              <input value="{{payPinModel.email_id}}" id="name" type="text" class="validate">
+            <div class="col s6" align="left">
+              <input id="email" type="text" class="validate" required [(ngModel)]="strEmail" name="email" (input)="onEnterText($event.target.value)">
             </div>
           </div>
 
@@ -80,7 +82,7 @@
             <div class="col s5" align="left">Mobile number</div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
-              <input value="{{payPinModel.contact_number}}" id="mobile" type="text" class="validate">
+              <input id="mobile" type="text" class="validate" required [(ngModel)]="strMobile" name="mobile" (input)="onEnterText($event.target.value)">
             </div>
           </div>
 
