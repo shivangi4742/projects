@@ -1,7 +1,7 @@
 <header>
   <biztopnav *ngIf="user" [user]="user" [language]="user.language"></biztopnav>
 </header>
-<main>
+<main *ngIf="user">
   <div materialize>
     <ul id="slide-out" [style.height]="getMainHeight()" class="side-nav fixed sidenavBN hide-on-med-and-down">
       <leftnav></leftnav>
@@ -13,7 +13,26 @@
       <leftnav></leftnav>
     </ul>
     <div class="row noMarginRowBN">
+   
       <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
+           <div class="row nilPadsBN" *ngIf="!user.registerd">
+            <div class="col s12 m12 l12 center">
+                <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
+                    <div class="row">
+                        <div class="col s12 m8 l6 center">
+                            <span class="accountBalBN material-icons">account_balance</span>
+                            <span class="regNrmS5B1BN">&nbsp;&nbsp;{{'Start receiving money in your bank account' | translate}}</span>
+                        </div>            
+                        <div class="col s12 m4 l6">
+                            <button class="hide-on-med-and-up btn waves-effect waves-light red  lowHButtonBN btnSmallPaddingBN" 
+                                [routerLink]="'/profile'" >{{'Add Business Details' | translate}}</button>            
+                            <button class="hide-on-small-only btn waves-effect waves-light red  lowHButtonBN" 
+                                [routerLink]="'/profile'" >{{'Add Business Details' | translate}}</button>            
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
         <router-outlet></router-outlet>
       </div> 
       <div class="col hide-on-small-only m3 rightNavBN" [style.height]="getMainHeight()">

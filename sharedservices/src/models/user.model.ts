@@ -16,5 +16,8 @@ export class User {
     public mobileNumber: string|null,
     public allTils: string[]|null,
     public tilNumber: string|null,
-    public lob: string|null) { }
+    public lob: string|null,
+    public kycverified:boolean,
+    public registerd:boolean,
+    public lessTwentyLakh:boolean) { }
 }

@@ -40,6 +40,8 @@ export class AppComponent {
       }
     });
 
+   
+
     this.userService.getUser()
       .then(res => this.init(res));
   }
@@ -57,7 +59,8 @@ export class AppComponent {
     if(usr && usr.id && usr.id.trim().length > 0) {
       this.user = usr;
       //TODO: Login polls, socket implementation, signup & kyc
-      this.socketService.joinMerchantRoom(this.user.merchantCode);      
+      this.socketService.joinMerchantRoom(this.user.merchantCode);
+       this.userService.checkMerchant(this.user.mobileNumber, "a");          
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));    
       let me = this;
       setTimeout(function() { me.loginPolls(); }, 5000);
@@ -65,4 +68,5 @@ export class AppComponent {
     else
       window.location.href = this.utilsService.getLoginPageURL();
   }
+  
 }

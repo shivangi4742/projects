@@ -14,7 +14,13 @@ import { SocketService } from './../socket.service';
 })
 export class BiztopnavComponent implements OnInit {
   newPayments: Array<Transaction>;
-
+   name: string;
+  tmLoad: string;
+  notifications: Notification[];
+  isHB: boolean = false;
+  isNGO: boolean = false;
+  kycverified:boolean = false;
+  isUnregistered:boolean = false;
   @Input('language') language: number;
   @Input('user') user: User;
 
@@ -23,6 +29,12 @@ export class BiztopnavComponent implements OnInit {
 
   ngOnInit() {
     this.newPayments = this.socketService.getNewPayments();
+    this.language = this.user.language;
+    this.name = this.user.displayName;
+    this.isHB = this.utilsService.isHB(this.user.merchantCode, this.user.lob);
+    this.isNGO = this.utilsService.isNGO(this.user.mccCode);
+    this.isUnregistered = this.utilsService.getUnregistered();
+    console.log(this.isUnregistered, this.user, 'helleo');
   }
 
   langChanged(e: any) {
@@ -43,4 +55,30 @@ export class BiztopnavComponent implements OnInit {
     this.userService.resetUser();
     window.location.href = this.utilsService.getChangePasswordPageURL();    
   }
+   onregisterteds():boolean {
+    console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
+    if(this.isUnregistered == true ) {
+      if(this.user.registerd == false && this.user.kycverified == false) {
+        return true;
+      } else if(this.user.registerd == true && this.user.kycverified == false) {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  onregisterte():boolean {
+    console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
+
+    if(this.isUnregistered == false && this.user.kycverified == false && this.user.registerd == false && this.isHB )
+      return true;
+
+    if(this.isUnregistered == true && this.user.kycverified == false && this.user.registerd == true && this.isHB)
+      return true;
+   
+    return false;
+  }
+
+
 }

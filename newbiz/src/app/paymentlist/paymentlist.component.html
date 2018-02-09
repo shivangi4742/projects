@@ -2,40 +2,37 @@
   <div class="row"></div>
   <div class="row">
     <div class="col s12">
-      <a class="linkButtonBN errNrmS4B1BN">
+      <a class="linkButtonBN errNrmS4B1BN" [routerLink]="'/dashboard'">
         <i class="material-icons alignMidBN">arrow_back</i>
         <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
       </a>
     </div>
   </div>
-
   <ul id="account" Class="dropdown-content dropBN grey lighten-5 topNavDDMenuNGOBN">
-    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
     </a>
-    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
     </a>
-    <a width="59" height="20" class="linkButtonBN" width="78"  height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
       />
     </a>
-
     <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
-      title="Twitter Tweet Button" >
+      title="Twitter Tweet Button">
       <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
     </a>
     <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
-      title="Twitter Tweet Button" >
+      title="Twitter Tweet Button">
       <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
     </a>
-    <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" 
-      data-text="" data-href="" title="Whatsapp Share Button" class="wa_btn wa_btn_m">
+    <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" data-text="" data-href=""
+      title="Whatsapp Share Button" class="wa_btn wa_btn_m">
       <img class="" src="../../assets/newbiz/imgs/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
     </a>
   </ul>
-
-  <div *ngIf="!paymentlink">
+  <div *ngIf="res">
     <div class="row"></div>
     <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
       <div class="row">
@@ -56,14 +53,11 @@
       <div class="row">
         <div class="col s12 center">
           <button class="btn waves-effect waves-light buttonPLBN red regNrmS4BN colrnewBN center" type="submit" name="create">{{'Create your first payment link Now!' | translate}}</button>
-
         </div>
       </div>
-
     </div>
   </div>
-
-  <div *ngIf="paymentlink">
+  <div *ngIf="!res">
     <div class="row">
       <div class="col s12 m8 l6 center serchbrderBN">
         <i class="material-icons col s2 alignMidBN srcBN">search</i>
@@ -88,19 +82,16 @@
         </ul>
       </div>
       <div class="col  m1 l2 "></div>
-
-
       <div class="col s12">
         <status [status]="getStatus()"></status>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="active==0">
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li class="active" *ngFor="let p of paymentlink">
-          <div class="collapsible-header active">
+        <li class="active" *ngFor="let p of activepl" >
+          <div class="collapsible-header active" >
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
-                        <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-                        
+                  <i class="material-icons alignMidBN">keyboard_arrow_right</i>
                         <ng-template #right>
                             <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
                         </ng-template>
@@ -108,22 +99,27 @@
             <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
               <i class="material-icons right ">share</i>
             </a>
-
             <span class="mrgNBN right"> ₹ {{p.amount}}</span>
             </span>
-
           </div>
           <div class="collapsible-body colpBodyBN" style="display: block;">
             <div class="row">
               <div class="col s12 m2 l2 center">
-
                 <img src="../../assets/newbiz/imgs/payment link default.png" alt="">
-
               </div>
               <div class="col s12 m10 l10" *ngIf="p.url">
-                
-                  {{'Payment link' | translate}}<br>
-                  <span class="dashBN alignMidBN">
+                <div class="row valign-wrapper paddBottomBN">
+                  <div class="col s8 m8 l8">
+                    {{'Payment link' | translate}}<br>
+                  </div>
+                  <div class="col s4 m4 l4 ">
+                    <div class="show-on-small hide-on-large-only">
+                    <i class="material-icons alignMidBN">visibility</i> Preview
+                  </div>
+                  </div>
+                </div>
+                <div class="hide-on-small-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN">
                           <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
                           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                            <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
@@ -132,25 +128,34 @@
             <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
                   </a>
                   </span>
-                  <a [href]="p.url" target="_blank" class="copyBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                </div>
+                <div class="show-on-small hide-on-large-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN hide">
+                       <span class="truncate widBN">   <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}</span>                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="p.url"
+                    (cbOnSuccess)="isCopied1 = true">
+                    <i class="material-icons alignMidBN ">content_copy</i>
+                    <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
                   </a>
-                  <br><br><br>
-               
+                  </span>
+                </div>
+                <div class="hide-on-small-only">&nbsp;
+                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                    </a>
+                </div>
+                <br><br><br>
                 <div *ngIf="!p.url">
                   <div class="row"></div>
                   <div class="row"></div>
-
                   <div class="row"></div>
                 </div>
                 <div class="row">
                   <div class="col s12 m6 l6 regNrmS6BN paddBN">
                     Starts on ({{p.startdate}})</div>
-                  <div class="col s12 m6 l6 regNrmS6BN" >
-                  <span *ngIf="p.expirydate">  Ends on ({{p.expirydate}})</span></div>
+                  <div class="col s12 m6 l6 regNrmS6BN">
+                    <span *ngIf="p.expirydate">  Ends on ({{p.expirydate}})</span></div>
                 </div>
-
               </div>
-
             </div>
             <div class="row red redBN">
               <div class="col s6 m4 l4 left">
@@ -161,15 +166,108 @@
                     <i class="material-icons alignMidBN">show_chart</i> See Sales 
                     </span>
               </div>
-
             </div>
           </div>
         </li>
-
-
       </ul>
     </div>
-
-
+    <div class="row" *ngIf="active==1">
+      <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li class="active" *ngFor="let p of inactive" >
+          <div class="collapsible-header active" >
+            <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
+                  <i class="material-icons alignMidBN">keyboard_arrow_right</i>
+                        <ng-template #right>
+                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
+                        </ng-template>
+                        <span class="alignMidBN">{{p.discription}}</span>
+            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+              <i class="material-icons right ">share</i>
+            </a>
+            <span class="mrgNBN right"> ₹ {{p.amount}}</span>
+            </span>
+          </div>
+          <div class="collapsible-body colpBodyBN" style="display: block;">
+            <div class="row">
+              <div class="col s12 m2 l2 center">
+                <img src="../../assets/newbiz/imgs/payment link default.png" alt="">
+              </div>
+              <div class="col s12 m10 l10" *ngIf="p.url">
+                <div class="row valign-wrapper paddBottomBN">
+                  <div class="col s8 m8 l8">
+                    {{'Payment link' | translate}}<br>
+                  </div>
+                  <div class="col s4 m4 l4 ">
+                    <div class="show-on-small hide-on-large-only">
+                    <i class="material-icons alignMidBN">visibility</i> Preview
+                  </div>
+                  </div>
+                </div>
+                <div class="hide-on-small-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN">
+                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
+                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                           <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
+          type="button" ngxClipboard [cbContent]="p.url" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN ">content_copy</i>
+            <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+                  </span>
+                </div>
+                <div class="show-on-small hide-on-large-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN hide">
+                       <span class="truncate widBN">   <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}</span>                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="p.url"
+                    (cbOnSuccess)="isCopied1 = true">
+                    <i class="material-icons alignMidBN ">content_copy</i>
+                    <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+                  </span>
+                </div>
+                <div class="hide-on-small-only">&nbsp;
+                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                    </a>
+                </div>
+                <br><br><br>
+                <div *ngIf="!p.url">
+                  <div class="row"></div>
+                  <div class="row"></div>
+                  <div class="row"></div>
+                </div>
+                <div class="row">
+                  <div class="col s12 m6 l6 regNrmS6BN paddBN">
+                    Starts on ({{p.startdate}})</div>
+                  <div class="col s12 m6 l6 regNrmS6BN">
+                    <span *ngIf="p.expirydate">  Ends on ({{p.expirydate}})</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="row red redBN">
+              <div class="col s6 m4 l4 left">
+                <i class="material-icons alignMidBN bordrBN">close</i> Expire Link
+              </div>
+              <div class="col s6 m8 l8 right">
+                <span class="right">
+                    <i class="material-icons alignMidBN">show_chart</i> See Sales 
+                    </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+     <div class="row">
+                        <div class="col s12" align="center"  >
+                            <a class="linkButtonBN backToDashboardBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+                                <i class="material-icons alignMidBN">navigate_before</i>
+                                <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
+                            </a>
+                            
+                            <a class="linkButtonBN downloadDashboardBN" (click)="next()" *ngIf="numPages > page">
+                                <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
+                                <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
+                            </a>
+                        </div>
+                    </div>
   </div>
 </div>

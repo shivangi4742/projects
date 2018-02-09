@@ -24,6 +24,17 @@
     padding-left: 50px;
     margin-top: 15px;
 }
+.accountBalBN {
+    background-color: #00acc1;
+    color: #ffffff;
+    padding-top: 6px;
+    vertical-align: middle;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    border-radius: 20px;
+    font-size: 24px;
+}
 
 .bizLogoBN {
     margin-top: 15px;

@@ -14,20 +14,8 @@ export class SettingsComponent implements OnInit {
   formLoaded: boolean = false;
   businesspro: Businesspro;
   chargeFee: boolean = false;
-  name: string;
-  email: string;
-  mobilenumber: string;
-  Password: string;
   user: User;
-  DisplayName: string;
-  businessName: string;
-  BusinessAddress: string;
-  pincode: string;
-  PANNumber: string;
-  accountholdername: string;
-  accountnumber: string;
   conaccountnumber: string;
-  IFSC: string;
   gstno: string;
   isBusExpanded: boolean = false;
   isPanExpanded: boolean = false;
@@ -47,11 +35,13 @@ export class SettingsComponent implements OnInit {
   errorpincode: string;
   erraddressvalidate: boolean = false;
   erroraddres: string;
-  errbusinessvalidate:boolean =false;
-  errorbusiness:string;
-   errdisplayvalidate:boolean =false;
-  errordisplay:string;
-
+  errbusinessvalidate: boolean = false;
+  errorbusiness: string;
+  errdisplayvalidate: boolean = false;
+  errordisplay: string;
+  err: boolean = false;
+  errmsg: string;
+  editt: boolean = true;
 
 
   constructor(private translate: TranslateService, private utilsService: UtilsService,
@@ -63,7 +53,6 @@ export class SettingsComponent implements OnInit {
       .then(res => this.init(res));
   }
   init(usr: User) {
-    console.log(usr, 'usr');
     if (usr && usr.id) {
       this.user = usr;
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));
@@ -77,18 +66,33 @@ export class SettingsComponent implements OnInit {
 
   }
   initDetails(res: any) {
-    console.log(res);
+    //console.log(res);
   }
-  loadForm() {
 
+  loadForm() {
     this.userService.checkMerchant(this.user.mobileNumber, "a")
-      .then(ares => this.accountpro = ares);
+      .then(ares => this.initcheckacc(ares));
 
     this.userService.checkMerchant(this.user.mobileNumber, "b")
       .then(mres => this.businesspro = mres);
 
+    this.userService.getMerchantDetails(this.user.merchantCode)
+      .then(res => this.bind(res));
 
     this.formLoaded = true;
+  }
+
+  bind(res: any) {
+    if (res && res.id) {
+      this.chargeFee = res.chargeConvenienceFee;
+    }
+  }
+  initcheckacc(res:any){
+     this.accountpro = res;
+     if(this.accountpro.accountRefNumber) {
+       this.conaccountnumber = this.accountpro.accountRefNumber;
+     }
+   
   }
 
 
@@ -209,17 +213,16 @@ export class SettingsComponent implements OnInit {
 
   }
   save() {
-    console.log(this.businesspro.pincode,'hello');
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
-      this.businesspro.locality,this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
       this.businesspro.pincode, this.businesspro.gstno);
   }
   saveaccount() {
-    this.userService.markSelfMerchantVerified(this.user.id,  this.accountpro.ifsc, this.accountpro.accountRefNumber,
-    this.accountpro.panNumber, this.accountpro.bankName,
-    this.businesspro.contactPerson,  this.accountpro.accountHolderName,this.accountpro.filePassword);
+    this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,
+      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
   }
   getSwitchText(flag: boolean) {
     if (flag)
@@ -229,12 +232,12 @@ export class SettingsComponent implements OnInit {
   }
 
   setConvenience() {
-    // this.kycService.setConvenienceFee(this.user.id, this.chargeFee);
+    this.userService.setConvenienceFee(this.user.id, this.chargeFee);
   }
-  validategst() {
-    console.log(this.businesspro.gstno, 'jeje');
+  validategst(res) {
+    var res1 = res.toUpperCase();
+    this.businesspro.gstno = res1;
     var gst1 = this.businesspro.gstno;
-
     var reg = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
     if (gst1.match(reg)) {
       this.errgstvalidate = false;
@@ -261,7 +264,7 @@ export class SettingsComponent implements OnInit {
 
     if (ifsc.match(reg)) {
       this.errvalidate = false;
-     
+
     }
     else {
       this.errvalidate = true;
@@ -281,28 +284,75 @@ export class SettingsComponent implements OnInit {
 
   }
   validatebusiness() {
-    var TCode = this.businesspro.businessName;
+    var TCode1 = this.businesspro.businessName;
 
-    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
-      this.errbusinessvalidate = true;
-      this.errorbusiness ='Business name should not contain special symbol.';
-     
-    } else {
-      
+    if (/^[a-zA-Z0-9\-\s]+$/.test(TCode1)) {
+
       this.errbusinessvalidate = false;
-    }
-  }
-   
-    validaatedisplay() {
-    var TCode = this.user.displayName;
-    if (/[^a-zA-Z0-9\-\/]/.test(TCode)) {
-      this.errdisplayvalidate = true;
-      this.errordisplay ='Special Character are Not allowed.';
-     
     } else {
-      
-      this.errdisplayvalidate = false;
+      this.errbusinessvalidate = true;
+      this.errorbusiness = 'Business name should not contain special symbol.';
+
     }
   }
 
+  validaatedisplay() {
+    var TCode = this.user.displayName;
+    if (/^[a-zA-Z0-9\-\s]+$/.test(TCode)) {
+      this.errdisplayvalidate = false;
+
+    } else {
+      this.errdisplayvalidate = true;
+      this.errordisplay = 'Special Character are Not allowed.';
+
+    }
+  }
+  hasAllFields() {
+    return this.businesspro.contactPerson && this.user.email && this.user.mobileNumber;
+  }
+  hasAllFields1() {
+    return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
+      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+  }
+  hasAllFields2() {
+    return !this.errpancard && this.accountpro.panNumber;
+  }
+  hasAllFields3() {
+    return !this.errpancard && this.accountpro.panNumber;
+  }
+  UpCase(res) {
+    var res1 = res.toUpperCase();
+    this.accountpro.accountHolderName = res1;
+    return this.accountpro.accountHolderName;
+  }
+  hasAllFields4() {
+    return !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
+      && this.accountpro.ifsc && this.conaccountnumber && !this.err;
+  }
+  Accountno() {
+    if ((((this.accountpro.accountRefNumber).length) <= 5) && (((this.conaccountnumber).length) <= 5)) {
+      this.err = true;
+      this.errmsg = 'Account number should be 6 digits!';
+
+    } else {
+      if (this.accountpro.accountRefNumber.trim() == this.conaccountnumber.trim()) {
+        this.err = false;
+      }
+      else {
+        this.err = true;
+        this.errmsg = 'Account number do not match!';
+      }
+    }
+  }
+
+  hasAllFields5() {
+    return !this.errgstvalidate && this.businesspro.gstno;
+  }
+
+  edit() {
+    this.editt = false;
+  }
+  
 }
+
+
