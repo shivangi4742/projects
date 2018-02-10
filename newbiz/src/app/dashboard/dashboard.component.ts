@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { LocationService } from 'benowservices';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -7,10 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 chargeFee: boolean = false;
-  constructor() { }
+  constructor(private locationService: LocationService) { }
 
   ngOnInit() {
+    this.locationService.setLocation('dashboard');
   }
-  
-
 }

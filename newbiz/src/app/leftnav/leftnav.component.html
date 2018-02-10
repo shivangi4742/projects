@@ -1,79 +1,86 @@
 <div class="row whiteFontBN">
   <div class="col s12">&nbsp;</div>
   <div class="col s10 center offset-s1">
-    <div class="leftnavBtnBN" [routerLink]="createPaymentLink">
+    <div [ngClass]="location == 'createpaylink' ? 'selectedLeftNavBtnBN' : 'leftnavBtnBN'" (click)="goto('createpaylink')">
       {{'Create Payment Link' | translate}}
     </div>
   </div>
   <div class="col s1"></div>
-  <div class="col s12">&nbsp;</div>
-  <div class="col s10 center offset-s1">
-    <div class="leftnavBtnBN">
+  <div class="col s12" *ngIf="false">&nbsp;</div>
+  <div class="col s10 center offset-s1" *ngIf="false">
+    <div [ngClass]="location == 'createcampaign' ? 'selectedLeftNavBtnBN' : 'leftnavBtnBN'" (click)="goto('createcampaign')">
       {{'Create Campaign' | translate}}
     </div>
   </div>
-  <div class="col s1"></div>
-  <div class="col s12">&nbsp;</div>
-  <div class="col s10 center offset-s1">
-    <div class="leftnavBtnBN">
+  <div class="col s1" *ngIf="false"></div>
+  <div class="col s12" *ngIf="false">&nbsp;</div>
+  <div class="col s10 center offset-s1" *ngIf="false">
+    <div [ngClass]="location == 'addproduct' ? 'selectedLeftNavBtnBN' : 'leftnavBtnBN'" (click)="goto('addproduct')">
       {{'Add Product' | translate}}
     </div>
   </div>
-  <div class="col s1"></div>
+  <div class="col s1" *ngIf="false"></div>
   <div class="col s12">&nbsp;</div>
   <div class="col s12 separatorBN"></div>
   <div class="col s12">&nbsp;</div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN" [routerLink]="createPaymentLink">
-      <i class="material-icons leftNavIconBN alignMidBN">link</i>&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN" [routerLink]="'/paymentlist'">{{'Payment Links' | translate}}</span>
+  <div [ngClass]="location == 'dashboard' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('dashboard')">
+    <div class="col s10 offset-s1">
+      <i class="material-icons leftNavIconBN alignMidBN">dashboard</i>&nbsp;&nbsp;
+      <span class="alignMidBN leftNavLinkBN">{{'Dashboard' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'paymentlist' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('paymentlist')">
+    <div class="col s10 offset-s1">
+      <i class="material-icons leftNavIconBN alignMidBN">link</i>&nbsp;&nbsp;
+      <span class="alignMidBN leftNavLinkBN">{{'Payment Links' | translate}}</span>
+    </div>
+    <div class="col s1"></div>
+  </div>
+  <div [ngClass]="location == 'campaigns' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('campaigns')" *ngIf="false">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">drafts</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Campaigns' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'catalogue' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('catalogue')" *ngIf="false">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">shopping_basket</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Product Catalogue' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN" [routerLink]="transactionHistory">
+  <div [ngClass]="location == 'transactionhistory' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('transactionhistory')">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">history</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Transaction History' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'resolution' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('resolution')" *ngIf="false">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">gavel</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Case & Resolution' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'settings' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('settings')">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">settings_applications</i>&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN" [routerLink]="'/settings'">{{'Merchant Settings' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN">{{'Merchant Settings' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'invite' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('invite')" *ngIf="false">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">group</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Invite Your Friends' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN">
-    <div class="col s10 offset-s1 linkButtonBN">
+  <div [ngClass]="location == 'help' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('help')" *ngIf="false">
+    <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">help</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Help & Support' | translate}}</span>
     </div>
