@@ -83,7 +83,6 @@ export class ZgService {
   }
 
   setPayBillResponse(res: any): PayBillResponseModel {
-    console.log('payBillResponse', res); 
     var me = this;
     res.data.benow.paybill.forEach(function (payBill: any) {
 
@@ -194,7 +193,6 @@ export class ZgService {
 
   saveCharges(payPinId: string, chargesModel: ChargesModel,
     merchantCode: string, payLinkId: string): Promise<any> {
-    console.log(JSON.stringify(chargesModel));
     return this.http.post(
       this.utilsService.getBaseURL() + this._urls.saveChargesURL,
       JSON.stringify({
@@ -214,7 +212,7 @@ export class ZgService {
   }
 
   afterChargesSave(res: any): void {
-    console.log('response', res);
+
   }
 
   private getTempHeaders(): any {
