@@ -179,7 +179,6 @@ export class PrepageComponent implements OnInit {
   }
 
   saveChargesAndNavigate(payBillResponse: PayBillResponseModel): void {
-
     if (payBillResponse.success) {
       var paymentURL = payBillResponse.benow.paybill[0].benow_url;
       if (paymentURL && paymentURL.length > 0) {
@@ -188,10 +187,6 @@ export class PrepageComponent implements OnInit {
 
         this.zgService.updateAmount(payLinkID, this.totalAmount.toString())
           .then(res => this.navigateToPayment(res, paymentURL));
-        // this.chargesModel = new ChargesModel(payLinkID, this.upiCharges, this.dcCharges, this.ccCharges, this.netBankingCharges, null);
-        // this.zgService.setCharges(this.chargesModel);
-        // this.zgService.saveCharges(this.payPin, this.chargesModel, 'APF03', payLinkID)
-        //   .then(res => console.log('Client res', res));
 
       }
     }
@@ -292,9 +287,11 @@ export class PrepageComponent implements OnInit {
   }
 
   calculateTotalAmount() {
-    this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
+    // this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
+    this.amountWithoutCharge = this.totalBillAmount;
     this.calculateConvenienceFee();
-    this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
+    // this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
+    this.totalAmount = this.totalBillAmount + this.totalConvenienceFee;
   }
 
   calculateConvenienceFee() {
@@ -319,7 +316,7 @@ export class PrepageComponent implements OnInit {
       this.payPinModel.payee_first_name = this.strFullName.split(' ')[0];
       this.payPinModel.payee_last_name = this.strFullName.split(' ')[1];
       this.payPinModel.email_id = this.strEmail;
-      this.payPinModel.contact_number = this.strMobile; 
+      this.payPinModel.contact_number = this.strMobile;
       return true;
     }
     return false;

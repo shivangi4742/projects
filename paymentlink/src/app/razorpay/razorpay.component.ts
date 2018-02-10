@@ -13,6 +13,7 @@ import { WindowRef } from "./../windowref.service";
 export class RazorpayComponent implements OnInit {
 
   id: string;
+  txnId: string;
   rzp1: any;
   options: any;
   rzModel: RazorPayModel;
@@ -31,7 +32,9 @@ export class RazorpayComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    this.txnId = this.route.snapshot.params['txnid'];
     this.prods = this.route.snapshot.params['prods'];
+
     if (this.id && this.id.length > 0) {
       this.pg = this.sdkService.getPG();
       console.log('PG before', this.pg);

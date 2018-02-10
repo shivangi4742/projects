@@ -65,7 +65,7 @@ var sdkCont = {
         }
     },
 
-    saveCashPaymentSuccess: function(req, res) {
+    saveCashPaymentSuccess: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.paymentSuccess(req, function (data) {
             res.json(data);
@@ -79,9 +79,9 @@ var sdkCont = {
                 'Content-Type': 'application/json'
             };
             var fundraiserid = req.params.fund;
-            if(fundraiserid)
-                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.params.txnid, req.body.amount, headers, 
-                    function(fundata) {});
+            if (fundraiserid)
+                this.updateFundraiserCollectionPostCall(req.params.fund, req.params.id, req.params.txnid, req.body.amount, headers,
+                    function (fundata) { });
 
             var status = req.body.status;
             var statusMsg = 'Failed';
@@ -139,6 +139,7 @@ var sdkCont = {
     processPayment: function (req, res) {
         res.setHeader("X-Frame-Options", "ALLOW");
         var paylinkid = req.body.paylinkid;
+        var txnId = req.body.txnid;
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
@@ -334,12 +335,12 @@ var sdkCont = {
 
     updateFundraiserCollectionPostCall(fundraiserId, campaignId, paymentTxnId, amount, hdrs, cb) {
         helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/updateFundraiserForCampaign', 'POST', hdrs),
-        {
-            "txnRefNumber": campaignId,
-            "fundraiserId": fundraiserId,
-            "paymentTxnRefNumber": paymentTxnId,
-            "actualCollection": amount
-        }, cb);
+            {
+                "txnRefNumber": campaignId,
+                "fundraiserId": fundraiserId,
+                "paymentTxnRefNumber": paymentTxnId,
+                "actualCollection": amount
+            }, cb);
     },
 
     updateFundraiserCollectionPost: function (req, cb) {
@@ -622,7 +623,7 @@ var sdkCont = {
                 res.json(retErr);
             else {
                 var d = req.body;
-                if(d) {
+                if (d) {
                     var hdrs = req.headers;
 
                     this.createPaymentLinkPost(d, hdrs, function (data) {
@@ -638,7 +639,7 @@ var sdkCont = {
         }
     },
 
-    createPaymentLinkPost: function(d, hdrs, cb) {
+    createPaymentLinkPost: function (d, hdrs, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -648,7 +649,7 @@ var sdkCont = {
             if (!d)
                 cb(retErr);
             else {
-                if(d && d.merchantCode) {
+                if (d && d.merchantCode) {
                     var expDt = d.expiryDate;
                     if (expDt && expDt.length > 9) {
                         var spExDt = expDt.split('-');
@@ -790,10 +791,10 @@ var sdkCont = {
             cb(retErr);
         }
     },
-     getmerchantpaymentlink: function (req, res) {
+    getmerchantpaymentlink: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.getMerchantPaymentlinkPost(req, function (data) {
-            
+
             res.json(data);
         });
     },
@@ -803,14 +804,14 @@ var sdkCont = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
-     
+
         try {
             if (!req.body || !req.body.merchantCode)
                 cb(retErr);
             else {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
                     {
-                       "merchantCode": req.body.merchantCode
+                        "merchantCode": req.body.merchantCode
                     },
                     cb);
             }

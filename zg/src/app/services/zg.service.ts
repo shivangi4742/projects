@@ -83,6 +83,7 @@ export class ZgService {
   }
 
   setPayBillResponse(res: any): PayBillResponseModel {
+    console.log('payBillResponse', res); 
     var me = this;
     res.data.benow.paybill.forEach(function (payBill: any) {
 

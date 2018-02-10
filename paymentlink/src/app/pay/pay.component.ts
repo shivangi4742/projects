@@ -588,7 +588,7 @@ export class PayComponent implements OnInit {
   showQRLink() {
     this.putFocus = true;
     if (!this.qrlExpanded) {
-      if (this.validate(true))
+    if (this.validate(true))
         this.refreshUPIAmount();
     }
 
