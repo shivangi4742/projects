@@ -13,6 +13,8 @@ import { SocketService } from './../socket.service';
   styleUrls: ['./biztopnav.component.css']
 })
 export class BiztopnavComponent implements OnInit {
+  subscription: Subscription;
+  newPayments: Array<Transaction> = new Array<Transaction>();
   newPayments: Array<Transaction>;
    name: string;
   tmLoad: string;
