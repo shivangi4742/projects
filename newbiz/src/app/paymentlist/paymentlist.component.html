@@ -32,7 +32,7 @@
       <img class="" src="../../assets/newbiz/imgs/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
     </a>
   </ul>
-  <div *ngIf="res">
+  <div *ngIf="paymentlink">
     <div class="row"></div>
     <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
       <div class="row">
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!res">
+  <div *ngIf="!paymentlink">
     <div class="row">
       <div class="col s12 m8 l6 center serchbrderBN">
         <i class="material-icons col s2 alignMidBN srcBN">search</i>
