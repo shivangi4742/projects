@@ -1,0 +1,261 @@
+<div class="row"></div>
+<div class="row">
+  <div class="col s12">
+    <a class="linkButtonBN errNrmS4B1BN" [routerLink]="'/dashboard'">
+      <i class="material-icons alignMidBN">arrow_back</i>
+      <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+    </a>
+  </div>
+</div>
+<div class="row" *ngIf="user && businesspro && accountpro">
+
+<ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+    
+    <li >
+      <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+
+        <span class="mrlBN" (click)="bankdetails()">
+           <i  *ngIf="isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          </span> {{'Business Setting'}}
+
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s1 m1 l1 "></div>
+          <div class="col s10 m10 l10">
+            <div class="row"></div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Display Name (Brand name)</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="DisplayName" name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="Enter Display Name"
+                  [(ngModel)]="user.displayName" (keyup)="validaatedisplay()" />
+                <span *ngIf="errdisplayvalidate" class="errNrmS6BN">{{errordisplay}}</span>
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Business Name</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="businessName" name="businessName" type="text" class="inputboxBN inputBN validate" placeholder="Enter Business Name"
+                  [(ngModel)]="businesspro.businessName" (keyup)="validatebusiness()" />
+                <span *ngIf="errbusinessvalidate" class="errNrmS6BN">{{errorbusiness}}</span>
+              </div>
+
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 regNrmS5B2BN">Business Address</span>
+              <div class="input-field  col col s12 m5 l5 regNrmS4BN">
+                <input id="BusinessAddress" name="BusinessAddress" type="text" placeholder="Enter Business Address" class="inputboxBN inputBN validate"
+                  [(ngModel)]="businesspro.address" />
+
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Pin Code</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="pincode" name="pincode" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="inputboxBN inputBN  validate" maxlength="6" placeholder="Enter Pin Code"
+                  [(ngModel)]="businesspro.pincode" (keyup)="savepincode()" />
+                <span class="errNrmS6BN" *ngIf="errpincodevalidate">{{ errorpincode | translate}}</span>
+
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="input-field col s12 m12 l12 center regNrmS4BN">
+                <button [disabled]="!hasAllFields1()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+              {{'SUBMIT' | translate}}
+             </button>
+              </div>
+
+            </div>
+            <div class="row"></div>
+            <div class="row"></div>
+          </div>
+          <div class="col s1 m1 l1 "></div>
+        </div>
+      </div>
+    </li>
+    <li >
+      <div id="acbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+
+        <span class="mrlBN" (click)="accountdetail()">
+           <i  *ngIf="isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          </span> {{'PAN Setting'}}
+
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s1 m1 l1 "></div>
+          <div class="col s10 m10 l10">
+            <div class="row"></div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN ">Your PAN Number</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="PANNumber" name="PANNumber" type="text" class="pr1BN inputboxBN inputBN validate" placeholder="Enter PAN Number"
+                  [(ngModel)]="accountpro.panNumber" (keyup)="validatePAN()" />
+                <span class="errNrmS6BN" *ngIf="errpancard">{{ errorpanmsg | translate}}</span>
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="input-field s12 m12 l12 center regNrmS4BN">
+                <button [disabled]="!hasAllFields2()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="saveaccount() "
+                  name="submit">
+              {{'SUBMIT' | translate}}
+             </button>
+              </div>
+
+            </div>
+          </div>
+          <div class="col s1 m1 l1 "></div>
+        </div>
+      </div>
+    </li>
+    <li >
+      <div id="bnkset" (click)="bankdetail1()" [ngClass]="!isNgoExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+        <span class="mrlBN" (click)="bankdetail()">
+           <i  *ngIf="isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          </span> {{'Bank Setting'}}
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s1 m1 l1 "></div>
+          <div class="col s10 m10 l10">
+            <div class="row"></div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN ">Account Holder's Name</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN inputBN">
+                <input id="accountholdername" name="accountholdername" type="text" placeholder="Enter Account Holder's Name"
+                 class=" inputboxBN validate" (keyup)="UpCase(accountpro.accountHolderName)"
+                  [(ngModel)]="accountpro.accountHolderName" />
+
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Account Number</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="accountnumber" name="accountnumber" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Enter Account Number" class="inputboxBN validate"
+                  [(ngModel)]="accountpro.accountRefNumber" (keyup)="Accountno()" />
+
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Confirm Account Number</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="conaccountnumber" name="conaccountnumber" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  placeholder="Enter Account Number" type="text" class="inputboxBN validate"
+                  [(ngModel)]="conaccountnumber" (keyup)="Accountno()"/>
+                <span class="errNrmS6BN" *ngIf="err">{{errmsg | translate}}</span>
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <span class="col s12 heBN">Bank IFSC</span>
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="IFSC" name="businessEntityName" type="text" placeholder="{{'Enter IFSC'| translate}}" class="pr1BN inputboxBN validate"
+                  [(ngModel)]="accountpro.ifsc" (keyup)="validateifsc()" />
+                <span class="errNrmS6BN" *ngIf="errvalidate">{{errorifsc | translate}}</span>
+              </div>
+
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="input-field s12 m12 l12 center regNrmS4BN">
+                <button [disabled]="!hasAllFields4()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" 
+                type="submit" name="submit" (click)="saveaccount()">
+              {{'SUBMIT' | translate}}
+             </button>
+              </div>
+
+            </div>
+            <div class="row"></div>
+            <div class="row"></div>
+          </div>
+          <div class="col s1 m1 l1 "></div>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div id="gstbn" (click)="gstdetail1()" [ngClass]="!isgstExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+
+        <span class="mrlBN" (click)="gstdetail()">
+           <i  *ngIf="isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+            <i *ngIf="!isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+          </span> {{'GST Setting' | translate}}
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s1 m1 l1 "></div>
+          <div class="col s11 m10 l10">
+            <div class="row"></div>
+            <div class="row busDetails detailBodyBN">
+              <div class="valign-wrapper busDetails detailBodyBN">
+                <div class="col col s12 m12 l12 coloBN1 heBN">
+                  {{'Is your business registered with GST?' | translate}}
+                </div>
+                <div class="col s0 m6 l6 coloBN1">
+
+                </div>
+              </div>
+              <div class="row busDetails detailBodyBN">
+                <div class="col s6 m6 l6 regNrmS5B2BN">
+                  <input id="test1" name="gst" type="radio" class="with-gap" (click)="setount(true)" />
+                  <label for="test1">{{'Yes' | translate}}</label>
+
+                </div>
+                <div class="col s6 m6 l6 regNrmS5B2BN">
+                  <input id="test2" name="gst" type="radio" class="with-gap" checked="checked" (click)="setount(false)" />
+                  <label for="test2">{{'No' | translate}}</label>
+
+                </div>
+
+              </div>
+              <div *ngIf="gst">
+                <div class="valign-wrapper">
+                  <div class="coloBN1 input-field col s12 heBN">
+                    {{'GST Number' | translate}}
+                  </div>
+                </div>
+                <div class="row busDetails detailBodyBN">
+                  <div class="input-field col s8 l6 m6 regNrmS4BN">
+                    <input id="gst" type="text" maxlength="15" name="gst" class="prBN inputboxBN validate margBN" placeholder="{{'Enter your GST Number' | translate}}"
+                      [(ngModel)]="businesspro.gstno" (keyup)="validategst(businesspro.gstno)" />
+                    <label for="gst" [ngClass]="{active: businesspro.gstno}"></label>
+                    <span class="errNrmS6BN" *ngIf="errgstvalidate">{{errorgst | translate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row busDetails detailBodyBN mrgnBn">
+                <div class="input-field col s12 m12 l12 center regNrmS4BN ">
+                  <button [disabled]="!hasAllFields5()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight " 
+                  type="submit" (click)="save()" name="submit">
+              {{'SUBMIT' | translate}}
+             </button>
+                </div>
+
+              </div>
+              <div class="row"></div>
+              <div class="row"></div>
+            </div>
+          </div>
+          <div class="col s0 m1 l1"></div>
+
+        </div>
+      </div>
+    </li>
+
+  </ul>
+</div>
