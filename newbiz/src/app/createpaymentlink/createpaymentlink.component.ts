@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, SDKService, Status } from 'benowservices';
+import { UtilsService, User, UserService, SDKService, Status, LocationService } from 'benowservices';
 
 
 @Component({
@@ -47,7 +47,7 @@ export class CreatepaymentlinkComponent implements OnInit {
 
 
   constructor(private translate: TranslateService, private utilsService: UtilsService,
-              private userService: UserService, private router: Router,
+              private userService: UserService, private router: Router, private locationService: LocationService,
               private route: ActivatedRoute, private sdkService: SDKService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
@@ -73,6 +73,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.locationService.setLocation('createpaylink');
     this.userService.getUser()
       .then(res => this.user = res);
     let me = this;

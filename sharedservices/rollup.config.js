@@ -17,6 +17,15 @@ export default {
     'rxjs/add/observable/fromEvent': 'Rx.Observable',
     'rxjs/add/observable/of': 'Rx.Observable',
     'rxjs/add/operator/map': 'Rx.Observable.prototype',
-    'rxjs/add/operator/toPromise': 'Rx.Observable.prototype'
-  }
+    'rxjs/add/operator/toPromise': 'Rx.Observable.prototype',
+    'rxjs/Subject': 'Rx.Subject',
+    'socket.io-client': 'socket.io-client'
+  },
+  plugins: [{
+    name: 'replace io imports',
+    transform: code => ({
+        code: code.replace(/import\s*\*\s*as\s*io/g, 'import io'),
+        map: { mappings: '' }
+    })    
+  }]
 }

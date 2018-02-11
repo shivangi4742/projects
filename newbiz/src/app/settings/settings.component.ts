@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
-import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant } from 'benowservices';
+import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-settings',
@@ -44,10 +44,11 @@ export class SettingsComponent implements OnInit {
   editt: boolean = true;
 
 
-  constructor(private translate: TranslateService, private utilsService: UtilsService,
+  constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService) { }
 
   ngOnInit() {
+    this.locationService.setLocation('settings');
     this.utilsService.setStatus(false, false, '');
     this.userService.getUser()
       .then(res => this.init(res));

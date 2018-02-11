@@ -6,8 +6,10 @@ import { HelpService } from './services/help.service';
 import { FileService } from './services/file.service';
 import { UserService } from './services/user.service';
 import { UtilsService } from './services/utils.service';
+import { SocketService } from './services/socket.service';
 import { ProductService } from './services/product.service';
 import { CampaignService } from './services/campaign.service';
+import { LocationService } from './services/location.service';
 import { TransactionService } from './services/transaction.service';
 import { NotificationService } from './services/notification.service';
 
@@ -15,6 +17,7 @@ import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
 export { PG } from './models/pg.model';
 export { SDK } from './models/sdk.model';
+export { RazorPayModel } from './models/razorpay.model';
 export { User } from './models/user.model';
 export { Status } from './models/status.model';
 export { Product } from './models/product.model';
@@ -39,8 +42,10 @@ export { HelpService } from './services/help.service';
 export { FileService } from './services/file.service';
 export { UserService } from './services/user.service';
 export { UtilsService } from './services/utils.service';
+export { SocketService } from './services/socket.service';
 export { ProductService } from './services/product.service';
 export { CampaignService } from './services/campaign.service';
+export { LocationService } from './services/location.service';
 export { TransactionService } from './services/transaction.service';
 export { NotificationService } from './services/notification.service';
 
@@ -63,8 +68,10 @@ export class SharedServicesModule {
         FileService,
         UserService,
         UtilsService,
+        SocketService,
         ProductService,
         CampaignService,
+        LocationService,
         TransactionService,
         NotificationService
       ]

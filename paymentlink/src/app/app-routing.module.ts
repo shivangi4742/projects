@@ -9,10 +9,12 @@ import { PayComponent } from './pay/pay.component';
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { RazorpayComponent } from './razorpay/razorpay.component';
 
 const routes: Routes = [
     { path: 'notfound', component: NotfoundComponent },
     { path: 'pg/:id', component: PgComponent },
+    { path: 'pg/:id/:prods', component: PgComponent },
     { path: 'pay/:id/:prods', component: PayComponent },
     { path: 'pay/:id', component: PayComponent },
     { path: 'pay/:id/:prods/:sdkId', component: PayComponent }, // FOR SDK
@@ -28,6 +30,7 @@ const routes: Routes = [
     { path: 'donationsuccess/:id/:txnid', component: SuccessComponent },
     { path: 'donationfailure/:id/:txnid', component: FailureComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
+    { path: 'razorpay/:id', component: RazorpayComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
 ];
 

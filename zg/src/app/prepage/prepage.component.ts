@@ -26,6 +26,7 @@ import { MaterializeAction } from 'angular2-materialize';
 export class PrepageComponent implements OnInit {
 
   hasPayPin: boolean;
+  showprogress: boolean;
   id: string;
   payPin: string;
   enteredPayPin: string;
@@ -62,19 +63,29 @@ export class PrepageComponent implements OnInit {
 
   invalidPaypin: boolean = false;
 
+  strFullName: string;
+  strEmail: string;
+  strMobile: string;
+  validationError: string;
+  isFormValid: boolean;
+
   constructor(private route: ActivatedRoute,
     private zgService: ZgService,
     private router: Router) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    this.validationError = '';
+    this.isFormValid = false;
 
     if (this.id && this.id.length > 0) {
       this.enteredPayPin = '';
       this.getPayPinValues(this.id);
+      this.showprogress = true;
     }
     else {
       this.hasPayPin = false;
+      this.showprogress = false;
     }
 
   }
@@ -89,6 +100,8 @@ export class PrepageComponent implements OnInit {
       this.invalidPaypin = true;
     }
     else {
+      this.showprogress = false;
+
       this.enteredPayPin = '';
       this.invalidPaypin = false;
 
@@ -99,6 +112,10 @@ export class PrepageComponent implements OnInit {
       if (this.payPin && this.payPin.length > 0) {
         this.hasPayPin = true;
       }
+
+      this.strFullName = this.payPinModel.payee_first_name + ' ' + this.payPinModel.payee_last_name;
+      this.strEmail = this.payPinModel.email_id;
+      this.strMobile = this.payPinModel.contact_number;
 
       // Assign UPI charges
       if (this.payPinModel.upi_details && this.payPinModel.upi_details.length > 0) {
@@ -162,7 +179,6 @@ export class PrepageComponent implements OnInit {
   }
 
   saveChargesAndNavigate(payBillResponse: PayBillResponseModel): void {
-
     if (payBillResponse.success) {
       var paymentURL = payBillResponse.benow.paybill[0].benow_url;
       if (paymentURL && paymentURL.length > 0) {
@@ -171,10 +187,6 @@ export class PrepageComponent implements OnInit {
 
         this.zgService.updateAmount(payLinkID, this.totalAmount.toString())
           .then(res => this.navigateToPayment(res, paymentURL));
-        // this.chargesModel = new ChargesModel(payLinkID, this.upiCharges, this.dcCharges, this.ccCharges, this.netBankingCharges, null);
-        // this.zgService.setCharges(this.chargesModel);
-        // this.zgService.saveCharges(this.payPin, this.chargesModel, 'APF03', payLinkID)
-        //   .then(res => console.log('Client res', res));
 
       }
     }
@@ -275,9 +287,11 @@ export class PrepageComponent implements OnInit {
   }
 
   calculateTotalAmount() {
-    this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
+    // this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
+    this.amountWithoutCharge = this.totalBillAmount;
     this.calculateConvenienceFee();
-    this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
+    // this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
+    this.totalAmount = this.totalBillAmount + this.totalConvenienceFee;
   }
 
   calculateConvenienceFee() {
@@ -294,15 +308,61 @@ export class PrepageComponent implements OnInit {
   }
 
   hasAllRequiredFields() {
-    return this.paymentMode && this.remarks && this.totalAmount <= 1000000;
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm();
   }
 
-  onTaxClck() {
+  validateForm(): boolean {
+    if (this.validateName(this.strFullName) && this.validateEmail(this.strEmail) && this.validateMobile(this.strMobile)) {
+      this.payPinModel.payee_first_name = this.strFullName.split(' ')[0];
+      this.payPinModel.payee_last_name = this.strFullName.split(' ')[1];
+      this.payPinModel.email_id = this.strEmail;
+      this.payPinModel.contact_number = this.strMobile; 
+      return true;
+    }
+    return false;
+  }
+
+  validateName(strName: string): boolean {
+
+    var nameArray = strName.split(' ');
+
+    if (nameArray.length <= 1 || nameArray[1].length < 1) {
+      this.validationError = 'Please enter full name';
+      return false;
+    }
+    return true;
+
+  }
+
+  validateEmail(strEmail: string): boolean {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(strEmail)) {
+      this.validationError = "Enter valid Email id";
+      return false;
+    }
+    return true;
+  }
+
+  validateMobile(strMobile: string): boolean {
+    if (strMobile && strMobile.length == 10) {
+      return true;
+    }
+
+    this.validationError = "Enter valid Mobile number";
+    return false;
+  }
+
+onTaxClck() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
   }
 
   closeModal() {
     this.modalActions.emit({ action: "modal", params: ['close'] });
+  }
+
+  onEnterText(strText: string) {
+    this.validationError = "";
+    this.isFormValid = this.validateForm();
   }
 
 }

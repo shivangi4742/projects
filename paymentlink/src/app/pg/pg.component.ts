@@ -13,29 +13,32 @@ export class PgComponent implements OnInit {
   udf: string = '';
   processPaymentURL: string;
   pg: PG;
+  prods: string;
+
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    this.prods = this.route.snapshot.params['prods'];
     this.pg = this.sdkService.getPG();
-    if(this.pg && this.pg.amount > 0) {
+    if (this.pg && this.pg.amount > 0) {
       this.processPaymentURL = this.utilsService.getProcessPaymentURL();
       let me: any = this;
-      setTimeout(function () { 
+      setTimeout(function () {
         me.submitMe();
       }, 100);
     }
     else
-      this.router.navigateByUrl('/notfound');      
+      this.router.navigateByUrl('/notfound');
   }
 
   submitMe() {
     let pgForm: any = <HTMLFormElement>document.getElementById('paymentForm');
-    if(pgForm)
+    if (pgForm)
       pgForm.submit();
     else {
       let me: any = this;
-      setTimeout(function () { 
+      setTimeout(function () {
         me.submitMe();
       }, 100);
     }
