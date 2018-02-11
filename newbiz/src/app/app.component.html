@@ -15,7 +15,7 @@
     <div class="row noMarginRowBN">
    
       <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
-           <div class="row nilPadsBN" *ngIf="!user.registerd">
+           <div class="row nilPadsBN" *ngIf="!user.registerd && onProfile()">
             <div class="col s12 m12 l12 center">
                 <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
                     <div class="row">
@@ -25,9 +25,9 @@
                         </div>            
                         <div class="col s12 m4 l6">
                             <button class="hide-on-med-and-up btn waves-effect waves-light red  lowHButtonBN btnSmallPaddingBN" 
-                                [routerLink]="'/profile'" >{{'Add Business Details' | translate}}</button>            
+                                [routerLink]="'/registrationprocess'" >{{'Add Business Details' | translate}}</button>            
                             <button class="hide-on-small-only btn waves-effect waves-light red  lowHButtonBN" 
-                                [routerLink]="'/profile'" >{{'Add Business Details' | translate}}</button>            
+                                [routerLink]="'/registrationprocess'" >{{'Add Business Details' | translate}}</button>            
                         </div>            
                     </div>
                 </div>

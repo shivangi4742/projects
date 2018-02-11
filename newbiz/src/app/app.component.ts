@@ -68,5 +68,11 @@ export class AppComponent {
     else
       window.location.href = this.utilsService.getLoginPageURL();
   }
+  onProfile() { 
+    if(window.location.href.indexOf('/dashboard') > 0 )
+       return true;
+  
+    return false;
+  }
   
 }
