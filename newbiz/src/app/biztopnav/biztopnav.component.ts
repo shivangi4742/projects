@@ -35,7 +35,7 @@ export class BiztopnavComponent implements OnInit {
     this.isHB = this.utilsService.isHB(this.user.merchantCode, this.user.lob);
     this.isNGO = this.utilsService.isNGO(this.user.mccCode);
     this.isUnregistered = this.utilsService.getUnregistered();
-    console.log(this.isUnregistered, this.user, 'helleo');
+    //console.log(this.isUnregistered, this.user, 'helleo');
   }
 
   langChanged(e: any) {
@@ -57,7 +57,7 @@ export class BiztopnavComponent implements OnInit {
     window.location.href = this.utilsService.getChangePasswordPageURL();    
   }
    onregisterteds():boolean {
-    console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
+   // console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
     if(this.isUnregistered == true ) {
       if(this.user.registerd == false && this.user.kycverified == false) {
         return true;
@@ -70,8 +70,7 @@ export class BiztopnavComponent implements OnInit {
   }
 
   onregisterte():boolean {
-    console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
-
+  //  console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
     if(this.isUnregistered == false && this.user.kycverified == false && this.user.registerd == false && this.isHB )
       return true;
 
