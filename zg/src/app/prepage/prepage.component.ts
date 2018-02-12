@@ -66,7 +66,10 @@ export class PrepageComponent implements OnInit {
   strFullName: string;
   strEmail: string;
   strMobile: string;
-  validationError: string;
+  genericError: string;
+  strInvalidName: string;
+  strInvalidEmail: string;
+  strInvalidMobile: string;
   isFormValid: boolean;
 
   constructor(private route: ActivatedRoute,
@@ -75,7 +78,10 @@ export class PrepageComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    this.validationError = '';
+    this.strInvalidName = '';
+    this.strInvalidEmail = '';
+    this.strInvalidMobile = '';
+    this.genericError = '';
     this.isFormValid = false;
 
     if (this.id && this.id.length > 0) {
@@ -188,6 +194,9 @@ export class PrepageComponent implements OnInit {
         this.zgService.updateAmount(payLinkID, this.totalAmount.toString())
           .then(res => this.navigateToPayment(res, paymentURL));
 
+      }
+      else {
+        this.genericError = 'Something went wrong. Please try again after some time'; 
       }
     }
 
@@ -312,12 +321,21 @@ export class PrepageComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    if (this.validateName(this.strFullName) && this.validateEmail(this.strEmail) && this.validateMobile(this.strMobile)) {
+    var me = this;
+    if (this.validateName(this.strFullName)) {
       this.payPinModel.payee_first_name = this.strFullName.split(' ')[0];
       this.payPinModel.payee_last_name = this.strFullName.split(' ')[1];
-      this.payPinModel.email_id = this.strEmail;
-      this.payPinModel.contact_number = this.strMobile;
-      return true;
+
+      if (me.validateEmail(this.strEmail)) {
+        this.payPinModel.email_id = this.strEmail;
+
+        if (this.validateMobile(this.strMobile)) {
+          this.payPinModel.contact_number = this.strMobile;
+          return true;
+        }
+
+      }
+
     }
     return false;
   }
@@ -327,7 +345,7 @@ export class PrepageComponent implements OnInit {
     var nameArray = strName.split(' ');
 
     if (nameArray.length <= 1 || nameArray[1].length < 1) {
-      this.validationError = 'Please enter full name';
+      this.strInvalidName = 'Please enter full name';
       return false;
     }
     return true;
@@ -337,7 +355,7 @@ export class PrepageComponent implements OnInit {
   validateEmail(strEmail: string): boolean {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(strEmail)) {
-      this.validationError = "Enter valid Email id";
+      this.strInvalidEmail = "Enter valid Email id";
       return false;
     }
     return true;
@@ -348,7 +366,7 @@ export class PrepageComponent implements OnInit {
       return true;
     }
 
-    this.validationError = "Enter valid Mobile number";
+    this.strInvalidMobile = "Enter valid number";
     return false;
   }
 
@@ -360,9 +378,24 @@ export class PrepageComponent implements OnInit {
     this.modalActions.emit({ action: "modal", params: ['close'] });
   }
 
-  onEnterText(strText: string) {
-    this.validationError = "";
-    this.isFormValid = this.validateForm();
+  // onEnterText(strText: string) {
+  //   // this.validationError = "";
+  //   this.isFormValid = this.validateForm();
+  // }
+
+  onEnterName(strName: string) {
+    this.strInvalidName = "";
+    this.isFormValid = this.validateName(strName);
+  }
+
+  onEnterEmail(strEmail: string) {
+    this.strInvalidEmail = "";
+    this.isFormValid = this.validateEmail(strEmail);
+  }
+
+  onEnterMobile(strMobile: string) {
+    this.strInvalidMobile = "";
+    this.isFormValid = this.validateMobile(strMobile);
   }
 
 }

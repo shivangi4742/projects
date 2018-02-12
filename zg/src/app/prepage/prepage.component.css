@@ -11,6 +11,11 @@
     color: red;
 }
 
+.error-text-normal {
+    color: red;
+    margin-top: -10px;
+}
+
 .title {
     font-size: 14px;
     color: rgba(0,0,0,0.87);
