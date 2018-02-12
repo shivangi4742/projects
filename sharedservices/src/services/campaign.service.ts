@@ -516,11 +516,8 @@ export class CampaignService {
     }
 
     merchantpaymentlinkpost(res: any) {
-        console.log('Res', res);
         let me = this;
         let pt = res.merchantPPVoList;
-        console.log('PT',pt);
-        console.log('PT[0]', pt[0]);
         if (res.responseFromAPI == false) {
             return res.responseFromAPI;
         }
@@ -546,7 +543,7 @@ export class CampaignService {
                     let dtf: string[] = dta[0].split('-');
                     this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
                 }
-                 let pp:boolean = false;
+                 let pp:boolean = true;
 
                 if (pt[i].expiryDate) {
                     var crdate = pt[i].expiryDate
@@ -554,12 +551,11 @@ export class CampaignService {
                     let dtf: string[] = dta1[0].split('-');
                     this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];
 
-                     console.log('hello2');
+                    // console.log('hello2', this.utilsService.getCurDateString());
                         let dta2: string[] = this.tomdd1.split(' ');
-                      console.log('hello3',dta1);
-                     
-                        if (dta2[0] > this.utilsService.getCurDateString()) {
-                            pp = true;
+                      
+                        if (dta2[0] < this.utilsService.getCurDateString()) {
+                            pp = false;
                         }
                         me._PaymentLinks.push(new PaymentLinks(p,this.dd2, dd1,
                                 this.fromdd , this.tomdd1, dd, pt.fileurl, pp));
@@ -573,7 +569,6 @@ export class CampaignService {
                 
             }
 
-            //return me._PaymentLinks;
         }
          return me._PaymentLinks; 
 
