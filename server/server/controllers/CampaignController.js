@@ -288,7 +288,7 @@ var campCont = {
     deleteCampaignProductsPost: function(delProducts, counter, data, hdrs, cb) {
         if(delProducts && delProducts.length > counter) {
             var me = this;
-            helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', hdrs),
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/deleteCampaignProduct', 'POST', hdrs),
             {	
                 "id": delProducts[counter]
             }, function(data2) {
@@ -359,7 +359,7 @@ var campCont = {
                     }
 
                     var me = this;                    
-                    helper.postAndCallback(helper.getExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', hdrs),
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', hdrs),
                         {	
                             "id": d.id,
                             "merchantCode": d.merchantCode,
@@ -580,7 +580,7 @@ var campCont = {
 
         try {
             if (fullUrl)
-                helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/getParametersForDescription', 'POST', hdrs),
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getParametersForDescription', 'POST', hdrs),
                     {
                         "desc1": fullUrl,
                         "paramType": "alias"

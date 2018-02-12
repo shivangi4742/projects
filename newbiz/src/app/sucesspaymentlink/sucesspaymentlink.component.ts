@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+
+import { MaterializeAction } from 'angular2-materialize';
+
+import { SDK, CampaignService, UserService, User, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'app-sucesspaymentlink',
@@ -14,12 +18,111 @@ export class SucesspaymentlinkComponent implements OnInit {
   txnId: string;
   url: string;
   isCopied1: boolean = false;
+  user: User;
+  sending: boolean = false;
+  emailsend: boolean = false;
+  email: string;
+  mobileNumber: string;
+  cc: string;
+  text: string;
+  subject: string;
+  mtype: number = 1;
+  whatsAppLink: string;
+  emailSuccess: boolean = false;
+  smsSuccess: boolean = false;
+  modalActions: any = new EventEmitter<string|MaterializeAction>();
+  modalActions1: any = new EventEmitter<string|MaterializeAction>();
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
+              private campaignService: CampaignService) { }
 
   ngOnInit() {
     this.txnId = this.route.snapshot.params['id'];
     this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
+
+    this.userService.getUser()
+      .then(res => this.init(res));
+  }
+
+  init(res){
+    this.user = res;
+
+    if(this.utilsService.isNGO(this.user.mccCode)){
+      this.mtype = 2;
+    }
+
+    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)){
+      this.mtype = 3;
+    }
+
+    this.whatsAppLink = 'whatsapp://send?text='+this.url;
+  }
+
+  sent(res: any) {
+    this.sending = false;
+    if (res === true)
+      this.smsSuccess = true;
+    else {
+      if (this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share Payment Link');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    }
+  }
+
+  sms() {
+    this.smsSuccess = false;
+    this.modalActions.emit({ action: "modal", params: ['open'] });
+  }
+
+  smssave(){
+    this.sending = true;
+    this.utilsService.setStatus(false, false, '');
+
+    this.campaignService.smsCampaignLink(this.url, this.mtype, this.user.displayName, 'Payment Link', this.mobileNumber)
+      .then(res => this.sent(res));
+  }
+
+  cancel() {
+    this.modalActions.emit({ action: "modal", params: ['close'] });
+  }
+
+  cancel1(){
+    this.modalActions1.emit({ action: "modal", params: ['close'] });
+  }
+  emailm() {
+    this.emailSuccess = false;
+    this.modalActions1.emit({ action: "modal", params: ['open'] });
+  }
+
+  emaiil() {
+    let slt: string = 'Customer';
+    let pslt: string = 'pay';
+    if (this.mtype == 2) {
+      slt = 'Donor';
+      pslt = 'contribute';
+    }
+
+    this.emailsend = true;
+    this.text = "Dear " + slt + ", To " + pslt + ' to ' + this.user.displayName + ", please click on " + this.url;
+    this.cc = "";
+
+    this.subject = 'Pay to '+this.user.displayName;
+    this.utilsService.setStatus(false, false, '');
+    this.campaignService.sendEmail(this.email, this.text, this.subject, this.cc)
+      .then(res => this.emailsent(res));
+  }
+
+  emailsent(res: any) {
+    this.emailsend = false;
+    if (res === true)
+      this.emailSuccess = true;
+    else {
+      if (this.utilsService.getUnregistered())
+        this.utilsService.setStatus(true, false, 'Complete your registration to save and share Payment Link');
+      else
+        this.utilsService.setStatus(true, false, this.utilsService.returnGenericError().errMsg);
+    }
   }
 
 }

@@ -659,6 +659,43 @@ var userCont = {
             cb('');
         }
     },
+     setConvenienceFee: function (req, res) {
+        var me = this;
+        this.setConvenienceFeePost(req,  function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            console.log(data);
+            res.json({ "data": data});
+        });
+    },
+      setConvenienceFeePost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "error": true,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body )
+                cb(retErr);
+            else {
+               
+                var d = req.body;
+                if (d && d.id && d.chargeConvenienceFee != null && d.chargeConvenienceFee != undefined) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/setConvenienceFeeFlag', 'POST', req.headers),
+                        {
+                            "chargeConvenienceFee": d.chargeConvenienceFee,
+                            "id": d.id
+                        },
+                        cb);
+                  }
+                else {
+                    cb(retErr);}
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 
 }
 

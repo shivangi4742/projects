@@ -46,12 +46,85 @@
       </div>
       <div class="row">
         <div class="col s12 center">
-          <img src="../../assets/shared/images/sms.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/mail.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/whatsapp2.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/messenger.png" class="linkButtonBN alignMidBN">
+          <img src="../../assets/shared/images/sms.png" (click)="sms()" class="linkButtonBN alignMidBN imgRightMarginBN">
+          <img src="../../assets/shared/images/mail.png" (click)="emailm()" class="linkButtonBN alignMidBN imgRightMarginBN">
+          <!--<img src="../../assets/shared/images/whatsapp2.png" class="linkButtonBN alignMidBN imgRightMarginBN">
+          <img src="../../assets/shared/images/messenger.png" class="linkButtonBN alignMidBN">-->
         </div>
       </div>
+    </div>
+    <div materialize="modal" id="prodModal2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="modalActions">
+      <div class="modal-content">
+        <form (ngSubmit)=" smssave()" #smsForm="ngForm" *ngIf="url">
+          <div class="row">
+            <div class="col s12 center regNrmS2B2BN">
+              Get this link on SMS
+            </div>
+          </div>
+          <div class="row"></div>
+          <div class="row"></div>
+          <div class="row">
+
+            <div class="col m1 l1 hide-on-small-only"></div>
+            <div class="col s12 m10 l10 center">
+
+              <input id="mobileNumber" name="mobileNumber" maxlength="10" type="tel" pattern="[7-9]{1}[0-9]{9}" title="please enter a valid Mobile No."
+                     class="validate regNrmS4BN" required [(ngModel)]="mobileNumber" placeholder="{{'Mobile Number' | translate}}*">
+
+            </div>
+
+            <div class="col m1 l1 hide-on-small-only"></div>
+          </div>
+          <div *ngIf="smsSuccess" class="col s12 center notifyBN">
+            {{'SMS Sent Successfully!' | translate}}
+          </div>
+          <div class="row">
+            <div class="col s5 center">
+              <a class="btn waves-effect waves-light red regNrmS1BN buttonBN" (click)="cancel()" name="cancel">{{'Cancel' | translate}}</a>
+            </div>
+            <div class="col s7 center">
+              <button class="btn waves-effect waves-light red regNrmS1BN buttonBN" type="submit" name="saveurl" [disabled]="!smsForm.form.valid || sending">{{'SMS Payment Link' | translate}}
+              </button> </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <div materialize="modal" id="prodModal1" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="modalActions1">
+      <div class="modal-content">
+        <form (ngSubmit)="emaiil()" #emailForm="ngForm" *ngIf="url">
+          <div class="row">
+            <div class="col s12 center regNrmS2B2BN">
+              Get this link on Email
+            </div>
+          </div>
+          <div class="row"></div>
+          <div class="row"></div>
+          <div class="row">
+
+            <div class="col m1 l1 hide-on-small-only"></div>
+            <div class="col s12 l10 m10 center">
+              <input id="email" name="email" type="email" placeholder="{{'Email' | translate}}*" title="please enter a valid Mobile No."
+                     class="validate regNrmS4BN" required [(ngModel)]="email">
+
+            </div>
+
+            <div class="col m1 l1 hide-on-small-only"></div>
+          </div>
+          <div *ngIf="emailSuccess" class="col s12 center notifyBN">
+            {{'Email Sent Successfully!' | translate}}
+          </div>
+          <div class="row">
+            <div class="col s5 center">
+              <a class="btn waves-effect waves-light red regNrmS1BN buttonBN" (click)="cancel1()" name="cancel">{{'Cancel' | translate}}</a>
+            </div>
+            <div class="col s7 center">
+              <button class="btn waves-effect waves-light red regNrmS1BN buttonBN" type="submit" name="saveurl" [disabled]="!emailForm.form.valid || sending">{{'Email Payment Link' | translate}}
+              </button> </div>
+          </div>
+        </form>
+      </div>
+
     </div>
     <!-- Mobile View Below -->
     <div class="noBorderMainBN col s12 hide-on-med-and-up noLeftPaddingBN">
@@ -76,10 +149,16 @@
           </div>
         </div>
         <div class="col s4 smallFontBN">
-          <i class="material-icons alignMidBN">content_copy</i>
-          <span class="alignMidBN" style="margin-right: 10px;">{{'COPY' | translate}}</span>
+          <a class="copyBN" [class.btn-success]= "isCopied1"
+             type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN">content_copy</i>
+            <span class="alignMidBN" style="margin-right: 10px;">{{'COPY' | translate}}</span>
+          </a>
         </div>
         <a class="alignMidBN linkButtonBN previewMobBN" [href]="url" target="_blank">{{'PREVIEW' | translate}}</a>
+      </div>
+      <div *ngIf="isCopied1" class="col s12 center notifyBN">
+        {{'Link is Copied!' | translate}}
       </div>
       <div class="row">
         <div class="col s12 center smallFontBN">
@@ -88,10 +167,13 @@
       </div>
       <div class="row">
         <div class="col s12 center">
-          <img src="../../assets/shared/images/sms.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/mail.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/whatsapp2.png" class="linkButtonBN alignMidBN imgRightMarginBN">
-          <img src="../../assets/shared/images/messenger.png" class="linkButtonBN alignMidBN">
+          <img src="../../assets/shared/images/sms.png" (click)="sms()" class="linkButtonBN alignMidBN imgRightMarginBN">
+          <img src="../../assets/shared/images/mail.png" (click)="emailm()" class="linkButtonBN alignMidBN imgRightMarginBN">
+          <a class="linkButtonBN"
+             [href]="whatsAppLink" data-text="" data-href="" title="Whatsapp Share Button" class="wa_btn wa_btn_m">
+
+            <img src="../../assets/shared/images/whatsapp2.png" class="linkButtonBN alignMidBN imgRightMarginBN">
+          </a>
         </div>
       </div>
     </div>

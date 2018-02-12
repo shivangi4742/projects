@@ -7,6 +7,7 @@ import { PaymentlistComponent } from "./paymentlist/paymentlist.component";
 import { SucesspaymentlinkComponent } from "./sucesspaymentlink/sucesspaymentlink.component";
 import { TransactionhistoryComponent } from "./transactionhistory/transactionhistory.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { RegisterComponent } from "./register/register.component";
 
 const routes: Routes = [
     { path: 'transactionhistory', component: TransactionhistoryComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
     { path: 'paymentlist', component: PaymentlistComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'settings', component: SettingsComponent },
+    { path: 'registrationprocess', component: RegisterComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

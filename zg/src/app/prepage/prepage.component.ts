@@ -370,7 +370,7 @@ export class PrepageComponent implements OnInit {
     return false;
   }
 
-  onTaxClck() {
+onTaxClck() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
   }
 

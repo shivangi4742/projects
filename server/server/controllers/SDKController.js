@@ -811,7 +811,8 @@ var sdkCont = {
             else {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
                     {
-                        "merchantCode": req.body.merchantCode
+                       "merchantCode": req.body.merchantCode,
+                       "pageNumber": req.body.pageNumber
                     },
                     cb);
             }

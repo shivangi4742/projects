@@ -1,12 +1,13 @@
 <div materialize>
   <div class="row"></div>
-  <div class="row">
-    <div class="col s12 noLeftPaddingBN">
-      <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="dashboard">
-        <i class="material-icons alignMidBN">arrow_back</i>
-        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
-      </a>
-    </div>
+  <div class="col s12 noLeftPaddingBN">
+    <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="dashboard">
+      <i class="material-icons alignMidBN">arrow_back</i>
+      <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+    </a>
+  </div>
+  <!-- Desktop View -->
+  <div class="row hide-on-small-only">
     <div class="row"></div>
     <div class="row">
       <div class="col s7 searchBorderBN">
@@ -21,7 +22,99 @@
     </div>
     <div class="row"></div>
     <div class="row">
-
+      <div class="col s6">
+        <select materialize="material_select">
+          <option value="all" selected>All Payments</option>
+        </select>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li *ngFor="let p of payments">
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
+                  <span (click)="changeIcon(p.id)">
+                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
+            <div class="col s5">
+              {{p.dateAndTime}}
+            </div>
+            <div class="col s4">
+              {{p.vPA}}
+            </div>
+            <div class="col s3">
+              <span class="right">{{p.amount}}</span>
+            </div>
+          </div>
+          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
+            <div class="row">
+              <div class="col s5 center">Payment id: {{p.id}}</div>
+              <div class="col s4 center">Payer Details: {{p.email}} - {{p.phone}}</div>
+              <div class="col s3 center">Mode: {{p.mode}}</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- Mobile View -->
+  <div class="row hide-on-med-and-up">
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s12 searchBorderBN">
+        <i class="col s2 material-icons searchIconBN">search</i>
+        <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
+               type="text" [(ngModel)]="searchText">
+      </div>
+      <!--<div class="col s5 exportBN">
+        <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
+        <i class="material-icons alignMidBN exportIconBN">file_download</i>
+      </div>-->
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s6">
+        <select materialize="material_select">
+          <option value="all" selected>All Payments</option>
+        </select>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li *ngFor="let p of payments">
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
+                  <span (click)="changeIcon(p.id)">
+                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
+            <div class="col s6 truncate">
+              {{p.dateAndTime}}
+            </div>
+            <div class="col s6 truncate">
+              {{p.vPA}}<br>
+              ₹{{p.amount}}
+            </div>
+            <!--<div class="col s3">
+              <span class="right">{{p.amount}}</span>
+            </div>-->
+          </div>
+          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
+            <div class="row">
+              <div class="col s8 truncate"><b>Payment id:</b> <br>{{p.id}}</div>
+              <div class="col s4 truncate"><b>Mode:</b> <br>{{p.mode}}</div>
+              <div class="col s12 truncate" style="margin-top: 10px;"><b>Payer Details:</b> <br>{{p.email}} <br>{{p.phone}}</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col s12 center">
+          <i class="material-icons alignMidBN exportIconBN">file_download</i>
+          <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
+      </div>
     </div>
   </div>
 </div>

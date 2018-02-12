@@ -11,18 +11,21 @@ import { CampaignSummary } from './../models/campaignsummary.model';
 import { Customer } from "../models/customer.model";
 import { PrintPayment } from "../models/printpayment.model";
 import { Merchant } from "../models/merchant.model";
-import { PaymentLinks} from "../models/paymentlinks.model"
+import { PaymentLinks } from "../models/paymentlinks.model"
 
 import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CampaignService {
     tomdd1: string;
-    fromdd:string;
+    fromdd: string;
+    dd2:string;
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
-    private _PaymentLinks:PaymentLinks[];
+    private _PaymentLinks: PaymentLinks[];
+    //activepl: PaymentLinks[];
+    //inactive: PaymentLinks[];
     private _urls: any = {
         getCampaignsURL: 'campaign/getCampaigns',
         getCampaignSummaryURL: 'campaign/getCampaignsSummary',
@@ -498,11 +501,12 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
-    merchantpaymentlink(merchantCode: string): Promise<any> {
+    merchantpaymentlink(merchantCode: string, page: number): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.getCampaignlinkURL,
             JSON.stringify({
-                "merchantCode": merchantCode
+                "merchantCode": merchantCode,
+                "pageNumber": page
             }),
             { headers: this.utilsService.getHeaders() }
         )
@@ -512,38 +516,68 @@ export class CampaignService {
     }
 
     merchantpaymentlinkpost(res: any) {
-        let me = this;  
-        let pt= res.merchantPPVoList;
-        if(res.responseFromAPI == false){
+        console.log('Res', res);
+        let me = this;
+        let pt = res.merchantPPVoList;
+        console.log('PT',pt);
+        console.log('PT[0]', pt[0]);
+        if (res.responseFromAPI == false) {
             return res.responseFromAPI;
         }
         else if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
-            for (let i:number = 0; i < pt.length; i++ ) {   
-                if((pt[i].description)){
-                      var p= (pt[i].description).substring(0,30);
-                }     
-                if((pt[i].creationDate)){
+            for (let i: number = 0; i < pt.length; i++) {
+                
+                if(pt[i].amount){
+                   var dd = pt[i].amount;
+                }
+                if(pt[i].url){
+                   this.dd2 = pt[i].url;
+                }
+                if(pt[i].id){
+                   var dd1 = pt[i].id;
+                }
+                if ((pt[i].description)) {
+                    var p = (pt[i].description).substring(0, 30);
+                }
+                if (pt[i].creationDate) {
                     var crdate = pt[i].creationDate
-                    let dta: string[] = crdate.split(' ');       
-                    let dtf :string[]= dta[0].split('-');
+                    let dta: string[] = crdate.split(' ');
+                    let dtf: string[] = dta[0].split('-');
                     this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
                 }
-               
-                 if((pt[i].expiryDate)){
+                 let pp:boolean = false;
+
+                if (pt[i].expiryDate) {
                     var crdate = pt[i].expiryDate
-                    let dta1: string[] = crdate.split(' ');       
-                    let dtf :string[]= dta1[0].split('-');
-                    this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];        
+                    let dta1: string[] = crdate.split(' ');
+                    let dtf: string[] = dta1[0].split('-');
+                    this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];
+
+                     console.log('hello2');
+                        let dta2: string[] = this.tomdd1.split(' ');
+                      console.log('hello3',dta1);
+                     
+                        if (dta2[0] > this.utilsService.getCurDateString()) {
+                            pp = true;
+                        }
+                        me._PaymentLinks.push(new PaymentLinks(p,this.dd2, dd1,
+                                this.fromdd , this.tomdd1, dd, pt.fileurl, pp));
+                            //console.log(me._PaymentLinks, 'hello');
                 }
-                me._PaymentLinks.push(new PaymentLinks(p,pt[i].url, this.fromdd, this.tomdd1,
-                   pt[i].amount, pt[i].fileURL ));
+                else {
+                    me._PaymentLinks.push(new PaymentLinks(p, this.dd2, dd1,
+                                this.fromdd , this.tomdd1, dd, pt.fileurl, pp));
+                            //console.log(me._PaymentLinks, 'hello');
+                }                    
+                
             }
+
+            //return me._PaymentLinks;
         }
-        
-        return me._PaymentLinks;
+         return me._PaymentLinks; 
+
     }
-
-
-
 }
+
+ 

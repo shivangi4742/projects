@@ -17,4 +17,6 @@ userRouter.post('/getMerchantDetailsForVerification', userController.getMerchant
 userRouter.post('/markSelfMerchantVerified', userController.markSelfMerchantVerified.bind(userController));
 userRouter.post('/registerSelfMerchant', userController.registerSelfMerchant.bind(userController));
 userRouter.post('/fetchMerchantForEditDetails', userController.fetchMerchantForEditDetails.bind(userController));
+userRouter.post('/setConvenienceFee',userController.setConvenienceFee.bind(userController));
+
 module.exports = userRouter;

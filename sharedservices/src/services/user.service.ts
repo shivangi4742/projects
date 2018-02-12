@@ -26,6 +26,7 @@ export class UserService {
   private _customerList: CustomerList;
   private _merchantmodel: Merchant;
   private _isNGO: boolean = false;
+  private _merchant: any;
   private _urls: any = {
     signIn: 'user/signIn',
     allocateTill: 'merchant/tillAllocate',
@@ -36,7 +37,10 @@ export class UserService {
     markSelfMerchantVerified: 'user/markSelfMerchantVerified',
     registerSelfMerchant: 'user/registerSelfMerchant',
     checkMerchant: 'user/check',
-    fetchmerchantdetail: 'user/fetchmerchantdetail'
+    fetchmerchantdetail: 'user/fetchmerchantdetail',
+    getSetConvenienceFeeURL:'user/setConvenienceFee',
+    getMerchantDetails:'user/getMerchantDetails'
+
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -160,7 +164,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
   }
 
   private changedPassword(res: any): any {
@@ -237,8 +241,10 @@ export class UserService {
     this._user.id = null;
     if (res && res.success !== false) {
       if (res.jwtToken) {
+         this._user.registerd = true;
         this._user.lob = res.business_lob;
         this.fillUserFromToken(res.jwtToken);
+
         if (res.employee_role) {
           this._user.tilLogin = email;
           this._user.hasTils = true;
@@ -255,6 +261,14 @@ export class UserService {
         }
       }
       else if (res.merchant) {
+        if(res.merchant.registrationState=='VERIFIED'){
+          this._user.registerd = true;
+        }
+         if(res.merchant.registrationState==null){
+          this._user.registerd = false;
+        }
+        this._user.kycverified = res.merchant.kycVerified;
+        this._user.lessTwentyLakh = res.merchant.lessTwentyLakh;
         this._user.lob = res.merchant.businessLob ? res.merchant.businessLob : 'HB';
         this._user.id = res.merchant.id ? res.merchant.id.toString() : '';
         this._user.displayName = res.merchant.displayName;
@@ -334,7 +348,7 @@ export class UserService {
   }
 
   private isTokenValid(tkn: any): Promise<User> {
-    this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
     if (tkn) {
       if (tkn.token)
         this.fillUserFromStoredToken(tkn);
@@ -346,7 +360,7 @@ export class UserService {
   }
 
   private newUser(): Promise<User> {
-    this._user = new User(false, false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null);
+    this._user = new User(false, false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
     return Promise.resolve(this._user);
   }
 
@@ -460,19 +474,30 @@ export class UserService {
       .catch(res => false);
   }
   fillMerchantProfile(res: any): Businesspro | null {
-    
-    //this._businesspro=new Businesspro(null,null, null, null, null,null, null, nullnull,null, null, nullnull,null, null, null)
-    if (res.merchantUser) {
+     console.log(res.merchantUser,'1');
+     if(res.merchantUser.registrationState== 'VERIFIED'){
+        this._user.registerd = true;
+     }
+     if(res.merchantUser.registrationState== null){
+        this._user.registerd = false;
+     }
+     if (res.merchantUser) {
       let pt = res.merchantUser;
       this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
          pt.address, pt.numberOfOutlets,pt.contactPersonDesignation, pt.city, pt.contactEmailId,pt.locality,pt.businessTypeCode,pt.pinCode,pt.gstNumber);
     }
-    console.log(this._businesspro);
     return this._businesspro;
   }
 
   fillAccountProfile(res: any): Accountpro|null {
-   
+   console.log(res.merchantUser,'3');
+     if(res.merchantUser.registrationState == 'VERIFIED'){
+        this._user.registerd = true;
+     }
+     if(res.merchantUser.registrationState== null){
+        this._user.registerd = false;
+     }
+     console.log(this._user.registerd,'4');
     if (res.merchantUser) {
       let pt1 = res.merchantUser;
       this._accountpro = new Accountpro( pt1.panNumber,pt1.accountHolderName, pt1.accountRefNumber
@@ -487,9 +512,7 @@ export class UserService {
       return this.http
         .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
         JSON.stringify({
-
           "mobileNumber": mobileNumber
-
         }),
         { headers: this.utilsService.getHeaders() })
 
@@ -502,7 +525,6 @@ export class UserService {
         .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
         JSON.stringify({
           "mobileNumber": mobileNumber
-
         }),
         { headers: this.utilsService.getHeaders() })
 
@@ -537,6 +559,36 @@ export class UserService {
       this._merchantmodel = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum);
     }
     return me._merchantmodel;
+  }
+
+ setConvenienceFee(id: string, flag: boolean): Promise<boolean> {
+        return this.http
+            .post(this.utilsService.getBaseURL() +this._urls.getSetConvenienceFeeURL,
+            JSON.stringify({
+                
+                    "id": id,
+                    "chargeConvenienceFee": flag
+               
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => null);
+    }
+    
+  getMerchantDetails(merchantCode: string): Promise<any> {
+    if(this._merchant)
+      return Promise.resolve(this._merchant);
+    else
+      return this.http
+        .post(this.utilsService.getBaseURL() +this._urls.getMerchantDetails,
+        JSON.stringify({
+          "merchantCode": merchantCode
+        }),
+        { headers: this.utilsService.getHeaders() })
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.handleError(res.json()));
   }
 
 

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
 import { TranslateService } from 'ng2-translate';
-import { Subscription } from 'rxjs/Subscription';
+import { User, UserService, UtilsService, Payment} from 'benowservices';
 
-import { User, UserService, UtilsService, Transaction, SocketService } from 'benowservices';
+import { SocketService } from './../socket.service';
 
 @Component({
   selector: 'biztopnav',
@@ -12,23 +12,29 @@ import { User, UserService, UtilsService, Transaction, SocketService } from 'ben
   styleUrls: ['./biztopnav.component.css']
 })
 export class BiztopnavComponent implements OnInit {
-  subscription: Subscription;
-  newPayments: Array<Transaction> = new Array<Transaction>();
+  //subscription: Subscription;
+  newPayments: Array<Payment> = new Array<Payment>();
+  name: string;
+  tmLoad: string;
+  notifications: Notification[];
+  isHB: boolean = false;
+  isNGO: boolean = false;
+  kycverified:boolean = false;
+  isUnregistered:boolean = false;
   @Input('language') language: number;
   @Input('user') user: User;
 
-  constructor(private userService: UserService, private utilsService: UtilsService, private translate: TranslateService, 
-    private socketService: SocketService) { 
-    let me:any  = this;
-    this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));
-  }
+  constructor(private userService: UserService, private utilsService: UtilsService, private translate: TranslateService,
+    private socketService: SocketService) { }
 
   ngOnInit() {
-    this.socketService.joinMerchantRoom(this.user.merchantCode ? this.user.merchantCode : '', this.user.tilNumber);
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.newPayments = this.socketService.getNewPayments();
+    this.language = this.user.language;
+    this.name = this.user.displayName;
+    this.isHB = this.utilsService.isHB(this.user.merchantCode, this.user.lob);
+    this.isNGO = this.utilsService.isNGO(this.user.mccCode);
+    this.isUnregistered = this.utilsService.getUnregistered();
+    //console.log(this.isUnregistered, this.user, 'helleo');
   }
 
   fadeInNewPayments() {
@@ -43,12 +49,12 @@ export class BiztopnavComponent implements OnInit {
           el.style.opacity = val;
           requestAnimationFrame(fade);
         }
-      })();  
+      })();
     }
 
     this.utilsService.playAudio();
-  }    
-    
+  }
+
   fadeOutNewPayments() {
     let el: any = document.getElementById('dummyIncomingMsgBN');
     if(el) {
@@ -76,27 +82,11 @@ export class BiztopnavComponent implements OnInit {
       this.fadeOutNewPayments();
   }
 
-  receivedPayment(res: any) {
-    if (res && res.data && res.out == true) {
-      let me: any = this;
-      this.newPayments.push(new Transaction(false, res.data.amount, null, null, res.data.id, res.data.tr, res.data.mode, res.data.vpa, res.data.till, 
-        null, res.data.dt, null, null, null));
-      if(this.newPayments.length <= 1) {
-        setTimeout(function() { me.fadeInNewPayments(); }, 500);
-        setTimeout(function() { me.removePayment(res.data.id); }, 3500);
-      }
-      else {
-        this.utilsService.playAudio();
-        setTimeout(function() { me.removePayment(res.data.id); }, 3000);            
-      }
-    }
-  }
-
   langChanged(e: any) {
     this.language = +e;
     this.userService.setUserLanguage(this.language);
     this.utilsService.setLanguageInStorage(this.language);
-    this.translate.use(this.utilsService.getLanguageCode(this.language));      
+    this.translate.use(this.utilsService.getLanguageCode(this.language));
   }
 
   signOut() {
@@ -108,6 +98,31 @@ export class BiztopnavComponent implements OnInit {
   changePassword() {
     this.utilsService.clearStorages();
     this.userService.resetUser();
-    window.location.href = this.utilsService.getChangePasswordPageURL();    
+    window.location.href = this.utilsService.getChangePasswordPageURL();
   }
+   onregisterteds():boolean {
+   // console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
+    if(this.isUnregistered == true ) {
+      if(this.user.registerd == false && this.user.kycverified == false) {
+        return true;
+      } else if(this.user.registerd == true && this.user.kycverified == false) {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
+  onregisterte():boolean {
+  //  console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
+    if(this.isUnregistered == false && this.user.kycverified == false && this.user.registerd == false && this.isHB )
+      return true;
+
+    if(this.isUnregistered == true && this.user.kycverified == false && this.user.registerd == true && this.isHB)
+      return true;
+
+    return false;
+  }
+
+
 }

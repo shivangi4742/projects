@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-
 import { TranslateService } from 'ng2-translate';
 import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   accountpro: Accountpro;
   formLoaded: boolean = false;
   businesspro: Businesspro;
-  chargeFee: boolean = false;
   user: User;
   conaccountnumber: string;
   gstno: string;
@@ -23,7 +20,6 @@ export class SettingsComponent implements OnInit {
   isNgoExpanded: boolean = false;
   isPaymentExpanded: boolean = false;
   isgstExpanded: boolean = false;
-  ispan1Expanded: boolean = false;
   gst: boolean = false;
   errgstvalidate: boolean = false;
   errorgst: string;
@@ -42,8 +38,6 @@ export class SettingsComponent implements OnInit {
   err: boolean = false;
   errmsg: string;
   editt: boolean = true;
-
-
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService) { }
 
@@ -77,17 +71,10 @@ export class SettingsComponent implements OnInit {
     this.userService.checkMerchant(this.user.mobileNumber, "b")
       .then(mres => this.businesspro = mres);
 
-    this.userService.getMerchantDetails(this.user.merchantCode)
-      .then(res => this.bind(res));
-
     this.formLoaded = true;
   }
 
-  bind(res: any) {
-    if (res && res.id) {
-      this.chargeFee = res.chargeConvenienceFee;
-    }
-  }
+ 
   initcheckacc(res:any){
      this.accountpro = res;
      if(this.accountpro.accountRefNumber) {
@@ -97,35 +84,6 @@ export class SettingsComponent implements OnInit {
   }
 
 
-  paymentdetail() {
-    window.scrollTo(0, 0);
-    this.isPaymentExpanded = !this.isPaymentExpanded;
-    document.getElementById('paybn').click();
-  }
-
-  paymentdetail1() {
-    this.isPaymentExpanded = !this.isPaymentExpanded;
-    this.isBusExpanded = false;
-    this.isAcctExpanded = false;
-    this.isPanExpanded = false;
-    this.ispan1Expanded = false;
-    this.isNgoExpanded = false;
-  }
-
-  personaldetail() {
-    window.scrollTo(0, 0);
-    this.ispan1Expanded = !this.ispan1Expanded;
-    document.getElementById('personalbn').click();
-  }
-
-  personaldetail1() {
-    this.ispan1Expanded = !this.ispan1Expanded;
-    this.isPaymentExpanded = false;
-    this.isBusExpanded = false;
-    this.isAcctExpanded = false;
-    this.isPanExpanded = false;
-    this.isNgoExpanded = false;
-  }
 
   accountdetail() {
     window.scrollTo(0, 0);
@@ -139,7 +97,6 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
-    this.ispan1Expanded = false;
   }
 
   bankdetails() {
@@ -154,7 +111,7 @@ export class SettingsComponent implements OnInit {
     this.isBusExpanded = false;
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
-    this.ispan1Expanded = false;
+
   }
   accountdetails() {
     window.scrollTo(0, 0);
@@ -168,7 +125,7 @@ export class SettingsComponent implements OnInit {
     this.isBusExpanded = false;
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
-    this.ispan1Expanded = false;
+    
   }
   bankdetail() {
     window.scrollTo(0, 0);
@@ -182,7 +139,7 @@ export class SettingsComponent implements OnInit {
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
-    this.ispan1Expanded = false;
+    
   }
   gstdetail() {
     window.scrollTo(0, 0);
@@ -197,7 +154,7 @@ export class SettingsComponent implements OnInit {
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
-    this.ispan1Expanded = false;
+   
   }
   allgstFields() {
     if (this.gst) {
@@ -225,16 +182,7 @@ export class SettingsComponent implements OnInit {
       this.accountpro.panNumber, this.accountpro.bankName,
       this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
   }
-  getSwitchText(flag: boolean) {
-    if (flag)
-      return 'On';
 
-    return 'Off';
-  }
-
-  setConvenience() {
-    this.userService.setConvenienceFee(this.user.id, this.chargeFee);
-  }
   validategst(res) {
     var res1 = res.toUpperCase();
     this.businesspro.gstno = res1;
@@ -308,9 +256,7 @@ export class SettingsComponent implements OnInit {
 
     }
   }
-  hasAllFields() {
-    return this.businesspro.contactPerson && this.user.email && this.user.mobileNumber;
-  }
+ 
   hasAllFields1() {
     return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
@@ -353,7 +299,4 @@ export class SettingsComponent implements OnInit {
   edit() {
     this.editt = false;
   }
-  
 }
-
-

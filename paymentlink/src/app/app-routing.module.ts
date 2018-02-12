@@ -30,7 +30,7 @@ const routes: Routes = [
     { path: 'donationsuccess/:id/:txnid', component: SuccessComponent },
     { path: 'donationfailure/:id/:txnid', component: FailureComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
-    { path: 'razorpay/:id/:txnid', component: RazorpayComponent },
+    { path: 'razorpay/:id', component: RazorpayComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
 ];
 

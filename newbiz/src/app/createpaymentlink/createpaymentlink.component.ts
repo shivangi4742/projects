@@ -113,6 +113,16 @@ export class CreatepaymentlinkComponent implements OnInit {
     this.arrowChange();
   }
 
+  dateClickedMob(){
+    let a: any = document.getElementById('expDtMob');
+    a.click();
+  }
+
+  dateClickedDesk(){
+    let a: any = document.getElementById('expDt');
+    a.click();
+  }
+
   checkAmount(){
     if(this.amount < 10){
       this.isAmountLess = true;
@@ -138,7 +148,9 @@ export class CreatepaymentlinkComponent implements OnInit {
 
   validateForm(): boolean {
     if(this.amount && this.purpose){
-      if(this.amount > 9)
+      if(this.amount < 10)
+        return false;
+      else
         return true;
     }
 
