@@ -32,7 +32,7 @@
       <img class="" src="../../assets/newbiz/imgs/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
     </a>
   </ul>
-  <div *ngIf="!paymentlink">
+  <div *ngIf="pay">
     <div class="row"></div>
     <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
       <div class="row">
@@ -88,13 +88,14 @@
     </div>
     <div class="row" *ngIf="active==0">
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li class="active" *ngFor="let p of activepl" >
-          <div class="collapsible-header active" >
+        <li class="active" *ngFor="let p of paymentlink" >
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
+             <span (click)="changeIcon(p.id)">
+                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
-                  <i class="material-icons alignMidBN">keyboard_arrow_right</i>
-                        <ng-template #right>
-                            <i  class="material-icons alignMidBN">keyboard_arrow_down</i>
-                        </ng-template>
+                  
                         <span class="alignMidBN">{{p.discription}}</span>
             <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
               <i class="material-icons right ">share</i>
