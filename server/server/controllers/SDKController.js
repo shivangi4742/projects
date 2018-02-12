@@ -809,10 +809,8 @@ var sdkCont = {
             if (!req.body || !req.body.merchantCode)
                 cb(retErr);
             else {
-                console.log(req.body.pageNumber);
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
                     {
-                       
                        "merchantCode": req.body.merchantCode,
                        "pageNumber": req.body.pageNumber
                     },
