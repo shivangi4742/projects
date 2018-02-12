@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { User, UserService, UtilsService, Notification, NotificationService, SocketService, Transaction } from 'benowservices';
+import { User, UserService, UtilsService, Notification, NotificationService, SocketService, Payment } from 'benowservices';
 
 @Component({
   selector: 'usertopnav',
@@ -40,7 +40,7 @@ export class UserTopNavComponent {
   catalogURL: string = '/catalog';
   homeLink: string = '/dashboard';
   campaignURL: string = '/newestall';
-  newPayments: Array<Transaction> = new Array<Transaction>();
+  newPayments: Array<Payment> = new Array<Payment>();
   notifModalActions: any = new EventEmitter<string|MaterializeAction>();
   tourModal1Actions: any = new EventEmitter<string|MaterializeAction>();
   tourModal2Actions: any = new EventEmitter<string|MaterializeAction>();
@@ -107,8 +107,8 @@ export class UserTopNavComponent {
   receivedPayment(res: any) {
     if (res && res.data && res.out == true) {
       let me: any = this;
-      this.newPayments.push(new Transaction(false, res.data.amount, null, null, res.data.id, res.data.tr, res.data.mode, res.data.vpa, res.data.till, 
-        null, res.data.dt, null, null, null));
+      this.newPayments.push(new Payment(false, res.data.amount, null, null, res.data.id, res.data.tr, res.data.mode, res.data.vpa, res.data.till,
+        null, res.data.dt, null, null, false, null, null, null, null));
       if(this.newPayments.length <= 1) {
         setTimeout(function() { me.fadeInNewPayments(); }, 500);
         setTimeout(function() { me.removePayment(res.data.id); }, 3500);

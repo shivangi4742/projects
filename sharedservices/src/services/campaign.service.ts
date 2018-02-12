@@ -444,6 +444,7 @@ export class CampaignService {
             return this.utilsService.returnGenericError();
 
         let me: any = this;
+        console.log('DataCerti', res.paymentLinkRef);
         let totalAmount: number = 0;
         let pmnt: PrintPayment = new PrintPayment(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, res.paymentLinkRef, null);;
@@ -480,6 +481,7 @@ export class CampaignService {
 
             }
         }
+        console.log('Pyaments: ', pmnt);
 
         return { "success": true, "printTxns": pmnt };
     }

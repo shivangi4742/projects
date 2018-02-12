@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { Product } from './../models/product.model';
-import { Transaction } from './../models/transaction.model';
+import { Transaction } from '../models/transaction.model';
+import { Payment } from "../models/payment.model";
 
 import { UtilsService } from './utils.service';
 
@@ -34,47 +35,50 @@ export class TransactionService {
         }
     }
 
-    private fillProdTransactions(res: any): Array<Transaction>|null {
-        if(res && res.length > 0) {
-            let txns = new Array<Transaction>();
-            for(let i: number = 0; i < res.length; i++) {
-                let txn = new Transaction(false, res[i].amountPaid, null, null, res[i].payHistHdrTxnRefNo, res[i].tr, null, res[i].displayName,
-                    res[i].till, res[i].merchantVPA, this.utilsService.formatDT(res[i].orderDate, '/', true, true, false), null, null, null);
-                if(res[i].methodTypes && res[i].methodTypes.length > 0) {
-                    if(res[i].methodTypes.length == 1)
-                        txn.mode = this.getMethodName(res[i].methodTypes[0]);
-                    else {
-                        for(let m of res[i].methodTypes) {
-                            if(m && m.toUpperCase() == 'CASHBACK')
-                                txn.hasCashback = true;
+    private fillProdTransactions(res: any): Transaction | null{
+        let txns: Transaction;
+        if(res && res.totalNoOfOrders > 0) {
+            txns = new Transaction(res.totalNoOfOrders, res.totalAmount, res.noOfPages, null);
+            if(res.orders && res.orders.length > 0) {
+                txns.payments = new Array<Payment>();
+                for(let i: number = 0; i < res.orders.length; i++) {
+                    let hasCashBack: boolean = false;
+                    let mode: string | null = null;
+                    if(res.orders[i].methodTypes && res.orders[i].methodTypes.length > 0) {
+                        for(let k: number = 0; k < res.orders[i].methodTypes.length; k++) {
+                            if(res.orders[i].methodTypes[k] && res.orders[i].methodTypes[k].toUpperCase() == 'CASHBACK')
+                                hasCashBack = true;
                             else
-                                txn.mode = this.getMethodName(m);
+                                mode = this.getMethodName(res.orders[i].methodTypes[k]);
                         }
                     }
-                }
 
-                if(txn.tr && (txn.tr.trim().toUpperCase() === 'BENOW MERCHANT' || txn.tr.trim().toUpperCase() === 'BENOW 20MERCHANT'))
-                    txn.tr = txn.id;
+                    let nm: string = res.orders[i].name;
+                    if(!nm || nm.trim().length <= 0)
+                        nm = res.orders[i].displayName;
 
-                if(res[i].products && res[i].products.length > 0) {
-                    txn.products = new Array<Product>();
-                    for(let j: number = 0; j < res[i].products.length; j++) {
-                        txn.products.push(new Product(false, false, false, res[i].products[j].quantity, res[i].products[j].price, 
-                            res[i].products[j].price, res[i].products[j].id, null, res[i].products[j].prodName, '', res[i].products[j].uom, ''));
+                    txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, null, null, res.orders[i].payHistHdrTxnRefNo,
+                        res.orders[i].tr, null, mode, nm, res.orders[i].merchantVPA, res.orders[i].orderDate, null, null, false, null, res.orders[i].email,
+                        res.orders[i].mobileNo, res.orders[i].address));
+
+                    if(res.orders[i].payerProduct && res.orders[i].payerProduct.length > 0) {
+                        txns.payments[i].products = new Array<Product>();
+                        txns.payments[i].hasProducts = true;
+                        for(let j: number = 0; j < res.orders[i].payerProduct.length; j++)
+                            txns.payments[i].products!.push(new Product(false, false, false, res.orders[i].payerProduct[j].quantity,
+                                res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].id, null,
+                                res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,
+                                res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl));
                     }
                 }
-
-                txns.push(txn);
             }
-
             return txns;
         }
-
         return null;
     }
 
     public getNewProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number, 
-        lastTxnId: string): Promise<Array<Transaction>|null> {        
+        lastTxnId: string): Promise<Transaction|null> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getNewProductTransactionsURL, 
                 JSON.stringify({
@@ -106,7 +110,8 @@ export class TransactionService {
             .catch(res => null);           
     }
 
-    public getProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number): Promise<Array<Transaction>|null> {        
+    public getProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number): Promise<Transaction|null> {
+        console.log('getTr', merchantCode, fromDate, page);
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getProductTransactionsURL, 
                 JSON.stringify({

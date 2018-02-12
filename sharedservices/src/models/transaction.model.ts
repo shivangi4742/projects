@@ -1,19 +1,9 @@
-import { Product } from './product.model';
+import { Payment } from './payment.model';
 
 export class Transaction {
-  constructor(
-    public hasCashback: boolean,
-    public amount: number,
-    public status: number|null,
-    public cbAmount: number|null,
-    public id: string,
-    public tr: string,
-    public mode: string|null,
-    public vPA: string,
-    public till: string,
-    public merchantVPA: string|null,
-    public dateAndTime: string,
-    public cbTid: string|null,
-    public cbMode: string|null,
-    public products: Array<Product>|null) { }
+    constructor(
+        public numPayments: number,
+        public totalAmount: number,
+        public numPages: number,
+        public payments: Payment[] | null) { }
 }

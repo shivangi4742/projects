@@ -19,7 +19,7 @@
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
           <div class="row">
             <div class="input-field col s10 offset-s1">
-              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="20"
+              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30"
                      placeholder="What is this payment for?" required >
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
@@ -56,7 +56,7 @@
                              [materializeParams]="dateParams" placeholder="{{'Select Date (Optional)' | translate}}" [(ngModel)]="sampleDate">
                       <label for="expDt" class="active labelPLBN">{{'Expiry By' | translate}}</label>
                     </div>
-                    <i class="material-icons iconAlignBN">event_busy</i>
+                    <i class="material-icons iconAlignBN" (click)="dateClickedDesk()">event_busy</i>
                   </div>
                 </div>
               </li>
@@ -82,7 +82,7 @@
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
           <div class="row">
             <div class="input-field col s12">
-              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="20"
+              <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30"
                      placeholder="What is this payment for?" required>
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
@@ -115,11 +115,11 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <input id="expDt" name="expDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                      <input id="expDtMob" name="expDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
                              [materializeParams]="dateParams" placeholder="{{'Select Date (Optional)' | translate}}" [(ngModel)]="sampleDate">
-                      <label for="expDt" class="active labelPLBN">{{'Expiry By' | translate}}</label>
+                      <label for="expDtMob" class="active labelPLBN">{{'Expiry By' | translate}}</label>
                     </div>
-                    <i class="material-icons iconAlignBN">event_busy</i>
+                    <i class="material-icons iconAlignBN" (click)="dateClickedMob()">event_busy</i>
                   </div>
                 </div>
               </li>

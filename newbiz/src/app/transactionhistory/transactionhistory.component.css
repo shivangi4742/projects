@@ -64,3 +64,45 @@
 .exportIconBN{
   float: right;
 }
+.listPLBN{
+  box-shadow: none;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 1px solid #ddd;
+}
+.select-wrapper span.caret {
+  color: black;
+}
+
+.select-wrapper input.select-dropdown {
+  color: black;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.dropdown-content {
+  background-color: white!important;
+}
+
+.dropdown-content li > a:hover, .dropdown-content li > span:hover {
+  background-color: #ddd;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+  color: black;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.collapsibleBodyBN {
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.collapsibleHeadBN{
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.collapsibleHeadRedBN{
+  color: red;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+}
