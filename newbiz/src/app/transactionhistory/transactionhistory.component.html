@@ -32,7 +32,7 @@
     <div class="row">
       <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
         <li *ngFor="let p of payments">
-          <div [id]="p.id" class="collapsible-header noLeftMarginBN accordionHeaderBN" (click)="arrowChange(p.id)">
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
                   <span (click)="changeIcon(p.id)">
                     <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
@@ -47,7 +47,7 @@
               <span class="right">{{p.amount}}</span>
             </div>
           </div>
-          <div class="collapsible-body noLeftPaddingBN">
+          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
             <div class="row">
               <div class="col s5 center">Payment id: {{p.id}}</div>
               <div class="col s4 center">Payer Details: {{p.email}} - {{p.phone}}</div>
