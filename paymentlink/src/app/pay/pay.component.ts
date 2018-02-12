@@ -495,7 +495,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBillString(this.pay.amount, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null,null, null, null))
         .then(res => this.qRLinkShown(res, this.pay.amount));
     }
     else {
@@ -612,7 +612,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBill(this.pay.amount, this.pay.merchantVpa, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null,null, null, null))
         .then(res => this.qRShown(res));
     }
     else {
