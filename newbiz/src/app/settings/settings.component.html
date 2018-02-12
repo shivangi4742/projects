@@ -61,7 +61,7 @@
             <div class="row"></div>
             <div class="row busDetails detailBodyBN mrgnBn ">
               <span class="col s12 heBN">{{'Your Name' | translate}}</span>
-              <div class="input-field col s8 m4 l4 regNrmS4BN">
+              <div class="input-field col s8 m5 l5 regNrmS4BN">
                 <input id="contactPerson" name="contactPerson" type="text" placeholder="{{'Enter Your Name' | translate}}" class="prrBN inputboxBN validate"
                   [(ngModel)]="businesspro.contactPerson" [readonly]="editt" />
                 <label for="contactPerson" [ngClass]="{active: businesspro.contactPerson}"></label>
@@ -70,8 +70,8 @@
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{'Your Email Address' |translate}}</span>
-              <div class="input-field col col s12 m4 l4 regNrmS4BN">
-                <input id="email" name="email" type="text" class="inputboxBN validate" [(ngModel)]="user.email" placeholder="{{'Enter Your Email Address'| translate}}"
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="email" [readonly]="true" name="email" type="text" class="inputboxBN  validate" [(ngModel)]="user.email" placeholder="{{'Enter Your Email Address'| translate}}"
                 />
                 <label for="email" [ngClass]="{active: user.email}"></label>
               </div>
@@ -79,8 +79,8 @@
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{'Your Mobile Number' |translate}}</span>
-              <div class="input-field col col s12 m4 l4 regNrmS4BN">
-                <input id="mobilenumber" name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="user.mobileNumber" placeholder="{{'Enter Your Mobile Number' |translate}}"
+              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+                <input id="mobilenumber" [readonly]="true" name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="user.mobileNumber" placeholder="{{'Enter Your Mobile Number' |translate}}"
                 />
                 <label for="mobilenumber" [ngClass]="{active: mobilenumber}"></label>
               </div>

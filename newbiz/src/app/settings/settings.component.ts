@@ -238,7 +238,7 @@ export class SettingsComponent implements OnInit {
   validategst(res) {
     var res1 = res.toUpperCase();
     this.businesspro.gstno = res1;
-    var gst1 = this.businesspro.gstno;
+    var gst1 = this.businesspro.gstno.trim();
     var reg = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
     if (gst1.match(reg)) {
       this.errgstvalidate = false;
@@ -251,7 +251,7 @@ export class SettingsComponent implements OnInit {
   }
   validatePAN() {
     var panFormat = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    if (panFormat.test(this.accountpro.panNumber)) {
+    if (panFormat.test(this.accountpro.panNumber.trim())) {
       this.errpancard = false;
     }
     else {
@@ -260,7 +260,7 @@ export class SettingsComponent implements OnInit {
     }
   }
   validateifsc() {
-    var ifsc = this.accountpro.ifsc;
+    var ifsc = this.accountpro.ifsc.trim();
     var reg = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;
 
     if (ifsc.match(reg)) {
@@ -273,7 +273,7 @@ export class SettingsComponent implements OnInit {
     }
   }
   savepincode() {
-    var pincode = this.businesspro.pincode;
+    var pincode = this.businesspro.pincode.trim();
     //console.log(pincode);
     if (pincode.length == 6) {
       this.errpincodevalidate = false;
@@ -285,7 +285,7 @@ export class SettingsComponent implements OnInit {
 
   }
   validatebusiness() {
-    var TCode1 = this.businesspro.businessName;
+    var TCode1 = this.businesspro.businessName.trim();
 
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode1)) {
 
@@ -298,7 +298,7 @@ export class SettingsComponent implements OnInit {
   }
 
   validaatedisplay() {
-    var TCode = this.user.displayName;
+    var TCode = this.user.displayName.trim();
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode)) {
       this.errdisplayvalidate = false;
 
@@ -331,7 +331,7 @@ export class SettingsComponent implements OnInit {
       && this.accountpro.ifsc && this.conaccountnumber && !this.err;
   }
   Accountno() {
-    if ((((this.accountpro.accountRefNumber).length) <= 5) && (((this.conaccountnumber).length) <= 5)) {
+    if ((((this.accountpro.accountRefNumber.trim()).length) <= 5) && (((this.conaccountnumber.trim()).length) <= 5)) {
       this.err = true;
       this.errmsg = 'Account number should be 6 digits!';
 
