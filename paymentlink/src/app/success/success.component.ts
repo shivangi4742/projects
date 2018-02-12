@@ -72,7 +72,12 @@ export class SuccessComponent implements OnInit {
    this.mtype = this.sdk.mtype;
 
     this.campaignService.fetchMerchantDetails(this.sdk.email, this.sdk.merchantId)
-      .then(tres => this.merchantmodel = tres);
+      .then(tres => this.fillMerchant(tres));
+
+  }
+
+  fillMerchant(res: Merchant){
+    this.merchantmodel = res;
 
     this.campaignService.getAllNGOTransactions(this.txnid)
       .then(cres => this.checkDetails(cres));
@@ -429,11 +434,11 @@ export class SuccessComponent implements OnInit {
       this.prepareMail(dets);
 
       if(this.mtype == 2){
-        this.toMail = true;
+        //this.toMail = true;
         //this.createcertificatePDF(res);
         //this.fileService.sendEmailNotify(this.data, dets.email, 'Donation Details', this.buyerMailContent,this.success,this);
-        this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Donated Successfully', '')
-          .then(nres => console.log(nres));
+        /*this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Donated Successfully', '')
+          .then(nres => console.log(nres));*/
       }
       else{
         this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Paid Successfully', '')
@@ -459,7 +464,7 @@ export class SuccessComponent implements OnInit {
         this.convFee = this.pay.amount - this.purchaseAmount;
       }
 
-      this.loaded = true;      
+      this.loaded = true;
     }
   }
 
@@ -654,7 +659,6 @@ export class SuccessComponent implements OnInit {
         doc.autoTable(col, rows, {
             startY: 165,
             startX: 10,
-
           },
         );
         doc.setFontSize(8);
