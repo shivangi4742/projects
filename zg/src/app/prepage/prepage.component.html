@@ -46,9 +46,6 @@
             <a class="red-text" href="tel://9579474743">9579474743</a>
           </div>
         </div>
-        <div class="row" *ngIf="validationError">
-          <div align="center" class="error-text col s12">{{validationError}}</div>
-        </div>
         <div *ngIf="hasPayPin">
           <div class="row valign-wrapper">
             <div class="col s5" align="left">Community code</div>
@@ -66,7 +63,10 @@
             <div class="col s5" align="left">Payer name</div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
-              <input id="name" type="text" name="name" class="validate" required [(ngModel)]="strFullName" (input)="onEnterText($event.target.value)">
+              <input id="name" type="text" name="name" class="validate" required [(ngModel)]="strFullName" (input)="onEnterName($event.target.value)">
+              <div class="row">
+                <span *ngIf="strInvalidName" class="error-text-normal col s12 left">{{strInvalidName}}</span>
+              </div>
             </div>
           </div>
 
@@ -74,7 +74,10 @@
             <div class="col s5" align="left">Email address</div>
             <div class="col s1" align="left">: </div>
             <div class="col s6" align="left">
-              <input id="email" type="text" class="validate" required [(ngModel)]="strEmail" name="email" (input)="onEnterText($event.target.value)">
+              <input id="inp_email" type="email" class="validate" required [(ngModel)]="strEmail" name="email" (input)="onEnterEmail($event.target.value)">
+              <div class="row">
+                <span *ngIf="strInvalidEmail" class="error-text-normal col s12 left">{{strInvalidEmail}}</span>
+              </div>
             </div>
           </div>
 
@@ -82,7 +85,10 @@
             <div class="col s5" align="left">Mobile number</div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
-              <input id="mobile" type="text" class="validate" required [(ngModel)]="strMobile" name="mobile" (input)="onEnterText($event.target.value)">
+              <input id="mobile" type="text" class="validate" required [(ngModel)]="strMobile" name="mobile" (input)="onEnterMobile($event.target.value)">
+              <div class="row">
+                <span *ngIf="strInvalidMobile" class="error-text-normal col s12 left">{{strInvalidMobile}}</span>
+              </div>
             </div>
           </div>
 
@@ -406,6 +412,10 @@
               <input value="" id="remarks" type="text" class="validate" (input)="onEnterRemarks($event.target.value)">
               <label class="active" for="remarks">Remarks</label>
             </div>
+          </div>
+
+          <div class="row" *ngIf="genericError">
+            <div  class="error-text col s12">{{genericError}}</div>
           </div>
 
           <div class="row valign-wrapper">
