@@ -196,7 +196,7 @@ export class PrepageComponent implements OnInit {
 
       }
       else {
-        this.genericError = 'Something went wrong. Please try again after some time'; 
+        this.genericError = 'Something went wrong. Please try again after some time';
       }
     }
 
@@ -218,7 +218,7 @@ export class PrepageComponent implements OnInit {
         fixedPaymentMode = '4343'
       }
 
-      document.location.href = redirectURL + '/pay/' + fixedPaymentMode; // Redirect to payment page
+      document.location.href = redirectURL + '/pay/' + fixedPaymentMode + '/' + this.strFullName.replace(' ', '%20'); // Redirect to payment page 
     }
     else {
 
@@ -370,7 +370,7 @@ export class PrepageComponent implements OnInit {
     return false;
   }
 
-onTaxClck() {
+  onTaxClck() {
     this.modalActions.emit({ action: "modal", params: ['open'] });
   }
 

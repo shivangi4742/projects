@@ -88,7 +88,93 @@
     </div>
     <div class="row" *ngIf="active==0">
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li class="active" *ngFor="let p of paymentlink" >
+        <li class="active" *ngFor="let p of activepay" >
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
+             <span (click)="changeIcon(p.id)">
+                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+                  </span>
+            <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
+                  
+                        <span class="alignMidBN">{{p.discription}}</span>
+            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+              <i class="material-icons right ">share</i>
+            </a>
+            <span class="mrgNBN right"> ₹ {{p.amount}}</span>
+            </span>
+          </div>
+          <div class="collapsible-body colpBodyBN" style="display: block;">
+            <div class="row">
+              <div class="col s12 m2 l2 center">
+                <img src="../../assets/newbiz/imgs/payment link default.png" alt="">
+              </div>
+              <div class="col s12 m10 l10" *ngIf="p.url">
+                <div class="row valign-wrapper paddBottomBN">
+                  <div class="col s8 m8 l8">
+                    {{'Payment Links' | translate}}<br>
+                  </div>
+                  <div class="col s4 m4 l4 ">
+                    <div class="show-on-small hide-on-large-only">
+                    <i class="material-icons alignMidBN">visibility</i> Preview
+                  </div>
+                  </div>
+                </div>
+                <div class="hide-on-small-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN">
+                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
+                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                           <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
+          type="button" ngxClipboard [cbContent]="p.url" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN ">content_copy</i>
+            <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+                  </span>
+                </div>
+                <div class="show-on-small hide-on-large-only">
+                  <span class="col s12 l10 m10 dashBN alignMidBN hide">
+                       <span class="truncate widBN">   <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}</span>                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="p.url"
+                    (cbOnSuccess)="isCopied1 = true">
+                    <i class="material-icons alignMidBN ">content_copy</i>
+                    <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
+                  </a>
+                  </span>
+                </div>
+                <div class="hide-on-small-only">&nbsp;
+                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                    </a>
+                </div>
+                <br><br><br>
+                <div *ngIf="!p.url">
+                  <div class="row"></div>
+                  <div class="row"></div>
+                  <div class="row"></div>
+                </div>
+                <div class="row">
+                  <div class="col s12 m6 l6 regNrmS6BN paddBN">
+                    {{'Starts on'| translate}}({{p.startdate}})</div>
+                  <div class="col s12 m6 l6 regNrmS6BN">
+                    <span *ngIf="p.expirydate">  {{'Ends on'|translate}} ({{p.expirydate}})</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="row red redBN">
+              <div class="col s6 m4 l4 left">
+                <i class="material-icons alignMidBN bordrBN">close</i> {{'Expire Link' | translate}}
+              </div>
+              <div class="col s6 m8 l8 right">
+                <span class="right">
+                    <i class="material-icons alignMidBN">show_chart</i> {{'See Sales' | translate}} 
+                    </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="row" *ngIf="active==1">
+      <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li class="active" *ngFor="let p of inactivepay" >
           <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
              <span (click)="changeIcon(p.id)">
                     <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
