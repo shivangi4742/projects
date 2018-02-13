@@ -66,10 +66,12 @@ export class PrepageComponent implements OnInit {
   strFullName: string;
   strEmail: string;
   strMobile: string;
+  strAmount: string;
   genericError: string;
   strInvalidName: string;
   strInvalidEmail: string;
   strInvalidMobile: string;
+  strInvalidAmount: string;
   isFormValid: boolean;
 
   constructor(private route: ActivatedRoute,
@@ -81,6 +83,7 @@ export class PrepageComponent implements OnInit {
     this.strInvalidName = '';
     this.strInvalidEmail = '';
     this.strInvalidMobile = '';
+    this.strInvalidAmount = '';
     this.genericError = '';
     this.isFormValid = false;
 
@@ -264,19 +267,22 @@ export class PrepageComponent implements OnInit {
   }
 
   onEnterPayment(amount: string, position: number) {
+    this.strAmount = amount;
     // if(index)
+    this.strInvalidAmount = '';
+    if (this.validateAmount(amount)) {
+      var subledgerObj: SubLedgerModel;
+      var billAmount: number = 0;
+      subledgerObj = this.subLedgerList[position];
+      subledgerObj.amount = +amount;
 
-    var subledgerObj: SubLedgerModel;
-    var billAmount: number = 0;
-    subledgerObj = this.subLedgerList[position];
-    subledgerObj.amount = +amount;
-
-    this.subLedgerList.forEach((obj, index) => {
-      billAmount += obj.amount;
-    })
-    this.totalBillAmount = billAmount;
-    // this.payableAmount = +amount;
-    this.calculateTotalAmount();
+      this.subLedgerList.forEach((obj, index) => {
+        billAmount += obj.amount;
+      })
+      this.totalBillAmount = billAmount;
+      // this.payableAmount = +amount;
+      this.calculateTotalAmount();
+    }
   }
 
   onEnterSubLedger(amount: string, position: number) {
@@ -316,8 +322,8 @@ export class PrepageComponent implements OnInit {
     }
   }
 
-  hasAllRequiredFields() {
-    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm();
+  hasAllRequiredFields() { 
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm() && this.validateAmount(this.strAmount);
   }
 
   validateForm(): boolean {
@@ -338,6 +344,33 @@ export class PrepageComponent implements OnInit {
 
     }
     return false;
+  }
+
+  validateAmount(strAmount: string): boolean {
+
+    if (strAmount) {
+      var numStr = /^-?(\d+\.?\d*)$|(\d*\.?\d+)$/;
+      if (numStr.test(strAmount)) {
+        var amt = +strAmount;
+        if (amt > 0) {
+          return true;
+        }
+        else {
+          this.strInvalidAmount = 'Amount should be more than zero';
+          return false;
+        }
+      }
+      else {
+        this.strInvalidAmount = 'Amount cannot only contain numbers';
+        return false;
+      }
+    }
+    else {
+      this.strInvalidAmount = 'Amount cannot be blank';
+      return false;
+    }
+
+    // return true;
   }
 
   validateName(strName: string): boolean {
@@ -363,7 +396,14 @@ export class PrepageComponent implements OnInit {
 
   validateMobile(strMobile: string): boolean {
     if (strMobile && strMobile.length == 10) {
-      return true;
+      var pattern = /^\d+$/;
+      if (pattern.test(strMobile)) {
+        return true;
+      }
+      else {
+        this.strInvalidMobile = "Enter valid number";
+        return false;
+      }
     }
 
     this.strInvalidMobile = "Enter valid number";
