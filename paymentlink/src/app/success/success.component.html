@@ -62,7 +62,7 @@
           <!--<span class="col s12 center errNrmS4BN">
 
           </span>-->
-          <span class="col s12 center">
+          <span class="col s12 center" *ngIf="merchantmodel.auto80GEnabled">
             <a class="errNrmS4BN linkButtonBN" (click)="downloadCertificate()">Click here to download your 80G Receipt</a>
           </span>
         </div>

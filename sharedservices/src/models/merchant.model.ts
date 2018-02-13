@@ -9,6 +9,7 @@ export class Merchant {
         public business:string,
         public merchantLogoUrl:string,
         public ngoCertifdate:string,
-        public ngoCertifnum: string
+        public ngoCertifnum: string,
+        public auto80GEnabled: string
     ) { }
 }

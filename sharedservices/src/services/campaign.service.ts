@@ -420,7 +420,7 @@ export class CampaignService {
         let dt = res.data;
         let me = this;
         if (dt) {
-            this.merchant = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum);
+            this.merchant = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum, dt.auto80GEnabled);
         }
         return me.merchant;
     }

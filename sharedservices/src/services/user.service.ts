@@ -556,7 +556,7 @@ export class UserService {
     let me = this;
   
     if (dt) {
-      this._merchantmodel = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum);
+      this._merchantmodel = new Merchant(dt.address, dt.userId, dt.pinCode, dt.locality, dt.mobileNumber, dt.panNumber, dt.businessName, dt.merchantLogoUrl, dt.ngoCertifdate, dt.ngoCertifnum, dt.auto80GEnabled);
     }
     return me._merchantmodel;
   }
