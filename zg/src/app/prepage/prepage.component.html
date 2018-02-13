@@ -190,6 +190,9 @@
             <div class="input-field col s12">
               <input value="{{subLedger.amount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
               <label class="active" for="amount">Amount</label>
+              <div class="row">
+                <span *ngIf="strInvalidAmount" class="error-text-normal col s12 left-align">{{strInvalidAmount}}</span>
+              </div>
             </div>
             <br>
             <span align="left" class="paymentHelper col s12">Against maintenance bill ({{payPin}} INR {{subLedger.oAmount}})</span>
@@ -415,7 +418,7 @@
           </div>
 
           <div class="row" *ngIf="genericError">
-            <div  class="error-text col s12">{{genericError}}</div>
+            <div class="error-text col s12">{{genericError}}</div>
           </div>
 
           <div class="row valign-wrapper">
