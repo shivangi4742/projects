@@ -23,6 +23,7 @@ export class SDKService {
     private _paySuccess: any;
     private _payFailure: any;
     private _urls: any = {
+        send80GURL: 'sdk/send80G',
         getHashURL: 'sdk/getHash',
         createBillURL: 'sdk/createBill',
         createBillStringURL: 'sdk/createBillString',
@@ -212,6 +213,20 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    send80G(txnId: string, campaignId: string): Promise<any> {
+        if(txnId && campaignId) {
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.send80GURL + '/' + campaignId + '/' + txnId,
+                null,
+                { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => res.json())
+                .catch(res => null);        
+        }
+
+        return Promise.resolve(null);
     }
 
     getTransactionStatus(merchantCode: string, txnId: string): Promise<any> {

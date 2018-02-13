@@ -77,13 +77,15 @@ export class PayComponent implements OnInit {
   }
 
   receivedPayment(res: any) {
-    if (res && res.data && res.out == true) {
+    if (res && res.data && res.out == true) {      
       this.sdkService.setPaySuccess({
         "amount": res.data.amount, "title": this.pay.businessName, "mode": 0, "txnid": res.data.id, "merchantCode": res.data.merchantcode, 
         "payer": res.data.vpa, "transactionDate": res.data.dt, "products": this.pay.products, "mtype": this.pay.merchantType
       });
-      if (this.pay.merchantType == 2)
+      if (this.pay.merchantType == 2) {
+        this.sdkService.send80G(res.data.id, this.id);
         this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
+      }
       else
         this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
     }
