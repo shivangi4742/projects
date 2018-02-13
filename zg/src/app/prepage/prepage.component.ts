@@ -268,19 +268,23 @@ export class PrepageComponent implements OnInit {
 
   onEnterPayment(amount: string, position: number) {
     this.strAmount = amount;
+
     // if(index)
     this.strInvalidAmount = '';
+    this.totalBillAmount = +amount;
     if (this.validateAmount(amount)) {
-      var subledgerObj: SubLedgerModel;
-      var billAmount: number = 0;
-      subledgerObj = this.subLedgerList[position];
-      subledgerObj.amount = +amount;
+      // var subledgerObj: SubLedgerModel;
+      // var billAmount: number = 0;
+      // subledgerObj = this.subLedgerList[position];
+      // subledgerObj.amount = +amount;
 
-      this.subLedgerList.forEach((obj, index) => {
-        billAmount += obj.amount;
-      })
-      this.totalBillAmount = billAmount;
+      // this.subLedgerList.forEach((obj, index) => {
+      //   billAmount += obj.amount;
+      // })
+      // this.totalBillAmount = billAmount;
       // this.payableAmount = +amount;
+
+      this.totalBillAmount = +amount;
       this.calculateTotalAmount();
     }
   }
@@ -305,7 +309,7 @@ export class PrepageComponent implements OnInit {
     // this.amountWithoutCharge = this.totalBillAmount + this.totalSubledgerAmount;
     this.amountWithoutCharge = this.totalBillAmount;
     this.calculateConvenienceFee();
-    // this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee;
+    // this.totalAmount = this.totalBillAmount + this.totalSubledgerAmount + this.totalConvenienceFee; 
     this.totalAmount = this.totalBillAmount + this.totalConvenienceFee;
   }
 
@@ -322,8 +326,8 @@ export class PrepageComponent implements OnInit {
     }
   }
 
-  hasAllRequiredFields() { 
-    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm() && this.validateAmount(this.strAmount);
+  hasAllRequiredFields() {
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm() && this.totalBillAmount > 0;
   }
 
   validateForm(): boolean {
@@ -430,12 +434,30 @@ export class PrepageComponent implements OnInit {
 
   onEnterEmail(strEmail: string) {
     this.strInvalidEmail = "";
-    this.isFormValid = this.validateEmail(strEmail);
+    if (strEmail.indexOf(',') > 0) {
+      var emailArray = strEmail.split(',');
+      emailArray.forEach(email => {
+        email = email.trim();
+        this.isFormValid = this.validateEmail(email);
+      })
+    }
+    else {
+      this.isFormValid = this.validateEmail(strEmail);
+    }
   }
 
   onEnterMobile(strMobile: string) {
     this.strInvalidMobile = "";
-    this.isFormValid = this.validateMobile(strMobile);
+    if (strMobile.indexOf(',') > 0) {
+      var mobArray = strMobile.split(',');
+      mobArray.forEach(mobile => {
+        mobile = mobile.trim();
+        this.isFormValid = this.validateMobile(mobile);
+      })
+    }
+    else {
+      this.isFormValid = this.validateMobile(strMobile);
+    }
   }
 
 }

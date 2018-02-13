@@ -105,7 +105,7 @@
             <div class="row valign-wrapper" *ngFor="let subLedger of subLedgerList">
               <div class="col s8">
                 <input type="checkbox" id="{{subLedger.subledger_code}}" name="keepSignedIn" />
-                <label for="{{subLedger.subledger_code}}" class="checkBoxLblBN">{{subLedger.type}} INR {{subLedger.amount}}</label>
+                <label for="{{subLedger.subledger_code}}" class="checkBoxLblBN">{{subLedger.type}} &#x20b9; {{subLedger.amount}}</label>
               </div>
               <div class="col s4">
                 <div class="input-field col s12">
@@ -125,14 +125,14 @@
                         <span class="truncate">Bill</span>
                       </div>
                       <div class="col s6" align="right">
-                        <span class="truncate">INR {{totalBillAmount}}</span>
+                        <span class="truncate">&#x20b9; {{totalBillAmount}}</span>
                       </div>
                       <div class="col s1" align="right">
                         <i class="material-icons greyBN">keyboard_arrow_down</i>
                       </div>
                       <div *ngIf="totalAmount > 1000000 ;then showError else other_content"></div>
                       <ng-template #showError>
-                        <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+                        <div align="left" class="error-text col s12">Total amount should be less than &#x20b9; 1,000,000</div>
                       </ng-template>
                       <ng-template #other_content>
                       </ng-template>
@@ -140,7 +140,7 @@
                   </div>
                   <div class="collapsible-body">
                     <div class="row valign-wrapper" *ngFor="let subLedger of subLedgerList; let i = index">
-                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
+                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} &#x20b9; {{subLedger.oAmount}}</div>
                       <div class="col m4 l4 s6">
                         <div class="input-field col s12">
                           <input value="{{subLedger.amount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
@@ -157,14 +157,14 @@
                         <span class="truncate">Sub ledger</span>
                       </div>
                       <div class="col s6" align="right">
-                        <span class="truncate">INR {{totalSubledgerAmount}}</span>
+                        <span class="truncate">&#x20b9; {{totalSubledgerAmount}}</span>
                       </div>
                       <div class="col s1" align="right">
                         <i class="material-icons greyBN">keyboard_arrow_down</i>
                       </div>
                       <div *ngIf="totalAmount > 1000000 && totalSubledgerAmount > 0;then showError else other_content"></div>
                       <ng-template #showError>
-                        <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+                        <div align="left" class="error-text col s12">Total amount should be less than &#x20b9; 1,000,000</div>
                       </ng-template>
                       <ng-template #other_content>
                       </ng-template>
@@ -172,7 +172,7 @@
                   </div>
                   <div class="collapsible-body">
                     <div class="row valign-wrapper" *ngFor="let subLedger of allSubLedgerList; let i = index">
-                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} INR {{subLedger.oAmount}}</div>
+                      <div class="col m8 l8 s6" align="left">{{subLedger.type}} &#x20b9; {{subLedger.oAmount}}</div>
                       <div class="col m4 l4 s6">
                         <div class="input-field col s12">
                           <input value="{{subLedger.amount}}" id="amount" type="text" class="validate" (input)="onEnterSubLedger($event.target.value, i)">
@@ -186,7 +186,7 @@
             </div>
           </div>
 
-          <div class="row center-align" *ngFor="let subLedger of subLedgerList; let i = index">
+          <!-- <div class="row center-align" *ngFor="let subLedger of subLedgerList; let i = index">
             <div class="input-field col s12">
               <input value="{{subLedger.amount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
               <label class="active" for="amount">Amount</label>
@@ -195,10 +195,28 @@
               </div>
             </div>
             <br>
-            <span align="left" class="paymentHelper col s12">Against maintenance bill ({{payPin}} INR {{subLedger.oAmount}})</span>
+            <span align="left" class="paymentHelper col s12">Against maintenance bill ({{payPin}} &#x20b9; {{subLedger.oAmount}})</span>
             <div *ngIf="totalAmount > 1000000 ;then showError else other_content"></div>
             <ng-template #showError>
-              <div align="left" class="error-text col s12">Total amount should be less than INR 1,000,000</div>
+              <div align="left" class="error-text col s12">Total amount should be less than &#x20b9; 1,000,000</div>
+            </ng-template>
+            <ng-template #other_content>
+            </ng-template>
+          </div> -->
+
+          <div class="row center-align">
+            <div class="input-field col s12">
+              <input value="{{totalBillAmount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
+              <label class="active" for="amount">Amount</label>
+              <div class="row">
+                <span *ngIf="strInvalidAmount" class="error-text-normal col s12 left-align">{{strInvalidAmount}}</span>
+              </div>
+            </div>
+            <br>
+            <span align="left" class="paymentHelper col s12">Against maintenance bill ({{payPin}} &#x20b9; {{totalBillAmount}})</span>
+            <div *ngIf="totalAmount > 1000000 ;then showError else other_content"></div>
+            <ng-template #showError>
+              <div align="left" class="error-text col s12">Total amount should be less than &#x20b9; 1,000,000</div>
             </ng-template>
             <ng-template #other_content>
             </ng-template>
@@ -229,7 +247,7 @@
                   <br>
                   <div class="subTitleContainer">
                     <div class="emptySpace">
-                      <span class="subTitle">Flat INR {{upiCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                      <span class="subTitle">Flat &#x20b9; {{upiCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                     </div>
                   </div>
                 </ng-template>
@@ -261,7 +279,7 @@
                   <br>
                   <div class="subTitleContainer">
                     <div class="emptySpace">
-                      <span class="subTitle">Flat INR {{netBankingCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                      <span class="subTitle">Flat &#x20b9; {{netBankingCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                     </div>
                   </div>
                 </ng-template>
@@ -293,7 +311,7 @@
                   <br>
                   <div class="subTitleContainer">
                     <div class="emptySpace">
-                      <span class="subTitle">Flat INR {{dcCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                      <span class="subTitle">Flat &#x20b9; {{dcCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                     </div>
                   </div>
                 </ng-template>
@@ -324,7 +342,7 @@
                   <br>
                   <div class="subTitleContainer">
                     <div class="emptySpace">
-                      <span class="subTitle">Flat INR {{ccCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
+                      <span class="subTitle">Flat &#x20b9; {{ccCharges.charge}} Convenience Fees* applicable (Zipgrid Offer)</span>
                     </div>
                   </div>
                 </ng-template>
@@ -342,19 +360,19 @@
           <div class="row valign-wrapper noBottomMargin">
             <div class="col s5" align="left">Total amount</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6" align="right">INR {{amountWithoutCharge | number : '1.2-2'}}</div>
+            <div class="col s6" align="right">&#x20b9; {{amountWithoutCharge | number : '1.2-2'}}</div>
           </div>
 
           <div class="row valign-wrapper noBottomMargin">
-            <div class="col s5" align="left">Convenience fees</div>
+            <div class="col s5" align="left">Convenience fees + GST</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6" align="right">INR {{convenienceFee | number : '1.2-2'}}</div>
+            <div class="col s6" align="right">&#x20b9; {{convenienceFee + gst | number : '1.2-2'}}</div>
           </div>
 
           <div class="row valign-wrapper noBottomMargin">
             <div class="col s5" align="left">Net payable</div>
             <div class="col s1" align="left">: </div>
-            <div class="col s6" align="right">INR {{totalAmount | number : '1.2-2'}}</div>
+            <div class="col s6" align="right">&#x20b9; {{totalAmount | number : '1.2-2'}}</div>
           </div>
 
           <div class="row valign-wrapper noBottomMargin hyperlink" (click)="onTaxClck()">
@@ -370,19 +388,19 @@
               <div class="row valign-wrapper">
                 <div class="col s5" align="left">Total amount</div>
                 <div class="col s1" align="left">: </div>
-                <div class="col s6" align="right">INR {{amountWithoutCharge | number : '1.2-2'}}</div>
+                <div class="col s6" align="right">&#x20b9; {{amountWithoutCharge | number : '1.2-2'}}</div>
               </div>
 
               <div class="row valign-wrapper">
                 <div class="col s5" align="left">Convenience fees</div>
                 <div class="col s1" align="left">: </div>
-                <div class="col s6" align="right">INR {{convenienceFee | number : '1.2-2'}}</div>
+                <div class="col s6" align="right">&#x20b9; {{convenienceFee | number : '1.2-2'}}</div>
               </div>
 
               <div class="row valign-wrapper">
                 <div class="col s5" align="left">GST @ 18%</div>
                 <div class="col s1" align="left">: </div>
-                <div class="col s6" align="right">INR {{gst | number : '1.2-2'}}</div>
+                <div class="col s6" align="right">&#x20b9; {{gst | number : '1.2-2'}}</div>
               </div>
 
             </div>
@@ -400,12 +418,12 @@
             </div>
             <span class="col l1 m1 s1">+</span>
             <div class="input-field col l3 m3 s6">
-              <input disabled value="INR {{convenienceFee | number : '1.2-2'}}" id="total" type="text" class="validate">
+              <input disabled value="&#x20b9; {{convenienceFee | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Convenience</label>
             </div>
             <span class="col l1 m1 s1 hide-on-small-only">=</span>
             <div class="input-field col l3 m3 s5 hide-on-small-only">
-              <input disabled value="INR {{totalAmount | number : '1.2-2'}}" id="total" type="text" class="validate">
+              <input disabled value="&#x20b9; {{totalAmount | number : '1.2-2'}}" id="total" type="text" class="validate">
               <label class="active" for="total">Total</label>
             </div>
           </div>
@@ -423,7 +441,7 @@
 
           <div class="row valign-wrapper">
             <div class="col s12 m12 l12" align="center">
-              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" name="till" [disabled]="!hasAllRequiredFields()">Pay INR {{totalAmount | number : '1.2-2'}}
+              <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" name="till" [disabled]="!hasAllRequiredFields()">Pay &#x20b9; {{totalAmount | number : '1.2-2'}}
                 <i class="material-icons right">send</i>
               </button>
             </div>
