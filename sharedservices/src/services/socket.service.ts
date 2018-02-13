@@ -27,6 +27,11 @@ export class SocketService {
         return this._subject2.asObservable();
     }
 
+    joinTransactionRoom(txnId: string) {
+        if(txnId)
+            this._socket.emit('transactionroom', { "room": txnId });
+    }
+
     joinMerchantRoom(merchantCode: string, till: string|null) {
         this._merchantCode = merchantCode;
         this._till = till;

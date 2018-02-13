@@ -2,9 +2,11 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
+import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status } from 'benowservices';
+import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status,
+  SocketService } from 'benowservices';
 
 @Component({
   selector: 'pay',
@@ -36,6 +38,7 @@ export class PayComponent implements OnInit {
   mobileNumber: string;
   validationError: string;
   pay: SDK;
+  subscription: Subscription;
   payAmount: number = null;
   fundraiser: Fundraiser;
   break: boolean = false;
@@ -45,7 +48,6 @@ export class PayComponent implements OnInit {
   qrlError: boolean = false;
   isMobile: boolean = false;
   putFocus: boolean = false;
-  isPolling: boolean = false;
   supportsCC: boolean = false;
   supportsDC: boolean = false;
   supportsNB: boolean = false;
@@ -69,7 +71,23 @@ export class PayComponent implements OnInit {
   collapsibleActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
-    private productService: ProductService, private sanitizer: DomSanitizer) { }
+    private productService: ProductService, private sanitizer: DomSanitizer, private socketService: SocketService) { 
+    let me: any = this;
+    this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));
+  }
+
+  receivedPayment(res: any) {
+    if (res && res.data && res.out == true) {
+      this.sdkService.setPaySuccess({
+        "amount": res.data.amount, "title": this.pay.businessName, "mode": 0, "txnid": res.data.id, "merchantCode": res.data.merchantcode, 
+        "payer": res.data.vpa, "transactionDate": res.data.dt, "products": this.pay.products, "mtype": this.pay.merchantType
+      });
+      if (this.pay.merchantType == 2)
+        this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
+      else
+        this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
+    }
+  }
 
   getArrowDrop(): string {
     if (this.break)
@@ -486,8 +504,7 @@ export class PayComponent implements OnInit {
 
   waitForUPIPayment() {
     this.appLaunched = true;
-    if (!this.isPolling)
-      this.poll();
+    this.socketService.joinTransactionRoom(this.txnNo);
   }
 
   createQRL(out: any) {
@@ -520,54 +537,11 @@ export class PayComponent implements OnInit {
       this.qRLinkShown(this.upiURL, this.upiAmount);
   }
 
-  poll() {
-    if (window.location.href.indexOf('/pay/') > 1 || window.location.href.indexOf('/donate/') > 1 || window.location.href.indexOf('/paysdk') > 1)
-      this.sdkService.getTransactionStatus(this.pay.merchantCode, this.txnNo)
-        .then(res => this.checkMyPayment(res));
-  }
-
   getArrow(exp: boolean): string {
     if (exp)
       return 'keyboard_arrow_up';
     else
       return 'keyboard_arrow_down';
-  }
-
-  checkMyPayment(rest: any) {
-    let found: boolean = false;
-    let me: any = this;
-    if (rest && rest.length > 0) {
-      let res: any = rest[0];
-      if (res && res.txnId == this.txnNo && res.paymentStatus) {
-        if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
-          found = true;
-          this.sdkService.setPaySuccess({
-            "amount": this.pay.amount, "title": this.pay.businessName, "mode": 0, "txnid": this.txnNo,
-            "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate, "products": this.pay.products,
-            "mtype": this.pay.merchantType
-          });
-          if (this.pay.merchantType == 2)
-            this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
-          else
-            this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
-        }
-        else if (res.paymentStatus.trim().toUpperCase() == 'FAILED') {
-          found = true;
-          this.sdkService.setPayFailure({
-            "amount": this.pay.amount, "title": this.pay.title, "error": this.utilsService.returnGenericError().errMsg,
-            "mode": 0, "txnid": this.txnNo, "merchantCode": res.merchantCode, "payer": res.payer, "transactionDate": res.transactionDate,
-            "products": this.pay.products
-          });
-          if (this.pay.merchantType == 2)
-            this.router.navigateByUrl('/donationfailure/' + this.id + '/' + this.txnNo);
-          else
-            this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnNo);
-        }
-      }
-    }
-
-    if (!found)
-      setTimeout(function () { me.poll(); }, 5000);
   }
 
   qRShown(res: boolean) {
@@ -578,8 +552,7 @@ export class PayComponent implements OnInit {
       if (r && r.qrURL)
         this.qrURL = r.qrURL;
 
-      if (!this.isPolling)
-        this.poll();
+      this.socketService.joinTransactionRoom(this.txnNo);
     }
     else
       this.qrError = true;
