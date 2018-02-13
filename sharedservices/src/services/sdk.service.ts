@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, ResponseContentType } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
+import * as FileSaver from 'file-saver';
 
 import { PG } from './../models/pg.model';
 import { SDK } from './../models/sdk.model';
@@ -23,6 +24,7 @@ export class SDKService {
     private _paySuccess: any;
     private _payFailure: any;
     private _urls: any = {
+        get80GURL: 'sdk/get80G',
         send80GURL: 'sdk/send80G',
         getHashURL: 'sdk/getHash',
         createBillURL: 'sdk/createBill',
@@ -213,6 +215,26 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    get80G(campaignId: string, txnId: string): Promise<any> {
+        if(txnId && campaignId) {
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.get80GURL + '/' + campaignId + '/' + txnId,
+                null,
+                { headers: this.utilsService.getPDFHeaders(), responseType: ResponseContentType.Blob })
+                .toPromise()
+                .then(response => {
+                    let fileBlob = response.blob();
+                    let blob = new Blob([fileBlob], { 
+                       type: 'application/pdf'
+                    });
+                    FileSaver.saveAs(blob, txnId + '.pdf');
+                 })
+                 .catch(res => null);
+        }
+
+        return Promise.resolve(null);
     }
 
     send80G(txnId: string, campaignId: string): Promise<any> {

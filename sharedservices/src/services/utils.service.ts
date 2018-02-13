@@ -18,7 +18,7 @@ export class UtilsService {
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
 
-  private _requestURL: string = 'https://localhost/paysdk';
+  private _requestURL: string = 'http://localhost:9090/paysdk';
   
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
@@ -187,6 +187,18 @@ export class UtilsService {
 
   setHeaders(hdrs: any) {
     this._headers = hdrs;
+  }
+
+  getPDFHeaders(): Headers {
+    let headrs: any = {};
+    headrs['content-type'] = 'application/json';
+    headrs['accept'] = 'application/pdf';
+    if (!this._headers['X-EMAIL'] && this._headers['X-AUTHORIZATION'] && this._uname) {
+      headrs['X-EMAIL'] = this._uname;
+      headrs['X-AUTHORIZATION'] = this._headers['X-AUTHORIZATION'];
+    }
+
+    return new Headers(this._headers);    
   }
 
   getHeaders(): Headers {

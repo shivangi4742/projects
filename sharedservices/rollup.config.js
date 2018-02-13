@@ -10,6 +10,7 @@ export default {
     '@angular/forms': 'ng.forms',
     '@angular/common': 'ng.common',
     '@angular/platform-browser': 'ng.platform-browser',
+    'file-saver': 'file-saver',
     'rxjs/Observable': 'Rx',
     'rxjs/ReplaySubject': 'Rx',
     'rxjs/add/operator/map': 'Rx.Observable.prototype',
