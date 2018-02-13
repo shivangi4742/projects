@@ -78,6 +78,8 @@ export class SuccessComponent implements OnInit {
 
   fillMerchant(res: Merchant){
     this.merchantmodel = res;
+    this.userService.getMerchantDetails(this.sdk.merchantCode)
+      .then(res2 => this.merchantmodel.auto80GEnabled = res2.auto80gEnabled);
 
     this.campaignService.getAllNGOTransactions(this.txnid)
       .then(cres => this.checkDetails(cres));
