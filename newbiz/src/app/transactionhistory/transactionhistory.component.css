@@ -37,10 +37,11 @@
 
 .labelPLBN{
   font-family: Barlow;
-  font-size: 10pt;
-  line-height: 12px;
+  font-size: 11pt;
+  line-height: 13px;
   color: rgb(65,58,90);
   font-weight: bold;
+  padding-left: 10px;
 }
 
 .inputTextBN{
@@ -143,4 +144,17 @@
 }
 .reportMobBN{
   margin-top: 10px;
+}
+
+.dateRangeSBN {
+  padding-left: 10px;
+  padding-right: 5px;
+  border: solid 1px #413A5A;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+}
+
+.smallGapBN {
+  height: 1px;
+  margin-bottom: 5px;
 }

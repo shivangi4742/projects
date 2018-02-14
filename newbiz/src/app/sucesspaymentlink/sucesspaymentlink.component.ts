@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { SDK, CampaignService, UserService, User, UtilsService } from 'benowservices';
+import { SDK, CampaignService, UserService, User, UtilsService, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-sucesspaymentlink',
@@ -33,10 +33,11 @@ export class SucesspaymentlinkComponent implements OnInit {
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   modalActions1: any = new EventEmitter<string|MaterializeAction>();
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
+  constructor(private locationService: LocationService, private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
               private campaignService: CampaignService) { }
 
   ngOnInit() {
+    this.locationService.setLocation('successpaylink');
     this.txnId = this.route.snapshot.params['id'];
     this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
 
