@@ -489,6 +489,12 @@ export class UserService {
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
     }
+    if(res.merchantUser.kycVerified== null){
+      this._user.kycverified = false;
+    }
+    if(res.merchantUser.kycVerified == true){
+      this._user.kycverified = res.merchantUser.kycVerified;
+    }
     if (res.merchantUser) {
       let pt = res.merchantUser;
       this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
@@ -503,6 +509,12 @@ export class UserService {
     }
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
+    }
+    if(res.merchantUser.kycVerified== null){
+      this._user.kycverified = false;
+    }
+    if(res.merchantUser.kycVerified == true){
+      this._user.kycverified = res.merchantUser.kycVerified;
     }
     if (res.merchantUser) {
       let pt1 = res.merchantUser;

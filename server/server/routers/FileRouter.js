@@ -56,6 +56,6 @@ var upload2 = multer({
 
 // Initializations.
 var fileRouter = express.Router();
-fileRouter.post('/upload', upload.single("file", 12), fileController.upload.bind(fileController));
+fileRouter.post('/upload', upload2.single("file", 12), fileController.upload.bind(fileController));
 fileRouter.post('/sendEmailNotify', upload2.single("file", 12), fileController.sendEmailNotify.bind(fileController));
 module.exports = fileRouter;
