@@ -74,5 +74,21 @@ export class AppComponent {
   
     return false;
   }
+  oncheckadd() {
+    if(!this.user.registerd) {
+      if(this.user.kycverified){
+        return true;
+      }
+      return true;
+    }
+  }
+  oncheckkyc() {
+      if(this.user.registerd ){
+         if(!this.user.kycverified) {
+          return true;
+      }
+      return false;
+    }
+  }
   
 }

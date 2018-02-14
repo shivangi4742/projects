@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { UtilsService, User, UserService, BusinessType, BusinessCategory, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
 
 @Component({
@@ -40,7 +42,7 @@ export class RegisterComponent implements OnInit {
   err: boolean = false;
   errmsg: string;
   editt: boolean = true;
-  constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
+  constructor(private translate: TranslateService, private router:Router, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService) { }
 
   ngOnInit() {
@@ -327,5 +329,21 @@ export class RegisterComponent implements OnInit {
     }
    // this.savebusinesspro();
   }
+
+  completeRegistration1() {
+     this.router.navigateByUrl('/thanksregistrationprocess')
+
+  }
+
+  /*completeRegistration1(){
+    this.userService.MerchantCompleteRegistration()
+      .then(res => this.completepost(res));
+
+  }
+  completepost(res:any){
+    if(res.responseFromAPI == true) {
+       this.router.navigateByUrl('/thanksregistrationprocess')
+    }
+  }*/
 
 }

@@ -15,7 +15,7 @@
     <div class="row noMarginRowBN">
    
       <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
-        <div class="row nilPadsBN" *ngIf="!user.registerd && onProfile()">
+        <div class="row nilPadsBN" *ngIf="oncheckadd() && onProfile()">
             <div class="col s12 m12 l12 center">
                 <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
                     <div class="row">
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-         <div class="row nilPadsBN" *ngIf="user.kycverified && !user.registerd">
+         <div class="row nilPadsBN" *ngIf="oncheckkyc()  && onProfile()">
             <div class="col s12 m12 l12 center">
                 <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
                     <div class="row">
