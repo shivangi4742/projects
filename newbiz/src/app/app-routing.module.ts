@@ -21,6 +21,7 @@ const routes: Routes = [
     { path: 'thankskycprocess', component: KycthanksComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'settings', component: SettingsComponent },
+    { path: 'settings/:open', component: SettingsComponent },
     { path: 'registrationprocess', component: RegisterComponent },
     { path: 'kycprocess', component: KycregComponent },
     { path: 'thanksregistrationprocess', component: ThanksregisterComponent },

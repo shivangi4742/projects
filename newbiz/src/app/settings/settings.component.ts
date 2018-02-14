@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit {
 
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
-    private userService: UserService) { }
+    private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.locationService.setLocation('settings');
@@ -80,21 +80,27 @@ export class SettingsComponent implements OnInit {
 
     this.userService.getMerchantDetails(this.user.merchantCode)
       .then(res => this.bind(res));
-
-    this.formLoaded = true;
   }
 
   bind(res: any) {
     if (res && res.id) {
       this.chargeFee = res.chargeConvenienceFee;
+      if(this.route.snapshot.params['open']) {
+        let elem: any = document.getElementById(this.route.snapshot.params['open']);
+        if(elem)
+          elem.click();
+      }
     }
+
+    this.formLoaded = true;
   }
+
   initcheckacc(res:any){
      this.accountpro = res;
-     if(this.accountpro.accountRefNumber) {
+     if(this.accountpro && this.accountpro.accountRefNumber) {
        this.conaccountnumber = this.accountpro.accountRefNumber;
      }
-     if(this.businesspro.contactPerson) {
+     if(this.businesspro && this.businesspro.contactPerson) {
        this.editt = true;
      }
      else {

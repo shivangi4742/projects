@@ -20,14 +20,14 @@
           <div class="row">
             <div class="input-field col s10 offset-s1">
               <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30"
-                     placeholder="What is this payment for?" required >
+                     placeholder="{{'What is this payment for?' | translate}}" required >
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10 offset-s1">
               <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
-                     placeholder="Enter the amount" (keyup)="checkAmount()" required>
+                     placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" required>
               <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
@@ -40,13 +40,13 @@
                     <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   </span>
-                  <span class="inputTextBN advanceBN">{{'Advance Options' | translate}}</span>
+                  <span class="inputTextBN advanceBN">{{'Advanced Options' | translate}}</span>
                 </div>
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate inputTextBN" maxlength="20"
-                             placeholder="Invoice Number (Optional)">
+                             placeholder="{{'Invoice Number (Optional)' | translate}}">
                       <label for="invoice" class ="active labelPLBN">{{'Invoice Number' | translate}}</label>
                     </div>
                   </div>
@@ -83,14 +83,14 @@
           <div class="row">
             <div class="input-field col s12">
               <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30"
-                     placeholder="What is this payment for?" required>
+                     placeholder="{{'What is this payment for?' | translate}}" required>
               <label for="purpose" class ="active labelPLBN">{{'Purpose of Payment*' | translate}}</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
-                     placeholder="Enter the amount" (keyup)="checkAmount()" required>
+                     placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" required>
               <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
@@ -103,13 +103,13 @@
                     <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   </span>
-                  <span class="inputTextBN advanceBN">{{'Advance Options' | translate}}</span>
+                  <span class="inputTextBN advanceBN">{{'Advanced Options' | translate}}</span>
                 </div>
                 <div class="collapsible-body noLeftPaddingBN">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate inputTextBN" maxlength="20"
-                             placeholder="Invoice Number (Optional)">
+                             placeholder="{{'Invoice Number (Optional)' | translate}}">
                       <label for="invoice" class ="active labelPLBN">{{'Invoice Number' | translate}}</label>
                     </div>
                   </div>

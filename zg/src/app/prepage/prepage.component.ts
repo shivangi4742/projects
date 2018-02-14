@@ -72,6 +72,7 @@ export class PrepageComponent implements OnInit {
   strInvalidEmail: string;
   strInvalidMobile: string;
   strInvalidAmount: string;
+  strInvalidRemarks: string;
   isFormValid: boolean;
 
   constructor(private route: ActivatedRoute,
@@ -84,8 +85,9 @@ export class PrepageComponent implements OnInit {
     this.strInvalidEmail = '';
     this.strInvalidMobile = '';
     this.strInvalidAmount = '';
+    this.strInvalidRemarks = '';
     this.genericError = '';
-    this.isFormValid = false;
+    this.isFormValid = true;
 
     if (this.id && this.id.length > 0) {
       this.enteredPayPin = '';
@@ -263,13 +265,14 @@ export class PrepageComponent implements OnInit {
   }
 
   onEnterRemarks(remark: string) {
+    this.strInvalidRemarks = '';
     this.remarks = remark;
   }
 
   onEnterPayment(amount: string, position: number) {
     this.strAmount = amount;
 
-    // if(index)
+    // if(index) 
     this.strInvalidAmount = '';
     this.totalBillAmount = +amount;
     if (this.validateAmount(amount)) {
@@ -327,27 +330,96 @@ export class PrepageComponent implements OnInit {
   }
 
   hasAllRequiredFields() {
-    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm() && this.totalBillAmount > 0;
+    return this.paymentMode && this.remarks && this.totalAmount <= 1000000 && this.totalAmount >= 1 && this.validateForm() && this.totalBillAmount > 0 && this.isFormValid;
   }
 
   validateForm(): boolean {
     var me = this;
+
     if (this.validateName(this.strFullName)) {
       this.payPinModel.payee_first_name = this.strFullName.split(' ')[0];
       this.payPinModel.payee_last_name = this.strFullName.split(' ')[1];
 
-      if (me.validateEmail(this.strEmail)) {
-        this.payPinModel.email_id = this.strEmail;
-
-        if (this.validateMobile(this.strMobile)) {
-          this.payPinModel.contact_number = this.strMobile;
+      if (me.strEmail.indexOf(',') > 0) {
+        var emailArray = me.strEmail.split(',');
+        var keepGoing = true;
+        emailArray.forEach((email, index) => {
+          if (keepGoing) {
+            if (me.validateEmail(email.trim())) {
+              if (index == (emailArray.length - 1)) {
+                keepGoing = false;
+                this.isFormValid = true;
+              }
+            }
+            else {
+              keepGoing = false;
+              this.isFormValid = false;
+              return false;
+            }
+          }
+        });
+        if (this.isFormValid) {
+          this.payPinModel.email_id = this.strEmail;
           return true;
         }
-
+        else {
+          return false;
+        }
+      }
+      else {
+        if (me.validateEmail(this.strEmail)) {
+          this.payPinModel.email_id = this.strEmail;
+          return me.validatePhoneForm();
+        }
+        else {
+          return false;
+        }
       }
 
     }
-    return false;
+    else {
+      return false;
+    }
+
+  }
+
+  validatePhoneForm(): boolean {
+    var me = this;
+    if (this.strMobile.indexOf(',') > 0) {
+      var mobArray = this.strMobile.split(',');
+      var keepGoing = true;
+      mobArray.forEach((mob, index) => {
+        if (keepGoing) {
+          if (me.validateMobile(mob.trim())) {
+            if (index == (mobArray.length - 1)) {
+              keepGoing = false;
+              this.isFormValid = true;
+            }
+          }
+          else {
+            keepGoing = false;
+            this.isFormValid = false;
+            return false;
+          }
+        }
+      });
+      if (this.isFormValid) {
+        this.payPinModel.contact_number = this.strMobile;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      if (me.validateMobile(this.strMobile)) {
+        this.payPinModel.contact_number = this.strMobile;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
 
   validateAmount(strAmount: string): boolean {
@@ -391,7 +463,7 @@ export class PrepageComponent implements OnInit {
 
   validateEmail(strEmail: string): boolean {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!re.test(strEmail)) {
+    if (!strEmail || !re.test(strEmail)) {
       this.strInvalidEmail = "Enter valid Email id";
       return false;
     }
@@ -399,19 +471,14 @@ export class PrepageComponent implements OnInit {
   }
 
   validateMobile(strMobile: string): boolean {
-    if (strMobile && strMobile.length == 10) {
-      var pattern = /^\d+$/;
-      if (pattern.test(strMobile)) {
-        return true;
-      }
-      else {
-        this.strInvalidMobile = "Enter valid number";
-        return false;
-      }
+    var pattern = /^\d+$/;
+    if (!strMobile || strMobile.length != 10 || !pattern.test(strMobile)) {
+      this.strInvalidMobile = "Enter valid number";
+      return false;
     }
 
-    this.strInvalidMobile = "Enter valid number";
-    return false;
+    return true;
+
   }
 
   onTaxClck() {
@@ -421,11 +488,6 @@ export class PrepageComponent implements OnInit {
   closeModal() {
     this.modalActions.emit({ action: "modal", params: ['close'] });
   }
-
-  // onEnterText(strText: string) {
-  //   // this.validationError = "";
-  //   this.isFormValid = this.validateForm();
-  // }
 
   onEnterName(strName: string) {
     this.strInvalidName = "";
@@ -437,8 +499,7 @@ export class PrepageComponent implements OnInit {
     if (strEmail.indexOf(',') > 0) {
       var emailArray = strEmail.split(',');
       emailArray.forEach(email => {
-        email = email.trim();
-        this.isFormValid = this.validateEmail(email);
+        this.isFormValid = this.validateEmail(email.trim());
       })
     }
     else {
@@ -450,14 +511,14 @@ export class PrepageComponent implements OnInit {
     this.strInvalidMobile = "";
     if (strMobile.indexOf(',') > 0) {
       var mobArray = strMobile.split(',');
-      mobArray.forEach(mobile => {
-        mobile = mobile.trim();
-        this.isFormValid = this.validateMobile(mobile);
-      })
+      mobArray.forEach(mob => {
+        this.isFormValid = this.validateMobile(mob.trim());
+      });
     }
     else {
       this.isFormValid = this.validateMobile(strMobile);
     }
+
   }
 
 }

@@ -432,6 +432,9 @@
             <div class="input-field col s12">
               <input value="" id="remarks" type="text" class="validate" (input)="onEnterRemarks($event.target.value)">
               <label class="active" for="remarks">Remarks</label>
+              <div class="row">
+                <span *ngIf="strInvalidRemarks" class="error-text-normal col s12 left">{{strInvalidRemarks}}</span>
+              </div>
             </div>
           </div>
 
