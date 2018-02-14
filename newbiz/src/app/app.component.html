@@ -15,7 +15,7 @@
     <div class="row noMarginRowBN">
    
       <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
-           <div class="row nilPadsBN" *ngIf="!user.registerd && onProfile()">
+        <div class="row nilPadsBN" *ngIf="user.registerd && onProfile()">
             <div class="col s12 m12 l12 center">
                 <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
                     <div class="row">
@@ -28,6 +28,24 @@
                                 [routerLink]="'/registrationprocess'" >{{'Add Business Details' | translate}}</button>            
                             <button class="hide-on-small-only btn waves-effect waves-light red  lowHButtonBN" 
                                 [routerLink]="'/registrationprocess'" >{{'Add Business Details' | translate}}</button>            
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="row nilPadsBN" *ngIf="user.kycverified && !user.registerd">
+            <div class="col s12 m12 l12 center">
+                <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">
+                    <div class="row">
+                        <div class="col s12 m8 l6 center">
+                           <span class="accountBalBN material-icons">₹</span>
+                            <span class="regNrmS5B1BN">&nbsp;&nbsp;{{'Receive  more than ₹10,000 per month' | translate}}</span>
+                        </div>            
+                        <div class="col s12 m4 l6">
+                            <button class="hide-on-med-and-up btn waves-effect waves-light red  lowHButtonBN btnSmallPaddingBN" 
+                                [routerLink]="'/registrationprocess'" >{{'SUBMIT KYC' | translate}}</button>            
+                            <button class="hide-on-small-only btn waves-effect waves-light red  lowHButtonBN" 
+                                [routerLink]="'/registrationprocess'" >{{'SUBMIT KYC' | translate}}</button>            
                         </div>            
                     </div>
                 </div>

@@ -8,6 +8,10 @@ import { SucesspaymentlinkComponent } from "./sucesspaymentlink/sucesspaymentlin
 import { TransactionhistoryComponent } from "./transactionhistory/transactionhistory.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { RegisterComponent } from "./register/register.component";
+import { ThanksregisterComponent } from "./thanksregister/thanksregister.component";
+import { KycregComponent } from "./kycreg/kycreg.component";
+import { KycthanksComponent } from "./kycthanks/kycthanks.component";
+
 
 const routes: Routes = [
     { path: 'transactionhistory', component: TransactionhistoryComponent },
@@ -17,6 +21,9 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'settings', component: SettingsComponent },
     { path: 'registrationprocess', component: RegisterComponent },
+    { path: 'kycprocess', component: KycregComponent },
+    { path: 'thanksregistrationprocess', component: ThanksregisterComponent },
+    { path: 'thankskycprocess', component: KycthanksComponent },
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

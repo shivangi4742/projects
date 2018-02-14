@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
-import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, BusinessType, BusinessCategory, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-register',
@@ -9,6 +9,8 @@ import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merch
 })
 export class RegisterComponent implements OnInit {
   accountpro: Accountpro;
+  businessType: BusinessType[];
+  businessCategory: BusinessCategory[];
   formLoaded: boolean = false;
   businesspro: Businesspro;
   user: User;
@@ -42,7 +44,7 @@ export class RegisterComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.locationService.setLocation('settings');
+    this.locationService.setLocation('registration');
     this.utilsService.setStatus(false, false, '');
     this.userService.getUser()
       .then(res => this.init(res));
@@ -65,6 +67,13 @@ export class RegisterComponent implements OnInit {
   }
 
   loadForm() {
+
+    this.userService.getBusinessType()
+      .then(tres => this.businessType = tres);
+
+    this.userService.getDashboardCategories()
+      .then(bres => this.businessCategory = bres);
+
     this.userService.checkMerchant(this.user.mobileNumber, "a")
       .then(ares => this.initcheckacc(ares));
 
@@ -74,13 +83,13 @@ export class RegisterComponent implements OnInit {
     this.formLoaded = true;
   }
 
- 
-  initcheckacc(res:any){
-     this.accountpro = res;
-     if(this.accountpro.accountRefNumber) {
-       this.conaccountnumber = this.accountpro.accountRefNumber;
-     }
-   
+
+  initcheckacc(res: any) {
+    this.accountpro = res;
+    if (this.accountpro.accountRefNumber) {
+      this.conaccountnumber = this.accountpro.accountRefNumber;
+    }
+
   }
 
 
@@ -125,7 +134,7 @@ export class RegisterComponent implements OnInit {
     this.isBusExpanded = false;
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
-    
+
   }
   bankdetail() {
     window.scrollTo(0, 0);
@@ -139,7 +148,7 @@ export class RegisterComponent implements OnInit {
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
-    
+
   }
   gstdetail() {
     window.scrollTo(0, 0);
@@ -154,7 +163,7 @@ export class RegisterComponent implements OnInit {
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
-   
+
   }
   allgstFields() {
     if (this.gst) {
@@ -256,7 +265,7 @@ export class RegisterComponent implements OnInit {
 
     }
   }
- 
+
   hasAllFields1() {
     return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
@@ -299,4 +308,24 @@ export class RegisterComponent implements OnInit {
   edit() {
     this.editt = false;
   }
+
+  savebusinesspro() {
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category,
+      this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
+      this.businesspro.contactPerson, this.businesspro.address,
+      this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
+      this.businesspro.gstno);
+  }
+
+  getAndSaveBType() {
+    for (let i: number = 0; i < this.businessType.length; i++) {
+      if (this.businessType[i].description == this.businesspro.businessType) {
+        this.businesspro.businessTypeCode = this.businessType[i].code;
+        break;
+      }
+    }
+   // this.savebusinesspro();
+  }
+
 }

@@ -18,5 +18,11 @@ userRouter.post('/markSelfMerchantVerified', userController.markSelfMerchantVeri
 userRouter.post('/registerSelfMerchant', userController.registerSelfMerchant.bind(userController));
 userRouter.post('/fetchMerchantForEditDetails', userController.fetchMerchantForEditDetails.bind(userController));
 userRouter.post('/setConvenienceFee',userController.setConvenienceFee.bind(userController));
+userRouter.get('/getBusinessType', userController.getBusinessType.bind(userController));
+userRouter.post('/getDashboardCategories',  userController.getDashboardCategories.bind(userController));
+userRouter.post('/getSubcategoryByCategory', userController.getSubcategoryByCategory.bind(userController));
+userRouter.post('/EnableKyc', userController.EnableKyc.bind(userController));
+userRouter.post('/complteregister', userController.complteregister.bind(userController));
+
 
 module.exports = userRouter;

@@ -26,6 +26,9 @@ import { SettingsComponent } from './settings/settings.component';
 import { TransactionhistoryComponent } from './transactionhistory/transactionhistory.component';
 import { SocketService } from './socket.service';
 import { RegisterComponent } from './register/register.component';
+import { ThanksregisterComponent } from './thanksregister/thanksregister.component';
+import { KycregComponent } from './kycreg/kycreg.component';
+import { KycthanksComponent } from './kycthanks/kycthanks.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -38,13 +41,16 @@ export function HttpFactory(http: Http) {
     BizfooterbarComponent,
     DashboardComponent,
     PaymentlistComponent,
-LeftnavComponent,
+    LeftnavComponent,
     RightnavComponent,
     CreatepaymentlinkComponent,
     SucesspaymentlinkComponent,
     SettingsComponent,
     TransactionhistoryComponent,
-    RegisterComponent
+    RegisterComponent,
+    ThanksregisterComponent,
+    KycregComponent,
+    KycthanksComponent
   ],
   imports: [
     HttpModule,

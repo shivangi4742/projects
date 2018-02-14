@@ -71,11 +71,11 @@
       <div class="col s12 m8 l8 center">
         <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
           <li class="tab col s6 m6 l6 ">
-            <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="create" (click)="setActiveTab(0)" href="#createCampaign">{{'Active Payment Link' | translate}}</a>
+            <a [ngClass]="active == 0 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="create" (click)="setActiveTab(0)">{{'Active Payment Link' | translate}}</a>
             <div class="redLineBN" *ngIf="active == 0 && isInitial"></div>
           </li>
           <li class="tab col s6 m6 l6 ">
-            <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)" href="#manageCampaigns">{{'Inactive Payment Link' | translate}}<span *ngIf="numCampaigns > 0">({{numCampaigns}})</span></a>
+            <a [ngClass]="active == 1 ? 'active tabBN activeTabBN' : 'inactiveTabBN tabBN'" id="manage" (click)="setActiveTab(1)">{{'Inactive Payment Link' | translate}}</a>
             <div class="redLineBN" *ngIf="active == 1 && isInitial"></div>
           </li>
           <div [ngClass]="isInitial ? 'indicator transparent' : 'indicator red accent-1'" style="z-index:1"></div>

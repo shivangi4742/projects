@@ -518,6 +518,7 @@ export class CampaignService {
     merchantpaymentlinkpost(res: any) {
         let me = this;
         let pt = res.merchantPPVoList;
+       
         if (res.responseFromAPI == false) {
             return res.responseFromAPI;
         }

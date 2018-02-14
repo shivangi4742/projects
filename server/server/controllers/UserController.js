@@ -1,6 +1,6 @@
 var helper = require('./../utils/Helper');
 
-var userCont = {    
+var userCont = {
     getTilsGet: function (merchantCode, token, email, cb) {
         var retErr = {
             "success": false,
@@ -18,7 +18,7 @@ var userCont = {
             cb(retErr);
         }
     },
-    
+
     signInTilPost: function (req, cb) {
         var retErr = {
             "success": false,
@@ -46,7 +46,7 @@ var userCont = {
             cb(retErr);
         }
     },
-    
+
     signInPost: function (req, cb) {
         var retErr = {
             "success": false,
@@ -76,7 +76,7 @@ var userCont = {
         }
     },
 
-    fetchMerchantDetailsPost: function(email, hdrs, cb) {
+    fetchMerchantDetailsPost: function (email, hdrs, cb) {
         var retErr = {
             "success": false,
             "token": null,
@@ -97,25 +97,25 @@ var userCont = {
         }
     },
 
-    getMerchantDetails: function(req, res) {
+    getMerchantDetails: function (req, res) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
 
         try {
-            if(!req || !req.body || !req.body.merchantCode)
+            if (!req || !req.body || !req.body.merchantCode)
                 res.json(retErr);
             else {
                 var d = req.body;
                 var h = req.headers;
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
-                { 
-                    "merchantCode": d.merchantCode
-                },
-                function(data) {
-                    res.json(data);
-                });
+                    {
+                        "merchantCode": d.merchantCode
+                    },
+                    function (data) {
+                        res.json(data);
+                    });
             }
         }
         catch (err) {
@@ -123,25 +123,25 @@ var userCont = {
         }
     },
 
-    completeRegistration: function(req, res) {
+    completeRegistration: function (req, res) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
 
         try {
-            if(!req || !req.body || !req.body.id)
+            if (!req || !req.body || !req.body.id)
                 res.json(retErr);
             else {
                 var d = req.body;
                 var h = req.headers;
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', h),
-                {
-                    "id": d.id
-                },
-                function(data) {
-                    res.json(data);
-                });
+                    {
+                        "id": d.id
+                    },
+                    function (data) {
+                        res.json(data);
+                    });
             }
         }
         catch (err) {
@@ -149,14 +149,14 @@ var userCont = {
         }
     },
 
-    getMerchantDetailsForVerification: function(req, res) {
+    getMerchantDetailsForVerification: function (req, res) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         };
 
         try {
-            if(!req || !req.body || !req.body.secretCode)
+            if (!req || !req.body || !req.body.secretCode)
                 res.json(retErr);
             else {
                 var d = req.body;
@@ -165,28 +165,28 @@ var userCont = {
                     {
                         "paramType": "registrationverification",
                         "paramCode": d.secretCode
-                    }, function(data1) {
-                        if(data1 && data1.desc1 && data1.desc2 && data1.val1) {
+                    }, function (data1) {
+                        if (data1 && data1.desc1 && data1.desc2 && data1.val1) {
                             var dtdiff = Date.now() - data1.val1;
-                            if(dtdiff > 3600000)
-                                res.json({isExpired: true});
+                            if (dtdiff > 3600000)
+                                res.json({ isExpired: true });
                             else
                                 helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', h),
                                     {
                                         "merchantCode": data1.desc1
-                                    }, function(data2) {
-                                        if(data2 && data2.merchantCode) {
+                                    }, function (data2) {
+                                        if (data2 && data2.merchantCode) {
                                             data2.agentCode = data1.desc2;
                                             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/registration/sendWebOTP', 'POST', h),
-                                            {
-                                                "mobileNumber": data2.mobileNumber
-                                            },
-                                            function(data3) {
-                                                if(data3 && data3.responseFromAPI == true)
-                                                    res.json(data2);
-                                                else
-                                                    res.json(retErr);
-                                            });
+                                                {
+                                                    "mobileNumber": data2.mobileNumber
+                                                },
+                                                function (data3) {
+                                                    if (data3 && data3.responseFromAPI == true)
+                                                        res.json(data2);
+                                                    else
+                                                        res.json(retErr);
+                                                });
                                         }
                                         else
                                             res.json(retErr);
@@ -202,15 +202,15 @@ var userCont = {
         }
     },
 
-    getCustomerList: function(req, res) {
+    getCustomerList: function (req, res) {
         console.log('herelist')
-        this.getCustomerListPost(req, function(data) {
-           res.setHeader("X-Frame-Options", "DENY");
-           res.json(data);
+        this.getCustomerListPost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json(data);
         });
     },
 
-    getCustomerListPost: function(req, cb) {
+    getCustomerListPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -225,8 +225,8 @@ var userCont = {
                 if (d && d.merchantCode) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getCustomerList', 'POST', req.headers),
                         {
-                            "merchantCode":d.merchantCode,
-                            "pageNumber":d.pageNumber
+                            "merchantCode": d.merchantCode,
+                            "pageNumber": d.pageNumber
                         },
                         cb);
                 }
@@ -262,14 +262,14 @@ var userCont = {
                 if (d && d.mobileNumber && d.emailId && d.displayName && d.otp && d.fullName) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
                         {
-                            "userId":d.emailId,
-	                        "mobileNumber":d.mobileNumber,
-	                        "emailId":d.emailId,
-	                    	"password":d.password,
-                            "displayName":d.displayName,
+                            "userId": d.emailId,
+                            "mobileNumber": d.mobileNumber,
+                            "emailId": d.emailId,
+                            "password": d.password,
+                            "displayName": d.displayName,
                             "contactPerson": d.fullName,
-                            "source":d.source,
-                            "otp":d.otp
+                            "source": d.source,
+                            "otp": d.otp
                         },
                         cb);
                 }
@@ -439,21 +439,21 @@ var userCont = {
             if (data && data.jwtToken) {
                 res.json(data);
             }
-            else if (data && data.validationErrors && 
+            else if (data && data.validationErrors &&
                 (data.validationErrors.user == 'User registration was not complete. Please register again.' ||
-                data.validationErrors.user == 'Your registration verification is pending. Please login once verification process is complete.')) {
-                me.fetchMerchantDetailsPost(req.body.email, req.headers, function(unrData) {
-                    if(unrData && unrData.success != false)
-                        res.json({ "success": true, "merchant": unrData});
+                    data.validationErrors.user == 'Your registration verification is pending. Please login once verification process is complete.')) {
+                me.fetchMerchantDetailsPost(req.body.email, req.headers, function (unrData) {
+                    if (unrData && unrData.success != false)
+                        res.json({ "success": true, "merchant": unrData });
                     else
                         res.json(retErr);
                 });
             }
             else {
                 me.signInTilPost(req, function (empData) {
-                    if (empData && empData.jwtToken && empData.employee_role && 
+                    if (empData && empData.jwtToken && empData.employee_role &&
                         (empData.employee_role.trim().toLowerCase() == 'benow merchant associate'
-                        || empData.employee_role.trim().toLowerCase() == 'benow merchant manager')) {
+                            || empData.employee_role.trim().toLowerCase() == 'benow merchant manager')) {
                         var ts = empData.jwtToken.split('.');
                         if (ts && ts.length > 1) {
                             var dt = JSON.parse(atob(ts[1]));
@@ -476,23 +476,23 @@ var userCont = {
             }
         });
     },
-     markSelfMerchantVerified: function (req, res) {
+    markSelfMerchantVerified: function (req, res) {
         var me = this;
-        this.markSelfMerchantVerifiedpost(req,  function (data) {
-           // res.setHeader("X-Frame-Options", "DENY");
-            
-            res.json( data);
+        this.markSelfMerchantVerifiedpost(req, function (data) {
+            // res.setHeader("X-Frame-Options", "DENY");
+
+            res.json(data);
         });
     },
 
-    markSelfMerchantVerifiedpost: function (req,  cb) {
+    markSelfMerchantVerifiedpost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
         }
 
         try {
-            if (!req || !req.body ) {
+            if (!req || !req.body) {
                 cb(retErr);
             }
             else {
@@ -528,15 +528,15 @@ var userCont = {
         });
     },
 
-    registerSelfMerchantpost: function (req,  cb) {
+    registerSelfMerchantpost: function (req, cb) {
         var retErr = {
             "success": false,
-           
+
             "errorCode": "Something went wrong. Please try again."
         }
 
         try {
-            if (!req || !req.body ) {
+            if (!req || !req.body) {
                 cb(retErr);
             }
             else {
@@ -572,9 +572,9 @@ var userCont = {
             cb(retErr);
         }
     },
-     fetchMerchantForEditDetails: function (req, res) {
+    fetchMerchantForEditDetails: function (req, res) {
         var me = this;
-        
+
         this.fetchMerchantForEditDetailsPost(req, function (data) {
             // console.log(data);
             var logoURL;
@@ -593,16 +593,16 @@ var userCont = {
                 me.downloadLogo(logoURL, data.userId, function (ldata) {
                     data.merchantLogoUrl = ldata;
                     res.setHeader("X-Frame-Options", "DENY");
-                    res.json({ "data": data});
+                    res.json({ "data": data });
                 });
             }
             else {
                 res.setHeader("X-Frame-Options", "DENY");
-                res.json({ "data":data});
+                res.json({ "data": data });
             }
         });
     },
-     fetchMerchantForEditDetailsPost: function (req, cb) {
+    fetchMerchantForEditDetailsPost: function (req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
@@ -629,7 +629,7 @@ var userCont = {
             cb(retErr);
         }
     },
-     downloadLogo: function (url, userId, cb) {
+    downloadLogo: function (url, userId, cb) {
         try {
             if (!url)
                 cb('');
@@ -659,15 +659,14 @@ var userCont = {
             cb('');
         }
     },
-     setConvenienceFee: function (req, res) {
+    setConvenienceFee: function (req, res) {
         var me = this;
-        this.setConvenienceFeePost(req,  function (data) {
+        this.setConvenienceFeePost(req, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
-            console.log(data);
-            res.json({ "data": data});
+            res.json({ "data": data });
         });
     },
-      setConvenienceFeePost: function (req, cb) {
+    setConvenienceFeePost: function (req, cb) {
         var retErr = {
             "success": false,
             "error": true,
@@ -675,10 +674,10 @@ var userCont = {
         };
 
         try {
-            if (!req || !req.body )
+            if (!req || !req.body)
                 cb(retErr);
             else {
-               
+
                 var d = req.body;
                 if (d && d.id && d.chargeConvenienceFee != null && d.chargeConvenienceFee != undefined) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/setConvenienceFeeFlag', 'POST', req.headers),
@@ -687,9 +686,176 @@ var userCont = {
                             "id": d.id
                         },
                         cb);
-                  }
+                }
                 else {
-                    cb(retErr);}
+                    cb(retErr);
+                }
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getBusinessType: function (req, res) {
+        var me = this;
+        this.getBusinessTypeget(req, function (data) {
+
+            res.setHeader("X-Frame-Options", "DENY")
+            res.json({ "data": data });
+        });
+    },
+
+    getBusinessTypeget: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            helper.getAndCallback(helper.getExtServerOptions('/merchants/merchant/getAllBusinessTypes', 'GET', req.headers), cb);
+        }
+
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    getDashboardCategories: function (req, res) {
+        var me = this;
+        this.getDashboardCategoriespost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+
+    getDashboardCategoriespost: function (req, cb) {
+        var retErr = {
+            "success": false,
+
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/getDashboardCategories', 'POST', req.headers),
+                    {
+
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getSubcategoryByCategory: function (req, res) {
+        var me = this;
+        this.getSubcategoryByCategorypost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+
+    getSubcategoryByCategorypost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+
+                var d = req.body.data;
+                if (d && d.category) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/getSubcategoryByCategory', 'POST', req.headers),
+                        {
+                            "category": d.category
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    EnableKyc: function (req, res) {
+        var me = this;
+        this.EnableKycpost(req, function (data) {
+            console.log(data);
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        })
+    },
+
+
+    EnableKycpost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "error": true,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+
+                var d = req.body.data;
+                if (d && d.merchantCode)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/enableKyc', 'POST', req.headers),
+                        {
+                            "merchantCode": d.merchantCode,
+
+                        },
+                        cb);
+                else cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    
+    complteregister: function (req, res) {
+        var me = this;
+        this.complteregistrationpost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+
+    complteregistrationpost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+
+                var d = req.body.data;
+                if (d && d.id) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', req.headers),
+                        {
+                            "id": d.id
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
             }
         }
         catch (err) {

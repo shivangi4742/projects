@@ -75,13 +75,11 @@ export class PaymentlistComponent implements OnInit {
              this.activepay = new Array<PaymentLinks>();
              this.inactivepay = new Array<PaymentLinks>();
                     res.forEach(function(a: any) {
-                      if(a.isactive == true)
-                        {
-                      
+                      if(a.isactive == true) {
                         me.activepay.push(new PaymentLinks(a.discription,a.url,a.id, 
                                 a.startdate,a.expirydate, a.amount,a.fileURL, a.isactive));
                         }
-                        else{
+                        else {
                            me.inactivepay.push(new PaymentLinks(a.discription,a.url,a.id, 
                                 a.startdate,a.expirydate, a.amount,a.fileURL, a.isactive));
                         }

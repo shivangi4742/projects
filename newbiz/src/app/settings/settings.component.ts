@@ -41,7 +41,7 @@ export class SettingsComponent implements OnInit {
   errordisplay: string;
   err: boolean = false;
   errmsg: string;
-  editt: boolean = true;
+  editt: boolean ;
 
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
@@ -67,7 +67,8 @@ export class SettingsComponent implements OnInit {
 
   }
   initDetails(res: any) {
-    //console.log(res);
+    console.log(res);
+   
   }
 
   loadForm() {
@@ -92,6 +93,12 @@ export class SettingsComponent implements OnInit {
      this.accountpro = res;
      if(this.accountpro.accountRefNumber) {
        this.conaccountnumber = this.accountpro.accountRefNumber;
+     }
+     if(this.businesspro.contactPerson) {
+       this.editt = true;
+     }
+     else {
+       this.editt = false ;
      }
    
   }
@@ -304,7 +311,7 @@ export class SettingsComponent implements OnInit {
 
     } else {
       this.errdisplayvalidate = true;
-      this.errordisplay = 'Special Character are Not allowed.';
+      this.errordisplay = 'Special character are not allowed.';
 
     }
   }
