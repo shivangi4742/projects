@@ -7,17 +7,18 @@
     <li>
       <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'mrbBN collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN mrbBN'">
-           {{'Business Details' |translate}}
-        <span class="col s8 m10 l10" (click)="bankdetails()">
-          <img *ngIf="!isPanExpanded" class="right" src = "../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px"/>
-          <img *ngIf="isPanExpanded" class="right" src = "../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px"/>
+        <span class="alignMidBN titleKycBN">
+          {{'Business Details' |translate}}
+        </span>
+        <span class="alignMidBN titleLogoBN" (click)="bankdetails()">
+          <img *ngIf="!isPanExpanded" class="" src = "../../assets/newbiz/imgs/plus@2x.png" height="18px" width="18px"/>
+          <img *ngIf="isPanExpanded" class="" src = "../../assets/newbiz/imgs/minus@2x.png" height="18px" width="18px"/>
           <!--<img  class="right" src = "../../assets/newbiz/imgs/images/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>
-           -->        
-          </span> 
-
+           -->
+        </span>
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
-        <div class="row">   
+        <div class="row">
           <div class="col s12 m12 l12">
             <div class="row">
             <div class="col s12 m12 l12 busDetails detailBodyBN">
@@ -49,7 +50,7 @@
                  <span class="col s12 m8 l8 heBN">{{'Business Address' | translate}}</span>
                 <input id="businessAddress" name="businessaddress" type="text" class="inputboxBN validate" [(ngModel)]="businesspro.address"
                   (keyup)="savebusinesspro()" />
-              
+
               </div>
 
               <div class="input-field col s12 m4 l4 regNrmS4B2BN">
@@ -62,21 +63,22 @@
             </div>
 
             </div>
-            
+
           </div>
-         
+
         </div>
       </div>
     </li>
     <li>
-      <div id="acbn" (click)="accountdetail()" [ngClass]="!isBusExpanded?'mrbBN collapsible-header setTitleBN profileDetailBN':
+      <div id="acbn" (click)="accountdetail11()" [ngClass]="!isAcctExpanded?'mrbBN collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN mrbBN'">
- {{'PAN Details' | translate}}
-        <span class="col s8 m10 l10" (click)="accountdetail1()">
-          <img *ngIf="!isBusExpanded" class="right" src = "../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px"/>
-          <img *ngIf="isBusExpanded" class="right" src = "../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px"/>
-         
-          </span> 
+        <span class="alignMidBN titleKycBN">
+          {{'PAN Details' | translate}}
+        </span>
+        <span class="alignMidBN titleLogoBN" (click)="accountdetails()">
+          <img *ngIf="!isAcctExpanded" class="" src = "../../assets/newbiz/imgs/plus@2x.png" height="18px" width="18px"/>
+          <img *ngIf="isAcctExpanded" class="" src = "../../assets/newbiz/imgs/minus@2x.png" height="18px" width="18px"/>
+        </span>
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row"></div>
@@ -94,18 +96,20 @@
             </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </li>
     <li>
       <div id="bnkset" (click)="bankdetail1()" [ngClass]="!isNgoExpanded?'mrbBN collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN mrbBN'">
-       {{'Bank Details' |translate}}
-        <span class="col s8 m10 l10" (click)="bankdetail()">
-           <img *ngIf="!isNgoExpanded" class="right" src = "../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px"/>
-          <img *ngIf="isNgoExpanded" class="right" src = "../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px"/>
-        
+        <span class="alignMidBN titleKycBN">
+          {{'Bank Details' |translate}}
+        </span>
+        <span class="alignMidBN titleLogoBN" (click)="bankdetail()">
+           <img *ngIf="!isNgoExpanded" class="" src = "../../assets/newbiz/imgs/plus@2x.png" height="18px" width="18px"/>
+          <img *ngIf="isNgoExpanded" class="" src = "../../assets/newbiz/imgs/minus@2x.png" height="18px" width="18px"/>
+
           </span>
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
@@ -150,16 +154,16 @@
               </div>
 
             </div>
-            
-            
+
+
             <div class="row"></div>
           </div>
           </div>
-          
+
         </div>
       </div>
     </li>
-   
+
 
   </ul>
   <div class="row">

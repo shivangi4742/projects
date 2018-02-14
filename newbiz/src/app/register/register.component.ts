@@ -42,8 +42,10 @@ export class RegisterComponent implements OnInit {
   err: boolean = false;
   errmsg: string;
   editt: boolean = true;
-  constructor(private translate: TranslateService, private router:Router, private utilsService: UtilsService, private locationService: LocationService,
-    private userService: UserService) { }
+
+  constructor(private translate: TranslateService, private router: Router, private utilsService: UtilsService, private locationService: LocationService,
+              private userService: UserService) {
+  }
 
   ngOnInit() {
     this.locationService.setLocation('registration');
@@ -51,6 +53,7 @@ export class RegisterComponent implements OnInit {
     this.userService.getUser()
       .then(res => this.init(res));
   }
+
   init(usr: User) {
     if (usr && usr.id) {
       this.user = usr;
@@ -64,6 +67,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
+
   initDetails(res: any) {
     //console.log(res);
   }
@@ -95,7 +99,6 @@ export class RegisterComponent implements OnInit {
   }
 
 
-
   accountdetail() {
     window.scrollTo(0, 0);
     this.isBusExpanded = !this.isBusExpanded;
@@ -112,8 +115,9 @@ export class RegisterComponent implements OnInit {
 
   bankdetails() {
     window.scrollTo(0, 0);
-    this.isPanExpanded = !this.isPanExpanded;
-    document.getElementById('acbns').click();
+    let a: any = document.getElementById('acbns');
+    a.click();
+    this.bankdetail11();
   }
 
   bankdetail11() {
@@ -124,10 +128,12 @@ export class RegisterComponent implements OnInit {
     this.isPaymentExpanded = false;
 
   }
+
   accountdetails() {
     window.scrollTo(0, 0);
-    this.isAcctExpanded = !this.isAcctExpanded;
-    document.getElementById('acounr').click();
+    let a: any = document.getElementById('acbn');
+    a.click();
+    this.accountdetail11();
   }
 
   accountdetail11() {
@@ -138,10 +144,12 @@ export class RegisterComponent implements OnInit {
     this.isPaymentExpanded = false;
 
   }
+
   bankdetail() {
     window.scrollTo(0, 0);
-    this.isNgoExpanded = !this.isNgoExpanded;
-    document.getElementById('bnkset').click();
+    let a: any = document.getElementById('bnkset');
+    a.click();
+    this.bankdetail1();
   }
 
   bankdetail1() {
@@ -152,6 +160,7 @@ export class RegisterComponent implements OnInit {
     this.isPaymentExpanded = false;
 
   }
+
   gstdetail() {
     window.scrollTo(0, 0);
     this.isgstExpanded = !this.isgstExpanded;
@@ -167,6 +176,7 @@ export class RegisterComponent implements OnInit {
     this.isPaymentExpanded = false;
 
   }
+
   allgstFields() {
     if (this.gst) {
       if (this.businesspro.gstno) {
@@ -181,6 +191,7 @@ export class RegisterComponent implements OnInit {
     this.gst = res;
 
   }
+
   save() {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
@@ -188,6 +199,7 @@ export class RegisterComponent implements OnInit {
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
       this.businesspro.pincode, this.businesspro.gstno);
   }
+
   saveaccount() {
     this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
       this.accountpro.panNumber, this.accountpro.bankName,
@@ -208,6 +220,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
+
   validatePAN() {
     var panFormat = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
     if (panFormat.test(this.accountpro.panNumber)) {
@@ -218,6 +231,7 @@ export class RegisterComponent implements OnInit {
       this.errorpanmsg = 'Please enter correct PAN card number';
     }
   }
+
   validateifsc() {
     var ifsc = this.accountpro.ifsc;
     var reg = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;
@@ -231,6 +245,7 @@ export class RegisterComponent implements OnInit {
       this.errorifsc = 'Please enter correct IFSC code.'
     }
   }
+
   savepincode() {
     var pincode = this.businesspro.pincode;
     //console.log(pincode);
@@ -243,6 +258,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
+
   validatebusiness() {
     var TCode1 = this.businesspro.businessName;
 
@@ -272,21 +288,26 @@ export class RegisterComponent implements OnInit {
     return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
   }
+
   hasAllFields2() {
     return !this.errpancard && this.accountpro.panNumber;
   }
+
   hasAllFields3() {
     return !this.errpancard && this.accountpro.panNumber;
   }
+
   UpCase(res) {
     var res1 = res.toUpperCase();
     this.accountpro.accountHolderName = res1;
     return this.accountpro.accountHolderName;
   }
+
   hasAllFields4() {
     return !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
       && this.accountpro.ifsc && this.conaccountnumber && !this.err;
   }
+
   Accountno() {
     if ((((this.accountpro.accountRefNumber).length) <= 5) && (((this.conaccountnumber).length) <= 5)) {
       this.err = true;
@@ -327,23 +348,23 @@ export class RegisterComponent implements OnInit {
         break;
       }
     }
-   // this.savebusinesspro();
+    // this.savebusinesspro();
   }
 
-  completeRegistration1() {
+  /*completeRegistration1() {
      this.router.navigateByUrl('/thanksregistrationprocess')
 
   }
-
-  /*completeRegistration1(){
+*/
+  completeRegistration1() {
     this.userService.MerchantCompleteRegistration()
       .then(res => this.completepost(res));
 
   }
-  completepost(res:any){
-    if(res.responseFromAPI == true) {
-       this.router.navigateByUrl('/thanksregistrationprocess')
-    }
-  }*/
 
+  completepost(res: any) {
+    if (res.responseFromAPI == true) {
+      this.router.navigateByUrl('/thanksregistrationprocess')
+    }
+  }
 }

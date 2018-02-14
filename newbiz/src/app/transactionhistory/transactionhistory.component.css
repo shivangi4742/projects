@@ -113,6 +113,10 @@
 .overlayBN {
   opacity: 0.3;
 }
+.noOverlayBN{
+  float: right;
+  margin-right: 15px
+}
 .nextBN{
   float: right;
   color: rgb(65,58,90);

@@ -45,7 +45,7 @@
 }
  .paddindfBN {
     padding: 0rem!important;
-} 
+}
 .busDetails{
     padding-top: 12px;
 }
@@ -60,4 +60,12 @@
 }
 .mrbBN{
     padding-left: 2rem!important;
+}
+.titleKycBN{
+  margin: 0px!important;
+  padding-left: 0px!important;
+  width: 95%;
+}
+.titleLogoBN{
+
 }
