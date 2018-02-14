@@ -91,3 +91,16 @@
   border: solid 1px #413A5A;
   border-radius: 10px;
 }
+
+.dateRangeSBN {
+  max-width: 120px;
+  padding-left: 10px;
+  padding-right: 5px;
+  border: solid 1px #413A5A;
+  border-radius: 10px;
+}
+
+.smallGapBN {
+  height: 1px;
+  margin-bottom: 5px;
+}

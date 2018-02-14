@@ -1,9 +1,17 @@
-<div class="row">&nbsp;</div>
-<div class="col s12 hide-on-med-and-down" align="center">
-
+<div class="row smallGapBN">&nbsp;</div>
+<div class="row hide-on-med-and-up" align="center">
+  <div class="col s12">
+    <div class="dateRangeSBN">
+      <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
+        <option value="1">{{'Today' | translate}}</option>
+        <option value="2">{{'This Week' | translate}}</option>
+        <option value="3">{{'This Month' | translate}}</option>
+      </select>
+    </div>
+  </div>  
 </div>
-<div class="row">
-    <div class="col m4 dateRangeBN offset-m8 hide-on-small-only" align="right">
+<div class="row hide-on-small-only">
+    <div class="col m4 dateRangeBN offset-m8" align="right">
         <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
             <option value="1">{{'Today' | translate}}</option>
             <option value="2">{{'This Week' | translate}}</option>
@@ -11,7 +19,7 @@
         </select>
     </div>
 </div>
-<div class="row"></div>
+<div class="row smallGapBN"></div>
 <div class="row">
   <div class="col s10 offset-s1 m6 offset-m3 l6 offset-l3 dashTitleBN">
     <div class="col s6 dashLeftTitleBN">
