@@ -35,3 +35,13 @@
   padding-left: 0px!important;
   width: 95%;
 }
+.uppcaseBN{
+    text-transform: uppercase!important;
+}
+.gerycoloBN {
+    color: grey;
+    font-weight: 400;
+}
+.reddBN{
+      color: #E53935;
+}

@@ -649,9 +649,9 @@ export class UserService {
   
   enableKyc(merchantCode: string): Promise<any> {
     return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.EnableKyc,
+      .post(this.utilsService.getBaseURL() + this._urls.getEnableKyc,
       JSON.stringify({
-        "merchantCode": merchantCode
+        "merchantCode": this._user.merchantCode
       }),
       { headers: this.utilsService.getHeaders() })
       .toPromise()

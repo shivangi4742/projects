@@ -31,20 +31,20 @@
                             <div class="col s4 m1 l1 coloBN1">
                                 {{'PAN' | translate}}
                             </div>
-                            <div class="col s6 m11 l11 regNrmS5B2BN">
+                            <div class="col s6 m11 l11 regNrmS5B2BN uppcaseBN">
                                 {{accountProfile.panNumber | translate}}
                             </div>
 
                         </div>
                         <div class="row busDetails detailBodyBN">
-                            <div class="col s12 m12 l12 regNrmS5B2BN">
+                            <div class="col s12 m12 l12 regNrmS5B2BN ">
                                 {{'Upload photo or scanned copy of your PAN CARD' | translate}}
                             </div>
                         </div>
                         <div class="row busDetails detailBodyBN">
                             <div class="col s12 m12 l12 regNrmS5B2BN brderBN">
                                 <span class="col s12 m12 l12"> &nbsp;</span>
-                                <span class="col s12 m12 l12 center ">
+                                <span class="col s12 m12 l12 center gerycoloBN ">
                                     {{'*Changing PAN details is not permitted. Kindly upload the correct file' | translate}}
                                 </span>
                                 <span class="col s12 m12 l12"> &nbsp;</span>
@@ -117,10 +117,10 @@
 
                             </div>
                             <div class="row busDetails detailBodyBN">
-                                <div class="col s6 m6 l6 regNrmS5B2BN">
+                                <div class="col s6 m6 l6 regNrmS5B2BN uppcaseBN">
                                     {{ accountProfile.accountHolderName| translate}}
                                 </div>
-                                <div class="col s6 m6 l6 regNrmS5B2BN">
+                                <div class="col s6 m6 l6 regNrmS5B2BN uppcaseBN">
                                     {{ accountProfile.ifsc | translate}}
                                 </div>
 
@@ -145,13 +145,13 @@
                             </div>
                             <div class="row busDetails detailBodyBN">
                                 <div class="col s12 m12 l12 regNrmS5B2BN">
-                                    {{'Upload your latest bank statement for the account number' | translate}}
+                                    {{'Upload your latest bank statement for the account number' | translate}} &nbsp; <span class="reddBN"> {{ accountProfile.accountRefNumber | translate}}</span>
                                 </div>
                             </div>
                             <div class="row busDetails detailBodyBN">
                                 <div class="col s12 m12 l12 regNrmS5B2BN brderBN">
                                     <span class="col s12 m12 l12"> &nbsp;</span>
-                                    <span class="col s12 m12 l12 center ">
+                                    <span class="col s12 m12 l12 center gerycoloBN ">
                                         {{'Your name address and account number must be clearly visible on the file you upload' | translate}}
                                     </span>
                                     <span class="col s12 m12 l12"> &nbsp;</span>
@@ -190,9 +190,10 @@
                                           </div>
                                          </div>
                                         </div>
-                                        <br>
-                                    </div>
+                                       <br><br>
                                     <br>
+                                    <br>
+                                    </div>                                    
                                     <br>
                                 </div>
                             </div>
