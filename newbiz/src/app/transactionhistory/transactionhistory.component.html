@@ -6,114 +6,141 @@
       <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
     </a>
   </div>
-  <!-- Desktop View -->
-  <div class="row hide-on-small-only">
+  <div class="row" (click)="resetTick()">
     <div class="row"></div>
     <div class="row">
-      <div class="col s7 searchBorderBN">
+      <div class="col s12 m7 l7 searchBorderBN">
         <i class="col s2 material-icons searchIconBN">search</i>
         <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
                type="text" [(ngModel)]="searchText">
       </div>
-      <div class="col s5 exportBN">
-        <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
-        <i class="material-icons alignMidBN exportIconBN">file_download</i>
-      </div>
-    </div>
-    <div class="row"></div>
-    <div class="row">
-      <div class="col s6">
-        <select materialize="material_select">
-          <option value="all" selected>All Payments</option>
-        </select>
-      </div>
-    </div>
-    <div class="row"></div>
-    <div class="row">
-      <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li *ngFor="let p of payments">
-          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
-                  <span (click)="changeIcon(p.id)">
-                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-                  </span>
-            <div class="col s5">
-              {{p.dateAndTime}}
-            </div>
-            <div class="col s4">
-              {{p.vPA}}
-            </div>
-            <div class="col s3">
-              <span class="right">{{p.amount}}</span>
-            </div>
-          </div>
-          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
-            <div class="row">
-              <div class="col s5 center">Payment id: {{p.id}}</div>
-              <div class="col s4 center">Payer Details: {{p.email}} - {{p.phone}}</div>
-              <div class="col s3 center">Mode: {{p.mode}}</div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- Mobile View -->
-  <div class="row hide-on-med-and-up">
-    <div class="row"></div>
-    <div class="row">
-      <div class="col s12 searchBorderBN">
-        <i class="col s2 material-icons searchIconBN">search</i>
-        <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
-               type="text" [(ngModel)]="searchText">
-      </div>
-      <!--<div class="col s5 exportBN">
-        <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
-        <i class="material-icons alignMidBN exportIconBN">file_download</i>
-      </div>-->
-    </div>
-    <div class="row"></div>
-    <div class="row">
-      <div class="col s6">
-        <select materialize="material_select">
-          <option value="all" selected>All Payments</option>
-        </select>
-      </div>
-    </div>
-    <div class="row"></div>
-    <div class="row">
-      <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li *ngFor="let p of payments">
-          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
-                  <span (click)="changeIcon(p.id)">
-                    <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-                    <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-                  </span>
-            <div class="col s6 truncate">
-              {{p.dateAndTime}}
-            </div>
-            <div class="col s6 truncate">
-              {{p.vPA}}<br>
-              ₹{{p.amount}}
-            </div>
-            <!--<div class="col s3">
-              <span class="right">{{p.amount}}</span>
-            </div>-->
-          </div>
-          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
-            <div class="row">
-              <div class="col s8 truncate"><b>Payment id:</b> <br>{{p.id}}</div>
-              <div class="col s4 truncate"><b>Mode:</b> <br>{{p.mode}}</div>
-              <div class="col s12 truncate" style="margin-top: 10px;"><b>Payer Details:</b> <br>{{p.email}} <br>{{p.phone}}</div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="row">
-      <div class="col s12 center">
-          <i class="material-icons alignMidBN exportIconBN">file_download</i>
+      <div [ngClass]='processingCSV?"col s5 exportBN overlayBN hide-on-small-only":"col s5 exportBN hide-on-small-only"'>
+        <a class="linkButtonBN" *ngIf="numPages > 0" (click)="downloadCSV(1)">
           <span class="alignMidBN exportTextBN">{{'Export Report' | translate}}</span>
+          <i class="material-icons alignMidBN exportIconBN">file_download</i>
+          <a id="reportDownloadBN" [attr.href]="sanitize(encUri)" download="Payments.csv">&nbsp;</a>
+        </a>
+        <div *ngIf="processingCSV" class="preloader-wrapper small active noOverlayBN">
+          <div class="spinner-layer spinner-red-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+          </div>
+        </div>
+        <div *ngIf="!processingCSV && successCSV" class="noOverlayBN">
+          <img src="../../assets/shared/images/success.png" class="alignMidBN" />
+        </div>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col s6">
+        <select materialize="material_select">
+          <option value="all" selected>All Payments</option>
+        </select>
+      </div>
+      <div class="col s6">
+        <select materialize="material_select">
+          <option value="allTime" selected>All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div *ngIf="hasTransactions()" class="row">
+      <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
+        <li *ngFor="let p of payments; let i = index;">
+          <div [id]="p.id" [ngClass]= 'checkClass(i, p.id)' (click)="arrowChange(p.id)">
+        <span (click)="changeIcon(p.id)">
+          <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_right</i>
+          <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_down</i>
+        </span>
+            <div class="col s6 m5 l5 fieldBN">
+              {{p.dateAndTime | date: 'MMM d, yyyy HH:MM a'}}
+            </div>
+            <div class="col s6 m4 l4 truncate fieldBN">
+              {{p.vPA}}<br>
+              <span class="hide-on-med-and-up">₹{{p.amount}}</span>
+            </div>
+            <div class="col m3 l3 hide-on-small-only fieldBN">
+              <span class="right">₹{{p.amount}}</span>
+            </div>
+          </div>
+          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
+            <div class="row" style="margin-bottom: 0px;">
+              <div class="col s12 m4 l4 truncate secondFieldBN"><b>{{'Payment ID' | translate}}</b> <br>{{p.id}}</div>
+              <div class="col s12 m5 l5 truncate secondFieldBN"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}<br> {{p.phone}}</div>
+              <div class="col s12 m3 l3"><b>{{'Payment For' | translate}}</b><br>{{p.description}}</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="processing" class="col s12 center">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="preloader-wrapper active">
+        <div class="spinner-layer spinner-red-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+        </div>
+      </div>
+      <div class="col s12 center inputTextBN">
+        Loading Transactions
+      </div>
+    </div>
+    <div *ngIf="!hasTransactions() && !processing" class="col s12 center">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="col s12 center inputTextBN">
+        No Transactions Found
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col s12">
+        <a class="linkButtonBN previousBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+          <i class="material-icons alignMidBN">navigate_before</i>
+          <span class="alignMidBN">{{'Previous' | translate}}</span>
+        </a>
+        <a class="linkButtonBN nextBN" (click)="next()" *ngIf="numPages > page">
+          <span class="alignMidBN">{{'Next' | translate}}</span>
+          <i class="material-icons alignMidBN">navigate_next</i>
+        </a>
+      </div>
+    </div>
+    <div class="row hide-on-med-and-up">
+      <div class="col s12 center" style="border-top: 2px solid #dddddd;">
+        <div *ngIf="processingCSV" class="preloader-wrapper small active">
+          <div class="spinner-layer spinner-red-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+          </div>
+        </div>
+        <div *ngIf="!processingCSV && successCSV" class="">
+          <img src="../../assets/shared/images/success.png" class="alignMidBN" />
+        </div>
+      </div>
+      <div [ngClass]='processingCSV?"col s12 reportMobBN overlayBN center":"col s12 reportMobBN center"'>
+        <a class="linkButtonBN exportMobBN" *ngIf="numPages > 0" (click)="downloadCSV(2)">
+          <i class="material-icons alignMidBN">file_download</i>
+          <span class="alignMidBN ">{{'Export Report' | translate}}</span>
+          <a id="reportDownloadMobBN" [attr.href]="sanitize(encUri)" download="Payments.csv">&nbsp;</a>
+        </a>
       </div>
     </div>
   </div>

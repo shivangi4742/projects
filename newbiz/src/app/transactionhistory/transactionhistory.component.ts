@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { User, UserService, TransactionService, Transaction, Product, UtilsService, Payment, LocationService } from 'benowservices';
 
@@ -16,9 +17,19 @@ export class TransactionhistoryComponent implements OnInit {
   transactions: Transaction;
   payments: Array<Payment>;
   products: Array<Product>;
-  selectedId: string ;
+  selectedId: string;
+  numPages: number = 0;
+  numTransactions: number = 0;
+  totalAmount: number;
+  page: number = 1;
+  processing: boolean = false;
+  processingCSV: boolean = false;
+  mtype: number = 1;
+  encUri: string;
+  successCSV: boolean = false;
 
-  constructor(private locationService: LocationService, private userService: UserService, private transactionService: TransactionService, private utilsService: UtilsService) { }
+  constructor(private locationService: LocationService, private userService: UserService, private transactionService: TransactionService,
+              private utilsService: UtilsService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.locationService.setLocation('transactionhistory');
@@ -28,18 +39,60 @@ export class TransactionhistoryComponent implements OnInit {
 
   init(res: any){
     this.user = res;
-    console.log(this.utilsService.getLastYearDateString(),
-      this.utilsService.getCurDateString());
+
+    if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)){
+      this.mtype = 3;
+    }
+
+    this.processing = true;
     this.transactionService.getProductTransactions(this.user.merchantCode, this.utilsService.getLastYearDateString()+" 00:00:00",
-      this.utilsService.getCurDateString()+" 23:59:59", 1)
+      this.utilsService.getCurDateString()+" 23:59:59", this.page)
       .then(tres => this.updateTransactions(tres));
   }
 
+  hasTransactions(): boolean {
+    if(this.payments && this.payments.length > 0){
+      return true;
+    }
+
+    return false;
+  }
+
   updateTransactions(res: Transaction){
-    this.transactions = res;
-    this.payments = res.payments;
+    console.log('here?', res);
+    if(res){
+      this.transactions = res;
+      this.numPages = res.numPages;
+      this.numTransactions = res.numPayments;
+      this.totalAmount = res.totalAmount;
+      this.payments = res.payments;
+    }
+    else {
+      this.payments = null
+    }
+    this.processing = false;
 
     console.log(this.transactions, 'Payments', this.payments);
+  }
+
+  next() {
+    this.payments = null;
+    this.numPages = 0;
+    this.processing = true;
+    window.scrollTo(0, 0);
+    this.transactionService.getProductTransactions(this.user.merchantCode, this.utilsService.getLastYearDateString()+" 00:00:00",
+      this.utilsService.getCurDateString()+" 23:59:59", (++this.page))
+      .then(res => this.updateTransactions(res));
+  }
+
+  previous() {
+    this.payments = null;
+    this.numPages = 0;
+    this.processing = true;
+    window.scrollTo(0, 0);
+    this.transactionService.getProductTransactions(this.user.merchantCode, this.utilsService.getLastYearDateString()+" 00:00:00",
+      this.utilsService.getCurDateString()+" 23:59:59", (--this.page))
+      .then(res => this.updateTransactions(res));
   }
 
   arrowChange(id: any){
@@ -65,10 +118,88 @@ export class TransactionhistoryComponent implements OnInit {
     this.arrowChange(id);
   }
 
-  changeIconMob(){
-    let a: any = document.getElementById('advanceMob');
-    a.click();
-    this.arrowChange('a');
+  checkClass(i: number, id: any):string {
+    let className: string = 'collapsible-header noLeftMarginBN collapsibleHeadBN';
+    if(i%2 == 0){
+      className = 'collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN';
+
+      if(this.isSelected(id) && this.detailsExpanded){
+        className = 'collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN';
+      }
+    }
+    else{
+      if(this.isSelected(id) && this.detailsExpanded){
+        className = 'collapsible-header noLeftMarginBN collapsibleHeadRedBN';
+      }
+    }
+
+    return className;
+  }
+
+  resetTick(){
+    this.successCSV = false;
+  }
+
+  sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  downloadCSV(check: number) {
+    let id: string = 'reportDownloadMobBN';
+    if(check == 1){
+      id = 'reportDownloadBN';
+    }
+    else if(check == 2){
+      id = 'reportDownloadMobBN';
+    }
+    if (!this.processingCSV) {
+      this.encUri = '';
+      this.processingCSV = true;
+      if (this.mtype == 3)
+        this.transactionService.getAllProductTransactions(this.user.merchantCode,this.utilsService.getLastYearDateString()+" 00:00:00",
+          this.utilsService.getCurDateString()+" 23:59:59", 1)
+          .then(res => this.createMyBizCSV(res, id));
+      else{
+        console.log('Not a HB');
+      }
+    }
+  }
+
+  createMyBizCSV(res: Transaction, id:string) {
+    if (res && res.payments && res.payments.length > 0) {
+      let data: any = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Products']];
+      if (this.mtype == 2)
+        data = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Donation Options']];
+
+      for (var t of res.payments) {
+        let prods: string = '';
+        if (t && t.products && t.products.length > 0) {
+          for (var p of t.products)
+            prods += p.qty + '  ' + (p.uom ? p.uom : '') + '  ' + p.name + '\n';
+
+          if (prods && prods.length > 1)
+            prods = prods.substring(0, prods.length - 1);
+        }
+
+        data.push([t.tr, t.vPA, t.amount.toFixed(2), t.mode, t.dateAndTime, '"' + prods + '"']);
+      }
+
+      let csvContent: string = "data:text/csv;charset=utf-8,";
+      data.forEach(function (infoArray: string[], index: number) {
+        let dataString: string = infoArray.join(",");
+        csvContent += index < data.length ? dataString + "\n" : dataString;
+      });
+
+      this.encUri = encodeURI(csvContent);
+      let me = this;
+      setTimeout(function () { let a: any = document.getElementById(id); a.click(); me.processingCSV = false; me.successCSV = true; }, 300);
+    }
+    else {
+      console.log('CSV generation Error');
+      window.scrollTo(0, 0);
+      this.processingCSV = false;
+      this.successCSV = false;
+    }
   }
 
 }

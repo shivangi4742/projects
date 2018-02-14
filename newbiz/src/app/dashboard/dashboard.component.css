@@ -1,0 +1,87 @@
+.statsBoxBN{
+  background-color: #413A5A;
+  color: white;
+  height: 80px;
+  border: 0px solid #413A5A;
+  border-radius: 15px;
+  font-family: Barlow;
+  font-size: 15pt;
+  font-weight: bold;
+}
+.noLeftPaddingBN{
+  padding-left: 20px!important;
+}
+.leftPaneBN{
+  border-right: 4px solid white;
+  text-align: center;
+  height: 80px;
+  padding: 20px 12px 0px 0px;
+}
+.rightPaneBN{
+  text-align: center;
+  padding-top: 20px;
+}
+.collapsibleBodyBN {
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.collapsibleHeadBN{
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+}
+.collapsibleHeadRedBN{
+  color: red;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+}
+.listPLBN{
+  box-shadow: none;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 1px solid #ddd;
+}
+.accordionHeaderBN{
+  background-color: #f2f2f2;
+}
+.dashLeftTitleBN{
+  border-right: 4px solid white;
+  text-align: center;
+  height: 20%;
+  padding: 0px 0px 10px 0px;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+}
+.dashRightTitleBN{
+  text-align: center;
+  height: 20%;
+  padding: 0px 0px 10px 0px;
+  font-size: 11pt;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+}
+.iconBN{
+  margin: 0px;
+}
+.fieldBN{
+  padding-left: 0px;
+}
+.secondFieldBN{
+  margin-bottom: 10px;
+}
+.recentBN{
+  font-size: 14pt;
+  font-family: 'Barlow', sans-serif;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+.smallerFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  padding: 0px;
+  height: 25px;
+}

@@ -63,6 +63,7 @@
 }
 .exportIconBN{
   float: right;
+  color: rgb(65,58,90);
 }
 .listPLBN{
   box-shadow: none;
@@ -105,4 +106,37 @@
   font-size: 11pt;
   font-family: 'Barlow', sans-serif;
   font-weight: bold;
+}
+.accordionHeaderBN{
+  background-color: #f2f2f2;
+}
+.overlayBN {
+  opacity: 0.3;
+}
+.nextBN{
+  float: right;
+  color: rgb(65,58,90);
+}
+.previousBN{
+  color: rgb(65,58,90);
+}
+.iconBN{
+  margin: 0px;
+}
+.fieldBN{
+  padding-left: 0px;
+}
+.secondFieldBN{
+  margin-bottom: 10px;
+}
+.exportMobBN{
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+  padding-top: 10px;
+}
+.reportMobBN{
+  margin-top: 10px;
 }

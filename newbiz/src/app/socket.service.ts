@@ -27,7 +27,7 @@ export class SocketService {
   showNewPayments(paymentData: any) {
    let me: any = this;
  this._newPayments.push(new Payment(false, paymentData.amount, null, null, paymentData.id, paymentData.tr, paymentData.mode, paymentData.vpa,
-     paymentData.till, null, paymentData.dt, null, null, false, null, null, null, null));
+     paymentData.till, null, paymentData.dt, null, null, false, null, null, null, null, null));
    if(this._newPayments.length <= 1) {
      setTimeout(function() { me.fadeInNewPayments(); }, 500);
      setTimeout(function() { me.removePayment(paymentData.id); }, 3500);
