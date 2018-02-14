@@ -8,7 +8,6 @@ import { LocationService, User, UserService, Transaction, Payment, TransactionSe
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   chargeFee: boolean = false;
   transactionHistory: string = '/transactionhistory';
   user: User;
@@ -22,6 +21,7 @@ export class DashboardComponent implements OnInit {
   processing: boolean = false;
   selPayments: Array<Payment>;
   displayTransactions: number = 3;
+  dateRange: number = 1;
 
   constructor(private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private transactionService: TransactionService) { }
@@ -116,4 +116,7 @@ export class DashboardComponent implements OnInit {
     return className;
   }
 
+  dateRangeChanged(v: any) {
+    this.dateRange = +v;
+  }
 }

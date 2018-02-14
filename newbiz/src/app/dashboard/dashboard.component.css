@@ -85,3 +85,9 @@
   padding: 0px;
   height: 25px;
 }
+
+.dateRangeBN {
+  max-width: 150px;
+  border: solid 1px #413A5A;
+  border-radius: 10px;
+}
