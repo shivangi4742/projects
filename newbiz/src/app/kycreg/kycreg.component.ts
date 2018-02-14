@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, SDKService, Accountpro, Businesspro,FileService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, SDKService, Accountpro, Businesspro, FileService, Status, LocationService } from 'benowservices';
 
 @Component({
     selector: 'app-kycreg',
@@ -20,25 +20,25 @@ export class KycregComponent implements OnInit {
     isCODExpanded: boolean = false;
     isPaymentExpanded: boolean = false;
     isgstExpanded: boolean = false;
-    accountProfile:Accountpro;
-    businessProfile:Businesspro;
-    declare:string;
-    user:User;
-    uploading:boolean= false;
-    logoFile:string;
-    bannerover:boolean;
+    accountProfile: Accountpro;
+    businessProfile: Businesspro;
+    declare: string;
+    user: User;
+    uploading: boolean = false;
+    logoFile: string;
+    bannerover: boolean;
 
     constructor(private translate: TranslateService, private utilsService: UtilsService,
         private userService: UserService, private router: Router, private locationService: LocationService,
-        private route: ActivatedRoute, private sdkService: SDKService, private fileService:FileService ) { }
+        private route: ActivatedRoute, private sdkService: SDKService, private fileService: FileService) { }
 
     ngOnInit() {
-     this.userService.getUser()
+        this.userService.getUser()
             .then(res => this.init(res));
     }
 
     init(usr: User) {
-        console.log(usr, 'hello', this.businessProfile, this.accountProfile);
+
         if (usr && usr.id) {
             this.user = usr;
             this.translate.use(this.utilsService.getLanguageCode(this.user.language));
@@ -47,20 +47,23 @@ export class KycregComponent implements OnInit {
         else
             this.router.navigateByUrl('/login/1');
     }
-     loadForm() {
+    loadForm() {
 
         this.userService.checkMerchant(this.user.mobileNumber, "a")
             .then(ares => this.accountProfile = ares);
+            
+        this.userService.checkMerchant(this.user.mobileNumber, "b")
+            .then(ares => this.businessProfile = ares);
 
-       
+        console.log('hello', this.businessProfile, this.accountProfile);
 
-        
+
     }
     resetStatus() {
         this.utilsService.setStatus(false, false, '');
     }
 
-   
+
 
     accountdetail() {
         window.scrollTo(0, 0);
@@ -119,9 +122,9 @@ export class KycregComponent implements OnInit {
 
     uploadauthticatepan(res: any, me: any) {
 
-      var f=document.getElementById('uploadauthpan');
-      (f as any).val('');
-      
+        var f = document.getElementById('uploadauthpan');
+        (f as any).val('');
+
         if (res && res.success) {
             // console.log(res);
             me.uploading = false;
@@ -141,8 +144,8 @@ export class KycregComponent implements OnInit {
                 this.filename1 = e.target.files[0].name;
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                   var p = document.getElementById('uploadauthbank');
-                   (p as any).val('');
+                    var p = document.getElementById('uploadauthbank');
+                    (p as any).val('');
                     // window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -157,8 +160,8 @@ export class KycregComponent implements OnInit {
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;
-      var c=document.getElementById('uploadauthbank');
-      (c as any).val('');
+        var c = document.getElementById('uploadauthbank');
+        (c as any).val('');
         if (res && res.success) {
             me.authbankuploaded = true;
             me.imgURL = res.fileName;

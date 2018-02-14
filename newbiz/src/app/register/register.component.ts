@@ -161,37 +161,6 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  gstdetail() {
-    window.scrollTo(0, 0);
-    this.isgstExpanded = !this.isgstExpanded;
-    document.getElementById('gstbn').click();
-  }
-
-  gstdetail1() {
-    this.isgstExpanded = !this.isgstExpanded;
-    this.isNgoExpanded = false;
-    this.isAcctExpanded = false;
-    this.isBusExpanded = false;
-    this.isPanExpanded = false;
-    this.isPaymentExpanded = false;
-
-  }
-
-  allgstFields() {
-    if (this.gst) {
-      if (this.businesspro.gstno) {
-        return true;
-      }
-      return false;
-    }
-    return true;
-  }
-
-  setount(res: boolean) {
-    this.gst = res;
-
-  }
-
   save() {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
@@ -206,25 +175,14 @@ export class RegisterComponent implements OnInit {
       this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
   }
 
-  validategst(res) {
-    var res1 = res.toUpperCase();
-    this.businesspro.gstno = res1;
-    var gst1 = this.businesspro.gstno;
-    var reg = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-    if (gst1.match(reg)) {
-      this.errgstvalidate = false;
-    }
-    else {
-      this.errgstvalidate = true;
-      this.errorgst = 'Please enter correct GSTIN.'
-    }
-
-  }
 
   validatePAN() {
     var panFormat = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    if (panFormat.test(this.accountpro.panNumber)) {
+    if (panFormat.test(this.accountpro.panNumber.trim())) {
       this.errpancard = false;
+      this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,
+      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
     }
     else {
       this.errpancard = true;
@@ -233,11 +191,14 @@ export class RegisterComponent implements OnInit {
   }
 
   validateifsc() {
-    var ifsc = this.accountpro.ifsc;
+    var ifsc = this.accountpro.ifsc.trim();
     var reg = /[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$/;
 
     if (ifsc.match(reg)) {
       this.errvalidate = false;
+      this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,
+      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
 
     }
     else {
@@ -247,10 +208,15 @@ export class RegisterComponent implements OnInit {
   }
 
   savepincode() {
-    var pincode = this.businesspro.pincode;
+    var pincode = this.businesspro.pincode.trim();
     //console.log(pincode);
     if (pincode.length == 6) {
       this.errpincodevalidate = false;
+       this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno);
     }
     else {
       this.errpincodevalidate = true;
@@ -260,11 +226,16 @@ export class RegisterComponent implements OnInit {
   }
 
   validatebusiness() {
-    var TCode1 = this.businesspro.businessName;
+    var TCode1 = this.businesspro.businessName.trim();
 
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode1)) {
 
       this.errbusinessvalidate = false;
+       this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno);
     } else {
       this.errbusinessvalidate = true;
       this.errorbusiness = 'Business name should not contain special symbol.';
@@ -273,9 +244,14 @@ export class RegisterComponent implements OnInit {
   }
 
   validaatedisplay() {
-    var TCode = this.user.displayName;
+    var TCode = this.user.displayName.trim();
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode)) {
       this.errdisplayvalidate = false;
+       this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno);
 
     } else {
       this.errdisplayvalidate = true;
@@ -286,27 +262,23 @@ export class RegisterComponent implements OnInit {
 
   hasAllFields1() {
     return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
-      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address && 
+      !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
+      && this.accountpro.ifsc && this.conaccountnumber && !this.err && this.businesspro.category && 
+      this.businesspro.businessType && !this.errpancard &&
+      this.accountpro.panNumber ;
   }
 
-  hasAllFields2() {
-    return !this.errpancard && this.accountpro.panNumber;
-  }
-
-  hasAllFields3() {
-    return !this.errpancard && this.accountpro.panNumber;
-  }
 
   UpCase(res) {
     var res1 = res.toUpperCase();
     this.accountpro.accountHolderName = res1;
+     this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,
+      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
     return this.accountpro.accountHolderName;
   }
 
-  hasAllFields4() {
-    return !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
-      && this.accountpro.ifsc && this.conaccountnumber && !this.err;
-  }
 
   Accountno() {
     if ((((this.accountpro.accountRefNumber).length) <= 5) && (((this.conaccountnumber).length) <= 5)) {
@@ -316,6 +288,11 @@ export class RegisterComponent implements OnInit {
     } else {
       if (this.accountpro.accountRefNumber.trim() == this.conaccountnumber.trim()) {
         this.err = false;
+         this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,
+      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
+
+
       }
       else {
         this.err = true;
@@ -324,13 +301,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  hasAllFields5() {
-    return !this.errgstvalidate && this.businesspro.gstno;
-  }
-
-  edit() {
-    this.editt = false;
-  }
 
   savebusinesspro() {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
@@ -351,12 +321,12 @@ export class RegisterComponent implements OnInit {
     // this.savebusinesspro();
   }
 
-  /*completeRegistration1() {
+  completeRegistration1() {
      this.router.navigateByUrl('/thanksregistrationprocess')
 
   }
-*/
-  completeRegistration1() {
+
+  /*completeRegistration1() {
     this.userService.MerchantCompleteRegistration()
       .then(res => this.completepost(res));
 
@@ -366,5 +336,5 @@ export class RegisterComponent implements OnInit {
     if (res.responseFromAPI == true) {
       this.router.navigateByUrl('/thanksregistrationprocess')
     }
-  }
+  }*/
 }
