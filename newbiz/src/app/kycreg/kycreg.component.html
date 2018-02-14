@@ -18,14 +18,13 @@
         <div class="col l10 m10 s12">
             <ul id="collapsible" data-collapsible="accordion">
                 <li class="colaccordBN">
-                    <div id="acbn" (click)="accountdetail1()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                        {{'PAN Details' | translate}}
-                        <span (click)="accountdetail()" class="col s10 m10 l1">
+                    <div id="acbn" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                       <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
+                       </span>
+                        <span (click)="bankdetails()" class="alignMidBN titleLogoBN">
                             <img *ngIf="!isPanExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
                             <img *ngIf="isPanExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
-                        
-                       <!-- <img *ngIf="allPanFields()" class="right" src = "../../images/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>-->
-                        </span>
+                         </span>
                     </div>
                     <div class="collapsible-body padBN">
                         <div class="row busDetails detailBodyBN">
@@ -93,11 +92,12 @@
                 </li>
 
                 <li class="colaccordBN">
-                    <div id="bankbn" (click)="bankdetail1()" [ngClass]="!isAcctExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                        {{'Bank Details' | translate}}
-                        <span (click)="bankdetail()">
-                            <img *ngIf="!isAcctExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
-                            <img *ngIf="isAcctExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
+                    <div id="bankbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                       <span class="alignMidBN titleKycBN">  {{'Bank Details' | translate}}
+                       </span>
+                        <span (click)="accountdetail()" class="alignMidBN titleLogoBN">
+                            <img *ngIf="!isBusExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
+                            <img *ngIf="isBusExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
                            <!-- <img *ngIf="allbankFields()" class="right" src = "../../assets/newbiz/imgs/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>-->
                         </span>
                        
@@ -198,7 +198,7 @@
             </ul>
             <div class="col s12 | center-align">
                 <button class="btn waves-effect waves-light col s6 offset-s3 red regNrmS2BN buttonBN" type="submit" (click)="thanksforaccount()"
-                    name="submit" [disabled]="hasAllFields()">{{'Submit' | translate}}
+                    name="submit" [disabled]="!hasAllFields()">{{'Submit' | translate}}
                 </button>
             </div>
 
