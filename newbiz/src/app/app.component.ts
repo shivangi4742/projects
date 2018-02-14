@@ -73,6 +73,7 @@ export class AppComponent {
     return false;
   }
   oncheckadd() {
+    //console.log(this.user.registerd , this.user.kycverified)
     if(!this.user.registerd) {
       if(this.user.kycverified){
         return true;
