@@ -108,7 +108,7 @@ export class UserTopNavComponent {
     if (res && res.data && res.out == true) {
       let me: any = this;
       this.newPayments.push(new Payment(false, res.data.amount, null, null, res.data.id, res.data.tr, res.data.mode, res.data.vpa, res.data.till,
-        null, res.data.dt, null, null, false, null, null, null, null));
+        null, res.data.dt, null, null, false, null, null, null, null, null));
       if(this.newPayments.length <= 1) {
         setTimeout(function() { me.fadeInNewPayments(); }, 500);
         setTimeout(function() { me.removePayment(res.data.id); }, 3500);

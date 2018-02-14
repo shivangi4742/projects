@@ -15,7 +15,8 @@ export class TransactionService {
     private _urls: any = {
         getTransactionDetailsURL: 'txn/getTransactionDetails',
         getProductTransactionsURL: 'txn/getProductTransactions',
-        getNewProductTransactionsURL: 'txn/getNewProductTransactions'
+        getNewProductTransactionsURL: 'txn/getNewProductTransactions',
+        getAllProductTransactionsURL: 'txn/getAllProductTransactions'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -59,7 +60,7 @@ export class TransactionService {
 
                     txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, null, null, res.orders[i].payHistHdrTxnRefNo,
                         res.orders[i].tr, null, mode, nm, res.orders[i].merchantVPA, res.orders[i].orderDate, null, null, false, null, res.orders[i].email,
-                        res.orders[i].mobileNo, res.orders[i].address));
+                        res.orders[i].mobileNo, res.orders[i].address, res.orders[i].orderDescription));
 
                     if(res.orders[i].payerProduct && res.orders[i].payerProduct.length > 0) {
                         txns.payments[i].products = new Array<Product>();
@@ -111,7 +112,6 @@ export class TransactionService {
     }
 
     public getProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number): Promise<Transaction|null> {
-        console.log('getTr', merchantCode, fromDate, page);
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getProductTransactionsURL, 
                 JSON.stringify({
@@ -127,5 +127,23 @@ export class TransactionService {
             .toPromise()
             .then(res => this.fillProdTransactions(res.json()))
             .catch(res => null);   
+    }
+
+    public getAllProductTransactions(merchantCode: string, fromDate: string, toDate: string, page: number): Promise<Transaction|null> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getAllProductTransactionsURL,
+                JSON.stringify({
+                    "merchantCode":merchantCode,
+                    "fromDate":fromDate,
+                    "toDate":toDate,
+                    "pageNumber":page,
+                    "sortColumn": "transactionDate",
+                    "sortDirection": "DESC",
+                    "status": "Successful"
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillProdTransactions(res.json()))
+            .catch(res => null);
     }
 }

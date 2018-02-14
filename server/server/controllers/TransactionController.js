@@ -3,7 +3,7 @@ var helper = require('./../utils/Helper');
 var transCont = {
     getNextPage: function(req, data, page, cb) {
         var me = this;
-        if(data && data.noOfPages > page && page <= 10) {
+        if(data && data.noOfPages > page) {
             req.body.pageNumber++;
             this.getProductTransactionsPost(req, function(d2) {
                 if(d2 && d2.orders && d2.orders.length > 0)
@@ -100,7 +100,7 @@ var transCont = {
         }
     },
 
-    getAllProductTransactionsPost(req, cb) {
+    getAllProductTransactionsPost: function(req, cb) {
         var retErr = {
             "success": false,
             "errorCode": "Something went wrong. Please try again."
