@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, SDKService, Accountpro, Businesspro,FileService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, SDKService, Accountpro, Businesspro, FileService, Status, LocationService } from 'benowservices';
 
 @Component({
     selector: 'app-kycreg',
@@ -20,25 +20,26 @@ export class KycregComponent implements OnInit {
     isCODExpanded: boolean = false;
     isPaymentExpanded: boolean = false;
     isgstExpanded: boolean = false;
-    accountProfile:Accountpro;
-    businessProfile:Businesspro;
-    declare:string;
-    user:User;
-    uploading:boolean= false;
-    logoFile:string;
-    bannerover:boolean;
+    accountProfile: Accountpro;
+    businessProfile: Businesspro;
+    declare: string;
+    user: User;
+    uploading: boolean = false;
+    logoFile: string;
+    bannerover: boolean;
+    authpanuploaded: boolean = false;
+    authbankuploaded: boolean = false;
 
     constructor(private translate: TranslateService, private utilsService: UtilsService,
         private userService: UserService, private router: Router, private locationService: LocationService,
-        private route: ActivatedRoute, private sdkService: SDKService, private fileService:FileService ) { }
+        private route: ActivatedRoute, private sdkService: SDKService, private fileService: FileService) { }
 
     ngOnInit() {
-     this.userService.getUser()
+        this.userService.getUser()
             .then(res => this.init(res));
     }
 
     init(usr: User) {
-        console.log(usr, 'hello', this.businessProfile, this.accountProfile);
         if (usr && usr.id) {
             this.user = usr;
             this.translate.use(this.utilsService.getLanguageCode(this.user.language));
@@ -47,51 +48,56 @@ export class KycregComponent implements OnInit {
         else
             this.router.navigateByUrl('/login/1');
     }
-     loadForm() {
+    loadForm() {
 
         this.userService.checkMerchant(this.user.mobileNumber, "a")
-            .then(ares => this.accountProfile = ares);
+            .then(ares => this.updateAccount(ares));
 
-       
-
-        
     }
+
+    updateAccount(res: Accountpro){
+      this.accountProfile = res;
+    }
+
     resetStatus() {
         this.utilsService.setStatus(false, false, '');
     }
 
-   
-
     accountdetail() {
         window.scrollTo(0, 0);
-        this.isPanExpanded = !this.isPanExpanded;
-        document.getElementById('acbn').click();
+        let a: any = document.getElementById('acbn');
+        a.click();
+        this. accountdetail1();
     }
 
     accountdetail1() {
-        this.isPanExpanded = !this.isPanExpanded;
-        this.isAcctExpanded = false;
-    }
-    bankdetail() {
-        window.scrollTo(0, 0);
-        this.isAcctExpanded = !this.isAcctExpanded;
-        document.getElementById('bankbn').click();
-    }
-
-    bankdetail1() {
-        this.isAcctExpanded = !this.isAcctExpanded;
+        this.isBusExpanded = !this.isBusExpanded;
         this.isPanExpanded = false;
     }
 
+  bankdetails() {
+    window.scrollTo(0, 0);
+    let a: any = document.getElementById('acbns');
+    a.click();
+    this.bankdetail11();
+  }
+
+  bankdetail11() {
+    this.isPanExpanded = !this.isPanExpanded;
+    this.isBusExpanded = false;
+  }
+
     thanksforaccount() {
+
         this.userService.enableKyc(this.user.merchantCode)
             .then(res => this.thanksforaccount1(res));
 
     }
     thanksforaccount1(res: any) {
-        if (res.responseFromAPI == true) {
-            this.user.kycverified = true
-            this.router.navigateByUrl('thanksforaccount');
+        console.log(res);
+        if (res.data.responseFromAPI == true) {
+            this.user.kycverified = true;
+            this.router.navigateByUrl('/thankskycprocess');
         }
     }
 
@@ -103,8 +109,8 @@ export class KycregComponent implements OnInit {
             if (e.target.files && e.target.files[0]) {
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                    var rr = document.getElementById('uploadauthpan');
-                    (rr as any).val('');
+                    let rr: any =  document.getElementById('uploadauthpan');
+                    rr.val('');
                     window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -118,10 +124,9 @@ export class KycregComponent implements OnInit {
     }
 
     uploadauthticatepan(res: any, me: any) {
+     /* let f: any = document.getElementById('uploadauthpan');
+     (f as any).val(' ');*/
 
-      var f=document.getElementById('uploadauthpan');
-      (f as any).val('');
-      
         if (res && res.success) {
             // console.log(res);
             me.uploading = false;
@@ -141,8 +146,8 @@ export class KycregComponent implements OnInit {
                 this.filename1 = e.target.files[0].name;
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                   var p = document.getElementById('uploadauthbank');
-                   (p as any).val('');
+                  /* let p: any = document.getElementById('uploadauthbank');
+                   p.val('');*/
                     // window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -157,8 +162,8 @@ export class KycregComponent implements OnInit {
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;
-      var c=document.getElementById('uploadauthbank');
-      (c as any).val('');
+      /*let c: any = document.getElementById('uploadauthbank');
+      c.val('');*/
         if (res && res.success) {
             me.authbankuploaded = true;
             me.imgURL = res.fileName;
@@ -173,15 +178,11 @@ export class KycregComponent implements OnInit {
 
     hasAllFields() {
         if (this.filename && this.filename1) {
-            if (this.declare) {
-                if (this.accountProfile.filePassword) {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }
+
         return true;
+        }
+
+     return false;
     }
 
     allPanFields() {

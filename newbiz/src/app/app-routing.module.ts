@@ -18,12 +18,13 @@ const routes: Routes = [
     { path: 'successpaylink/:id', component: SucesspaymentlinkComponent },
     { path: 'createpaylink', component: CreatepaymentlinkComponent },
     { path: 'paymentlist', component: PaymentlistComponent },
+    { path: 'thankskycprocess', component: KycthanksComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'settings', component: SettingsComponent },
     { path: 'registrationprocess', component: RegisterComponent },
     { path: 'kycprocess', component: KycregComponent },
     { path: 'thanksregistrationprocess', component: ThanksregisterComponent },
-    { path: 'thankskycprocess', component: KycthanksComponent },
+   
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

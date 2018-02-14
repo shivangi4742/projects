@@ -1,0 +1,47 @@
+.brderBN {
+    border: 1px solid #eaa54e;
+   
+    border-radius: 14px;
+}
+.noborderdownBN {
+    border-bottom: 0px solid #ddd!important; 
+    padding-left: 41px!important; 
+}
+.dottedbrderBN{
+    border-radius: 6px;
+    border: 2px dotted #908787;
+    background-color: #d6d3d3;
+
+}
+.colaccordBN{
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    margin: 0.5rem 0 1rem 0;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+     0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+.profileDetailBN{
+    padding-left: 25px;
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 12pt;
+}
+.noborderdownBN {
+    border-bottom: 0px solid #ddd!important; 
+    padding-left: 41px!important; 
+}
+.titleKycBN{
+  margin: 0px!important;
+  padding-left: 0px!important;
+  width: 95%;
+}
+.uppcaseBN{
+    text-transform: uppercase!important;
+}
+.gerycoloBN {
+    color: grey;
+    font-weight: 400;
+}
+.reddBN{
+      color: #E53935;
+}

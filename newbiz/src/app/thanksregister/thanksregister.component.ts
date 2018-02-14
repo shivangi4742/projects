@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-thanksregister',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThanksregisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
-
+  removelimit(){
+    this.router.navigateByUrl('/kycprocess');
+  }
 }

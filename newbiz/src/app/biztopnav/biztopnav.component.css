@@ -79,28 +79,22 @@
     background-color: #413A5A!important;
 }
 
-.dropdown-content {
-    background-color: #413A5A!important;
-}
-
-.dropdown-content li > a:hover, .dropdown-content li > span:hover {
-    background-color: #E53935;
+.whiteTextBN {
+    color: white!important;
 }
 
 .dropdown-content li > a, .dropdown-content li > span {
-    color: white;
+    color: #413A5A;
     font-size: 11pt;
     font-family: 'Barlow', sans-serif;
-}
-
-.select-wrapper span.caret {
-    color: white;
 }
 
 .select-wrapper input.select-dropdown {
-    color: white;
     font-size: 11pt;
     font-family: 'Barlow', sans-serif;
+    line-height: 2rem;
+    margin-bottom: 0;
+    border-bottom-color: white;
 } 
 
 .menuitemhoverBN:hover {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-kycthanks',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KycthanksComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+  }
+  dashboard(){
+    this.router.navigateByUrl('/dashboard');
   }
 
 }

@@ -810,7 +810,8 @@ var userCont = {
                 cb(retErr);
             else {
 
-                var d = req.body.data;
+                var d = req.body;
+                
                 if (d && d.merchantCode)
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/enableKyc', 'POST', req.headers),
                         {
@@ -846,7 +847,7 @@ var userCont = {
             }
             else {
 
-                var d = req.body.data;
+                var d = req.body;
                 if (d && d.id) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/completeRegistration', 'POST', req.headers),
                         {

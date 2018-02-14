@@ -16,36 +16,35 @@
     <div class="row" *ngIf="accountProfile">
         <div class="col l1 m1 s0"></div>
         <div class="col l10 m10 s12">
-            <ul id="collapsible" data-collapsible="accordion">
+            <ul data-collapsible="accordion" materialize="collapsible">
                 <li class="colaccordBN">
-                    <div id="acbn" (click)="accountdetail1()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                        {{'PAN Details' | translate}}
-                        <span (click)="accountdetail()" class="col s10 m10 l1"0>
+                    <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                       <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
+                       </span>
+                        <span (click)="bankdetails()" class="alignMidBN titleLogoBN">
                             <img *ngIf="!isPanExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
                             <img *ngIf="isPanExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
-                        
-                       <!-- <img *ngIf="allPanFields()" class="right" src = "../../images/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>-->
-                        </span>
+                         </span>
                     </div>
                     <div class="collapsible-body padBN">
                         <div class="row busDetails detailBodyBN">
                             <div class="col s4 m1 l1 coloBN1">
                                 {{'PAN' | translate}}
                             </div>
-                            <div class="col s6 m11 l11 regNrmS5B2BN">
+                            <div class="col s6 m11 l11 regNrmS5B2BN uppcaseBN">
                                 {{accountProfile.panNumber | translate}}
                             </div>
 
                         </div>
                         <div class="row busDetails detailBodyBN">
-                            <div class="col s12 m12 l12 regNrmS5B2BN">
+                            <div class="col s12 m12 l12 regNrmS5B2BN ">
                                 {{'Upload photo or scanned copy of your PAN CARD' | translate}}
                             </div>
                         </div>
                         <div class="row busDetails detailBodyBN">
                             <div class="col s12 m12 l12 regNrmS5B2BN brderBN">
                                 <span class="col s12 m12 l12"> &nbsp;</span>
-                                <span class="col s12 m12 l12 center ">
+                                <span class="col s12 m12 l12 center gerycoloBN ">
                                     {{'*Changing PAN details is not permitted. Kindly upload the correct file' | translate}}
                                 </span>
                                 <span class="col s12 m12 l12"> &nbsp;</span>
@@ -57,15 +56,17 @@
                                 <!-- <br>{{'DRAG & DROP' | translate}}
                                         <br> {{'Or' | translate}}
                                         <br> -->
+                                        <br>
                                 <div class="center file-field pBN">
-                                    <span class="btn waves-effect waves-light red regNrmS2BN buttonBN">
+
+                                    <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                         <span>{{'Select File'| translate}}</span>
                                         <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthpan" (change)="uploadauthpan($event)">
                                     </span>
                                     &nbsp;
                                     <span *ngIf="authpanuploaded">{{ filename | translate}}</span>
                                     <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authpanuploaded" />
-                         
+
                                     <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                         <div class="preloader-wrapper small active alignMidBN">
                                         <div class="preloader-wrapper small active alignMidBN">
@@ -82,25 +83,27 @@
                                      </div>
                                      </div>
                                      </div>
-                                    </div> 
+                                    </div>
                                 </div>
-                                
                                 <br>
-                                
+
+                                <br>
+
                             </div>
                         </div>
                     </div>
                 </li>
 
                 <li class="colaccordBN">
-                    <div id="bankbn" (click)="bankdetail1()" [ngClass]="!isAcctExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                        {{'Bank Details' | translate}}
-                        <span (click)="bankdetail()">
-                            <img *ngIf="!isAcctExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
-                            <img *ngIf="isAcctExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
+                    <div id="acbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                       <span class="alignMidBN titleKycBN">  {{'Bank Details' | translate}}
+                       </span>
+                        <span (click)="accountdetail()" class="alignMidBN titleLogoBN">
+                            <img *ngIf="!isBusExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
+                            <img *ngIf="isBusExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
                            <!-- <img *ngIf="allbankFields()" class="right" src = "../../assets/newbiz/imgs/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>-->
                         </span>
-                       
+
                     </div>
                     <div class="collapsible-body padBN">
                         <div class="row busDetails detailBodyBN">
@@ -114,10 +117,10 @@
 
                             </div>
                             <div class="row busDetails detailBodyBN">
-                                <div class="col s6 m6 l6 regNrmS5B2BN">
+                                <div class="col s6 m6 l6 regNrmS5B2BN uppcaseBN">
                                     {{ accountProfile.accountHolderName| translate}}
                                 </div>
-                                <div class="col s6 m6 l6 regNrmS5B2BN">
+                                <div class="col s6 m6 l6 regNrmS5B2BN uppcaseBN">
                                     {{ accountProfile.ifsc | translate}}
                                 </div>
 
@@ -142,13 +145,13 @@
                             </div>
                             <div class="row busDetails detailBodyBN">
                                 <div class="col s12 m12 l12 regNrmS5B2BN">
-                                    {{'Upload your latest bank statement for the account number' | translate}}
+                                    {{'Upload your latest bank statement for the account number' | translate}} &nbsp; <span class="reddBN"> {{ accountProfile.accountRefNumber | translate}}</span>
                                 </div>
                             </div>
                             <div class="row busDetails detailBodyBN">
                                 <div class="col s12 m12 l12 regNrmS5B2BN brderBN">
                                     <span class="col s12 m12 l12"> &nbsp;</span>
-                                    <span class="col s12 m12 l12 center ">
+                                    <span class="col s12 m12 l12 center gerycoloBN ">
                                         {{'Your name address and account number must be clearly visible on the file you upload' | translate}}
                                     </span>
                                     <span class="col s12 m12 l12"> &nbsp;</span>
@@ -161,7 +164,7 @@
                                             <br> {{'Or' | translate}} -->
                                     <br>
                                     <div class="col s12 m12 l12 center file-field pBN">
-                                        <span class="btn waves-effect waves-light red regNrmS2BN buttonBN">
+                                        <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                             <span>{{'Select File'| translate}}</span>
                                             <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthbank" (change)="uploadauthbank($event)">
 
@@ -169,7 +172,7 @@
                                         &nbsp;
                                         <span *ngIf="authbankuploaded">{{ filename1 | translate}}</span>
                                         <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authbankuploaded" />
-                             
+
                                         <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                             <div class="preloader-wrapper small active alignMidBN">
                                             <div class="preloader-wrapper small active alignMidBN">
@@ -187,10 +190,13 @@
                                           </div>
                                          </div>
                                         </div>
-                                    </div>
+                                       <br><br>
+                                    <br>
+                                    <br>
+                                    </div>                                    
                                     <br>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -198,7 +204,7 @@
             </ul>
             <div class="col s12 | center-align">
                 <button class="btn waves-effect waves-light col s6 offset-s3 red regNrmS2BN buttonBN" type="submit" (click)="thanksforaccount()"
-                    name="submit" [disabled]="hasAllFields()">{{'Submit' | translate}}
+                    name="submit" [disabled]="!hasAllFields()">{{'Submit' | translate}}
                 </button>
             </div>
 
