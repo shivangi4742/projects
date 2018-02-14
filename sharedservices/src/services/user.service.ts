@@ -498,20 +498,17 @@ export class UserService {
   }
 
   fillAccountProfile(res: any): Accountpro | null {
-    console.log(res.merchantUser, '3');
     if (res.merchantUser.registrationState == 'VERIFIED') {
       this._user.registerd = true;
     }
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
     }
-    console.log(this._user.registerd, '4');
     if (res.merchantUser) {
       let pt1 = res.merchantUser;
       this._accountpro = new Accountpro(pt1.panNumber, pt1.accountHolderName, pt1.accountRefNumber
         , pt1.ifsc, pt1.bankName, pt1.filePassword);
     }
-
 
     return this._accountpro;
   }

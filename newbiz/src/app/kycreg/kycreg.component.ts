@@ -27,6 +27,8 @@ export class KycregComponent implements OnInit {
     uploading: boolean = false;
     logoFile: string;
     bannerover: boolean;
+    authpanuploaded: boolean = false;
+    authbankuploaded: boolean = false;
 
     constructor(private translate: TranslateService, private utilsService: UtilsService,
         private userService: UserService, private router: Router, private locationService: LocationService,
@@ -38,7 +40,6 @@ export class KycregComponent implements OnInit {
     }
 
     init(usr: User) {
-
         if (usr && usr.id) {
             this.user = usr;
             this.translate.use(this.utilsService.getLanguageCode(this.user.language));
@@ -50,30 +51,29 @@ export class KycregComponent implements OnInit {
     loadForm() {
 
         this.userService.checkMerchant(this.user.mobileNumber, "a")
-            .then(ares => this.accountProfile = ares);
-            
-        this.userService.checkMerchant(this.user.mobileNumber, "b")
-            .then(ares => this.businessProfile = ares);
-
-        console.log('hello', this.businessProfile, this.accountProfile);
-
+            .then(ares => this.updateAccount(ares));
 
     }
+
+    updateAccount(res: Accountpro){
+      this.accountProfile = res;
+    }
+
     resetStatus() {
         this.utilsService.setStatus(false, false, '');
     }
 
+    accountdetail() {
+        window.scrollTo(0, 0);
+        this.isPanExpanded = !this.isPanExpanded;
+        let a: any = document.getElementById('acbn');
+        a.click();
+    }
 
- accountdetail() {
-    window.scrollTo(0, 0);
-    this.isBusExpanded = !this.isBusExpanded;
-    document.getElementById('acbn').click();
-  }
-
-  accountdetail1() {
-    this.isBusExpanded = !this.isBusExpanded;
-    this.isPanExpanded = false;
-  }
+    accountdetail1() {
+        this.isPanExpanded = !this.isPanExpanded;
+        this.isAcctExpanded = false;
+    }
 
   bankdetails() {
     window.scrollTo(0, 0);
@@ -107,8 +107,8 @@ export class KycregComponent implements OnInit {
             if (e.target.files && e.target.files[0]) {
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                    var rr = document.getElementById('uploadauthpan');
-                    (rr as any).val(' ');
+                    let rr: any =  document.getElementById('uploadauthpan');
+                    rr.val('');
                     window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -122,9 +122,8 @@ export class KycregComponent implements OnInit {
     }
 
     uploadauthticatepan(res: any, me: any) {
-
-        var f = document.getElementById('uploadauthpan');
-        (f as any).val('');
+      let f: any = document.getElementById('uploadauthpan');
+      f.val('');
 
         if (res && res.success) {
             // console.log(res);
@@ -145,8 +144,8 @@ export class KycregComponent implements OnInit {
                 this.filename1 = e.target.files[0].name;
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                    var p = document.getElementById('uploadauthbank');
-                    (p as any).val(' ');
+                   let p: any = document.getElementById('uploadauthbank');
+                   p.val('');
                     // window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -161,8 +160,8 @@ export class KycregComponent implements OnInit {
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;
-        var c = document.getElementById('uploadauthbank');
-        (c as any).val(' ');
+      let c: any = document.getElementById('uploadauthbank');
+      c.val('');
         if (res && res.success) {
             me.authbankuploaded = true;
             me.imgURL = res.fileName;
@@ -177,7 +176,7 @@ export class KycregComponent implements OnInit {
 
     hasAllFields() {
         if (this.filename && this.filename1) {
-        
+
         return true;
         }
 

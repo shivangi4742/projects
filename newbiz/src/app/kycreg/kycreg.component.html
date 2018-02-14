@@ -18,7 +18,7 @@
         <div class="col l10 m10 s12">
             <ul id="collapsible" data-collapsible="accordion">
                 <li class="colaccordBN">
-                    <div id="acbn" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                    <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
                        <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
                        </span>
                         <span (click)="bankdetails()" class="alignMidBN titleLogoBN">
@@ -64,7 +64,7 @@
                                     &nbsp;
                                     <span *ngIf="authpanuploaded">{{ filename | translate}}</span>
                                     <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authpanuploaded" />
-                         
+
                                     <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                         <div class="preloader-wrapper small active alignMidBN">
                                         <div class="preloader-wrapper small active alignMidBN">
@@ -81,18 +81,18 @@
                                      </div>
                                      </div>
                                      </div>
-                                    </div> 
+                                    </div>
                                 </div>
-                                
+
                                 <br>
-                                
+
                             </div>
                         </div>
                     </div>
                 </li>
 
                 <li class="colaccordBN">
-                    <div id="bankbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
+                    <div id="acbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
                        <span class="alignMidBN titleKycBN">  {{'Bank Details' | translate}}
                        </span>
                         <span (click)="accountdetail()" class="alignMidBN titleLogoBN">
@@ -100,7 +100,7 @@
                             <img *ngIf="isBusExpanded" class="right" src="../../assets/newbiz/imgs/minus@2x.png" style="margin-top:12px" />
                            <!-- <img *ngIf="allbankFields()" class="right" src = "../../assets/newbiz/imgs/check.png" height="18px" width="18px" style="margin-top:12px; margin-right:10px"/>-->
                         </span>
-                       
+
                     </div>
                     <div class="collapsible-body padBN">
                         <div class="row busDetails detailBodyBN">
@@ -169,7 +169,7 @@
                                         &nbsp;
                                         <span *ngIf="authbankuploaded">{{ filename1 | translate}}</span>
                                         <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authbankuploaded" />
-                             
+
                                         <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                             <div class="preloader-wrapper small active alignMidBN">
                                             <div class="preloader-wrapper small active alignMidBN">
@@ -190,7 +190,7 @@
                                     </div>
                                     <br>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
                 </li>
