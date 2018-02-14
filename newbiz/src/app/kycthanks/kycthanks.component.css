@@ -1,0 +1,32 @@
+.paddhdjBN{
+    padding: 12px;
+}
+.colaccordBN{
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    margin: 0.5rem 0 1rem 0;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+     0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+.colaccorBN{
+    border-top: 5px solid #3cbba4!important;
+}
+.buttonBN1 {
+    text-transform: none;
+    color:#78d0c8!important;
+    line-height: 50px;
+    height: 55px;
+    background-color:white!important;
+}
+.doneBN {
+    background-color: #00acc1;
+    color: #ffffff;
+    padding: 6px;
+    vertical-align: middle;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    border-radius: 20px;
+    font-size: 24px;
+}
