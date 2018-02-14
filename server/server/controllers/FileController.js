@@ -78,7 +78,7 @@ var fileCont = {
                         if(dcode && dcode.length > 50)
                             dcode = dcode.substring(0, 50);
 
-                        form.append('senEmailVO', JSON.stringify({
+                        form.append('sendEmailVO', JSON.stringify({
                             "to": d.to, "subject": d.subject, "text": d.text
                         }));
                         form.append('file', fs.createReadStream(__dirname + '/../../uploads/' + req.file.filename));
