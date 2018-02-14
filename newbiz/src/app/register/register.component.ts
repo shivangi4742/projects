@@ -321,20 +321,20 @@ export class RegisterComponent implements OnInit {
     // this.savebusinesspro();
   }
 
-  completeRegistration1() {
+ /* completeRegistration1() {
      this.router.navigateByUrl('/thanksregistrationprocess')
 
   }
-
-  /*completeRegistration1() {
+*/
+  completeRegistration1() {
     this.userService.MerchantCompleteRegistration()
       .then(res => this.completepost(res));
 
   }
 
   completepost(res: any) {
-    if (res.responseFromAPI == true) {
+    if (res.data.responseFromAPI == true) {
       this.router.navigateByUrl('/thanksregistrationprocess')
     }
-  }*/
+  }
 }

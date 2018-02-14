@@ -65,14 +65,14 @@ export class KycregComponent implements OnInit {
 
     accountdetail() {
         window.scrollTo(0, 0);
-        this.isPanExpanded = !this.isPanExpanded;
         let a: any = document.getElementById('acbn');
         a.click();
+        this. accountdetail1();
     }
 
     accountdetail1() {
-        this.isPanExpanded = !this.isPanExpanded;
-        this.isAcctExpanded = false;
+        this.isBusExpanded = !this.isBusExpanded;
+        this.isPanExpanded = false;
     }
 
   bankdetails() {
@@ -88,14 +88,16 @@ export class KycregComponent implements OnInit {
   }
 
     thanksforaccount() {
+
         this.userService.enableKyc(this.user.merchantCode)
             .then(res => this.thanksforaccount1(res));
 
     }
     thanksforaccount1(res: any) {
-        if (res.responseFromAPI == true) {
-            this.user.kycverified = true
-            this.router.navigateByUrl('thanksforaccount');
+        console.log(res);
+        if (res.data.responseFromAPI == true) {
+            this.user.kycverified = true;
+            this.router.navigateByUrl('/thankskycprocess');
         }
     }
 
@@ -122,8 +124,8 @@ export class KycregComponent implements OnInit {
     }
 
     uploadauthticatepan(res: any, me: any) {
-      let f: any = document.getElementById('uploadauthpan');
-      f.val('');
+     /* let f: any = document.getElementById('uploadauthpan');
+     (f as any).val(' ');*/
 
         if (res && res.success) {
             // console.log(res);
@@ -144,8 +146,8 @@ export class KycregComponent implements OnInit {
                 this.filename1 = e.target.files[0].name;
                 this.utilsService.setStatus(false, false, '')
                 if (e.target.files[0].size > 10000000) {
-                   let p: any = document.getElementById('uploadauthbank');
-                   p.val('');
+                  /* let p: any = document.getElementById('uploadauthbank');
+                   p.val('');*/
                     // window.scrollTo(0, 0);
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
@@ -160,8 +162,8 @@ export class KycregComponent implements OnInit {
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;
-      let c: any = document.getElementById('uploadauthbank');
-      c.val('');
+      /*let c: any = document.getElementById('uploadauthbank');
+      c.val('');*/
         if (res && res.success) {
             me.authbankuploaded = true;
             me.imgURL = res.fileName;

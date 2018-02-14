@@ -16,7 +16,7 @@
     <div class="row" *ngIf="accountProfile">
         <div class="col l1 m1 s0"></div>
         <div class="col l10 m10 s12">
-            <ul id="collapsible" data-collapsible="accordion">
+            <ul data-collapsible="accordion" materialize="collapsible">
                 <li class="colaccordBN">
                     <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
                        <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
@@ -56,8 +56,10 @@
                                 <!-- <br>{{'DRAG & DROP' | translate}}
                                         <br> {{'Or' | translate}}
                                         <br> -->
+                                        <br>
                                 <div class="center file-field pBN">
-                                    <span class="btn waves-effect waves-light red regNrmS2BN buttonBN">
+
+                                    <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                         <span>{{'Select File'| translate}}</span>
                                         <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthpan" (change)="uploadauthpan($event)">
                                     </span>
@@ -83,6 +85,7 @@
                                      </div>
                                     </div>
                                 </div>
+                                <br>
 
                                 <br>
 
@@ -161,7 +164,7 @@
                                             <br> {{'Or' | translate}} -->
                                     <br>
                                     <div class="col s12 m12 l12 center file-field pBN">
-                                        <span class="btn waves-effect waves-light red regNrmS2BN buttonBN">
+                                        <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                             <span>{{'Select File'| translate}}</span>
                                             <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthbank" (change)="uploadauthbank($event)">
 
@@ -187,7 +190,9 @@
                                           </div>
                                          </div>
                                         </div>
+                                        <br>
                                     </div>
+                                    <br>
                                     <br>
                                 </div>
                             </div>
