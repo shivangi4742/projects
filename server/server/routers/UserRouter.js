@@ -23,6 +23,7 @@ userRouter.post('/getDashboardCategories',  userController.getDashboardCategorie
 userRouter.post('/getSubcategoryByCategory', userController.getSubcategoryByCategory.bind(userController));
 userRouter.post('/EnableKyc', userController.EnableKyc.bind(userController));
 userRouter.post('/complteregister', userController.complteregister.bind(userController));
+userRouter.post('/setLineOfBusiness', userController.setLineOfBusiness.bind(userController));
 
 
 module.exports = userRouter;

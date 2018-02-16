@@ -48,7 +48,8 @@ export class UserService {
     getDashboardCategories: 'user/getDashboardCategories',
     getSubcategoryByCategory: 'user/getSubcategoryByCategory',
     getEnableKyc: 'user/EnableKyc',
-    getcomplteregister: 'user/complteregister'
+    getcomplteregister: 'user/complteregister',
+    setLineOfBusiness:'user/setLineOfBusiness'
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -674,6 +675,17 @@ export class UserService {
   MerchantCompleteRegistration(): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getcomplteregister,
+      JSON.stringify({
+        "id": this._user.id
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => res.json())
+      .catch(res => this.handleError(res.json()));
+  }
+  setLineOfBusiness(): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.setLineOfBusiness,
       JSON.stringify({
         "id": this._user.id
       }),

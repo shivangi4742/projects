@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./kycthanks.component.css']
 })
 export class KycthanksComponent implements OnInit {
+ homeLink: string = '/dashboard';
 
   constructor(private router:Router) { }
 
