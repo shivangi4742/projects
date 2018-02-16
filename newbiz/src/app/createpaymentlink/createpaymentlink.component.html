@@ -96,16 +96,16 @@
             </div>
           </div>
           <div class="row">
-            <ul class="col s12 accordionPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
+            <ul class="col s12 accordionPLBN collapsible " data-collapsible="accordion" materialize="collapsible">
               <li>
-                <div id="advanceMob" class="collapsible-header noLeftMarginBN accordionHeaderBN" (click)="arrowChange()">
+                <div id="advanceMob" class="collapsible-header noLeftMarginBN accordionHeaderBN " (click)="arrowChange()">
                   <span (click)="changeIconMob()">
                     <i *ngIf = "!detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   </span>
                   <span class="inputTextBN advanceBN">{{'Advanced Options' | translate}}</span>
                 </div>
-                <div class="collapsible-body noLeftPaddingBN">
+                <div class="collapsible-body noLeftPaddingBN borderBN">
                   <div class="row">
                     <div class="input-field col s12">
                       <input id="invoice" name="invoice" type="text" [(ngModel)]="invoiceNum" class="validate inputTextBN" maxlength="20"

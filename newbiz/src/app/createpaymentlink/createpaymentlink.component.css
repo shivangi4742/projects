@@ -5,6 +5,7 @@
 
 .noLeftPaddingBN{
   padding-left: 0px!important;
+   border-bottom: 0px solid #ddd!important;
 }
 
 .dashboardRedirectBN{
