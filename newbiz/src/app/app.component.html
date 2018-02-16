@@ -12,9 +12,14 @@
     <ul id="slide-out3" class="side-nav fixed sidenavmediumBN hide-on-small-only hide-on-large-only">
       <leftnav></leftnav>
     </ul>
-    <div class="row noMarginRowBN">
-   
+    <div class="row noMarginRowBN">   
       <div id="absoluteMain" class="col s12 m9 offsetNavBN minHeightBN">
+        <div class="row nilPadsBN oldVersionBN" *ngIf="location == 'dashboard'">
+            <div class="col s12" align="right">
+                <a class="linkButtonBN versionRedirectBN" (click)="prevVersion()">{{'Go Back to Old Version' | translate}}</a>
+            </div>    
+        </div>
+        
         <div class="row nilPadsBN" *ngIf="oncheckadd() && onProfile()">
             <div class="col s12 m12 l12 center">
                 <div class="z-depth-2 center card-panel grey lighten-5 widgetBN pad5BN1 redBorderTopBN">

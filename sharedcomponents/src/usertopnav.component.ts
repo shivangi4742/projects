@@ -166,6 +166,13 @@ export class UserTopNavComponent {
   }
 
   ngOnInit() {
+    if(this.user.lob && this.user.lob.toUpperCase() == 'NHB') {
+      if(window.location.href.indexOf('/mybiz/') > 0)
+        window.location.href = window.location.href.replace('/mybiz/', '/newbiz/');
+      else
+        window.location.href = this.utilsService.getNewBizURL();
+    }
+
     this.hasTils = this.user.hasTils;
     this.isTilManager = this.user.isTilManager;
     this.language = this.user.language;

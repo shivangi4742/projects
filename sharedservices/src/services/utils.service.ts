@@ -17,6 +17,8 @@ export class UtilsService {
   private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
+  private _newbizURL: string = 'http://localhost:9090/newbiz'; 
+  private _oldbizURL: string = 'http://localhost:9090/mybiz'; 
 
   private _requestURL: string = 'http://localhost:9090/paysdk';
   
@@ -52,7 +54,7 @@ export class UtilsService {
     if (this._isUnRegistered)
       return true;
 
-    if (lob && lob.trim().toUpperCase() == 'HB')
+    if (lob && (lob.trim().toUpperCase() == 'HB' || lob.trim().toUpperCase() == 'NHB'))
       return true;
 
     if (mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5' ||
@@ -187,6 +189,14 @@ export class UtilsService {
 
   setHeaders(hdrs: any) {
     this._headers = hdrs;
+  }
+
+  getOldBizURL(): string {
+    return this._oldbizURL;
+  }
+
+  getNewBizURL(): string {
+    return this._newbizURL;
   }
 
   getPDFHeaders(): Headers {
@@ -389,6 +399,26 @@ export class UtilsService {
       let lbnMRC = JSON.parse(lbnMRCObj);
       if (lbnMRC && lbnMRC.token && lbnMRC.username) {
         lbnMRC.language = lang;
+        localStorage.setItem('bnMRC', JSON.stringify(lbnMRC));
+      }
+    }
+  }
+
+  setLOBInStorage(lob: string) {
+    let sbnMRCObj = sessionStorage.getItem('bnMRC');
+    if (sbnMRCObj) {
+      let sbnMRC = JSON.parse(sbnMRCObj);
+      if (sbnMRC) {
+        sbnMRC.lob = lob;
+        sessionStorage.setItem('bnMRC', JSON.stringify(sbnMRC));
+      }
+    }
+
+    let lbnMRCObj = localStorage.getItem('bnMRC');
+    if (lbnMRCObj) {
+      let lbnMRC = JSON.parse(lbnMRCObj);
+      if (lbnMRC) {
+        lbnMRC.lob = lob;
         localStorage.setItem('bnMRC', JSON.stringify(lbnMRC));
       }
     }

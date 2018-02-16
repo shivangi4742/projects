@@ -683,16 +683,22 @@ export class UserService {
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
-  setLineOfBusiness(): Promise<any> {
-    return this.http
+  setLineOfBusiness(lob: string): Promise<any> {
+    if(lob) {
+      this.utilsService.setLOBInStorage(lob);
+      return this.http
       .post(this.utilsService.getBaseURL() + this._urls.setLineOfBusiness,
       JSON.stringify({
-        "id": this._user.id
+        "id": this._user.id,
+        "businessLob": lob
       }),
       { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
+    }
+    else
+      return Promise.resolve(null);
   }
 
 
