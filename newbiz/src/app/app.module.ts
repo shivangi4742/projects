@@ -29,6 +29,8 @@ import { RegisterComponent } from './register/register.component';
 import { ThanksregisterComponent } from './thanksregister/thanksregister.component';
 import { KycregComponent } from './kycreg/kycreg.component';
 import { KycthanksComponent } from './kycthanks/kycthanks.component';
+import { ProductcatalogComponent } from './productcatalog/productcatalog.component';
+import { AddproductComponent } from './addproduct/addproduct.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -50,7 +52,9 @@ export function HttpFactory(http: Http) {
     RegisterComponent,
     ThanksregisterComponent,
     KycregComponent,
-    KycthanksComponent
+    KycthanksComponent,
+    ProductcatalogComponent,
+    AddproductComponent
   ],
   imports: [
     HttpModule,

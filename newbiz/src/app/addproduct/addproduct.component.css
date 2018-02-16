@@ -1,0 +1,14 @@
+.mainBodyBN{
+  font-family: Barlow;
+  font-size: 12pt;
+  line-height: 14px;
+}
+
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+}
+
+.dashboardRedirectBN{
+  color: #E53935;
+  font-weight: bold;
+}
