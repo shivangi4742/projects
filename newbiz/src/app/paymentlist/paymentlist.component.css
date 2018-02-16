@@ -65,3 +65,8 @@ padding:10px!important;
 .previewBN{
     padding: 0px 7px 0px 6px!important;
 }
+.copBN{
+    font-size: 9pt;
+     padding-top: 2pt; 
+     color: #E53935;
+}

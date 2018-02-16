@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./thanksregister.component.css']
 })
 export class ThanksregisterComponent implements OnInit {
+ homeLink: string = '/dashboard';
 
   constructor(private router:Router) { }
 

@@ -8,7 +8,7 @@
   </div>
   <div class="row" (click)="resetTick()">
     <div class="row"></div>
-    <div class="row">
+    <div class="row" *ngIf="hasTransactions()">
       <div class="col s12 m7 l7 searchBorderBN">
         <i class="col s2 material-icons searchIconBN">search</i>
         <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
@@ -38,7 +38,7 @@
     </div>
     <div class="row smallGapBN">&nbsp;</div>
     <div class="row smallGapBN">&nbsp;</div>
-    <div class="row" style="margin-bottom: 0px">
+    <div class="row" style="margin-bottom: 0px" *ngIf="hasTransactions()">
       <div class="col s12 m6 l6">
         <span class="labelPLBN">
           {{'For' | translate}}

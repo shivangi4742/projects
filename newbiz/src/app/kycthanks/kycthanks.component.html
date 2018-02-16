@@ -7,10 +7,10 @@
                 <div class="col l12 m12 s12">
                     <div class="row" style="margin-bottom: 0px">
                         <div class="col s12 card-panel buttonBN1">
-                            <i class="material-icons alignMidBN linkButtonBN doneBN" >done</i>
+                            <i class="material-icons alignMidBN linkButtonBN doneBN" [routerLink]="homeLink" >done</i>
                             <span class="alignMidBN regHdrS2BN" style="margin-left:10px">{{'Thank You!' | translate}}</span>
                             <a class="linkButtonBN right" >
-                                <i class="material-icons alignMidBN">close</i>
+                                <i class="material-icons alignMidBN" [routerLink]="homeLink">close</i>
                             </a>
                         </div>
                     </div>
@@ -22,8 +22,7 @@
                 <div class="col l8 m8 s10 colaccordBN colaccorBN">
                     <span class="col s12 m12 l12 paddhdjBN ">
                         <p>
-                            Thanks for submitting your PAN CARD & Bank Statement documents. Our team will review & get back to you shortly, incase we
-                            need any further details
+                           {{'Thanks for submitting your PAN CARD & Bank Statement documents. Our team will review & get back to you shortly, incase we need any further details'| translate}} 
                         </p>
                     </span>
 
@@ -33,8 +32,8 @@
             <div class="row">
                 <div class="col s1 m4 l4| center-align"></div>
                 <div class="col s10 m4 l4| center-align">
-                    <button (click)="dashboard()" class="btn waves-effect waves-light red regNrmS2BN buttonBN" name="submit" type="submit" >
-                        Back To Dashboard
+                    <button (click)="dashboard()" class="btn col s12 m12 l12 waves-effect waves-light red regNrmS1BN buttonBN" name="submit" type="submit" >
+                        {{'Back To Dashboard' | translate}}
                     </button>
                 </div>
                 <div class="col s1 m4 l4| center-align"></div>

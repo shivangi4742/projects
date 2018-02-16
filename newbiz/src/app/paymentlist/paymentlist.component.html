@@ -8,7 +8,7 @@
       </a>
     </div>
   </div>
-  <ul id="account" Class="dropdown-content dropBN grey lighten-5 topNavDDMenuNGOBN">
+  <ul id="account1" Class="dropdown-content dropBN grey lighten-5 topNavDDMenuNGOBN">
     <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
     </a>
@@ -88,16 +88,17 @@
     </div>
     <div class="row" *ngIf="active==0">
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li class="active" *ngFor="let p of activepay" >
-          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
-             <span (click)="changeIcon(p.id)">
+        <li class="active" *ngFor="let p of activepay">
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"'
+            (click)="arrowChange(p.id)">
+            <span (click)="changeIcon(p.id)">
                     <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   </span>
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
                   
                         <span class="alignMidBN">{{p.discription}}</span>
-            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
               <i class="material-icons right ">share</i>
             </a>
             <span class="mrgNBN right"> ₹ {{p.amount}}</span>
@@ -115,33 +116,28 @@
                   </div>
                   <div class="col s4 m4 l4 ">
                     <div class="show-on-small hide-on-large-only">
-                    <i class="material-icons alignMidBN">visibility</i> Preview
-                  </div>
+                     <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN">
+                        <i class="material-icons alignMidBN">visibility</i> {{'Preview'| translate}}
+                     </a>
+                    </div>
                   </div>
                 </div>
-                <div class="hide-on-small-only">
-                  <span class="col s12 l10 m10 dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
-                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                           <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
-          type="button" ngxClipboard [cbContent]="p.url" (cbOnSuccess)="isCopied1 = true">
-            <i class="material-icons alignMidBN ">content_copy</i>
-            <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
-                  </a>
-                  </span>
-                </div>
-                <div class="show-on-small hide-on-large-only">
-                  <span class="col s12 l10 m10 dashBN alignMidBN hide">
+                  <div class="">
+                  <span class="col s10 l10 m10 dashBN alignMidBN">
                        <span class="truncate widBN">   <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}</span>                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="p.url"
-                    (cbOnSuccess)="isCopied1 = true">
+                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied91" type="button" ngxClipboard [cbContent]="p.url"
+                    (cbOnSuccess)="isCopied91 = true">
                     <i class="material-icons alignMidBN ">content_copy</i>
                     <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
                   </a>
+                  <span *ngIf="isCopied91" class="s2 l2 m2  center copBN" >
+          {{'Link is Copied!' | translate}}
+        </span>
                   </span>
+                  
                 </div>
                 <div class="hide-on-small-only">&nbsp;
-                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> {{'Preview'| translate}}
                     </a>
                 </div>
                 <br><br><br>
@@ -174,16 +170,17 @@
     </div>
     <div class="row" *ngIf="active==1">
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li class="active" *ngFor="let p of inactivepay" >
-          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"' (click)="arrowChange(p.id)">
-             <span (click)="changeIcon(p.id)">
+        <li class="active" *ngFor="let p of inactivepay">
+          <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"'
+            (click)="arrowChange(p.id)">
+            <span (click)="changeIcon(p.id)">
                     <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
                     <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
                   </span>
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
                   
                         <span class="alignMidBN">{{p.discription}}</span>
-            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account" data-beloworigin="true">
+            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
               <i class="material-icons right ">share</i>
             </a>
             <span class="mrgNBN right"> ₹ {{p.amount}}</span>
@@ -201,33 +198,30 @@
                   </div>
                   <div class="col s4 m4 l4 ">
                     <div class="show-on-small hide-on-large-only">
-                    <i class="material-icons alignMidBN">visibility</i> Preview
-                  </div>
+                      <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN">
+                      <i class="material-icons alignMidBN">visibility</i> {{'Preview' |translate}}
+                      </a>
+                    </div>
                   </div>
                 </div>
-                <div class="hide-on-small-only">
-                  <span class="col s12 l10 m10 dashBN alignMidBN">
-                          <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}
-                          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                           <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]= "isCopied1"
-          type="button" ngxClipboard [cbContent]="p.url" (cbOnSuccess)="isCopied1 = true">
-            <i class="material-icons alignMidBN ">content_copy</i>
-            <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
-                  </a>
-                  </span>
-                </div>
-                <div class="show-on-small hide-on-large-only">
-                  <span class="col s12 l10 m10 dashBN alignMidBN hide">
+                
+                
+                <div class="">
+                  <span class="col s10 l10 m10 dashBN alignMidBN">
                        <span class="truncate widBN">   <i class="material-icons alignMidBN">link</i> &nbsp; {{p.url}}</span>                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="p.url"
-                    (cbOnSuccess)="isCopied1 = true">
+                  <a class="copyBN regNrmS6BN linkButtonBN" [class.btn-success]="isCopied91" type="button" ngxClipboard [cbContent]="p.url"
+                    (cbOnSuccess)="isCopied91 = true">
                     <i class="material-icons alignMidBN ">content_copy</i>
                     <span class="alignMidBN " style="margin-right: 10px;">{{'COPY' | translate}}</span>
                   </a>
+                  <span *ngIf="isCopied91" class="s2 l2 m2  center copBN" >
+          {{'Link is Copied!' | translate}}
+        </span>
                   </span>
+                  
                 </div>
                 <div class="hide-on-small-only">&nbsp;
-                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> Preview
+                  <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN"><i class="material-icons alignMidBN">visibility</i> {{'Preview' | translate}}
                     </a>
                 </div>
                 <br><br><br>
@@ -258,19 +252,18 @@
         </li>
       </ul>
     </div>
-    
-     <div class="row">
-                        <div class="col s12" align="center"  >
-                            <a class="linkButtonBN backToDashboardBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
-                                <i class="material-icons alignMidBN">navigate_before</i>
-                                <span class="errNrmS4B1BN alignMidBN">{{'Previous' | translate}}</span>
-                            </a>
-                            
-                            <a class="linkButtonBN downloadDashboardBN" (click)="next()" *ngIf="numPages > page">
-                                <span class="errNrmS4B1BN alignMidBN">{{'Next' | translate}}</span>
-                                <i class="material-icons alignMidBN errorIconBN">navigate_next</i>
-                            </a>
-                        </div>
-                    </div>
+
+    <div class="row" style="margin-bottom: 5px;">
+      <div class="col s12">
+        <a class="linkButtonBN previousBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+          <i class="material-icons alignMidBN">navigate_before</i>
+          <span class="alignMidBN">{{'Previous' | translate}}</span>
+        </a>
+        <a class="linkButtonBN nextBN" (click)="next()" *ngIf="numPages > page">
+          <span class="alignMidBN">{{'Next' | translate}}</span>
+          <i class="material-icons alignMidBN">navigate_next</i>
+        </a>
+      </div>
+    </div>
   </div>
 </div>

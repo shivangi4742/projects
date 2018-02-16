@@ -42,6 +42,8 @@ export class RegisterComponent implements OnInit {
   err: boolean = false;
   errmsg: string;
   editt: boolean = true;
+  homeLink: string = '/dashboard';
+
 
   constructor(private translate: TranslateService, private router: Router, private utilsService: UtilsService, private locationService: LocationService,
               private userService: UserService) {
@@ -58,7 +60,7 @@ export class RegisterComponent implements OnInit {
     if (usr && usr.id) {
       this.user = usr;
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));
-
+    
       this.userService.getfetchMerchantForEditDetails(this.user.email, this.user.id)
         .then(res => this.initDetails(res));
 
@@ -85,7 +87,7 @@ export class RegisterComponent implements OnInit {
 
     this.userService.checkMerchant(this.user.mobileNumber, "b")
       .then(mres => this.businesspro = mres);
-
+  
     this.formLoaded = true;
   }
 

@@ -87,3 +87,9 @@
     font-family: 'Open Sans', sans-serif; 
     font-size: 12pt;
 }
+.inBN{
+    margin-top: 1rem!important; 
+}
+.margBN{
+        margin-bottom: -25px!important; 
+}
