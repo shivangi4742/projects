@@ -1,0 +1,57 @@
+<div materialize>
+  <div class="row"></div>
+  <div class="row mainBodyBN">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN dashboardRedirectBN" [routerLink]="dashboard">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <div class="col s12 m7 l7 searchBorderBN">
+      <i class="col s2 material-icons searchIconBN">search</i>
+      <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 searchBN"
+             type="text" [(ngModel)]="searchText">
+    </div>
+    <div class="row"></div>
+    <div *ngIf="hasProducts()" class="row">
+      <div class="row">
+        <div class="col s10 offset-s2 m6 offset-m6 l5 offset-l7 pagingBN">
+          <a class="linkButtonBN previousBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
+            <i class="material-icons alignMidBN">navigate_before</i>
+            <span class="alignMidBN">{{'Previous' | translate}}&nbsp;</span>
+          </a>
+          <span class="alignMidBN">{{'Page' | translate}} {{page}} {{'of'}} {{numPages}} </span>
+          <a class="linkButtonBN nextBN" (click)="next()" *ngIf="numPages > page">
+            <span class="alignMidBN">&nbsp;{{'Next' | translate}}</span>
+            <i class="material-icons alignMidBN">navigate_next</i>
+          </a>
+        </div>
+      </div>
+      <div *ngFor="let p of products" class="col s10 m6 l4 offset-s2 prodBoxBN">
+        <div class="col s6 m7 l6 imageHeightBN">
+          <img *ngIf="!p.imageURL" src="../../assets/shared/images/addproducts2@2x.png" width="80" height="90" />
+          <img *ngIf="p.imageURL" class="prodImageBN" src={{uploadsURL}}{{p.imageURL}} />
+        </div>
+        <div class="col s6 m5 l6 prodDetailsBN">
+          <a class="col s12 linkButtonBN prodOptionsBN" style="color: red">
+            <i class="material-icons alignMidBN" >edit</i> Edit
+          </a>
+          <a class="col s12 linkButtonBN prodOptionsBN" style="color: gray">
+            <i class="material-icons alignMidBN">share</i> Share
+          </a>
+          <a class="col s12 linkButtonBN prodOptionsBN" style="color: gray" (click)="delete(p.id)">
+            <i class="material-icons alignMidBN">delete</i> Delete
+          </a>
+        </div>
+        <div class="col s12 prodTitleBN">
+          <b>{{p.name}}</b>
+        </div>
+        <div class="col s12 smallGapBN"></div>
+        <div class="col s12 prodTitleBN">
+          <b>Price:</b> ₹ {{p.originalPrice | number : '1.2-2'}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,8 @@ import { RegisterComponent } from "./register/register.component";
 import { ThanksregisterComponent } from "./thanksregister/thanksregister.component";
 import { KycregComponent } from "./kycreg/kycreg.component";
 import { KycthanksComponent } from "./kycthanks/kycthanks.component";
+import { ProductcatalogComponent } from "./productcatalog/productcatalog.component";
+import { AddproductComponent } from './addproduct/addproduct.component';
 
 
 const routes: Routes = [
@@ -25,7 +27,9 @@ const routes: Routes = [
     { path: 'registrationprocess', component: RegisterComponent },
     { path: 'kycprocess', component: KycregComponent },
     { path: 'thanksregistrationprocess', component: ThanksregisterComponent },
-   
+    { path: 'catalogue', component: ProductcatalogComponent },
+    { path: 'addproduct', component: AddproductComponent },
+
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

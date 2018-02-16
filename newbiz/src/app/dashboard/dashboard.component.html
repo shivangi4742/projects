@@ -63,10 +63,10 @@
         </div>
         <div class="col s6 m4 l4 truncate fieldBN">
           {{p.vPA}}<br>
-          <span class="hide-on-med-and-up">₹ {{p.amount}}</span>
+          <span class="hide-on-med-and-up">₹ {{p.amount | number : '1.2-2'}}</span>
         </div>
         <div class="col m3 l3 hide-on-small-only fieldBN">
-          <span class="right">₹ {{p.amount}}</span>
+          <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
         </div>
       </div>
       <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
