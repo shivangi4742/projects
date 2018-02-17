@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
+import { TranslateService } from 'ng2-translate';
+
 import { User, UserService, TransactionService, Transaction, Product, UtilsService, Payment, LocationService } from 'benowservices';
 
 @Component({
@@ -29,7 +31,7 @@ export class TransactionhistoryComponent implements OnInit {
   successCSV: boolean = false;
 
   constructor(private locationService: LocationService, private userService: UserService, private transactionService: TransactionService,
-              private utilsService: UtilsService, private sanitizer: DomSanitizer) { }
+              private utilsService: UtilsService, private sanitizer: DomSanitizer, private translate: TranslateService) { }
 
   ngOnInit() {
     this.locationService.setLocation('transactionhistory');
@@ -59,7 +61,6 @@ export class TransactionhistoryComponent implements OnInit {
   }
 
   updateTransactions(res: Transaction){
-    console.log('here?', res);
     if(res){
       this.transactions = res;
       this.numPages = res.numPages;
@@ -72,7 +73,6 @@ export class TransactionhistoryComponent implements OnInit {
     }
     this.processing = false;
 
-    console.log(this.transactions, 'Payments', this.payments);
   }
 
   next() {

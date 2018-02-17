@@ -1,5 +1,5 @@
 <div class="row smallGapBN">&nbsp;</div>
-<div class="row hide-on-med-and-up" align="center">
+<div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()" >
   <div class="col s12">
     <div class="dateRangeSBN">
       <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
@@ -8,10 +8,10 @@
         <option value="3">{{'This Month' | translate}}</option>
       </select>
     </div>
-  </div>  
+  </div>
 </div>
 <div class="row hide-on-small-only">
-    <div class="col m4 dateRangeBN offset-m8" align="right">
+    <div class="col m4 dateRangeBN offset-m8" align="right" *ngIf="hasTransactions()" >
         <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
             <option value="1">{{'Today' | translate}}</option>
             <option value="2">{{'This Week' | translate}}</option>
@@ -63,10 +63,10 @@
         </div>
         <div class="col s6 m4 l4 truncate fieldBN">
           {{p.vPA}}<br>
-          <span class="hide-on-med-and-up">₹{{p.amount}}</span>
+          <span class="hide-on-med-and-up">₹ {{p.amount | number : '1.2-2'}}</span>
         </div>
         <div class="col m3 l3 hide-on-small-only fieldBN">
-          <span class="right">₹{{p.amount}}</span>
+          <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
         </div>
       </div>
       <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
@@ -78,6 +78,10 @@
       </div>
     </li>
   </ul>
+  <div class="row">
+  <button class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" [routerLink]="transactionHistory">
+    {{'VIEW ALL SALES' | translate}}</button>
+</div>
 </div>
 <div *ngIf="processing" class="col s12 center">
   <div class="row"></div>
@@ -104,7 +108,4 @@
     {{'No Transactions Found!' | translate}}
   </div>
 </div>
-<div class="row">
-  <button class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" [routerLink]="transactionHistory">
-    {{'VIEW ALL SALES' | translate}}</button>
-</div>
+

@@ -19,7 +19,9 @@ import { UtilsService } from './utils.service';
 export class CampaignService {
     tomdd1: string;
     fromdd: string;
-    dd2:string;
+    dd2: string;
+    eromdd:string;
+    eta2:string[];
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
@@ -518,62 +520,56 @@ export class CampaignService {
     merchantpaymentlinkpost(res: any) {
         let me = this;
         let pt = res.merchantPPVoList;
-       
-        if (res.responseFromAPI == false) {
-            return res.responseFromAPI;
-        }
-        else if (pt && pt.length > 0) {
+        
+       if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i: number = 0; i < pt.length; i++) {
-                
-                if(pt[i].amount){
-                   var dd = pt[i].amount;
+                if (pt[i].amount) {
+                    var dd = pt[i].amount;
                 }
-                if(pt[i].url){
-                   this.dd2 = pt[i].url;
+                if (pt[i].url) {
+                    this.dd2 = pt[i].url;
                 }
-                if(pt[i].id){
-                   var dd1 = pt[i].id;
+                if (pt[i].id) {
+                    var dd1 = pt[i].id;
                 }
                 if ((pt[i].description)) {
                     var p = (pt[i].description).substring(0, 30);
                 }
                 if (pt[i].creationDate) {
-                    var crdate = pt[i].creationDate
+                    var crdate = pt[i].creationDate;
                     let dta: string[] = crdate.split(' ');
                     let dtf: string[] = dta[0].split('-');
                     this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
                 }
-                 let pp:boolean = true;
-
+                let pp: boolean = true;
+                this.tomdd1='';
+                
                 if (pt[i].expiryDate) {
-                    var crdate = pt[i].expiryDate
+                    var crdate = pt[i].expiryDate;
                     let dta1: string[] = crdate.split(' ');
                     let dtf: string[] = dta1[0].split('-');
                     this.tomdd1 = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta1[1];
+                    let dta2: string[] = this.tomdd1.split(' ');
+                    var x = dta2[0];
+                    var y = this.utilsService.getCurDateString();
+                    if (x < y) {
+                        pp = false;
+                    }
+                    me._PaymentLinks.push(new PaymentLinks(p, this.dd2, dd1,
+                        this.fromdd, this.tomdd1, dd, pt.fileurl, pp));
 
-                    // console.log('hello2', this.utilsService.getCurDateString());
-                        let dta2: string[] = this.tomdd1.split(' ');
-                      
-                        if (dta2[0] < this.utilsService.getCurDateString()) {
-                            pp = false;
-                        }
-                        me._PaymentLinks.push(new PaymentLinks(p,this.dd2, dd1,
-                                this.fromdd , this.tomdd1, dd, pt.fileurl, pp));
-                            //console.log(me._PaymentLinks, 'hello');
                 }
                 else {
-                    me._PaymentLinks.push(new PaymentLinks(p, this.dd2, dd1,
-                                this.fromdd , this.tomdd1, dd, pt.fileurl, pp));
-                            //console.log(me._PaymentLinks, 'hello');
-                }                    
-                
+                    me._PaymentLinks.push(new PaymentLinks(p,this.dd2, dd1,
+                        this.fromdd, this.tomdd1, dd, pt.fileurl, pp));
+                }
+
             }
 
         }
-         return me._PaymentLinks; 
+        return me._PaymentLinks;
 
     }
 }
 
- 

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
+import { Subscription } from 'rxjs/Subscription';
 
-import { UserService, User, UtilsService } from 'benowservices';
+import { UserService, User, UtilsService, LocationService } from 'benowservices';
 
 import { SocketService } from './socket.service';
 
@@ -13,11 +14,15 @@ import { SocketService } from './socket.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  subscription: Subscription;
   user: User;
+  location: string = 'dashboard';
 
   constructor(private translate: TranslateService, private router: Router, private userService: UserService, private utilsService: UtilsService,
-    private socketService: SocketService) {
+    private socketService: SocketService, private locationService: LocationService) {
     translate.setDefaultLang('en');  
+    let me: any = this; 
+    this.subscription = this.locationService.locationChanged().subscribe(message => me.location = message);    
   }
 
   getMainHeight(): string {
@@ -28,20 +33,24 @@ export class AppComponent {
     return h + 'px';
   }
 
+  prevVersion() {
+    let me: any = this;
+    this.userService.setLineOfBusiness('HB')
+      .then(window.location.href = me.utilsService.getOldBizURL())
+  }
+
   ngOnInit() { 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd))
         return;
 
-      document.body.scrollTop = 0;
+      window.scrollTo(0, 0)
       if((window as any).ga) {
         (window as any).ga('set', 'page', window.location.href.replace('https://merchant.benow.in/', ''));
         (window as any).ga('send', 'pageview');
       }
     });
-
-   
-
+    
     this.userService.getUser()
       .then(res => this.init(res));
   }
@@ -75,6 +84,7 @@ export class AppComponent {
     return false;
   }
   oncheckadd() {
+    //console.log(this.user.registerd , this.user.kycverified)
     if(!this.user.registerd) {
       if(this.user.kycverified){
         return true;

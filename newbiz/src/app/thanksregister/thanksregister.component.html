@@ -10,7 +10,7 @@
                                 <i class="material-icons alignMidBN linkButtonBN doneBN" >done</i>
                                 <span class="alignMidBN regHdrS2BN" style="margin-left:10px">{{'Account Activated' | translate}}</span>
                                 <a class="linkButtonBN right" >
-                                    <i class="material-icons alignMidBN">close</i>
+                                    <i class="material-icons alignMidBN" [routerLink]="homeLink">close</i>
                                 </a>
                                 
                             </div>
@@ -24,11 +24,9 @@
                       
                         <span class="col s12 m12 l12 paddhdjBN ">
                             <p>
-                                <b>Now you can receive upto ₹ 10,000 per month</b>
+                                <b>{{'Now you can receive upto ₹ 10,000 per month' |translate}}</b>
                                 <br>
-                                To remove the above limit, kindly provide us with
-                                your PAN card and Bank Statement documents
-                                that clearly mention your details
+                                {{'To remove the above limit, kindly provide us with your PAN card and Bank Statement documents that clearly mention your details' | translate}}
                             </p>
                         </span>
                          
@@ -39,7 +37,7 @@
                     <div class="col s1 m3 l4| center-align"></div>
                     <div class="col s10 m6 l4| center-align">
                         <button (click)="removelimit()" class="btn waves-effect waves-light col s6 offset-s3 red regNrmS2BN buttonBN" name="submit" type="submit" >
-                            Remove Limit
+                            {{'Remove Limit' | translate}}
                         </button>
                     </div>
                     <div class="col s1 m3 l4| center-align"></div>

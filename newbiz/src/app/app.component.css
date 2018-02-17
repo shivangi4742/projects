@@ -52,3 +52,17 @@ main {
 .pad5BN1 {
     padding: 19px 4px 4px 0px!important;
 }
+
+.oldVersionBN {
+    margin-top: 5px!important;
+    margin-bottom: 5px!important;
+}
+
+.versionRedirectBN {
+    color: #E53935;
+    font-weight: bold;
+    font-family: Barlow;
+    font-size: 10pt!important;
+    line-height: 12px!important;
+}
+  

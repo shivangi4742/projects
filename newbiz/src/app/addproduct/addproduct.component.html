@@ -1,0 +1,38 @@
+<div materialize>
+  <div class="row"></div>
+  <div class="row mainBodyBN">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN dashboardRedirectBN" [routerLink]="dashboard">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <div *ngIf="!isTypeSelected" class="col s12 hide-on-small-only">
+      <a class="linkButtonBN" (click)="selectProdType('Physical')">
+        Physical
+      </a>
+    </div>
+    <div *ngIf="!isTypeSelected" class="col s12 hide-on-med-and-up">
+      <a class="linkButtonBN" (click)="selectProdType('Event')">
+        Event
+      </a>
+    </div>
+    <div *ngIf="isTypeSelected" class="col s12">
+      {{selectedProdType}} type is Selected!!
+    </div>
+    <div *ngIf="isTypeSelected" class="row busDetails detailBodyBN">
+      <div class="col s6 m6 l6 regNrmS5B2BN">
+        <input id="test1" name="gst" type="radio" class="with-gap"  />
+        <label for="test1">{{'Yes' | translate}}</label>
+
+      </div>
+      <div class="col s6 m6 l6 regNrmS5B2BN">
+        <input id="test2" name="gst" type="radio" class="with-gap" />
+        <label for="test2">{{'No' | translate}}</label>
+
+      </div>
+
+    </div>
+  </div>
+</div>

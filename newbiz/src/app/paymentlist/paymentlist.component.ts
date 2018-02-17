@@ -12,90 +12,86 @@ import { TranslateService } from 'ng2-translate';
   templateUrl: './paymentlist.component.html',
   styleUrls: ['./paymentlist.component.css']
 })
+
 export class PaymentlistComponent implements OnInit {
   active: number = 0;
   detailsExpanded: boolean = false;
   selectedId: string;
   isInitial: boolean = true;
-  isCopied1: boolean = false;
+  isCopied91: boolean = false;
   paymentlink: PaymentLinks[];
   user: User;
-  pay: boolean ;
+  pay: boolean = false;
   page: number = 1;
   numPages: number;
-  activepay:PaymentLinks[];
-  inactivepay:PaymentLinks[];
-  modalActions: any = new EventEmitter<string | MaterializeAction>();
-  constructor(private translate: TranslateService, private utilsService: UtilsService,
+  activepay: PaymentLinks[];
+  inactivepay: PaymentLinks[];
+    
+ constructor(private translate: TranslateService, private utilsService: UtilsService,
     private userService: UserService, private campaignService: CampaignService, private router: Router,
-
     private route: ActivatedRoute, private locationService: LocationService) { }
 
   ngOnInit() {
     this.locationService.setLocation('paymentlist');
     this.userService.getUser()
       .then(res => this.init(res));
-
   }
 
   init(usr: User) {
     if (usr && usr.id) {
       this.user = usr;
-
       this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page)
         .then(res => this.initdtail(res));
     }
-
   }
+
   previous() {
     this.numPages = 0;
     this.campaignService.merchantpaymentlink(this.user.merchantCode, (++this.page))
       .then(res => this.initdtail(res));
   }
+
   next() {
     this.numPages = 0;
     this.campaignService.merchantpaymentlink(this.user.merchantCode, (--this.page))
       .then(res => this.initdtail(res));
   }
+
   setActiveTab(t: number) {
     this.active = t;
 
   }
+
   getStatus(): Status {
     return this.utilsService.getStatus();
   }
 
-
-  initdtail(res){    
-    if (res.length > 0) {
+  initdtail(res) {
+    if (res && res.length > 0) {
       this.pay = false;
-      this.paymentlink = res; 
+      this.paymentlink = res;
 
-            let me = this;
-             this.activepay = new Array<PaymentLinks>();
-             this.inactivepay = new Array<PaymentLinks>();
-                    res.forEach(function(a: any) {
-                      if(a.isactive == true) {
-                        me.activepay.push(new PaymentLinks(a.discription,a.url,a.id, 
-                                a.startdate,a.expirydate, a.amount,a.fileURL, a.isactive));
-                        }
-                        else {
-                           me.inactivepay.push(new PaymentLinks(a.discription,a.url,a.id, 
-                                a.startdate,a.expirydate, a.amount,a.fileURL, a.isactive));
-                        }
-                                  
-                    });
-                   // console.log( me.activepay, 'ac'); console.log(me.inactivepay, 'inac');
-                    
-             return  me.inactivepay;
-           
-       }
+      let me = this;
+      this.activepay = new Array<PaymentLinks>();
+      this.inactivepay = new Array<PaymentLinks>();
+      res.forEach(function (a: any) {
+        if (a.isactive == true) {
+          me.activepay.push(new PaymentLinks(a.discription, a.url, a.id,
+            a.startdate, a.expirydate, a.amount, a.fileURL, a.isactive));
+        }
+        else {
+          me.inactivepay.push(new PaymentLinks(a.discription, a.url, a.id,
+            a.startdate, a.expirydate, a.amount, a.fileURL, a.isactive));
+        }
+      });
+     // console.log(me.activepay,'skdggfjsdhfj');
+    }
 
     else {
-       this.pay = true;
+      this.pay = true;
     }
-  // return this.paymentlink;
   }
+
   arrowChange(id: any) {
     if (this.selectedId == id) {
       this.detailsExpanded = !this.detailsExpanded;
@@ -124,6 +120,7 @@ export class PaymentlistComponent implements OnInit {
     a.click();
     this.arrowChange('a');
   }
+
 }
 
 

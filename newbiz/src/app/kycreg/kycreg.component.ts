@@ -29,6 +29,7 @@ export class KycregComponent implements OnInit {
     bannerover: boolean;
     authpanuploaded: boolean = false;
     authbankuploaded: boolean = false;
+    homeLink: string = '/dashboard';
 
     constructor(private translate: TranslateService, private utilsService: UtilsService,
         private userService: UserService, private router: Router, private locationService: LocationService,
@@ -111,8 +112,7 @@ export class KycregComponent implements OnInit {
                 if (e.target.files[0].size > 10000000) {
                     let rr: any =  document.getElementById('uploadauthpan');
                     rr.val('');
-                    window.scrollTo(0, 0);
-
+                    
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
                 }
                 else {
@@ -132,8 +132,7 @@ export class KycregComponent implements OnInit {
             me.uploading = false;
             me.authpanuploaded = true;
             me.imgURL = res.fileName;
-            window.scrollTo(0, 0);
-            me.utilsService.setStatus(false, true, 'Uploaded Authenticate Pan successfully');
+           
         }
         else {
             window.scrollTo(0, 0);
@@ -148,7 +147,7 @@ export class KycregComponent implements OnInit {
                 if (e.target.files[0].size > 10000000) {
                   /* let p: any = document.getElementById('uploadauthbank');
                    p.val('');*/
-                    // window.scrollTo(0, 0);
+                    //
 
                     this.utilsService.setStatus(true, false, 'File is bigger than 300 KB!')
                 }
@@ -159,6 +158,9 @@ export class KycregComponent implements OnInit {
             }
         }
     }
+     getStatus(): Status {
+      return this.utilsService.getStatus();
+ }
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;
@@ -167,8 +169,7 @@ export class KycregComponent implements OnInit {
         if (res && res.success) {
             me.authbankuploaded = true;
             me.imgURL = res.fileName;
-            // window.scrollTo(0, 0);
-            me.utilsService.setStatus(false, true, 'Uploaded Authenticate bank Details successfully');
+           
         }
         else {
             window.scrollTo(0, 0);

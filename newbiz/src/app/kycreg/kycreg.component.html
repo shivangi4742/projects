@@ -1,25 +1,29 @@
-
 <main *ngIf="user ">
     <div class="row" style="margin-top: 0px">
         <div class="col l12 m12 s12">
             <div class="row" style="margin-bottom: 0px">
                 <div class="col s12 card-panel buttonBN">
-                    <i class="material-icons alignMidBN linkButtonBN" >arrow_back</i>
+                    <i class="material-icons alignMidBN linkButtonBN" [routerLink]="homeLink">arrow_back</i>
                     <span class="alignMidBN invHdrS1BN" style="margin-left:10px">{{'Remove Your Limits' | translate}}</span>
-                    <a class="linkButtonBN invHdrS1BN right" >
+                    <a class="linkButtonBN invHdrS1BN right" [routerLink]="homeLink">
                         <i class="material-icons alignMidBN">close</i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div *ngIf="getStatus().message">
+    <status [status]="getStatus()"></status>
+     </div>
+    
     <div class="row" *ngIf="accountProfile">
         <div class="col l1 m1 s0"></div>
         <div class="col l10 m10 s12">
             <ul data-collapsible="accordion" materialize="collapsible">
                 <li class="colaccordBN">
                     <div id="acbns" (click)="bankdetail11()" [ngClass]="!isPanExpanded?'noborderdownBN collapsible-header setTitleBN profileDetailBN':'noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                       <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
+                        <span class="alignMidBN titleKycBN">  {{'PAN Details' | translate}}
                        </span>
                         <span (click)="bankdetails()" class="alignMidBN titleLogoBN">
                             <img *ngIf="!isPanExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
@@ -56,33 +60,35 @@
                                 <!-- <br>{{'DRAG & DROP' | translate}}
                                         <br> {{'Or' | translate}}
                                         <br> -->
-                                        <br>
+                                <br>
                                 <div class="center file-field pBN">
 
                                     <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                         <span>{{'Select File'| translate}}</span>
-                                        <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthpan" (change)="uploadauthpan($event)">
+                                    <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthpan" (change)="uploadauthpan($event)">
                                     </span>
                                     &nbsp;
-                                    <span *ngIf="authpanuploaded">{{ filename | translate}}</span>
+                                    <span *ngIf="authpanuploaded" class="truncate">{{ filename | translate}}</span>
                                     <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authpanuploaded" />
 
                                     <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                         <div class="preloader-wrapper small active alignMidBN">
-                                        <div class="preloader-wrapper small active alignMidBN">
-                                      <div class="preloader-wrapper small active">
-                                       <div class="spinner-layer spinner-red-only">
-                                         <div class="circle-clipper left">
-                                           <div class="circle"></div>
-                                         </div><div class="gap-patch">
-                                           <div class="circle"></div>
-                                         </div><div class="circle-clipper right">
-                                           <div class="circle"></div>
-                                         </div>
-                                       </div>
-                                     </div>
-                                     </div>
-                                     </div>
+                                            <div class="preloader-wrapper small active alignMidBN">
+                                                <div class="preloader-wrapper small active">
+                                                    <div class="spinner-layer spinner-red-only">
+                                                        <div class="circle-clipper left">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="gap-patch">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                        <div class="circle-clipper right">
+                                                            <div class="circle"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br>
@@ -96,7 +102,7 @@
 
                 <li class="colaccordBN">
                     <div id="acbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header noborderdownBN setTitleBN profileDetailBN':' noborderdownBN collapsible-header setTitleBN profileDetailRedBN'">
-                       <span class="alignMidBN titleKycBN">  {{'Bank Details' | translate}}
+                        <span class="alignMidBN titleKycBN">  {{'Bank Details' | translate}}
                        </span>
                         <span (click)="accountdetail()" class="alignMidBN titleLogoBN">
                             <img *ngIf="!isBusExpanded" class="right" src="../../assets/newbiz/imgs/plus@2x.png" style="margin-top:12px" />
@@ -145,7 +151,9 @@
                             </div>
                             <div class="row busDetails detailBodyBN">
                                 <div class="col s12 m12 l12 regNrmS5B2BN">
-                                    {{'Upload your latest bank statement for the account number' | translate}} &nbsp; <span class="reddBN"> {{ accountProfile.accountRefNumber | translate}}</span>
+                                    {{'Upload your latest bank statement for the account number' | translate}} &nbsp;
+                                    <span
+                                        class="reddBN"> {{ accountProfile.accountRefNumber | translate}}</span>
                                 </div>
                             </div>
                             <div class="row busDetails detailBodyBN">
@@ -166,34 +174,36 @@
                                     <div class="col s12 m12 l12 center file-field pBN">
                                         <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
                                             <span>{{'Select File'| translate}}</span>
-                                            <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthbank" (change)="uploadauthbank($event)">
+                                        <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthbank" (change)="uploadauthbank($event)">
 
                                         </span>
                                         &nbsp;
-                                        <span *ngIf="authbankuploaded">{{ filename1 | translate}}</span>
+                                        <span *ngIf="authbankuploaded" class="truncate">{{ filename1 | translate}}</span>
                                         <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authbankuploaded" />
 
                                         <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
                                             <div class="preloader-wrapper small active alignMidBN">
-                                            <div class="preloader-wrapper small active alignMidBN">
-                                          <div class="preloader-wrapper small active">
-                                           <div class="spinner-layer spinner-red-only">
-                                             <div class="circle-clipper left">
-                                               <div class="circle"></div>
-                                             </div><div class="gap-patch">
-                                               <div class="circle"></div>
-                                             </div><div class="circle-clipper right">
-                                               <div class="circle"></div>
-                                             </div>
+                                                <div class="preloader-wrapper small active alignMidBN">
+                                                    <div class="preloader-wrapper small active">
+                                                        <div class="spinner-layer spinner-red-only">
+                                                            <div class="circle-clipper left">
+                                                                <div class="circle"></div>
+                                                            </div>
+                                                            <div class="gap-patch">
+                                                                <div class="circle"></div>
+                                                            </div>
+                                                            <div class="circle-clipper right">
+                                                                <div class="circle"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                           </div>
-                                          </div>
-                                         </div>
                                         </div>
-                                       <br><br>
-                                    <br>
-                                    <br>
-                                    </div>                                    
+                                        <br><br>
+                                        <br>
+                                        <br>
+                                    </div>
                                     <br>
                                 </div>
                             </div>

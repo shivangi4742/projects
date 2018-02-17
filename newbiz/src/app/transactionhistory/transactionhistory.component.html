@@ -8,7 +8,7 @@
   </div>
   <div class="row" (click)="resetTick()">
     <div class="row"></div>
-    <div class="row">
+    <div class="row" *ngIf="hasTransactions()">
       <div class="col s12 m7 l7 searchBorderBN">
         <i class="col s2 material-icons searchIconBN">search</i>
         <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 inputTextBN searchBN"
@@ -36,17 +36,29 @@
         </div>
       </div>
     </div>
-    <div class="row"></div>
-    <div class="row">
+    <div class="row smallGapBN">&nbsp;</div>
+    <div class="row smallGapBN">&nbsp;</div>
+    <div class="row" style="margin-bottom: 0px" *ngIf="hasTransactions()">
       <div class="col s12 m6 l6">
-        <select materialize="material_select">
-          <option value="all" selected>All Payments</option>
-        </select>
+        <span class="labelPLBN">
+          {{'For' | translate}}
+        </span><br>
+        <div class="dateRangeSBN">
+          <select materialize="material_select">
+            <option value="all" selected>{{'All Payments' | translate}}</option>
+          </select>
+        </div>
       </div>
+      <div class="col s12 smallGapBN hide-on-med-and-up"></div>
       <div class="col s12 m6 l6">
-        <select materialize="material_select">
-          <option value="allTime" selected>All Time</option>
-        </select>
+        <span class="labelPLBN">
+          {{'Duration' | translate}}
+        </span><br>
+        <div class="dateRangeSBN">
+          <select materialize="material_select">
+            <option value="all" selected>{{'All Time' | translate}}</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="row"></div>
@@ -63,10 +75,10 @@
             </div>
             <div class="col s6 m4 l4 truncate fieldBN">
               {{p.vPA}}<br>
-              <span class="hide-on-med-and-up">₹{{p.amount}}</span>
+              <span class="hide-on-med-and-up">₹ {{p.amount | number : '1.2-2'}}</span>
             </div>
             <div class="col m3 l3 hide-on-small-only fieldBN">
-              <span class="right">₹{{p.amount}}</span>
+              <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
             </div>
           </div>
           <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
@@ -94,7 +106,7 @@
         </div>
       </div>
       <div class="col s12 center inputTextBN">
-        Loading Transactions
+        {{'Loading Transactions' | translate}}
       </div>
     </div>
     <div *ngIf="!hasTransactions() && !processing" class="col s12 center">
@@ -103,7 +115,7 @@
       <div class="row"></div>
       <div class="row"></div>
       <div class="col s12 center inputTextBN">
-        No Transactions Found
+        {{'No Transactions Found!' | translate}}
       </div>
     </div>
     <div class="row" style="margin-bottom: 5px;">

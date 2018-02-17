@@ -863,7 +863,42 @@ var userCont = {
             cb(retErr);
         }
     },
+ setLineOfBusiness: function (req, res) {
+        var me = this;
+        this.setLineOfBusinesspost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
 
+setLineOfBusinesspost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d && d.id) {
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/setLineOfBusiness', 'POST', req.headers),
+                        {
+                            "id":d.id,
+                            "businessLob":d.businessLob
+                        },
+                        cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = userCont;

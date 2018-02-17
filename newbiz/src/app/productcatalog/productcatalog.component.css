@@ -1,0 +1,73 @@
+.mainBodyBN{
+  font-family: Barlow;
+  font-size: 12pt;
+  line-height: 14px;
+}
+
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+}
+
+.dashboardRedirectBN{
+  color: #E53935;
+  font-weight: bold;
+}
+
+.searchBorderBN{
+  border: 1px solid grey;
+  border-radius: 43px;
+}
+
+.searchIconBN{
+  padding-top: 8px;
+}
+
+.searchBN{
+  margin: 0px!important;
+  border: 0px solid white!important;
+}
+
+.prodBoxBN{
+  margin-bottom: 20px;
+  /*height: 120px;*/
+}
+
+.prodDetailsBN{
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  padding: 0px!important;
+  padding-top: 25px!important;
+}
+
+.prodTitleBN{
+  font-size: 10pt!important;
+  line-height: 12px!important;
+}
+
+.imageHeightBN{
+  height: 100px;
+}
+
+.smallGapBN {
+  height: 1px;
+  margin-bottom: 5px;
+}
+
+.pagingBN{
+  text-align: right;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  color: grey;
+}
+
+.previousBN{
+  color: black!important;
+}
+
+.nextBN{
+  color: black!important;
+}
+
+.prodOptionsBN{
+  padding: 0px!important;
+}

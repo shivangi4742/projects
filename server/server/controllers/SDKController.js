@@ -833,7 +833,13 @@ var sdkCont = {
                             "amount": d.amount,
                             "description": d.description,
                             "refNumber": d.invoiceNumber,
-                            "expiryDate": expDt
+                            "expiryDate": expDt,
+                            "askname": true,
+                            "askemail": true,
+                            "askmob": true,
+                            "mndname": true,
+                            "mndemail": true,
+                            "mndmob": true
                         }, cb);
                 }
                 else

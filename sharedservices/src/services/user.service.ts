@@ -48,7 +48,8 @@ export class UserService {
     getDashboardCategories: 'user/getDashboardCategories',
     getSubcategoryByCategory: 'user/getSubcategoryByCategory',
     getEnableKyc: 'user/EnableKyc',
-    getcomplteregister: 'user/complteregister'
+    getcomplteregister: 'user/complteregister',
+    setLineOfBusiness:'user/setLineOfBusiness'
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -489,6 +490,12 @@ export class UserService {
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
     }
+    if(res.merchantUser.kycVerified== null){
+      this._user.kycverified = false;
+    }
+    if(res.merchantUser.kycVerified == true){
+      this._user.kycverified = res.merchantUser.kycVerified;
+    }
     if (res.merchantUser) {
       let pt = res.merchantUser;
       this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
@@ -503,6 +510,12 @@ export class UserService {
     }
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
+    }
+    if(res.merchantUser.kycVerified== null){
+      this._user.kycverified = false;
+    }
+    if(res.merchantUser.kycVerified == true){
+      this._user.kycverified = res.merchantUser.kycVerified;
     }
     if (res.merchantUser) {
       let pt1 = res.merchantUser;
@@ -669,6 +682,23 @@ export class UserService {
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
+  }
+  setLineOfBusiness(lob: string): Promise<any> {
+    if(lob) {
+      this.utilsService.setLOBInStorage(lob);
+      return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.setLineOfBusiness,
+      JSON.stringify({
+        "id": this._user.id,
+        "businessLob": lob
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => res.json())
+      .catch(res => this.handleError(res.json()));
+    }
+    else
+      return Promise.resolve(null);
   }
 
 
