@@ -27,6 +27,8 @@ var sdkCont = {
                 pmtype = 'NET_BANKING';
             else if (req.body.mode === 'CASH')
                 pmtype = 'CASH';
+            else if (req.body.mode == 'RAZORPAY')
+                pmtype = 'RAZORPAY'
 
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
                 {
@@ -84,7 +86,7 @@ var sdkCont = {
             this.send80G(req, function (data) {
                 if (fs.existsSync(__dirname + '/80g/' + req.params.txnid + '.pdf'))
                     res.sendFile(__dirname + '/80g/' + req.params.txnid + '.pdf');
-            });                
+            });
         }
     },
 
@@ -95,133 +97,133 @@ var sdkCont = {
         });
     },
 
-    send80G: function(req, cb) {
+    send80G: function (req, cb) {
         try {
-            if(req && req.params && req.params.id) {
+            if (req && req.params && req.params.id) {
                 var me = this;
-                req.body.campaignId = req.params.id;                
-                this.getPaymentLinkDetailsPost(req, function(cData) {
-                    if(cData && cData.merchantCode) {
-                        helper.postAndCallback(helper.getDefaultedExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST', 
+                req.body.campaignId = req.params.id;
+                this.getPaymentLinkDetailsPost(req, function (cData) {
+                    if (cData && cData.merchantCode) {
+                        helper.postAndCallback(helper.getDefaultedExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST',
                             req.headers),
-                            { 
+                            {
                                 "merchantCode": cData.merchantCode
                             },
-                            function(mData) {
-                                if(mData && mData.userId && mData.auto80gEnabled) {
-                                    helper.postAndCallback(helper.getDefaultedExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails', 
+                            function (mData) {
+                                if (mData && mData.userId && mData.auto80gEnabled) {
+                                    helper.postAndCallback(helper.getDefaultedExtServerOptions('/merchants/merchant/fetchMerchantForEditDetails',
                                         'POST', req.headers),
                                         {
                                             "userId": mData.userId,
                                             "sourceId": "6",
                                             "sourceType": "MERCHANT_REG"
-                                        }, function(m2Data) {
+                                        }, function (m2Data) {
                                             helper.postAndCallback(helper.getDefaultedExtServerOptions('/payments/paymentadapter/getDataByPaymentLinkByCriteria',
-                                            'POST', req.headers),
-                                            {
-                                                "txnRefNumber": req.params.txnid
-                                            }, function(dData) {
-                                                if(dData && dData.length > 0 && dData[0].name) {
-                                                    var amnt = (Math.round(dData[0].paidAmount * 100) / 100).toString();
+                                                'POST', req.headers),
+                                                {
+                                                    "txnRefNumber": req.params.txnid
+                                                }, function (dData) {
+                                                    if (dData && dData.length > 0 && dData[0].name) {
+                                                        var amnt = (Math.round(dData[0].paidAmount * 100) / 100).toString();
 
-                                                if(amnt.indexOf('.') < 0)
-                                                    amnt = amnt + '.00';
-                                                
-                                                if(amnt.indexOf('.') > amnt.length - 1)
-                                                    amnt = amnt + '00';
+                                                        if (amnt.indexOf('.') < 0)
+                                                            amnt = amnt + '.00';
 
-                                                if(amnt.indexOf('.') > amnt.length - 2)
-                                                    amnt = amnt + '0';
+                                                        if (amnt.indexOf('.') > amnt.length - 1)
+                                                            amnt = amnt + '00';
 
-                                                var dt = dData[0].transactionDate;
-                                                if(dt && dt.length > 10)
-                                                    dt = dt.substring(0, 10).replace(/-/g, '/');
+                                                        if (amnt.indexOf('.') > amnt.length - 2)
+                                                            amnt = amnt + '0';
 
-                                                //auto80GEnabled - PUT A CHECK HERE
-                                                var options = { format: 'A4' };
-                                                var html = fs.readFileSync('./80g.html', 'utf8')
-                                                    .replace(/{{RECEIVEDAMOUNT}}/g, amnt)
-                                                    .replace(/{{NGONAME}}/g, m2Data.businessName ? m2Data.businessName : '')
-                                                    .replace('{{RECEIPTDATE}}', dt ? dt : '')
-                                                    .replace('{{NGOEMAIL}}', m2Data.userId ? m2Data.userId : '')
-                                                    .replace('{{NGOPAN}}', m2Data.panNumber ? m2Data.panNumber : '')
-                                                    .replace('{{NGOADDRESS}}', m2Data.address ? m2Data.address : '')
-                                                    .replace('{{RECEIVEDFROM}}', dData[0].name ? dData[0].name : '')
-                                                    .replace('{{RECEIPTNUM}}', req.params.txnid ? req.params.txnid : '')
-                                                    .replace('{{NGOPHONE}}', m2Data.mobileNumber ? m2Data.mobileNumber : '')
-                                                    .replace('{{RECEIVEDFROMADDRESS}}', dData[0].address ? dData[0].address : '')
-                                                    .replace('{{CERTIFICATENUMBER}}', m2Data.ngoCertifnum ? m2Data.ngoCertifnum : '')
-                                                    .replace('{{CERTIFICATEISSUEDON}}', m2Data.ngoCertifdate ? m2Data.ngoCertifdate : '')
-                                                    .replace('{{RECEIVEDAMOUNTDETAILED}}', amnt + ' (' + helper.inWords(amnt) + ')');	
-                                                var logo = mData.merchantLogoUrl;    
-                                                if(m2Data && m2Data.documentResponseVO && m2Data.documentResponseVO.documentList && 
-                                                    m2Data.documentResponseVO.documentList.length > 0) {
-                                                    for(var i = 0; i < m2Data.documentResponseVO.documentList.length; i++) {
-                                                        if(m2Data.documentResponseVO.documentList[i].documentCode && 
-                                                            m2Data.documentResponseVO.documentList[i].documentCode.toUpperCase() == 'LOGO') {
-                                                            logo = m2Data.documentResponseVO.documentList[i].documentUrl;
-                                                            if(logo && logo[0] != '/')
-                                                                logo = '/' + logo;
-                
-                                                            break;
+                                                        var dt = dData[0].transactionDate;
+                                                        if (dt && dt.length > 10)
+                                                            dt = dt.substring(0, 10).replace(/-/g, '/');
+
+                                                        //auto80GEnabled - PUT A CHECK HERE
+                                                        var options = { format: 'A4' };
+                                                        var html = fs.readFileSync('./80g.html', 'utf8')
+                                                            .replace(/{{RECEIVEDAMOUNT}}/g, amnt)
+                                                            .replace(/{{NGONAME}}/g, m2Data.businessName ? m2Data.businessName : '')
+                                                            .replace('{{RECEIPTDATE}}', dt ? dt : '')
+                                                            .replace('{{NGOEMAIL}}', m2Data.userId ? m2Data.userId : '')
+                                                            .replace('{{NGOPAN}}', m2Data.panNumber ? m2Data.panNumber : '')
+                                                            .replace('{{NGOADDRESS}}', m2Data.address ? m2Data.address : '')
+                                                            .replace('{{RECEIVEDFROM}}', dData[0].name ? dData[0].name : '')
+                                                            .replace('{{RECEIPTNUM}}', req.params.txnid ? req.params.txnid : '')
+                                                            .replace('{{NGOPHONE}}', m2Data.mobileNumber ? m2Data.mobileNumber : '')
+                                                            .replace('{{RECEIVEDFROMADDRESS}}', dData[0].address ? dData[0].address : '')
+                                                            .replace('{{CERTIFICATENUMBER}}', m2Data.ngoCertifnum ? m2Data.ngoCertifnum : '')
+                                                            .replace('{{CERTIFICATEISSUEDON}}', m2Data.ngoCertifdate ? m2Data.ngoCertifdate : '')
+                                                            .replace('{{RECEIVEDAMOUNTDETAILED}}', amnt + ' (' + helper.inWords(amnt) + ')');
+                                                        var logo = mData.merchantLogoUrl;
+                                                        if (m2Data && m2Data.documentResponseVO && m2Data.documentResponseVO.documentList &&
+                                                            m2Data.documentResponseVO.documentList.length > 0) {
+                                                            for (var i = 0; i < m2Data.documentResponseVO.documentList.length; i++) {
+                                                                if (m2Data.documentResponseVO.documentList[i].documentCode &&
+                                                                    m2Data.documentResponseVO.documentList[i].documentCode.toUpperCase() == 'LOGO') {
+                                                                    logo = m2Data.documentResponseVO.documentList[i].documentUrl;
+                                                                    if (logo && logo[0] != '/')
+                                                                        logo = '/' + logo;
+
+                                                                    break;
+                                                                }
+                                                            }
                                                         }
-                                                    }
-                                                }
-                
-                                                if(logo)
-                                                    html = html.replace('{{LOGOURL}}', 
-                                                        '<IMG style="max-height: 100px; max-width: 370px;" src="https://mobilepayments.benow.in/merchants' +
-                                                        logo + '" alt="" />');
-                                                else
-                                                    html = html.replace('{{LOGOURL}}', '');
-                                                
-                                                fs.writeFileSync(__dirname + '/../../dist/80g/' + req.params.txnid + '.html', html);
-                                                var pdfstream = fs.createWriteStream(__dirname + '/80g/' + req.params.txnid + '.pdf');
-                                                pdfstream.on('close', function() {
-                                                    if (fs.existsSync(__dirname + '/../../dist/80g/' + req.params.txnid + '.html'))
-                                                        fs.unlink(__dirname + '/../../dist/80g/' + req.params.txnid + '.html'); 
-                                        
-                                                    if(!req.body.dontemailPDF && dData[0].email) {
-                                                        var reqPost = request.post(helper.getDefaultExtFileServerOptions(config.beNowSvc.https + 
-                                                            config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/merchant/sendEmailNotify', 'POST', 
-                                                            req.headers),
-                                                            function (err, resp, body) {
-                                                                cb();
-                                                            });                    
-        
-                                                        var form = reqPost.form();
-                                                        form.append('sendEmailVO', JSON.stringify({
-                                                            "to": dData[0].email, "subject": "80G Certificate", "text": "Please find your 80G Certificate attached with this mail."
-                                                        }));
-                                                        form.append('file', fs.createReadStream(__dirname + '/80g/' + req.params.txnid + '.pdf'));    
-                                                    }
-                                                    else
-                                                        cb();
-                                                });
-                                                request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
-                                                    .pipe(pdfstream);
-                                                //THIS IS WHEN PHANTOM WAKES UP
-    /*                                         pdf.create(html, options).toFile('./80g/' + req.params.txnid + '.pdf', function(err, res) {
-                                                request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
-                                                    .pipe(fs.createWriteStream(__dirname + '/../../80g/' + req.params.txnid + '.pdf'))
-                                                var reqPost = request.post(helper.getDefaultExtFileServerOptions(config.beNowSvc.https + 
-                                                    config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/merchant/sendEmailNotify', 'POST', 
-                                                    req.headers),
-                                                    function (err, resp, body) {
-                                                        cb();
-                                                    });                    
 
-                                                var form = reqPost.form();
-                                                form.append('sendEmailVO', JSON.stringify({
-                                                    "to": "yatishg@gmail.com", "subject": "80G Certificate", "text": "Please find your 80G Certificate attached with this mail."
-                                                }));
-                                                form.append('file', fs.createReadStream(__dirname + '/../../80g/' + req.params.txnid + '2.pdf'));
-                                            });                                                     */
-                                        }
-                                    });
-                                });
-                            }                                
-                        });                                                
+                                                        if (logo)
+                                                            html = html.replace('{{LOGOURL}}',
+                                                                '<IMG style="max-height: 100px; max-width: 370px;" src="https://mobilepayments.benow.in/merchants' +
+                                                                logo + '" alt="" />');
+                                                        else
+                                                            html = html.replace('{{LOGOURL}}', '');
+
+                                                        fs.writeFileSync(__dirname + '/../../dist/80g/' + req.params.txnid + '.html', html);
+                                                        var pdfstream = fs.createWriteStream(__dirname + '/80g/' + req.params.txnid + '.pdf');
+                                                        pdfstream.on('close', function () {
+                                                            if (fs.existsSync(__dirname + '/../../dist/80g/' + req.params.txnid + '.html'))
+                                                                fs.unlink(__dirname + '/../../dist/80g/' + req.params.txnid + '.html');
+
+                                                            if (!req.body.dontemailPDF && dData[0].email) {
+                                                                var reqPost = request.post(helper.getDefaultExtFileServerOptions(config.beNowSvc.https +
+                                                                    config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/merchant/sendEmailNotify', 'POST',
+                                                                    req.headers),
+                                                                    function (err, resp, body) {
+                                                                        cb();
+                                                                    });
+
+                                                                var form = reqPost.form();
+                                                                form.append('sendEmailVO', JSON.stringify({
+                                                                    "to": dData[0].email, "subject": "80G Certificate", "text": "Please find your 80G Certificate attached with this mail."
+                                                                }));
+                                                                form.append('file', fs.createReadStream(__dirname + '/80g/' + req.params.txnid + '.pdf'));
+                                                            }
+                                                            else
+                                                                cb();
+                                                        });
+                                                        request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
+                                                            .pipe(pdfstream);
+                                                        //THIS IS WHEN PHANTOM WAKES UP
+                                                        /*                                         pdf.create(html, options).toFile('./80g/' + req.params.txnid + '.pdf', function(err, res) {
+                                                                                                    request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
+                                                                                                        .pipe(fs.createWriteStream(__dirname + '/../../80g/' + req.params.txnid + '.pdf'))
+                                                                                                    var reqPost = request.post(helper.getDefaultExtFileServerOptions(config.beNowSvc.https + 
+                                                                                                        config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/merchant/sendEmailNotify', 'POST', 
+                                                                                                        req.headers),
+                                                                                                        function (err, resp, body) {
+                                                                                                            cb();
+                                                                                                        });                    
+                                                    
+                                                                                                    var form = reqPost.form();
+                                                                                                    form.append('sendEmailVO', JSON.stringify({
+                                                                                                        "to": "yatishg@gmail.com", "subject": "80G Certificate", "text": "Please find your 80G Certificate attached with this mail."
+                                                                                                    }));
+                                                                                                    form.append('file', fs.createReadStream(__dirname + '/../../80g/' + req.params.txnid + '2.pdf'));
+                                                                                                });                                                     */
+                                                    }
+                                                });
+                                        });
+                                }
+                            });
                     }
                 })
             }
@@ -230,7 +232,7 @@ var sdkCont = {
             cb();
         }
     },
-    
+
     paymentSuccess: function (req, cb) {
         try {
             var headers = {
@@ -254,6 +256,8 @@ var sdkCont = {
                 pmtype = 'NET_BANKING';
             else if (req.body.mode == 'CASH')
                 pmtype = 'CASH'
+            else if (req.body.mode == 'RAZORPAY')
+                pmtype = 'RAZORPAY'
 
             var me = this;
             helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
@@ -289,10 +293,10 @@ var sdkCont = {
                         }
                     ]
                 },
-                function(dd) {
-                    if(req.body.send80GAutomatically)
-                        me.send80G(req, function() {
-                    });                         
+                function (dd) {
+                    if (req.body.send80GAutomatically)
+                        me.send80G(req, function () {
+                        });
 
                     cb();
                 });
@@ -309,8 +313,7 @@ var sdkCont = {
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
-                res.redirect(config.base + '/ppl/razorpay/' + paylinkid);
-                // res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods);
+                res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId);
             }
             else {
                 var drop_cat = 'DC,NB,EMI,CASH';
@@ -977,8 +980,8 @@ var sdkCont = {
             else {
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getMerchantPaymentLinks', 'POST', req.headers),
                     {
-                       "merchantCode": req.body.merchantCode,
-                       "pageNumber": req.body.pageNumber
+                        "merchantCode": req.body.merchantCode,
+                        "pageNumber": req.body.pageNumber
                     },
                     cb);
             }
@@ -987,6 +990,130 @@ var sdkCont = {
             cb(retErr);
         }
     },
+
+    razorpayCapturePayment: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.razorpayCapturePaymentPOST(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    razorpayCapturePaymentPOST: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req.body || !req.body.razorpayId)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/razorpayCapturePayment', 'POST', req.headers),
+                    {
+                        "razorpayId": req.body.razorpayId,
+                        "txnId": req.body.txnId
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+
+    },
+
+    razorpayConfirmPayment: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.razorpayConfirmPaymentPOST(req, res, function (data) {
+            res.json(data);
+        });
+    },
+
+    razorpayConfirmPaymentPOST: function (req, rd, cb) {
+
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req.body || !req.body.amount)
+                cb(retErr);
+            else {
+                paylinkid = req.body.paylinkid;
+
+                var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
+                var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
+
+                if (req.body.mtype == 2) {
+                    if (req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
+                        surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
+                        furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid + '/' + req.body.fundraiserid;
+                    }
+                    else {
+                        surl = config.paymentGateway.dsurl + paylinkid + '/' + req.body.txnid;
+                        furl = config.paymentGateway.dfurl + paylinkid + '/' + req.body.txnid;
+                    }
+                }
+
+                // if (req.body.sourceId == 2) {
+                //     surl = req.body.surl;
+                //     furl = req.body.furl;
+                // }
+                // else if (req.body.sourceId == 1) {
+                //     surl = config.paymentGateway.sdksurl + paylinkid + '/' + req.body.txnid;
+                //     furl = config.paymentGateway.sdkfurl + paylinkid + '/' + req.body.txnid;
+                // }
+                // else {
+                //     if (req.body.surl && req.body.surl.length > 4)
+                //         surl = req.body.surl;
+
+                //     if (req.body.furl && req.body.furl.length > 4)
+                //         furl = req.body.furl;
+                // }
+
+                var url = '';
+                if (req.body.status.toLowerCase() == 'success') {
+                    url = surl;
+                }
+                else {
+                    url = furl;
+                }
+
+                request.post({ url: url, form: req.body },
+                    function (err, remoteResponse, remoteBody) {
+                        try {
+                            if (err) {
+                                if (mtype == 2)
+                                    rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                                else
+                                    rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                            }
+
+                            if (remoteResponse) {
+                                rd.redirect(url);
+                            }
+                            else {
+                                if (mtype == 2)
+                                    rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                                else
+                                    rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                            }
+                        }
+                        catch (error) {
+                            if (mtype == 2)
+                                rd.redirect(config.me + '/donationfailure/' + paylinkid);
+                            else
+                                rd.redirect(config.me + '/paymentfailure/' + paylinkid);
+                        }
+                    });
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    }
+
 }
 
 module.exports = sdkCont;

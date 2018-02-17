@@ -18,4 +18,7 @@ sdkRouter.post('/updateFundraiserCollection', sdkController.updateFundraiserColl
 sdkRouter.post('/getLogById', sdkController.getLogById.bind(sdkController));
 sdkRouter.post('/createPaymentLink', sdkController.createPaymentLink.bind(sdkController));
 sdkRouter.post('/getmerchantpaymentlink', sdkController.getmerchantpaymentlink.bind(sdkController));
+sdkRouter.post('/razorpayCapturePayment', sdkController.razorpayCapturePayment.bind(sdkController));
+sdkRouter.post('/razorpayConfirmPayment', sdkController.razorpayConfirmPayment.bind(sdkController));
+
 module.exports = sdkRouter;

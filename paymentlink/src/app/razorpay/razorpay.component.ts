@@ -1,24 +1,11 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PG, SDKService, RazorPayModel, SDK, ProductService, Product, UtilsService } from "benowservices";
 import { WindowRef } from "./../windowref.service";
 
+import * as $ from 'jquery';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-razorpay',
@@ -35,6 +22,20 @@ export class RazorpayComponent implements OnInit {
   pg: PG;
   pay: SDK;
   prods: string;
+  // resdata: ResData;
+  razorPayWebRequestUrl: string;
+  // isData: boolean;
+  subscription: Subscription;
+
+  status: string;
+  mode: string;
+  amount: number;
+  phone: string;
+  udf4: string;
+  udf3: string;
+  mtype: number;
+  paylinkid: string;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -42,34 +43,42 @@ export class RazorpayComponent implements OnInit {
     private sdkService: SDKService,
     private productService: ProductService,
     private utilsService: UtilsService,
-    private winRef: WindowRef
-  ) { }
+    private winRef: WindowRef,
+    private cdref: ChangeDetectorRef
+  ) {
+    let me: any = this;
+    this.subscription = this.sdkService.receivedPayment().subscribe(message => me.afterPayment(message));
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.txnId = this.route.snapshot.params['txnid'];
     this.prods = this.route.snapshot.params['prods'];
 
+    this.status = "";
+    this.mode = "";
+    this.amount = 0;
+    this.phone = "";
+    this.udf4 = "";
+    this.udf3 = "";
+    this.paylinkid = "";
+
+    // this.isData = false;
+
     if (this.id && this.id.length > 0) {
       this.pg = this.sdkService.getPG();
-      console.log('PG before', this.pg);
       this.sdkService.getPaymentLinkDetails(this.id)
         .then(res => this.getProducts(res));
-      // this.rzModel = this.sdkService.getRazorPay();
-      // console.log('Razor pay model', this.rzModel);
-      // this.init(this.sdkService.getRazorPay());
     }
   }
 
   getProducts(res: SDK): void {
     this.pay = res;
-    console.log('this.pay', this.pay);
     this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
       .then(pres => this.initProds(pres));
   }
 
   initProds(res: Array<Product>) {
-    console.log('product res', res);
     if (res && res.length > 0) {
       let selProds: any = JSON.parse(atob(this.prods));
       if (selProds && selProds.length > 0) {
@@ -102,13 +111,10 @@ export class RazorpayComponent implements OnInit {
   }
 
   init(res: SDK) {
-    console.log('Response', res);
     if (res) {
-      this.rzModel = new RazorPayModel(res.amount * 100, res.title, res.description, res.firstName, res.lastName, res.email);
-      console.log('Razor pay model', this.rzModel);
+      this.rzModel = new RazorPayModel(res.amount, res.title, res.description, res.firstName, res.lastName, res.email);
       this.options = this.getPaymentRequest();
       if (this.options) {
-        console.log('Options', this.options);
         this.initRazorPay();
       }
     }
@@ -117,8 +123,6 @@ export class RazorpayComponent implements OnInit {
   }
 
   initRazorPay(): void {
-    console.log('Here');
-    console.log('SDK', this.rzModel);
     this.rzp1 = new this.winRef.nativeWindow.Razorpay(this.options);
     this.rzp1.open();
   }
@@ -130,17 +134,18 @@ export class RazorpayComponent implements OnInit {
       "amount": this.rzModel.amount * 100,
       "name": this.rzModel.title,
       "description": this.rzModel.description,
-      "image": "https://pbs.twimg.com/profile_images/915212352873578498/qa3oS9PZ.jpg",
+      "image": this.pay.imageURL,
       "handler": function (response) {
-        console.log('response obj', response);
-        me.afterPayment(response);
+        me.sdkService.setReceivedPaymentSubject(response);
+
       },
       "prefill": {
         "name": this.rzModel.firstName + " " + this.rzModel.lastName,
         "email": this.rzModel.email
       },
       "notes": {
-        "address": "Hello World"
+        "merchantCode": this.pay.merchantCode,
+        "merchantName": this.pay.businessName
       },
       "theme": {
         "color": "#E53935"
@@ -151,8 +156,66 @@ export class RazorpayComponent implements OnInit {
   }
 
   afterPayment(response: any): void {
-    console.log('payment ID', response.razorpay_payment_id);
-    console.log('response obj', response);
+    this.sdkService.razorpayCapturePayment(response.razorpay_payment_id, this.txnId)
+      .then(res => this.proceedToPaymentConfirmation(res))
+  }
+
+  proceedToPaymentConfirmation(res: any): void {
+
+    var status = "Failed";
+    if (res.status.toLowerCase() == 'captured') {
+      status = "success";
+    }
+
+    var baseUrl = this.utilsService.getBaseURL();
+    var surl = baseUrl + 'ppl/paymentsuccess/' + this.id + '/' + this.txnId;
+    var furl = baseUrl + 'ppl/paymentfailure/' + this.id + '/' + this.txnId;
+
+    if (this.pay.merchantType == 2) {
+      // Confirm fundraiser logic
+      if (res.hasfundraiser && res.hasfundraiser.toString().toLowerCase() == "true") {
+        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
+        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
+      }
+      else {
+        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId;
+        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId;
+      }
+    }
+
+    if (status.toLowerCase() == 'success') {
+      this.razorPayWebRequestUrl = surl;
+    }
+    else {
+      this.razorPayWebRequestUrl = furl;
+    }
+
+    this.status = status;
+    this.mode = "RAZORPAY";
+    this.amount = (res.amount / 100);
+    this.phone = res.contact;
+    this.udf4 = res.notes.merchantCode;
+    this.udf3 = res.notes.merchantName;
+    this.mtype = this.pay.merchantType;
+    this.paylinkid = this.id;
+
+    this.cdref.detectChanges();
+
+    var me = this;
+
+    setTimeout(function () { me.submitForm(); }, 1000);
+
+  }
+
+  submitForm(): void {
+    let me = this;
+    var btn = document.getElementById("submitButton")
+
+    if (btn) {
+      btn.click();
+    }
+    else
+      setTimeout(function () { me.submitForm(); }, 100);
   }
 
 }

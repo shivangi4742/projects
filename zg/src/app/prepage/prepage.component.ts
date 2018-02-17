@@ -437,7 +437,7 @@ export class PrepageComponent implements OnInit {
         }
       }
       else {
-        this.strInvalidAmount = 'Amount cannot only contain numbers';
+        this.strInvalidAmount = 'Amount can only contain numbers';
         return false;
       }
     }

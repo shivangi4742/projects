@@ -1263,9 +1263,9 @@ app.post(config.base + '/paymentreceived', function (req, res) {
 		var data = JSON.parse(d);
 		if (data && data.merchantCode) {
 			var room = data.merchantCode;
-			if(data.till && data.till.trim().length > 0)
+			if (data.till && data.till.trim().length > 0)
 				room += '|' + data.till;
-	
+
 			ioi.sockets.in(room).emit('paymentreceived', {
 				amount: data.amount,
 				id: data.txnId,

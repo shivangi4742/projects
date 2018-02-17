@@ -19,7 +19,7 @@ export class UtilsService {
   private _baseURL: string = 'http://localhost:9090/';
 
   private _requestURL: string = 'http://localhost:9090/paysdk';
-  
+
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
   private _redirectURL: string = 'http://localhost:9090/r/';
   private _profilePageURL: string = 'http://localhost:9090/profile';
@@ -38,7 +38,6 @@ export class UtilsService {
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
-
 
   constructor() {
     this._status = new Status(false, false, '');
@@ -198,7 +197,7 @@ export class UtilsService {
       headrs['X-AUTHORIZATION'] = this._headers['X-AUTHORIZATION'];
     }
 
-    return new Headers(this._headers);    
+    return new Headers(this._headers);
   }
 
   getHeaders(): Headers {
@@ -531,44 +530,45 @@ export class UtilsService {
     return blob;
   }
 
-  
+
   playAudio() {
-    let ado: any = new Audio(this._audioFile);    
-    if(ado) {
+    let ado: any = new Audio(this._audioFile);
+    if (ado) {
       ado.muted = false;
       ado.play();
     }
   }
 
   startAudio() {
-    if(!this._initialized && this.isAnyMobile()) {
+    if (!this._initialized && this.isAnyMobile()) {
       let ado: any = new Audio(this._audioFile);
-      if(ado) {
+      if (ado) {
         ado.muted = true;
         ado.play();
         this._initialized = true;
       }
     }
   }
-  
+
   convertImgToBase64URL(url: any, outputFormat: any, callback: any) {
     console.log('coming in utils?', url);
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-        img.onload = function () {
-            var canvas: any = document.createElement("canvas");
-            //console.log('canvas', canvas);
-            var ctx = canvas.getContext("2d");
-            // console.log('ctx', ctx);
-            var dataURL;
-            canvas.height = img.height;
-            canvas.width = img.width;
-            ctx.drawImage(img, 10, 10);
-            dataURL = canvas.toDataURL(outputFormat);
-            // console.log('pp', dataURL);
-            callback(dataURL);
-            canvas = null;
-        };
-        img.src = url;
-    }
+    var img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = function () {
+      var canvas: any = document.createElement("canvas");
+      //console.log('canvas', canvas);
+      var ctx = canvas.getContext("2d");
+      // console.log('ctx', ctx);
+      var dataURL;
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 10, 10);
+      dataURL = canvas.toDataURL(outputFormat);
+      // console.log('pp', dataURL);
+      callback(dataURL);
+      canvas = null;
+    };
+    img.src = url;
+  }
+
 }

@@ -1,0 +1,12 @@
+<form id="razorPayWebRequestForm" #razorPayWebRequestForm ngNoForm action="{{razorPayWebRequestUrl}}" method="POST">
+    <button class="btn-flat waves-effect waves-light transparent regNrmS2BN" type="submit" id="submitButton" style="color: transparent; background-color: transparent;">Pay</button>
+    <input type="hidden" name="status" [ngModel]="status" />
+    <input type="hidden" name="mode" [ngModel]="mode" />
+    <input type="hidden" name="amount" [ngModel]="amount" />
+    <input type="hidden" name="txnid" [ngModel]="txnId" />
+    <input type="hidden" name="phone" [ngModel]="phone" />
+    <input type="hidden" name="udf4" [ngModel]="udf4" />
+    <input type="hidden" name="udf3" [ngModel]="udf3" />
+    <input type="hidden" name="mtype" [ngModel]="mtype" />
+    <input type="hidden" name="paylinkid" [ngModel]="paylinkid" />
+</form>

@@ -12,8 +12,8 @@ else
 
 // Messages class.
 var helper = {
-    gandaLogic: function(txnid) {
-        if(!txnid || txnid.length < 16)
+    gandaLogic: function (txnid) {
+        if (!txnid || txnid.length < 16)
             return 100;
         else {
             var str = txnid.charCodeAt(2).toString() + txnid.charCodeAt(3).toString() + txnid.charCodeAt(4).toString() + txnid.substring(14);
@@ -187,7 +187,7 @@ var helper = {
         extServerOptions.headers['X-EMAIL'] = email;
         return extServerOptions;
     },
-    
+
     getAndCallback: function (extServerOptions, cb, notJSON) {
         return http.get({
             host: extServerOptions.host,
@@ -267,7 +267,7 @@ var helper = {
                     buffer += chunk;
                 });
                 res.on('end', function (err) {
-                    if (res.statusCode === 200){
+                    if (res.statusCode === 200) {
                         cb(JSON.parse(buffer));
                     }
                     else if (res.statusCode === 400 && buffer) {
@@ -291,7 +291,7 @@ var helper = {
         catch (e) {
             cb({ 'success': false, 'status': 501, 'validationErrors': 'Output is not in proper format' });
         }
-    }    
+    }
 };
 
 module.exports = helper;

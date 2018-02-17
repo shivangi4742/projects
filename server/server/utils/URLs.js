@@ -17,7 +17,8 @@ var uRLs = {
     mglDir: '/mgl',
     zgDir: '/zg',
     zgHome: '/zg/index.html',
-    mglHome: '/mgl/index.html'
+    mglHome: '/mgl/index.html',
+    logosDir: '/logos',
 };
 
 module.exports = uRLs;

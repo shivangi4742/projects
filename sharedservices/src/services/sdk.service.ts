@@ -4,6 +4,7 @@ import { Headers, Http, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 import * as FileSaver from 'file-saver';
+import { Subject } from 'rxjs/Subject';
 
 import { PG } from './../models/pg.model';
 import { SDK } from './../models/sdk.model';
@@ -17,6 +18,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class SDKService {
+    private _subject = new Subject<any>();
     private _pg: PG;
     private _sdk: SDK;
     private _razorpay: RazorPayModel;
@@ -36,10 +38,20 @@ export class SDKService {
         updateFundraiserCollectionURL: 'sdk/updateFundraiserCollection',
         getLogByIdURL: 'sdk/getLogById',
         createPaymentLinkURL: 'sdk/createPaymentLink',
-        saveCashPaymentSuccessURL: 'sdk/saveCashPaymentSuccess'
+        saveCashPaymentSuccessURL: 'sdk/saveCashPaymentSuccess',
+        razorpayCapturePayment: 'sdk/razorpayCapturePayment',
+        razorpayConfirmPayment: 'sdk/razorpayConfirmPayment'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    public receivedPayment(): Observable<any> {
+        return this._subject.asObservable();
+    }
+
+    public setReceivedPaymentSubject(res: any) {
+        this._subject.next(res);
+    }
 
     public setPG(pg: PG) {
         this._pg = pg;
@@ -62,10 +74,10 @@ export class SDKService {
         return this._razorpay;
     }
 
-    
+
 
     private formatDTMT(md: string) {
-        if(md && md.length < 2)
+        if (md && md.length < 2)
             return '0' + md;
 
         return md;
@@ -74,33 +86,33 @@ export class SDKService {
     saveCashPaymentSuccess(amount: number, txnid: string, phone: string, merchantCode: string, merchantName: string, linkId: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.saveCashPaymentSuccessURL,
-                JSON.stringify({
-                    "status": 'success',
-                    "mode": 'CASH',
-                    "amount": amount,
-                    "txnid": txnid,
-                    "phone": phone,
-                    "udf3": merchantName,
-                    "udf4": merchantCode,
-                    "udf5": linkId
-                }),
-                { headers: this.utilsService.getHeaders() })
+            JSON.stringify({
+                "status": 'success',
+                "mode": 'CASH',
+                "amount": amount,
+                "txnid": txnid,
+                "phone": phone,
+                "udf3": merchantName,
+                "udf4": merchantCode,
+                "udf5": linkId
+            }),
+            { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => res.json())
-            .catch(res => this.utilsService.returnGenericError());        
+            .catch(res => this.utilsService.returnGenericError());
     }
 
     createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.createPaymentLinkURL,
-                JSON.stringify({
-                    "merchantCode": merchantCode,
-                    "description": description,
-                    "amount": amount,
-                    "refNumber": refNumber,
-                    "expiryDate": expiryDate
-                }),
-                { headers: this.utilsService.getHeaders() })
+            JSON.stringify({
+                "merchantCode": merchantCode,
+                "description": description,
+                "amount": amount,
+                "refNumber": refNumber,
+                "expiryDate": expiryDate
+            }),
+            { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
@@ -155,12 +167,12 @@ export class SDKService {
                 expiryDate = this.formatDTMT(dt.getDate().toString()) + '-' + this.formatDTMT((dt.getMonth() + 1).toString()) + '-' + dt.getFullYear();
             }
 
-            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
+            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', res.merchantUser.userId,
-                (mtype == 1) ? res.mobileNumber : '', ttl, 
+                (mtype == 1) ? res.mobileNumber : '', ttl,
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null, 
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null,
                 null, null, null, null, null, modes, null, null, convFee);
         }
         else if (res.logFormate) {
@@ -173,20 +185,20 @@ export class SDKService {
             //     obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.invoiceAmount,
             //     obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, obj.supportedModes, obj.products);
 
-            this._sdk = new SDK(JSON.parse(res.employeeId), JSON.parse(res.askempid), JSON.parse(res.mndempid), JSON.parse(res.companyName), JSON.parse(res.askcompname), JSON.parse(res.mndcompname),JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
-                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob), 
+            this._sdk = new SDK(JSON.parse(res.employeeId), JSON.parse(res.askempid), JSON.parse(res.mndempid), JSON.parse(res.companyName), JSON.parse(res.askcompname), JSON.parse(res.mndcompname), JSON.parse(obj.askmob), JSON.parse(obj.askadd), JSON.parse(obj.mndmob), JSON.parse(obj.mndpan), JSON.parse(obj.askpan),
+                JSON.parse(obj.mndname), JSON.parse(obj.askname), JSON.parse(obj.askemail), JSON.parse(obj.mndemail), JSON.parse(obj.mndaddress), JSON.parse(obj.readonlymob),
                 JSON.parse(obj.readonlypan), JSON.parse(obj.readonlyname), JSON.parse(obj.askresidence), JSON.parse(obj.readonlyaddr), Boolean(obj.readonlyemail),
                 Boolean(obj.allowMultipleSelect), Boolean(obj.readonlyresidnce), obj.mtype, obj.amount, obj.language, obj.sourceId, obj.minpanamnt, obj.merchantType,
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
-                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber, 
-                obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid, 
+                obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber,
+                obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid,
                 obj.supportedModes, obj.products, null, obj.chargeConvenienceFee);
         }
 
         return this._sdk;
     }
 
-    startPaymentProcess(employeeId:string, companyName:string, paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
+    startPaymentProcess(employeeId: string, companyName: string, paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
         payamount: number, phone: string, merchantcode: string, merchantname: string, merchantVPA: string, paytype: number, tr: string,
         til: string, products: Array<Product>): Promise<any> {
         return this.http
@@ -208,7 +220,7 @@ export class SDKService {
                 "tr": tr,
                 "til": til,
                 "products": products,
-                "employeeId": employeeId ,
+                "employeeId": employeeId,
                 "companyName": companyName
             }),
             { headers: this.utilsService.getHeaders() })
@@ -218,7 +230,7 @@ export class SDKService {
     }
 
     get80G(campaignId: string, txnId: string): Promise<any> {
-        if(txnId && campaignId) {
+        if (txnId && campaignId) {
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.get80GURL + '/' + campaignId + '/' + txnId,
                 null,
@@ -226,26 +238,26 @@ export class SDKService {
                 .toPromise()
                 .then(response => {
                     let fileBlob = response.blob();
-                    let blob = new Blob([fileBlob], { 
-                       type: 'application/pdf'
+                    let blob = new Blob([fileBlob], {
+                        type: 'application/pdf'
                     });
                     FileSaver.saveAs(blob, txnId + '.pdf');
-                 })
-                 .catch(res => null);
+                })
+                .catch(res => null);
         }
 
         return Promise.resolve(null);
     }
 
     send80G(txnId: string, campaignId: string): Promise<any> {
-        if(txnId && campaignId) {
+        if (txnId && campaignId) {
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.send80GURL + '/' + campaignId + '/' + txnId,
                 null,
                 { headers: this.utilsService.getHeaders() })
                 .toPromise()
                 .then(res => res.json())
-                .catch(res => null);        
+                .catch(res => null);
         }
 
         return Promise.resolve(null);
@@ -394,5 +406,28 @@ export class SDKService {
 
     getPaySuccess(): any {
         return this._paySuccess;
+    }
+
+    razorpayCapturePayment(payId: string, txnId: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.razorpayCapturePayment,
+            JSON.stringify({
+                "razorpayId": payId,
+                "txnId": txnId
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
+    proceedToRazorpayConfirmation(res: any): void {
+        this.http
+            .post(this.utilsService.getBaseURL() + this._urls.razorpayConfirmPayment,
+            JSON.stringify(res),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
     }
 }
