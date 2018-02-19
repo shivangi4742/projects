@@ -65,5 +65,6 @@ export class SDK {
     public supportedModes: Array<string>,
     public products: Array<Product>|null,
     public deletedProducts: Array<string>|null,
-    public chargeConvenienceFee: boolean) { }
+    public chargeConvenienceFee: boolean,
+    public isButton: boolean) { }
 }

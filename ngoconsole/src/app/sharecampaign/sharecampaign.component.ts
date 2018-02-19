@@ -61,6 +61,14 @@ export class SharecampaignComponent implements OnInit {
       this.campaignURLPrefix = this.utilsService.getRedirectURL() + this.user.merchantCode + '/';
       if (this.sdk.id && this.sdk.id.length > 4)
         this.campaignURL = this.sdk.id.substring(2, 5) + this.sdk.id.substring(this.sdk.id.length - 3);
+
+      if(this.sdk.isButton) {
+        let b: string = 'buy';
+        if(this.sdk.mtype == 2)
+          b = 'contribute';
+
+        this.savedURL = this.utilsService.getBaseURL() + 'ppl/' + b + '/' + this.sdk.id + '/' + this.sdk.merchantCode;
+      }
     }
   }
 
