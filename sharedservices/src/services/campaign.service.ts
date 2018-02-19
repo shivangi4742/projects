@@ -524,6 +524,7 @@ export class CampaignService {
        if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i: number = 0; i < pt.length; i++) {
+                var p = '';
                 if (pt[i].amount) {
                     var dd = pt[i].amount;
                 }
@@ -534,7 +535,7 @@ export class CampaignService {
                     var dd1 = pt[i].id;
                 }
                 if ((pt[i].description)) {
-                    var p = (pt[i].description).substring(0, 30);
+                     p = (pt[i].description).substring(0, 30);
                 }
                 if (pt[i].creationDate) {
                     var crdate = pt[i].creationDate;

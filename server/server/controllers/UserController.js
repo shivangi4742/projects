@@ -883,7 +883,7 @@ setLineOfBusinesspost: function (req, cb) {
             }
             else {
                 var d = req.body;
-                if (d && d.id) {
+                if (d && d.id && d.businessLob) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/setLineOfBusiness', 'POST', req.headers),
                         {
                             "id":d.id,

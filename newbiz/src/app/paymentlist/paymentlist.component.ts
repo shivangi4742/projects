@@ -121,6 +121,9 @@ export class PaymentlistComponent implements OnInit {
     this.arrowChange('a');
   }
 
+createpay(){
+  this.router.navigateByUrl('/createpaylink');
+ }
 }
 
 
