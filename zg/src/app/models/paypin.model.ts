@@ -18,6 +18,8 @@ export class PayPinModel {
         public pg_details: PgChargesDetails[],
         public remark: string,
         public subledger_list: SubLedgerModel[],
-        public upi_details: UpiChargesDetails[]
+        public upi_details: UpiChargesDetails[],
+        public ledger_id: string,
+        public society_id: string
     ) { }
 }
