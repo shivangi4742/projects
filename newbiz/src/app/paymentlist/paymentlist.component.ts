@@ -26,8 +26,13 @@ export class PaymentlistComponent implements OnInit {
   numPages: number;
   activepay: PaymentLinks[];
   inactivepay: PaymentLinks[];
-    
- constructor(private translate: TranslateService, private utilsService: UtilsService,
+  processing:boolean= false;
+  pr:boolean= false;
+  
+  tranactivepay:boolean = false;
+  traninactivepay:boolean = false;
+
+  constructor(private translate: TranslateService, private utilsService: UtilsService,
     private userService: UserService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private locationService: LocationService) { }
 
@@ -46,14 +51,16 @@ export class PaymentlistComponent implements OnInit {
   }
 
   previous() {
+    this.processing = true;
     this.numPages = 0;
-    this.campaignService.merchantpaymentlink(this.user.merchantCode, (++this.page))
+    this.campaignService.merchantpaymentlink(this.user.merchantCode, (--this.page))
       .then(res => this.initdtail(res));
   }
 
   next() {
-    this.numPages = 0;
-    this.campaignService.merchantpaymentlink(this.user.merchantCode, (--this.page))
+    this.numPages = 0; 
+    this.processing = true;
+    this.campaignService.merchantpaymentlink(this.user.merchantCode, (++this.page))
       .then(res => this.initdtail(res));
   }
 
@@ -67,14 +74,14 @@ export class PaymentlistComponent implements OnInit {
   }
 
   initdtail(res) {
-    if (res && res.length > 0) {
+    this.numPages = res.pages;
+    if (res.links && res.links.length > 0) {
       this.pay = false;
       this.paymentlink = res;
-
       let me = this;
       this.activepay = new Array<PaymentLinks>();
       this.inactivepay = new Array<PaymentLinks>();
-      res.forEach(function (a: any) {
+      res.links.forEach(function (a: any) {
         if (a.isactive == true) {
           me.activepay.push(new PaymentLinks(a.discription, a.url, a.id,
             a.startdate, a.expirydate, a.amount, a.fileURL, a.isactive));
@@ -84,12 +91,12 @@ export class PaymentlistComponent implements OnInit {
             a.startdate, a.expirydate, a.amount, a.fileURL, a.isactive));
         }
       });
-     // console.log(me.activepay,'skdggfjsdhfj');
-    }
-
+      //console.log(this.activepay, this.inactivepay);
+    } 
     else {
       this.pay = true;
     }
+    this.processing= false;
   }
 
   arrowChange(id: any) {
@@ -121,9 +128,28 @@ export class PaymentlistComponent implements OnInit {
     this.arrowChange('a');
   }
 
-createpay(){
-  this.router.navigateByUrl('/createpaylink');
- }
+  createpay() {
+    this.router.navigateByUrl('/createpaylink');
+  }
+
+  seesales() {
+    this.router.navigateByUrl('/transactionhistory');
+  }
+
+  expirelink(id:any){
+    let expirydate = this.utilsService.getCurDateString();
+      this.campaignService.expirelink(id, this.user.merchantCode,expirydate)
+        .then(res => this.expiredet(res));
+          
+  }
+  expiredet(res) {
+    if(res.responseFromAPI== true){
+     this.processing = true;
+     this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page)
+        .then(res => this.initdtail(res));
+    }
+  }
+
 }
 
 

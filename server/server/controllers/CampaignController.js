@@ -779,6 +779,47 @@ var campCont = {
         catch (err) {
             cb(retErr);
         }
+    },
+
+ expirelink: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.expirelinkPost(req, function (data) {
+            res.json(data);
+        });
+    },
+ 
+  expirelinkPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                var expDt = d.expiryDate;
+                    if (expDt && expDt.length > 9) {
+                        var spExDt = expDt.split('-');
+                        if (spExDt && spExDt.length > 2)
+                            expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
+                    } 
+                   
+                if (d)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/updatePaymentRequest', 'POST', req.headers),
+                        {
+                            "id": d.id,
+                            "merchantCode": d.merchantCode,
+                            "expiryDate": expDt
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
     }
     
 }

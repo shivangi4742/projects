@@ -45,6 +45,7 @@ export class CampaignService {
         editCampaignURL: 'campaign/editCampaign',
         getAllNGOTransactionsURL: 'campaign/getAllNGOTransactions',
         fetchMerchantDetails: 'campaign/fetchMerchantDetails',
+        expirelinkURL: 'campaign/expirelink',
         getCampaignlinkURL: 'sdk/getmerchantpaymentlink',
     }
 
@@ -503,6 +504,21 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
+     expirelink( id: string, merchantCode: string, expirydate: string): Promise<CampaignSummary> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.expirelinkURL,
+            JSON.stringify({
+                "id":id,
+                "merchantCode":merchantCode,
+                "expiryDate": expirydate
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
     merchantpaymentlink(merchantCode: string, page: number): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.getCampaignlinkURL,
@@ -519,6 +535,7 @@ export class CampaignService {
 
     merchantpaymentlinkpost(res: any) {
         let me = this;
+        let totalpages = res.totalNoOfPages;
         let pt = res.merchantPPVoList;
         
        if (pt && pt.length > 0) {
@@ -569,7 +586,7 @@ export class CampaignService {
             }
 
         }
-        return me._PaymentLinks;
+        return { "pages": totalpages, "links": me._PaymentLinks };
 
     }
 }

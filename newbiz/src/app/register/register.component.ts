@@ -175,7 +175,12 @@ export class RegisterComponent implements OnInit {
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
-
+     if(this.businesspro.gstno) {
+    let ids : any = document.getElementById('test1');
+    if(ids) {
+      ids.click();
+    }
+     }
   }
 
   save() {

@@ -70,3 +70,10 @@ padding:10px!important;
      padding-top: 2pt; 
      color: #E53935;
 }
+.nextBN{
+  float: right;
+  color: rgb(65,58,90);
+}
+.previousBN{
+  color: rgb(65,58,90);
+}

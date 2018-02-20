@@ -61,13 +61,14 @@ export class SettingsComponent implements OnInit {
       this.userService.getfetchMerchantForEditDetails(this.user.email, this.user.id)
         .then(res => this.initDetails(res));
 
+    
 
       this.loadForm();
     }
 
   }
   initDetails(res: any) {
-    console.log(res);
+    //console.log(res);
    
   }
 
@@ -76,12 +77,19 @@ export class SettingsComponent implements OnInit {
       .then(ares => this.initcheckacc(ares));
 
     this.userService.checkMerchant(this.user.mobileNumber, "b")
-      .then(mres => this.businesspro = mres);
+      .then(mres => this.businessprfo(mres));
 
     this.userService.getMerchantDetails(this.user.merchantCode)
       .then(res => this.bind(res));
   }
 
+businessprfo(res:any){
+  if(res)
+  {
+    this.businesspro= res;
+      
+  }
+}
   bind(res: any) {
     if (res && res.id) {
       this.chargeFee = res.chargeConvenienceFee;
@@ -204,6 +212,7 @@ export class SettingsComponent implements OnInit {
   }
 
   gstdetail1() {
+    
     this.isgstExpanded = !this.isgstExpanded;
     this.isNgoExpanded = false;
     this.isAcctExpanded = false;
@@ -211,6 +220,12 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+     if(this.businesspro.gstno) {
+    let ids : any = document.getElementById('test1');
+    if(ids) {
+      ids.click();
+    }
+     }
   }
   allgstFields() {
     if (this.gst) {
@@ -360,7 +375,12 @@ export class SettingsComponent implements OnInit {
   }
 
   hasAllFields5() {
-    return !this.errgstvalidate && this.businesspro.gstno;
+    if(this.businesspro.gstno){
+      return !this.errgstvalidate && this.businesspro.gstno;
+    }
+    else {
+      return this.businesspro.gstno;
+    }
   }
 
   edit() {
