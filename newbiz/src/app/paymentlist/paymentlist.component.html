@@ -87,15 +87,7 @@
       </div>
     </div>
     <div class="row" *ngIf="active==0">
-      <div *ngIf="tranactivepay" class="col s12 center">
-      <div class="row"></div>
-      <div class="row"></div>
-      <div class="row"></div>
-      <div class="row"></div>
-      <div class="col s12 center inputTextBN">
-        {{'No Transactions Found!' | translate}}
-      </div>
-    </div>
+     
       <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
         <li class="active" *ngFor="let p of activepay">
           <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"'
@@ -165,12 +157,12 @@
             </div>
             <div class="row red redBN">
               <div class="col s6 m4 l4 left">
-                <span (click)="expirelink(p.id)">
+                <span (click)="expirelink(p.id)" class="linkButtonBN">
                 <i class="material-icons alignMidBN bordrBN">close</i> {{'Expire Link' | translate}}
                 </span>
               </div>
-              <div class="col s6 m8 l8 right">
-                <span class="right" (click)="seesales()">
+              <div class="col s6 m8 l8 right" >
+                <span class="right" (click)="seesales()" class="linkButtonBN">
                     <i class="material-icons alignMidBN">show_chart</i> {{'See Sales' | translate}} 
                     </span>
               </div>
