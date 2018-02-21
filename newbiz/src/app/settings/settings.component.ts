@@ -40,7 +40,9 @@ export class SettingsComponent implements OnInit {
   errdisplayvalidate: boolean = false;
   errordisplay: string;
   err: boolean = false;
+  err1: boolean = false;
   errmsg: string;
+  errmsg1:string;
   editt: boolean ;
 
 
@@ -358,18 +360,30 @@ businessprfo(res:any){
     return !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
       && this.accountpro.ifsc && this.conaccountnumber && !this.err;
   }
+
   Accountno() {
-    if ((((this.accountpro.accountRefNumber.trim()).length) <= 5) && (((this.conaccountnumber.trim()).length) <= 5)) {
+    if (((this.accountpro.accountRefNumber.trim()).length) > 0 && ((this.accountpro.accountRefNumber.trim()).length) <= 5) {
       this.err = true;
       this.errmsg = 'Account number should be 6 digits!';
 
     } else {
-      if (this.accountpro.accountRefNumber.trim() == this.conaccountnumber.trim()) {
         this.err = false;
+        this.Accountno1();
+      }
+    
+  }
+  Accountno1() {
+    if ((((this.conaccountnumber.trim()).length) > 0) && (((this.conaccountnumber.trim()).length) <= 5)) {
+      this.err1 = true;
+      this.errmsg1 = 'Account number should be 6 digits!';
+
+    } else {
+      if (this.accountpro.accountRefNumber.trim() == this.conaccountnumber.trim()) {
+        this.err1 = false;
       }
       else {
-        this.err = true;
-        this.errmsg = 'Account number do not match!';
+        this.err1 = true;
+        this.errmsg1 = 'Account number do not match!';
       }
     }
   }
@@ -385,6 +399,10 @@ businessprfo(res:any){
 
   edit() {
     this.editt = false;
+    let asa:any = document.getElementById('contactPerson');
+    if(asa){
+    asa.focus();
+  }
   }
   
 }

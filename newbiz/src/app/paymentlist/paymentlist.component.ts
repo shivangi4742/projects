@@ -28,7 +28,7 @@ export class PaymentlistComponent implements OnInit {
   inactivepay: PaymentLinks[];
   processing:boolean= false;
   pr:boolean= false;
-  
+  savedURL:string;
   tranactivepay:boolean = false;
   traninactivepay:boolean = false;
 
@@ -148,6 +148,21 @@ export class PaymentlistComponent implements OnInit {
      this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page)
         .then(res => this.initdtail(res));
     }
+  }
+  share(res){
+    this.savedURL= res;
+  }
+   twitterbutton() {
+    window.open('https://twitter.com/share?url=' + this.savedURL,'', 
+    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
+  }
+
+  fbClick() {
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
+    this.savedURL + '&display=popup&ref=plugin&src=share_button', '',
+     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
   }
 
 }

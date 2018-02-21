@@ -24,6 +24,7 @@ userRouter.post('/getSubcategoryByCategory', userController.getSubcategoryByCate
 userRouter.post('/EnableKyc', userController.EnableKyc.bind(userController));
 userRouter.post('/complteregister', userController.complteregister.bind(userController));
 userRouter.post('/setLineOfBusiness', userController.setLineOfBusiness.bind(userController));
+userRouter.post('/changeoldpassword', userController.changeoldpass.bind(userController));
 
 
 module.exports = userRouter;

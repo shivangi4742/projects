@@ -240,7 +240,7 @@
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
                 <input id="accountnumber" name="accountnumber" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="{{'Enter Account Number' | translate}}" class="inputboxBN validate"
                   [(ngModel)]="accountpro.accountRefNumber" (keyup)="Accountno()" />
-
+                 <span class="errNrmS6BN" *ngIf="err">{{errmsg | translate}}</span>
               </div>
 
             </div>
@@ -248,8 +248,8 @@
               <span class="col s12 heBN">{{'Confirm Account Number' | translate}}</span>
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
                 <input id="conaccountnumber" name="conaccountnumber" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  placeholder="{{'Enter Account Number' | translate}}" type="text" class="inputboxBN validate"
-                  [(ngModel)]="conaccountnumber" (keyup)="Accountno()"/>
-                <span class="errNrmS6BN" *ngIf="err">{{errmsg | translate}}</span>
+                  [(ngModel)]="conaccountnumber" (keyup)="Accountno1()"/>
+                <span class="errNrmS6BN" *ngIf="err1">{{errmsg1 | translate}}</span>
               </div>
 
             </div>
