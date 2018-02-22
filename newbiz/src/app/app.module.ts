@@ -31,6 +31,8 @@ import { KycregComponent } from './kycreg/kycreg.component';
 import { KycthanksComponent } from './kycthanks/kycthanks.component';
 import { ProductcatalogComponent } from './productcatalog/productcatalog.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
+import { ChangepassComponent } from './changepass/changepass.component';
+import { CreatecampaignComponent } from './createcampaign/createcampaign.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -54,7 +56,9 @@ export function HttpFactory(http: Http) {
     KycregComponent,
     KycthanksComponent,
     ProductcatalogComponent,
-    AddproductComponent
+    AddproductComponent,
+    ChangepassComponent,
+    CreatecampaignComponent
   ],
   imports: [
     HttpModule,

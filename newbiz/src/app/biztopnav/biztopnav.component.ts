@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 import { User, UserService, UtilsService, Payment} from 'benowservices';
@@ -25,7 +26,7 @@ export class BiztopnavComponent implements OnInit {
   @Input('user') user: User;
 
   constructor(private userService: UserService, private utilsService: UtilsService, private translate: TranslateService,
-    private socketService: SocketService) { }
+    private socketService: SocketService,private router: Router) { }
 
   ngOnInit() {
     if(this.user.lob && this.user.lob.toUpperCase() == 'HB') {
@@ -103,33 +104,7 @@ export class BiztopnavComponent implements OnInit {
   }
 
   changePassword() {
-    this.utilsService.clearStorages();
-    this.userService.resetUser();
-    window.location.href = this.utilsService.getChangePasswordPageURL();
+   this.router.navigateByUrl('/changepassword');
   }
-   onregisterteds():boolean {
-   // console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
-    if(this.isUnregistered == true ) {
-      if(this.user.registerd == false && this.user.kycverified == false) {
-        return true;
-      } else if(this.user.registerd == true && this.user.kycverified == false) {
-        return false;
-      }
-    }
-
-    return false;
-  }
-
-  onregisterte():boolean {
-  //  console.log(this.isUnregistered, this.user.registerd, this.user.kycverified);
-    if(this.isUnregistered == false && this.user.kycverified == false && this.user.registerd == false && this.isHB )
-      return true;
-
-    if(this.isUnregistered == true && this.user.kycverified == false && this.user.registerd == true && this.isHB)
-      return true;
-
-    return false;
-  }
-
-
+  
 }

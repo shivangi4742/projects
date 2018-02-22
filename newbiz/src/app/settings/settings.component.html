@@ -7,9 +7,27 @@
     </a>
   </div>
 </div>
-<div class="row" *ngIf="user && businesspro && accountpro">
+<div *ngIf="formLoaded " class="col s12 center">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="preloader-wrapper active">
+        <div class="spinner-layer spinner-red-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+        </div>
+      </div>
+      <div class="col s12 center inputTextBN">
+        {{'Loading Settings' | translate}}
+      </div>
+    </div>
+<div class="row" *ngIf="user && businesspro && accountpro && !formLoaded">
 
-<ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+<ul class="collapsible" data-collapsible="accordion" materialize="collapsible" >
     <li>
       <div id="paybn" (click)="paymentdetail1()" [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">

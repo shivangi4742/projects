@@ -13,6 +13,8 @@ import { KycregComponent } from "./kycreg/kycreg.component";
 import { KycthanksComponent } from "./kycthanks/kycthanks.component";
 import { ProductcatalogComponent } from "./productcatalog/productcatalog.component";
 import { AddproductComponent } from './addproduct/addproduct.component';
+import { ChangepassComponent } from './changepass/changepass.component';
+import { CreatecampaignComponent } from './createcampaign/createcampaign.component';
 
 
 const routes: Routes = [
@@ -29,6 +31,8 @@ const routes: Routes = [
     { path: 'thanksregistrationprocess', component: ThanksregisterComponent },
     { path: 'catalogue', component: ProductcatalogComponent },
     { path: 'addproduct', component: AddproductComponent },
+    { path: 'changepassword', component: ChangepassComponent},
+    { path: 'createcampaign', component: CreatecampaignComponent},
 
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];

@@ -11,7 +11,7 @@ import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merch
 })
 export class SettingsComponent implements OnInit {
   accountpro: Accountpro;
-  formLoaded: boolean = false;
+  formLoaded: boolean = true;
   businesspro: Businesspro;
   chargeFee: boolean = false;
   user: User;
@@ -102,7 +102,7 @@ businessprfo(res:any){
       }
     }
 
-    this.formLoaded = true;
+    this.formLoaded = false;
   }
 
   initcheckacc(res:any){

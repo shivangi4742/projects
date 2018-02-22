@@ -1,0 +1,96 @@
+.roundBorderMainBN{
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+  border-radius: 50px;
+}
+
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+   border-bottom: 0px solid #ddd!important;
+}
+
+.dashboardRedirectBN{
+  color: #E53935;
+  font-weight: bold;
+}
+.dottedbrderBN{
+    border-radius: 6px;
+    border: 2px dotted #908787;
+    background-color: #d6d3d3;
+
+}
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.labelPLBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+.uploadPLBN{
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+
+.advanceBN{
+  font-weight: bold;
+  padding-top: 5px;
+}
+
+.iconAlignMedBN{
+  right: -390px;
+  position: relative;
+  top: -51px;
+}
+
+.iconAlignBN{
+  float: right;
+  position: relative;
+  top: -51px;
+  left: -2%;
+}
+
+.noLeftMarginBN{
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.checkHeight{
+  line-height: 10px!important;
+  height: 30px!important;
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 12px;
+  font-weight: bold;
+}
+
+.accordionPLBN{
+  border: none;
+  box-shadow: none;
+}
+
+.accordionHeaderBN{
+  background-color: #f2f2f2!important;
+  border-radius: 46px;
+}
+
+.noBottomMarginBN{
+  margin-bottom: 0px!important;
+}
