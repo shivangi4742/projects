@@ -71,9 +71,14 @@ export class SuccessComponent implements OnInit {
      }
    this.mtype = this.sdk.mtype;
 
-    this.campaignService.fetchMerchantDetails(this.sdk.email, this.sdk.merchantId)
-      .then(tres => this.fillMerchant(tres));
+    this.userService.getMerchantDetails(this.sdk.merchantCode)
+      .then(tres => this.callMerchant(tres));
 
+  }
+
+  callMerchant(res: any){
+    this.campaignService.fetchMerchantDetails(res.userId, res.id)
+      .then(mres => this.fillMerchant(mres));
   }
 
   fillMerchant(res: Merchant){
@@ -184,7 +189,7 @@ export class SuccessComponent implements OnInit {
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Amount</td> ' +
-        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '          <td class="data">₹'+dets.amount+'</td> ' +
         '        </tr> ' +
         '      </table> ' +
         '    </div> ' +
@@ -380,7 +385,7 @@ export class SuccessComponent implements OnInit {
         '    </div> ' +
         '    <div class="title"> ' +
         '      Payment Received.<br> ' +
-        '      <img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully received. ' +
+        '      ₹'+dets.amount+' successfully received. ' +
         '    </div> ' +
         '    <div class="heading"> ' +
         '      Payment Details ' +
@@ -389,7 +394,7 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Amount</td> ' +
-        '          <td><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '          <td>₹'+dets.amount+'</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +

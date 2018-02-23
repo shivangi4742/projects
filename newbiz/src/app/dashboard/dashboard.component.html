@@ -59,7 +59,7 @@
           <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_down</i>
         </span>
         <div class="col s6 m5 l5 fieldBN">
-          {{p.dateAndTime | date: 'MMM d, yyyy HH:MM a'}}
+          {{p.dateAndTime | date: 'MMM d, yyyy h:mm a'}}
         </div>
         <div class="col s6 m4 l4 truncate fieldBN">
           {{p.vPA}}<br>
