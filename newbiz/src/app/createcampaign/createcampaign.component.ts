@@ -39,6 +39,7 @@ export class CreatecampaignComponent implements OnInit {
   uploading:boolean=false;
   authbankuploaded:boolean= false;
   campaignname:string;
+  campaigndescription:string;
   dashboard: string = "/dashboard";
   sampleDate: any;
   purpose: string;
@@ -46,6 +47,11 @@ export class CreatecampaignComponent implements OnInit {
   invoiceNum: string;
   detailsExpanded: boolean = false;
   isAmountLess: boolean = false;
+  truecampaignname:boolean = false;
+  cratecampaignmob: boolean = true;
+  truecampaigndescription:boolean = false;
+  truecampimage:boolean = false;
+  uploadauthbank:boolean = false;
   constructor(private translate: TranslateService, private utilsService: UtilsService,
               private userService: UserService, private router: Router, private locationService: LocationService,
               private route: ActivatedRoute, private sdkService: SDKService) { }
@@ -83,6 +89,23 @@ export class CreatecampaignComponent implements OnInit {
       close: this.close, clear: this.clear, labelMonthNext: this.labelMonthNext, labelMonthPrev: this.labelMonthPrev,
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
     }];
+  }
+
+campainname(){
+  this.truecampaignname = true;
+  this.cratecampaignmob = false;
+}
+campaigndcription(){
+  this.truecampaigndescription = true;
+  this.cratecampaignmob = false;
+}
+campaignimage(){
+  this.truecampimage = true;
+  this.cratecampaignmob = false;
+}
+ dateClickedMob(){
+    let a: any = document.getElementById('expDtMob');
+    a.click();
   }
 
  

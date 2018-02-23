@@ -37,7 +37,7 @@
 }
 .uploadPLBN{
   font-family: Barlow;
-  font-size: 10pt;
+  font-size: 11.5pt;
   line-height: 12px;
   color: rgb(65,58,90);
   font-weight: bold;
@@ -74,10 +74,10 @@
 
 .checkHeight{
   line-height: 10px!important;
-  height: 30px!important;
+  height: 44px!important;
   font-family: Barlow;
   font-size: 10pt;
-  line-height: 12px;
+  line-height: 14px;
   font-weight: bold;
 }
 
@@ -93,4 +93,30 @@
 
 .noBottomMarginBN{
   margin-bottom: 0px!important;
+}
+
+.textareaBN{
+  height: 123px;
+  padding: 12px;
+  line-height: 12px;
+}
+.borderBN{
+  border: 1px solid #e6dede;
+  border-radius: 10px;
+}
+.paddBN{
+ padding: 10px 0px 4px 6px!important;
+}
+.padBN{
+  padding-top:5px;
+}
+.labBN{
+  font-family: Barlow;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12px;
+  color: rgb(65,58,90);
+}
+.lineBN{
+  line-height: 21px!important;
 }

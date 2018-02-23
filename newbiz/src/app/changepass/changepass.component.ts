@@ -17,6 +17,8 @@ export class ChangepassComponent implements OnInit {
   passerrmsg: string;
   confpasserr: boolean = false;
   confpasserrmsg: string;
+  succmsg:string;
+  succ:boolean = false;
 
   constructor(private translate: TranslateService, private utilsService: UtilsService,
     private userService: UserService, private locationService: LocationService) { }
@@ -35,7 +37,13 @@ export class ChangepassComponent implements OnInit {
   }
 
   submitpost(res) {
-    console.log(res);
+    if(res.responseFromAPI== true){
+      this.succ= true;
+      this.succmsg= "password changed successfully";
+    } else {
+       this.succ = false;
+       this.succmsg = "invalid old password";
+    }
 
   }
   newpasswordchecking() {
