@@ -1,14 +1,27 @@
 <div class="row"></div>
+<div *ngIf="sdk">
+  <div *ngIf="sdk.isButton && sdk.mtype == 2" class="row">
+    <div class="fullWidthBN" align="center">
+      <div class="maxWidthBN" align="left">
+        <div class="row">
+          <div class="col s12" *ngFor="let p of products">
+            <newproductwidget [product]="p"></newproductwidget>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row" *ngIf="products">
   <div class="col s12 l8 offset-l2" align="center">
     <form materialize (ngSubmit)="buy()" #buyForm="ngForm">
-      <div class="row allContentBN">
+      <div class="row allContentBN" *ngIf="!sdk.isButton">
         <div class="col s12 center">
           <img class="featuredImageBN responsive-img" *ngIf="sdk.imageURL" src={{uploadsURL}}{{sdk.imageURL}} />
           <img class="featuredImageBN responsive-img" *ngIf="!sdk.imageURL" src='../../assets/paymentlink/images/paym.png' />
         </div>
       </div>
-      <div class="row allContentBN">
+      <div class="row allContentBN" *ngIf="!sdk.isButton">
         <div class="col s12 regHdrS2BN center">
           <span>{{sdk.title}} - {{'by' | translate}}</span>
           <span class="errHdrS2BN">{{sdk.businessName}}</span>
@@ -17,7 +30,7 @@
       <div class="row allContentBN">
         <div class="col s12 regNrmS5BN center line-breaker">{{sdk.description}}</div>
       </div>
-      <div class="row allContentBN noProdMarginBN">
+      <div *ngIf="!sdk.isButton || sdk.mtype != 2" class="row allContentBN noProdMarginBN">
         <div class="col s8 offset-s2 m4 center" *ngFor="let p of products">
           <productwidget [forCart]="true" [mtype]="sdk.merchantType" [editQty]="true" [product]="p"></productwidget>
         </div>
