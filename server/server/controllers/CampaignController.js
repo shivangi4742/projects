@@ -215,11 +215,11 @@ var campCont = {
         try {
             if (mtype == 2)
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Donor, To contribute to ' + title + ', please click on ' + rUrl),
+                    encodeURIComponent('Dear Donor, To contribute to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
             else
                 helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendMerchantSMS?mobileNumber=' + phone + '&message=' +
-                    encodeURI('Dear Customer, To pay to ' + title + ', please click on ' + rUrl),
+                    encodeURIComponent('Dear Customer, To pay to ' + title + ', please click on ' + rUrl),
                     'POST', hdrs), null, cb);
         }
         catch (err) {
@@ -391,7 +391,8 @@ var campCont = {
                             "mndEmpId": d. mndemployeeId,
                             "companyName": d.companyName,
                             "askCompName": d.askcompanyname,
-                            "mndCompName": d.mndcompanyname
+                            "mndCompName": d.mndcompanyname,
+                            "embedded": d.isButton
                         }, function(data) {
                             if(d.deletedProducts && d.deletedProducts.length > 0) {
                                 me.deleteCampaignProductsPost(d.deletedProducts, 0, data, hdrs, function(data2) {
@@ -432,7 +433,7 @@ var campCont = {
                             expDt = spExDt[2] + '-' + spExDt[1] + '-' + spExDt[0] + ' 17:59:59';
                     }
 
-                    var me = this;                    
+                    var me = this;        
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/portablePaymentRequest', 'POST', hdrs),
                         {	
                             "merchantCode": d.merchantCode,
@@ -464,7 +465,8 @@ var campCont = {
                             "mndEmpId": d. mndemployeeId,
                             "companyName": d.companyName,
                             "askCompName": d.askcompanyname,
-                            "mndCompName": d.mndcompanyname
+                            "mndCompName": d.mndcompanyname,
+                            "embedded": d.isButton
                         }, function(data) {
                             me.saveCampaignProductsPost(d.merchantCode, d.products, 0, data, hdrs, cb);
                         });
