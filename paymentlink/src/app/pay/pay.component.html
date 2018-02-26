@@ -37,7 +37,7 @@
 <div materialize class="row" *ngIf="loaded && !appLaunched">
   <div class="valign-wrapper">
     <div class="col s12 l4 offset-l4 m6 offset-m3">
-      <div class="row">
+      <div class="row" *ngIf="!pay.isButton">
         <div class="valign-wrapper" align="center">
           <span class="col s12 center regHdrS1BN payTitleBN">{{pay.businessName}}</span>
         </div>
