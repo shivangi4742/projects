@@ -1,7 +1,7 @@
-.mrgnBn{
+.mrgnBn {
     margin-bottom: 0px!important;
 }
-.headingBN{
+.headingBN {
      font-family: 'Barlow', sans-serif;
     font-size: 12px;
     color:rgba(61,61,61,1);
@@ -10,7 +10,7 @@
     line-height: 14.4px;
     letter-spacing: 0em;
 }
-.heBN{
+.heBN {
     font-family: 'Barlow', sans-serif;
     font-size: 11pt;
     color:rgba(61,61,61,1);
@@ -20,7 +20,7 @@
     letter-spacing: 0em;
     font-weight: 600;
 }
-.he1BN{
+.he1BN {
     font-family: 'Barlow', sans-serif;
     font-size: 14px;
     color:rgba(61,61,61,1);
@@ -29,7 +29,7 @@
     line-height: 16.8px;
     letter-spacing: 0em;
 }
-.colaccordBN{
+.colaccordBN {
     border-top: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
@@ -37,18 +37,18 @@
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
      0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
 }
-.profileDetailBN{
+.profileDetailBN {
     padding-left: 25px;
     font-family: 'Open Sans', sans-serif; 
     font-size: 12pt;
 }
-.mrlBN{
+.mrlBN {
      margin-left: 12px;
 }
-.pr1BN{
+.pr1BN {
     text-transform: uppercase;
 }
-.checkHeight{
+.checkHeight {
   line-height: 10px!important;
   height: 30px!important;
   font-family: Barlow;
@@ -59,37 +59,50 @@
  .paddindfBN {
     padding: 0rem!important;
 }
-.busDetails{
+.busDetails {
     padding-top: 12px;
 }
-.editButBN{
+.editButBN {
         padding-top: 24px;
 }
-.prrBN{
+.prrBN {
     text-transform: capitalize;
 }
-.inputBN{
+.inputBN {
     margin: 0 0 8px 0!important;
 }
-.mrbBN{
+.mrbBN {
     padding-left: 2rem!important;
 }
-.titleKycBN{
+
+.titleKycBN {
   margin: 0px!important;
   padding-left: 0px!important;
   width: 95%;
 }
+
 .noborderdownBN {
     border-bottom: 0px solid #ddd!important; 
 }
-.profileDetailBN{
+
+.profileDetailBN {
     padding-left: 25px;
     font-family: 'Open Sans', sans-serif; 
     font-size: 12pt;
 }
-.inBN{
+
+.inBN {
+    margin-bottom: 20px!important; 
     margin-top: 1rem!important; 
 }
-.margBN{
-        margin-bottom: -25px!important; 
+
+.margBN {
+    margin-bottom: -2px!important; 
+}
+
+.mrleftBN {
+    margin-left: 10px!important; 
+}
+.colsBN {
+   color: white;
 }

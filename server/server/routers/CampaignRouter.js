@@ -15,5 +15,6 @@ campaignRouter.post('/getCampaignsSummary', campaignController.getCampaignsSumma
 campaignRouter.post('/sendEmail', campaignController.sendEmail.bind(campaignController));
 campaignRouter.post('/getAllNGOTransactions', campaignController.getAllNGOTransactions.bind(campaignController));
 campaignRouter.post('/fetchMerchantDetails', campaignController.fetchMerchantDetails.bind(campaignController));
+campaignRouter.post('/expirelink', campaignController.expirelink.bind(campaignController));
 
 module.exports = campaignRouter;

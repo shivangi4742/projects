@@ -45,6 +45,7 @@ export class CampaignService {
         editCampaignURL: 'campaign/editCampaign',
         getAllNGOTransactionsURL: 'campaign/getAllNGOTransactions',
         fetchMerchantDetails: 'campaign/fetchMerchantDetails',
+        expirelinkURL: 'campaign/expirelink',
         getCampaignlinkURL: 'sdk/getmerchantpaymentlink',
     }
 
@@ -503,6 +504,21 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
+     expirelink( id: string, merchantCode: string, expirydate: string): Promise<CampaignSummary> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.expirelinkURL,
+            JSON.stringify({
+                "id":id,
+                "merchantCode":merchantCode,
+                "expiryDate": expirydate
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
     merchantpaymentlink(merchantCode: string, page: number): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.getCampaignlinkURL,
@@ -519,11 +535,13 @@ export class CampaignService {
 
     merchantpaymentlinkpost(res: any) {
         let me = this;
+        let totalpages = res.totalNoOfPages;
         let pt = res.merchantPPVoList;
         
        if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i: number = 0; i < pt.length; i++) {
+                var p = '';
                 if (pt[i].amount) {
                     var dd = pt[i].amount;
                 }
@@ -534,7 +552,7 @@ export class CampaignService {
                     var dd1 = pt[i].id;
                 }
                 if ((pt[i].description)) {
-                    var p = (pt[i].description).substring(0, 30);
+                     p = (pt[i].description).substring(0, 30);
                 }
                 if (pt[i].creationDate) {
                     var crdate = pt[i].creationDate;
@@ -568,7 +586,7 @@ export class CampaignService {
             }
 
         }
-        return me._PaymentLinks;
+        return { "pages": totalpages, "links": me._PaymentLinks };
 
     }
 }

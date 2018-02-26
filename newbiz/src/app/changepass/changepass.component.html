@@ -1,0 +1,59 @@
+<div materialize>
+<div class="row"></div>
+<div class="row">
+  <div class="col s12">
+    <a class="linkButtonBN errNrmS4B1BN" [routerLink]="'/dashboard'">
+      <i class="material-icons alignMidBN">arrow_back</i>
+      <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+    </a>
+  </div>
+</div>
+<div class="row">
+  <div class="col s1 m1 l1 "></div>
+  <div class="col s10 m10 l10">
+    <div class="row"></div>
+    <div class="row busDetails detailBodyBN mrgnBn ">
+      <span class="col s12 heBN">{{'Your old password' | translate}}</span>
+      <div class="input-field col s12 m5 l5 regNrmS4BN">
+        <input id="oldpass" name="oldpass" type="text" placeholder="{{'Enter old password' | translate}}" class="prrBN inputboxBN validate"
+          [(ngModel)]="oldpass" (keyup)="newpasswordchecking()"/>
+        <label for="oldpass" [ngClass]="{active: oldpass}"></label>
+        
+      </div>
+    </div>
+    <div class="row busDetails detailBodyBN mrgnBn">
+      <span class="col s12 heBN">{{'Your new password' |translate}}</span>
+      <div class="input-field col col s12 m5 l5 regNrmS4BN">
+        <input id="newpass" name="newpass" type="text" class="inputboxBN  validate" [(ngModel)]="newpass" placeholder="{{'Enter new password'| translate}}"
+        (keyup)=" passwordchecking()"/>
+        <label for="newpass" [ngClass]="{active: newpass}"></label>
+         <span *ngIf="passerr" class="errNrmS6BN">{{passerrmsg}}</span>
+      </div>
+
+    </div>
+    <div class="row busDetails detailBodyBN mrgnBn">
+      <span class="col s12 heBN">{{'Confirm new password' |translate}}</span>
+      <div class="input-field col col s12 m5 l5 regNrmS4BN">
+        <input id="confirmnewpass" name="confirmnewpass" type="text" class="inputboxBN validate" [(ngModel)]="confirmnewpass" placeholder="{{'Confirm your new password' |translate}}"
+        (keyup)="confirmpasswordcheck()"/>
+        <label for="confirmnewpass" [ngClass]="{active: confirmnewpass}"></label>
+        <span *ngIf="confpasserr" class="errNrmS6BN">{{confpasserrmsg}}</span>
+      </div>
+
+    </div>
+
+    <div class="row busDetails detailBodyBN mrgnBn">
+      <div class="input-field s12 m12 l12 center regNrmS4BN">
+        <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
+          (click)="submit()" name="submit">
+              {{'SUBMIT' | translate}}
+             </button>
+      </div>
+
+    </div>
+    <div class="row"></div>
+    <div class="row"></div>
+  </div>
+  <div class="col s1 m1 l1 "></div>
+</div>
+</div>

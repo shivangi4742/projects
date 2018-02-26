@@ -70,6 +70,9 @@ export class ZgService {
       'flat': payPinModel.flat,
       'email_id': payPinModel.email_id,
       'subledger_list': subLedgerList,
+      'ledger_id': payPinModel.ledger_id,
+      'society_id': payPinModel.society_id,
+      'allsubledger_list': []
     };
 
     return this.http.post(
@@ -159,7 +162,7 @@ export class ZgService {
           me.allSubLedgerArray.push(subLedger);
         });
 
-        var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray);
+        var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray, payPinDetail.ledger_id, payPinDetail.society_id);
         me.payPinModelArray.push(payPinModel);
       });
 

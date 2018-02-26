@@ -61,7 +61,7 @@ export class TransactionhistoryComponent implements OnInit {
   }
 
   updateTransactions(res: Transaction){
-    if(res){
+    if(res) {
       this.transactions = res;
       this.numPages = res.numPages;
       this.numTransactions = res.numPayments;

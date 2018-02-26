@@ -7,9 +7,27 @@
     </a>
   </div>
 </div>
-<div class="row" *ngIf="user && businesspro && accountpro">
+<div *ngIf="formLoaded " class="col s12 center">
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="preloader-wrapper active">
+        <div class="spinner-layer spinner-red-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+        </div>
+      </div>
+      <div class="col s12 center inputTextBN">
+        {{'Loading Settings' | translate}}
+      </div>
+    </div>
+<div class="row" *ngIf="user && businesspro && accountpro && !formLoaded">
 
-<ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+<ul class="collapsible" data-collapsible="accordion" materialize="collapsible" >
     <li>
       <div id="paybn" (click)="paymentdetail1()" [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
@@ -240,7 +258,7 @@
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
                 <input id="accountnumber" name="accountnumber" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="{{'Enter Account Number' | translate}}" class="inputboxBN validate"
                   [(ngModel)]="accountpro.accountRefNumber" (keyup)="Accountno()" />
-
+                 <span class="errNrmS6BN" *ngIf="err">{{errmsg | translate}}</span>
               </div>
 
             </div>
@@ -248,8 +266,8 @@
               <span class="col s12 heBN">{{'Confirm Account Number' | translate}}</span>
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
                 <input id="conaccountnumber" name="conaccountnumber" onkeypress='return event.charCode >= 48 && event.charCode <= 57'  placeholder="{{'Enter Account Number' | translate}}" type="text" class="inputboxBN validate"
-                  [(ngModel)]="conaccountnumber" (keyup)="Accountno()"/>
-                <span class="errNrmS6BN" *ngIf="err">{{errmsg | translate}}</span>
+                  [(ngModel)]="conaccountnumber" (keyup)="Accountno1()"/>
+                <span class="errNrmS6BN" *ngIf="err1">{{errmsg1 | translate}}</span>
               </div>
 
             </div>
@@ -309,7 +327,7 @@
 
                 </div>
                 <div class="col s6 m6 l6 regNrmS5B2BN">
-                  <input id="test2" name="gst" type="radio" class="with-gap" checked="checked" (click)="setount(false)" />
+                  <input id="test2" name="gst" type="radio" class="with-gap"  (click)="setount(false)" checked="checked"/>
                   <label for="test2">{{'No' | translate}}</label>
 
                 </div>
