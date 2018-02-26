@@ -468,10 +468,12 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.sdk = res;
       this.editing = true;
       this.editingTab = true;
-      setTimeout(function () {
-        let createTab = document.getElementById('create');
-        createTab.click();
-      }, 300);
+      if(!this.sdk.isButton) {
+        setTimeout(function () {
+          let createTab = document.getElementById('create');
+          createTab.click();
+        }, 300);  
+      }
     }
   }
 

@@ -393,7 +393,8 @@
                           name="create" [disabled]="!cmpForm.form.valid || invalidForm()">
                           <span *ngIf="!sdk.isButton && !editing">{{'Create Campaign' | translate}}</span>
                           <span *ngIf="!sdk.isButton && editing">{{'Save Campaign' | translate}}</span>
-                          <span class="campaignBtnBN" *ngIf="sdk.isButton">{{'Create Campaign Button' | translate}}</span>
+                          <span class="campaignBtnBN" *ngIf="sdk.isButton && !editing">{{'Create Campaign Button' | translate}}</span>
+                          <span class="campaignBtnBN" *ngIf="sdk.isButton && editing">{{'Save Campaign Button' | translate}}</span>
                         </button>
                       </div>
                       <div class="col s12">&nbsp;</div>

@@ -136,6 +136,7 @@
     "Successfully saved payment link": "मोहिम लिंक यशस्वीरित्या जतन केला",
     "SMS Campaign Link": "एसएमएस मोहिम दुवा",
     "SHARE_URL_MSG": "आपण आपली मोहिम खालील यूआरएल कॉपी-पेस्ट करून  सामायिक करू शकता:",
+    "SHARE_BTN_MSG": "आपण आपल्या बटण सह खालील URL समाकलित करू शकता:",
     "Successfully sent campaign link in SMS": "एसएमएस मध्ये मोहिम लिंक यशस्वीरित्या पाठवला",
     "by": "द्वारा",
     "Get this link in SMS": "हा दुवा एसएमएसवर मिळवा",
@@ -209,5 +210,8 @@
     "No Campaign Image Selected": "कोणतीही मोहिम प्रतिमा निवडली नाही",
     "Add Product": "उत्पादन जोडा",
     "Banner Image": "बॅनर प्रतिमा",
-    "Select Banner Image": "बॅनर प्रतिमा निवडा"
+    "Select Banner Image": "बॅनर प्रतिमा निवडा",
+    "Campaign Button Link Created": "मोहिम बटण दुवा निर्मित",
+    "Save Campaign Button": "मोहिम जतन करा",
+    "Create Campaign Button": "मोहिम बटण तयार करा"
 }

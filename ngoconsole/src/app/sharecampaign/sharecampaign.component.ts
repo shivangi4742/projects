@@ -193,7 +193,6 @@ cancel1(){
   copy() {
     var copyText = document.getElementById("name");
     var aa = (copyText as any).value;
-    console.log(aa);
 
     aa.onclick = function () {
       document.execCommand("copy");
@@ -203,7 +202,6 @@ cancel1(){
       event.preventDefault();
       if (event.clipboardData) {
         event.clipboardData.setData("text/plain", aa.textContent);
-        console.log(event.clipboardData.getData("text"))
       }
     });
   }
@@ -216,10 +214,10 @@ cancel1(){
   }
 
   edit() {
-    if(this.mtype == 2)
-      this.router.navigateByUrl('/newcampaign/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
+    if(this.sdk.isButton)
+      this.router.navigateByUrl('/campaignbtn/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
     else
-      this.router.navigateByUrl('/newestall/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
+      this.router.navigateByUrl('/newcampaign/edit/' + btoa(JSON.stringify({url: this.savedURL, id: this.id})));
   }
 
   twitterbutton() {

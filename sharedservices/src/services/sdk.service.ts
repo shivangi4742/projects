@@ -173,7 +173,7 @@ export class SDKService {
                 (mtype == 1) ? res.mobileNumber : '', ttl, 
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
                 res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null, 
-                null, null, null, null, null, modes, null, null, convFee, res.isButton);
+                null, null, null, null, null, modes, null, null, convFee, res.embedded);
         }
         else if (res.logFormate) {
             var obj = JSON.parse(res.logText);
@@ -192,7 +192,7 @@ export class SDKService {
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
                 obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber,
                 obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid,
-                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.isButton);
+                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.embedded);
         }
 
         return this._sdk;
