@@ -220,7 +220,7 @@ export class PayComponent implements OnInit {
 
     if (this.pay.mtype == 3 && !this.amountEditable && this.pay.chargeConvenienceFee) {
       this.purchaseAmount = Math.round(this.pay.amount * 100) / 100;
-      this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100) / 100;
+      this.pay.amount = Math.round(this.pay.amount * 1.02 * 100) / 100;
       this.convFee = this.pay.amount - this.purchaseAmount;
     }
 
