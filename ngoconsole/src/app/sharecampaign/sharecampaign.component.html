@@ -144,8 +144,11 @@
             <div class="row" *ngIf="savedURL">
               <div class="col m1 l1 hide-on-small-only"></div>
 
-              <div class="col s12 m10 l10 center noPadsMGLBN">
+              <div *ngIf="!sdk.isButton" class="col s12 m10 l10 center noPadsMGLBN">
                 {{'Share this campaign via –' | translate}}
+              </div>
+              <div *ngIf="sdk.isButton" class="col s12 m10 l10 center noPadsMGLBN">
+                {{'Share this donate button link via –' | translate}}
               </div>
               <div class="col m1 l1 hide-on-small-only"></div>
             </div>
