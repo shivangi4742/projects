@@ -1,0 +1,60 @@
+<div *ngIf="product" (mouseover)="over=true;" (mouseout)="over=false;" [ngClass]="over ? 'row grey lighten-5' : 'row'">
+    <div class="hide-on-med-and-up">
+        <div class="col s12 center" align="center">
+            <img *ngIf="!product.imageURL" class="prodImageBN" src="../assets/shared/images/donate-green.png" />
+            <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />        
+        </div>
+        <div class="col s12 center">
+            <input type="checkbox" class="filled-in checkbox-red" id="{{product.id}}" name="{{product.id}}" [(ngModel)]="product.isSelected" 
+                (change)="checked()"/>
+            <label for="{{product.id}}" class="cblblBN regNrmS5B1BN">
+                <span *ngIf="product.isSelected">&nbsp;</span>
+                <span *ngIf="!product.isSelected">{{'Donate' | translate}}</span>
+            </label>
+            <input [(ngModel)]="product.qty" class="validate thinInputBN" type="number" step="1" min="1" max="9999999" name="qty" (blur)="qtyChanged()" 
+                id="qty" required  *ngIf="product.isSelected">
+            <span class="regNrmS5B1BN" *ngIf="product.isSelected">{{'QTY' | translate}}</span>
+        </div>
+        <div [ngClass]="product.isSelected ? 'col s12 errNrmS4B1BN center px3BN selProdPriceBN' : 'col s12 errNrmS4B1BN center px3BN'">₹ {{product.price | number : '1.2-2'}}</div>
+        <div class="col s12 regNrmS6B1BN center shiftTop10BN truncate bottom10BN">{{product.name}}&nbsp;</div>
+        <div class="col s12 regNrmS6BN center shiftTop10BN" *ngIf="!expandedDesc">{{getShortDescription()}}
+            <a (click)="expandedDesc = true">({{'more' | translate}})</a>
+        </div>
+        <div class="col s12 regNrmS6BN center shiftTop10BN" *ngIf="expandedDesc">{{product.description}}
+            <a *ngIf="hasShortDesc" (click)="expandedDesc = false">({{'less' | translate}})</a>
+        </div>
+    </div>
+    <div class="valign-wrapper hide-on-small-only">
+        <div class="col m2 center" align="center">
+            <img *ngIf="!product.imageURL" class="prodImageBN" src="../assets/shared/images/donate-green.png" />
+            <img *ngIf="product.imageURL" class="prodImageBN" src={{uploadsURL}}{{product.imageURL}} />        
+        </div>
+        <div class="col m10">
+            <div class="col m12 regNrmS6BN shiftTop10BN" *ngIf="!expandedDesc">
+                <b>{{product.name}}&nbsp;: &nbsp;</b>{{getShortDescription()}}
+                <a class="linkButtonBN" (click)="expandedDesc = true">({{'more' | translate}})</a>
+            </div>
+            <div class="col m12 regNrmS6BN shiftTop10BN" *ngIf="expandedDesc">
+                <b>{{product.name}}&nbsp;</b>{{product.description}}
+                <a class="linkButtonBN" *ngIf="hasShortDesc" (click)="expandedDesc = false">({{'less' | translate}})</a>
+            </div>
+            <div class="col s12 thinGapBN">&nbsp;</div>
+            <div class="col m3 offset-m2 regNrmS4B1BN px3BN" align="right">₹ {{product.price | number : '1.2-2'}}</div>                
+            <div class="col m4">
+                <div [ngClass]="product.isSelected ? 'row' : 'row pad3BN'"  align="center">
+                    <div>
+                        <input type="checkbox" class="filled-in checkbox-red" id="{{product.id}}" name="{{product.id}}" 
+                            [(ngModel)]="product.isSelected" (change)="checked()"/>
+                        <label for="{{product.id}}" class="cblblBN regNrmS5B1BN">
+                            <span *ngIf="product.isSelected">&nbsp;</span>
+                            <span *ngIf="!product.isSelected">{{'Donate' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </label>
+                        <input [(ngModel)]="product.qty" class="validate midInputBN" type="number" step="1" min="1" max="9999999" name="qty" 
+                            (blur)="qtyChanged()" id="qty" required  *ngIf="product.isSelected">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="product.isSelected" class="col m3 regNrmS4B1BN px3BN" align="right">₹ {{product.price * product.qty | number : '1.2-2'}}</div>                
+        </div>
+    </div>
+</div>

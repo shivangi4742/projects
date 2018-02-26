@@ -1,0 +1,49 @@
+.priceInputBN {
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.thinInputBN {
+    max-width: 60px;
+    height: 1rem!important;
+    font-weight: 700!important;
+    font-size: 11pt!important;
+    color: #E53935!important;
+}
+
+.midInputBN {
+    max-width: 60px;
+    height: 2rem!important;
+    font-weight: 700!important;
+    font-size: 11pt!important;
+    color: #E53935!important;
+    margin-bottom: 2px!important;
+}
+
+.px3BN {
+    padding-top: 3px;
+    padding-bottom: 16px;
+}
+
+.selProdPriceBN {
+    margin-top: -13px;
+}
+
+.shiftTop10BN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.bottom10BN {
+    margin-top: -10px;    
+}
+
+.pad3BN {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.thinGapBN {
+    font-size: 5px;
+}

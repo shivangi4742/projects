@@ -135,5 +135,8 @@
     "Convenience Fee": "Convenience Fee",
     "Ordered Successfully": "Order Placed Successfully",
     "more": "more",
-    "less": "less"
+    "less": "less",
+    "Cost": "Cost",
+    "Quantity": "Quantity",
+    "Amount": "Amount"
 }

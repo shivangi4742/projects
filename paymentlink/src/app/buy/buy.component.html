@@ -4,6 +4,12 @@
     <div class="fullWidthBN" align="center">
       <div class="maxWidthBN" align="left">
         <div class="row">
+          <div class="col m10 offset-m2 hide-on-small-only errNrmS5B1BN">
+            <div class="col m3 offset-m2" align="right">{{'Cost' | translate}}</div>
+            <div class="col m4" align="center">{{'Quantity' | translate}}</div>
+            <div class="col m3" align="right">{{'Amount' | translate}}</div>
+          </div>
+          <div class="col s12 thinGapBuyBN">&nbsp;</div>
           <div class="col s12" *ngFor="let p of products">
             <newproductwidget [product]="p"></newproductwidget>          
           </div>
