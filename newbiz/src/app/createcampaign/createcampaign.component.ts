@@ -79,7 +79,7 @@ export class CreatecampaignComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.locationService.setLocation('createpaylink');
+    this.locationService.setLocation('createcampaign');
     this.userService.getUser()
       .then(res => this.user = res);
     let me = this;
@@ -91,22 +91,30 @@ export class CreatecampaignComponent implements OnInit {
     }];
   }
 
-campainname(){
-  this.truecampaignname = true;
-  this.cratecampaignmob = false;
-}
-campaigndcription(){
-  this.truecampaigndescription = true;
-  this.cratecampaignmob = false;
-}
-campaignimage(){
-  this.truecampimage = true;
-  this.cratecampaignmob = false;
-}
- dateClickedMob(){
+  campainname(){
+    this.truecampaignname = true;
+    this.cratecampaignmob = false;
+  }
+
+  campaigndcription(){
+    this.truecampaigndescription = true;
+    this.cratecampaignmob = false;
+  }
+
+  campaignimage(){
+    this.truecampimage = true;
+    this.cratecampaignmob = false;
+  }
+
+  dateClickedMob(){
     let a: any = document.getElementById('expDtMob');
     a.click();
   }
+  
+  getLength(txt: string): number {
+    if(txt)
+      return txt.length;
 
- 
+    return 0;
+  }
 }

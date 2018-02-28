@@ -154,5 +154,21 @@
     "Add Business Details":"Add Business Details",
     "Receive  more than ₹10,000 per month":"Receive  more than ₹ 10,000 per month",
     "SUBMIT KYC":"Submit KYC",
-    "Go Back to Old Version": "Go Back to Old Version"
+    "Go Back to Old Version": "Go Back to Old Version",
+    "Upload Your Campaign Image (.bmp |.jpg |.png format, max file size : 5mb)": "Upload Your Campaign Image (.bmp |.jpg |.png format, max file size : 5mb) (Optional)",
+    "Create a Campaign": "Create a Campaign",
+    "Enter your Campaign Name": "Enter your campaign name",
+    "Your Campaign Name": "Your Campaign Name",
+    "Explain your Campaign in short. Mention important details.": "Explain your Campaign in short. Mention important details. (Optional)",
+    "Campaign Description": "Campaign Description",
+    "Choose a campaign end date (Optional)": "Choose a campaign end date (Optional)",
+    "End Date": "End Date",
+    "NEXT:ADD PRODUCT": "NEXT : ADD PRODUCT",
+    "Campaign Name": "Campaign Name",
+    "Campaign Image": "Campaign Image",
+    "Campaign URL": "Campaign URL",
+    "This is the first line that your customers will read . Run offers like Today's Special, Diwali Discount, Clearance Sale etc.": "This is the first line that your customers will read . Run offers like Today's Special, Diwali Discount, Clearance Sale etc.",
+    "Short Description": "Short Description",
+    "This is where you explain your campaign a little more. Mention important details.": "This is where you explain your campaign a little more. Mention important details.",
+    "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you.": "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you."
 }
