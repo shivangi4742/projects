@@ -37,17 +37,18 @@ export class ChangepassComponent implements OnInit {
   }
 
   submitpost(res) {
-    if(res.responseFromAPI== true){
+    console.log(res, 'dshf');
+    if(res.data.responseFromAPI== true){
       this.succ= true;
       this.succmsg= "password changed successfully";
     } else {
-       this.succ = false;
+       this.succ = true;
        this.succmsg = "invalid old password";
     }
 
   }
   newpasswordchecking() {
-    this.passwordchecking();
+    //this.passwordchecking();
   }
   passwordchecking() {
     if (this.newpass.length < 8 && this.newpass && this.newpass.length > 0) {

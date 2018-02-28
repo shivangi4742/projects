@@ -34,6 +34,7 @@ import { AddproductComponent } from './addproduct/addproduct.component';
 import { ChangepassComponent } from './changepass/changepass.component';
 import { CreatecampaignComponent } from './createcampaign/createcampaign.component';
 import { AddproducttocampaignComponent } from './addproducttocampaign/addproducttocampaign.component';
+import { CreatecampaignurlComponent } from './createcampaignurl/createcampaignurl.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -60,7 +61,8 @@ export function HttpFactory(http: Http) {
     AddproductComponent,
     ChangepassComponent,
     CreatecampaignComponent,
-    AddproducttocampaignComponent
+    AddproducttocampaignComponent,
+    CreatecampaignurlComponent
   ],
   imports: [
     HttpModule,
