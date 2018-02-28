@@ -1,0 +1,30 @@
+.inputTextBN {
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+
+.dashboardRedirectBN {
+  color: #E53935;
+  font-weight: bold;
+}
+
+.noLeftPaddingBN {
+  padding-left: 0px!important;
+   border-bottom: 0px solid #ddd!important;
+}
+
+.roundBorderMainBN {
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+  border-radius: 50px;
+}
+
+.titleBN {
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}

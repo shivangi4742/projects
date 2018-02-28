@@ -38,7 +38,6 @@ export class CreatecampaignComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   uploading:boolean=false;
   authbankuploaded:boolean= false;
-  dashboard: string = "/dashboard";
   purpose: string;
   amount: number;
   invoiceNum: string;
