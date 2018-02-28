@@ -15,6 +15,7 @@ import { ProductcatalogComponent } from "./productcatalog/productcatalog.compone
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ChangepassComponent } from './changepass/changepass.component';
 import { CreatecampaignComponent } from './createcampaign/createcampaign.component';
+import { AddproducttocampaignComponent } from './addproducttocampaign/addproducttocampaign.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'addproduct', component: AddproductComponent },
     { path: 'changepassword', component: ChangepassComponent},
     { path: 'createcampaign', component: CreatecampaignComponent},
+    { path: 'addproducttocampaign', component: AddproducttocampaignComponent },
 
     { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
