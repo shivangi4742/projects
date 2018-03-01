@@ -1,3 +1,46 @@
-<p>
-  buytopnav works!
-</p>
+<div materialize>
+  <nav materialize class="nav buytopNavBN">
+    <div class="nav-wrapper">            
+      <a class="brand-logo linkButtonBN" [routerLink]="storeHome">
+        <img class="buyLogoBN hide-on-med-and-down" src="../assets/shared/images/benoweasy.png" />
+        <img class="buyLogoSBN hide-on-large-only" src="../assets/shared/images/benoweasy.png" />
+      </a>
+      <ul class="left padMnuBN hide-on-med-and-down">
+        <li>
+          <a class="linkButtonBN mnuItemTxtBN">{{'About Benow' | translate}}</a>
+        </li>        
+        <li class="padlr10BN">
+          <a class="linkButtonBN mnuItemTxtBN">{{'Contact Us' | translate}}</a>
+        </li>        
+      </ul>
+      <ul class="left hide-on-small-only hide-on-large-only">
+        <li>
+          <a class="linkButtonBN mnuItemTxtBN">{{'About Benow' | translate}}</a>
+        </li>        
+        <li class="padlr10BN">
+          <a class="linkButtonBN mnuItemTxtBN">{{'Contact Us' | translate}}</a>
+        </li>        
+      </ul>
+      <ul class="left hide-on-med-and-up">
+        <li>
+          <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN">
+            <i class="material-icons">menu</i>
+          </a>
+        </li>
+      </ul>
+      <ul class="right">
+        <li class="linkButtonBN">
+          <div class="valign-wrapper">
+            <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
+            <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
+            <span class="numItemsBN" align="center" *ngIf="numCartItems > 0">
+              <span class="numItemsnumBN hide-on-small-only">{{numCartItems}}</span>
+              <span class="numItemsnumSBN hide-on-med-and-up">{{numCartItems}}</span>
+            </span>&nbsp;&nbsp;&nbsp;
+            <span class="hide-on-small-only">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

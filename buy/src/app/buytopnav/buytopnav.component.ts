@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./buytopnav.component.css']
 })
 export class BuytopnavComponent implements OnInit {
+  numCartItems: number;
+  storeHome: string;
 
   constructor() { }
 

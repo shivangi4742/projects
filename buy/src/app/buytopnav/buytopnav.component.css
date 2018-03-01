@@ -1,0 +1,69 @@
+.buytopNavBN {
+    background-color: #E53935    
+}
+
+.buyLogoBN {
+    padding-left: 50px;
+    margin-top: 5px;
+    height: 50px;
+}
+
+.buyLogoSBN {
+    padding-left: 0px;
+    margin-top: 5px;
+    height: 45px;
+}
+
+.cartGrpBN {
+    display: inline-block;
+}
+
+.cartIconBN {
+    font-size: 15pt;
+}
+
+.mnuItemTxtBN {
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;    
+}
+
+.cartTextBN {
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;    
+}
+
+.numItemsnumBN {
+    position: relative;
+    top: -19px;
+    left: -3px;
+}
+
+.numItemsnumSBN {
+    position: relative;
+    top: -16px;
+    left: -2px;    
+}
+
+.numItemsBN {
+    color: #E53935;
+    background-color: white;
+    border-radius: 25px;
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    display: inline-block; 
+    padding-left: 5px;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;    
+}
+
+.padMnuBN {
+    padding-left: 200px;
+}
+
+.padlr10BN {
+    padding-left: 10px;
+    padding-right: 10px;
+}
