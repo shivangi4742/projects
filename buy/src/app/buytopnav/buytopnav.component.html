@@ -12,28 +12,33 @@
         <li class="padlr10BN">
           <a class="linkButtonBN mnuItemTxtBN">{{'Contact Us' | translate}}</a>
         </li>        
-      </ul>
-      <ul class="left hide-on-small-only hide-on-large-only">
-        <li>
-          <a class="linkButtonBN mnuItemTxtBN">{{'About Benow' | translate}}</a>
+        <li class="padlr10BN">
+          <a class="linkButtonBN mnuItemTxtBN">{{'Refund Policy' | translate}}</a>
         </li>        
         <li class="padlr10BN">
-          <a class="linkButtonBN mnuItemTxtBN">{{'Contact Us' | translate}}</a>
+          <a class="linkButtonBN mnuItemTxtBN">{{'Report Error' | translate}}</a>
         </li>        
       </ul>
-      <ul class="left hide-on-med-and-up">
+      <ul class="left hide-on-large-only hide-on-small-only">
+        <li>
+          <a materialize="sideNav" data-activates="slide-out" class="button-collapse linkButtonBN">
+            <i class="material-icons">menu</i>
+          </a>
+        </li>
+      </ul>
+      <ul class="left hide-on-large-only hide-on-med-and-up">
         <li>
           <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN">
             <i class="material-icons">menu</i>
           </a>
         </li>
       </ul>
-      <ul class="right">
+      <ul class="right" *ngIf="numCartItems > 0">
         <li class="linkButtonBN">
           <div class="valign-wrapper">
             <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
             <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
-            <span class="numItemsBN" align="center" *ngIf="numCartItems > 0">
+            <span class="numItemsBN" align="center">
               <span class="numItemsnumBN hide-on-small-only">{{numCartItems}}</span>
               <span class="numItemsnumSBN hide-on-med-and-up">{{numCartItems}}</span>
             </span>&nbsp;&nbsp;&nbsp;
@@ -43,4 +48,10 @@
       </ul>
     </div>
   </nav>
+  <ul id="slide-out" class="side-nav fixed sidenavBN hide-on-large-only hide-on-small-only">
+    <leftnav></leftnav>
+  </ul>  
+  <ul id="slide-out2" class="side-nav fixed sidenavSBN hide-on-med-and-up">
+    <leftnav></leftnav>    
+  </ul>  
 </div>

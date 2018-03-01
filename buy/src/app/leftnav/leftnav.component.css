@@ -1,0 +1,30 @@
+.whiteFontBN {
+    color: white;
+    font-size: 10pt;
+    font-family: 'Barlow', sans-serif;    
+}
+
+.selectedBN {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    outline: 0;
+    background-color: #E53935;        
+}
+
+.hoverBN {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;    
+}
+
+.hoverBN:hover {
+    background-color: #E53935;
+}
+
+.leftNavLinkBN {
+    line-height: 19.4pt;
+    letter-spacing: 0 em;
+}

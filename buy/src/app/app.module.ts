@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { BuytopnavComponent } from './buytopnav/buytopnav.component';
 import { BuyfooterbarComponent } from './buyfooterbar/buyfooterbar.component';
 import { StoreComponent } from './store/store.component';
+import { LeftnavComponent } from './leftnav/leftnav.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -26,7 +27,8 @@ export function HttpFactory(http: Http) {
     AppComponent,
     BuytopnavComponent,
     BuyfooterbarComponent,
-    StoreComponent
+    StoreComponent,
+    LeftnavComponent
   ],
   imports: [
     HttpModule,

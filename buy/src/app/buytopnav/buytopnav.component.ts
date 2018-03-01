@@ -13,5 +13,4 @@ export class BuytopnavComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
