@@ -33,11 +33,11 @@
 }
 
 .binputBN {
-    background-color: #F7F9FA;
-    padding-left: 20px;
+    background-color: #F7F9FA!important;
+    padding-left: 20px!important;
     letter-spacing: 0.01rem; 
-    border: none; 
-    font-size: 13pt;
+    border: none!important; 
+    font-size: 13pt!important;
     font-family: 'Barlow', sans-serif;
     color: #3D3D3D;
 }
@@ -48,4 +48,14 @@
 
 .txtareaBN {
     min-height: 5rem;
+}
+
+.pad20l10rBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.pad10l20rBN {
+    padding-left: 10px;
+    padding-right: 20px;
 }

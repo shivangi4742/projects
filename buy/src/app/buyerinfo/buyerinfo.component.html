@@ -1,47 +1,51 @@
 <div materialize class="emptyBN" *ngIf="sdk">
-  <div class="fullWidthBN" align="center">
-    <div class="maxWidthBN" align="left">
-      <div class="row"></div>
-      <div class="row">
-        <div class="col s6">
-          <div class="col s10 offset-s1 z-depth-2 card-panel white widgetBN">
-            <div class="row">
-              <div class="col s12 titleBN offsetBN">{{'Basic Details' | translate}}</div>
-              <div class="col s12 borderBN"></div>                
+  <form materialize (ngSubmit)="onSubmit()" #buyerInfoForm="ngForm">
+    <div class="fullWidthBN" align="center">
+      <div class="maxWidthBN" align="left">
+        <div class="row"></div>
+        <div class="row">
+          <div class="col s6 pad20l10rBN">
+            <div class="col s12 l10 offset-l1 z-depth-2 card-panel white widgetBN">
+              <div class="row">
+                <div class="col s12 titleBN offsetBN">{{'Basic Details' | translate}}</div>
+                <div class="col s12 borderBN"></div>                
+              </div>
+              <div class="row">
+                <div class="col s12 labelBN offsetBN">{{'Name' | translate}}* :</div>
+                <div class="col s12 offsetlrBN input-field binputdivBN">
+                  <input class="binputBN validate" placeholder="{{'Enter your name here' | translate}}" [(ngModel)]="sdk.name" maxlength="50" 
+                    name="name" required />
+                </div>
+                <div class="col s12 labelBN offsetBN">{{'Mobile Number' | translate}}* :</div>
+                <div class="col s12 input-field offsetlrBN binputdivBN">
+                  <input class="binputBN validate" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="sdk.mobileNumber" 
+                    minlength="10" maxlength="20" required type="tel" name="phone" />
+                </div>
+                <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}* :</div>
+                <div class="col s12 input-field offsetlrBN binputdivBN">
+                  <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
+                    [(ngModel)]="sdk.email" name="email" required />
+                </div>
+                <div class="col s12 input-field labelBN offsetBN">{{'Address' | translate}}* :</div>
+                <div class="input-field col s12 offsetlrBN binputdivBN">
+                  <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address"
+                    placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="sdk.address" required></textarea>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <div class="col s12 labelBN offsetBN">{{'Name' | translate}}* :</div>
-              <div class="col s12 offsetlrBN binputdivBN">
-                <input class="binputBN" placeholder="{{'Enter your name here' | translate}}" [(ngModel)]="sdk.name" maxlength="50" required />
-              </div>
-              <div class="col s12 labelBN offsetBN">{{'Mobile Number' | translate}}* :</div>
-              <div class="col s12 offsetlrBN binputdivBN">
-                <input class="binputBN" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="sdk.mobileNumber" 
-                  minlength="10" maxlength="20" required />
-              </div>
-              <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}* :</div>
-              <div class="col s12 offsetlrBN binputdivBN">
-                <input class="binputBN" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" [(ngModel)]="sdk.email" required />
-              </div>
-              <div class="col s12 labelBN offsetBN">{{'Address' | translate}}* :</div>
-              <div class="input-field col s12 offsetlrBN binputdivBN">
-                <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN" 
-                  placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="sdk.address" required></textarea>
-              </div>
-            </div>
+            <div class="hide-on-med-and-down l1"></div>
           </div>
-          <div class="col s1"></div>
-        </div>
-        <div class="col s6">
-          <div class="col s10 offset-s1 z-depth-2 card-panel white widgetBN">            
-            <div class="row">
-              <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
-              <div class="col s12 borderBN"></div>                
+          <div class="col s6 pad10l20rBN">
+            <div class="col s12 l10 offset-l1 z-depth-2 card-panel white widgetBN">            
+              <div class="row">
+                <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
+                <div class="col s12 borderBN"></div>                
+              </div>
             </div>
+            <div class="hide-on-med-and-down l1"></div>
           </div>
-          <div class="col s1"></div>          
         </div>
       </div>
-    </div>
-  </div>    
+    </div>    
+  </form>
 </div>
