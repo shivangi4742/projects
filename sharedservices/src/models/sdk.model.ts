@@ -66,5 +66,8 @@ export class SDK {
     public products: Array<Product>|null,
     public deletedProducts: Array<string>|null,
     public chargeConvenienceFee: boolean,
-    public isButton: boolean) { }
+    public isButton: boolean,
+    public name: string,
+    public mobileNumber: string,
+    public address: string) { }
 }

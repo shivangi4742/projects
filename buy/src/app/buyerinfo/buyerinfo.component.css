@@ -1,0 +1,51 @@
+.emptyBN {
+    background-color: #F7F9FA;
+}
+
+.widgetBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.offsetBN {
+    padding-left: 35px;
+}
+
+.offsetlrBN {
+    padding-left: 35px;
+    padding-right: 55px;    
+}
+
+.labelBN {
+    font-size: 13pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;  
+}
+
+.titleBN {
+    font-size: 19pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 38pt;    
+}
+
+.binputBN {
+    background-color: #F7F9FA;
+    padding-left: 20px;
+    letter-spacing: 0.01rem; 
+    border: none; 
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.binputdivBN {
+    margin-top: 10px;
+}
+
+.txtareaBN {
+    min-height: 5rem;
+}

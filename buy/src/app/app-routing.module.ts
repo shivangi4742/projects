@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { StoreComponent } from './store/store.component';
+import { BuyerinfoComponent } from './buyerinfo/buyerinfo.component';
 
 const routes: Routes = [
+    { path: 'buyerinfo', component: BuyerinfoComponent }, 
     { path: 'store/:code', component: StoreComponent }, 
     { path: '**', redirectTo: '/store/1', pathMatch: 'full' }
 ];
