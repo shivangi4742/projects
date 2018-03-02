@@ -41,7 +41,46 @@
                 <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
                 <div class="col s12 borderBN"></div>                
               </div>
+              <div class="row">
+                <div class="col s12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="upi" [(ngModel)]="sdk.mode" [value]="'UPI'" />
+                    <label for="upi" class="rdolblBN">
+                      <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
+                      <span class="upiBN">&nbsp;&nbsp;{{'UPI' | translate}}</span>
+                      <span *ngIf="sdk.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col s12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="dc" [(ngModel)]="sdk.mode" [value]="'DC'" />
+                    <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
+                      <span *ngIf="sdk.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col s12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="cc" [(ngModel)]="sdk.mode" [value]="'CC'" />
+                    <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
+                      <span *ngIf="sdk.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col s12 offsetlrBN">
+                  <div class="rdoGrpNoBrdrBN">
+                    <input name="pmode" type="radio" id="cod" [(ngModel)]="sdk.mode" [value]="'CASH'" />
+                    <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="hide-on-med-and-down l1"></div>
+            <div class="col s12 l10 offset-l1 nolrpdBN">
+              <button class="col s12 buy1BN btn waves-effect waves-light red" type="submit" name="continue"
+                [disabled]="!buyerInfoForm.form.valid || !sdk.mode">{{'Continue' | translate}}</button>
+            </div>            
             <div class="hide-on-med-and-down l1"></div>
           </div>
         </div>
