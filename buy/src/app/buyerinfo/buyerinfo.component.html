@@ -28,7 +28,7 @@
             placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="sdk.address" required></textarea>
         </div>
         <div class="col s10 offset-s1">
-          <button class="col s12 buy1MBN btn waves-effect waves-light red hide-on-large-only" type="submit" name="continues"
+          <button class="col s12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continues"
             [disabled]="!buyerInfoSForm.form.valid">{{'Continue' | translate}}</button>
         </div>
       </div>
@@ -121,9 +121,9 @@
             </div>
             <div class="hide-on-med-and-down l1"></div>
             <div class="col m12 l10 offset-l1 nolrpdBN">
-              <button class="col m12 buy1MBN btn waves-effect waves-light red hide-on-large-only" type="submit" name="continue"
+              <button class="col m12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continue"
                 [disabled]="!buyerInfoForm.form.valid || !sdk.mode">{{'Continue' | translate}}</button>
-              <button class="col m12 buy1BN btn waves-effect waves-light red hide-on-med-only" type="submit" name="continue"
+              <button class="col m12 buy1BN btn waves-effect waves-light red darken-1 hide-on-med-only" type="submit" name="continue"
                 [disabled]="!buyerInfoForm.form.valid || !sdk.mode">{{'Continue' | translate}}</button>
             </div>            
             <div class="hide-on-med-and-down l1"></div>

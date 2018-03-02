@@ -4,22 +4,17 @@ import { Router } from '@angular/router';
 import { SDK, CampaignService } from 'benowservices';
 
 @Component({
-  selector: 'buyerinfo',
-  templateUrl: './buyerinfo.component.html',
-  styleUrls: ['./buyerinfo.component.css']
+  selector: 'paymentmode',
+  templateUrl: './paymentmode.component.html',
+  styleUrls: ['./paymentmode.component.css']
 })
-export class BuyerinfoComponent implements OnInit {
+export class PaymentmodeComponent implements OnInit {
   sdk: SDK;
 
   constructor(private campaignService: CampaignService, private router: Router) { }
 
   ngOnInit() {
     this.sdk = this.campaignService.getCurrCampaign();
-  }
-
-  onSSubmit() {
-    this.campaignService.setCurrCampaign(this.sdk);    
-    this.router.navigateByUrl('/paymentmode');
   }
 
   onSubmit() {

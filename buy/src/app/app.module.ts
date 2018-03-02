@@ -18,6 +18,7 @@ import { BuyfooterbarComponent } from './buyfooterbar/buyfooterbar.component';
 import { StoreComponent } from './store/store.component';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { BuyerinfoComponent } from './buyerinfo/buyerinfo.component';
+import { PaymentmodeComponent } from './paymentmode/paymentmode.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -30,7 +31,8 @@ export function HttpFactory(http: Http) {
     BuyfooterbarComponent,
     StoreComponent,
     LeftnavComponent,
-    BuyerinfoComponent
+    BuyerinfoComponent,
+    PaymentmodeComponent
   ],
   imports: [
     HttpModule,

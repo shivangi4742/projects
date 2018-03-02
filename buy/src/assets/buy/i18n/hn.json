@@ -3,5 +3,22 @@
     "Contact Us": "हमसे संपर्क करें",
     "Refund Policy": "धन वापसी नीति",
     "Report Error": "त्रुटि की रिपोर्ट करें",
-    "Cart": "कार्ट"
+    "Cart": "कार्ट",
+    "Basic Details": "मूल विवरण",
+    "Name": "नाम",
+    "Mobile Number": "मोबाइल नंबर",
+    "E-Mail Id": "ई-मेल आईडी",
+    "Enter your name here": "अपना नाम यहाँ दर्ज करें",
+    "Enter your mobile number here": "यहां अपना मोबाइल नंबर डालें",
+    "Enter your e-mail id here": "यहां अपना ई-मेल आईडी दर्ज करें",
+    "Address": "पता",
+    "Enter your address here.......": "अपना पता यहां दर्ज करें.......",
+    "Continue": "जारी रहें",
+    "Payment Options": "भुगतान विकल्प",
+    "UPI": "यूपीआई",
+    "Transaction fee": "लेनदेन शुल्क",
+    "Debit Card": "डेबिट कार्ड",
+    "Credit Card": "क्रेडिट कार्ड",
+    "Net Banking": "नेट बैंकिंग",
+    "COD (Cash On Delivery)": "सीओडी (कैश ऑन डिलिवरी)"
 }

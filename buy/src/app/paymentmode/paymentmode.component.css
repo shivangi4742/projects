@@ -1,0 +1,74 @@
+.pad0lrBN {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+
+.offsetBN {
+    padding-left: 20px;
+}
+
+.titleBN {
+    font-size: 20pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 40pt;    
+}
+
+.offsetlrBN {
+    padding-left: 35px;
+    padding-right: 55px;    
+}
+
+.rdoGrpBN {
+    padding-top: 20px;
+    min-height: 70px;
+    border-bottom: 1px solid #EDECEA;
+}
+
+.rdolblBN {
+    font-size: 17pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;   
+}
+
+.upiLogoBN {
+    width: 80px;
+}
+
+.rdoGrpNoBrdrBN {
+    padding-top: 30px;
+    min-height: 70px;    
+}
+
+.upiBN {
+    position: relative;
+    top: -4px;
+}
+
+.convfeeBN {
+    font-size: 10pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;    
+    letter-spacing: 0.05rem;   
+    position: relative;
+    top: -7px;
+}
+
+.nolrpdBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.buy2BN {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;        
+}

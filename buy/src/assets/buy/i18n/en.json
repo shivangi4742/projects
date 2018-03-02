@@ -3,5 +3,22 @@
     "Contact Us": "Contact Us",
     "Refund Policy": "Refund Policy",
     "Report Error": "Report Error",
-    "Cart": "Cart"
+    "Cart": "Cart",
+    "Basic Details": "Basic Details",
+    "Name": "Name",
+    "Mobile Number": "Mobile Number",
+    "E-Mail Id": "E-Mail Id",
+    "Enter your name here": "Enter your name here",
+    "Enter your mobile number here": "Enter your mobile number here",
+    "Enter your e-mail id here": "Enter your e-mail id here",
+    "Address": "Address",
+    "Enter your address here.......": "Enter your address here.......",
+    "Continue": "Continue",
+    "Payment Options": "Payment Options",
+    "UPI": "UPI",
+    "Transaction fee": "Transaction fee",
+    "Debit Card": "Debit Card",
+    "Credit Card": "Credit Card",
+    "Net Banking": "Net Banking",
+    "COD (Cash On Delivery)": "COD (Cash On Delivery)"
 }
