@@ -26,6 +26,10 @@ export class ProductService {
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
+    getProduct(id: string): Promise<Product> {
+        return Promise.resolve(new Product(false, false, false, null, 120, 140, id, null, 'hardcoded', 'hardcoded', '', ''));
+    }
+
     setSelectedProducts(ps: Array<Product>) {
         this._selProducts = ps;
     }

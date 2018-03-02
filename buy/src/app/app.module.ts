@@ -19,6 +19,7 @@ import { StoreComponent } from './store/store.component';
 import { LeftnavComponent } from './leftnav/leftnav.component';
 import { BuyerinfoComponent } from './buyerinfo/buyerinfo.component';
 import { PaymentmodeComponent } from './paymentmode/paymentmode.component';
+import { ProductComponent } from './product/product.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -32,7 +33,8 @@ export function HttpFactory(http: Http) {
     StoreComponent,
     LeftnavComponent,
     BuyerinfoComponent,
-    PaymentmodeComponent
+    PaymentmodeComponent,
+    ProductComponent
   ],
   imports: [
     HttpModule,
