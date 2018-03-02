@@ -16,7 +16,11 @@ export class BuyerinfoComponent implements OnInit {
     this.sdk = this.campaignService.getCurrCampaign();
   }
 
+  onSSubmit() {
+    this.campaignService.setCurrCampaign(this.sdk);    
+  }
+
   onSubmit() {
-    
+    this.campaignService.setCurrCampaign(this.sdk);
   }
 }

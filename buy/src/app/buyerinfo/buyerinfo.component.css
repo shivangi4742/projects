@@ -7,6 +7,10 @@
     padding-left: 35px;
 }
 
+.offsetSBN {
+    padding-left: 20px;
+}
+
 .offsetlrBN {
     padding-left: 35px;
     padding-right: 55px;    
@@ -118,4 +122,9 @@
 .nolrpdBN {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.pad0lrBN {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
 }
