@@ -13,6 +13,7 @@ export class ProductComponent implements OnInit {
   selectedImage: string;
   product: Product;
   images: Array<string>;
+  suggestedProds: Array<Product>;
   imgPage: number = 0;
   numImgPages: number = 1;
 
@@ -55,6 +56,7 @@ export class ProductComponent implements OnInit {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKkTX2Nkpj81fJUNDXI-FEhPhcTwhoQ2ngwGbrtjpHuhlmiVF4',
         'https://drizly-products2.imgix.net/ci_1354.jpg?auto=format%2Ccompress&dpr=2&fm=jpeg&h=240&q=20'];
       this.selectedImage = this.images[0];
+      this.suggestedProds = [res, res, res, res];
     }
   }
 }

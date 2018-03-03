@@ -133,6 +133,16 @@
     width: 440px;    
 }
 
+.visitstoreBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
+
 .addtocartBN {
     width: 173px;
     border-radius: 5px;
@@ -151,4 +161,20 @@
     font-size: 13pt;
     font-family: 'Barlow', sans-serif;
     text-transform: none;    
+}
+
+.shiftRowUpBN {
+    margin-top: -31px;    
+}
+
+.alsoBN {
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    background-color: #F7F9FA;    
+}
+
+.widgetcntnrBN {
+    padding-left: 10px;
+    padding-right: 10px;
 }

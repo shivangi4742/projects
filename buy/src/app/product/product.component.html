@@ -58,6 +58,31 @@
         <div class="row"></div>
         <div class="row"></div>
       </div>
+      <div class="row"></div>
+      <div class="row" align="center">
+        <div class="valign-wrapper">
+          <div class="col s12">
+            <p class="borderBN"></p>
+          </div>
+        </div>
+        <div class="valign-wrapper">
+          <div class="col s12 center shiftRowUpBN">
+            <span class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'You may also like' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="row white">
+        <div class="row"></div>
+        <div class="row">
+          <div align="center" class="col s3 widgetcntnrBN" *ngFor="let sp of suggestedProds">
+            <prodwidget></prodwidget>
+          </div>
+        </div>
+        <div class="row" align="center">
+          <button class="btn waves-effect waves-light visitstoreBN">{{'Visit My Store' | translate}}</button>
+        </div>
+        <div class="row"></div>
+      </div>
     </div>
     <div class="row"></div>
   </div>
