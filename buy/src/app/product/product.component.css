@@ -45,12 +45,85 @@
 
 .imgHgtBN {
     height: 380px;
+    width: 380px;
     white-space: nowrap;
     overflow: hidden;
+    display: inline-block;
 }
 
 .mainimgBN {
     max-width: 100%;
     max-height: 380px;
     vertical-align: middle;
+}
+
+.imagePartBN {
+    width: 440px;
+    display: inline;
+    float: left;
+}
+
+.imageStripBN {
+    width: 60px;
+    display: inline;
+    float: left;
+}
+
+.otherThanImagesBN {
+    padding-left: 480px;
+    padding-right: 30px;
+}
+
+.prodtitleBN {
+    font-size: 21pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;       
+}
+
+.origpriceBN {
+    padding-top: 4px;
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+    letter-spacing: 0.1rem;           
+}
+
+.offerpriceBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;               
+}
+
+.markdownBN {
+    text-decoration: line-through;
+}
+
+.markupBN {
+    color: #E53935;
+}
+
+.qtyBN {
+    display: inline-block!important;
+    width: 50px!important;
+    height: 2rem!important;
+}
+
+.ibBN {
+    float: left;
+    width: 120px;
+    min-height: 100px;
+}
+
+.descriptionBN {
+    padding-top: 2px;
+    font-size: 11pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+    letter-spacing: 0.05rem;           
 }
