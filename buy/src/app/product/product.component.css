@@ -175,6 +175,10 @@
 }
 
 .widgetcntnrBN {
-    padding-left: 10px;
+    padding-left: 20px;
     padding-right: 10px;
+}
+
+.pborBN {
+    border: 1px solid #F7F9FA;
 }

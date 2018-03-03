@@ -1,3 +1,13 @@
-<p>
-  prodwidget works!
-</p>
+<div class="row">
+  <div class="col s12 center pwcBN">
+      <span class="helperBN"></span><img [src]="product.imageURL" class="responsive-img prodWidgetImageBN" />
+  </div>
+  <div class="col s12">&nbsp;</div>
+  <div align="left" class="col s12 pwtitleBN truncate">{{product.name}}</div>
+  <div align="left" class="col s12 pworpBN truncate">{{'Original Price'}}:
+    <span class="pwmdBN">₹ {{product.originalPrice | number : '1.2-2'}}</span>
+  </div>
+  <div align="left" class="col s12 pwofpBN truncate">{{'Offer Price' | translate}}:
+    <span class="pwmuBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
+  </div>
+</div>

@@ -75,7 +75,9 @@
         <div class="row"></div>
         <div class="row">
           <div align="center" class="col s3 widgetcntnrBN" *ngFor="let sp of suggestedProds">
-            <prodwidget></prodwidget>
+            <div class="pborBN linkButtonBN">
+              <prodwidget [product]="sp"></prodwidget>
+            </div>
           </div>
         </div>
         <div class="row" align="center">
