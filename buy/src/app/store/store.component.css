@@ -1,0 +1,40 @@
+.storeimgBN {
+    height: 325px;
+}
+
+.pad30lrBN {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.nameplateBN {
+    height: 150px;
+    margin-top: -30px;
+}
+
+.nopadsBN {
+    padding-right: 0px;
+    padding-left: 0px;    
+}
+
+.storetitleBN {
+    padding-top: 60px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;       
+}
+
+.storeprodsBN {
+    padding-top: 10px;
+}
+
+.storewidgetcntnrBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.storepborBN {
+    border: 1px solid #F7F9FA;
+}
+

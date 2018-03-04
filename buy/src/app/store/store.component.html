@@ -1,3 +1,20 @@
-<p>
-  store works!
-</p>
+<div class="row">
+  <div class="col s12 nopadsBN" align="center">
+    <div class="storeimgBN" id="storeimgdiv"></div>
+    <div class="pad30lrBN">
+      <div class="col s12 white card-panel z-depth-2 nameplateBN">
+        <div class="storetitleBN">{{storename}}</div>
+      </div>
+      <div class="col s12 white card-panel z-depth-2 storeprodsBN">
+        <div class="row"></div>
+        <div class="row">
+          <div align="center" class="col s3 storewidgetcntnrBN" *ngFor="let product of products">
+            <div class="storepborBN linkButtonBN">
+              <prodwidget [product]="product"></prodwidget>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
