@@ -10,7 +10,7 @@
 
 .spanelBN {
     padding-left: 15px;
-    padding-right: 30px;        
+    padding-right: 20px;        
 }
 
 .errPanelBN {
@@ -38,7 +38,7 @@
 }
 
 .continuespgBN {
-    height: 50pt;
+    height: 58pt;
     padding-bottom: 14px;
     margin-top: 30px;
     color: #3D3D3D;
@@ -70,6 +70,16 @@
 .padlr30BN {
     padding-left: 30px;
     padding-right: 30px;
+}
+
+.padlr20BN {
+    padding-left: 20px;
+    padding-right: 20px;    
+}
+
+.padlr10BN {
+    padding-left: 10px;
+    padding-right: 10px;        
 }
 
 .cprodimgBN {
@@ -116,4 +126,63 @@
 
 .hiddeniconBN {
     visibility: hidden;
+}
+
+.cartpitemtitleBN {
+    font-size: 15pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    padding-left: 15px;
+}
+
+.cartpitemorpBN {
+    padding-left: 15px;
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+}
+
+.cartpitemwmdBN {
+    text-decoration: line-through;
+}
+
+.cartpitemofpBN {
+    padding-left: 15px;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.cartpitemwmuBN {
+    color: #E53935;
+}
+
+.delcartitemBN {
+    color: #9D9B9B;
+    font-size: 18pt;    
+}
+
+.carttotalpriceBN {
+    line-height: 40pt;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.discountgreenBN {
+    color: #79A616;
+}
+
+.placeorderbtnBN {
+    text-transform: none;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 17pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
 }

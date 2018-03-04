@@ -34,5 +34,9 @@
     "Continue Shopping": "Continue Shopping",
     "My Cart": "My Cart",
     "Items": "Items",
-    "Price Details": "Price Details"
+    "Price Details": "Price Details",
+    "Total Price": "Total Price",
+    "Discount": "Discount",
+    "Amount Payable": "Amount Payable",
+    "Place Order": "Place Order"
 }

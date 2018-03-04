@@ -13,6 +13,7 @@
       <div class="row">
         <div class="col s12 ctitleBN coffsetBN">{{'My Cart' | translate}}: {{cart.items.length}} {{'Items' | translate}}</div>
         <div class="col s12 borderBN"></div>       
+        <div class="col s12"></div>
         <div class="col s12 padlr30BN">
           <div *ngFor="let item of cart.items; let i = index;">
             <div class="col s12">&nbsp;</div>
@@ -28,7 +29,16 @@
               </div>
             </div>
             <div class="col s8">
-
+              <div align="left" class="col s11 cartpitemtitleBN truncate">{{item.name}}</div>
+              <div class="col s1">
+                <i class="material-icons linkButtonBN delcartitemBN" (click)="remove(item.productId)">delete</i>
+              </div>
+              <div align="left" class="col s12 cartpitemorpBN truncate">{{'Original Price' | translate}}:
+                <span class="cartpitemwmdBN">₹ {{item.origPrice | number : '1.2-2'}}</span>
+              </div>
+              <div align="left" class="col s12 cartpitemofpBN truncate">{{'Offer Price' | translate}}:
+                <span class="cartpitemwmuBN"> ₹ {{item.offerPrice | number : '1.2-2'}}</span>
+              </div>
             </div>
             <div class="col s12">&nbsp;</div>
             <div class="col s12 borderBN" *ngIf="i < cart.items.length - 1"></div>
@@ -42,7 +52,32 @@
       <div class="row">
         <div class="col s12 ctitleBN coffsetBN">{{'Price Details' | translate}}</div>
         <div class="col s12 borderBN"></div>                
+        <div class="col s12">&nbsp;</div>
+        <div class="col s12 padlr10BN">
+          <div class="col s12 padlr10BN">
+            <div class="col s7 carttotalpriceBN">{{'Total Price' | translate}} :</div>
+            <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
+            <div class="col s7 carttotalpriceBN discountgreenBN">{{'Discount' | translate}} :</div>
+            <div class="col s5 carttotalpriceBN discountgreenBN" align="right">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
+          </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 borderBN"></div>
+          <div class="col s12 padlr10BN">
+            <div class="col s7 carttotalpriceBN">{{'Amount Payable' | translate}} :</div>
+            <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalAmount() | number : '1.2-2'}}</div>              
+          </div>
+          <div class="col s12 borderBN"></div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12 padlr10BN">
+            <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN">{{'Place Order' | translate}}</button>
+          </div>          
+          <div class="col s12">&nbsp;</div>
+        </div>
       </div>            
     </div>
+    <button class="col s12 white btn waves-effect waves-light continuespgBN">
+      <i class="material-icons backshoppgBN piBN">keyboard_arrow_left</i>&nbsp;&nbsp;{{'Continue Shopping' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;
+    </button>
   </div>
 </div>
