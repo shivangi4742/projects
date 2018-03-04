@@ -1,0 +1,119 @@
+.errwidgetBN {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.ipanelBN {
+    padding-left: 30px;
+    padding-right: 20px;    
+}
+
+.spanelBN {
+    padding-left: 15px;
+    padding-right: 30px;        
+}
+
+.errPanelBN {
+    height: 400px;
+}
+
+.noitemsBN {
+    padding-top: 150px;
+    font-size: 21pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;           
+}
+
+.backshoppgBN {
+    font-size: 30pt;
+    color: #3D3D3D;
+}
+
+.piBN {
+    position: relative;
+    top: 12px;
+    display: inline;
+}
+
+.continuespgBN {
+    height: 50pt;
+    padding-bottom: 14px;
+    margin-top: 30px;
+    color: #3D3D3D;
+    font-size: 16pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.ctitleBN {
+    font-size: 20pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 40pt;    
+}
+
+.itemPanelBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.coffsetBN {
+    padding-left: 35px;    
+}
+
+.padlr30BN {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.cprodimgBN {
+    max-height: 125px;
+    vertical-align: middle;
+}
+
+.cproditemimgctnrBN {
+    height: 125px;
+    white-space: nowrap;    
+}
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}
+
+.cartprditmqtydivBN {
+    margin-top: 10px;
+}
+
+.addremoveBN {
+    color: #9D9B9B;
+    font-size: 16pt;
+    position: relative;
+    display: inline;
+    top: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.cartprditmqtyBN {
+    padding-left: 15px!important;
+    width: 35px!important;
+    text-align: center!important;
+    height: 1.5rem!important;
+    color: #3D3D3D!important;
+    font-size: 12pt!important;
+    font-family: 'Barlow', sans-serif!important;
+    border: 2px solid #9D9B9B!important;
+    border-radius: 5px!important;
+}
+
+.hiddeniconBN {
+    visibility: hidden;
+}

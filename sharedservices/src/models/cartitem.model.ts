@@ -4,6 +4,7 @@ export class CartItem {
         public productId: string,
         public name: string,
         public origPrice: number,
-        public offerPrice: number        
+        public offerPrice: number,
+        public imageURL: string        
     ){ }
 }

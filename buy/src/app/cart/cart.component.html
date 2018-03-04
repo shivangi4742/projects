@@ -1,0 +1,48 @@
+<div class="row"></div>
+<div class="row errwidgetBN" *ngIf="isEmpty()">
+  <div class="col s12 white errPanelBN card-panel z-depth-2" align="center">
+    <div class="noitemsBN">{{'Your cart is empty!' | translate}}</div>
+    <button class="btn waves-effect waves-light white continuespgBN">
+      <i class="material-icons backshoppgBN piBN">keyboard_arrow_left</i>&nbsp;&nbsp;{{'Continue Shopping' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;
+    </button>
+  </div>
+</div>
+<div class="row" *ngIf="cart && cart.items && !isEmpty()">
+  <div class="col s8 ipanelBN">
+    <div class="col s12 white itemPanelBN card-panel z-depth-2">
+      <div class="row">
+        <div class="col s12 ctitleBN coffsetBN">{{'My Cart' | translate}}: {{cart.items.length}} {{'Items' | translate}}</div>
+        <div class="col s12 borderBN"></div>       
+        <div class="col s12 padlr30BN">
+          <div *ngFor="let item of cart.items; let i = index;">
+            <div class="col s12">&nbsp;</div>
+            <div class="col s4">
+              <div class="col s12 cproditemimgctnrBN" align="center">
+                <span class="helperBN"></span><img [src]="item.imageURL" class="cprodimgBN responsive-img" />
+              </div>
+              <div class="col s12 cartprditmqtydivBN" align="center">
+                <i [ngClass]="item.quantity > 1 ? 'material-icons addremoveBN linkButtonBN' : 'material-icons addremoveBN linkButtonBN hiddeniconBN'"
+                  (click)="addQty(item, -1)">remove_circle_outline</i>
+                <input class="cartprditmqtyBN" type="number" min="1" step="1" [(ngModel)]="item.quantity" />
+                <i class="material-icons addremoveBN linkButtonBN" (click)="addQty(item, 1)">add_circle_outline</i>
+              </div>
+            </div>
+            <div class="col s8">
+
+            </div>
+            <div class="col s12">&nbsp;</div>
+            <div class="col s12 borderBN" *ngIf="i < cart.items.length - 1"></div>
+          </div>
+        </div>         
+      </div>      
+    </div>
+  </div>
+  <div class="col s4 spanelBN">
+    <div class="col s12 white itemPanelBN card-panel z-depth-2">
+      <div class="row">
+        <div class="col s12 ctitleBN coffsetBN">{{'Price Details' | translate}}</div>
+        <div class="col s12 borderBN"></div>                
+      </div>            
+    </div>
+  </div>
+</div>
