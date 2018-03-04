@@ -17,11 +17,13 @@ import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
 export { PG } from './models/pg.model';
 export { SDK } from './models/sdk.model';
+export { Cart } from './models/cart.model';
 export { RazorPayModel } from './models/razorpay.model';
 export { User } from './models/user.model';
 export { Status } from './models/status.model';
 export { Product } from './models/product.model';
 export { Campaign } from './models/campaign.model';
+export { CartItem } from './models/cartitem.model';
 export { CampaignList } from './models/campaignlist.model';
 export { Fundraiser } from './models/fundraiser.model';
 export { PayRequest } from './models/payrequest.model';
