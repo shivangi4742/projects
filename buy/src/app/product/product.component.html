@@ -26,8 +26,8 @@
                 <span class="helperBN"></span><img [src]="selectedImage" class="mainimgBN responsive-image" /> 
               </div>
               <div class="buttonsPartBN">
-                <button class="btn waves-effect waves-light addtocartBN">{{'Add to Cart' | translate}}</button>
-                <button class="btn waves-effect waves-light red darken-1 buynowBN">{{'Buy Now' | translate}}</button>
+                <button [disabled]="hasWrongQty()" class="btn waves-effect waves-light addtocartBN">{{'Add to Cart' | translate}}</button>
+                <button [disabled]="hasWrongQty()" class="btn waves-effect waves-light red darken-1 buynowBN">{{'Buy Now' | translate}}</button>
               </div>
             </div>
             <div class="otherThanImagesBN">

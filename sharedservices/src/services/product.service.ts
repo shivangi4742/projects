@@ -16,6 +16,7 @@ export class ProductService {
     private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
     private _urls: any = {
+        getProductURL: 'product/getProduct',        
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
         deleteProductURL: 'product/deleteProduct',
@@ -27,6 +28,54 @@ export class ProductService {
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
+    fillStoreProduct(res: any): Product {
+        let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
+            res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
+            res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
+            res.color, null, null, null);   
+        if(res.productImages && res.productImages.length > 0) {
+            let me: any = this;
+            newp.imageURLs = new Array<string>();
+            res.productImages.forEach(function(pi: any) {
+                if(newp.imageURLs && pi && pi.prodImgUrl)
+                    newp.imageURLs.push(me.utilsService.getUploadsURL() + pi.prodImgUrl);
+            });
+
+            if(newp.imageURLs && newp.imageURLs.length > 0)
+                newp.imageURL = newp.imageURLs[0];
+        }
+        else
+            newp.imageURLs = [newp.imageURL];
+            
+        if(res.productSizes && res.productSizes.length > 0) {
+            newp.sizes = new Array<string>();
+            res.productSizes.forEach(function(ps: any) {
+                if(newp.sizes && ps && ps.prodSize)
+                    newp.sizes.push(ps.prodSize);
+            });
+        }
+
+        if(res.benowProductVariants && res.benowProductVariants.length > 0) {
+            newp.variants = new Array<Variant>();
+            res.benowProductVariants.forEach(function(v: any) {
+                if(newp.variants && v && v.id && v.isAvailable != false) {
+                    let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, null); 
+                    if(v.productSizes && v.productSizes.length > 0) {
+                        newv.sizes = new Array<string>();
+                        v.productSizes.forEach(function(vps: any) {
+                            if(newv.sizes && vps && vps.prodSize)
+                                newv.sizes.push(vps.prodSize);
+                        });
+                    }
+
+                    newp.variants.push(newv);
+                }
+            });
+        }
+
+        return newp;
+    }
+
     fillStoreProducts(res2: any): any {
         if(!(res2 && res2.benowProductList && res2.benowProductList.length > 0))
             return { "success": false };
@@ -37,49 +86,8 @@ export class ProductService {
             numP = res2.totalNoOfPages;
             let res: any = res2.benowProductList;
             if(res && res.length > 0) {
-                for(let i: number = 0; i < res.length; i++) {
-                    let newp: Product = new Product(false, false, false, null, res[i].discountedPrice ? res[i].discountedPrice : res[i].prodPrice, 
-                        res[i].prodPrice, res[i].id, res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, 
-                        res[i].prodImgUrl ? this.utilsService.getUploadsURL() + res[i].prodImgUrl : this.utilsService.getNoProdImageURL(),
-                        res.color, null, null, null);   
-                    if(res.productImages && res.productImages.length > 0) {
-                        newp.imageURLs = new Array<string>();
-                        res.productImages.forEach(function(pi: any) {
-                            if(newp.imageURLs && pi && pi.prodImgUrl)
-                                newp.imageURLs.push(this.utilsService.getUploadsURL() + pi.prodImgUrl);
-                        });
-                    }
-                    else
-                        newp.imageURLs = [newp.imageURL];
-                        
-                    if(res.productSizes && res.productSizes.length > 0) {
-                        newp.sizes = new Array<string>();
-                        res.productSizes.forEach(function(ps: any) {
-                            if(newp.sizes && ps && ps.prodSize)
-                                newp.sizes.push(ps.prodSize);
-                        });
-                    }
-
-                    if(res.benowProductVariants && res.benowProductVariants.length > 0) {
-                        newp.variants = new Array<Variant>();
-                        res.benowProductVariants.forEach(function(v: any) {
-                            if(newp.variants && v && v.id && v.isAvailable != false) {
-                                let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, null); 
-                                if(v.productSizes && v.productSizes.length > 0) {
-                                    newv.sizes = new Array<string>();
-                                    v.productSizes.forEach(function(vps: any) {
-                                        if(newv.sizes && vps && vps.prodSize)
-                                            newv.sizes.push(vps.prodSize);
-                                    });
-                                }
-
-                                newp.variants.push(newv);
-                            }
-                        });
-                    }
-
-                    prods.push(newp);
-                }
+                for(let i: number = 0; i < res.length; i++)
+                    prods.push(this.fillStoreProduct(res[i]));
             }
         }
 
@@ -102,7 +110,15 @@ export class ProductService {
     }
 
     getProduct(id: string): Promise<Product> {
-        return Promise.resolve(new Product(false, false, false, null, 120, 140, id, null, 'hardcoded', 'hardcoded', '', '', '', null, null, null));
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductURL, 
+                JSON.stringify({
+                    "id": id,
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillStoreProduct(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
     }
 
     setSelectedProducts(ps: Array<Product>) {
