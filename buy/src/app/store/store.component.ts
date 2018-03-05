@@ -26,9 +26,12 @@ export class StoreComponent implements OnInit {
     private productService: ProductService) { }
 
   ngOnInit() {
+    let imgHeight: number = Math.round((screen.height - 100) * 0.5);
+    let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
     document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
-    document.getElementById('storeimgdiv').style.height = Math.round((screen.height - 100) * 0.5).toString() + 'px';
-    document.getElementById('clearingdiv').style.height = Math.round((screen.height - 250) * 0.4).toString() + 'px';
+    document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
+    document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+    document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     this.fetchProducts();
     this.storeService.fetchStoreDetails(this.merchantCode)

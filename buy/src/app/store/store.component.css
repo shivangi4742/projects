@@ -1,6 +1,4 @@
 .clearingBN {
-    margin-top: -325px;
-    height: 100px;
     width: 100%;
 }
 
@@ -77,6 +75,7 @@
 
 .storedetailBN {
     margin-top: 10px;
+    margin-left: 50px;
     padding: 10px;
     width: 300px!important;
     font-size: 14pt!important;
