@@ -26,6 +26,41 @@ export class ProductService {
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
+    fillStoreProducts(res2: any): any {
+        if(!(res2 && res2.benowProductList && res2.benowProductList.length > 0))
+            return { "success": false };
+        
+        let prods: Array<Product> = new Array<Product>();
+        let numP: number = 0;
+        if(res2 && res2.benowProductList && res2.benowProductList.length > 0) {
+            numP = res2.totalNoOfPages;
+            let res: any = res2.benowProductList;
+            if(res && res.length > 0) {
+                for(let i: number = 0; i < res.length; i++)
+                    prods.push(new Product(false, false, false, null, res[i].discountedPrice ? res[i].discountedPrice : res[i].prodPrice, 
+                        res[i].prodPrice, res[i].id, res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, 
+                        res[i].prodImgUrl ? this.utilsService.getUploadsURL() + res[i].prodImgUrl : this.utilsService.getNoProdImageURL()));
+            }
+        }
+
+        return { "products": prods, "numPages": numP };         
+    }
+
+    getProductsForStore(merchantCode: string, page: number): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "pageNumber": page,
+                    "isAvailable": true
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillStoreProducts(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
+
+    }
+
     getProduct(id: string): Promise<Product> {
         return Promise.resolve(new Product(false, false, false, null, 120, 140, id, null, 'hardcoded', 'hardcoded', '', ''));
     }

@@ -37,6 +37,12 @@
 
 .storepborBN {
     border: 1px solid #F7F9FA;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.storepborBN:hover {
+    background-color: #F7F9FA; 
 }
 
 .storeLogoDivBN {
@@ -75,7 +81,6 @@
     width: 300px!important;
     font-size: 14pt!important;
     font-family: 'Barlow', sans-serif;
-    letter-spacing: 0.05rem;
     color: #3D3D3D;           
 }
 
@@ -83,4 +88,14 @@
     position: relative;
     display: inline;
     top: 5px;
+}
+
+.morefromstoreBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
 }

@@ -40,6 +40,7 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
+  private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
   private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
 
@@ -83,6 +84,10 @@ export class UtilsService {
 
   public getProcessPaymentURL(): string {
     return this._processPaymentURL;
+  }
+
+  public getNoProdImageURL(): string {
+    return this._noProdImageURL;
   }
 
   public getUploadsURL(): string {

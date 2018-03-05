@@ -25,6 +25,9 @@
             </div>
           </div>
         </div>
+        <div class="row" align="center" *ngIf="page < numPages">
+          <button class="btn waves-effect waves-light morefromstoreBN" (click)="more()">{{'See More Products' | translate}}</button>
+        </div>
       </div>
     </div>
   </div>
