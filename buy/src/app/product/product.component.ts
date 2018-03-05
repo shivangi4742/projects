@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Product, Variant, ProductService } from 'benowservices';
+import { Product, Variant, ProductService, StoreService } from 'benowservices';
 
 @Component({
   selector: 'product',
@@ -10,6 +10,7 @@ import { Product, Variant, ProductService } from 'benowservices';
 })
 export class ProductComponent implements OnInit {
   id: string;
+  home: string;
   selectedImage: string;
   product: Product;
   images: Array<string>;
@@ -17,7 +18,8 @@ export class ProductComponent implements OnInit {
   imgPage: number = 0;
   numImgPages: number = 1;
 
-  constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute,
+    private storeService: StoreService) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -85,9 +87,12 @@ export class ProductComponent implements OnInit {
     if(res && res.id) {
       this.product = res;      
       this.product.qty = 1;
-      if(this.product.merchantCode)
+      if(this.product.merchantCode) {
+        this.home = '/store/' + this.product.merchantCode;
+        this.storeService.assignHome(this.home);
         this.productService.getProductsForStore(this.product.merchantCode, 1)
           .then(res2 => this.initRecommendations(res2));
+      }
 
       this.numImgPages = Math.round(this.product.imageURLs.length / 6) + 1;
       if(this.numImgPages == 1)
