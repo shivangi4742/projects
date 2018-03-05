@@ -57,7 +57,7 @@ export class ProductComponent implements OnInit {
         'https://drizly-products2.imgix.net/ci_1354.jpg?auto=format%2Ccompress&dpr=2&fm=jpeg&h=240&q=20'];
       this.selectedImage = this.images[0];
       this.product.imageURL = this.selectedImage;
-      var res2 = new Product(false, false, false, 0, 120, 140, '123', '1234', 'test', 'trst', '', 'https://merchant.benow.in/assets/paymentlink/images/donated.png');
+      var res2 = new Product(false, false, false, 0, 120, 140, '123', '1234', 'test', 'trst', '', 'https://merchant.benow.in/assets/paymentlink/images/donated.png', null, null, null);
       this.suggestedProds = [res, res, res, res2];
     }
   }

@@ -1,3 +1,5 @@
+import { Variant } from "./variant.model";
+
 export class Product {
   constructor(
     public isNew: boolean,
@@ -11,5 +13,8 @@ export class Product {
     public name: string,
     public description: string,
     public uom: string,
-    public imageURL: string) { }
+    public imageURL: string,
+    public color: string,
+    public sizes: Array<string>|null,
+    public variants: Array<Variant>|null) { }
 }

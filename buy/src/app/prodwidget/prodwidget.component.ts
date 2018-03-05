@@ -8,12 +8,12 @@ import { Product } from 'benowservices';
   styleUrls: ['./prodwidget.component.css']
 })
 export class ProdwidgetComponent implements OnInit {
+  productLink: string;
   @Input('product') product: Product;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.product);
+    this.productLink = '/product/' + this.product.id;
   }
-
 }

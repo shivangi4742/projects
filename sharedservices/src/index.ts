@@ -31,6 +31,7 @@ export { PayRequest } from './models/payrequest.model';
 export { Attachment } from './models/attachment.model';
 export { Transaction } from './models/transaction.model';
 export { Payment } from './models/payment.model';
+export { Variant } from './models/variant.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
 export { Customer } from './models/customer.model';

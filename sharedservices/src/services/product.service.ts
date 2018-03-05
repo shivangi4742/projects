@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { Product } from './../models/product.model';
+import { Variant } from './../models/variant.model';
 
 import { UtilsService } from './utils.service';
 
@@ -36,10 +37,39 @@ export class ProductService {
             numP = res2.totalNoOfPages;
             let res: any = res2.benowProductList;
             if(res && res.length > 0) {
-                for(let i: number = 0; i < res.length; i++)
-                    prods.push(new Product(false, false, false, null, res[i].discountedPrice ? res[i].discountedPrice : res[i].prodPrice, 
+                for(let i: number = 0; i < res.length; i++) {
+                    let newp: Product = new Product(false, false, false, null, res[i].discountedPrice ? res[i].discountedPrice : res[i].prodPrice, 
                         res[i].prodPrice, res[i].id, res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, 
-                        res[i].prodImgUrl ? this.utilsService.getUploadsURL() + res[i].prodImgUrl : this.utilsService.getNoProdImageURL()));
+                        res[i].prodImgUrl ? this.utilsService.getUploadsURL() + res[i].prodImgUrl : this.utilsService.getNoProdImageURL(),
+                        res.color, null, null);                    
+                    if(res.productSizes && res.productSizes.length > 0) {
+                        newp.sizes = new Array<string>();
+                        res.productSizes.forEach(function(ps: any) {
+                            if(newp.sizes && ps && ps.prodSize)
+                                newp.sizes.push(ps.prodSize);
+                        });
+                    }
+
+                    if(res.benowProductVariants && res.benowProductVariants.length > 0) {
+                        newp.variants = new Array<Variant>();
+                        res.benowProductVariants.forEach(function(v: any) {
+                            if(newp.variants && v && v.id) {
+                                let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, null); 
+                                if(v.productSizes && v.productSizes.length > 0) {
+                                    newv.sizes = new Array<string>();
+                                    v.productSizes.forEach(function(vps: any) {
+                                        if(newv.sizes && vps && vps.prodSize)
+                                            newv.sizes.push(vps.prodSize);
+                                    });
+                                }
+
+                                newp.variants.push(newv);
+                            }
+                        });
+                    }
+
+                    prods.push(newp);
+                }
             }
         }
 
@@ -62,7 +92,7 @@ export class ProductService {
     }
 
     getProduct(id: string): Promise<Product> {
-        return Promise.resolve(new Product(false, false, false, null, 120, 140, id, null, 'hardcoded', 'hardcoded', '', ''));
+        return Promise.resolve(new Product(false, false, false, null, 120, 140, id, null, 'hardcoded', 'hardcoded', '', '', '', null, null));
     }
 
     setSelectedProducts(ps: Array<Product>) {
@@ -107,7 +137,7 @@ export class ProductService {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null));
         }
 
         return this._campProducts;
@@ -118,7 +148,7 @@ export class ProductService {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null));
         }
 
         return this._transProducts;
@@ -136,7 +166,7 @@ export class ProductService {
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
                     prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName, 
-                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl));
+                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null));
             }
         }
 
@@ -159,7 +189,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
-                res.prodImgUrl);
+                res.prodImgUrl, '', null, null);
         else
             return null;
     }
