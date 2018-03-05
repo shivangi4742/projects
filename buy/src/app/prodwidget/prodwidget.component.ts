@@ -9,11 +9,16 @@ import { Product } from 'benowservices';
 })
 export class ProdwidgetComponent implements OnInit {
   productLink: string;
+  numVariants: number = 0;
   @Input('product') product: Product;
 
   constructor() { }
 
   ngOnInit() {
-    this.productLink = '/product/' + this.product.id;
+    if(this.product) {
+      this.productLink = '/product/' + this.product.id;
+      if(this.product.variants && this.product.variants.length > 0)
+        this.numVariants = this.product.variants.length;
+    }
   }
 }

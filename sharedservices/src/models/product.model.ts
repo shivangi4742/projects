@@ -16,5 +16,6 @@ export class Product {
     public imageURL: string,
     public color: string,
     public sizes: Array<string>|null,
-    public variants: Array<Variant>|null) { }
+    public variants: Array<Variant>|null,
+    public imageURLs: Array<string>|null) { }
 }

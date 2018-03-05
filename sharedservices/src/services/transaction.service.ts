@@ -69,7 +69,7 @@ export class TransactionService {
                             txns.payments[i].products!.push(new Product(false, false, false, res.orders[i].payerProduct[j].quantity,
                                 res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].id, null,
                                 res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,
-                                res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, '', null, null));
+                                res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, '', null, null, null));
                     }
                 }
             }

@@ -43,6 +43,14 @@
     color: #3D3D3D;
 }
 
+.pwvBN {
+    padding-left: 15px;
+    font-weight: 600;
+    font-size: 10pt;
+    font-family: 'Barlow', sans-serif;
+    color: #79A616;    
+}
+
 .pwmuBN {
     color: #E53935;
 }
