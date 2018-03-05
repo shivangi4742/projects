@@ -22,7 +22,22 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
     this.productService.getProduct(this.id)
-      .then(res => this.init(res));
+      .then(res => this.init(res));    
+  }
+
+  initRecommendations(res: any) {
+    if(res && res.products && res.products.length > 0) {
+      for(let i: number = 0; i < res.products.length; i++) {
+        if(res.products[i].id != this.product.id) {
+          if(!this.suggestedProds)
+            this.suggestedProds = new Array<Product>();
+          
+          this.suggestedProds.push(res.products[i]);
+          if(this.suggestedProds.length >= 4)
+            break;
+        }
+      }
+    }
   }
 
   selectImg(img: string) {
@@ -65,11 +80,15 @@ export class ProductComponent implements OnInit {
     res = new Product(false, false, false, null, 10, 10, "2995", "2995", "Second Product", "Testing API second", "",
       "https://mobilepayments.benow.in/merchants/merchant/document/15/adb720d0-1b9f-11e8-ba0e-8b81e1c5fb46redCircle.png", null, null, 
       [new Variant(null, 30, 30, "7", "Red", ["X", "XL"]), new Variant(null, 20, 20, "8", "Blue", ["M", "S", "X"])],
-      ["https://mobilepayments.benow.in/merchants/merchant/document/15/adb720d0-1b9f-11e8-ba0e-8b81e1c5fb46redCircle.png"]);
+      ["https://mobilepayments.benow.in/merchants/merchant/document/15/adb720d0-1b9f-11e8-ba0e-8b81e1c5fb46redCircle.png"], 'AL7D6');
 
     if(res && res.id) {
       this.product = res;      
       this.product.qty = 1;
+      if(this.product.merchantCode)
+        this.productService.getProductsForStore(this.product.merchantCode, 1)
+          .then(res2 => this.initRecommendations(res2));
+
       this.numImgPages = Math.round(this.product.imageURLs.length / 6) + 1;
       if(this.numImgPages == 1)
         this.images = this.product.imageURLs;

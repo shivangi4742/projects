@@ -32,7 +32,7 @@ export class ProductService {
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
-            res.color, null, null, null);   
+            res.color, null, null, null, res.merchantCode);   
         if(res.productImages && res.productImages.length > 0) {
             let me: any = this;
             newp.imageURLs = new Array<string>();
@@ -163,7 +163,7 @@ export class ProductService {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
         }
 
         return this._campProducts;
@@ -174,7 +174,7 @@ export class ProductService {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
         }
 
         return this._transProducts;
@@ -192,7 +192,7 @@ export class ProductService {
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
                     prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName, 
-                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null));
+                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
             }
         }
 
@@ -215,7 +215,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
-                res.prodImgUrl, '', null, null, null);
+                res.prodImgUrl, '', null, null, null, res.merchantCode);
         else
             return null;
     }

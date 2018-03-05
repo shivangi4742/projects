@@ -59,7 +59,7 @@
         <div class="row"></div>
       </div>
       <div class="row"></div>
-      <div class="row" align="center">
+      <div class="row" align="center" *ngIf="suggestedProds">
         <div class="valign-wrapper">
           <div class="col s12">
             <p class="borderBN"></p>
@@ -71,7 +71,7 @@
           </div>
         </div>
       </div>
-      <div class="row white">
+      <div class="row white" *ngIf="suggestedProds">
         <div class="row"></div>
         <div class="row">
           <div align="center" class="col s3 widgetcntnrBN" *ngFor="let sp of suggestedProds">

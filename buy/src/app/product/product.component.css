@@ -182,3 +182,7 @@
 .pborBN {
     border: 1px solid #F7F9FA;
 }
+
+.pborBN:hover {
+    background-color: #F7F9FA;
+}
