@@ -3,14 +3,18 @@
     <div class="storeimgBN" id="storeimgdiv"></div>
     <div class="clearingBN" id="clearingdiv">&nbsp;</div>
     <div class="pad30lrBN">
-      <div class="col s12 white card-panel z-depth-2 nameplateBN">
+      <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
         <div class="col s12" align="center" *ngIf="storeLogo">
           <div class="storeLogoDivBN" align="center">
               <span class="helperBN"></span><img [src]="storeLogo" class="storeLogoBN" />
           </div>
         </div>
         <div class="col s12">&nbsp;</div>
-        <div class="col s12 storetitleBN">{{storeName}}</div>
+        <div class="col s12">
+          <a materialize="dropdown" class="dropdown-button linkButtonBN storetitleBN" data-activates="storedetailBN" data-beloworigin="true">{{storeName}}
+            <i class="material-icons titleddBN">keyboard_arrow_down</i>
+          </a>
+        </div>
       </div>
       <div class="col s12 white card-panel z-depth-2 storeprodsBN" *ngIf="products">
         <div class="row"></div>
@@ -23,5 +27,12 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div id="storedetailBN" class="dropdown-content storedetailBN" *ngIf="storeAddress" align="center">
+  <div class="col s12">{{storeAddress}}</div>
+  <div class="col s12">&nbsp;</div>
+  <div class="col s12">
+    <i class="material-icons phonedetBN">phone</i> {{storeContact}}
   </div>
 </div>

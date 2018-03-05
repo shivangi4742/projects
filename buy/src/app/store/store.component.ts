@@ -12,6 +12,8 @@ import { Product, StoreService, UtilsService } from 'benowservices';
 export class StoreComponent implements OnInit {
   storeName: string;
   storeLogo: string;
+  storeContact: string;
+  storeAddress: string;
   merchantCode: string;
   products: Array<Product>;
 
@@ -31,7 +33,9 @@ export class StoreComponent implements OnInit {
 
   fillStoreDetails(res: any) {
     if(res && res.id) {
+      this.storeAddress = res.address;
       this.storeName = res.displayName;
+      this.storeContact = res.mobileNumber;
       if(res.logoURL)
         this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
       else
