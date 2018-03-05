@@ -1,5 +1,7 @@
-.storeimgBN {
-    height: 325px;
+.clearingBN {
+    margin-top: -325px;
+    height: 100px;
+    width: 100%;
 }
 
 .pad30lrBN {
@@ -8,8 +10,7 @@
 }
 
 .nameplateBN {
-    height: 150px;
-    margin-top: -30px;
+    height: 180px;
 }
 
 .nopadsBN {
@@ -18,7 +19,6 @@
 }
 
 .storetitleBN {
-    padding-top: 60px;
     font-size: 20pt!important;
     font-weight: 600;
     font-family: 'Barlow', sans-serif;
@@ -38,3 +38,24 @@
     border: 1px solid #F7F9FA;
 }
 
+.storeLogoDivBN {
+    margin-top: -65px;
+    height: 130px;
+    width: 130px;
+    border-radius: 65px;
+    overflow: hidden;
+    background-color: white;
+    white-space: nowrap;    
+}
+
+.storeLogoBN {
+    max-height: 125px;
+    max-width: 125px;
+    vertical-align: middle;
+}
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}

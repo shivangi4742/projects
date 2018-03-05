@@ -36,9 +36,11 @@ export class UtilsService {
   private _changePasswordPageURL: string = 'http://localhost:9090/lgn/verify/2';
   private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
   private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
+  private _documentsPrefixURL: string = 'https://mobilepayments.benow.in/merchants/';
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
+  private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
 
   constructor() {
@@ -85,6 +87,14 @@ export class UtilsService {
 
   public getUploadsURL(): string {
     return this._uploadsURL;
+  }
+
+  public getDefaultStoreImageURL(): string {
+    return this._defaultStoreImageURL;
+  }
+
+  public getDocumentsPrefixURL(): string {
+    return this._documentsPrefixURL;
   }
 
   public getNotificationPrefixURL(): string {

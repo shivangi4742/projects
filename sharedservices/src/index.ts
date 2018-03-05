@@ -5,6 +5,7 @@ import { SDKService } from './services/sdk.service';
 import { HelpService } from './services/help.service';
 import { FileService } from './services/file.service';
 import { UserService } from './services/user.service';
+import { StoreService } from './services/store.service';
 import { UtilsService } from './services/utils.service';
 import { SocketService } from './services/socket.service';
 import { ProductService } from './services/product.service';
@@ -46,6 +47,7 @@ export { SDKService } from './services/sdk.service';
 export { HelpService } from './services/help.service';
 export { FileService } from './services/file.service';
 export { UserService } from './services/user.service';
+export { StoreService } from './services/store.service';
 export { UtilsService } from './services/utils.service';
 export { SocketService } from './services/socket.service';
 export { ProductService } from './services/product.service';
@@ -72,6 +74,7 @@ export class SharedServicesModule {
         HelpService,
         FileService,
         UserService,
+        StoreService,
         UtilsService,
         SocketService,
         ProductService,

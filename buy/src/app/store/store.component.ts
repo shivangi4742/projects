@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { Product } from 'benowservices';
+
+import { Product, StoreService, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'store',
@@ -8,19 +10,32 @@ import { Product } from 'benowservices';
   styleUrls: ['./store.component.css']
 })
 export class StoreComponent implements OnInit {
-  storename: string;
-  storeimage: string;
+  storeName: string;
+  storeLogo: string;
+  merchantCode: string;
   products: Array<Product>;
 
-  constructor() { }
+  //HARDCODED
+  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
-  ngOnInit() {    
-    this.storename = 'Hari Garment Store';
-    this.storeimage = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
-    var res2 = new Product(false, false, false, 0, 120, 140, '123', '1234', 'test', 'trst', '', 'https://merchant.benow.in/assets/paymentlink/images/donated.png');
-    this.products = [res2, res2, res2, res2];
+  constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService) { }
 
+  ngOnInit() {
     document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
+    document.getElementById('storeimgdiv').style.height = Math.round((screen.height - 100) * 0.5).toString() + 'px';
+    document.getElementById('clearingdiv').style.height = Math.round((screen.height - 250) * 0.4).toString() + 'px';
+    this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.storeService.fetchStoreDetails(this.merchantCode)
+      .then(res => this.fillStoreDetails(res));
   }
 
+  fillStoreDetails(res: any) {
+    if(res && res.id) {
+      this.storeName = res.displayName;
+      if(res.logoURL)
+        this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
+      else
+        this.storeLogo = this.utilsService.getDefaultStoreImageURL();
+    }
+  }
 }
