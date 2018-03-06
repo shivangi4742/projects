@@ -18,7 +18,7 @@
           <div *ngFor="let item of cart.items; let i = index;">
             <div class="col s12">&nbsp;</div>
             <div class="col s4">
-              <div class="col s12 cproditemimgctnrBN" align="center">
+              <div class="col s12 cproditemimgctnrBN linkButtonBN" [routerLink]="getProductlink(item.productId)" align="center">
                 <span class="helperBN"></span><img [src]="item.imageURL" class="cprodimgBN responsive-img" />
               </div>
               <div class="col s12 cartprditmqtydivBN" align="center">
@@ -29,9 +29,24 @@
               </div>
             </div>
             <div class="col s8">
-              <div align="left" class="col s11 cartpitemtitleBN truncate">{{item.name}}</div>
+              <div align="left" class="col s11 cartpitemtitleBN truncate">
+                <span [routerLink]="getProductlink(item.productId)" class="linkButtonBN">{{item.name}}</span>
+              </div>
               <div class="col s1">
                 <i class="material-icons linkButtonBN delcartitemBN" (click)="remove(item)">delete</i>
+              </div>
+              <div align="left" [ngClass]="!item.color && item.size ? 'col s12 cicolor2BN' : 'col s12 cicolorBN'">
+                <span *ngIf="item.color">
+                  <span>{{'Color' | translate}}:</span>
+                  <span class="linkButtonBN cicnameBN" *ngIf="!isSysColor(item.color)">{{item.color}}</span>
+                  <div *ngIf="isSysColor(item.color)" [ngClass]="getColClass(item.color)">
+                    <span class="tooltiptext">{{item.color}}</span>
+                  </div>&nbsp; &nbsp; &nbsp; &nbsp;    
+                </span>
+                <span *ngIf="item.size">
+                  <span>{{'Size' | translate}}:</span>     
+                  <span class="ciccolornameBN linkButtonBN">{{item.size}}</span>
+                </span>
               </div>
               <div align="left" class="col s12 cartpitemorpBN truncate">{{'Original Price' | translate}}:
                 <span class="cartpitemwmdBN">₹ {{item.origPrice | number : '1.2-2'}}</span>

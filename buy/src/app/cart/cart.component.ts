@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Cart, CartItem, Product, CartService, StoreService } from 'benowservices';
+import { Cart, CartItem, Product, CartService, StoreService, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'cart',
@@ -12,11 +12,22 @@ export class CartComponent implements OnInit {
   cart: Cart;
   isLoaded: boolean = false;
 
-  constructor(private cartService: CartService, private storeService: StoreService) { }
+  constructor(private cartService: CartService, private storeService: StoreService, private utilsService: UtilsService) { }
 
   ngOnInit() {
     this.cartService.getCart()
       .then(res => this.init(res));
+  }
+
+  getColClass(col: string): string {
+    if(col)
+      return 'tooltip linkButtonBN ciccolchipBN ' + col.trim().toLowerCase().replace(/ /g, '') + 'CBN';
+    
+    return '';
+  }
+
+  isSysColor(col: string) {
+    return this.utilsService.isSysColor(col);
   }
 
   init(res: Cart) {
@@ -56,18 +67,22 @@ export class CartComponent implements OnInit {
     let ta: number = 0;
     if(this.cart && this.cart.items && this.cart.items.length > 0) {
       this.cart.items.forEach(function(i) {
-        ta += i.offerPrice;
+        ta += i.offerPrice * i.quantity;
       });
     }
 
     return ta;    
   }
 
+  getProductlink(id: string): string {
+    return '/product/' + id;
+  }
+
   getTotalPrice(): number {
     let tp: number = 0;
     if(this.cart && this.cart.items && this.cart.items.length > 0) {
       this.cart.items.forEach(function(i) {
-        tp += i.origPrice;
+        tp += i.origPrice * i.quantity;
       });
     }
 

@@ -186,3 +186,57 @@
     font-weight: 600;
     font-family: 'Barlow', sans-serif;
 }
+
+.cicolorBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                       
+    padding-left: 15px;
+}
+
+.cicolor2BN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                       
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+.cicnameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                       
+}
+
+.ciccolchipBN {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    padding-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    top: 10px;    
+}
+
+.ciccolornameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                       
+}
