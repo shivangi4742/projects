@@ -91,6 +91,35 @@
     letter-spacing: 0.1rem;           
 }
 
+.colorscntnrBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                   
+}
+
+.colornameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                   
+}
+
+.selectedoptionBN {
+    border: 2px solid #00D5E2;
+    background-color: #F6F9F9;
+}
+
+.selectedcoloptionBN {
+    border: 2px solid #00D5E2;    
+}
+
 .offerpriceBN {
     font-weight: 600;
     font-size: 13pt;
@@ -185,4 +214,45 @@
 
 .pborBN:hover {
     background-color: #F7F9FA;
+}
+
+.colchipBN {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    padding-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    top: 10px;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-weight: 400;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0rem;                   
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-top: 20px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

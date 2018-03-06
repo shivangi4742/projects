@@ -41,6 +41,30 @@
               <div>&nbsp;</div>
               <div class="borderBN"></div>
               <div>&nbsp;</div>
+              <div class="colorscntnrBN" *ngIf="product.color">
+                <span>{{'Color' | translate}}:</span>
+                <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 
+                  *ngIf="!isSysColor(product.color)" (click)="selectVariant(null)">{{product.color}}</span>
+                <div *ngIf="isSysColor(product.color)" (click)="selectVariant(null)" [ngClass]="getColClass(product.color, '-1')">
+                  <span class="tooltiptext">{{product.color}}</span>
+                </div>
+                <span *ngFor="let variant of product.variants">
+                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                    <span class="tooltiptext">{{variant.color}}</span>
+                  </div>
+                </span>
+              </div>
+              <div *ngIf="product.color">&nbsp;</div>
+              <div class="colorscntnrBN" *ngIf="availableSizes">
+                <span>{{'Size' | translate}}:</span>
+                <span *ngFor="let size of availableSizes">
+                  <span (click)="selectSize(size)"
+                    [ngClass]="size == selectedSize ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'">{{size}}</span>
+                </span>
+              </div>
+              <div *ngIf="availableSizes">&nbsp;</div>
               <div class="offerpriceBN">
                 <span>{{'Quantity' | translate}}:&nbsp;&nbsp;&nbsp;</span>
                 <input class="qtyBN" type="number" min="1" step="1" [(ngModel)]="product.qty" />
