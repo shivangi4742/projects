@@ -26,8 +26,10 @@
                 <span class="helperBN"></span><img [src]="selectedImage" class="mainimgBN responsive-image" /> 
               </div>
               <div class="buttonsPartBN">
-                <button [disabled]="hasWrongQty()" class="btn waves-effect waves-light addtocartBN">{{'Add to Cart' | translate}}</button>
-                <button [disabled]="hasWrongQty()" class="btn waves-effect waves-light red darken-1 buynowBN">{{'Buy Now' | translate}}</button>
+                <button [disabled]="hasWrongQty()" (click)="addToCart()" 
+                  class="btn waves-effect waves-light addtocartBN">{{'Add to Cart' | translate}}</button>
+                <button [disabled]="hasWrongQty()" (click)="buy()" 
+                  class="btn waves-effect waves-light red darken-1 buynowBN">{{'Buy Now' | translate}}</button>
               </div>
             </div>
             <div class="otherThanImagesBN">
@@ -60,8 +62,8 @@
               <div class="colorscntnrBN" *ngIf="availableSizes">
                 <span>{{'Size' | translate}}:</span>
                 <span *ngFor="let size of availableSizes">
-                  <span (click)="selectSize(size)"
-                    [ngClass]="size == selectedSize ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'">{{size}}</span>
+                  <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    (click)="selectSize(size)">{{size.size}}</span>
                 </span>
               </div>
               <div *ngIf="availableSizes">&nbsp;</div>

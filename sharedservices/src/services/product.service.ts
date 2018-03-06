@@ -4,7 +4,10 @@ import { Headers, Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
+import { Size } from './../models/size.model';
+import { Cart } from './../models/cart.model';
 import { Product } from './../models/product.model';
+import { CartItem } from './../models/cartitem.model';
 import { NewProduct } from './../models/newproduct.model';
 import { Variant } from './../models/variant.model';
 
@@ -20,6 +23,7 @@ export class ProductService {
         getProductURL: 'product/getProduct',        
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
+        getProductsByIdsURL: 'product/getProductsByIds',
         addProductHBURL: 'product/addProductHB',
         deleteProductURL: 'product/deleteProduct',
         editProductURL: 'product/editProduct',
@@ -29,6 +33,33 @@ export class ProductService {
     };
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    private fillItemsInCart(cart: Cart, res: any): Cart {
+        console.log(res);
+        return cart;
+    }
+
+    public fillCartItemsDetails(cart: Cart): Promise<Cart> {
+        if(cart && cart.items && cart.items.length > 0) {
+            let ids: Array<string> = new Array<string>();
+            cart.items.forEach(function(i: CartItem) {
+                ids.push(i.productId);
+            })
+
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getProductsByIdsURL, 
+                    JSON.stringify({
+                        "ids": ids,
+                    }), 
+                    { headers: this.utilsService.getHeaders() })
+                .toPromise()
+                .then(res => this.fillItemsInCart(cart, res.json()))
+                .catch(res => this.utilsService.returnGenericError());    
+            
+        }
+        else
+            return Promise.resolve(cart);
+    }
 
     fillStoreProduct(res: any): Product {
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
@@ -55,10 +86,10 @@ export class ProductService {
         }
             
         if(res.productSizes && res.productSizes.length > 0) {
-            newp.sizes = new Array<string>();
+            newp.sizes = new Array<Size>();
             res.productSizes.forEach(function(ps: any) {
                 if(newp.sizes && ps && ps.prodSize)
-                    newp.sizes.push(ps.prodSize);
+                    newp.sizes.push(new Size(ps.id, ps.prodSize));
             });
         }
 
@@ -68,10 +99,10 @@ export class ProductService {
                 if(newp.variants && v && v.id && v.isAvailable != false) {
                     let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, v.isAvailable, null);
                     if(v.productSizes && v.productSizes.length > 0) {
-                        newv.sizes = new Array<string>();
+                        newv.sizes = new Array<Size>();
                         v.productSizes.forEach(function(vps: any) {
                             if(newv.sizes && vps && vps.prodSize)
-                                newv.sizes.push(vps.prodSize);
+                                newv.sizes.push(new Size(vps.id, vps.prodSize));
                         });
                     }
 

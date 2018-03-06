@@ -15,9 +15,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     this.isLoaded = true;
-    this.cart = new Cart('', '', '', '', 
-      [new CartItem(1, '1', 'Prod1', 120, 100, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOV6d6F0ATLa3tf3YiAx7WtO5M17Qh4FnuxP-U4vVonlK9MC6p'), 
-      new CartItem(1, '2', 'Prod2', 120, 100, 'https://merchant.benow.in/assets/paymentlink/images/donated.png')]);
   }
 
   isEmpty(): boolean {

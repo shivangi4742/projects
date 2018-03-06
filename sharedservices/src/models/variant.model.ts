@@ -1,3 +1,5 @@
+import { Size } from './size.model';
+
 export class Variant {
   constructor(
     public qty: number|null,
@@ -6,6 +8,6 @@ export class Variant {
     public id: string,
     public color: string,
     public isAvailable: boolean,
-    public sizes: Array<string>|null
+    public sizes: Array<Size>|null
   ) { }
 }

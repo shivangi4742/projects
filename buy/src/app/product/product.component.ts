@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Product, Variant, ProductService, StoreService, UtilsService } from 'benowservices';
+import { Product, Variant, ProductService, StoreService, UtilsService, CartService, Size } from 'benowservices';
 
 @Component({
   selector: 'product',
@@ -13,18 +13,18 @@ export class ProductComponent implements OnInit {
   productOriginalPrice: number;
   id: string;
   home: string;
-  selectedSize: string;
   selectedImage: string;
   product: Product;
+  selectedSize: Size;
   images: Array<string>;
-  availableSizes: Array<string>;
+  availableSizes: Array<Size>;
   suggestedProds: Array<Product>;
   imgPage: number = 0;
   numImgPages: number = 1;
   selVariant: string = '-1';
 
   constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute,
-    private storeService: StoreService, private utilsService: UtilsService) { }
+    private storeService: StoreService, private utilsService: UtilsService, private cartService: CartService) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -97,11 +97,14 @@ export class ProductComponent implements OnInit {
       this.availableSizes = v.sizes;
     }
 
-    if(this.availableSizes && this.availableSizes.length > 0 && this.availableSizes.indexOf(this.selectedSize) < 0)
-      this.selectedSize = this.availableSizes[0];
+    if(this.availableSizes && this.availableSizes.length > 0) {
+      let match: Array<Size> = this.availableSizes.filter(s => s.id == this.selectedSize.id);
+      if(!(match && match.length > 0))
+        this.selectedSize = this.availableSizes[0];
+    } 
   }
 
-  selectSize(size: string) {
+  selectSize(size: Size) {
     this.selectedSize = size;
   }
 
@@ -118,6 +121,15 @@ export class ProductComponent implements OnInit {
     }
     
     return '';
+  }
+
+  addToCart() {
+    this.cartService.addToCart(this.product, this.selVariant, this.selectedSize.id, this.product.qty);
+  }
+
+  buy() {
+    this.addToCart();
+    this.router.navigateByUrl('/cart');
   }
 
   init(res: Product) {

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { SDKService } from './services/sdk.service';
+import { CartService } from './services/cart.service';
 import { HelpService } from './services/help.service';
 import { FileService } from './services/file.service';
 import { UserService } from './services/user.service';
@@ -18,6 +19,7 @@ import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
 export { PG } from './models/pg.model';
 export { SDK } from './models/sdk.model';
+export { Size } from './models/size.model';
 export { Cart } from './models/cart.model';
 export { RazorPayModel } from './models/razorpay.model';
 export { User } from './models/user.model';
@@ -46,6 +48,7 @@ export { BusinessType } from './models/businesstype.model';
 export { NewProduct } from './models/newproduct.model';
 
 export { SDKService } from './services/sdk.service';
+export { CartService } from './services/cart.service';
 export { HelpService } from './services/help.service';
 export { FileService } from './services/file.service';
 export { UserService } from './services/user.service';
@@ -73,6 +76,7 @@ export class SharedServicesModule {
       ngModule: SharedServicesModule,
       providers: [
         SDKService,
+        CartService,
         HelpService,
         FileService,
         UserService,

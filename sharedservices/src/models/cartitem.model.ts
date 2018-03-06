@@ -5,6 +5,11 @@ export class CartItem {
         public name: string,
         public origPrice: number,
         public offerPrice: number,
-        public imageURL: string        
+        public imageURL: string,
+        public variantId: string,
+        public sizeId: string,
+        public color: string,
+        public size: string,
+        public description: string
     ){ }
 }
