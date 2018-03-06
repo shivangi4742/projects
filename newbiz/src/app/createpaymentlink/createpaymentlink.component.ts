@@ -70,6 +70,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   private dtClosed() {
+
   }
 
   ngOnInit() {

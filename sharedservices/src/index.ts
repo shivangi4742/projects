@@ -43,6 +43,7 @@ export { Businesspro } from './models/businesspro.model';
 export { Accountpro } from './models/accountpro.model';
 export { BusinessCategory } from './models/businesscategory.model';
 export { BusinessType } from './models/businesstype.model';
+export { NewProduct } from './models/newproduct.model';
 
 export { SDKService } from './services/sdk.service';
 export { HelpService } from './services/help.service';

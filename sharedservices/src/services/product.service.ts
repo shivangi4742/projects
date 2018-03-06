@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/toPromise';
 
 import { Product } from './../models/product.model';
+import { NewProduct } from './../models/newproduct.model';
 import { Variant } from './../models/variant.model';
 
 import { UtilsService } from './utils.service';
@@ -19,12 +20,13 @@ export class ProductService {
         getProductURL: 'product/getProduct',        
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
+        addProductHBURL: 'product/addProductHB',
         deleteProductURL: 'product/deleteProduct',
         editProductURL: 'product/editProduct',
         deleteCampaignProductURL: 'product/deleteCampaignProduct',
         getProductsForCampaignURL: 'product/getProductsForCampaign',
         getProductsForTransactionURL: 'product/getProductsForTransaction'
-    }
+    };
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
@@ -59,7 +61,7 @@ export class ProductService {
             newp.variants = new Array<Variant>();
             res.benowProductVariants.forEach(function(v: any) {
                 if(newp.variants && v && v.id && v.isAvailable != false) {
-                    let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, null); 
+                    let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, v.isAvailable, null);
                     if(v.productSizes && v.productSizes.length > 0) {
                         newv.sizes = new Array<string>();
                         v.productSizes.forEach(function(vps: any) {
@@ -220,6 +222,20 @@ export class ProductService {
             return null;
     }
 
+    private addedProductHB(res: any): NewProduct|null {
+        if(res && res.prodPrice > 0){
+            if(res.benowProductVariants && res.benowProductVarints.length > 0){
+                return new NewProduct(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,
+                    null, res.prodImgUrls, res.isAvailable, res.productType, true, res.benowProductVariants, res.venue, res.startDate, res.endDate, null);
+            }
+
+            return new NewProduct(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,
+                null, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null);
+        }
+        else
+            return null;
+    }
+
     private editedProduct(res: any): boolean {
         if(res && res.responseFromAPI == true)
             return true;
@@ -307,5 +323,30 @@ export class ProductService {
             .toPromise()
             .then(res => this.deletedProduct(res.json()))
             .catch(res => this.utilsService.returnGenericError());
-    } 
+    }
+
+    addProductHB(merchantCode: string, product: NewProduct): Promise<Product> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.addProductHBURL,
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "name": product.name,
+                    "price": product.price,
+                    "description": product.description,
+                    "uom": product.uom,
+                    "imageURLs": product.imageURLs,
+                    "variants": product.variants,
+                    "productType": product.productType,
+                    "isAvailable": product.isAvailable,
+                    "startDate": product.startDate,
+                    "endDate": product.endDate,
+                    "fileUrl": product.fileUrl,
+                    "venue": product.venue,
+                    "discount": product.discount
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.addedProductHB(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
+    }
 }
