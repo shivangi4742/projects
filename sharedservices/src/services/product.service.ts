@@ -48,6 +48,11 @@ export class ProductService {
         }
         else
             newp.imageURLs = [newp.imageURL];
+
+        if(!(newp.imageURLs && newp.imageURLs.length > 0)) {
+            newp.imageURL = this.utilsService.getNoProdImageURL();
+            newp.imageURLs = [newp.imageURL];            
+        }
             
         if(res.productSizes && res.productSizes.length > 0) {
             newp.sizes = new Array<string>();

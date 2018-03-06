@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Product, Variant, ProductService, StoreService } from 'benowservices';
+import { Product, Variant, ProductService, StoreService, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'product',
@@ -9,17 +9,22 @@ import { Product, Variant, ProductService, StoreService } from 'benowservices';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
+  productPrice: number;
+  productOriginalPrice: number;
   id: string;
   home: string;
+  selectedSize: string;
   selectedImage: string;
   product: Product;
   images: Array<string>;
+  availableSizes: Array<string>;
   suggestedProds: Array<Product>;
   imgPage: number = 0;
   numImgPages: number = 1;
+  selVariant: string = '-1';
 
   constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute,
-    private storeService: StoreService) { }
+    private storeService: StoreService, private utilsService: UtilsService) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -78,15 +83,53 @@ export class ProductComponent implements OnInit {
     return false;
   }
 
-  init(res: Product) {
-    res = new Product(false, false, false, null, 10, 10, "2995", "2995", "Second Product", "Testing API second", "",
-      "https://mobilepayments.benow.in/merchants/merchant/document/15/adb720d0-1b9f-11e8-ba0e-8b81e1c5fb46redCircle.png", null, null, 
-      [new Variant(null, 30, 30, "7", "Red", ["X", "XL"]), new Variant(null, 20, 20, "8", "Blue", ["M", "S", "X"])],
-      ["https://mobilepayments.benow.in/merchants/merchant/document/15/adb720d0-1b9f-11e8-ba0e-8b81e1c5fb46redCircle.png"], 'AL7D6');
+  selectVariant(v: Variant) {
+    if(!v) {
+      this.selVariant = '-1';
+      this.product.originalPrice = this.productOriginalPrice;
+      this.product.price = this.productPrice;
+      this.availableSizes = this.product.sizes;
+    }
+    else {
+      this.selVariant = v.id;
+      this.product.originalPrice = v.originalPrice;
+      this.product.price = v.price;
+      this.availableSizes = v.sizes;
+    }
 
+    if(this.availableSizes && this.availableSizes.length > 0 && this.availableSizes.indexOf(this.selectedSize) < 0)
+      this.selectedSize = this.availableSizes[0];
+  }
+
+  selectSize(size: string) {
+    this.selectedSize = size;
+  }
+
+  isSysColor(col: string) {
+    return this.utilsService.isSysColor(col);
+  }
+
+  getColClass(col: string, vrnt: string): string {
+    if(col) {
+      if(vrnt == this.selVariant)
+        return 'tooltip linkButtonBN selectedcoloptionBN colchipBN ' + col.trim().toLowerCase().replace(/ /g, '') + 'CBN';
+      else
+        return 'tooltip linkButtonBN colchipBN ' + col.trim().toLowerCase().replace(/ /g, '') + 'CBN';
+    }
+    
+    return '';
+  }
+
+  init(res: Product) {
     if(res && res.id) {
       this.product = res;      
       this.product.qty = 1;
+      this.productPrice = this.product.price;
+      this.productOriginalPrice = this.product.originalPrice;
+      this.availableSizes = this.product.sizes;
+      if(this.availableSizes && this.availableSizes.length > 0)
+        this.selectedSize = this.availableSizes[0];
+
       if(this.product.merchantCode) {
         this.home = '/store/' + this.product.merchantCode;
         this.storeService.assignHome(this.home);

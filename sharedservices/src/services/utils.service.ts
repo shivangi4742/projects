@@ -43,6 +43,9 @@ export class UtilsService {
   private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
   private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
+  private _sysColors: Array<string> = ['brown', 'grey', 'black', 'blue', 'purple', 'green', 'pink', 'gold', 'red', 'silver', 'yellow', 'gunmetal', 
+    'maroon', 'white', 'orange', 'metallic', 'beige', 'copper', 'navy', 'burgundy', 'olive', 'steel', 'charcoal', 'bronze', 'teal', 'coral', 'peach', 
+    'magenta', 'lavender', 'turquoise', 'taupe', 'mauve', 'lime green', 'coffee brown', 'khaki', 'rust'];
 
   constructor() {
     this._status = new Status(false, false, '');
@@ -84,6 +87,13 @@ export class UtilsService {
 
   public getProcessPaymentURL(): string {
     return this._processPaymentURL;
+  }
+
+  public isSysColor(col: string): boolean {
+    if(col && this._sysColors.indexOf(col.trim().toLowerCase()) >= 0)
+      return true;
+
+    return false;
   }
 
   public getNoProdImageURL(): string {

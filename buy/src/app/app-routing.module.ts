@@ -13,6 +13,7 @@ const routes: Routes = [
     { path: 'paymentmode', component: PaymentmodeComponent }, 
     { path: 'store/:code', component: StoreComponent }, 
     { path: 'product/:id', component: ProductComponent },
+    { path: 'product2/:id', component: ProductComponent },
     { path: '**', redirectTo: '/store/1', pathMatch: 'full' }
 ];
 
