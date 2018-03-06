@@ -5,6 +5,7 @@ export class Variant {
     public originalPrice: number,
     public id: string,
     public color: string,
+    public isAvailable: boolean,
     public sizes: Array<string>|null
   ) { }
 }
