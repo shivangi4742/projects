@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Cart, CartItem, Product } from 'benowservices';
+import { Cart, CartItem, Product, CartService, StoreService } from 'benowservices';
 
 @Component({
   selector: 'cart',
@@ -8,13 +8,25 @@ import { Cart, CartItem, Product } from 'benowservices';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  isLoaded: boolean = false;
+  homeLink: string;
   cart: Cart;
+  isLoaded: boolean = false;
 
-  constructor() { }
+  constructor(private cartService: CartService, private storeService: StoreService) { }
 
   ngOnInit() {
+    this.cartService.getCart()
+      .then(res => this.init(res));
+  }
+
+  init(res: Cart) {
+    this.cart = res;
+    this.cartService.broadcastCart();
     this.isLoaded = true;
+    if(this.cart.merchantCode) {
+      this.homeLink = '/store/' + this.cart.merchantCode;
+      this.storeService.assignHome(this.homeLink);
+    }
   }
 
   isEmpty(): boolean {
@@ -25,15 +37,15 @@ export class CartComponent implements OnInit {
   }
 
   addQty(item: CartItem, qty: number) {
-    item.quantity += qty;
-    if(item.quantity < 1)
-      item.quantity = 1;
+    let newqty: number = item.quantity + qty;
+    if(newqty < 1)
+      newqty = 1;
+
+    this.cart = this.cartService.setCartItemQuantity(item.productId, item.variantId, item.sizeId, newqty);
   }
 
-  remove(id: string) {
-    if(id && this.cart && this.cart.items && this.cart.items.length > 0) {
-      this.cart.items = this.cart.items.filter(i => i.productId != id);
-    }    
+  remove(p: CartItem) {
+    this.cart = this.cartService.deleteFromCart(p.productId, p.variantId, p.sizeId);     
   }
 
   getTotalDiscount(): number {

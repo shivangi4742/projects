@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/toPromise';
 
+import { Size } from './../models/size.model';
 import { Cart } from './../models/cart.model';
 import { Product } from './../models/product.model';
 import { Variant } from './../models/variant.model';
@@ -14,8 +16,24 @@ import { ProductService } from './product.service';
 @Injectable()
 export class CartService {
     private _cart: Cart;
+    private _subject = new Subject<any>();
 
     constructor(private productService: ProductService) { }
+
+    public numItemsChanged(): Observable<any> {
+        return this._subject.asObservable();        
+    }
+
+    public broadcastCart() {
+        this._subject.next(this.numCartItems());
+    }
+
+    private numCartItems(): number {
+        if(this._cart && this._cart.items && this._cart.items.length > 0)
+            return this._cart.items.length;
+
+        return 0;
+    }
 
     private pushCartToLocalStorage(): any {
         var crt: any = {};
@@ -24,6 +42,7 @@ export class CartService {
             crt.email = this._cart.email;
             crt.name = this._cart.name;
             crt.phone = this._cart.phone;
+            crt.merchantCode = this._cart.merchantCode;
             if(this._cart.items && this._cart.items.length > 0) {
                 crt.items = new Array();
                 this._cart.items.forEach(function(ci) {
@@ -37,19 +56,24 @@ export class CartService {
             }
         }
 
-        localStorage.setItem('bnHBSCart', crt);
+        localStorage.setItem('bnHBSCart', JSON.stringify(crt));
     }
 
     public getCart(): Promise<Cart|null> {
         if(this._cart)
             return Promise.resolve(this._cart);
 
-        let crt: any = localStorage.getItem('bnHBSCart');
+        let crtstr: string|null = localStorage.getItem('bnHBSCart');
+        let crt: any;
+        if(crtstr)
+            crt = JSON.parse(crtstr);
+            
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>());
+            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>(), crt.merchantCode);
             if(crt.items && crt.items.length > 0) {
+                let me: any = this;
                 crt.items.forEach(function(ci: any) {
-                    this._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', ''));
+                    me._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', ''));
                 });
 
                 return this.productService.fillCartItemsDetails(this._cart);
@@ -61,9 +85,9 @@ export class CartService {
             return Promise.resolve(this._cart);
     }
 
-    public setBuyerInfo(name: string, email: string, address: string, phone: string) {
+    public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string) {
         if(!this._cart)
-            this._cart = new Cart(name, phone, email, address, new Array<CartItem>());
+            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode);
         else {
             this._cart.name = name;
             this._cart.email = email;
@@ -82,21 +106,26 @@ export class CartService {
                 existingItem[0].quantity = qty;
                 this.pushCartToLocalStorage();
             }
-        }        
+        }
+        
+        return this._cart;
     }
 
-    public deleteFromCart(pid: string, vid: string, siz: string) {
+    public deleteFromCart(pid: string, vid: string, siz: string): Cart {
         if(this._cart && this._cart.items && this._cart.items.length > 0) {
             this._cart.items = this._cart.items.filter(ci => !(ci.productId == pid && ci.variantId == vid && 
                 ci.sizeId == siz));
             this.pushCartToLocalStorage();
         }
+
+        this._subject.next(this.numCartItems());
+        return this._cart;
     }
 
     public addToCart(prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
-                this._cart = new Cart('', '', '', '', new Array<CartItem>());
+                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode);
             
             if(!this._cart.items)
                 this._cart.items = new Array<CartItem>();
@@ -112,17 +141,40 @@ export class CartService {
             }
 
             if(!existing) {
-                let c: string = prod.color;
-                let s: string = size;
+                let c: string = '';
+                let s: string = '';
                 if(prod.variants && prod.variants.length > 0 && variant != '-1') {
-                    let selV: Variant = prod.variants.filter(v => v.id == variant)[0];
-                    c = selV.color;
+                    let selV: Array<Variant> = prod.variants.filter(v => v.id == variant);
+                    if(selV && selV.length > 0) {
+                        c = selV[0].color;
+                        if(selV[0].sizes && (selV[0].sizes as any).length > 0) {
+                            for(let i: number = 0; i < (selV[0].sizes as any).length; i++) {
+                                if((selV[0].sizes as any)[i].id == size) {
+                                    s = (selV[0].sizes as any)[i].size;
+                                    break;
+                                }
+                            }
+                        }
+    
+                        this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, 
+                            c, s, prod.description));                        
+                    }
                 }
-
-                this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, c, s, 
-                    prod.description));
-                this.pushCartToLocalStorage();                
+                else {
+                    c = prod.color;
+                    if(prod.sizes && prod.sizes.length > 0) {
+                        let selS: Array<Size> = prod.sizes.filter(s => s.id == size);
+                        if(selS && selS.length > 0)
+                            s = selS[0].size;
+                    }
+                    
+                    this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, c, s, 
+                        prod.description));                
+                }
             }
+
+            this._subject.next(this.numCartItems());
+            this.pushCartToLocalStorage();                
         }
     }    
 }

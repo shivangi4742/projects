@@ -35,7 +35,68 @@ export class ProductService {
     constructor(private http: Http, private utilsService: UtilsService) { }
 
     private fillItemsInCart(cart: Cart, res: any): Cart {
-        console.log(res);
+        if(cart && cart.items && cart.items.length > 0 && res && res.length > 0) {
+            for(let i: number = 0; i < res.length; i++) {
+                if(res[i].isAvailable != false) {
+                    let ci: Array<CartItem> = cart.items.filter(it => it.productId == res[i].id);
+                    if(ci && ci.length > 0) {
+                        ci[0].description = res[i].prodDescription;
+                        ci[0].imageURL = this.utilsService.getUploadsURL() + res[i].prodImgUrl;
+                        if(res.productImages && res.productImages.length > 0)
+                            ci[0].imageURL = this.utilsService.getUploadsURL() + res.productImages[0].prodImgUrl;
+                        
+                        if(!ci[0].imageURL)
+                            ci[0].imageURL = this.utilsService.getNoProdImageURL();
+
+                        if(ci[0].variantId != '-1') {
+                            if(res[i].benowProductVariants && res[i].benowProductVariants.length > 0) {
+                                for(let j: number = 0; j < res[i].benowProductVariants.length; j++) {
+                                    if(res[i].benowProductVariants[j].id == ci[0].variantId 
+                                        && res[i].benowProductVariants[j].isAvailable != false) {
+                                        ci[0].color = res[i].benowProductVariants[j].color;
+                                        ci[0].offerPrice = res[i].benowProductVariants[j].discountedPrice ? res[i].benowProductVariants[j].discountedPrice : res[i].benowProductVariants[j].price;
+                                        ci[0].origPrice = res[i].benowProductVariants[j].price ? res[i].benowProductVariants[j].price : ci[0].offerPrice;
+                                        if(ci[0].sizeId) {
+                                            if(res[i].benowProductVariants[j].productSizes 
+                                                && res[i].benowProductVariants[j].productSizes.length > 0) {
+                                                for(let k: number = 0; k < res[i].benowProductVariants[j].productSizes.length; k++) {
+                                                    if(ci[0].sizeId == res[i].benowProductVariants[j].productSizes[k].id) {
+                                                        ci[0].name = res[i].prodName;
+                                                        ci[0].size = res[i].benowProductVariants[j].productSizes[k].prodSize;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                            ci[0].name = res[i].prodName;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            ci[0].color = res[i].color;
+                            ci[0].offerPrice = res[i].discountedPrice ? res[i].discountedPrice : res[i].prodPrice;
+                            ci[0].origPrice = res[i].prodPrice ? res[i].prodPrice : ci[0].offerPrice;
+                            if(ci[0].sizeId) {
+                                if(res[i].productSizes && res[i].productSizes.length > 0) {
+                                    for(let l: number = 0; l < res[i].productSizes.length; l++) {
+                                        if(ci[0].sizeId == res[i].productSizes[l].id) {
+                                            ci[0].name = res[i].prodName;
+                                            ci[0].size = res[i].productSizes[l].prodSize;                   
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                                ci[0].name = res[i].prodName;
+                        }
+                    }    
+                }
+            }
+
+            cart.items = cart.items.filter(citem => citem.name && citem.name.trim().length > 0);
+        }
+
         return cart;
     }
 

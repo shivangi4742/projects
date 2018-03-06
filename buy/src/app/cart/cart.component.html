@@ -2,7 +2,7 @@
 <div class="row errwidgetBN" *ngIf="isEmpty()">
   <div class="col s12 white errPanelBN card-panel z-depth-2" align="center">
     <div class="noitemsBN">{{'Your cart is empty!' | translate}}</div>
-    <button class="btn waves-effect waves-light white continuespgBN">
+    <button class="btn waves-effect waves-light white continuespgBN" *ngIf="homeLink" [routerLink]="homeLink">
       <i class="material-icons backshoppgBN piBN">keyboard_arrow_left</i>&nbsp;&nbsp;{{'Continue Shopping' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;
     </button>
   </div>
@@ -31,7 +31,7 @@
             <div class="col s8">
               <div align="left" class="col s11 cartpitemtitleBN truncate">{{item.name}}</div>
               <div class="col s1">
-                <i class="material-icons linkButtonBN delcartitemBN" (click)="remove(item.productId)">delete</i>
+                <i class="material-icons linkButtonBN delcartitemBN" (click)="remove(item)">delete</i>
               </div>
               <div align="left" class="col s12 cartpitemorpBN truncate">{{'Original Price' | translate}}:
                 <span class="cartpitemwmdBN">₹ {{item.origPrice | number : '1.2-2'}}</span>
@@ -70,13 +70,14 @@
           <div class="col s12">&nbsp;</div>
           <div class="col s12">&nbsp;</div>
           <div class="col s12 padlr10BN">
-            <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN">{{'Place Order' | translate}}</button>
+            <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 
+              [routerLink]="'/buyerinfo'">{{'Place Order' | translate}}</button>
           </div>          
           <div class="col s12">&nbsp;</div>
         </div>
       </div>            
     </div>
-    <button class="col s12 white btn waves-effect waves-light continuespgBN">
+    <button class="col s12 white btn waves-effect waves-light continuespgBN" [routerLink]="homeLink">
       <i class="material-icons backshoppgBN piBN">keyboard_arrow_left</i>&nbsp;&nbsp;{{'Continue Shopping' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;
     </button>
   </div>

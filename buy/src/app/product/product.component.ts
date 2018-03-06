@@ -124,7 +124,7 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.product, this.selVariant, this.selectedSize.id, this.product.qty);
+    this.cartService.addToCart(this.product, this.selVariant, this.selectedSize ? this.selectedSize.id : '', this.product.qty);
   }
 
   buy() {

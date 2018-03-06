@@ -34,7 +34,7 @@
         </li>
       </ul>
       <ul class="right" *ngIf="numCartItems > 0">
-        <li class="linkButtonBN">
+        <li class="linkButtonBN" [routerLink]="'/cart'">
           <div class="valign-wrapper">
             <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
             <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
