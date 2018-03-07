@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { MglService} from  '../services/mgl.service';
 import { Mgl } from '../models/mgl';
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'customer',
@@ -84,5 +84,15 @@ mgldett(res:any) {
      return true;
     }
   }
+
+  openModelBhimUpi() {
+    ($('#bhimupiInfoModal') as any).modal('open');
+  }
+
+  closeUpiModal() {
+    ($('#bhimupiInfoModal') as any).modal('close');
+  }
+
+
  }
 
