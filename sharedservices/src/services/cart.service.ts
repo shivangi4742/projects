@@ -135,7 +135,7 @@ export class CartService {
             crt = JSON.parse(crtstr);
             
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
+            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
                 crt.items.forEach(function(ci: any) {
