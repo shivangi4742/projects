@@ -23,6 +23,7 @@ import { ProductComponent } from './product/product.component';
 import { ProdwidgetComponent } from './prodwidget/prodwidget.component';
 import { CartComponent } from './cart/cart.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
+import { PgComponent } from './pg/pg.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -40,7 +41,8 @@ export function HttpFactory(http: Http) {
     ProductComponent,
     ProdwidgetComponent,
     CartComponent,
-    PaymentsuccessComponent
+    PaymentsuccessComponent,
+    PgComponent
   ],
   imports: [
     HttpModule,
