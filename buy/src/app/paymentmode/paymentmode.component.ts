@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { SDK, CampaignService } from 'benowservices';
+import { Cart, CartService, StoreService } from 'benowservices';
 
 @Component({
   selector: 'paymentmode',
@@ -9,15 +9,38 @@ import { SDK, CampaignService } from 'benowservices';
   styleUrls: ['./paymentmode.component.css']
 })
 export class PaymentmodeComponent implements OnInit {
-  sdk: SDK;
+  merchantCode: string;
+  cart: Cart;
+  settings: any;
 
-  constructor(private campaignService: CampaignService, private router: Router) { }
+  constructor(private cartService: CartService, private router: Router, private storeService: StoreService, 
+    private activatedRoute: ActivatedRoute) { }
+
+  fillStoreSettings(res: any) {
+    if(res)
+      this.settings = res;
+    else
+      this.router.navigateByUrl('/' + this.merchantCode + '/cart');
+  }
+
+  fillCart(res: Cart) {
+    if(res && res.items && res.items.length > 0)
+      this.cart = res;
+    else
+      this.router.navigateByUrl('/' + this.merchantCode + '/cart');
+  }
 
   ngOnInit() {
-    this.sdk = this.campaignService.getCurrCampaign();
+    this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.storeService.assignMerchant(this.merchantCode);
+    this.cartService.getCart(this.merchantCode)
+      .then(res => this.fillCart(res));
+
+    this.storeService.fetchStoreDetails(this.merchantCode)
+      .then(res2 => this.fillStoreSettings(res2))
   }
 
   onSubmit() {
-    this.campaignService.setCurrCampaign(this.sdk);
+    this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
   }
 }

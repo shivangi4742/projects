@@ -12,7 +12,6 @@ export class BuyerinfoComponent implements OnInit {
   merchantCode: string;
   cart: Cart;
   settings: any;
-  loaded: boolean = false;
 
   constructor(private cartService: CartService, private router: Router, private activatedRoute: ActivatedRoute, private storeService: StoreService) { }
 
@@ -27,18 +26,15 @@ export class BuyerinfoComponent implements OnInit {
   }
 
   fillStoreSettings(res: any) {
-    if(res) {
+    if(res)
       this.settings = res;
-      this.loaded = true;  
-    }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
   }
 
   fillCart(res: Cart) {
-    if(res && res.items && res.items.length > 0) {
+    if(res && res.items && res.items.length > 0)
       this.cart = res;
-    }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
   }
