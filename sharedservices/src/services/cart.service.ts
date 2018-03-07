@@ -43,6 +43,7 @@ export class CartService {
             crt.name = this._cart.name;
             crt.phone = this._cart.phone;
             crt.merchantCode = this._cart.merchantCode;
+            crt.paymentMode = this._cart.paymentMode;
             if(this._cart.items && this._cart.items.length > 0) {
                 crt.items = new Array();
                 this._cart.items.forEach(function(ci) {
@@ -69,7 +70,7 @@ export class CartService {
             crt = JSON.parse(crtstr);
             
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>(), crt.merchantCode);
+            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
                 crt.items.forEach(function(ci: any) {
@@ -87,13 +88,22 @@ export class CartService {
 
     public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string) {
         if(!this._cart)
-            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode);
+            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '');
         else {
             this._cart.name = name;
             this._cart.email = email;
             this._cart.phone = phone;
             this._cart.address = address;
         }
+
+        this.pushCartToLocalStorage(merchantCode);
+    }
+
+    public setPaymentMode(paymentMode: string, merchantCode: string) {
+        if(!this._cart)
+            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode);
+        else
+            this._cart.paymentMode = paymentMode;
 
         this.pushCartToLocalStorage(merchantCode);
     }
@@ -125,7 +135,7 @@ export class CartService {
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
-                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode);
+                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '');
             
             if(!this._cart.items)
                 this._cart.items = new Array<CartItem>();

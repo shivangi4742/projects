@@ -7,6 +7,7 @@ export class Cart {
         public email: string,
         public address: string,
         public items: Array<CartItem>,
-        public merchantCode: string
+        public merchantCode: string,
+        public paymentMode: string
     ){ }
 }
