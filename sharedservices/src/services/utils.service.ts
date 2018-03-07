@@ -17,8 +17,8 @@ export class UtilsService {
   private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
-  private _newbizURL: string = 'http://localhost:9090/newbiz'; 
-  private _oldbizURL: string = 'http://localhost:9090/mybiz'; 
+  private _newbizURL: string = 'http://localhost:9090/newbiz';
+  private _oldbizURL: string = 'http://localhost:9090/mybiz';
 
   private _requestURL: string = 'http://localhost:9090/paysdk';
 
@@ -39,7 +39,7 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
-  private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
+  private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
 
   constructor() {
     this._status = new Status(false, false, '');
@@ -531,11 +531,6 @@ export class UtilsService {
       return this._fixedKey;
   }
 
-  public getRazorPayKey(): string {
-    return this.razorpay_key;
-  }
-
-
   b64toBlob(b64Data: any, contentType: any, sliceSize: any) {
     contentType = contentType || '';
     sliceSize = sliceSize || 512;
@@ -599,6 +594,10 @@ export class UtilsService {
       canvas = null;
     };
     img.src = url;
+  }
+
+  getPaytmPgUrl(): string {
+    return this._paytmPgUrl;
   }
 
 }

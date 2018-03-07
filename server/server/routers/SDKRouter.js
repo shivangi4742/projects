@@ -20,5 +20,7 @@ sdkRouter.post('/createPaymentLink', sdkController.createPaymentLink.bind(sdkCon
 sdkRouter.post('/getmerchantpaymentlink', sdkController.getmerchantpaymentlink.bind(sdkController));
 sdkRouter.post('/razorpayCapturePayment', sdkController.razorpayCapturePayment.bind(sdkController));
 sdkRouter.post('/razorpayConfirmPayment', sdkController.razorpayConfirmPayment.bind(sdkController));
+sdkRouter.post('/getMerchantPaymentInfo', sdkController.getMerchantPaymentInfo.bind(sdkController));
+sdkRouter.post('/getPaytmChecksum', sdkController.getPaytmChecksum.bind(sdkController));
 
 module.exports = sdkRouter;

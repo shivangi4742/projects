@@ -306,6 +306,136 @@ var sdkCont = {
         }
     },
 
+    paytmSuccess: function (req, data, cb) {
+        try {
+            var headers = {
+                'X-AUTHORIZATION': config.defaultToken,
+                'Content-Type': 'application/json'
+            };
+
+            var status = '';
+
+            if (data.status == 'TXN_SUCCESS') {
+                status = 'success';
+            }
+            else {
+                status = 'Failed';
+            }
+
+            var statusMsg = 'Failed';
+            if (status && status.toLowerCase() == 'success')
+                statusMsg = 'Successful';
+
+            var pmtype = data.paymentMethod;
+
+            var me = this;
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
+                {
+                    "amount": data.amount,
+                    "hdrTransRefNumber": data.orderId,
+                    "listPayments": [
+                        {
+                            "paymentDetails": {
+                                "deviceDetails": {
+                                    "applicationName": "com.benow",
+                                    "deviceId": "browser",
+                                    "mobileNumber": data.phone
+                                },
+                                "merchantCode": req.body.udf4,
+                                "merchantName": req.body.udf3,
+                                "payeeVirtualAddress": "",
+                                "payerUsername": req.body.phone,
+                                "paymentInvoice": {
+                                    "amountPayable": data.amount
+                                },
+                                "remarks": "",
+                                "thirdPartyTransactionResponseVO": {
+                                    "referanceNumber": data.orderId,
+                                    "response": JSON.stringify(data)
+                                },
+                                "txnId": data.orderId
+                            },
+                            "paymentMethodType": pmtype,
+                            "paymentTransactionStatus": {
+                                "transactionStatus": statusMsg
+                            }
+                        }
+                    ]
+                },
+                function (dd) {
+                    if (req.body.send80GAutomatically)
+                        me.send80G(req, function () {
+                        });
+
+                    cb();
+                });
+        }
+        catch (err) {
+            cb();
+        }
+    },
+
+    paytmFailure: function (req, data, cb) {
+        try {
+            var headers = {
+                'X-AUTHORIZATION': config.defaultToken,
+                'Content-Type': 'application/json'
+            };
+            var status = data.status;
+            var statusMsg = 'Failed';
+            if (status && status.toLowerCase() == 'success')
+                statusMsg = 'Successful';
+
+            var pmtype = 'DEBIT_CARD';
+            if (data.mode === 'CC')
+                pmtype = 'CREDIT_CARD';
+            else if (data.mode === 'NB')
+                pmtype = 'NET_BANKING';
+            else if (data.mode === 'CASH')
+                pmtype = 'CASH';
+            else if (data.mode == 'RAZORPAY')
+                pmtype = 'RAZORPAY'
+
+            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/payWebRequest', 'POST', headers),
+                {
+                    "amount": data.amount,
+                    "hdrTransRefNumber": data.txnid,
+                    "listPayments": [
+                        {
+                            "paymentDetails": {
+                                "deviceDetails": {
+                                    "applicationName": "com.benow",
+                                    "deviceId": "browser",
+                                    "mobileNumber": data.phone
+                                },
+                                "merchantCode": data.udf4,
+                                "merchantName": data.udf3,
+                                "payeeVirtualAddress": "",
+                                "payerUsername": data.phone,
+                                "paymentInvoice": {
+                                    "amountPayable": data.amount
+                                },
+                                "remarks": "",
+                                "thirdPartyTransactionResponseVO": {
+                                    "referanceNumber": data.txnid,
+                                    "response": JSON.stringify(data)
+                                },
+                                "txnId": data.txnid
+                            },
+                            "paymentMethodType": pmtype,
+                            "paymentTransactionStatus": {
+                                "transactionStatus": statusMsg
+                            }
+                        }
+                    ]
+                },
+                cb);
+        }
+        catch (err) {
+            cb();
+        }
+    },
+
     processPayment: function (req, res) {
         res.setHeader("X-Frame-Options", "ALLOW");
         var paylinkid = req.body.paylinkid;
@@ -1118,8 +1248,94 @@ var sdkCont = {
         catch (err) {
             cb(retErr);
         }
-    }
+    },
 
+    getMerchantPaymentInfo: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.getMerchantPaymentInfoPOST(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getMerchantPaymentInfoPOST: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req.body || !req.body.merchantCode)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getMerchantPaymentInfo', 'POST', req.headers),
+                    {
+                        "merchantCode": req.body.merchantCode,
+                        "paymentMethod": req.body.paymentMethodType
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getPaytmChecksum: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.getPaytmChecksumPOST(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getPaytmChecksumPOST: function (req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        try {
+            if (!req.body || !req.body.data)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getPaytmChecksum', 'POST', req.headers),
+                    req.body.data,
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    validatePaytmChecksum: function (req, res) {
+        res.setHeader("X-Frame-Options", "ALLOW");
+        this.validatePaytmChecksumPOST(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    validatePaytmChecksumPOST: function (req, data, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+        var headers = {
+            'X-AUTHORIZATION': config.defaultToken,
+            'Content-Type': 'application/json'
+        };
+
+        try {
+            if (!data)
+                cb(retErr);
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/validatePaytmChecksum', 'POST', headers),
+                    data,
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
 }
 
 module.exports = sdkCont;

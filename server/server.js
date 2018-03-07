@@ -435,6 +435,59 @@ app.get('/temp', function(req, res) {
 });
 */
 
+app.post(config.base + '/ppl/paytmresponse/:id/:txnid', function (req, res) {
+	var inpObj = req.body;
+	var paymentMode = '';
+
+	if (inpObj.PAYMENTMODE == 'CC') {
+		paymentMode = 'CREDIT_CARD';
+	}
+	else if (inpObj.PAYMENTMODE == 'DC') {
+		paymentMode = 'DEBIT_CARD';
+	}
+	else if (inpObj.PAYMENTMODE == 'NB') {
+		paymentMode = 'NET_BANKING';
+	}
+
+	var transactionData = {
+		"mId": inpObj.MID,
+		"paymentMethod": paymentMode,
+		"txnId": inpObj.TXNID,
+		"orderId": inpObj.ORDERID,
+		"bankTxnId": inpObj.BANKTXNID,
+		"amount": inpObj.TXNAMOUNT,
+		"currency": inpObj.CURRENCY,
+		"status": inpObj.STATUS,
+		"respCode": inpObj.RESPCODE,
+		"respMsg": inpObj.RESPMSG,
+		"txnDate": inpObj.TXNDATE,
+		"gatewayName": inpObj.GATEWAYNAME,
+		"bankName": inpObj.BANKNAME,
+		"paymentMode": inpObj.PAYMENTMODE,
+		"promoCampId": inpObj.PROMO_CAMP_ID,
+		"promoStatus": inpObj.PROMO_STATUS,
+		"promoResponse": inpObj.PROMO_RESPCODE,
+		"checksumHash": inpObj.CHECKSUMHASH,
+		"bank_ref_num": inpObj.BANKTXNID,
+		"cardnum": inpObj.TXNID,
+		"cardCategory": 'PAYTM-' + inpObj.PAYMENTMODE
+	};
+
+	sdkController.validatePaytmChecksumPOST(req, transactionData, function (data) {
+		if (data && data.responseFromAPI == true) {
+			res.setHeader("X-Frame-Options", "ALLOW");
+			sdkController.paytmSuccess(req, transactionData, function () {
+				res.sendFile(urls.pplHome, { root: __dirname });
+			});
+		}
+		else {
+			sdkController.paytmFailure(req, transactionData, function () {
+				res.sendFile(urls.pplHome, { root: __dirname });
+			});
+		}
+	});
+});
+
 app.post(config.base + '/addsodexo', function (req, res) {
 	var inpObj = req.body;
 

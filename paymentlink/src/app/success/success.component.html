@@ -11,7 +11,7 @@
                 <span class="regNrmS-1B1BN alignMidBN" style="font-size: 25pt!important;">&nbsp;&nbsp;₹ {{pay.amount | number : '1.2-2'}}</span>
             </div>
         </div>
-        <div class="row" *ngIf="mtype != 2">
+        <div class="row" *ngIf="mtype != 2 && purchaseAmount">
             <div class="valign-wrapper">
                 <span class="col s12 center errNrmS5B1BN linkButtonBN" (click)="breakdown()">
                 <span class="alignMidBN"> ({{'Breakdown' | translate}})</span><i 

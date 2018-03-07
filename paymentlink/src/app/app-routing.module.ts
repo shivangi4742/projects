@@ -10,6 +10,8 @@ import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { RazorpayComponent } from './razorpay/razorpay.component';
+import { PaytmrequestComponent } from "./paytmrequest/paytmrequest.component";
+import { PaytmresponseComponent } from "./paytmresponse/paytmresponse.component";
 
 const routes: Routes = [
     { path: 'notfound', component: NotfoundComponent },
@@ -32,6 +34,10 @@ const routes: Routes = [
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: 'razorpay/:id', component: RazorpayComponent },
     { path: 'razorpay/:id/:prods/:txnid', component: RazorpayComponent },
+    { path: 'paytmrequest', component: PaytmrequestComponent },
+    { path: 'paytmrequest/:id', component: PaytmrequestComponent },
+    { path: 'paytmresponse', component: PaytmresponseComponent },
+    { path: 'paytmresponse/:id/:txnid', component: SuccessComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
 ];
 

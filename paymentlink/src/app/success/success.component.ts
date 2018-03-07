@@ -32,7 +32,7 @@ export class SuccessComponent implements OnInit {
   sdk: SDK;
 
   constructor(private route: ActivatedRoute, private sdkService: SDKService, private productService: ProductService, private userService: UserService, private transactionService: TransactionService, private campaignService: CampaignService,
-              private utilsService: UtilsService, private fileService: FileService) { }
+    private utilsService: UtilsService, private fileService: FileService, private router: Router) { }
 
   ngOnInit() {
 
@@ -43,7 +43,7 @@ export class SuccessComponent implements OnInit {
       .then(res => this.init(res));
 
 
-    if(this.pay && this.pay.amount > 0) {
+    if (this.pay && this.pay.amount > 0) {
       this.products = this.pay.products;
       this.loaded = true;
       this.mtype = this.pay.mtype;
@@ -66,17 +66,46 @@ export class SuccessComponent implements OnInit {
 
   init(res: any) {
     this.sdk = res;
-     if((window as any).fbq) {
-      (window as any).fbq('track', 'Purchase', {value: '0.00', currency: 'USD'});
-     }
-   this.mtype = this.sdk.mtype;
+    if ((window as any).fbq) {
+      (window as any).fbq('track', 'Purchase', { value: '0.00', currency: 'USD' });
+    }
+    this.mtype = this.sdk.mtype;
 
-    this.campaignService.fetchMerchantDetails(this.sdk.email, this.sdk.merchantId)
-      .then(tres => this.fillMerchant(tres));
+    this.sdkService.getTransactionStatus(this.sdk.merchantCode, this.txnid)
+      .then(res => this.checkTransactionStatus(res));
 
   }
 
-  fillMerchant(res: Merchant){
+  checkTransactionStatus(rest: any) {
+
+    var me = this;
+
+    if (rest && rest.length > 0) {
+      let res: any = rest[0];
+      if (res && res.txnId == this.txnid && res.paymentStatus) {
+        if (res.paymentStatus.trim().toUpperCase() == 'PAID') {
+          me.fetchMerchantDetails();
+        }
+        else {
+          this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnid);
+        }
+      }
+      else {
+        this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnid);
+      }
+    }
+    else {
+      this.router.navigateByUrl('/paymentfailure/' + this.id + '/' + this.txnid);
+    }
+
+  }
+
+  fetchMerchantDetails(): void {
+    this.campaignService.fetchMerchantDetails(this.sdk.email, this.sdk.merchantId)
+      .then(tres => this.fillMerchant(tres));
+  }
+
+  fillMerchant(res: Merchant) {
     this.merchantmodel = res;
     this.userService.getMerchantDetails(this.sdk.merchantCode)
       .then(res2 => this.merchantmodel.auto80GEnabled = res2.auto80gEnabled);
@@ -88,7 +117,7 @@ export class SuccessComponent implements OnInit {
   prepareMail(res: any) {
     let dets: PrintPayment = res;
 
-    if(this.mtype == 2) {
+    if (this.mtype == 2) {
       this.buyerMailContent = '<html> ' +
         '<head> ' +
         '  <style> ' +
@@ -159,7 +188,7 @@ export class SuccessComponent implements OnInit {
         '    </div> ' +
         '    <div class="title"> ' +
         '      Your donation is successful.<br> ' +
-        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully donated. ' +
+        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>' + dets.amount + ' successfully donated. ' +
         '    </div> ' +
         '    <div class="heading"> ' +
         '      Donation Details ' +
@@ -168,23 +197,23 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Name</td> ' +
-        '          <td>'+this.merchantmodel.business+'</td> ' +
+        '          <td>' + this.merchantmodel.business + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Number</td> ' +
-        '          <td>'+this.merchantmodel.mobileNumber+'</td> ' +
+        '          <td>' + this.merchantmodel.mobileNumber + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Email</td> ' +
-        '          <td>'+this.merchantmodel.userId+'</td> ' +
+        '          <td>' + this.merchantmodel.userId + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +
-        '          <td>'+dets.transactionid+'</td> ' +
+        '          <td>' + dets.transactionid + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Amount</td> ' +
-        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>' + dets.amount + '</td> ' +
         '        </tr> ' +
         '      </table> ' +
         '    </div> ' +
@@ -199,7 +228,7 @@ export class SuccessComponent implements OnInit {
         '</body> ' +
         '</html> ';
     }
-    else{
+    else {
       this.buyerMailContent = '<html> ' +
         '<head> ' +
         '  <style> ' +
@@ -270,7 +299,7 @@ export class SuccessComponent implements OnInit {
         '    </div> ' +
         '    <div class="title"> ' +
         '      Your payment is successful.<br> ' +
-        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully paid. ' +
+        '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>' + dets.amount + ' successfully paid. ' +
         '    </div> ' +
         '    <div class="heading"> ' +
         '      Payment Details ' +
@@ -279,23 +308,23 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Name</td> ' +
-        '          <td>'+this.merchantmodel.business+'</td> ' +
+        '          <td>' + this.merchantmodel.business + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Number</td> ' +
-        '          <td>'+this.merchantmodel.mobileNumber+'</td> ' +
+        '          <td>' + this.merchantmodel.mobileNumber + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Merchant Email</td> ' +
-        '          <td>'+this.merchantmodel.userId+'</td> ' +
+        '          <td>' + this.merchantmodel.userId + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +
-        '          <td>'+dets.transactionid+'</td> ' +
+        '          <td>' + dets.transactionid + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Amount</td> ' +
-        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>' + dets.amount + '</td> ' +
         '        </tr> ' +
         '      </table> ' +
         '    </div> ' +
@@ -380,7 +409,7 @@ export class SuccessComponent implements OnInit {
         '    </div> ' +
         '    <div class="title"> ' +
         '      Payment Received.<br> ' +
-        '      <img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>'+dets.amount+' successfully received. ' +
+        '      <img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>' + dets.amount + ' successfully received. ' +
         '    </div> ' +
         '    <div class="heading"> ' +
         '      Payment Details ' +
@@ -389,27 +418,27 @@ export class SuccessComponent implements OnInit {
         '      <table> ' +
         '        <tr> ' +
         '          <td class="columnnames">Amount</td> ' +
-        '          <td><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>'+dets.amount+'</td> ' +
+        '          <td><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>' + dets.amount + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Payment ID</td> ' +
-        '          <td>'+dets.transactionid+'</td> ' +
+        '          <td>' + dets.transactionid + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Name</td> ' +
-        '          <td>'+dets.name+'</td> ' +
+        '          <td>' + dets.name + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Mobile Number</td> ' +
-        '          <td>'+dets.phone+'</td> ' +
+        '          <td>' + dets.phone + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Email</td> ' +
-        '          <td class="data">'+dets.email+'</td> ' +
+        '          <td class="data">' + dets.email + '</td> ' +
         '        </tr> ' +
         '        <tr> ' +
         '          <td class="columnnames">Address</td> ' +
-        '          <td class="data">'+dets.address+'</td> ' +
+        '          <td class="data">' + dets.address + '</td> ' +
         '        </tr> ' +
         '      </table> ' +
         '    </div> ' +
@@ -428,14 +457,14 @@ export class SuccessComponent implements OnInit {
 
   checkDetails(res: any) {
     let dets = res.printTxns;
-    if(dets.email == null){
+    if (dets.email == null) {
       this.isEmailAvailable = false;
     }
-    else{
+    else {
       this.isEmailAvailable = true;
       this.prepareMail(dets);
 
-      if(this.mtype == 2) {
+      if (this.mtype == 2) {
       }
       else {
         this.campaignService.sendEmail(dets.email, this.buyerMailContent, 'Paid Successfully', '')
@@ -446,14 +475,14 @@ export class SuccessComponent implements OnInit {
     }
   }
 
-  success(res: any, me: any){
+  success(res: any, me: any) {
   }
 
   assignSDKDetails(res: SDK) {
-    if(res && res.id) {
+    if (res && res.id) {
       this.mtype = res.merchantType;
       this.pay.title = res.businessName;
-      if(res.chargeConvenienceFee) {
+      if (res.chargeConvenienceFee) {
         this.purchaseAmount = Math.round(this.pay.amount * 100) / 100;
         this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100) / 100;
         this.convFee = this.pay.amount - this.purchaseAmount;
@@ -476,7 +505,7 @@ export class SuccessComponent implements OnInit {
   }
 
   fillMerchantTransaction(res: any) {
-    if(res && res.length > 0 && res[0].paymentStatus && res[0].paymentStatus.trim().toUpperCase() == 'PAID')
+    if (res && res.length > 0 && res[0].paymentStatus && res[0].paymentStatus.trim().toUpperCase() == 'PAID')
       this.pay.amount = res[0].amount;
 
     this.loaded = true;
@@ -487,11 +516,11 @@ export class SuccessComponent implements OnInit {
   }
 
   fillProducts(res: Array<Product>) {
-    if(res && res.length > 0) {
+    if (res && res.length > 0) {
       let total: number = 0;
       this.products = res;
       this.hasProducts = true;
-      for(let i: number = 0; i < this.products.length; i++)
+      for (let i: number = 0; i < this.products.length; i++)
         total += this.products[i].qty * this.products[i].price;
 
       this.pay = {

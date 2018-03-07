@@ -13,6 +13,7 @@ import { User } from './../models/user.model';
 import { Product } from './../models/product.model';
 import { Fundraiser } from './../models/fundraiser.model';
 import { PayRequest } from './../models/payrequest.model';
+import { PaytmRequestModel } from "./../models/paytmrequest.model";
 
 import { UtilsService } from './utils.service';
 
@@ -25,6 +26,7 @@ export class SDKService {
     private _lastBill: PayRequest;
     private _paySuccess: any;
     private _payFailure: any;
+    private _paytmRequestModel: PaytmRequestModel;
     private _urls: any = {
         get80GURL: 'sdk/get80G',
         send80GURL: 'sdk/send80G',
@@ -40,7 +42,9 @@ export class SDKService {
         createPaymentLinkURL: 'sdk/createPaymentLink',
         saveCashPaymentSuccessURL: 'sdk/saveCashPaymentSuccess',
         razorpayCapturePayment: 'sdk/razorpayCapturePayment',
-        razorpayConfirmPayment: 'sdk/razorpayConfirmPayment'
+        razorpayConfirmPayment: 'sdk/razorpayConfirmPayment',
+        getMerchantPaymentInfo: 'sdk/getMerchantPaymentInfo',
+        getPaytmChecksum: 'sdk/getPaytmChecksum'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -167,12 +171,12 @@ export class SDKService {
                 expiryDate = this.formatDTMT(dt.getDate().toString()) + '-' + this.formatDTMT((dt.getMonth() + 1).toString()) + '-' + dt.getFullYear();
             }
 
-            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail, 
-                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0, 
+            this._sdk = new SDK(res.employeeId, res.askempid, res.mndempid, res.companyName, res.askcompname, res.mndcompname, res.askmob, res.askadd, res.mndmob, res.mndpan, res.panaccepted, res.mndname, res.askname, res.askemail, res.mndemail,
+                res.mndaddress, false, false, false, res.askresidence, false, false, res.prodMultiselect, false, mtype, res.invoiceAmount, 0, 0,
                 res.minpanamnt, mtype, res.totalbudget, res.id, '', res.surl ? res.surl : '', res.furl ? res.furl : '', '',
-                (mtype == 1) ? res.mobileNumber : '', ttl, 
+                (mtype == 1) ? res.mobileNumber : '', ttl,
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
-                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null, 
+                res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null,
                 null, null, null, null, null, modes, null, null, convFee);
         }
         else if (res.logFormate) {
@@ -430,4 +434,72 @@ export class SDKService {
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
     }
+
+    getMerchantPaymentInfo(merchantCode: string, paymentMethodType: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getMerchantPaymentInfo,
+            JSON.stringify({
+                "merchantCode": merchantCode,
+                "paymentMethodType": paymentMethodType
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
+    setPaytmRequest(paytm: PaytmRequestModel): void {
+        this._paytmRequestModel = paytm;
+    }
+
+    getPaytmRequestModel(): PaytmRequestModel {
+        return this._paytmRequestModel;
+    }
+
+    getPaytmChecksum(reqObj: PaytmRequestModel, paymentMethod: string): Promise<any> {
+
+        var data = {
+            "requestType": reqObj.requestType,
+            "orderId": reqObj.orderId,
+            "custId": reqObj.customerId,
+            "amount": reqObj.amount,
+            "channelId": reqObj.channelId,
+            "industryTypeId": reqObj.industryTypeId,
+            "website": reqObj.website,
+            "mobileNumber": reqObj.mobileNo,
+            "email": reqObj.email,
+            "paymentModeOnly": reqObj.paymentModeOnly,
+            "authMode": reqObj.authMode,
+            "paymentTypeId": reqObj.paymentTypeId,
+            "cardType": reqObj.cardType,
+            "bankCode": reqObj.bankCode,
+            "promoCampId": reqObj.promoCampId,
+            "orderDetails": reqObj.orderDetails,
+            "dob": reqObj.dob,
+            "verifiedBy": reqObj.verifiedBy,
+            "isUserVerified": reqObj.isUserVerified,
+            "address1": reqObj.address1,
+            "address2": reqObj.address2,
+            "city": reqObj.city,
+            "state": reqObj.state,
+            "pinCode": reqObj.pincode,
+            "loginTheme": reqObj.loginTheme,
+            "callbackURL": reqObj.callbackUrl,
+            "theme": reqObj.theme,
+            "mId": reqObj.mid,
+            "paymentMethod": paymentMethod
+        };
+
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getPaytmChecksum,
+            JSON.stringify({
+                "data": data
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+
+    }
+
 }

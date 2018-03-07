@@ -21,6 +21,8 @@ import { PgComponent } from './pg/pg.component';
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { RazorpayComponent } from './razorpay/razorpay.component';
+import { PaytmrequestComponent } from './paytmrequest/paytmrequest.component';
+import { PaytmresponseComponent } from './paytmresponse/paytmresponse.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
@@ -35,7 +37,9 @@ export function HttpFactory(http: Http) {
     PgComponent,
     SuccessComponent,
     FailureComponent,
-    RazorpayComponent
+    RazorpayComponent,
+    PaytmrequestComponent,
+    PaytmresponseComponent
   ],
   imports: [
     HttpModule,

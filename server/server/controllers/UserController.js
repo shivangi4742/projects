@@ -203,7 +203,6 @@ var userCont = {
     },
 
     getCustomerList: function (req, res) {
-        console.log('herelist')
         this.getCustomerListPost(req, function (data) {
             res.setHeader("X-Frame-Options", "DENY");
             res.json(data);
@@ -497,7 +496,6 @@ var userCont = {
             }
             else {
                 var d = req.body;
-                console.log(d);
                 if (d && d.id) {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/markSelfMerchantVerified', 'POST', req.headers),
                         {

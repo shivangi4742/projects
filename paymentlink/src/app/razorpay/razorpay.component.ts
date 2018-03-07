@@ -22,6 +22,7 @@ export class RazorpayComponent implements OnInit {
   pg: PG;
   pay: SDK;
   prods: string;
+  rzKey: string;
   // resdata: ResData;
   razorPayWebRequestUrl: string;
   // isData: boolean;
@@ -113,10 +114,19 @@ export class RazorpayComponent implements OnInit {
   init(res: SDK) {
     if (res) {
       this.rzModel = new RazorPayModel(res.amount, res.title, res.description, res.firstName, res.lastName, res.email);
-      this.options = this.getPaymentRequest();
-      if (this.options) {
-        this.initRazorPay();
-      }
+      this.sdkService.getMerchantPaymentInfo(res.merchantCode, 'RAZORPAY')
+        .then(res => this.processPaymentReq(res));
+
+    }
+  }
+
+  processPaymentReq(res: any) {
+
+    this.rzKey = res.merchantKey;
+
+    this.options = this.getPaymentRequest();
+    if (this.options) {
+      this.initRazorPay();
     }
     else
       this.router.navigateByUrl('/notfound');
@@ -130,14 +140,13 @@ export class RazorpayComponent implements OnInit {
   getPaymentRequest(): any {
     var me = this;
     var options = {
-      "key": this.utilsService.getRazorPayKey(),
+      "key": this.rzKey,
       "amount": this.rzModel.amount * 100,
       "name": this.rzModel.title,
       "description": this.rzModel.description,
       "image": this.pay.imageURL,
       "handler": function (response) {
         me.sdkService.setReceivedPaymentSubject(response);
-
       },
       "prefill": {
         "name": this.rzModel.firstName + " " + this.rzModel.lastName,

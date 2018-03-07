@@ -5,8 +5,11 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status,
-  SocketService } from 'benowservices';
+import {
+  RazorPayModel, SDK, SDKService, UtilsService, Product, ProductService, User, PayRequest, PG, Fundraiser, Status,
+  SocketService
+} from 'benowservices';
+import { PaytmRequestModel } from 'benowservices/models/paytmrequest.model';
 
 @Component({
   selector: 'pay',
@@ -71,15 +74,15 @@ export class PayComponent implements OnInit {
   collapsibleActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
-    private productService: ProductService, private sanitizer: DomSanitizer, private socketService: SocketService) { 
+    private productService: ProductService, private sanitizer: DomSanitizer, private socketService: SocketService) {
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));
   }
 
   receivedPayment(res: any) {
-    if (res && res.data && res.out == true) {      
+    if (res && res.data && res.out == true) {
       this.sdkService.setPaySuccess({
-        "amount": res.data.amount, "title": this.pay.businessName, "mode": 0, "txnid": res.data.id, "merchantCode": res.data.merchantcode, 
+        "amount": res.data.amount, "title": this.pay.businessName, "mode": 0, "txnid": res.data.id, "merchantCode": res.data.merchantcode,
         "payer": res.data.vpa, "transactionDate": res.data.dt, "products": this.pay.products, "mtype": this.pay.merchantType
       });
       if (this.pay.merchantType == 2) {
@@ -514,7 +517,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBillString(this.pay.amount, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null,null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null, null, null, null))
         .then(res => this.qRLinkShown(res, this.pay.amount));
     }
     else {
@@ -563,7 +566,7 @@ export class PayComponent implements OnInit {
   showQRLink() {
     this.putFocus = true;
     if (!this.qrlExpanded) {
-    if (this.validate(true))
+      if (this.validate(true))
         this.refreshUPIAmount();
     }
 
@@ -587,7 +590,7 @@ export class PayComponent implements OnInit {
       this.tr = this.pay.invoiceNumber;
       this.txnNo = out.transactionRef;
       this.sdkService.createBill(this.pay.amount, this.pay.merchantVpa, this.pay.til, this.txnNo,
-        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null,null, null, null))
+        new User(null, null, null, null, null, null, null, null, null, this.pay.mccCode, this.pay.merchantCode, null, this.pay.title, null, null, null, null, null, null, null))
         .then(res => this.qRShown(res));
     }
     else {
@@ -659,12 +662,87 @@ export class PayComponent implements OnInit {
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
-        .then(res => this.goToPG(res));
+        // .then(res => this.goToPG(res));
+        .then(res => this.checkForPG(res, mode));
+    }
+  }
+
+  /**
+   * This function will check for PG, if null then default is PAYU biz
+   * @author Hari
+   */
+  checkForPG(initPaymentRes: any, paymentMode: number) {
+    var paymentMethodType: string;
+
+    switch (paymentMode) {
+      case 1:
+        paymentMethodType = 'CREDIT_CARD';
+        break;
+      case 2:
+        paymentMethodType = 'DEBIT_CARD';
+        break;
+      case 3:
+        paymentMethodType = 'NET_BANKING';
+        break;
+      case 6:
+        paymentMethodType = 'RAZORPAY';
+        break;
+
+      default:
+        break;
+    }
+
+    this.sdkService.getMerchantPaymentInfo(this.pay.merchantCode, paymentMethodType)
+      .then(res => this.hasOtherPg(res, initPaymentRes, paymentMode));
+  }
+
+  hasOtherPg(res: any, initPaymentRes: any, paymentMode: number) {
+    if (res && res.paymentGateway) {
+      if (res.paymentGateway == 'PAYTM') {
+
+        var callbackUrl = this.utilsService.getBaseURL() + 'ppl/paytmresponse/' + this.id + '/' + initPaymentRes.transactionRef;
+        // var callbackUrl = 'http://localhost:9090/' + 'ppl/paytmresponse/' + this.id + '/' + initPaymentRes.transactionRef;
+        var paymentModeOnly = '';
+        var authMode = '';
+
+        if (paymentMode == 1) {
+          paymentModeOnly = 'CC';
+          authMode = '3D';
+        }
+        else if (paymentMode == 2) {
+          paymentModeOnly = 'DC';
+          authMode = '3D';
+        }
+        else if (paymentMode == 3) {
+          paymentModeOnly = 'NB';
+          authMode = 'USRPWD';
+        }
+
+        this.sdkService.setPaytmRequest(new PaytmRequestModel(
+          'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
+          1, 'WEB', 'Retail', 'WEB_STAGING', '', 8291389666, 'hari@benow.in',
+          'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
+          '', '', callbackUrl, ''
+        ));
+        this.router.navigateByUrl('/paytmrequest/' + this.id);
+      }
+      else if (res.paymentGateway == 'RAZORPAY') {
+        this.goToPG(initPaymentRes);
+      }
+      else {
+        this.goToPG(initPaymentRes);
+      }
+    }
+    else {
+      this.goToPG(initPaymentRes);
     }
   }
 
   goToPG(res: any) {
-    if (res && res.transactionRef) {
+    if (res && res.pgtype && res.pgtype.length > 0) {
+
+    }
+    else if (res && res.transactionRef) {
       if (this.name) {
         let sp = this.name.trim().split(' ');
         if (sp && sp.length > 0)
