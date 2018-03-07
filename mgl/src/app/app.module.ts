@@ -23,6 +23,8 @@ import { SuccessmglComponent } from './successmgl/successmgl.component';
 import { FailuremglComponent } from './failuremgl/failuremgl.component';
 import { MglpaymentComponent } from './mglpayment/mglpayment.component';
 import { SuccesstestComponent } from './successtest/successtest.component';
+import { MgltopnavComponent } from './mgltopnav/mgltopnav.component';
+import { BhimupiinfoComponent } from './bhimupiinfo/bhimupiinfo.component';
 
 
 export function HttpFactory(http: Http) {
@@ -37,7 +39,9 @@ export function HttpFactory(http: Http) {
     SuccessmglComponent,
     FailuremglComponent,
     MglpaymentComponent,
-    SuccesstestComponent 
+    SuccesstestComponent,
+    MgltopnavComponent,
+    BhimupiinfoComponent 
 
   ],
   imports: [

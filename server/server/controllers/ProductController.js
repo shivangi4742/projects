@@ -8,6 +8,13 @@ var prodCont = {
         }); 
     },
 
+    addProductHB: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.addProductHBPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
     editProduct: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.editProductPost(req, function (data) {
@@ -101,6 +108,43 @@ var prodCont = {
                     helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/deleteBenowProduct', 'POST', req.headers),
                         {	
                             "id": d.id
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    addProductHBPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.merchantCode && d.price && d.name)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveBenowProduct', 'POST', req.headers),
+                        {
+                            "merchantCode": d.merchantCode,
+                            "prodPrice": d.price,
+                            "prodDescription": d.description,
+                            "prodImgUrls": d.imageURLs,
+                            "prodName": d.name,
+                            "uom": d.uom,
+                            "benowProductVariants": d.variants,
+                            "productType": d.productType,
+                            "isAvailable": d.isAvailable,
+                            "startDate": d.startDate,
+                            "endDate": d.endDate,
+                            "fileUrl": d.fileUrl,
+                            "venue": d.venue
                         }, cb);
                 else
                     cb(retErr);
@@ -238,6 +282,6 @@ var prodCont = {
             cb(retErr);
         }
     }
-}
+};
 
 module.exports = prodCont;

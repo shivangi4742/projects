@@ -15,16 +15,16 @@
     <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
     </a>
-    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+    <a width="59" height="20" class="linkButtonBN"  (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
       <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
       />
     </a>
     <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
-      title="Twitter Tweet Button">
+      title="Twitter Tweet Button" (click)="twitterbutton()">
       <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
     </a>
     <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
-      title="Twitter Tweet Button">
+      title="Twitter Tweet Button" (click)="twitterbutton()">
       <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
     </a>
     <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" data-text="" data-href=""
@@ -99,9 +99,10 @@
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
                   
                         <span class="alignMidBN">{{p.discription}}</span>
-            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
+           <span (click)="share(p.url)"> <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
               <i class="material-icons right ">share</i>
             </a>
+           </span>
             <span class="mrgNBN right"> ₹ {{p.amount}}</span>
             </span>
           </div>
@@ -111,13 +112,14 @@
                 <img src="../../assets/newbiz/imgs/payment link default.png" alt="">
               </div>
               <div class="col s12 m10 l10" *ngIf="p.url">
+                <input id="url" style="display: none" value="p.url">
                 <div class="row valign-wrapper paddBottomBN">
-                  <div class="col s8 m8 l8">
+                  <div class="col s6 m8 l8">
                     {{'Payment Links' | translate}}<br>
                   </div>
-                  <div class="col s4 m4 l4 ">
+                  <div class="col s6 m4 l4 ">
                     <div class="show-on-small hide-on-large-only">
-                     <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS3BN">
+                     <a [href]="p.url" target="_blank" class="previewBN linkButtonBN regNrmS5BN">
                         <i class="material-icons alignMidBN">visibility</i> {{'Preview'| translate}}
                      </a>
                     </div>
@@ -156,13 +158,13 @@
               </div>
             </div>
             <div class="row red redBN">
-              <div class="col s6 m4 l4 left">
-                <span (click)="expirelink(p.id)" class="linkButtonBN">
+              <div class="col s6 m6 l6 ">
+                <span (click)="expirelink(p.id)" class="linkButtonBN leftBN">
                 <i class="material-icons alignMidBN bordrBN">close</i> {{'Expire Link' | translate}}
                 </span>
               </div>
-              <div class="col s6 m8 l8 right" >
-                <span class="right" (click)="seesales()" class="linkButtonBN">
+              <div class="col s6 m6 l6 " >
+                <span class="right" (click)="seesales()" class="linkButtonBN rightBN">
                     <i class="material-icons alignMidBN">show_chart</i> {{'See Sales' | translate}} 
                     </span>
               </div>
@@ -183,9 +185,10 @@
             <span class="linkButtonBN col s12 campNameBN regNrmS6BN">
                   
                         <span class="alignMidBN">{{p.discription}}</span>
-            <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
+           <span (click)="share(p.url)"> <a materialize="dropdown" class="dropdown-button topNavMenuBN accBtnBN" data-activates="account1" data-beloworigin="true">
               <i class="material-icons right ">share</i>
             </a>
+           </span>
             <span class="mrgNBN right"> ₹ {{p.amount}}</span>
             </span>
           </div>
@@ -241,12 +244,14 @@
                 </div>
               </div>
             </div>
-            <div class="row red redBN">
-              <div class="col s6 m4 l4 left">
+           <div class="row red redBN">
+              <div class="col s6 m6 l6 ">
+                <span (click)="expirelink(p.id)" class="linkButtonBN leftBN">
                 <i class="material-icons alignMidBN bordrBN">close</i> {{'Expire Link' | translate}}
+                </span>
               </div>
-              <div class="col s6 m8 l8 right">
-                <span class="right">
+              <div class="col s6 m6 l6 " >
+                <span class="right" (click)="seesales()" class="linkButtonBN rightBN">
                     <i class="material-icons alignMidBN">show_chart</i> {{'See Sales' | translate}} 
                     </span>
               </div>

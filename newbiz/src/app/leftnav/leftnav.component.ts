@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { LocationService } from 'benowservices';
+import { LocationService, CampaignService } from 'benowservices';
 
 @Component({
   selector: 'leftnav',
@@ -14,7 +14,8 @@ export class LeftnavComponent implements OnInit {
   subscription: Subscription;
   location: string = 'dashboard';
 
-  constructor(private router: Router, private route: ActivatedRoute, private locationService: LocationService) {
+  constructor(private router: Router, private route: ActivatedRoute, private locationService: LocationService, 
+    private campaignService: CampaignService) {
     let me: any = this; 
     this.subscription = this.locationService.locationChanged().subscribe(message => me.location = message);    
   }
@@ -23,8 +24,12 @@ export class LeftnavComponent implements OnInit {
   }
 
   goto(path: string) {
-    if(this.location != path)
+    if(this.location != path) {
+      if(path == 'createcampaign')
+        this.campaignService.setCurrCampaign(null);
+
       this.router.navigateByUrl('/' + path);
+    }
   }
 
 }

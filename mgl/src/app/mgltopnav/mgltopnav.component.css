@@ -1,0 +1,30 @@
+.loginHeaderBN {
+    padding: 10px!important;
+    background-color:#00c038;
+    height: 7   0px; 
+}
+
+.smallLogoBN {
+    padding-top: 10px;
+    float: left;
+    margin-left: 50px;
+    margin-bottom: -56px;
+    position: relative;
+}
+.titleHead {
+    padding-top: 10px;
+    padding-left: 20px;
+    color: white;
+    text-align: left;
+    margin-left: 150px;
+    
+}
+.titleFont{
+    font-family: 'Arial-Regular';
+    font-weight: 600;
+    font-size: 14pt!important;
+}
+.uline{
+    background-color:#006ec3;
+    height: 20px;   
+}

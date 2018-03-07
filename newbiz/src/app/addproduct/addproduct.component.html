@@ -1,6 +1,7 @@
 <div materialize>
   <div class="row"></div>
   <div class="row mainBodyBN">
+    <form materialize (ngSubmit)="onSubmit()" #prodForm="ngForm">
     <div class="col s12 noLeftPaddingBN">
       <a class="linkButtonBN dashboardRedirectBN" [routerLink]="dashboard">
         <i class="material-icons alignMidBN">arrow_back</i>
@@ -8,31 +9,278 @@
       </a>
     </div>
     <div class="row"></div>
-    <div *ngIf="!isTypeSelected" class="col s12 hide-on-small-only">
-      <a class="linkButtonBN" (click)="selectProdType('Physical')">
-        Physical
-      </a>
-    </div>
-    <div *ngIf="!isTypeSelected" class="col s12 hide-on-med-and-up">
-      <a class="linkButtonBN" (click)="selectProdType('Event')">
-        Event
-      </a>
-    </div>
-    <div *ngIf="isTypeSelected" class="col s12">
-      {{selectedProdType}} type is Selected!!
-    </div>
-    <div *ngIf="isTypeSelected" class="row busDetails detailBodyBN">
-      <div class="col s6 m6 l6 regNrmS5B2BN">
-        <input id="test1" name="gst" type="radio" class="with-gap"  />
-        <label for="test1">{{'Yes' | translate}}</label>
-
+    <div class="row busDetails detailBodyBN">
+      <div class="col s6 m3 l3 regNrmS5B2BN">
+        <input id="clothProd" name="prodType" type="radio" class="with-gap" checked="checked" (click)="selectProdType('Clothing')" />
+        <label for="clothProd">{{'Clothing' | translate}}</label>
       </div>
-      <div class="col s6 m6 l6 regNrmS5B2BN">
-        <input id="test2" name="gst" type="radio" class="with-gap" />
-        <label for="test2">{{'No' | translate}}</label>
-
+      <div class="col s6 m3 l3 regNrmS5B2BN">
+        <input id="foodProd" name="prodType" type="radio" class="with-gap" (click)="selectProdType('FoodAndBeverages')" />
+        <label for="foodProd">{{'F&B' | translate}}</label>
       </div>
-
+      <div class="col s6 m3 l3 regNrmS5B2BN" *ngIf="false">
+        <input id="eventProd" name="prodType" type="radio" class="with-gap" (click)="selectProdType('Digital')" />
+        <label for="eventProd">{{'Digital' | translate}}</label>
+      </div>
+      <div class="col s6 m3 l3 regNrmS5B2BN">
+        <input id="digiProd" name="prodType" type="radio" class="with-gap" (click)="selectProdType('Event')" />
+        <label for="digiProd">{{'Event/Workshop' | translate}}</label>
+      </div>
+      <div class="col s6 m3 l3 regNrmS5B2BN">
+        <input id="otherProd" name="prodType" type="radio" class="with-gap" (click)="selectProdType('Other')" />
+        <label for="otherProd">{{'Other' | translate}}</label>
+      </div>
     </div>
+    <div class="row"></div>
+    <div *ngIf="newProduct.productType == 'Clothing'" class="col s12">
+      <div class="col s12 typeBN">
+        {{'Clothing' | translate}}
+      </div>
+      <div class="row"></div>
+      <div class="row">
+        <div class="col s4">
+          <div class="col s12 file-field input-field">
+            <img *ngIf="!uploaded" src="../../assets/shared/images/add-image.png" class="responsive-img" style="margin-top: 10px;">
+            <img *ngIf="uploaded && imageURLs.length > 0" class="responsive-img" src={{uploadsURL}}{{imageUrls[0]}} style="margin-top: 10px;">
+            <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadImg" type="file"
+                   (change)="fileChange($event)" [disabled]="imageUrls && imageUrls[0]">
+          </div>
+          <div class="col s4 file-field input-field">
+            <img *ngIf="!uploaded" src="../../assets/shared/images/add-image.png" class="responsive-img" style="margin-top: 10px;">
+          </div>
+          <div class="col s4 file-field input-field">
+            <img *ngIf="!uploaded" src="../../assets/shared/images/add-image.png" class="responsive-img" style="margin-top: 10px;">
+          </div>
+          <div class="col s4 file-field input-field">
+            <img *ngIf="!uploaded" src="../../assets/shared/images/add-image.png" class="responsive-img" style="margin-top: 10px;">
+          </div>
+        </div>
+        <div class="col s8">
+          <div class="input-field col s12">
+            <input id="pTitle" name="pTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="30"
+                   placeholder="{{'Enter the name of your Product' | translate}}" required />
+            <label for="pTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="pDescription" name="pDescription" type="text" [(ngModel)]="newProduct.description" class="validate inputTextBN"
+                   placeholder="{{'Mention important details about your product' | translate}}" />
+            <label for="pDescription" class ="active labelPLBN">{{'Product Description (Optional)' | translate}}</label>
+          </div>
+          <div class="col s12 inputLabelBN">
+            {{'Color (Optional)' | translate}}
+          </div>
+          <div class="col s12">
+            <div class="chips" materialize="material_chip" [materializeParams]="[colorChip]" (chip.add)="add($event.detail)">
+
+            </div>
+          </div>
+          <div class="col s12 inputLabelBN">
+            {{'Size (Optional)' | translate}}
+          </div>
+          <div class="col s12">
+            <div class="chips " materialize="material_chip" [materializeParams]="[sizeChip]">
+
+            </div>
+          </div>
+        </div>
+        <div class="input-field col s3">
+          <input id="pPrice" name="pPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
+                 placeholder="{{'Product Price' | translate}}" min="0" (keyup)="calculateDiscount()" required />
+          <label for="pPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
+        </div>
+        <div class="input-field col s5">
+          <input id="pDiscount" name="pDiscount" type="number" [(ngModel)]="newProduct.discount" class="validate inputTextBN"
+                 placeholder="{{'Offer discount to your customers' | translate}}" min="0" max="100" (keyup)="calculateDiscount()" />
+          <label for="pDiscount" class ="active labelPLBN">{{'Discount(%)' | translate}}</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="pDiscountPrice" name="pDiscountPrice" type="number" [(ngModel)]="newProduct.originalPrice" class="validate inputTextBN"
+                 placeholder="{{'Discounted price of the product' | translate}}" disabled />
+          <label for="pDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+        </div>
+        <div class="row">
+          <div *ngIf="!newProduct.hasVariants" class="col s12 center">
+            <span class="">{{'Have more variants? Add here' | translate}}</span>
+            <span class="variantBN linkButtonBN" (click)="updateVariants()">
+              {{'Add Variant' | translate}}
+            </span>
+          </div>
+          <div *ngIf="newProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
+          <div *ngIf="newProduct.hasVariants" class="col s12 center">{{'Variants' | translate}}</div>
+        </div>
+        <div *ngIf="newProduct.hasVariants" class="">
+          <ul class="col s12 listPLBN collapsible" data-collapsible="expandable" materialize="collapsible" [materializeActions]="variantDec">
+            <li *ngFor="let v of variants; let i = index;" class="col s6 test">
+              <div class="collapsible-header">
+                {{'Variant ' | translate}}{{i+1}}<br>
+                <a class="linkButtonBN" (click)="deleteVariant(v.id)">Delete Variant</a>
+              </div>
+              <div class="collapsible-body">
+                <div class="row">
+                  <div class="input-field col s8">
+                    <input id="vColor" name="vColor" type="text" [(ngModel)]="v.color" class="validate inputTextBN"
+                           placeholder="{{'+Color' | translate}}"  />
+                    <label for="vColor" class ="active labelPLBN">{{'Variant Color' | translate}}</label>
+                  </div>
+                  <div class="input-field col s4">
+                    <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
+                           placeholder="{{'Enter the name of your Product' | translate}}"/>
+                    <label for="vPrice" class ="active labelPLBN">{{'Variant Price' | translate}}</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN"
+                           placeholder="{{'+Size' | translate}}"/>
+                    <label for="vSize" class ="active labelPLBN">{{'Variant Size' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <div *ngIf="newProduct.hasVariants" class="col s6">
+              <a class="linkButtonBN" (click)="addVariant()">Add Variant</a><br><br>
+
+            </div>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    <div *ngIf="false" class="col s12">
+      <div class="col s12 typeBN">
+        {{'Digital' | translate}}
+      </div>
+      <div class="row"></div>
+      <div class="col s7 dottedborderBN">
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="col s12 center"> Drag & Drop</div>
+        <div class="col s6 offset-s3 linkButtonBN btn waves-effect buttonBN center">Select File</div>
+      </div>
+      <div class="row"></div>
+      <div class="row">
+          <div class="input-field col s12">
+            <input id="dTitle" name="dTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="30"
+                   placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
+            <label for="dTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="dDescription" name="dDescription" type="text" [(ngModel)]="newProduct.description" class="validate inputTextBN"
+                   placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" required />
+            <label for="dDescription" class ="active labelPLBN">{{'Description*' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="dPrice" name="dPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
+                   placeholder="{{'Ticket Price' | translate}}" required />
+            <label for="dPrice" class ="active labelPLBN">{{'Price' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="dDiscount" name="dDiscount" type="number" [(ngModel)]="newProduct.discount" class="validate inputTextBN"
+                   placeholder="{{'Offer discount to your customers' | translate}}" required />
+            <label for="dDiscount" class ="active labelPLBN">{{'Discount(%)' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="dDiscountPrice" name="dDiscountPrice" type="text" [(ngModel)]="newProduct.originalPrice" class="validate inputTextBN"
+                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" required />
+            <label for="dDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+          </div>
+          <div class="row"></div>
+          <div class="col s6">
+            <div class="file-field input-field">
+              <img *ngIf="!uploaded" src="../../assets/shared/images/add-image.png" width="128px" height="128px" style="margin-top: 10px;">
+              <img *ngIf="uploaded" class="responsive-img" src={{uploadsURL}}{{imageUrl}} style="margin-top: 10px;">
+              <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadDigitalImg" type="file"
+                     (change)="fileChange($event)">
+            </div>
+          </div>
+      </div>
+    </div>
+    <div *ngIf="newProduct.productType == 'Event'" class="col s12">
+      <div class="col s12 typeBN">
+        {{'Events & Workshop' | translate}}
+      </div>
+      <div class="row"></div>
+      <div class="row">
+          <div class="input-field col s12">
+            <input id="eTitle" name="eTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="30"
+                   placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
+            <label for="eTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="eDescription" name="eDescription" type="text" [(ngModel)]="newProduct.description" class="validate inputTextBN"
+                   placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" />
+            <label for="eDescription" class ="active labelPLBN">{{'Description*' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="ePrice" name="ePrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
+                   placeholder="{{'Ticket Price' | translate}}" required />
+            <label for="ePrice" class ="active labelPLBN">{{'Price' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="eDiscount" name="eDiscount" type="number" [(ngModel)]="newProduct.discount" class="validate inputTextBN"
+                   placeholder="{{'Offer discount to your customers' | translate}}" />
+            <label for="eDiscount" class ="active labelPLBN">{{'Discount(%)' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="newProduct.originalPrice" class="validate inputTextBN"
+                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" disabled/>
+            <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+          </div>
+          <div class="input-field col s3">
+            <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate">
+            <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
+          </div>
+          <div class="input-field col s3">
+            <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate">
+            <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+          </div>
+          <div class="row"></div>
+          <div class="col s6">
+            {{'Product Image(Optional)' | translate}}<br>
+            <img src="../../assets/shared/images/add-image.png" width="128px" height="128px" style="margin-top: 10px;">
+          </div>
+      </div>
+    </div>
+    <div *ngIf="newProduct.productType == 'Other'" class="col s12">
+      <div class="col s12 typeBN">
+        {{'Other' | translate}}
+      </div>
+      <div class="row"></div>
+      <div class="row">
+          <div class="input-field col s12">
+            <input id="oTitle" name="oTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="30"
+                   placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
+            <label for="oTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="oDescription" name="oDescription" type="text" [(ngModel)]="newProduct.description" class="validate inputTextBN"
+                   placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" required />
+            <label for="oDescription" class ="active labelPLBN">{{'Description*' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="oPrice" name="oPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
+                   placeholder="{{'Ticket Price' | translate}}" required />
+            <label for="oPrice" class ="active labelPLBN">{{'Price' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="oDiscount" name="oDiscount" type="number" [(ngModel)]="newProduct.discount" class="validate inputTextBN"
+                   placeholder="{{'Offer discount to your customers' | translate}}" required />
+            <label for="oDiscount" class ="active labelPLBN">{{'Discount(%)' | translate}}</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="newProduct.originalPrice" class="validate inputTextBN"
+                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" disabled />
+            <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+          </div>
+      </div>
+    </div>
+      <div class="row"></div>
+      <div class="row valign-wrapper">
+        <div class="col s12 center">
+          <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="create"
+                  [disabled]="!prodForm.form.valid">{{'ADD TO STORE' | translate}}</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

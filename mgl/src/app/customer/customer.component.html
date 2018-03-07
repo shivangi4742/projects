@@ -1,40 +1,53 @@
 <main>
   <div class="row"></div>
   <div class="row">
-    <div class="col s1 m2 l4"></div>
-    <div class="col s10 m8 l4 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN">
-      <div class="row"></div>
+    <div class="col s1 m3 l3"></div>
+    <div class="col s10 m6 l6 regHdr1BN">
+      <h4>Online Bill Payment</h4>
+    </div>
+    <div class="col s1 m3 l3"></div>
+  </div>
+  <div class="row">
+    <div class="col s1 m2 l1"></div>
+    <div class="col s10 m8 l10 regHdr2BN">
+      <h4>Get ₹50 Cashback on this <img height="30" width="80" src="../../assets/mgl/images/upiw.png" /> &nbsp;transactions.</h4>
+    </div>
+    <div class="col s1 m2 l1"></div>
+  </div>
+  <div class="row">
+    <div class="col s1 m2 l1"></div>
+      <div class="col s10 m8 l10 regHdr3BN">
+        (Your Cashback will be credited within 15 days)
+      </div>
+      <div class="col s1 m2 l1"></div>
+  </div>
+  <div class="row">
+    <div class="col s1 m2 l2"></div>
+    <div class="col s10 m8 l8 z-depth-2 card-panel grey lighten-5 widgetBN loginLongBN">
       <div class="row"></div>
       <div class="row valign-wrapper">
-        <div class="col s3 m2">
-          <img src="../../assets/mgl/images/0.png" class="imags" name="">
-        </div>
-        <div align="center" class="col s8 m9 regHdrS2BN">Pay your Gas Bill and Get ₹50 Cashback</div>
-        <div class="col s1"></div>
       </div>
       <form (ngSubmit)="onSubmit()" #custoForm="ngForm">
         <div class="row">
           <div class="valign-wrapper">
             <div class="input-field col s12 m10 offset-m1">
-              <input id="Operator" name="Operator" type="text" class="validate regNrmS4BN clrBN" value="Mahanagar Gas- Mumbai" required disabled>
-              <label for="Operator" class="active proBN">Provider</label>
+              <input id="Operator" name="Operator" type="text" class="validate regNrmS4BN clrBN" value="Mahanagar Gas- Mumbai" required
+                disabled hidden>
             </div>
             <div class="col m1 hide-on-small-only"></div>
           </div>
-          
+          <div class="valign-wrapper">
+            <div class="input-field col s12 m10 offset-m1">
+              <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="validate regNrmS4BN "
+                maxlength="12" title="please enter a valid 12 digit consumer no." [(ngModel)]="CsmNo" required>
+              <label for="CsmNo">Customer Account Number(CA No.)</label>
+            </div>
+            <div class="col m1 hide-on-small-only"></div>
+          </div>
           <div class="valign-wrapper">
               <div class="input-field col s12 m10 offset-m1">
-                <input id="mobno" name="mobno" type="tel" 
-                  class="validate regNrmS4BN "  [(ngModel)]="mobno" required>
-                <label for="mobno">Enter Mobile Number*</label>
-              </div>
-              <div class="col m1 hide-on-small-only"></div>
-            </div>
-            <div class="valign-wrapper">
-              <div class="input-field col s12 m10 offset-m1">
-                <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
-                  class="validate regNrmS4BN " maxlength="12" title="please enter a valid 12 digit consumer no." [(ngModel)]="CsmNo" required>
-                <label for="CsmNo">Enter Consumer Number*</label>
+                <input id="mobno" name="mobno" type="tel" class="validate regNrmS4BN " [(ngModel)]="mobno" required>
+                <label for="mobno">Customer Mobile Number</label>
               </div>
               <div class="col m1 hide-on-small-only"></div>
             </div>
@@ -43,8 +56,8 @@
             <div class="col m1 hide-on-small-only"></div>
           </div>
           <div class="valign-wrapper" *ngIf="hasErro">
-            <div class="col s12 center m10 offset-m1 errNrmS5BN ccBN">{{erroMsg | translate}} 
-              <span>{{'Your previous Transaction Reference Number :'}} 
+            <div class="col s12 center m10 offset-m1 errNrmS5BN ccBN">{{erroMsg | translate}}
+              <span>{{'Your previous Transaction Reference Number :'}}
                 <b>{{tid}}</b>
               </span>
             </div>
@@ -54,30 +67,47 @@
         <div class="row">
           <div class="valign-wrapper">
             <div class="col s12 m10 offset-m1" align="center">
-              <button [disabled]=" hasAllRequiredFields()" class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit" 
-                name="Proceed">PROCEED TO PAY BILL</button>
+              <button [disabled]=" hasAllRequiredFields()" class="btn waves-effect waves-light green regNrmS2BN buttonBN" type="submit" name="Proceed">Continue</button>
             </div>
             <div class="col m1 hide-on-small-only"></div>
           </div>
         </div>
-        <div class="row">
-          <div class="valign-wrapper">
-            <div class="col offset-m1 m10 s12">
-              <span class="regHdrS6BN"> Powered by </span>
-              <span style="font-size: 30px;">
-                <br />
-              </span>
-              <img height="30" src="../../assets/mgl/images/safer.png" /> &nbsp;&nbsp;
-              <span class="colrgrey reNrmBn">and</span>    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <img height="30" src="../../assets/mgl/images/axis.png" />          
-            </div>
-            <div class="col m1 hide-on-med-and-down"></div>
-          </div>
-        </div>        
       </form>
-      
     </div>
-    <div class="col s1 m2 l4"></div>
+    <div class="col s1 m2 l2"></div>
   </div>
-  
+  <div class="row">
+      <div class="col s1 m4 l4"></div>
+      <div class="col s10 m4 l4 regHdr1BN">
+        <a (click)="openModelBhimUpi()">What is BHIM UPI ?</a>
+      </div>
+      <div class="col s1 m4 l4"></div>
+  </div>
+  <div class="row">
+      <div class="col s1 m2 l2"></div>
+    <div class="col s10 m8 l8 logoCon">
+      <img height="80" width="120" src="../../assets/mgl/images/bhim.png" /> &nbsp;&nbsp;
+      <img height="80" width="120" src="../../assets/mgl/images/bhimaxis.png" /> &nbsp;&nbsp;
+      <img height="80" width="120" src="../../assets/mgl/images/tlogo.png" /> &nbsp;&nbsp;
+      <img height="80" width="120" src="../../assets/mgl/images/payhindi.png" /> &nbsp;&nbsp;
+      <img height="80" width="120" src="../../assets/mgl/images/pay.png" /> &nbsp;&nbsp;
+      <img height="80" width="120" src="../../assets/mgl/images/logo60.png" /> &nbsp;&nbsp;
+    </div>
+      <div class="col s1 m2 l2"></div>
+  </div>
+  <div class="row">
+      <div class="col s1 m2 l2"></div>
+        <div class="col offset-m1 m8 s10 center-align">
+          <span class="regHdrS6BN"> Powered by </span>
+          <span style="font-size: 30px;">
+            <br />
+          </span>
+          <img height="30" src="../../assets/mgl/images/safer.png" /> &nbsp;&nbsp;
+          <span class="colrgrey reNrmBn">and</span> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img height="30" src="../../assets/mgl/images/axis.png" />
+        </div>
+        <div class="col m1 hide-on-med-and-down"></div>
+      <div class="col s1 m2 l2"></div>
+  </div>
+
 </main>

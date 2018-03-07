@@ -126,6 +126,7 @@ app.use(config.base + '/txn', transactionRouter);
 app.use(config.base + '/mglpay', MglRouter);
 app.use(config.base + '/zgsvc', ZgRouter);
 app.use(config.base + '/mgl', express.static(__dirname + urls.mglDir));
+app.use(config.base + '/buy', express.static(__dirname + urls.buyDir));
 app.use(config.base + '/zg', express.static(__dirname + urls.zgDir));
 app.use(config.base + '/ppl', express.static(__dirname + urls.pplDir));
 app.use(config.base + '/ngocsl', express.static(__dirname + urls.ngoDir));

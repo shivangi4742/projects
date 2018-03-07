@@ -36,10 +36,17 @@ export class UtilsService {
   private _changePasswordPageURL: string = 'http://localhost:9090/lgn/verify/2';
   private _adminDashboardPageURL: string = 'http://localhost:9090/admin/dashboard';
   private _notificationPrefixURL: string = 'https://mobilepayments.benow.in/merchants';
+  private _documentsPrefixURL: string = 'https://mobilepayments.benow.in/merchants/';
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
   private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
+  private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
+  private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
+  private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
+  private _sysColors: Array<string> = ['brown', 'grey', 'black', 'blue', 'purple', 'green', 'pink', 'gold', 'red', 'silver', 'yellow', 'gunmetal', 
+    'maroon', 'white', 'orange', 'metallic', 'beige', 'copper', 'navy', 'burgundy', 'olive', 'steel', 'charcoal', 'bronze', 'teal', 'coral', 'peach', 
+    'magenta', 'lavender', 'turquoise', 'taupe', 'mauve', 'lime green', 'coffee brown', 'khaki', 'rust'];
 
   constructor() {
     this._status = new Status(false, false, '');
@@ -83,8 +90,27 @@ export class UtilsService {
     return this._processPaymentURL;
   }
 
+  public isSysColor(col: string): boolean {
+    if(col && this._sysColors.indexOf(col.trim().toLowerCase()) >= 0)
+      return true;
+
+    return false;
+  }
+
+  public getNoProdImageURL(): string {
+    return this._noProdImageURL;
+  }
+
   public getUploadsURL(): string {
     return this._uploadsURL;
+  }
+
+  public getDefaultStoreImageURL(): string {
+    return this._defaultStoreImageURL;
+  }
+
+  public getDocumentsPrefixURL(): string {
+    return this._documentsPrefixURL;
   }
 
   public getNotificationPrefixURL(): string {

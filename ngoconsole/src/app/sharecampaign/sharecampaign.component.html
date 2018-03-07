@@ -3,9 +3,14 @@
     <div *ngIf="sdk.id">
       <div class="row"></div>
       <status [status]="utilsService.getStatus()"></status>
-      <div class="row">
+      <div *ngIf="!sdk.isButton" class="row">
         <div class="col s12 center regHdrS1BN">
           <u>{{'Share Campaign' | translate}}</u>
+        </div>
+      </div>
+      <div *ngIf="sdk.isButton" class="row">
+        <div class="col s12 center regHdrS1BN">
+          <u>{{'Campaign Button Link Created' | translate}}</u>
         </div>
       </div>
       <div materialize="modal" id="prodModal2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="modalActions">
@@ -98,7 +103,8 @@
             </form>
 
             <div *ngIf="savedURL">
-              <div class="col s10 offset-s1 m12 center regNrmS4BN">{{'SHARE_URL_MSG' | translate}}</div>
+              <div *ngIf="!sdk.isButton" class="col s10 offset-s1 m12 center regNrmS4BN">{{'SHARE_URL_MSG' | translate}}</div>
+              <div *ngIf="sdk.isButton" class="col s10 offset-s1 m12 center regNrmS4BN">{{'SHARE_BTN_MSG' | translate}}</div>
               <div class="col s1 hide-on-med-and-up"></div>
               <span class="col s12">&nbsp;</span>
               <span class="col s12 center regNrmS4B1BN">{{savedURL}}</span>
@@ -138,8 +144,11 @@
             <div class="row" *ngIf="savedURL">
               <div class="col m1 l1 hide-on-small-only"></div>
 
-              <div class="col s12 m10 l10 center noPadsMGLBN">
+              <div *ngIf="!sdk.isButton" class="col s12 m10 l10 center noPadsMGLBN">
                 {{'Share this campaign via –' | translate}}
+              </div>
+              <div *ngIf="sdk.isButton" class="col s12 m10 l10 center noPadsMGLBN">
+                {{'Share this donate button link via –' | translate}}
               </div>
               <div class="col m1 l1 hide-on-small-only"></div>
             </div>
@@ -147,26 +156,29 @@
               <div class="col m1 l1 hide-on-small-only"></div>
 
               <div class="col s12 m10 l10 center noPadsMGLBN">
-                <a width="59" height="20" class="linkButtonBN" width="78" (click)="emailm()" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                <a width="59" height="20" class="linkButtonBN" width="78" (click)="emailm()" height="50" title="Email Share Button" 
+                  style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
                   <img src="../../assets/ngoconsole/images/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
                 </a>
-                <a width="59" height="20" class="linkButtonBN" width="78" (click)="sms()" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                <a *ngIf="!sdk.isButton" width="59" height="20" class="linkButtonBN" width="78" (click)="sms()" height="50" title="SMS Share Button" 
+                  style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
                   <img src="../../assets/ngoconsole/images/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
                 </a>
-                <a width="59" height="20" class="linkButtonBN" width="78" (click)="fbClick()" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+                <a *ngIf="!sdk.isButton" width="59" height="20" class="linkButtonBN" width="78" (click)="fbClick()" height="50" title="Facebook Share Button" 
+                  style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
                   <img src="../../assets/ngoconsole/images/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
                   />
                 </a>
 
-                <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+                <a *ngIf="!sdk.isButton" class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
                   title="Twitter Tweet Button" (click)="twitterbutton()">
                   <img src="../../assets/ngoconsole/images/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
                 </a>
-                <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
+                <a *ngIf="!sdk.isButton" class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
                   title="Twitter Tweet Button" (click)="twitterbutton()">
                   <img src="../../assets/ngoconsole/images/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
                 </a>
-                <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" [href]="'whatsapp://send?text=' + savedURL"
+                <a *ngIf="!sdk.isButton" class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;" [href]="'whatsapp://send?text=' + savedURL"
                   data-text="" data-href="" title="Whatsapp Share Button" class="wa_btn wa_btn_m">
                   <img class="" src="../../assets/ngoconsole/images/whatsapp.png" width="35" height="35" style="border-radius: 17px;" alt="Share on Whatsapp">
                 </a>

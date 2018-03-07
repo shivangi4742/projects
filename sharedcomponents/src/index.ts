@@ -16,6 +16,7 @@ import { UserTopNavComponent } from './usertopnav.component';
 import { NotificationComponent } from './notification.component';
 import { NotificationsComponent } from './notifications.component';
 import { ProductWidgetComponent } from './productwidget.component';
+import { NewProductWidgetComponent } from './newproductwidget.component';
 
 export { TopnavComponent } from './topnav.component';
 export { StatusComponent } from './status.component';
@@ -24,6 +25,7 @@ export { UserTopNavComponent } from './usertopnav.component';
 export { NotificationComponent } from './notification.component';
 export { NotificationsComponent } from './notifications.component';
 export { ProductWidgetComponent } from './productwidget.component';
+export { NewProductWidgetComponent } from './newproductwidget.component';
 
 @NgModule({
   imports: [
@@ -42,7 +44,8 @@ export { ProductWidgetComponent } from './productwidget.component';
     UserTopNavComponent,
     NotificationComponent,
     NotificationsComponent,
-    ProductWidgetComponent    
+    ProductWidgetComponent,
+    NewProductWidgetComponent    
   ],
   exports: [
     TopnavComponent,
@@ -51,7 +54,8 @@ export { ProductWidgetComponent } from './productwidget.component';
     UserTopNavComponent,
     NotificationComponent,
     NotificationsComponent,
-    ProductWidgetComponent
+    ProductWidgetComponent,
+    NewProductWidgetComponent
   ]
 })
 export class SharedComponentsModule { }

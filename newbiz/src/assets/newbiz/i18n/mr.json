@@ -154,5 +154,21 @@
     "Add Business Details":"व्यवसाय तपशील जोडा",
     "Receive  more than ₹10,000 per month":"प्रति महिना ₹ 10,000 पेक्षा जास्त प्राप्त करा",
     "SUBMIT KYC":"केवायसी सादर करा",
-    "Go Back to Old Version": "जुन्या आवृत्तीवर परत जा"
+    "Go Back to Old Version": "जुन्या आवृत्तीवर परत जा",
+    "Upload Your Campaign Image (.bmp |.jpg |.png format, max file size : 5mb)": "आपली मोहिम प्रतिमा अपलोड करा (.बीएमपी | .जेपीजी | .पीएनजी स्वरूप, कमाल फाईल आकार: ५एमबी) (पर्यायी)",
+    "Create a Campaign": "मोहिम तयार करा",
+    "Enter your Campaign Name": "आपले मोहिम नाव प्रविष्ट करा",
+    "Your Campaign Name": "आपले मोहीम नाव",
+    "Explain your Campaign in short. Mention important details.": "थोडक्यात आपली मोहीम स्पष्ट करा। महत्त्वपूर्ण तपशील सांगा। (पर्यायी)",
+    "Campaign Description": "मोहीम वर्णन",
+    "Choose a campaign end date (Optional)": "मोहिम समाप्ती तारीख निवडा (पर्यायी)",
+    "End Date": "शेवटची तारीख",
+    "NEXT:ADD PRODUCT": "पुढील : उत्पादन जोडा",
+    "Campaign Name": "मोहीम नाव",
+    "Campaign Image": "मोहीम प्रतिमा",
+    "Campaign URL": "मोहिम यूआरएल",
+    "This is the first line that your customers will read . Run offers like Today's Special, Diwali Discount, Clearance Sale etc.": "आपल्या ग्राहकांनी वाचलेली ही पहिली ओळ आहे आजचा विशेष, दिवाळी सवलत, क्लिअरन्स विक्री इ. चालवा।",
+    "Short Description": "संक्षिप्त वर्णन",
+    "This is where you explain your campaign a little more. Mention important details.": "येथेच आपण आपल्या मोहिमेबद्दल थोडी अधिक माहिती  दिली आहे। महत्त्वपूर्ण तपशील सांगा।",
+    "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you.": "हे चित्र आपली मोहिम परिभाषित करेल। हे आपली ऑफर प्रतिमा, कंपनी लोगो इत्यादी असू शकते स्पष्ट प्रतिमा अपलोड करा। जर मोठा असेल तर काळजी करु नका आम्ही ते तुमच्यासाठी क्रॉप करू।"
 }

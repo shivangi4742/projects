@@ -1,0 +1,100 @@
+.clearingBN {
+    width: 100%;
+}
+
+.pad30lrBN {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.nameplateBN {
+    height: 180px;
+}
+
+.nopadsBN {
+    padding-right: 0px;
+    padding-left: 0px;    
+}
+
+.storetitleBN {
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #3D3D3D;       
+}
+
+.storeprodsBN {
+    padding-top: 10px;
+}
+
+.storewidgetcntnrBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.storepborBN {
+    border: 1px solid #F7F9FA;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.storepborBN:hover {
+    background-color: #F7F9FA; 
+}
+
+.storeLogoDivBN {
+    margin-top: -65px;
+    height: 130px;
+    width: 130px;
+    border-radius: 65px;
+    overflow: hidden;
+    background-color: white;
+    white-space: nowrap;    
+}
+
+.storeLogoBN {
+    max-height: 125px;
+    max-width: 125px;
+    vertical-align: middle;
+}
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}
+
+.titleddBN {
+    font-size: 30pt;
+    font-weight: 100;
+    position: relative;
+    display: inline;
+    top: 12px;
+}
+
+.storedetailBN {
+    margin-top: 10px;
+    margin-left: 50px;
+    padding: 10px;
+    width: 300px!important;
+    font-size: 14pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;           
+}
+
+.phonedetBN {
+    position: relative;
+    display: inline;
+    top: 5px;
+}
+
+.morefromstoreBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
+}

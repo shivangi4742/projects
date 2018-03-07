@@ -3,7 +3,7 @@
     <div class="fullWidthBN" align="center">
       <div class="maxWidthBN" align="left">
         <div class="row"></div>
-        <div class="row">
+        <div *ngIf="!sdk.isButton" class="row">
           <div class="col s12 center">
             <ul materialize="tabs" id="camp" class="grey lighten-5 campaignTabsBN tabs tabs-fixed-width regNrmS4B2BN tabsBN">
               <li class="tab col s6 m6 l6 tabBottomBN">
@@ -40,7 +40,7 @@
                 <div [ngClass]="isMobile ? 'row allContentBN' : 'row allContentBN card-panel grey lighten-5'">
                   <div class="col s12 center">
                     <div [ngClass]="bannerover ? 'file-field input-field workingBN hide-on-small-only' : 'file-field input-field hide-on-small-only'"
-                        (mouseover)="bannerover=true;" (mouseout)="bannerover=false;">
+                        (mouseover)="bannerover=true;" (mouseout)="bannerover=false;" *ngIf="!sdk.isButton">
                       <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 3"
                         class="featuredImageBN responsive-img" src="../../assets/shared/images/no-image-wide.png" />
                       <img title="{{'No Campaign Image Selected' | translate}}" *ngIf="!uploading && !sdk.imageURL && sdk.merchantType == 2"
@@ -85,7 +85,7 @@
                         </div>
                       </div>
                     </div>
-                    <div [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
+                    <div *ngIf="!sdk.isButton" [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
                       <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img"
                         title="{{'No Campaign Image Selected' | translate}}" src="../../assets/shared/images/no-image-wide.png" />
                       <img [ngClass]="uploading ? 'featuredImageSmallBN responsive-img displayBN' : 'featuredImageSmallBN responsive-img noDisplayBN'"
@@ -98,15 +98,15 @@
                       <input [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)"
                         title="{{bannerImage() | translate}}">
                     </div>
-                    <div class="col s12 noHeightBN">
+                    <div *ngIf="!sdk.isButton" class="col s12 noHeightBN">
                       <i class="material-icons cyanBN inlineBN linkButtonBN shiftUp40BN z100BN" *ngIf="has_help('CMP_BANNER')"
                         (click)="toggle_help('CMP_BANNER')">live_help</i>
                     </div>
                     <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                        *ngIf="get_help('CMP_BANNER')">{{get_help('CMP_BANNER') | translate}}</div>
+                        *ngIf="!sdk.isButton && get_help('CMP_BANNER')">{{get_help('CMP_BANNER') | translate}}</div>
                     <div class="row allContentBN">
-                      <div class="col s12 thinFNBN">&nbsp;</div>
-                      <div class="col s12 center hide-on-small-only truncate">
+                      <div *ngIf="!sdk.isButton" class="col s12 thinFNBN">&nbsp;</div>
+                      <div *ngIf="!sdk.isButton" class="col s12 center hide-on-small-only truncate">
                         <i class="material-icons alignMidBN inlineBN cyanBN linkButtonBN" *ngIf="has_help('CMP_NAME')"
                           (click)="toggle_help('CMP_NAME')">live_help</i>
                         <div class="input-field inlineBN">
@@ -116,7 +116,7 @@
                         <span class="inlineBN regHdrS2BN"> - {{'by' | translate}}</span>
                         <span class="inlineBN errHdrS2BN">{{sdk.businessName}}</span>
                       </div>
-                      <div class="col s12 center hide-on-med-and-up truncate">
+                      <div *ngIf="!sdk.isButton" class="col s12 center hide-on-med-and-up truncate">
                         <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_NAME')"
                           (click)="toggle_help('CMP_NAME')">live_help</i>
                         <div class="input-field inlineBN">
@@ -126,12 +126,12 @@
                         <span class="inlineBN regHdrS4BN"> - {{'by' | translate}}</span>
                         <span class="inlineBN errHdrS4BN">{{sdk.businessName}}</span>
                       </div>
-                      <div class="col s12 regNrmS6BN lenBN">{{getTitleLength()}}/50
+                      <div *ngIf="!sdk.isButton" class="col s12 regNrmS6BN lenBN">{{getTitleLength()}}/50
                         <span class="hide-on-med-and-up">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                       </div>
                       <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                          *ngIf="get_help('CMP_NAME')">{{get_help('CMP_NAME') | translate}}</div>
-                      <div class="col s12 center hide-on-small-only truncate">
+                          *ngIf="!sdk.isButton && get_help('CMP_NAME')">{{get_help('CMP_NAME') | translate}}</div>
+                      <div *ngIf="!sdk.isButton" class="col s12 center hide-on-small-only truncate">
                         <span class="inlineBN regHdrS2BN">{{'Offer ends on' | translate}} : </span>
                         <div class="input-field inlineBN">
                           <input id="expDt" name="expDt" type="text" class="datepicker regHdrS2BN dtpkrBN dateInputBN" materialize="pickadate"
@@ -140,7 +140,7 @@
                         <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_EXP_DT')"
                           (click)="toggle_help('CMP_EXP_DT')">live_help</i>
                       </div>
-                      <div class="col s12 center hide-on-med-and-up">
+                      <div *ngIf="!sdk.isButton" class="col s12 center hide-on-med-and-up">
                         <span class="inlineBN regHdrS4BN">{{'Offer ends on' | translate}} : </span>
                         <div class="input-field inlineBN">
                           <input id="expDt" name="expDt" type="text" class="datepicker regHdrS4BN dtpkrBN dateInputBN" materialize="pickadate"
@@ -150,8 +150,8 @@
                           (click)="toggle_help('CMP_EXP_DT')">live_help</i>
                       </div>
                       <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                          *ngIf="get_help('CMP_EXP_DT')">{{get_help('CMP_EXP_DT') | translate}}</div>
-                      <div *ngIf="sdk.merchantType == 2" class="col s12 center hide-on-small-only truncate">
+                          *ngIf="!sdk.isButton && get_help('CMP_EXP_DT')">{{get_help('CMP_EXP_DT') | translate}}</div>
+                      <div *ngIf="!sdk.isButton && sdk.merchantType == 2" class="col s12 center hide-on-small-only truncate">
                         <span class="inlineBN regHdrS2BN">{{'Campaign Target' | translate}} : </span>
                         <div class="input-field inlineBN">
                           <input id="target" name="target" type="number" min="1.00" max="9999999.99" step="0.01" class="regHdrS2BN validate dateInputBN"
@@ -160,7 +160,7 @@
                         <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_TRGT')"
                           (click)="toggle_help('CMP_TRGT')">live_help</i>
                       </div>
-                      <div *ngIf="sdk.merchantType == 2" class="col s12 center hide-on-med-and-up">
+                      <div *ngIf="!sdk.isButton && sdk.merchantType == 2" class="col s12 center hide-on-med-and-up">
                         <span class="inlineBN regHdrS4BN">{{'Campaign Target' | translate}} : </span>
                         <div class="input-field inlineBN">
                           <input id="target" name="target" type="number" min="1.00" max="9999999.99" step="0.01" class="regHdrS4BN validate dateInputBN"
@@ -170,8 +170,8 @@
                           (click)="toggle_help('CMP_TRGT')">live_help</i>
                       </div>
                       <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                          *ngIf="get_help('CMP_TRGT')">{{get_help('CMP_TRGT') | translate}}</div>
-                      <div class="col s12 valign-wrapper input-field noTopMarginBN">
+                          *ngIf="!sdk.isButton && get_help('CMP_TRGT')">{{get_help('CMP_TRGT') | translate}}</div>
+                      <div *ngIf="!sdk.isButton" class="col s12 valign-wrapper input-field noTopMarginBN">
                         <div class="col s10 offset-s1 input-field noTopMarginBN">
                       <textarea id="description" name="description" maxlength="1500" class="materialize-textarea regNrmS5BN descriptionBN noPaddingTopBN"
                                 placeholder="{{'Campaign Description' | translate}}" [(ngModel)]="sdk.description"></textarea>
@@ -179,11 +179,11 @@
                         <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_DESC')"
                           (click)="toggle_help('CMP_DESC')">live_help</i>
                       </div>
-                      <div class="col s12">
+                      <div *ngIf="!sdk.isButton" class="col s12">
                         <div class="col s10 offset-s1 regNrmS6BN descBN" align="right">{{getDescLength()}}/1500</div>
                       </div>
                       <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                          *ngIf="get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
+                          *ngIf="!sdk.isButton && get_help('CMP_DESC')">{{get_help('CMP_DESC') | translate}}</div>
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s8 offset-s2 m4 center" *ngFor="let p of selProducts">
                         <productwidget (selectedProd)="selected($event)" *ngIf="p.id" [mtype]="sdk.merchantType" [forCart]="false" [editQty]="false" [product]="p"></productwidget>
@@ -202,195 +202,199 @@
                     <div class="col s12 helpPopBN regNrmS5BN" align="center"
                         *ngIf="get_help('CMP_PRODS')">{{get_help('CMP_PRODS') | translate}}</div>
                     <div class="row allContentBN">
-                      <div class="col s12 thinFNBN">&nbsp;</div>
-                      <p class="col s12 borderBN"></p>
-                      <div class="col s12 regHdrS2BN">
-                        <span>{{'User details settings' | translate}}</span>
-                        <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_USR_DET')"
-                          (click)="toggle_help('CMP_USR_DET')">live_help</i>
-                      </div>
-                      <div class="col s12 helpPopBN regNrmS5BN" align="center"
-                          *ngIf="get_help('CMP_USR_DET')">{{get_help('CMP_USR_DET') | translate}}</div>
-                      <p class="col s12 borderBN"></p>
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for name' | translate}}?</div>
-                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                        <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m7" align="left">
-                        <input name="nameGrp" type="radio" id="yesName" [(ngModel)]="sdk.askname" [value]="true" />
-                        <label for="yesName">{{'Yes' | translate}}</label>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input name="nameGrp" type="radio" id="noName"  [(ngModel)]="sdk.askname" [value]="false" />
-                        <label for="noName">{{'No' | translate}}</label>
-                      </div>
-                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                        <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m5" align="left">
-                        <div *ngIf="sdk.askname">
-                          <input name="nameMndGrp" type="radio" id="yesMndName" [(ngModel)]="sdk.mndname" [value]="true" />
-                          <label for="yesMndName">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="nameMndGrp" type="radio" id="noMndName"  [(ngModel)]="sdk.mndname" [value]="false" />
-                          <label for="noMndName">{{'No' | translate}}</label>
-                        </div>
-                        <span class="hide-on-small-only" *ngIf="!sdk.askname">&nbsp;</span>
-                      </div>
-                      <div *ngIf="sdk.mtype==2">
-                      <p class="col s12 borderBN"></p>
-
-
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Employee Id' | translate}}?</div>
-                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                        <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m7" align="left">
-                        <input name="nameGrp1" type="radio" id="yesemployeeId" [(ngModel)]="sdk.askemployeeId" [value]="true" />
-                        <label for="yesemployeeId">{{'Yes' | translate}}</label>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input name="nameGrp1" type="radio" id="noemployeeId"  [(ngModel)]="sdk.askemployeeId" [value]="false" />
-                        <label for="noemployeeId">{{'No' | translate}}</label>
-                      </div>
-                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                        <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m5" align="left">
-                        <div *ngIf="sdk.askemployeeId">
-                          <input name="employeeIdMndGrp" type="radio" id="yesMndemployeeId" [(ngModel)]="sdk.mndemployeeId" [value]="true" />
-                          <label for="yesMndemployeeId">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="employeeIdMndGrp" type="radio" id="noMndemployeeId"  [(ngModel)]="sdk.mndemployeeId" [value]="false" />
-                          <label for="noMndemployeeId">{{'No' | translate}}</label>
-                        </div>
-                        <span class="hide-on-small-only" *ngIf="!sdk.askemployeeId">&nbsp;</span>
-                      </div>
-
-                      <p class="col s12 borderBN"></p>
-
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Company Name' | translate}}?</div>
-                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                        <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m7" align="left">
-                        <input name="CompanyNameGrp" type="radio" id="yesCompanyName" [(ngModel)]="sdk.askcompanyname" [value]="true" />
-                        <label for="yesCompanyName">{{'Yes' | translate}}</label>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input name="CompanyNameGrp" type="radio" id="noCompanyName"  [(ngModel)]="sdk.askcompanyname" [value]="false" />
-                        <label for="noCompanyName">{{'No' | translate}}</label>
-                      </div>
-                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                        <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m5" align="left">
-                        <div *ngIf="sdk.askcompanyname">
-                          <input name="companynameMndGrp" type="radio" id="yesMndcompanyname" [(ngModel)]="sdk.mndcompanyname" [value]="true" />
-                          <label for="yesMndcompanyname">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="companynameMndGrp" type="radio" id="noMndcompanyname"  [(ngModel)]="sdk.mndcompanyname" [value]="false" />
-                          <label for="noMndcompanyname">{{'No' | translate}}</label>
-                        </div>
-                        <span class="hide-on-small-only" *ngIf="!sdk.askcompanyname">&nbsp;</span>
-                      </div>
-                    </div>
-                      <p class="col s12 borderBN"></p>
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
-                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                        <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m7" align="left">
-                        <input name="emailGrp" type="radio" id="yesEmail" [(ngModel)]="sdk.askemail" [value]="true" />
-                        <label for="yesEmail">{{'Yes' | translate}}</label>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input name="emailGrp" type="radio" id="noEmail"  [(ngModel)]="sdk.askemail" [value]="false" />
-                        <label for="noEmail">{{'No' | translate}}</label>
-                      </div>
-                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                        <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m5" align="left">
-                        <div *ngIf="sdk.askemail">
-                          <input name="emailMndGrp" type="radio" id="yesMndEmail" [(ngModel)]="sdk.mndemail" [value]="true" />
-                          <label for="yesMndEmail">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="emailMndGrp" type="radio" id="noMndEmail"  [(ngModel)]="sdk.mndemail" [value]="false" />
-                          <label for="noMndEmail">{{'No' | translate}}</label>
-                        </div>
-                        <span class="hide-on-small-only" *ngIf="!sdk.askemail">&nbsp;</span>
-                      </div>
-                      <p class="col s12 borderBN"></p>
-                      <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for address' | translate}}?</div>
-                      <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                        <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m7" align="left">
-                        <input name="addrGrp" type="radio" id="yesAddr" [(ngModel)]="sdk.askadd" [value]="true" />
-                        <label for="yesAddr">{{'Yes' | translate}}</label>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <input name="addrGrp" type="radio" id="noAddr"  [(ngModel)]="sdk.askadd" [value]="false" />
-                        <label for="noAddr">{{'No' | translate}}</label>
-                      </div>
-                      <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                        <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
-                      </div>
-                      <div class="col s12 m5" align="left">
-                        <div *ngIf="sdk.askadd">
-                          <input name="addrMndGrp" type="radio" id="yesMndAddr" [(ngModel)]="sdk.mndaddress" [value]="true" />
-                          <label for="yesMndAddr">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="addrMndGrp" type="radio" id="noMndAddr"  [(ngModel)]="sdk.mndaddress" [value]="false" />
-                          <label for="noMndAddr">{{'No' | translate}}</label>
-                        </div>
-                        <span class="hide-on-small-only" *ngIf="!sdk.askadd">&nbsp;</span>
-                      </div>
-                      <div *ngIf="sdk.mtype == 2">
-                        <p class="col s12 borderBN"></p>
-                        <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for PAN' | translate}}?</div>
-                        <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
-                          <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
-                        </div>
-                        <div class="col s12 m7" align="left">
-                          <input name="panGrp" type="radio" id="yesPAN" [(ngModel)]="sdk.askpan" [value]="true" />
-                          <label for="yesPAN">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="panGrp" type="radio" id="noPAN"  [(ngModel)]="sdk.askpan" [value]="false" />
-                          <label for="noPAN">{{'No' | translate}}</label>
-                        </div>
-                        <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
-                          <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
-                        </div>
-                        <div class="col s12 m5" align="left">
-                          <div *ngIf="sdk.askpan">
-                            <input name="panMndGrp" type="radio" id="yesMndPAN" [(ngModel)]="sdk.mndpan" [value]="true" />
-                            <label for="yesMndPAN">{{'Yes' | translate}}</label>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <input name="panMndGrp" type="radio" id="noMndPAN"  [(ngModel)]="sdk.mndpan" [value]="false" />
-                            <label for="noMndPAN">{{'No' | translate}}</label>
+                      <div *ngIf="!sdk.isButton || sdk.mtype == 2">
+                          <div class="col s12 thinFNBN">&nbsp;</div>
+                          <p class="col s12 borderBN"></p>
+                          <div class="col s12 regHdrS2BN">
+                            <span>{{'User details settings' | translate}}</span>
+                            <i class="material-icons inlineBN cyanBN alignMidBN linkButtonBN" *ngIf="has_help('CMP_USR_DET')"
+                              (click)="toggle_help('CMP_USR_DET')">live_help</i>
                           </div>
-                          <span class="hide-on-small-only" *ngIf="!sdk.askpan">&nbsp;</span>
+                          <div class="col s12 helpPopBN regNrmS5BN" align="center"
+                              *ngIf="get_help('CMP_USR_DET')">{{get_help('CMP_USR_DET') | translate}}</div>
+                          <p class="col s12 borderBN"></p>
+                          <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for name' | translate}}?</div>
+                          <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                            <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m7" align="left">
+                            <input name="nameGrp" type="radio" id="yesName" [(ngModel)]="sdk.askname" [value]="true" />
+                            <label for="yesName">{{'Yes' | translate}}</label>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input name="nameGrp" type="radio" id="noName"  [(ngModel)]="sdk.askname" [value]="false" />
+                            <label for="noName">{{'No' | translate}}</label>
+                          </div>
+                          <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                            <span *ngIf="sdk.askname">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m5" align="left">
+                            <div *ngIf="sdk.askname">
+                              <input name="nameMndGrp" type="radio" id="yesMndName" [(ngModel)]="sdk.mndname" [value]="true" />
+                              <label for="yesMndName">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="nameMndGrp" type="radio" id="noMndName"  [(ngModel)]="sdk.mndname" [value]="false" />
+                              <label for="noMndName">{{'No' | translate}}</label>
+                            </div>
+                            <span class="hide-on-small-only" *ngIf="!sdk.askname">&nbsp;</span>
+                          </div>
+                          <div *ngIf="sdk.mtype==2">
+                          <p class="col s12 borderBN"></p>
+    
+    
+                          <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Employee Id' | translate}}?</div>
+                          <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                            <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m7" align="left">
+                            <input name="nameGrp1" type="radio" id="yesemployeeId" [(ngModel)]="sdk.askemployeeId" [value]="true" />
+                            <label for="yesemployeeId">{{'Yes' | translate}}</label>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input name="nameGrp1" type="radio" id="noemployeeId"  [(ngModel)]="sdk.askemployeeId" [value]="false" />
+                            <label for="noemployeeId">{{'No' | translate}}</label>
+                          </div>
+                          <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                            <span *ngIf="sdk.askemployeeId">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m5" align="left">
+                            <div *ngIf="sdk.askemployeeId">
+                              <input name="employeeIdMndGrp" type="radio" id="yesMndemployeeId" [(ngModel)]="sdk.mndemployeeId" [value]="true" />
+                              <label for="yesMndemployeeId">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="employeeIdMndGrp" type="radio" id="noMndemployeeId"  [(ngModel)]="sdk.mndemployeeId" [value]="false" />
+                              <label for="noMndemployeeId">{{'No' | translate}}</label>
+                            </div>
+                            <span class="hide-on-small-only" *ngIf="!sdk.askemployeeId">&nbsp;</span>
+                          </div>
+    
+                          <p class="col s12 borderBN"></p>
+    
+                          <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for Company Name' | translate}}?</div>
+                          <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                            <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m7" align="left">
+                            <input name="CompanyNameGrp" type="radio" id="yesCompanyName" [(ngModel)]="sdk.askcompanyname" [value]="true" />
+                            <label for="yesCompanyName">{{'Yes' | translate}}</label>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input name="CompanyNameGrp" type="radio" id="noCompanyName"  [(ngModel)]="sdk.askcompanyname" [value]="false" />
+                            <label for="noCompanyName">{{'No' | translate}}</label>
+                          </div>
+                          <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                            <span *ngIf="sdk.askcompanyname">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m5" align="left">
+                            <div *ngIf="sdk.askcompanyname">
+                              <input name="companynameMndGrp" type="radio" id="yesMndcompanyname" [(ngModel)]="sdk.mndcompanyname" [value]="true" />
+                              <label for="yesMndcompanyname">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="companynameMndGrp" type="radio" id="noMndcompanyname"  [(ngModel)]="sdk.mndcompanyname" [value]="false" />
+                              <label for="noMndcompanyname">{{'No' | translate}}</label>
+                            </div>
+                            <span class="hide-on-small-only" *ngIf="!sdk.askcompanyname">&nbsp;</span>
+                          </div>
                         </div>
-                        <div class="col s12 m8 offset-m2 l6 offset-l3 input-field regNrmS4BN maxInputWidthBN" align="center" *ngIf="sdk.askpan">
-                          <span class="prefix">₹</span>
-                          <input id="minpanamnt" name="minpanamnt" type="number" min="1" max="9999999.99" step="0.01" class="validate" required
-                                [(ngModel)]="sdk.minpanamnt">
-                          <label for="minpanamnt" [ngClass]="{active: sdk.minpanamnt}">{{'Minimum amount'| translate}}*</label>
-                        </div>
-                        <div class="col hide-on-small-only m2 l3">&nbsp;</div>
-                        <p class="col s12 borderBN"></p>
-                        <div class="col s12 regNrmS4BN" align="left">{{'Ask if Indian Resident' | translate}}?</div>
-                        <div class="col s12" align="left">
-                          <input name="indresGrp" type="radio" id="yesIndRes" [(ngModel)]="sdk.askresidence" [value]="true" />
-                          <label for="yesIndRes">{{'Yes' | translate}}</label>
-                          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                          <input name="indresGrp" type="radio" id="noIndRes"  [(ngModel)]="sdk.askresidence" [value]="false" />
-                          <label for="noIndRes">{{'No' | translate}}</label>
-                        </div>
+                          <p class="col s12 borderBN"></p>
+                          <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for email' | translate}}?</div>
+                          <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                            <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m7" align="left">
+                            <input name="emailGrp" type="radio" id="yesEmail" [(ngModel)]="sdk.askemail" [value]="true" />
+                            <label for="yesEmail">{{'Yes' | translate}}</label>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input name="emailGrp" type="radio" id="noEmail"  [(ngModel)]="sdk.askemail" [value]="false" />
+                            <label for="noEmail">{{'No' | translate}}</label>
+                          </div>
+                          <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                            <span *ngIf="sdk.askemail">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m5" align="left">
+                            <div *ngIf="sdk.askemail">
+                              <input name="emailMndGrp" type="radio" id="yesMndEmail" [(ngModel)]="sdk.mndemail" [value]="true" />
+                              <label for="yesMndEmail">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="emailMndGrp" type="radio" id="noMndEmail"  [(ngModel)]="sdk.mndemail" [value]="false" />
+                              <label for="noMndEmail">{{'No' | translate}}</label>
+                            </div>
+                            <span class="hide-on-small-only" *ngIf="!sdk.askemail">&nbsp;</span>
+                          </div>
+                          <p class="col s12 borderBN"></p>
+                          <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for address' | translate}}?</div>
+                          <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                            <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m7" align="left">
+                            <input name="addrGrp" type="radio" id="yesAddr" [(ngModel)]="sdk.askadd" [value]="true" />
+                            <label for="yesAddr">{{'Yes' | translate}}</label>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input name="addrGrp" type="radio" id="noAddr"  [(ngModel)]="sdk.askadd" [value]="false" />
+                            <label for="noAddr">{{'No' | translate}}</label>
+                          </div>
+                          <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                            <span *ngIf="sdk.askadd">{{'Mandatory' | translate}}?</span>&nbsp;
+                          </div>
+                          <div class="col s12 m5" align="left">
+                            <div *ngIf="sdk.askadd">
+                              <input name="addrMndGrp" type="radio" id="yesMndAddr" [(ngModel)]="sdk.mndaddress" [value]="true" />
+                              <label for="yesMndAddr">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="addrMndGrp" type="radio" id="noMndAddr"  [(ngModel)]="sdk.mndaddress" [value]="false" />
+                              <label for="noMndAddr">{{'No' | translate}}</label>
+                            </div>
+                            <span class="hide-on-small-only" *ngIf="!sdk.askadd">&nbsp;</span>
+                          </div>
+                          <div *ngIf="sdk.mtype == 2">
+                            <p class="col s12 borderBN"></p>
+                            <div class="col s12 m7 regNrmS4BN" align="left">{{'Request for PAN' | translate}}?</div>
+                            <div class="col m5 regNrmS4BN hide-on-small-only" align="left">
+                              <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
+                            </div>
+                            <div class="col s12 m7" align="left">
+                              <input name="panGrp" type="radio" id="yesPAN" [(ngModel)]="sdk.askpan" [value]="true" />
+                              <label for="yesPAN">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="panGrp" type="radio" id="noPAN"  [(ngModel)]="sdk.askpan" [value]="false" />
+                              <label for="noPAN">{{'No' | translate}}</label>
+                            </div>
+                            <div class="col s12 regNrmS4BN hide-on-med-and-up" align="left">
+                              <span *ngIf="sdk.askpan">{{'Mandatory' | translate}}?</span>&nbsp;
+                            </div>
+                            <div class="col s12 m5" align="left">
+                              <div *ngIf="sdk.askpan">
+                                <input name="panMndGrp" type="radio" id="yesMndPAN" [(ngModel)]="sdk.mndpan" [value]="true" />
+                                <label for="yesMndPAN">{{'Yes' | translate}}</label>
+                                <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <input name="panMndGrp" type="radio" id="noMndPAN"  [(ngModel)]="sdk.mndpan" [value]="false" />
+                                <label for="noMndPAN">{{'No' | translate}}</label>
+                              </div>
+                              <span class="hide-on-small-only" *ngIf="!sdk.askpan">&nbsp;</span>
+                            </div>
+                            <div class="col s12 m8 offset-m2 l6 offset-l3 input-field regNrmS4BN maxInputWidthBN" align="center" *ngIf="sdk.askpan">
+                              <span class="prefix">₹</span>
+                              <input id="minpanamnt" name="minpanamnt" type="number" min="1" max="9999999.99" step="0.01" class="validate" required
+                                    [(ngModel)]="sdk.minpanamnt">
+                              <label for="minpanamnt" [ngClass]="{active: sdk.minpanamnt}">{{'Minimum amount'| translate}}*</label>
+                            </div>
+                            <div class="col hide-on-small-only m2 l3">&nbsp;</div>
+                            <p class="col s12 borderBN"></p>
+                            <div class="col s12 regNrmS4BN" align="left">{{'Ask if Indian Resident' | translate}}?</div>
+                            <div class="col s12" align="left">
+                              <input name="indresGrp" type="radio" id="yesIndRes" [(ngModel)]="sdk.askresidence" [value]="true" />
+                              <label for="yesIndRes">{{'Yes' | translate}}</label>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <input name="indresGrp" type="radio" id="noIndRes"  [(ngModel)]="sdk.askresidence" [value]="false" />
+                              <label for="noIndRes">{{'No' | translate}}</label>
+                            </div>
+                          </div>    
                       </div>
                       <div class="col s12 thinFNBN">&nbsp;</div>
                       <div class="col s12" align="center">
                         <button class="btn waves-effect waves-light red regNrmS2BN buttonBN" type="submit"
                           name="create" [disabled]="!cmpForm.form.valid || invalidForm()">
-                          <span *ngIf="!editing">{{'Create Campaign' | translate}}</span>
-                          <span *ngIf="editing">{{'Save Campaign' | translate}}</span>
+                          <span *ngIf="!sdk.isButton && !editing">{{'Create Campaign' | translate}}</span>
+                          <span *ngIf="!sdk.isButton && editing">{{'Save Campaign' | translate}}</span>
+                          <span class="campaignBtnBN" *ngIf="sdk.isButton && !editing">{{'Create Campaign Button' | translate}}</span>
+                          <span class="campaignBtnBN" *ngIf="sdk.isButton && editing">{{'Save Campaign Button' | translate}}</span>
                         </button>
                       </div>
                       <div class="col s12">&nbsp;</div>
@@ -405,7 +409,7 @@
                 </div>
               </form>
             </div>
-            <div id="manageCampaigns">
+            <div id="manageCampaigns" *ngIf="!sdk.isButton">
               <div class="row"></div>
               <div class="row searchCampBN">
                 <div class="col s12 center ">

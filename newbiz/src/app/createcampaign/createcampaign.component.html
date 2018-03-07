@@ -1,0 +1,284 @@
+<div materialize *ngIf="campaign">
+  <div class="row"></div>
+  <div class="row">
+    <div class="col s12 noLeftPaddingBN">
+      <a class="linkButtonBN inputTextBN dashboardRedirectBN" [routerLink]="'/dashboard'">
+        <i class="material-icons alignMidBN">arrow_back</i>
+        <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
+      </a>
+    </div>
+    <div class="row"></div>
+    <!-- Desktop View Below -->
+    <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
+      <div class="row"></div>
+      <div class="row">
+        <div class="titleBN col s12 center">
+          {{'Create a Campaign' | translate}}
+        </div>
+      </div>
+      <div class="row">
+        <form (ngSubmit)="goToAddProduct()" materialize #createcampLinkForm="ngForm">
+          <div class="row">
+            <div class="input-field col s10 offset-s1">
+              <input id="campaignname" name="campaignname" type="text" [(ngModel)]="campaign.title" class="validate inputTextBN noMarginBottomBN" 
+                maxlength="50" placeholder="{{'Enter your Campaign Name' | translate}}" required>
+              <label for="campaignname" class="active labelPLBN">{{'Your Campaign Name' | translate}}*</label>
+            </div>
+            <div class="col s1"></div>
+            <div class="col s10 offset-s1 lightGreyBN" align="right">{{getLength(campaign.title)}} / 50</div>
+          </div>
+          <div class="row">
+            <div class="input-field col s10 offset-s1">
+              <br>
+              <textarea id="campaigndescription" rows="4" cols="50" name="campaigndescription" [(ngModel)]="campaign.description" 
+                class="validate noBottomMarginBN textareaBN inputTextBN" maxlength="500"
+                placeholder="{{'Explain your Campaign in short. Mention important details.' | translate}}" required>
+              </textarea>
+              <label for="campaigndescription" class="active labelPLBN">{{'Campaign Description' | translate}}</label>
+
+              <!-- <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'' | translate}}</span>-->
+            </div>
+            <div class="col s1"></div>
+            <div class="col s10 offset-s1 lightGreyBN" align="right">{{getLength(campaign.description)}} / 500</div>
+          </div>
+          <div class="row">
+            <div class="col s10 offset-s1">
+              <div class="col s12 m12 l12 center dottedbrderBN regNrmS5B2BN">
+                <div class="col s12 m12 l12 center file-field pBN"><br>
+                  <span class="active uploadPLBN">{{'Upload Your Campaign Image (.bmp |.jpg |.png format, max file size : 5mb)' | translate}}</span>
+                  <br><br>
+                  <div class="col s12" align="center">
+                    <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight col m8 offset-m2 l6 offset-l3" 
+                      name="create">{{'Select File' | translate}}<input type="file" 
+                      [disabled]="uploading" accept=".jpg, .jpeg, .png" id="uploadauthbank" >
+                    </button>
+                  </div>
+                  <span *ngIf="authbankuploaded" class="truncate">{{ filename1 | translate}}</span>
+                  <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authbankuploaded" />
+
+                  <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
+                    <div class="preloader-wrapper small active alignMidBN">
+                      <div class="preloader-wrapper small active alignMidBN">
+                        <div class="preloader-wrapper small active">
+                          <div class="spinner-layer spinner-red-only">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                              <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br><br>
+                  <br>
+                  <br>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s10 offset-s1">
+              <input id="expDtMob" name="expDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                [materializeParams]="dateParams" placeholder="{{'Choose a campaign end date (Optional)' | translate}}" 
+                [(ngModel)]="campaign.expiryDate">
+              <label for="expDtMob" class="active labelPLBN">{{'End Date' | translate}}</label>
+              <i class="material-icons iconAlignBN" (click)="dateClickedMob()">event_busy</i>
+            </div>
+
+          </div>
+          <div class="row valign-wrapper">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight" type="submit" 
+                name="create" [disabled]="!campaign.title">{{'NEXT:ADD PRODUCT' | translate}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col s12  hide-on-med-and-up noLeftPaddingBN">
+      <div *ngIf="cratecampaignmob" >
+      <div class="titleBN col s12">
+        {{'Create a Campaign' | translate}}
+      </div>
+
+      <div class="row"></div>
+      <div class="row">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">email</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN" (click)="campainname()">
+            <span class="col s12">{{'Campaign Name' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper ">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">short_text</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN" (click)="campaigndcription()">
+            <span class="col s12">{{'Campaign Description' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper ">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">image</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN" (click)="campaignimage()">
+            <span class="col s12">{{'Campaign Image' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper ">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">add_box</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN">
+            <span class="col s12">{{'Add Product' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper ">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">link</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN">
+            <span class="col s12">{{'Campaign URL' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper ">
+        <div class="col s12">
+          <div class="col s2 padBN alignMidBN"> <i class="material-icons padBN">date_range</i></div>
+          <div class="col s10 paddBN labBN borderBN alignMidBN linkButtonBN">
+            <span class="col s12">{{'End Date' | translate}}
+          <i class="material-icons alignMidBN right">keyboard_arrow_right</i>
+            </span>
+          </div>
+        </div>
+      </div>
+       <div class="row"></div>
+       <div class="row">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight"
+               type="submit" name="create">{{'Create Campaign'| translate}}</button>
+            </div>
+          </div>
+    </div>
+    <div *ngIf="truecampaignname" >
+    <div class="row">
+     <span class="col s10 offset-s1 titleBN"> Your Campaign name</span>
+    </div>
+    <div class="row">
+       <span class="col s10 offset-s1">
+      {{"This is the first line that your customers will read . Run offers like Today's Special, Diwali Discount, Clearance Sale etc." |translate}}
+       </span>
+       </div>
+    <div class="row">
+       <div class="input-field col s10 offset-s1">
+          <input id="campaignname" name="campaignname" type="text" [(ngModel)]="campaign.title" class="validate inputTextBN" maxlength="50"
+                placeholder="{{'Enter your Campaign Name' | translate}}" required>
+      </div>
+     </div>
+       <div class="row">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight"
+               type="submit" name="create">{{'Submit'| translate}}</button>
+            </div>
+          </div>
+    </div>
+    <div *ngIf="truecampaigndescription" >
+    <div class="row">
+     <span class="col s10 offset-s1 titleBN"> {{'Short Description' | translate}}</span>
+    </div>
+    <div class="row">
+       <span class="col s10 offset-s1">
+      {{"This is where you explain your campaign a little more. Mention important details." |translate}}
+       </span>
+       </div>
+    <div class="row">
+       <div class="input-field col s10 offset-s1">
+          <textarea id="campaigndescription" name="campaigndescription" type="text" [(ngModel)]="campaign.description" class="validate textareaBN lineBN inputTextBN"
+           maxlength="50" placeholder="{{'Explain your campaign in short. Mention important details' | translate}}" required>
+          </textarea>
+      </div>
+     </div>
+       <div class="row">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight"
+               type="submit" name="create">{{'Submit'| translate}}</button>
+            </div>
+          </div>
+    </div>
+     <div *ngIf="truecampimage" >
+    <div class="row">
+     <span class="col s10 offset-s1 titleBN"> Upload Campaign Image</span>
+    </div>
+    <div class="row">
+       <span class="col s10 offset-s1">
+      {{"This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you." | translate}}
+       </span>
+       </div>
+   <div class="row">
+            <div class="col s10 offset-s1">
+              <span class="active uploadPLBN">{{'Upload Your Campaign Image (.bmp |.jpg |.png format, max file size : 5mb)' | translate}}</span>
+              <br><br>
+              <div class="col s12 m12 l12 center dottedbrderBN regNrmS5B2BN">
+                <div class="col s12 m12 l12 center file-field pBN"><br>
+                  <span class="btn waves-effect waves-light center red regNrmS2BN buttonBN col s6 m4 l4 offset-s3 offset-m4 offset-l4">
+                                            <span>{{'Select File'| translate}}</span>
+                  <input type="file" [disabled]="uploading" accept=".jpg, .jpeg, .png, .pdf" id="uploadauthbank" (change)="uploadauthbank($event)">
+
+                  </span>
+                  &nbsp;
+                  <span *ngIf="authbankuploaded" class="truncate">{{ filename1 | translate}}</span>
+                  <img src="../../assets/newbiz/imgs/Green Check Circle.png" class="alignMidBN" *ngIf="authbankuploaded" />
+
+                  <div class="preloader-wrapper small active alignMidBN" *ngIf="uploading">
+                    <div class="preloader-wrapper small active alignMidBN">
+                      <div class="preloader-wrapper small active alignMidBN">
+                        <div class="preloader-wrapper small active">
+                          <div class="spinner-layer spinner-red-only">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                              <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br><br>
+                  <br>
+                  <br>
+                </div>
+                <br>
+              </div>
+            </div>
+          </div>
+       <div class="row">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight"
+               type="submit" name="create">{{'Submit'| translate}}</button>
+            </div>
+          </div>
+    </div>
+    </div>
+</div>

@@ -265,6 +265,9 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.resetSdk();
 
       if (this.sdk) {
+        if(window.location.href.toLowerCase().indexOf('campaignbtn') > 0)
+          this.sdk.isButton = true;
+
         let select = this.route.snapshot.params['select'];
         if (select == 'manage') {
           this.setActiveTab(1);
@@ -309,7 +312,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.sdk = new SDK(null, false, false, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
       mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
       this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, null,
-      null, null, null, null, false);
+      null, null, null, null, false, false, '', '', '');
 
   }
 
@@ -465,10 +468,12 @@ export class CampaignComponent implements OnInit, AfterViewInit {
       this.sdk = res;
       this.editing = true;
       this.editingTab = true;
-      setTimeout(function () {
-        let createTab = document.getElementById('create');
-        createTab.click();
-      }, 300);
+      if(!this.sdk.isButton) {
+        setTimeout(function () {
+          let createTab = document.getElementById('create');
+          createTab.click();
+        }, 300);  
+      }
     }
   }
 
@@ -551,8 +556,11 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    let campName: string = this.sdk.title.trim();
-    if (campName.length > 0 && (this.sdk.mtype == 2 || (this.selProducts && this.selProducts.length > 0))) {
+    let campName: string = '';
+    if(this.sdk.title)
+      campName = this.sdk.title.trim();
+
+    if ((campName.length > 0 || this.sdk.isButton) && (this.sdk.mtype == 2 || (this.selProducts && this.selProducts.length > 0))) {
       this.sdk.products = this.selProducts;
       if(this.editing) {
         this.campaignService.editCampaign(this.sdk)

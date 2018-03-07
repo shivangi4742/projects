@@ -132,5 +132,10 @@
     "Breakdown": "विश्लेषण",
     "Purchase Amount": "खरीद राशि",
     "Convenience Fee": "सुविधा शुल्क",
-    "Ordered Successfully": "सफलतापूर्वक ऑर्डर दिया"
+    "Ordered Successfully": "सफलतापूर्वक ऑर्डर दिया",
+    "more": "और",
+    "less": "कम",
+    "Cost": "मूल्य",
+    "Quantity": "मात्रा",
+    "Amount": "राशि"
 }

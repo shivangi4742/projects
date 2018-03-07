@@ -134,6 +134,7 @@
     "Successfully saved payment link": "अभियान लिंक को सफलतापूर्वक सहेजा गया",
     "SMS Campaign Link": "एसएमएस अभियान लिंक",
     "SHARE_URL_MSG": "आप अपने अभियान को निम्न यूआरएल कॉपी करके चिपकाकर साझा कर सकते हैं:",
+    "SHARE_BTN_MSG": "आप अपने बटन के साथ निम्नलिखित यूआरएल को एकीकृत कर सकते हैं:",
     "Successfully sent campaign link in SMS": "एसएमएस में अभियान लिंक सफलतापूर्वक भेजा गया",
     "by": "द्वारा",
     "Get this link in SMS": "एसएमएस पर यह लिंक प्राप्त करें",
@@ -194,5 +195,9 @@
     "No Campaign Image Selected": "कोई अभियान छवि चयनित नहीं",
     "Add Product": "दान विकल्प जोड़ें",
     "Banner Image": "बैनर छवि",
-    "Select Banner Image": "बैनर छवि का चयन करें"
+    "Select Banner Image": "बैनर छवि का चयन करें",
+    "Campaign Button Link Created": "दान बटन लिंक बनाया गया",
+    "Save Campaign Button": "दान बटन सहेजें",
+    "Create Campaign Button": "दान बटन बनाएं",
+    "Share this donate button link via –": "इस दान बटन लिंक को साझा करें –"
 }

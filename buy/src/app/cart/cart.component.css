@@ -1,0 +1,242 @@
+.errwidgetBN {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.ipanelBN {
+    padding-left: 30px;
+    padding-right: 20px;    
+}
+
+.spanelBN {
+    padding-left: 15px;
+    padding-right: 20px;        
+}
+
+.errPanelBN {
+    height: 400px;
+}
+
+.noitemsBN {
+    padding-top: 150px;
+    font-size: 21pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;           
+}
+
+.backshoppgBN {
+    font-size: 30pt;
+    color: #3D3D3D;
+}
+
+.piBN {
+    position: relative;
+    top: 12px;
+    display: inline;
+}
+
+.continuespgBN {
+    height: 58pt;
+    padding-bottom: 14px;
+    margin-top: 30px;
+    color: #3D3D3D;
+    font-size: 16pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.ctitleBN {
+    font-size: 20pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 40pt;    
+}
+
+.itemPanelBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.coffsetBN {
+    padding-left: 35px;    
+}
+
+.padlr30BN {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.padlr20BN {
+    padding-left: 20px;
+    padding-right: 20px;    
+}
+
+.padlr10BN {
+    padding-left: 10px;
+    padding-right: 10px;        
+}
+
+.cprodimgBN {
+    max-height: 125px;
+    vertical-align: middle;
+}
+
+.cproditemimgctnrBN {
+    height: 125px;
+    white-space: nowrap;    
+}
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}
+
+.cartprditmqtydivBN {
+    margin-top: 10px;
+}
+
+.addremoveBN {
+    color: #9D9B9B;
+    font-size: 16pt;
+    position: relative;
+    display: inline;
+    top: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.cartprditmqtyBN {
+    padding-left: 15px!important;
+    width: 35px!important;
+    text-align: center!important;
+    height: 1.5rem!important;
+    color: #3D3D3D!important;
+    font-size: 12pt!important;
+    font-family: 'Barlow', sans-serif!important;
+    border: 2px solid #9D9B9B!important;
+    border-radius: 5px!important;
+}
+
+.hiddeniconBN {
+    visibility: hidden;
+}
+
+.cartpitemtitleBN {
+    font-size: 15pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    padding-left: 15px;
+}
+
+.cartpitemorpBN {
+    padding-left: 15px;
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+}
+
+.cartpitemwmdBN {
+    text-decoration: line-through;
+}
+
+.cartpitemofpBN {
+    padding-left: 15px;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.cartpitemwmuBN {
+    color: #E53935;
+}
+
+.delcartitemBN {
+    color: #9D9B9B;
+    font-size: 18pt;    
+}
+
+.carttotalpriceBN {
+    line-height: 40pt;
+    font-weight: 600;
+    font-size: 12pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.discountgreenBN {
+    color: #79A616;
+}
+
+.placeorderbtnBN {
+    text-transform: none;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 17pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+}
+
+.cicolorBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                       
+    padding-left: 15px;
+}
+
+.cicolor2BN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                       
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+.cicnameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                       
+}
+
+.ciccolchipBN {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    padding-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    top: 10px;    
+}
+
+.ciccolornameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                       
+}

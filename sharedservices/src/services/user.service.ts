@@ -49,7 +49,8 @@ export class UserService {
     getSubcategoryByCategory: 'user/getSubcategoryByCategory',
     getEnableKyc: 'user/EnableKyc',
     getcomplteregister: 'user/complteregister',
-    setLineOfBusiness:'user/setLineOfBusiness'
+    setLineOfBusiness:'user/setLineOfBusiness',
+    changePasswordURL:'user/changeoldpassword'
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -483,7 +484,7 @@ export class UserService {
       .catch(res => false);
   }
   fillMerchantProfile(res: any): Businesspro | null {
-    console.log(res.merchantUser, '1');
+
     if (res.merchantUser.registrationState == 'VERIFIED') {
       this._user.registerd = true;
     }
@@ -498,7 +499,7 @@ export class UserService {
     }
     if (res.merchantUser) {
       let pt = res.merchantUser;
-      this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
+      this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory,pt.contactPerson,
         pt.address, pt.numberOfOutlets, pt.contactPersonDesignation, pt.city, pt.contactEmailId, pt.locality, pt.businessTypeCode, pt.pinCode, pt.gstNumber);
     }
     return this._businesspro;
@@ -699,6 +700,20 @@ export class UserService {
     }
     else
       return Promise.resolve(null);
+  }
+  
+  changeoldpassword(oldpass: string, newpass:string): Promise<any> {
+      return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.changePasswordURL,
+      JSON.stringify({
+        "id": this._user.id,
+       "oldPassword":oldpass,
+	     "newPassword":newpass
+      }),
+      { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => res.json())
+      .catch(res => this.handleError(res.json()));
   }
 
 

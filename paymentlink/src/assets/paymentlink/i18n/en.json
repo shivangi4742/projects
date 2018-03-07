@@ -133,5 +133,10 @@
     "Breakdown": "Breakdown",
     "Purchase Amount": "Purchase Amount",
     "Convenience Fee": "Convenience Fee",
-    "Ordered Successfully": "Order Placed Successfully"
+    "Ordered Successfully": "Order Placed Successfully",
+    "more": "more",
+    "less": "less",
+    "Cost": "Cost",
+    "Quantity": "Quantity",
+    "Amount": "Amount"
 }

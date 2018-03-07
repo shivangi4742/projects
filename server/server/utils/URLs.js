@@ -15,6 +15,7 @@ var uRLs = {
     invalidLink: '/paymentlink/assets/paymentlink/invalidlink.html',
     expdLink: '/paymentlink/assets/paymentlink/expiredlink.html',
     mglDir: '/mgl',
+    buyDir: '/buy',
     zgDir: '/zg',
     zgHome: '/zg/index.html',
     mglHome: '/mgl/index.html',
