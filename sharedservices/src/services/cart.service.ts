@@ -64,7 +64,7 @@ export class CartService {
         localStorage.setItem('bnHBSCart' + code, JSON.stringify(crt));
     }
 
-    public startCashPaymentProcess(): Promise<any> {
+    public startCashPaymentProcess(merchantname: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
             JSON.stringify({
@@ -74,6 +74,7 @@ export class CartService {
                 "payamount": this.getCartTotal(),
                 "phone": this._cart.phone,
                 "merchantcode": this._cart.merchantCode,
+                "merchantname": merchantname,
                 "paytype": 'CASH',
                 "products": this._cart.items
             }),

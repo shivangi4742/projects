@@ -122,9 +122,9 @@
             <div class="hide-on-med-and-down l1"></div>
             <div class="col m12 l10 offset-l1 nolrpdBN">
               <button class="col m12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continue"
-                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode">{{'Continue' | translate}}</button>
+                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode || processing">{{'Continue' | translate}}</button>
               <button class="col m12 buy1BN btn waves-effect waves-light red darken-1 hide-on-med-only" type="submit" name="continue"
-                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode">{{'Continue' | translate}}</button>
+                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode || processing">{{'Continue' | translate}}</button>
             </div>            
             <div class="hide-on-med-and-down l1"></div>
           </div>
