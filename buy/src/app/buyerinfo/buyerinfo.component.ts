@@ -44,8 +44,26 @@ export class BuyerinfoComponent implements OnInit {
     this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');
   }
 
+  finishCashPayment(res: any) {
+    console.log(res);
+  }
+
+  pay() {
+    if(this.cartService.isCartPayable()) {
+      switch(this.cart.paymentMode) {
+        case 'CASH':
+          this.cartService.startCashPaymentProcess()
+            .then(res => this.finishCashPayment(res));
+          break;
+        default:
+          break;
+      }      
+    }
+  }
+
   onSubmit() {
     this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
     this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
+    this.pay();
   }
 }

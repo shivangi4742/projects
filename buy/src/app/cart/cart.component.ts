@@ -68,14 +68,7 @@ export class CartComponent implements OnInit {
   }
 
   getTotalAmount(): number {
-    let ta: number = 0;
-    if(this.cart && this.cart.items && this.cart.items.length > 0) {
-      this.cart.items.forEach(function(i) {
-        ta += i.offerPrice * i.quantity;
-      });
-    }
-
-    return ta;    
+    return this.cartService.getCartTotal();
   }
 
   getProductlink(id: string): string {

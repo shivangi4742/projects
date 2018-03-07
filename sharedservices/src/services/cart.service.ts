@@ -12,13 +12,17 @@ import { Variant } from './../models/variant.model';
 import { CartItem } from './../models/cartitem.model';
 
 import { ProductService } from './product.service';
+import { UtilsService } from './utils.service';
 
 @Injectable()
 export class CartService {
     private _cart: Cart;
     private _subject = new Subject<any>();
+    private _urls: any = {
+        startPaymentProcessURL: 'cart/startPaymentProcess'
+    }
 
-    constructor(private productService: ProductService) { }
+    constructor(private productService: ProductService, private utilsService: UtilsService, private http: Http) { }
 
     public numItemsChanged(): Observable<any> {
         return this._subject.asObservable();        
@@ -58,6 +62,45 @@ export class CartService {
         }
 
         localStorage.setItem('bnHBSCart' + code, JSON.stringify(crt));
+    }
+
+    public startCashPaymentProcess(): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
+            JSON.stringify({
+                "name": this._cart.name,
+                "address": this._cart.address,
+                "email": this._cart.email,
+                "payamount": this.getCartTotal(),
+                "phone": this._cart.phone,
+                "merchantcode": this._cart.merchantCode,
+                "paytype": 'CASH',
+                "products": this._cart.items
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
+    }
+
+    public getCartTotal(): number {
+        let ta: number = 0;
+        if(this._cart && this._cart.items && this._cart.items.length > 0) {
+            this._cart.items.forEach(function(i) {
+                ta += i.offerPrice * i.quantity;
+            });
+        }
+
+        return ta;    
+    }
+
+    public isCartPayable(): boolean {
+        if(this._cart && this._cart.name && this._cart.name.trim().length > 0 && this._cart.email && this._cart.email.trim().length > 0
+            && this._cart.phone && this._cart.phone.trim().length > 9 && this._cart.address && this._cart.address.trim().length > 0
+            && this.getCartTotal() > 0)
+            return true;
+          
+        return false;
     }
 
     public getCart(code: string): Promise<Cart|null> {
