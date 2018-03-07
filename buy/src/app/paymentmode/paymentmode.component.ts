@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest } from 'benowservices';
+import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'paymentmode',
@@ -14,6 +14,7 @@ import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRe
 export class PaymentmodeComponent implements OnInit {
   paidAmount: number;
   room: string;
+  upiURL: string;
   defaultVPA: string;
   merchantCode: string;
   cart: Cart;
@@ -23,7 +24,7 @@ export class PaymentmodeComponent implements OnInit {
   processing: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
 
-  constructor(private cartService: CartService, private router: Router, private storeService: StoreService, 
+  constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
     private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService) { 
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));        
@@ -68,6 +69,17 @@ export class PaymentmodeComponent implements OnInit {
     return '';
   }
 
+  qRLinkShown(res: any, txnNo: string) {
+    if (res) {
+      this.upiURL = res;
+    }
+    else {
+      //handle error.
+    }
+
+    this.processing = false;
+  }
+  
   qRShown(res: any, txnNo: string) {
     if (res == true) {
       this.payRequest = this.sdkService.getLastBill();
@@ -86,9 +98,14 @@ export class PaymentmodeComponent implements OnInit {
 
   finishUPIPayment(res: any) {
     if (res && res.transactionRef)
-      this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, 
-        null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
-        .then(res2 => this.qRShown(res2, res.transactionRef));
+      if(this.utilsService.isAnyMobile())
+        this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null, 
+          this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+          .then(res3 => this.qRLinkShown(res3, res.transactionRef));
+      else
+        this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, 
+          null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+          .then(res2 => this.qRShown(res2, res.transactionRef));
     else {
       this.processing = false;
       //handle error.
