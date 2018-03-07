@@ -108,6 +108,18 @@
     text-transform: none;
 }
 
+.buy1BN2 {
+    margin-top: 35px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+    letter-spacing: 0.1rem;   
+    padding-top: 22px;
+}
+
 .buy1MBN {
     margin-top: 15px;
     border-radius: 5px;
@@ -117,6 +129,18 @@
     font-family: 'Barlow', sans-serif;
     letter-spacing: 0.1rem;   
     text-transform: none;    
+}
+
+.buy1MBN2 {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;    
+    padding-top: 22px;
 }
 
 .nolrpdBN {

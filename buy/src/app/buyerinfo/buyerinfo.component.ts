@@ -1,10 +1,11 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest } from 'benowservices';
+import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService  } from 'benowservices';
 
 @Component({
   selector: 'buyerinfo',
@@ -14,6 +15,7 @@ import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRe
 export class BuyerinfoComponent implements OnInit {
   paidAmount: number;
   room: string;
+  upiURL: string;
   defaultVPA: string;
   merchantCode: string;
   cart: Cart;
@@ -24,9 +26,13 @@ export class BuyerinfoComponent implements OnInit {
   modalActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private cartService: CartService, private router: Router, private activatedRoute: ActivatedRoute, private storeService: StoreService,
-    private sdkService: SDKService, private socketService: SocketService) { 
+    private sdkService: SDKService, private socketService: SocketService, private utilsService: UtilsService, private sanitizer: DomSanitizer) { 
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));  
+  }
+
+  sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   receivedPayment(res: any) {
@@ -54,10 +60,52 @@ export class BuyerinfoComponent implements OnInit {
   }
 
   fillCart(res: Cart) {
-    if(res && res.items && res.items.length > 0)
+    if(res && res.items && res.items.length > 0) {
       this.cart = res;
+      if(this.utilsService.isAnyMobile())
+        this.buildUPIURL();
+    }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
+  }
+
+  isUPIButton(): boolean {
+    if(this.cart && this.cart.name && this.cart.name.trim().length > 0 && this.cart.email && this.cart.email.trim().length > 2
+      && this.cart.phone && this.cart.phone.trim().length > 9 && this.cart.address && this.cart.address.trim().length > 0 
+      && this.utilsService.isAnyMobile() && this.cart.paymentMode == 'UPI')
+      return true;
+
+    return false;
+  }
+
+  qRLinkShown(res: any, txnNo: string) {
+    if (res) {
+      this.upiURL = res;
+      this.room = txnNo;
+      this.socketService.joinTransactionRoom(txnNo);
+    }
+  }
+  
+  buildUPIURL() {
+    if(this.cart && this.settings) {
+      this.paidAmount = this.cartService.getCartTotal();
+      if(this.settings.chargeConvenienceFee)
+        this.paidAmount = this.paidAmount * 1.02;
+
+      this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+        .then(res => this.getUPIURL(res));    
+    }
+    else {
+      let me: any = this;
+      setTimeout(function() { me.buildUPIURL(); }, 100);
+    }
+  }
+
+  getUPIURL(res: any) {
+    if(res && res.transactionRef)
+      this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null, 
+        this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+        .then(res3 => this.qRLinkShown(res3, res.transactionRef));
   }
 
   onSSubmit() {

@@ -120,11 +120,17 @@
               </div>
             </div>
             <div class="hide-on-med-and-down l1"></div>
-            <div class="col m12 l10 offset-l1 nolrpdBN">
+            <div class="col m12 l10 offset-l1 nolrpdBN" *ngIf="!isUPIButton()">
               <button class="col m12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continue"
                 [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode || processing">{{'Continue' | translate}}</button>
               <button class="col m12 buy1BN btn waves-effect waves-light red darken-1 hide-on-med-only" type="submit" name="continue"
                 [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode || processing">{{'Continue' | translate}}</button>
+            </div>            
+            <div class="col m12 l10 offset-l1 nolrpdBN" *ngIf="isUPIButton() && upiURL">
+              <a class="col m12 buy1MBN2 btn waves-effect waves-light red darken-1 hide-on-large-only" name="continue" 
+                target="_blank" [attr.href]="sanitize(upiURL)">{{'Continue2' | translate}}</a>
+              <a class="col m12 buy1BN2 btn waves-effect waves-light red darken-1 hide-on-med-only" name="continue"
+                target="_blank" [attr.href]="sanitize(upiURL)">{{'Continue2' | translate}}</a>
             </div>            
             <div class="hide-on-med-and-down l1"></div>
           </div>
