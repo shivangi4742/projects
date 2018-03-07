@@ -11,6 +11,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class StoreService {
+    private _code: string;
     private _subject = new Subject<any>();
     private _urls: any = {
         fetchStoreDetailsURL: 'store/fetchStoreDetails'
@@ -18,12 +19,15 @@ export class StoreService {
 
     constructor(private http: Http, private utilsService: UtilsService) { }
 
-    public homeAssigned(): Observable<any> {
+    public merchantAssigned(): Observable<any> {
         return this._subject.asObservable();        
     }
 
-    public assignHome(home: string) {
-        this._subject.next(home);
+    public assignMerchant(code: string) {
+        if(!this._code || this._code != code) {
+            this._code = code;
+            this._subject.next(code);
+        }
     }
 
     public fetchStoreDetails(merchantCode: string): Promise<any> {

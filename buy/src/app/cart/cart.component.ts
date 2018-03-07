@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Cart, CartItem, Product, CartService, StoreService, UtilsService } from 'benowservices';
 
@@ -9,13 +10,20 @@ import { Cart, CartItem, Product, CartService, StoreService, UtilsService } from
 })
 export class CartComponent implements OnInit {
   homeLink: string;
+  merchantCode: string;
+  buyerInfoLink: string;
   cart: Cart;
   isLoaded: boolean = false;
 
-  constructor(private cartService: CartService, private storeService: StoreService, private utilsService: UtilsService) { }
+  constructor(private cartService: CartService, private storeService: StoreService, private utilsService: UtilsService, 
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.cartService.getCart()
+    this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.homeLink = '/' + this.merchantCode + '/store';
+    this.buyerInfoLink = '/' + this.merchantCode + '/buyerinfo';
+    this.storeService.assignMerchant(this.merchantCode);
+    this.cartService.getCart(this.merchantCode)
       .then(res => this.init(res));
   }
 
@@ -34,10 +42,6 @@ export class CartComponent implements OnInit {
     this.cart = res;
     this.cartService.broadcastCart();
     this.isLoaded = true;
-    if(this.cart.merchantCode) {
-      this.homeLink = '/store/' + this.cart.merchantCode;
-      this.storeService.assignHome(this.homeLink);
-    }
   }
 
   isEmpty(): boolean {
@@ -52,11 +56,11 @@ export class CartComponent implements OnInit {
     if(newqty < 1)
       newqty = 1;
 
-    this.cart = this.cartService.setCartItemQuantity(item.productId, item.variantId, item.sizeId, newqty);
+    this.cart = this.cartService.setCartItemQuantity(this.merchantCode, item.productId, item.variantId, item.sizeId, newqty);
   }
 
   remove(p: CartItem) {
-    this.cart = this.cartService.deleteFromCart(p.productId, p.variantId, p.sizeId);     
+    this.cart = this.cartService.deleteFromCart(this.merchantCode, p.productId, p.variantId, p.sizeId);     
   }
 
   getTotalDiscount(): number {
@@ -75,7 +79,7 @@ export class CartComponent implements OnInit {
   }
 
   getProductlink(id: string): string {
-    return '/product/' + id;
+    return '/' + this.merchantCode + '/product/' + id;
   }
 
   getTotalPrice(): number {

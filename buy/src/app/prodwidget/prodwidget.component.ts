@@ -17,9 +17,9 @@ export class ProdwidgetComponent implements OnInit {
   ngOnInit() {
     if(this.product) {
       if(window && window.location && window.location.href && window.location.href.toLowerCase().indexOf('/product/') < 0)
-        this.productLink = '/product/' + this.product.id;
+        this.productLink = '/' + this.product.merchantCode + '/product/' + this.product.id;
       else
-        this.productLink = '/product2/' + this.product.id;
+        this.productLink = '/' + this.product.merchantCode + '/product2/' + this.product.id;
       
       if(this.product.variants && this.product.variants.length > 0)
         this.numVariants = this.product.variants.length;

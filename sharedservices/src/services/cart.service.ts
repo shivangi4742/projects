@@ -35,7 +35,7 @@ export class CartService {
         return 0;
     }
 
-    private pushCartToLocalStorage(): any {
+    private pushCartToLocalStorage(code: string): any {
         var crt: any = {};
         if(this._cart) {
             crt.address = this._cart.address;
@@ -56,14 +56,14 @@ export class CartService {
             }
         }
 
-        localStorage.setItem('bnHBSCart', JSON.stringify(crt));
+        localStorage.setItem('bnHBSCart' + code, JSON.stringify(crt));
     }
 
-    public getCart(): Promise<Cart|null> {
+    public getCart(code: string): Promise<Cart|null> {
         if(this._cart)
             return Promise.resolve(this._cart);
 
-        let crtstr: string|null = localStorage.getItem('bnHBSCart');
+        let crtstr: string|null = localStorage.getItem('bnHBSCart' + code);
         let crt: any;
         if(crtstr)
             crt = JSON.parse(crtstr);
@@ -95,34 +95,34 @@ export class CartService {
             this._cart.address = address;
         }
 
-        this.pushCartToLocalStorage();
+        this.pushCartToLocalStorage(merchantCode);
     }
 
-    public setCartItemQuantity(pid: string, vid: string, siz: string, qty: number) {
+    public setCartItemQuantity(code: string, pid: string, vid: string, siz: string, qty: number) {
         if(qty > 0 && this._cart && this._cart.items && this._cart.items.length > 0) {
             let existingItem = this._cart.items.filter(ci => ci.productId == pid && ci.variantId == vid && 
                 ci.sizeId == siz);
             if(existingItem && existingItem.length > 0) {
                 existingItem[0].quantity = qty;
-                this.pushCartToLocalStorage();
+                this.pushCartToLocalStorage(code);
             }
         }
         
         return this._cart;
     }
 
-    public deleteFromCart(pid: string, vid: string, siz: string): Cart {
+    public deleteFromCart(code: string, pid: string, vid: string, siz: string): Cart {
         if(this._cart && this._cart.items && this._cart.items.length > 0) {
             this._cart.items = this._cart.items.filter(ci => !(ci.productId == pid && ci.variantId == vid && 
                 ci.sizeId == siz));
-            this.pushCartToLocalStorage();
+            this.pushCartToLocalStorage(code);
         }
 
         this._subject.next(this.numCartItems());
         return this._cart;
     }
 
-    public addToCart(prod: Product, variant: string, size: string, qty: number) {
+    public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
                 this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode);
@@ -174,7 +174,7 @@ export class CartService {
             }
 
             this._subject.next(this.numCartItems());
-            this.pushCartToLocalStorage();                
+            this.pushCartToLocalStorage(code);                
         }
     }    
 }

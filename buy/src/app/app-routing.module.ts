@@ -8,13 +8,13 @@ import { BuyerinfoComponent } from './buyerinfo/buyerinfo.component';
 import { PaymentmodeComponent } from './paymentmode/paymentmode.component';
 
 const routes: Routes = [
-    { path: 'cart', component: CartComponent },
-    { path: 'buyerinfo', component: BuyerinfoComponent }, 
-    { path: 'paymentmode', component: PaymentmodeComponent }, 
-    { path: 'store/:code', component: StoreComponent }, 
-    { path: 'product/:id', component: ProductComponent },
-    { path: 'product2/:id', component: ProductComponent },
-    { path: '**', redirectTo: '/store/1', pathMatch: 'full' }
+    { path: ':code/cart', component: CartComponent },
+    { path: ':code/buyerinfo', component: BuyerinfoComponent }, 
+    { path: ':code/paymentmode', component: PaymentmodeComponent }, 
+    { path: ':code/store', component: StoreComponent }, 
+    { path: ':code/product/:id', component: ProductComponent },
+    { path: ':code/product2/:id', component: ProductComponent },
+    { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
 ];
 
 @NgModule({

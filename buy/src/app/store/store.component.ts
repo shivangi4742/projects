@@ -33,6 +33,7 @@ export class StoreComponent implements OnInit {
     document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
     document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.storeService.assignMerchant(this.merchantCode);
     this.fetchProducts();
     this.storeService.fetchStoreDetails(this.merchantCode)
       .then(res => this.fillStoreDetails(res));

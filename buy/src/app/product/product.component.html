@@ -1,8 +1,8 @@
-<div materialize *ngIf="product">
+<div materialize>
   <div class="hide-on-med-and-down">
     <div class="row"></div>
     <div class="row containerBN">
-      <div class="col s12 white">
+      <div class="col s12 white" *ngIf="product">
         <div class="row"></div>
         <div class="row"></div>
         <div class="row">
@@ -85,7 +85,7 @@
         <div class="row"></div>
       </div>
       <div class="row"></div>
-      <div class="row" align="center" *ngIf="suggestedProds">
+      <div class="row" align="center" *ngIf="loaded">
         <div class="valign-wrapper">
           <div class="col s12">
             <p class="borderBN"></p>
@@ -93,7 +93,8 @@
         </div>
         <div class="valign-wrapper">
           <div class="col s12 center shiftRowUpBN">
-            <span class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'You may also like' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span *ngIf="product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'You may also like' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span *ngIf="!product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'Sorry, the product you are looking for is not available!!! You may be looking for' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
           </div>
         </div>
       </div>

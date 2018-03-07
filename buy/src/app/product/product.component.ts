@@ -13,12 +13,14 @@ export class ProductComponent implements OnInit {
   productOriginalPrice: number;
   id: string;
   home: string;
+  merchantCode: string;
   selectedImage: string;
   product: Product;
   selectedSize: Size;
   images: Array<string>;
   availableSizes: Array<Size>;
   suggestedProds: Array<Product>;
+  loaded: boolean = false;
   imgPage: number = 0;
   numImgPages: number = 1;
   selVariant: string = '-1';
@@ -28,14 +30,20 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
+    this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.home = '/' + this.merchantCode + '/store';
+    this.storeService.assignMerchant(this.merchantCode);
     this.productService.getProduct(this.id)
       .then(res => this.init(res));    
+
+    this.productService.getProductsForStore(this.merchantCode, 1)
+      .then(res2 => this.initRecommendations(res2));      
   }
 
   initRecommendations(res: any) {
     if(res && res.products && res.products.length > 0) {
       for(let i: number = 0; i < res.products.length; i++) {
-        if(res.products[i].id != this.product.id) {
+        if(!this.product || res.products[i].id != this.product.id) {
           if(!this.suggestedProds)
             this.suggestedProds = new Array<Product>();
           
@@ -124,16 +132,16 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.product, this.selVariant, this.selectedSize ? this.selectedSize.id : '', this.product.qty);
+    this.cartService.addToCart(this.merchantCode, this.product, this.selVariant, this.selectedSize ? this.selectedSize.id : '', this.product.qty);
   }
 
   buy() {
     this.addToCart();
-    this.router.navigateByUrl('/cart');
+    this.router.navigateByUrl('/' + this.merchantCode + '/cart');
   }
 
   init(res: Product) {
-    if(res && res.id) {
+    if(res && res.id && res.merchantCode == this.merchantCode) {
       this.product = res;      
       this.product.qty = 1;
       this.productPrice = this.product.price;
@@ -141,13 +149,6 @@ export class ProductComponent implements OnInit {
       this.availableSizes = this.product.sizes;
       if(this.availableSizes && this.availableSizes.length > 0)
         this.selectedSize = this.availableSizes[0];
-
-      if(this.product.merchantCode) {
-        this.home = '/store/' + this.product.merchantCode;
-        this.storeService.assignHome(this.home);
-        this.productService.getProductsForStore(this.product.merchantCode, 1)
-          .then(res2 => this.initRecommendations(res2));
-      }
 
       this.numImgPages = Math.round(this.product.imageURLs.length / 6) + 1;
       if(this.numImgPages == 1)
@@ -160,5 +161,7 @@ export class ProductComponent implements OnInit {
 
       this.selectedImage = this.images[0];
     }
+
+    this.loaded = true;
   }
 }

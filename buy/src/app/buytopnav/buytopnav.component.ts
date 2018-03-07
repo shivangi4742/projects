@@ -11,14 +11,16 @@ import { StoreService, CartService, Cart } from 'benowservices';
 })
 export class BuytopnavComponent implements OnInit {
   numCartItems: number;
+  cartLink: string;
   storeHome: string;
+  merchantCode: string;
   subscription: Subscription;
   subscription2: Subscription;
 
   constructor(private storeService: StoreService, private cartService: CartService) { 
     let me: any = this; 
-    this.subscription = this.storeService.homeAssigned().subscribe(message => me.storeHome = message);  
-    this.subscription2 = this.cartService.numItemsChanged().subscribe(message => me.numCartItems = message);    
+    this.subscription = this.cartService.numItemsChanged().subscribe(message => me.numCartItems = message);    
+    this.subscription2 = this.storeService.merchantAssigned().subscribe(message => me.assignLinks(message));
   }
 
   cartFilled(res: Cart) {
@@ -26,9 +28,18 @@ export class BuytopnavComponent implements OnInit {
       this.numCartItems = res.items.length;
   }
 
+  assignLinks(mcode: string) {
+    this.merchantCode = mcode;
+    if(this.merchantCode) {
+      this.storeHome = '/' + this.merchantCode + '/store';
+      this.cartLink =  '/' + this.merchantCode + '/cart';
+
+      if(!(window && window.location && window.location.href && window.location.href.indexOf('/cart') > 0))
+        this.cartService.getCart(this.merchantCode)
+          .then(res => this.cartFilled(res));
+    }
+  }
+
   ngOnInit() {
-    if(!(window && window.location && window.location.href && window.location.href.indexOf('/cart') > 0))
-      this.cartService.getCart()
-        .then(res => this.cartFilled(res))
   }
 }
