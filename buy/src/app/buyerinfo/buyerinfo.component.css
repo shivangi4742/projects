@@ -1,0 +1,130 @@
+.widgetBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.offsetBN {
+    padding-left: 35px;
+}
+
+.offsetSBN {
+    padding-left: 20px;
+}
+
+.offsetlrBN {
+    padding-left: 35px;
+    padding-right: 55px;    
+}
+
+.labelBN {
+    font-size: 13pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;  
+}
+
+.titleBN {
+    font-size: 20pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 40pt;    
+}
+
+.binputBN {
+    background-color: #F7F9FA!important;
+    padding-left: 20px!important;
+    letter-spacing: 0.01rem; 
+    border: none!important; 
+    font-size: 13pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.binputdivBN {
+    margin-top: 10px;
+}
+
+.txtareaBN {
+    min-height: 5rem;
+}
+
+.pad20l10rBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.pad10l20rBN {
+    padding-left: 10px;
+    padding-right: 20px;
+}
+
+.rdolblBN {
+    font-size: 17pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;   
+}
+
+.convfeeBN {
+    font-size: 10pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;    
+    letter-spacing: 0.05rem;   
+    position: relative;
+    top: -7px;
+}
+
+.rdoGrpBN {
+    padding-top: 20px;
+    min-height: 70px;
+    border-bottom: 1px solid #EDECEA;
+}
+
+.upiLogoBN {
+    width: 80px;
+}
+
+.rdoGrpNoBrdrBN {
+    padding-top: 30px;
+    min-height: 70px;    
+}
+
+.upiBN {
+    position: relative;
+    top: -4px;
+}
+
+.buy1BN {
+    margin-top: 35px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;
+}
+
+.buy1MBN {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;    
+}
+
+.nolrpdBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.pad0lrBN {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}

@@ -1,0 +1,39 @@
+<div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
+  <div class="row"></div>
+  <div class="row">
+    <div class="titleBN col s12 center">
+      {{'Create Campaign URL' | translate}}
+    </div>
+  </div>
+  <div class="row">
+    <form materialize #createcampLinkForm="ngForm">
+      <div class="row">
+        <div class="col s12 center">
+          {{'Example'}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          {{'You can customize your campaign URL by replacing "Diwali Dhamaka" & share it with your customers.'}}
+        </div>
+      </div>
+      <div class="row dottedbrderBN center" >
+        <div class="col m6 l6 noLeftPaddingBN noRightPaddingBN">
+          <div class="input-field col s12 noLeftPaddingBN noRightPaddingBN" style="margin-top: 0px;">
+            <i class="material-icons linkIconBN prefix">link</i>
+            <input type="text" class="smallFontBN inputBN" [(ngModel)]="url" disabled/>
+          </div>
+        </div>
+        <div class="col m6 l6 smallFontBN noLeftPaddingBN">
+          <a class="copyBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN">content_copy</i>
+            <span class="alignMidBN" style="margin-right: 10px;">{{'COPY' | translate}}</span>
+          </a>
+        </div>
+        <div *ngIf="isCopied1" class="col s12 center notifyBN">
+          {{'Link is Copied!' | translate}}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

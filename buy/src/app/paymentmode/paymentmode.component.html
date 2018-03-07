@@ -1,0 +1,59 @@
+<div materialize *ngIf="cart && settings">
+  <form materialize (ngSubmit)="onSubmit()" #paymentModeForm="ngForm">
+    <div class="row"></div>
+    <div class="row white">
+      <div class="row">
+        <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
+        <div class="col s12 borderBN"></div>                
+      </div>
+      <div class="row">
+        <div class="col s12 offsetlrBN">
+          <div class="rdoGrpBN">
+            <input name="pmode" type="radio" id="upi" [(ngModel)]="cart.paymentMode" [value]="'UPI'" />
+            <label for="upi" class="rdolblBN">
+              <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
+              <span class="upiBN">&nbsp;&nbsp;{{'UPI' | translate}}</span>
+              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+            </label>        
+          </div>
+        </div>
+        <div class="col s12 offsetlrBN">
+          <div class="rdoGrpBN">
+            <input name="pmode" type="radio" id="dc" [(ngModel)]="cart.paymentMode" [value]="'DC'" />
+            <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
+              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+            </label>        
+          </div>
+        </div>
+        <div class="col s12 offsetlrBN">
+          <div class="rdoGrpBN">
+            <input name="pmode" type="radio" id="cc" [(ngModel)]="cart.paymentMode" [value]="'CC'" />
+            <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
+              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+            </label>        
+          </div>
+        </div>
+        <div class="col s12 offsetlrBN">
+          <div class="rdoGrpBN">
+            <input name="pmode" type="radio" id="nb" [(ngModel)]="cart.paymentMode" [value]="'NB'" />
+            <label for="nb" class="rdolblBN">{{'Net Banking' | translate}}
+              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+            </label>        
+          </div>
+        </div>
+        <div class="col s12 offsetlrBN">
+          <div class="rdoGrpNoBrdrBN">
+            <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
+            <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
+          </div>
+        </div>
+      </div>
+      <div class="col s10 offset-s1 nolrpdBN">
+        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" type="submit" name="continue"
+          [disabled]="!cart.paymentMode">{{'Continue' | translate}}</button>
+      </div>            
+      <div class="col s1"></div>
+      <div class="col s12">&nbsp;</div>
+    </div>
+  </form>
+</div>

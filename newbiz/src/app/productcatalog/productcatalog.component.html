@@ -14,6 +14,19 @@
              type="text" [(ngModel)]="searchText">
     </div>
     <div class="row"></div>
+    <div materialize="modal" id="productsModal" class="modal modal-fixed-footer productsModalBN" [materializeParams]="[{dismissible: true}]"
+         [materializeActions]="modalActions">
+      <div class="input-field col s6">
+        <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+               [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="fromDt">
+        <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+               [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="toDt">
+        <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+      </div>
+    </div>
     <div *ngIf="hasProducts()" class="row">
       <div class="row">
         <div class="col s10 offset-s2 m6 offset-m6 l5 offset-l7 pagingBN">
@@ -34,7 +47,7 @@
           <img *ngIf="p.imageURL" class="prodImageBN" src={{uploadsURL}}{{p.imageURL}} />
         </div>
         <div class="col s6 m5 l6 prodDetailsBN">
-          <a class="col s12 linkButtonBN prodOptionsBN" style="color: red">
+          <a class="col s12 linkButtonBN prodOptionsBN" style="color: red" (click)="edit(p.id)">
             <i class="material-icons alignMidBN" >edit</i> Edit
           </a>
           <a class="col s12 linkButtonBN prodOptionsBN" style="color: gray">
@@ -50,6 +63,15 @@
         <div class="col s12 smallGapBN"></div>
         <div class="col s12 prodTitleBN">
           <b>Price:</b> ₹ {{p.originalPrice | number : '1.2-2'}}
+        </div>
+        <div class="col s12 smallGapBN"></div>
+        <div class="col s12">
+          <div class="switch">
+            <label>
+              <input type="checkbox" [(ngModel)]="inStock" (change)="setStock(p.name)" checked>
+              <span class="lever" style="margin-left: 0px"></span><span [ngClass]="inStock ? 'onBN' : 'offBN'">{{getSwitchText(inStock) | translate}}</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>

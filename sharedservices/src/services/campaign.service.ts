@@ -22,6 +22,7 @@ export class CampaignService {
     dd2: string;
     eromdd:string;
     eta2:string[];
+    private _curCampaign: SDK;    
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
@@ -50,6 +51,19 @@ export class CampaignService {
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
+
+    setCurrCampaign(cmpn: SDK) {
+        this._curCampaign = cmpn;
+    }
+
+    getCurrCampaign(): SDK {
+        if(this._curCampaign)
+            return this._curCampaign;
+        else
+            return new SDK('', false, false, '', false, false, true, true, true, false, false, true, true, true, true, true, false, false, false,
+                false, false, false, true, false, 3, 0, 0, 0, 0, 3, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
+                null, null, null, null, null, null, null, null, null, null, [], null, null, false, false, '', '', '');
+    }
 
     setCampaign(sdk: SDK) {
         this._sdk = sdk;
@@ -100,7 +114,8 @@ export class CampaignService {
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '',
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
                 res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
-                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee, res.embedded);
+                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', 
+                '');
         }
 
         return null;

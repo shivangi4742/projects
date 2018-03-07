@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, SDKService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, Status, LocationService, SDK, CampaignService } from 'benowservices';
 
 
 @Component({
@@ -38,13 +38,10 @@ export class CreatecampaignComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   uploading:boolean=false;
   authbankuploaded:boolean= false;
-  campaignname:string;
-  campaigndescription:string;
-  dashboard: string = "/dashboard";
-  sampleDate: any;
   purpose: string;
   amount: number;
   invoiceNum: string;
+  campaign: SDK;
   detailsExpanded: boolean = false;
   isAmountLess: boolean = false;
   truecampaignname:boolean = false;
@@ -54,7 +51,7 @@ export class CreatecampaignComponent implements OnInit {
   uploadauthbank:boolean = false;
   constructor(private translate: TranslateService, private utilsService: UtilsService,
               private userService: UserService, private router: Router, private locationService: LocationService,
-              private route: ActivatedRoute, private sdkService: SDKService) { }
+              private route: ActivatedRoute, private campaignService: CampaignService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -79,7 +76,8 @@ export class CreatecampaignComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.locationService.setLocation('createpaylink');
+    this.campaign = this.campaignService.getCurrCampaign();
+    this.locationService.setLocation('createcampaign');
     this.userService.getUser()
       .then(res => this.user = res);
     let me = this;
@@ -91,22 +89,37 @@ export class CreatecampaignComponent implements OnInit {
     }];
   }
 
-campainname(){
-  this.truecampaignname = true;
-  this.cratecampaignmob = false;
-}
-campaigndcription(){
-  this.truecampaigndescription = true;
-  this.cratecampaignmob = false;
-}
-campaignimage(){
-  this.truecampimage = true;
-  this.cratecampaignmob = false;
-}
- dateClickedMob(){
+  goToAddProduct() {
+    if(this.campaign && this.campaign.title) {
+      this.campaignService.setCurrCampaign(this.campaign);
+      this.router.navigateByUrl('/addproducttocampaign');  
+    }
+  }
+
+  campainname() {
+    this.truecampaignname = true;
+    this.cratecampaignmob = false;
+  }
+
+  campaigndcription() {
+    this.truecampaigndescription = true;
+    this.cratecampaignmob = false;
+  }
+
+  campaignimage() {
+    this.truecampimage = true;
+    this.cratecampaignmob = false;
+  }
+
+  dateClickedMob() {
     let a: any = document.getElementById('expDtMob');
     a.click();
   }
+  
+  getLength(txt: string): number {
+    if(txt)
+      return txt.length;
 
- 
+    return 0;
+  }
 }

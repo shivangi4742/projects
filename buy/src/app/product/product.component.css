@@ -1,0 +1,228 @@
+.containerBN {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.tnBN {
+    max-width: 55px;
+    max-height: 55px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    vertical-align: middle;
+}
+
+.seltncontainrBN {
+    width: 59px;
+    height: 59px;
+    border: 2px solid #E53935;
+    margin-bottom: 5px;   
+    white-space: nowrap; 
+}
+
+.tncontainrBN {
+    width: 59px;
+    height: 59px;
+    border: 1px solid #F7F9FA;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.tncontainrBN:hover {
+    border: 2px solid #EDECEA;
+}
+
+.moreProdsBN {
+    font-size: 58px;
+}
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}
+
+.imgHgtBN {
+    height: 380px;
+    width: 380px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.mainimgBN {
+    width: 100%;
+    max-height: 380px;
+    vertical-align: middle;
+}
+
+.imagePartBN {
+    width: 440px;
+    display: inline;
+    float: left;
+}
+
+.imageStripBN {
+    width: 60px;
+    display: inline;
+    float: left;
+}
+
+.otherThanImagesBN {
+    padding-left: 480px;
+    padding-right: 30px;
+}
+
+.prodtitleBN {
+    font-size: 21pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;       
+}
+
+.origpriceBN {
+    padding-top: 4px;
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+    letter-spacing: 0.1rem;           
+}
+
+.colorscntnrBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;                   
+}
+
+.colornameBN {
+    font-weight: 400;    
+    letter-spacing: 0rem;
+    background-color: #EDEBE9;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 10px;                   
+    padding-right: 10px;                   
+    padding-top: 5px;                   
+    padding-bottom: 5px;                   
+}
+
+.selectedoptionBN {
+    border: 2px solid #00D5E2;
+    background-color: #F6F9F9;
+}
+
+.selectedcoloptionBN {
+    border: 2px solid #00D5E2;    
+}
+
+.offerpriceBN {
+    font-weight: 600;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;               
+}
+
+.markdownBN {
+    text-decoration: line-through;
+}
+
+.markupBN {
+    color: #E53935;
+}
+
+.qtyBN {
+    display: inline-block!important;
+    width: 50px!important;
+    height: 2rem!important;
+}
+
+.ibBN {
+    float: left;
+    width: 120px;
+    min-height: 100px;
+}
+
+.descriptionBN {
+    padding-top: 2px;
+    font-size: 11pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+    letter-spacing: 0.05rem;           
+}
+
+.buttonsPartBN {
+    padding-left: 60px;
+    width: 440px;    
+}
+
+.visitstoreBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
+
+.addtocartBN {
+    width: 173px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+}
+
+.buynowBN {
+    width: 173px;
+    margin-left: 30px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
+
+.shiftRowUpBN {
+    margin-top: -31px;    
+}
+
+.alsoBN {
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    background-color: #F7F9FA;    
+}
+
+.widgetcntnrBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.pborBN {
+    border: 1px solid #F7F9FA;
+}
+
+.pborBN:hover {
+    background-color: #F7F9FA;
+}
+
+.colchipBN {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    padding-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    top: 10px;
+}

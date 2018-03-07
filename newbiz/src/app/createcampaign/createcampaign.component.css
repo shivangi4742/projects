@@ -97,8 +97,7 @@
 
 .textareaBN{
   height: 123px;
-  padding: 12px;
-  line-height: 12px;
+  line-height: 19px!important;
 }
 .borderBN{
   border: 1px solid #e6dede;
@@ -119,4 +118,12 @@
 }
 .lineBN{
   line-height: 21px!important;
+}
+
+.lightGreyBN {
+  color: #bdbdbd;
+}
+
+.noMarginBottomBN {
+  margin-bottom: 0px!important;
 }

@@ -190,6 +190,10 @@
     cursor: pointer;
 }
 
+.linkButtonBN:focus {
+    outline: none;
+}
+
 .alignMidBN {
     display: inline-flex!important;
     vertical-align: middle!important;    
@@ -558,4 +562,178 @@
 
 .pad5BN {
     padding: 5px!important;
+}
+
+.brownCBN {
+    background-color: #A52A2A;
+}
+
+.greyCBN{
+    background-color: #808080;
+}
+
+.blackCBN {
+    background-color: #000000;
+}
+    
+.blueCBN {    
+    background-color: #0000FF;
+}   
+
+.purpleCBN {
+    background-color: #800080;
+}
+
+.greenCBN {
+    background-color: #008000;
+}
+
+.pinkCBN {
+    background-color: #FFC0CB;
+}
+
+.goldCBN {
+    background-color: #FFD700;
+}
+
+.redCBN {
+    background-color: #FF0000;
+} 
+
+.silverCBN {
+    background-color: #C0C0C0;
+}
+
+.yellowCBN {
+    background-color: #FFFF00;
+}
+
+.gunmetalCBN {
+    background-color: #2C3539;
+}
+
+.maroonCBN {
+    background-color: #800000;
+}
+
+.whiteCBN {
+    background-color: #FFFFFF;
+}
+
+.orangeCBN {
+    background-color: #FFA500;
+}
+
+.metallicCBN {
+    background-color: #BCC6CC;
+}
+
+.beigeCBN {
+    background-color: #FFF5DC;
+}
+
+.copperCBN {
+    background-color: #B87333;
+}
+
+.navyCBN {
+    background-color: #000080;
+}
+
+.burgundyCBN {
+    background-color: #800020;
+}
+
+.oliveCBN {
+    background-color: #808000;
+}
+
+.steelCBN {
+    background-color: #B0C4DE;
+}
+
+.charcoalCBN {
+    background-color: #36454F;
+}
+
+.bronzeCBN {
+    background-color: #CD7F32;
+}
+
+.tealCBN {
+    background-color: #008080;
+}
+
+.coralCBN {
+    background-color: #FF7F50;
+}
+
+.peachCBN {
+    background-color: #FFDAB9;
+}
+
+.magentaCBN {
+    background-color: #FF00FF;
+}
+
+.lavenderCBN {
+    background-color: #E6E6FA;
+}
+
+.turquoiseCBN {
+    background-color: #40E0D0;
+}
+
+.taupeCBN {
+    background-color: #B38B6D;
+}
+
+.mauveCBN {
+    background-color: #B784A7;
+}
+
+.limegreenCBN {
+    background-color: #32CD32;
+}
+
+.coffeebrownCBN {
+    background-color: #7C5852;
+}
+
+.khakiCBN {
+    background-color: #F0E68C;
+}
+
+.rustCBN {
+    background-color: #A55D35;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative!important;
+    display: inline-block!important;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    font-weight: 400!important;
+    font-size: 11pt!important;
+    font-family: 'Barlow', sans-serif!important;
+    letter-spacing: 0rem!important;                   
+    visibility: hidden!important;
+    background-color: black!important;
+    color: #fff!important;
+    text-align: center!important;
+    padding: 5px 10px!important;
+    border-radius: 6px!important;
+    margin-top: 20px!important;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute!important;
+    z-index: 1!important;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible!important;
 }

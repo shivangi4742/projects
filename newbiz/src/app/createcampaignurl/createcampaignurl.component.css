@@ -1,0 +1,68 @@
+.roundBorderMainBN{
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+  border-radius: 50px;
+}
+.noLeftPaddingBN{
+  padding-left: 0px!important;
+  margin-left: 0px!important;
+}
+.noRightPaddingBN{
+  padding-right: 0px!important;
+  margin-right: 0px!important;
+}
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  font-weight: bold;
+  color: teal;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+.smallFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+}
+.smallerFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  padding: 0px;
+  height: 25px;
+}
+.linkIconBN{
+  left: 16px;
+  font-size: 18pt;
+  padding-bottom: 10px;
+}
+.previewBN{
+  border: 1px solid black;
+  border-radius: 12px;
+  padding: 5px 12px 5px 12px;
+  color: black!important;
+}
+.previewMobBN{
+  border: 1px solid black;
+  border-radius: 14px;
+  padding: 3px 10px 3px 10px;
+  color: black!important;
+  float: right;
+  margin-top: 10px;
+}
+.inputBN{
+  height: 24px!important;
+}
+.imgRightMarginBN{
+  margin-right: 5px;
+}
+.dottedbrderBN{
+    border-radius: 6px;
+    border: 1px dotted #908787;
+}

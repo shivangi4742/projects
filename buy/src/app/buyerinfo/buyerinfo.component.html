@@ -1,0 +1,135 @@
+<div materialize *ngIf="settings && cart">
+  <form materialize class="hide-on-med-and-up" (ngSubmit)="onSSubmit()" #buyerInfoSForm="ngForm">
+    <div class="row"></div>
+    <div class="row pad0lrBN white">
+      <div class="row">
+        <div class="col s12 titleBN offsetSBN">{{'Basic Details' | translate}}</div>
+        <div class="col s12 borderBN"></div>                
+      </div>
+      <div class="row">
+        <div class="col s12 labelBN offsetBN">{{'Name' | translate}}* :</div>
+        <div class="col s12 offsetlrBN input-field binputdivBN">
+          <input class="binputBN validate" placeholder="{{'Enter your name here' | translate}}" [(ngModel)]="cart.name" maxlength="50" 
+            name="name" required />
+        </div>
+        <div class="col s12 labelBN offsetBN">{{'Mobile Number' | translate}}* :</div>
+        <div class="col s12 input-field offsetlrBN binputdivBN">
+          <input class="binputBN validate" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="cart.phone" 
+            minlength="10" maxlength="20" required type="tel" name="phone" />
+        </div>
+        <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}* :</div>
+        <div class="col s12 input-field offsetlrBN binputdivBN">
+          <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
+            [(ngModel)]="cart.email" name="email" required />
+        </div>
+        <div class="col s12 input-field labelBN offsetBN">{{'Address' | translate}}* :</div>
+        <div class="input-field col s12 offsetlrBN binputdivBN">
+          <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address"
+            placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="cart.address" required></textarea>
+        </div>
+        <div class="col s10 offset-s1">
+          <button class="col s12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continues"
+            [disabled]="!buyerInfoSForm.form.valid">{{'Continue' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form materialize class="hide-on-small-only" (ngSubmit)="onSubmit()" #buyerInfoForm="ngForm">
+    <div class="fullWidthBN" align="center">
+      <div class="maxWidthBN" align="left">
+        <div class="row"></div>
+        <div class="row">
+          <div class="col m6 pad20l10rBN">
+            <div class="col m12 l10 offset-l1 z-depth-2 card-panel white widgetBN">
+              <div class="row">
+                <div class="col m12 titleBN offsetBN">{{'Basic Details' | translate}}</div>
+                <div class="col m12 borderBN"></div>                
+              </div>
+              <div class="row">
+                <div class="col m12 labelBN offsetBN">{{'Name' | translate}}* :</div>
+                <div class="col m12 offsetlrBN input-field binputdivBN">
+                  <input class="binputBN validate" placeholder="{{'Enter your name here' | translate}}" [(ngModel)]="cart.name" maxlength="50" 
+                    name="name" required />
+                </div>
+                <div class="col m12 labelBN offsetBN">{{'Mobile Number' | translate}}* :</div>
+                <div class="col m12 input-field offsetlrBN binputdivBN">
+                  <input class="binputBN validate" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="cart.phone" 
+                    minlength="10" maxlength="20" required type="tel" name="phone" />
+                </div>
+                <div class="col m12 labelBN offsetBN">{{'E-Mail Id' | translate}}* :</div>
+                <div class="col m12 input-field offsetlrBN binputdivBN">
+                  <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
+                    [(ngModel)]="cart.email" name="email" required />
+                </div>
+                <div class="col m12 input-field labelBN offsetBN">{{'Address' | translate}}* :</div>
+                <div class="input-field col m12 offsetlrBN binputdivBN">
+                  <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address"
+                    placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="cart.address" required></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="hide-on-med-and-down l1"></div>
+          </div>
+          <div class="col m6 pad10l20rBN">
+            <div class="col m12 l10 offset-l1 z-depth-2 card-panel white widgetBN">            
+              <div class="row">
+                <div class="col m12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
+                <div class="col m12 borderBN"></div>                
+              </div>
+              <div class="row">
+                <div class="col m12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="upi" [(ngModel)]="cart.paymentMode" [value]="'UPI'" />
+                    <label for="upi" class="rdolblBN">
+                      <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
+                      <span class="upiBN">&nbsp;&nbsp;{{'UPI' | translate}}</span>
+                      <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col m12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="dc" [(ngModel)]="cart.paymentMode" [value]="'DC'" />
+                    <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
+                      <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col m12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="cc" [(ngModel)]="cart.paymentMode" [value]="'CC'" />
+                    <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
+                      <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col m12 offsetlrBN">
+                  <div class="rdoGrpBN">
+                    <input name="pmode" type="radio" id="nb" [(ngModel)]="cart.paymentMode" [value]="'NB'" />
+                    <label for="nb" class="rdolblBN">{{'Net Banking' | translate}}
+                      <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+                    </label>        
+                  </div>
+                </div>
+                <div class="col m12 offsetlrBN">
+                  <div class="rdoGrpNoBrdrBN">
+                    <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
+                    <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hide-on-med-and-down l1"></div>
+            <div class="col m12 l10 offset-l1 nolrpdBN">
+              <button class="col m12 buy1MBN btn waves-effect waves-light red darken-1 hide-on-large-only" type="submit" name="continue"
+                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode">{{'Continue' | translate}}</button>
+              <button class="col m12 buy1BN btn waves-effect waves-light red darken-1 hide-on-med-only" type="submit" name="continue"
+                [disabled]="!buyerInfoForm.form.valid || !cart.paymentMode">{{'Continue' | translate}}</button>
+            </div>            
+            <div class="hide-on-med-and-down l1"></div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </form>
+</div>
