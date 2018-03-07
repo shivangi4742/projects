@@ -1,15 +1,13 @@
 .loginHeaderBN {
     padding: 10px!important;
     background-color:#00c038;
-    height: 90px; 
+    height: 7   0px; 
 }
 
 .smallLogoBN {
     padding-top: 10px;
-    max-width: 145px;
     float: left;
     margin-left: 50px;
-    height: 100px;
     margin-bottom: -56px;
     position: relative;
 }
@@ -28,5 +26,5 @@
 }
 .uline{
     background-color:#006ec3;
-    height: 10px;   
+    height: 20px;   
 }
