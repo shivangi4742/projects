@@ -50,7 +50,7 @@
       </div>
       <div class="col s10 offset-s1 nolrpdBN">
         <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" type="submit" name="continue"
-          [disabled]="!cart.paymentMode">{{'Continue' | translate}}</button>
+          [disabled]="!cart.paymentMode || processing">{{'Continue' | translate}}</button>
       </div>            
       <div class="col s1"></div>
       <div class="col s12">&nbsp;</div>

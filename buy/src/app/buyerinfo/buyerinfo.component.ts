@@ -13,6 +13,7 @@ export class BuyerinfoComponent implements OnInit {
   merchantCode: string;
   cart: Cart;
   settings: any;
+  processing: boolean = false;
 
   constructor(private cartService: CartService, private router: Router, private activatedRoute: ActivatedRoute, private storeService: StoreService,
     private sdkService: SDKService) { }
@@ -52,6 +53,8 @@ export class BuyerinfoComponent implements OnInit {
     else {
       //error handling.
     }
+
+    this.processing = false;
   }
 
   finishCashPayment(res: any) {
@@ -59,6 +62,7 @@ export class BuyerinfoComponent implements OnInit {
       this.sdkService.saveCashPaymentSuccess(this.paidAmount, res.transactionRef, this.cart.phone, this.merchantCode, this.settings.displayName, '')
         .then(res2 => this.codMarked(res2));
     else {
+      this.processing = false;
       //error handling.
     }
   }
@@ -78,6 +82,7 @@ export class BuyerinfoComponent implements OnInit {
   }
 
   onSubmit() {
+    this.processing = true;
     this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
     this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
     this.pay();
