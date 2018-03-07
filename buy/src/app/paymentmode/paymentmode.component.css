@@ -73,6 +73,18 @@
     text-transform: none;        
 }
 
+.buy2BN2 {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;        
+    padding-top: 10px;    
+}
+
 .spqrModalBN {
     height: 80%;
     width: 80%;

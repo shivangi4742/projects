@@ -49,8 +49,10 @@
         </div>
       </div>
       <div class="col s10 offset-s1 nolrpdBN">
-        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" type="submit" name="continue"
-          [disabled]="!cart.paymentMode || processing">{{'Continue' | translate}}</button>
+        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" name="continue"
+          [disabled]="!cart.paymentMode || processing" *ngIf="!isUPIButton()">{{'Continue' | translate}}</button>
+        <a class="col s12 buy2BN2 btn waves-effect waves-light red darken-1" name="continue" target="_blank" [attr.href]="sanitize(upiURL)"
+          *ngIf="isUPIButton() && upiURL">{{'Continue' | translate}}</a>
       </div>            
       <div class="col s1"></div>
       <div class="col s12">&nbsp;</div>

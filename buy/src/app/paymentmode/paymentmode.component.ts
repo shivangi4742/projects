@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
@@ -25,9 +26,13 @@ export class PaymentmodeComponent implements OnInit {
   modalActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
-    private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService) { 
+    private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService, private sanitizer: DomSanitizer) { 
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));        
+  }
+
+  sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   fillStoreSettings(res: any) {
@@ -40,8 +45,11 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   fillCart(res: Cart) {
-    if(res && res.items && res.items.length > 0)
+    if(res && res.items && res.items.length > 0) {
       this.cart = res;
+      if(this.utilsService.isAnyMobile())
+        this.buildUPIURL();
+    }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
   }
@@ -69,15 +77,22 @@ export class PaymentmodeComponent implements OnInit {
     return '';
   }
 
+  isUPIButton(): boolean {
+    if(this.utilsService.isAnyMobile() && this.cart.paymentMode == 'UPI')
+      return true;
+
+    return false;
+  }
+
   qRLinkShown(res: any, txnNo: string) {
     if (res) {
       this.upiURL = res;
+      this.room = txnNo;
+      this.socketService.joinTransactionRoom(txnNo);
     }
     else {
       //handle error.
     }
-
-    this.processing = false;
   }
   
   qRShown(res: any, txnNo: string) {
@@ -98,14 +113,9 @@ export class PaymentmodeComponent implements OnInit {
 
   finishUPIPayment(res: any) {
     if (res && res.transactionRef)
-      if(this.utilsService.isAnyMobile())
-        this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null, 
-          this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
-          .then(res3 => this.qRLinkShown(res3, res.transactionRef));
-      else
-        this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, 
-          null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
-          .then(res2 => this.qRShown(res2, res.transactionRef));
+      this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, 
+        null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+        .then(res2 => this.qRShown(res2, res.transactionRef));
     else {
       this.processing = false;
       //handle error.
@@ -120,6 +130,28 @@ export class PaymentmodeComponent implements OnInit {
 
     this.storeService.fetchStoreDetails(this.merchantCode)
       .then(res2 => this.fillStoreSettings(res2))
+  }
+
+  buildUPIURL() {
+    if(this.cart && this.settings) {
+      this.paidAmount = this.cartService.getCartTotal();
+      if(this.settings.chargeConvenienceFee)
+        this.paidAmount = this.paidAmount * 1.02;
+
+      this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+        .then(res => this.getUPIURL(res));    
+    }
+    else {
+      let me: any = this;
+      setTimeout(function() { me.buildUPIURL(); }, 100);
+    }
+  }
+
+  getUPIURL(res: any) {
+    if(res && res.transactionRef)
+      this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null, 
+        this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+        .then(res3 => this.qRLinkShown(res3, res.transactionRef));
   }
 
   codMarked(res: any) {
