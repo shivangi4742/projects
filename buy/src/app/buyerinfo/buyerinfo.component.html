@@ -132,4 +132,29 @@
       </div>
     </div>    
   </form>
+  <div materialize="modal" id="pqrModal" class="modal modal-fixed-footer pqrModalBN" [materializeActions]="modalActions">
+    <div class="modal-content" id="pqrModalContent">
+      <div class="row">
+        <div class="col s12 center pqrhdrBN">{{'Scan QR code to pay' | translate}}</div>
+      </div>
+      <div class="row" *ngIf="payRequest">
+        <div class="col s12 center">
+          <img [src]="payRequest.qrURL" class="pqrqrBN" />
+        </div>
+      </div>
+      <div class="row" *ngIf="payRequest">
+        <div class="col s12 pqrftrBN" align="center">
+          <div class="pqrrgtBN" align="right">
+              ₹ {{payRequest.amount | number : '1.2-2'}}<br />
+              {{payRequest.vPA}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer pfooterHgtBN">
+      <div class="col s12 center">
+        <button class="btn waves-effect waves-light red darken-1 pcloseMdlBtnBN" (click)="closeModal()" name="close">{{'Close' | translate}}</button>
+      </div>
+    </div>
+  </div>  
 </div>
