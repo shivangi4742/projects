@@ -12,8 +12,8 @@ else
 
 // Messages class.
 var helper = {
-    gandaLogic: function (txnid) {
-        if (!txnid || txnid.length < 16)
+    gandaLogic: function(txnid) {
+        if(!txnid || txnid.length < 16)
             return 100;
         else {
             var str = txnid.charCodeAt(2).toString() + txnid.charCodeAt(3).toString() + txnid.charCodeAt(4).toString() + txnid.substring(14);
@@ -133,7 +133,6 @@ var helper = {
     },
 
     getDefaultExtServerOptions: function (path, method, headers) {
-
         var extServerOptions = {
             host: config.beNowSvc.host,
             port: config.beNowSvc.port,
@@ -217,7 +216,7 @@ var helper = {
         extServerOptions.headers['X-EMAIL'] = email;
         return extServerOptions;
     },
-
+    
     getAndCallback: function (extServerOptions, cb, notJSON) {
         return http.get({
             host: extServerOptions.host,
@@ -321,45 +320,50 @@ var helper = {
             cb({ 'success': false, 'status': 501, 'validationErrors': 'Output is not in proper format' });
         }
     },
+    
+    getCurDateTimeString() {
+        var dt = new Date();
+        var dtStr = this.getCurDateString() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+    },
 
-    inWords: function (totalRent) {
+    inWords: function(totalRent) {
         var rupeePrefix = 'Rupees ';
         var paisaPrefix = 'Paise';
         var and = 'and ';
         if (totalRent >= 1 && totalRent < 2)
-            rupeePrefix = 'Rupee ';
-
+          rupeePrefix = 'Rupee ';
+    
         if (totalRent < 1) {
-            and = '';
-            rupeePrefix = '';
+          and = '';
+          rupeePrefix = '';
         }
-
+    
         if ((Math.round(totalRent * 100) % 100) >= 1 && (Math.round(totalRent * 100) % 100) < 2) {
-            paisaPrefix = 'Paisa';
+          paisaPrefix = 'Paisa';
         }
-
+    
         var n;
         var d;
-        var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ',
+        var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 
             'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
         var b = ['', '', 'Twenty', 'Thirty', 'Fourty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
         var number = parseFloat(totalRent).toFixed(2).split(".");
         var num = parseInt(number[0]);
         var digit = parseInt(number[1]);
         if ((num.toString(n)).length > 9)
-            return 'Overflow';
-
+          return 'Overflow';
+    
         n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
         d = ('00' + digit).substr(-2).match(/^(\d{2})$/);;
         if (!n) return; var str = '';
-
+    
         str += rupeePrefix, '';
         str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
         str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
         str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
         str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
         str += (n[5] != 0) ? (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : ' ';
-
+    
         str += (d[1] != 0) ? ((str != '') ? and : '') + (a[Number(d[1])] || b[d[1][0]] + ' ' + a[d[1][1]]) + paisaPrefix + ' Only ' : 'Only';
         return str;
     }

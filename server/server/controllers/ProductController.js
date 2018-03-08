@@ -32,7 +32,6 @@ var prodCont = {
     deleteCampaignProduct: function(req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.deleteCampaignProductPost(req, function (data) {
-            console.log(data);
             res.json(data);
         }); 
     },
@@ -231,6 +230,20 @@ var prodCont = {
         });
     },
 
+    getProduct: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getProductPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getProductsByIds: function(req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getProductsByIdsPost(req, function (data) {
+            res.json(data);
+        });        
+    },
+
     getProductsForCampaignPost: function(req, cb) {
         var retErr = {
             "success": false,
@@ -268,12 +281,62 @@ var prodCont = {
                 cb(retErr);
             else {
                 var d = req.body;
-                if (d && d.merchantCode)
-                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProduct', 'POST', req.headers),
-                        {
+                if (d && d.merchantCode) {
+                    var obj = {
                             "merchantCode": d.merchantCode,
                             "pageNumber": d.pageNumber
-                        }, cb);
+                    };
+                    if(d.isAvailable != null && d.isAvailable != undefined)
+                        obj.isAvailable = d.isAvailable;
+
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProduct', 'POST', req.headers), obj, cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getProductsByIdsPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.ids && d.ids.length > 0)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProductByListOfId', 'POST', req.headers), 
+                        { "productIdList": d.ids }, cb);
+                else
+                    cb(retErr);
+    }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getProductPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+};
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.id)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProductById', 'POST', req.headers), 
+                        { "id": d.id }, cb);
                 else
                     cb(retErr);
             }
@@ -282,6 +345,6 @@ var prodCont = {
             cb(retErr);
         }
     }
-};
+}
 
 module.exports = prodCont;
