@@ -37,6 +37,7 @@ export class RazorpayComponent implements OnInit {
   mtype: number;
   paylinkid: string;
 
+  payamount: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +56,7 @@ export class RazorpayComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.txnId = this.route.snapshot.params['txnid'];
     this.prods = this.route.snapshot.params['prods'];
+    this.payamount = this.route.snapshot.params['amount'];
 
     this.status = "";
     this.mode = "";
@@ -141,10 +143,12 @@ export class RazorpayComponent implements OnInit {
     var me = this;
     var options = {
       "key": this.rzKey,
-      "amount": this.rzModel.amount * 100,
+      // "amount": this.rzModel.amount * 100,
+      "amount": (+this.payamount),
       "name": this.rzModel.title,
-      "description": this.rzModel.description,
-      "image": this.pay.imageURL,
+      "description": '',
+      // "image": this.pay.imageURL,
+      "image": 'https://pbs.twimg.com/profile_images/915212352873578498/qa3oS9PZ_400x400.jpg',
       "handler": function (response) {
         me.sdkService.setReceivedPaymentSubject(response);
       },

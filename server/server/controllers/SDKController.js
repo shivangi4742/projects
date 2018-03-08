@@ -443,7 +443,7 @@ var sdkCont = {
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
-                res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId);
+                res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
             }
             else {
                 var drop_cat = 'DC,NB,EMI,CASH';
