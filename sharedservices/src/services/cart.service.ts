@@ -64,6 +64,55 @@ export class CartService {
         localStorage.setItem('bnHBSCart' + code, JSON.stringify(crt));
     }
 
+    public startPayUPaymentProcess(merchantName: string, amount: number): Promise<any> {
+        let pt: string = '';
+        if(this._cart.paymentMode == 'DC')
+            pt = 'DEBIT_CARD';
+        else if(this._cart.paymentMode == 'CC')
+            pt = 'CREDIT_CARD';
+        else if(this._cart.paymentMode == 'NB')
+            pt = 'NET_BANKING';
+
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
+            JSON.stringify({
+                "name": this._cart.name,
+                "address": this._cart.address,
+                "email": this._cart.email,
+                "payamount": amount,
+                "phone": this._cart.phone,
+                "merchantcode": this._cart.merchantCode,
+                "merchantname": merchantName,
+                "paytype": pt,
+                "products": this._cart.items
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
+    }
+
+    public startUPIPaymentProcess(merchantVPA: string, merchantName: string, amount: number): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
+            JSON.stringify({
+                "name": this._cart.name,
+                "address": this._cart.address,
+                "email": this._cart.email,
+                "payamount": amount,
+                "phone": this._cart.phone,
+                "merchantcode": this._cart.merchantCode,
+                "merchantname": merchantName,
+                "merchantvpa": merchantVPA,
+                "paytype": 'UPI_OTHER_APP',
+                "products": this._cart.items
+            }),
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());        
+    }
+
     public startCashPaymentProcess(merchantname: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
@@ -114,7 +163,7 @@ export class CartService {
             crt = JSON.parse(crtstr);
             
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.phone, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
+            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
                 crt.items.forEach(function(ci: any) {

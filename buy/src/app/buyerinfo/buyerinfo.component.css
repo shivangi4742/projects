@@ -108,6 +108,18 @@
     text-transform: none;
 }
 
+.buy1BN2 {
+    margin-top: 35px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+    letter-spacing: 0.1rem;   
+    padding-top: 22px;
+}
+
 .buy1MBN {
     margin-top: 15px;
     border-radius: 5px;
@@ -119,6 +131,18 @@
     text-transform: none;    
 }
 
+.buy1MBN2 {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;    
+    padding-top: 22px;
+}
+
 .nolrpdBN {
     padding-left: 0px;
     padding-right: 0px;
@@ -127,4 +151,44 @@
 .pad0lrBN {
     padding-left: 0px!important;
     padding-right: 0px!important;
+}
+
+.pqrModalBN {
+    height: 80%;
+    width: 80%;
+    max-width: 400px;    
+    overflow: hidden;
+}
+
+.pfooterHgtBN {
+    height: 75px;
+}
+
+.pcloseMdlBtnBN {
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
+}
+
+.pqrqrBN {
+    width: 180px;
+}
+
+.pqrhdrBN {
+    font-size: 14pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.pqrftrBN {
+    font-size: 14pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.pqrrgtBN {
+    width: 140px;
 }

@@ -72,3 +72,55 @@
     letter-spacing: 0.1rem;   
     text-transform: none;        
 }
+
+.buy2BN2 {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;        
+    padding-top: 10px;    
+}
+
+.spqrModalBN {
+    height: 80%;
+    width: 80%;
+    max-width: 400px;    
+    overflow: hidden;
+}
+
+.spfooterHgtBN {
+    height: 75px;
+}
+
+.spcloseMdlBtnBN {
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
+}
+
+.spqrqrBN {
+    width: 180px;
+}
+
+.spqrhdrBN {
+    font-size: 14pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.spqrftrBN {
+    font-size: 14pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.spqrrgtBN {
+    width: 140px;
+}

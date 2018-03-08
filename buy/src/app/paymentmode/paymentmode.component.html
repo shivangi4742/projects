@@ -49,11 +49,38 @@
         </div>
       </div>
       <div class="col s10 offset-s1 nolrpdBN">
-        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" type="submit" name="continue"
-          [disabled]="!cart.paymentMode || processing">{{'Continue' | translate}}</button>
+        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" name="continue"
+          [disabled]="!cart.paymentMode || processing" *ngIf="!isUPIButton()">{{'Continue' | translate}}</button>
+        <a class="col s12 buy2BN2 btn waves-effect waves-light red darken-1" name="continue" target="_blank" [attr.href]="sanitize(upiURL)"
+          *ngIf="isUPIButton() && upiURL">{{'Continue' | translate}}</a>
       </div>            
       <div class="col s1"></div>
       <div class="col s12">&nbsp;</div>
     </div>
   </form>
+  <div materialize="modal" id="spqrModal" class="modal modal-fixed-footer spqrModalBN" [materializeActions]="modalActions">
+    <div class="modal-content" id="spqrModalContent">
+      <div class="row">
+        <div class="col s12 center spqrhdrBN">{{'Scan QR code to pay' | translate}}</div>
+      </div>
+      <div class="row" *ngIf="payRequest">
+        <div class="col s12 center">
+          <img [src]="payRequest.qrURL" class="spqrqrBN" />
+        </div>
+      </div>
+      <div class="row" *ngIf="payRequest">
+        <div class="col s12 spqrftrBN" align="center">
+          <div class="spqrrgtBN" align="right">
+              ₹ {{payRequest.amount | number : '1.2-2'}}<br />
+              {{payRequest.vPA}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer spfooterHgtBN">
+      <div class="col s12 center">
+        <button class="btn waves-effect waves-light red darken-1 spcloseMdlBtnBN" (click)="closeModal()" name="close">{{'Close' | translate}}</button>
+      </div>
+    </div>
+  </div>  
 </div>

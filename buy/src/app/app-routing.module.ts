@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { PgComponent } from './pg/pg.component';
 import { CartComponent } from './cart/cart.component';
 import { StoreComponent } from './store/store.component';
 import { ProductComponent } from './product/product.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: ':code/product/:id', component: ProductComponent },
     { path: ':code/product2/:id', component: ProductComponent },
     { path: ':code/paymentsuccess/:id', component: PaymentsuccessComponent },
+    { path: ':code/pg/:id/:cf', component: PgComponent },
     { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
 ];
 
