@@ -1,0 +1,18 @@
+<form *ngIf="checksum" id="paytmRequestForm" #paytmRequestForm ngNoForm action="{{paytmRequestUrl}}" method="POST">
+  <button class="btn-flat waves-effect waves-light transparent regNrmS2BN" type="submit" id="submitButton" style="color: transparent; background-color: transparent;">Pay</button>
+  <input type="hidden" name="REQUEST_TYPE" [ngModel]="paytmReq.requestType" />
+  <input type="hidden" name="MID" [ngModel]="paytmReq.mid" />
+  <input type="hidden" name="ORDER_ID" [ngModel]="paytmReq.orderId" />
+  <input type="hidden" name="CUST_ID" [ngModel]="paytmReq.customerId" />
+  <input type="hidden" name="TXN_AMOUNT" [ngModel]="paytmReq.amount" />
+  <input type="hidden" name="CHANNEL_ID" [ngModel]="paytmReq.channelId" />
+  <input type="hidden" name="INDUSTRY_TYPE_ID" [ngModel]="paytmReq.industryTypeId" />
+  <input type="hidden" name="WEBSITE" [ngModel]="paytmReq.website" />
+  <input type="hidden" name="CHECKSUMHASH" [ngModel]="checksum" />
+  <input type="hidden" name="MOBILE_NO" [ngModel]="paytmReq.mobileNo" />
+  <input type="hidden" name="EMAIL" [ngModel]="paytmReq.email" />
+  <input type="hidden" name="PAYMENT_MODE_ONLY" [ngModel]="paytmReq.paymentModeOnly" />
+  <input type="hidden" name="AUTH_MODE" [ngModel]="paytmReq.authMode" />
+  <input type="hidden" name="PAYMENT_TYPE_ID" [ngModel]="paytmReq.paymentTypeId" />
+  <input type="hidden" name="CALLBACK_URL" [ngModel]="paytmReq.callbackUrl" />
+</form>
