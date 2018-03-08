@@ -115,7 +115,7 @@ var sdkCont = {
                                         'POST', req.headers),
                                         {
                                             "userId": mData.userId,
-                                            "sourceId": "6",
+                                            "sourceId": mData.id.toString(),
                                             "sourceType": "MERCHANT_REG"
                                         }, function (m2Data) {
                                             helper.postAndCallback(helper.getDefaultedExtServerOptions('/payments/paymentadapter/getDataByPaymentLinkByCriteria',
@@ -298,7 +298,7 @@ var sdkCont = {
                         me.send80G(req, function () {
                         });
 
-                    cb();
+                    cb(dd);
                 });
         }
         catch (err) {
@@ -1335,7 +1335,7 @@ var sdkCont = {
         catch (err) {
             cb(retErr);
         }
-    },
+    }
 }
 
 module.exports = sdkCont;
