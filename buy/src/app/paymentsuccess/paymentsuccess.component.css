@@ -1,0 +1,27 @@
+.tycontainerBN {
+    padding-right: 20px;
+    padding-left: 20px;    
+}
+
+.tyBN {
+    font-weight: 600;
+    font-size: 20pt;
+    font-family: 'Barlow', sans-serif;
+    color: #79A616;
+    letter-spacing: 0.1rem;                   
+}
+
+.tyopBN {
+    font-size: 14pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.tycntnuBN {
+    height: 45pt;
+    font-size: 15pt;
+    border-radius: 5px;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
