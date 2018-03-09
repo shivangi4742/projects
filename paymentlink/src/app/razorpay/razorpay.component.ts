@@ -37,6 +37,8 @@ export class RazorpayComponent implements OnInit {
   mtype: number;
   paylinkid: string;
 
+  payamount: string;
+  fundId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +57,8 @@ export class RazorpayComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.txnId = this.route.snapshot.params['txnid'];
     this.prods = this.route.snapshot.params['prods'];
+    this.payamount = this.route.snapshot.params['amount'];
+    this.fundId = this.route.snapshot.params['fund'];
 
     this.status = "";
     this.mode = "";
@@ -75,6 +79,13 @@ export class RazorpayComponent implements OnInit {
 
   getProducts(res: SDK): void {
     this.pay = res;
+    if (this.prods && this.prods != '0' && !(res.products && res.products.length > 0)) {
+      this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
+        .then(pres => this.initProds(pres));
+    }
+    else
+      this.init(this.pay);
+
     this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
       .then(pres => this.initProds(pres));
   }
@@ -116,7 +127,6 @@ export class RazorpayComponent implements OnInit {
       this.rzModel = new RazorPayModel(res.amount, res.title, res.description, res.firstName, res.lastName, res.email);
       this.sdkService.getMerchantPaymentInfo(res.merchantCode, 'RAZORPAY')
         .then(res => this.processPaymentReq(res));
-
     }
   }
 
@@ -141,10 +151,12 @@ export class RazorpayComponent implements OnInit {
     var me = this;
     var options = {
       "key": this.rzKey,
-      "amount": this.rzModel.amount * 100,
+      // "amount": this.rzModel.amount * 100,
+      "amount": (+this.payamount),
       "name": this.rzModel.title,
-      "description": this.rzModel.description,
-      "image": this.pay.imageURL,
+      "description": '',
+      // "image": this.pay.imageURL,
+      "image": 'https://pbs.twimg.com/profile_images/915212352873578498/qa3oS9PZ_400x400.jpg',
       "handler": function (response) {
         me.sdkService.setReceivedPaymentSubject(response);
       },
@@ -182,9 +194,9 @@ export class RazorpayComponent implements OnInit {
 
     if (this.pay.merchantType == 2) {
       // Confirm fundraiser logic
-      if (res.hasfundraiser && res.hasfundraiser.toString().toLowerCase() == "true") {
-        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
-        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
+      if (this.fundId) {
+        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId + '/' + this.fundId;
+        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId + '/' + this.fundId;
       }
       else {
         surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId;

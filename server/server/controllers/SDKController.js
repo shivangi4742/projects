@@ -443,7 +443,13 @@ var sdkCont = {
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
-                res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId);
+                if (req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100 + '/' + req.body.fundraiserid);
+                }
+                else {
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
+                }
+
             }
             else {
                 var drop_cat = 'DC,NB,EMI,CASH';
@@ -458,6 +464,7 @@ var sdkCont = {
                     'X-AUTHORIZATION': config.paymentGateway.xauth,
                     'Content-Type': 'application/json'
                 };
+
                 var surl = config.paymentGateway.newsurl + paylinkid + '/' + req.body.txnid;
                 var furl = config.paymentGateway.newfurl + paylinkid + '/' + req.body.txnid;
                 if (req.body.mtype == 2) {

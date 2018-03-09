@@ -33,6 +33,8 @@ const routes: Routes = [
     { path: 'donationfailure/:id/:txnid', component: FailureComponent },
     { path: 'notification/:page/:id', component: NotificationComponent },
     { path: 'razorpay/:id', component: RazorpayComponent },
+    { path: 'razorpay/:id/:prods/:txnid/:amount/:fund', component: RazorpayComponent },
+    { path: 'razorpay/:id/:prods/:txnid/:amount', component: RazorpayComponent },
     { path: 'razorpay/:id/:prods/:txnid', component: RazorpayComponent },
     { path: 'paytmrequest', component: PaytmrequestComponent },
     { path: 'paytmrequest/:id', component: PaytmrequestComponent },
