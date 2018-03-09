@@ -10,6 +10,7 @@ import { Product } from './../models/product.model';
 import { CartItem } from './../models/cartitem.model';
 import { NewProduct } from './../models/newproduct.model';
 import { Variant } from './../models/variant.model';
+import { NewVariant } from './../models/newvariant.model';
 
 import { UtilsService } from './utils.service';
 
@@ -20,11 +21,12 @@ export class ProductService {
     private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
     private _urls: any = {
-        getProductURL: 'product/getProduct',        
+        getProductForEditURL: 'product/getProductForEdit',
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
         getProductsByIdsURL: 'product/getProductsByIds',
         addProductHBURL: 'product/addProductHB',
+        editProductHBURL: 'product/editProductHB',
         deleteProductURL: 'product/deleteProduct',
         editProductURL: 'product/editProduct',
         deleteCampaignProductURL: 'product/deleteCampaignProduct',
@@ -208,16 +210,40 @@ export class ProductService {
 
     }
 
-    getProduct(id: string): Promise<Product> {
+    getProductForEdit(id: string): Promise<NewProduct> {
         return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.getProductURL, 
+            .post(this.utilsService.getBaseURL() + this._urls.getProductForEditURL,
                 JSON.stringify({
-                    "id": id,
+                    "productId": id,
                 }), 
                 { headers: this.utilsService.getHeaders() })
             .toPromise()
-            .then(res => this.fillStoreProduct(res.json()))
+            .then(res => this.fillProduct(res.json()))
             .catch(res => this.utilsService.returnGenericError());    
+    }
+
+    fillProduct(res: any): NewProduct {
+        let product: NewProduct = new NewProduct(false, false, false, 0,
+            0, '', '', null, null, null, null, null, false,
+            '', false, null, null, null, null, null);
+        let hasVariants: boolean = false;
+        let variants = new Array<NewVariant>();
+        if(res){
+            if(res.benowProductVariants && res.benowProductVariants.length > 0){
+                hasVariants = true;
+                for(let i:number = 0; i < res.benowProductVariants.length; i++){
+                    variants.push(new NewVariant(res.benowProductVariants[i].price, res.benowProductVariants[i].discountedPrice,
+                        res.benowProductVariants[i].id, res.benowProductVariants[i].color, res.benowProductVariants[i].isAvailable,
+                        res.benowProductVariants[i].variantCode, res.benowProductVariants[i].variantDesc, res.benowProductVariants[i].listProductSizes))
+                }
+            }
+
+            product = new NewProduct(false, true, false, res.prodPrice, res.discountedPrice,
+                res.id, res.prodName, res.prodDescription, res.uom, res.color, res.productSizes, res.productImages, res.isAvailable,
+                res.productType, hasVariants, variants, res.venue, res.startDate, res.endDate, res.fileUrl);
+        }
+
+        return product;
     }
 
     setSelectedProducts(ps: Array<Product>) {
@@ -321,13 +347,19 @@ export class ProductService {
 
     private addedProductHB(res: any): NewProduct|null {
         if(res && res.prodPrice > 0){
-            if(res.benowProductVariants && res.benowProductVarints.length > 0){
-                return new NewProduct(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,
-                    null, res.prodImgUrls, res.isAvailable, res.productType, true, res.benowProductVariants, res.venue, res.startDate, res.endDate, null);
+            if(res.benowProductVariants && res.benowProductVariants.length > 0){
+                let variants = new Array<NewVariant>();
+                for(let i:number = 0; i < res.benowProductVariants.length; i++){
+                    variants.push(new NewVariant(res.benowProductVariants[i].price, res.benowProductVariants[i].discountedPrice,
+                        res.benowProductVariants[i].id, res.benowProductVariants[i].color, res.benowProductVariants[i].isAvailable,
+                        res.benowProductVariants[i].variantCode, res.benowProductVariants[i].variantDesc, res.benowProductVariants[i].listProductSizes))
+                }
+                return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
+                    res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue, res.startDate, res.endDate, null);
             }
 
-            return new NewProduct(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,
-                null, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null);
+            return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
+                res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null);
         }
         else
             return null;
@@ -422,7 +454,10 @@ export class ProductService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
-    addProductHB(merchantCode: string, product: NewProduct): Promise<Product> {
+    addProductHB(merchantCode: string, product: NewProduct): Promise<NewProduct> {
+        if(!product.discountedPrice){
+            product.discountedPrice = product.price;
+        }
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.addProductHBURL,
                 JSON.stringify({
@@ -431,15 +466,48 @@ export class ProductService {
                     "price": product.price,
                     "description": product.description,
                     "uom": product.uom,
-                    "imageURLs": product.imageURLs,
-                    "variants": product.variants,
+                    "prodImgUrls": product.prodImgUrls,
+                    "benowProductVariants": product.variants,
                     "productType": product.productType,
                     "isAvailable": product.isAvailable,
                     "startDate": product.startDate,
                     "endDate": product.endDate,
                     "fileUrl": product.fileUrl,
                     "venue": product.venue,
-                    "discount": product.discount
+                    "discountedPrice": product.discountedPrice,
+                    "color": product.color,
+                    "prodSizes": product.prodSizes
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.addedProductHB(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
+    editProductHB(merchantCode: string, product: NewProduct): Promise<Product> {
+        if(!product.discountedPrice){
+            product.discountedPrice = product.price;
+        }
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.editProductHBURL,
+                JSON.stringify({
+                    "id": product.id,
+                    "merchantCode": merchantCode,
+                    "name": product.name,
+                    "price": product.price,
+                    "description": product.description,
+                    "uom": product.uom,
+                    "prodImgUrls": product.prodImgUrls,
+                    "benowProductVariants": product.variants,
+                    "productType": product.productType,
+                    "isAvailable": product.isAvailable,
+                    "startDate": product.startDate,
+                    "endDate": product.endDate,
+                    "fileUrl": product.fileUrl,
+                    "venue": product.venue,
+                    "discountedPrice": product.discountedPrice,
+                    "color": product.color,
+                    "prodSizes": product.prodSizes
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()

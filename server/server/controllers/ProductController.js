@@ -15,6 +15,13 @@ var prodCont = {
         });
     },
 
+    editProductHB: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.editProductHBPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
     editProduct: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.editProductPost(req, function (data) {
@@ -134,16 +141,60 @@ var prodCont = {
                             "merchantCode": d.merchantCode,
                             "prodPrice": d.price,
                             "prodDescription": d.description,
-                            "prodImgUrls": d.imageURLs,
+                            "prodImgUrls": d.prodImgUrls,
                             "prodName": d.name,
                             "uom": d.uom,
-                            "benowProductVariants": d.variants,
+                            "benowProductVariants": d.benowProductVariants,
                             "productType": d.productType,
                             "isAvailable": d.isAvailable,
                             "startDate": d.startDate,
                             "endDate": d.endDate,
                             "fileUrl": d.fileUrl,
-                            "venue": d.venue
+                            "venue": d.venue,
+                            "discountedPrice": d.discountedPrice,
+                            "color": d.color,
+                            "prodSizes": d.prodSizes
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    editProductHBPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.merchantCode && d.price && d.name)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveBenowProduct', 'POST', req.headers),
+                        {
+                            "id": d.id,
+                            "merchantCode": d.merchantCode,
+                            "prodPrice": d.price,
+                            "prodDescription": d.description,
+                            "prodImgUrls": d.prodImgUrls,
+                            "prodName": d.name,
+                            "uom": d.uom,
+                            "benowProductVariants": d.benowProductVariants,
+                            "productType": d.productType,
+                            "isAvailable": d.isAvailable,
+                            "startDate": d.startDate,
+                            "endDate": d.endDate,
+                            "fileUrl": d.fileUrl,
+                            "venue": d.venue,
+                            "discountedPrice": d.discountedPrice,
+                            "color": d.color,
+                            "prodSizes": d.prodSizes
                         }, cb);
                 else
                     cb(retErr);
@@ -174,6 +225,38 @@ var prodCont = {
                             "prodImgUrl": d.imageURL,
                             "prodName": d.name,
                             "uom": d.uom
+                        }, cb);
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
+    getProductForEdit: function (req, res) {
+        res.setHeader("X-Frame-Options", "DENY");
+        this.getProductForEditPost(req, function (data) {
+            res.json(data);
+        });
+    },
+
+    getProductForEditPost: function(req, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body)
+                cb(retErr);
+            else {
+                var d = req.body;
+                if (d && d.productId)
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/getBenowProductById', 'POST', req.headers),
+                        {
+                            "id": d.productId
                         }, cb);
                 else
                     cb(retErr);

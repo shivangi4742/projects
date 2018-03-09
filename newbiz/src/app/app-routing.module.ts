@@ -17,6 +17,7 @@ import { ChangepassComponent } from './changepass/changepass.component';
 import { CreatecampaignComponent } from './createcampaign/createcampaign.component';
 import { AddproducttocampaignComponent } from './addproducttocampaign/addproducttocampaign.component';
 import { CreatecampaignurlComponent } from './createcampaignurl/createcampaignurl.component';
+import { EditproductComponent } from "./editproduct/editproduct.component";
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'thanksregistrationprocess', component: ThanksregisterComponent },
     { path: 'catalogue', component: ProductcatalogComponent },
     { path: 'addproduct', component: AddproductComponent },
+    { path: 'editproduct/:id', component: EditproductComponent },
     { path: 'changepassword', component: ChangepassComponent},
     { path: 'createcampaign', component: CreatecampaignComponent},
     { path: 'addproducttocampaign', component: AddproducttocampaignComponent },
