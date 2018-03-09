@@ -530,9 +530,6 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.upiAmount != this.pay.amount) {
       this.upiURL = null;
-      if (this.txnNo && this.txnNo.length > 0)
-        this.createQRL({ "transactionRef": this.txnNo });
-      else
         this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
@@ -603,9 +600,6 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.qrAmount != this.pay.amount) {
       this.qrURL = null;
-      if (this.txnNo && this.txnNo.length > 0)
-        this.createQR({ "transactionRef": this.txnNo });
-      else
         this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
           this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
           this.pay.til, this.pay.products)
