@@ -59,6 +59,8 @@ export class EditproductComponent implements OnInit {
 
   ngOnInit() {
     let me = this;
+    this.locationService.setLocation('editproduct');
+
     this.userService.getUser()
       .then(res => this.init(res));
 
@@ -101,6 +103,19 @@ export class EditproductComponent implements OnInit {
 
     this.productService.getProductForEdit(this.prodId)
       .then(res => this.loadProduct(res));
+  }
+
+  setProdStock(){
+    this.editProduct.isAvailable = !this.editProduct.isAvailable;
+    console.log('here');
+  }
+
+  getSwitchProdText(check: boolean): string{
+    if(check){
+      return 'In Stock';
+    }
+
+    return 'Out of Stock';
   }
 
   loadProduct(res: NewProduct){

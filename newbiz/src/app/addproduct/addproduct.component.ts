@@ -23,9 +23,12 @@ export class AddproductComponent implements OnInit {
   numProdSizes: number = 0;
   numVariantSizes: number = 0;
   uploadsURL: string;
+  isAmountLess: boolean = false;
+  discountError: boolean = false;
   dashboard: string = '/dashboard';
   colorChip;
   sizeChip;
+  newProdCheck: boolean = true;
   uploading: boolean = false;
   imageUrls = new Array<ProductImage>();
   numImages: number = 0;
@@ -83,18 +86,18 @@ export class AddproductComponent implements OnInit {
       secondaryPlaceholder: 'Done',
       autocompleteOptions: {
         data: {
-          'Red': '../../assets/shared/images/redCircle.png', 'Brown': '../../assets/shared/images/redCircle.png', 'Grey': '../../assets/shared/images/redCircle.png',
-          'Green': '../../assets/shared/images/green.png', 'Black': '../../assets/shared/images/redCircle.png', 'Purple': '../../assets/shared/images/redCircle.png',
-          'Blue': '../../assets/shared/images/blueCircle.png', 'Pink': '../../assets/shared/images/redCircle.png', 'Gold': '../../assets/shared/images/redCircle.png',
-          'Silver': '../../assets/shared/images/blueCircle.png', 'Yellow': '../../assets/shared/images/redCircle.png', 'Gunmetal': '../../assets/shared/images/redCircle.png',
-          'Maroon': '../../assets/shared/images/blueCircle.png', 'White': '../../assets/shared/images/redCircle.png', 'Orange': '../../assets/shared/images/redCircle.png',
-          'Metallic': '../../assets/shared/images/blueCircle.png', 'Beige': '../../assets/shared/images/redCircle.png', 'Copper': '../../assets/shared/images/redCircle.png',
-          'Navy Blue': '../../assets/shared/images/blueCircle.png', 'Burgundy': '../../assets/shared/images/redCircle.png', 'Olive': '../../assets/shared/images/redCircle.png',
-          'Steel': '../../assets/shared/images/blueCircle.png', 'Charcoal': '../../assets/shared/images/redCircle.png', 'Bronze': '../../assets/shared/images/redCircle.png',
-          'Teal': '../../assets/shared/images/blueCircle.png', 'Coral': '../../assets/shared/images/redCircle.png', 'Peach': '../../assets/shared/images/redCircle.png',
-          'Magenta': '../../assets/shared/images/blueCircle.png', 'Lavender': '../../assets/shared/images/redCircle.png', 'Turquoise': '../../assets/shared/images/redCircle.png',
-          'Taupe': '../../assets/shared/images/blueCircle.png', 'Mauve': '../../assets/shared/images/redCircle.png', 'Khaki': '../../assets/shared/images/redCircle.png',
-          'Rust': '../../assets/shared/images/blueCircle.png', 'Lime Green': '../../assets/shared/images/redCircle.png', 'Coffee Brown': '../../assets/shared/images/redCircle.png'      },
+          'Red': '../../assets/shared/images/Red.png', 'Brown': '../../assets/shared/images/Brown.png', 'Grey': '../../assets/shared/images/Grey.png',
+          'Green': '../../assets/shared/images/Green.png', 'Black': '../../assets/shared/images/Black.png', 'Purple': '../../assets/shared/images/Purple.png',
+          'Blue': '../../assets/shared/images/Blue.png', 'Pink': '../../assets/shared/images/Pink.png', 'Gold': '../../assets/shared/images/Gold.png',
+          'Silver': '../../assets/shared/images/Silver.png', 'Yellow': '../../assets/shared/images/Yellow.png', 'Gunmetal': '../../assets/shared/images/Gunmetal.png',
+          'Maroon': '../../assets/shared/images/Maroon.png', 'White': '../../assets/shared/images/White.png', 'Orange': '../../assets/shared/images/Orange.png',
+          'Metallic': '../../assets/shared/images/Metallic.png', 'Beige': '../../assets/shared/images/Beige.png', 'Copper': '../../assets/shared/images/Copper.png',
+          'Navy Blue': '../../assets/shared/images/Navy.png', 'Burgundy': '../../assets/shared/images/Burgundy.png', 'Olive': '../../assets/shared/images/Olive.png',
+          'Steel': '../../assets/shared/images/Steel.png', 'Charcoal': '../../assets/shared/images/Charcoal.png', 'Bronze': '../../assets/shared/images/Bronze.png',
+          'Teal': '../../assets/shared/images/Teal.png', 'Coral': '../../assets/shared/images/Coral.png', 'Peach': '../../assets/shared/images/Peach.png',
+          'Magenta': '../../assets/shared/images/Magenta.png', 'Lavender': '../../assets/shared/images/Lavender.png', 'Turquoise': '../../assets/shared/images/Turquoise.png',
+          'Taupe': '../../assets/shared/images/Taupe.png', 'Mauve': '../../assets/shared/images/Mauve.png', 'Khaki': '../../assets/shared/images/Khaki.png',
+          'Rust': '../../assets/shared/images/Rust.png', 'Lime Green': '../../assets/shared/images/Lime.png', 'Coffee Brown': '../../assets/shared/images/Coffee.png'      },
         limit: Infinity,
         minLength: 1
       }
@@ -109,7 +112,7 @@ export class AddproductComponent implements OnInit {
           '5': null,'6': null,'7': null,'8': null,'9': null,'10': null,'11': null,'12': null,'13': null,'14': null,'15': null,
           '16': null,'17': null,'18': null,'19': null,'20': null,'21': null,'22': null,'23': null,'24': null,'25': null,
           '26': null,'27': null,'28': null,'29': null,'30': null,'31': null,'32': null,'33': null,'34': null,'35': null,
-          '36': null,'37': null,'38': null,'39': null,'40': null,'41': null,'42': null,'43': null,'44': null,'45': null
+          '36': null,'37': null,'38': null,'39': null,'40': null,'41': null,'42': null,'43': null,'44': null,'45': null, 'Onesize': null
         },
         limit: Infinity,
         minLength: 1
@@ -207,6 +210,22 @@ export class AddproductComponent implements OnInit {
     this.uploadsURL = this.utilsService.getUploadsURL();
   }
 
+  checkAmount(){
+    if(this.newProduct.price < 10){
+      this.isAmountLess = true;
+    }
+    else{
+      this.isAmountLess = false;
+    }
+
+    if(this.newProduct.price > this.newProduct.discountedPrice){
+      this.discountError = true;
+    }
+    else{
+      this.discountError = false;
+    }
+  }
+
   selectProdType(type: string){
     this.imageUrls = [];
     this.variants = [];
@@ -244,19 +263,13 @@ export class AddproductComponent implements OnInit {
       window.scrollTo(0, 0);
       me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
     }
-    console.log(me.imageUrls);
   }
 
   deleteImage(id: any){
-    console.log('hello');
     if(id && this.imageUrls && this.imageUrls.length > 0) {
       this.imageUrls = this.imageUrls.filter(i => i.prodImgUrl != id);
       this.numImages = this.numImages - 1;
     }
-  }
-
-  displayInfo(a: any){
-    console.log('Image: ', a);
   }
 
   updateVariants(){
@@ -292,20 +305,34 @@ export class AddproductComponent implements OnInit {
   }
 
   checkForm(){
+    if(this.isAmountLess){
+      return true;
+    }
+
+    if(this.discountError){
+      return true;
+    }
+
     if(this.newProduct.productType == 'Lifestyle'){
+      if(this.imageUrls.length < 1){
+        return true;
+      }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
         }
-        if(!this.newProduct.color){
-          return true;
-        }
+      }
+      if(!this.newProduct.color){
+        return true;
       }
     }
 
     if(this.newProduct.productType == 'FoodAndBeverages'){
+      if(this.imageUrls.length < 1){
+        return true;
+      }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].variantCode){
@@ -316,6 +343,7 @@ export class AddproductComponent implements OnInit {
     }
 
     if(this.newProduct.productType == 'Event'){
+
     }
 
     if(this.newProduct.productType == 'Other'){
@@ -330,8 +358,9 @@ export class AddproductComponent implements OnInit {
   }
 
   done(){
+    this.selectProdType('Lifestyle');
+    this.newProdCheck = true;
     this.modalActions.emit({ action: "modal", params: ['close'] });
-    this.router.navigateByUrl('/addproduct');
   }
 
   onSubmit(){
@@ -341,6 +370,8 @@ export class AddproductComponent implements OnInit {
     console.log('Submitted!', this.newProduct);
     this.productService.addProductHB(this.user.merchantCode, this.newProduct)
       .then(res => this.added(res));
+
     this.modalActions.emit({ action: "modal", params: ['open'] });
+    this.newProdCheck = false;
   }
 }
