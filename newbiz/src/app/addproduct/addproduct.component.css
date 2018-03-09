@@ -4,6 +4,11 @@
   line-height: 14px;
 }
 
+.noMarginPaddingBN{
+  margin: 0px!important;
+  padding: 0px!important;
+}
+
 .noLeftPaddingBN{
   padding-left: 0px!important;
 }
@@ -11,6 +16,12 @@
 .dashboardRedirectBN{
   color: #E53935;
   font-weight: bold;
+}
+
+.prodTypeBN{
+  font-size: 10pt!important;
+  font-weight: bold;
+  color: grey;
 }
 
 .typeBN{
@@ -36,4 +47,84 @@
 .inputLabelBN{
   font-size: 10pt!important;
   line-height: 12px!important;
+  margin-bottom: 3px;
+}
+
+.labelPLBN{
+  color: black!important;
+  font-size: 13pt!important;
+}
+
+.variantBN{
+  border: 1px solid red;
+  border-radius: 2px;
+  color: red;
+  padding: 3px 10px 3px 10px;
+  font-weight: bold;
+}
+
+.variantTitleBN{
+  margin-top: 5px;
+  border-bottom: 1px solid #9f9f9f;
+  font-weight: bold;
+}
+
+.deleteImg{
+  color: black;
+  background-color: #dddddd;
+  float: left;
+  border-radius: 15px;
+}
+
+.deleteImgSmall{
+  color: black;
+  background-color: #dddddd;
+  float: left;
+  border-radius: 10px;
+  position: relative;
+  left: -10px;
+}
+
+.imgListBN{
+  height: 56px;
+}
+
+.normalImgListBN{
+  height: 150px;
+}
+
+.mainImageBN{
+  max-height: 210px!important;
+}
+
+.firstImgBN{
+  margin: 0px 0px 10px 0px!important;
+  padding: 0px!important;
+}
+
+.variantBoxBN{
+  height: 325px;
+  overflow: auto;
+}
+
+.successModalBN{
+  height: 30%;
+}
+
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  font-weight: bold;
+  color: teal;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.smallerFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  padding: 0px;
+  height: 25px;
 }

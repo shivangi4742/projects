@@ -47,6 +47,9 @@ export { Accountpro } from './models/accountpro.model';
 export { BusinessCategory } from './models/businesscategory.model';
 export { BusinessType } from './models/businesstype.model';
 export { NewProduct } from './models/newproduct.model';
+export { NewVariant } from './models/newvariant.model';
+export { NewSize } from './models/newsize.model';
+export { ProductImage } from './models/productimage.model';
 
 export { SDKService } from './services/sdk.service';
 export { CartService } from './services/cart.service';

@@ -4,6 +4,11 @@
   line-height: 14px;
 }
 
+.noMarginPaddingBN{
+  margin: 0px!important;
+  padding: 0px!important;
+}
+
 .noLeftPaddingBN{
   padding-left: 0px!important;
 }
@@ -13,72 +18,10 @@
   font-weight: bold;
 }
 
-.searchBorderBN{
-  border: 1px solid grey;
-  border-radius: 43px;
-}
-
-.searchIconBN{
-  padding-top: 8px;
-}
-
-.searchBN{
-  margin: 0px!important;
-  border: 0px solid white!important;
-}
-
-.prodBoxBN{
-  margin-bottom: 20px;
-  /*height: 120px;*/
-}
-
-.prodDetailsBN{
+.prodTypeBN{
   font-size: 10pt!important;
-  line-height: 12px!important;
-  padding: 0px!important;
-  padding-top: 25px!important;
-}
-
-.prodTitleBN{
-  font-size: 10pt!important;
-  line-height: 12px!important;
-}
-
-.imageHeightBN{
-  height: 100px;
-}
-
-.smallGapBN {
-  height: 1px;
-  margin-bottom: 5px;
-}
-
-.pagingBN{
-  text-align: right;
-  font-size: 10pt!important;
-  line-height: 12px!important;
+  font-weight: bold;
   color: grey;
-}
-
-.previousBN{
-  color: black!important;
-}
-
-.nextBN{
-  color: black!important;
-}
-
-.prodOptionsBN{
-  padding: 0px!important;
-}
-
-.onBN{
-  color: green;
-}
-
-.noMarginPaddingBN{
-  margin: 0px!important;
-  padding: 0px!important;
 }
 
 .typeBN{
@@ -104,6 +47,7 @@
 .inputLabelBN{
   font-size: 10pt!important;
   line-height: 12px!important;
+  margin-bottom: 3px;
 }
 
 .labelPLBN{
@@ -138,10 +82,15 @@
   float: left;
   border-radius: 10px;
   position: relative;
+  left: -10px;
 }
 
 .imgListBN{
   height: 56px;
+}
+
+.normalImgListBN{
+  height: 150px;
 }
 
 .mainImageBN{
@@ -151,4 +100,38 @@
 .firstImgBN{
   margin: 0px 0px 10px 0px!important;
   padding: 0px!important;
+}
+
+.variantBoxBN{
+  height: 325px;
+  overflow: auto;
+}
+
+.successModalBN{
+  height: 30%;
+}
+
+.titleBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 17px;
+  font-weight: bold;
+  color: teal;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.titleTopBN{
+  font-size: 14pt;
+  line-height: 17px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.smallerFontBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+  padding: 0px;
+  height: 25px;
 }

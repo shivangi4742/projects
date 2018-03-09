@@ -1,27 +1,33 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { MaterializeAction } from 'angular2-materialize';
 
-import { UtilsService, User, UserService, LocationService, NewProduct, ProductService, NewVariant, NewSize, Product } from 'benowservices';
-import { MaterializeAction } from "angular2-materialize";
+import { UtilsService, User, UserService, LocationService, Product, ProductService, FileService, NewProduct, NewVariant,
+  ProductImage, NewSize } from 'benowservices';
 
 @Component({
-  selector: 'app-productcatalog',
-  templateUrl: './productcatalog.component.html',
-  styleUrls: ['./productcatalog.component.css']
+  selector: 'app-editproduct',
+  templateUrl: './editproduct.component.html',
+  styleUrls: ['./editproduct.component.css']
 })
-export class ProductcatalogComponent implements OnInit {
+export class EditproductComponent implements OnInit {
 
+  prodId: any;
+  editProduct: NewProduct;
+  variants = new Array<NewVariant>();
+  prodSizes = new Array<NewSize>();
+  variantSizes = new Array<NewSize>();
+  numVariants: number = 0;
+  numProdSizes: number = 0;
+  numVariantSizes: number = 0;
+  colorChip;
+  sizeChip;
+  uploading: boolean = false;
+  imageUrls = new Array<ProductImage>();
   user: User;
-  dashboard: string = '/dashboard';
   uploadsURL: string;
-  searchText: string;
-  products: Array<NewProduct>;
-  page: number = 1;
-  numPages: number = 0;
-  processing: boolean = false;
-  deleting: boolean = false;
-  inStock: boolean = false;
-  modalActions: any = new EventEmitter<string|MaterializeAction>();
+  catalogue: string = '/catalogue';
+  variantDec = new EventEmitter<string|MaterializeAction>();
   fromDt: any;
   toDt: any;
   dateParams: any;
@@ -48,18 +54,15 @@ export class ProductcatalogComponent implements OnInit {
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-
-  constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
-              private productService: ProductService) {
-    this.uploadsURL = utilsService.getUploadsURL();
-  }
+  constructor(private locationService: LocationService, private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
+              private productService: ProductService, private fileService: FileService) { }
 
   ngOnInit() {
     let me = this;
-    this.locationService.setLocation('catalogue');
-
     this.userService.getUser()
       .then(res => this.init(res));
+
+    this.prodId = this.route.snapshot.params['id'];
 
     this.dateParams = [{
       format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 10, min: this.utilsService.getCurDateString(), monthsFull: this.monthsFull,
@@ -94,73 +97,23 @@ export class ProductcatalogComponent implements OnInit {
 
   init(res: User){
     this.user = res;
+    this.uploadsURL = this.utilsService.getUploadsURL();
 
-    this.productService.getProducts(this.user.merchantCode, this.page)
-      .then(pres => this.updateProds(pres));
+    this.productService.getProductForEdit(this.prodId)
+      .then(res => this.loadProduct(res));
   }
 
-  updateProds(res: any){
-    this.numPages = res.numPages;
-    this.products = res.products;
-
-    this.processing = false;
-  }
-
-  next() {
-    this.products = null;
-    this.numPages = 0;
-    this.processing = true;
-    window.scrollTo(0, 0);
-    this.productService.getProducts(this.user.merchantCode, (++this.page))
-      .then(pres => this.updateProds(pres));
-  }
-
-  previous() {
-    this.products = null;
-    this.numPages = 0;
-    this.processing = true;
-    window.scrollTo(0, 0);
-    this.productService.getProducts(this.user.merchantCode, (--this.page))
-      .then(pres => this.updateProds(pres));
-  }
-
-  setStock(name: string){
-    console.log(name,' is toggled');
-    this.inStock = !this.inStock;
-  }
-
-  getSwitchText(check: boolean): string{
-    if(check){
-      return 'In Stock';
+  loadProduct(res: NewProduct){
+    this.editProduct = res;
+    if(this.editProduct.hasVariants){
+      this.variants = this.editProduct.variants;
     }
-
-    return 'Out of Stock';
-  }
-
-  hasProducts(): boolean{
-    if(this.products && this.products.length > 0)
-      return true;
-
-    return false;
-  }
-
-  deleted(res: Boolean) {
-    if(res == true){
-      this.productService.getProducts(this.user.merchantCode, this.page)
-        .then(pres => this.updateProds(pres));
+    if(this.editProduct.prodImgUrls.length > 0){
+      this.imageUrls = this.editProduct.prodImgUrls;
     }
-    else
-      this.deleting = false;
-  }
-
-  delete(id: any) {
-    this.deleting = true;
-    this.productService.deleteProduct(id)
-      .then(res => this.deleted(res));
-  }
-
-  edit(id: any){
-    this.router.navigateByUrl('/editproduct/'+id);
+    if(this.editProduct.prodSizes){
+      this.prodSizes = this.editProduct.prodSizes;
+    }
   }
 
 }
