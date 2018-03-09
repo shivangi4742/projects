@@ -38,6 +38,7 @@ export class RazorpayComponent implements OnInit {
   paylinkid: string;
 
   payamount: string;
+  fundId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +58,7 @@ export class RazorpayComponent implements OnInit {
     this.txnId = this.route.snapshot.params['txnid'];
     this.prods = this.route.snapshot.params['prods'];
     this.payamount = this.route.snapshot.params['amount'];
+    this.fundId = this.route.snapshot.params['fund'];
 
     this.status = "";
     this.mode = "";
@@ -77,6 +79,13 @@ export class RazorpayComponent implements OnInit {
 
   getProducts(res: SDK): void {
     this.pay = res;
+    if (this.prods && this.prods != '0' && !(res.products && res.products.length > 0)) {
+      this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
+        .then(pres => this.initProds(pres));
+    }
+    else
+      this.init(this.pay);
+
     this.productService.getProductsForCampaign(this.pay.merchantCode, this.id)
       .then(pres => this.initProds(pres));
   }
@@ -118,7 +127,6 @@ export class RazorpayComponent implements OnInit {
       this.rzModel = new RazorPayModel(res.amount, res.title, res.description, res.firstName, res.lastName, res.email);
       this.sdkService.getMerchantPaymentInfo(res.merchantCode, 'RAZORPAY')
         .then(res => this.processPaymentReq(res));
-
     }
   }
 
@@ -186,9 +194,9 @@ export class RazorpayComponent implements OnInit {
 
     if (this.pay.merchantType == 2) {
       // Confirm fundraiser logic
-      if (res.hasfundraiser && res.hasfundraiser.toString().toLowerCase() == "true") {
-        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
-        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId + '/' + res.fundraiserid;
+      if (this.fundId) {
+        surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId + '/' + this.fundId;
+        furl = baseUrl + 'ppl/donationfailure/' + this.id + '/' + this.txnId + '/' + this.fundId;
       }
       else {
         surl = baseUrl + 'ppl/donationsuccess/' + this.id + '/' + this.txnId;
