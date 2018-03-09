@@ -46,5 +46,7 @@
     "Size": "Size",
     "Sorry, the product you are looking for is not available!!! You may be looking for": "Sorry, the product you are looking for is not available!!! You may be looking for",
     "Scan QR code to pay": "Scan QR code to pay",
-    "Close": "Close"
+    "Close": "Close",
+    "Redirecting you to payment gateway,": "Redirecting you to payment gateway,",
+    "please do not click back or refresh the page": "please do not click back or refresh the page"
 }

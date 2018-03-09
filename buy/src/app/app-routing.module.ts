@@ -8,6 +8,7 @@ import { ProductComponent } from './product/product.component';
 import { BuyerinfoComponent } from './buyerinfo/buyerinfo.component';
 import { PaymentmodeComponent } from './paymentmode/paymentmode.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
+import { PaymentfailureComponent } from './paymentfailure/paymentfailure.component';
 
 const routes: Routes = [
     { path: ':code/cart', component: CartComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: ':code/product/:id', component: ProductComponent },
     { path: ':code/product2/:id', component: ProductComponent },
     { path: ':code/paymentsuccess/:id', component: PaymentsuccessComponent },
+    { path: ':code/paymentfailure/:id', component: PaymentfailureComponent },
     { path: ':code/pg/:id/:cf', component: PgComponent },
     { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
 ];

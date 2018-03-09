@@ -164,7 +164,7 @@
           <div class="valign-wrapper" *ngIf="pay.askcompanyname">
             <div class="col s10 input-field offset-s1 regNrmS4BN" align="left">
               <input id="companyName" name="companyName" type="text" (blur)="refreshAmount()" class="validate regNrmS4BN" [(ngModel)]="companyName">
-              <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Comapny Name' | translate}}
+              <label for="companyName" [ngClass]="companyName ? 'active regNrmS6IBN' : 'regNrmS4IBN'">{{'Enter Company Name' | translate}}
                 <span *ngIf="pay.mndcompanyname">*</span>
               </label>
             </div>

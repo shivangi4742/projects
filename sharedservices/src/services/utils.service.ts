@@ -28,6 +28,7 @@ export class UtilsService {
   private _tilConsoleURL: string = 'http://localhost:9090/tilconsole';
   private _invoicesPageURL: string = 'http://localhost:9090/invoices';
   private _loginPageURL: string = 'http://localhost:9090/lgn/login/1';
+  private _pgURL: string = 'http://localhost:9090/cart/processPayment';
   private _oldDashboardURL: string = 'http://localhost:9090/dashboard';
   private _logoutPageURL: string = 'http://localhost:9090/lgn/logout/6';
   private _paymentLinkPageURL: string = 'http://localhost:9090/paymentlink';
@@ -50,6 +51,10 @@ export class UtilsService {
 
   constructor() {
     this._status = new Status(false, false, '');
+  }
+
+  getpgURL(): string {
+    return this._pgURL;    
   }
 
   getRedirectURL(): string {

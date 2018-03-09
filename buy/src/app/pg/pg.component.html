@@ -1,3 +1,20 @@
-<p>
-  pg works!
-</p>
+<div class="progress">
+    <div class="indeterminate"></div>
+</div>
+<form id="paymentForm" #paymentForm ngNoForm action="{{pgURL}}" method='POST'>
+  <div *ngIf="cart && settings">
+    <input type="hidden" name="email" [ngModel]="cart.email" />
+    <input type="hidden" name="phone" [ngModel]="cart.phone" />
+    <input type="hidden" name="name" [ngModel]="cart.name" />
+    <input type="hidden" name="productinfo" [ngModel]="settings.id" />
+    <input type="hidden" name="merchantcode" [ngModel]="cart.merchantCode" />
+    <input type="hidden" name="merchantname" [ngModel]="settings.displayName" />
+    <input type="hidden" name="payamount" [ngModel]="amount" />
+    <input type="hidden" name="paytype" [ngModel]="cart.paymentMode" />
+    <input type="hidden" name="ismobileview" [ngModel]="ismobileview" />
+    <input type="hidden" name="txnid" [ngModel]="id" />
+    <input type="hidden" name="mtype" [ngModel]="3" />
+  </div>
+</form>
+<h5 class="redirectingBN" align="center">{{'Redirecting you to payment gateway,' | translate}}</h5>
+<h5 class="redirectingBN" align="center">{{'please do not click back or refresh the page' | translate}}</h5>
