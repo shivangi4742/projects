@@ -108,7 +108,7 @@
 }
 
 .successModalBN{
-  height: 30%;
+  height: 40%;
 }
 
 .titleBN{
@@ -119,6 +119,10 @@
   color: teal;
   margin-bottom: 10px;
   margin-top: 20px;
+}
+
+.imageHeightBN{
+  height: 100px!important;
 }
 
 .smallerFontBN{

@@ -14,7 +14,7 @@
   </div>
   <div class="col s1" *ngIf="false"></div>
   <div class="col s12" *ngIf="false">&nbsp;</div>
-  <div class="col s10 center offset-s1" *ngIf="false">
+  <div class="col s10 center offset-s1">
     <div [ngClass]="location == 'addproduct' ? 'selectedLeftNavBtnBN' : 'leftnavBtnBN'" (click)="goto('addproduct')">
       {{'Add Product' | translate}}
     </div>
@@ -44,10 +44,10 @@
     </div>
     <div class="col s1"></div>
   </div>
-  <div [ngClass]="location == 'catalogue' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('catalogue')" *ngIf="false">
+  <div [ngClass]="location == 'catalogue' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('catalogue')">
     <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">shopping_basket</i>&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN">{{'Product Catalogue' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN">{{'My Store' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>

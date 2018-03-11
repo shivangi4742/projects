@@ -7,250 +7,190 @@
         <span class="alignMidBN">{{'Back to MyStore' | translate}}</span>
       </a>
     </div>
-    <!--<div class="col s12 smallGapBN"></div>
-    <div class="col s12">
-      <div class="switch">
-        <label>
-          <input type="checkbox" [(ngModel)]="inStock" (change)="setStock(p.name)" checked>
-          <span class="lever" style="margin-left: 0px"></span><span [ngClass]="inStock ? 'onBN' : 'offBN'">{{getSwitchText(inStock) | translate}}</span>
-        </label>
-      </div>
-    </div>-->
     <div class="row"></div>
     <div class="col s12 titleTopBN center">{{'Edit Product' | translate}}</div>
     <div *ngIf="editProduct" class="row editBN">
       <form materialize (ngSubmit)="onSubmit()" #prodEditForm="ngForm">
       <div class="row"></div>
-      <div *ngIf="editProduct.productType == 'Lifestyle'" class="col s12">
-        <div class="col s12 typeBN">
-          {{'Lifestyle' | translate}}
-        </div>
-        <div class="row"></div>
-        <div class="row">
-          <div class="col s12 m5 l5">
-            <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
-            </div>
-            <div class="col s12 firstImgBN">
-              <div class="col s10 file-field noMarginPaddingBN">
-                <img *ngIf="!uploading && imageUrls.length == 0" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <img *ngIf="!uploading && imageUrls.length > 0" class="mainImageBN responsive-img" src={{uploadsURL}}{{imageUrls[0].prodImgUrl}}>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadImg1" type="file"
-                       (change)="fileChange($event)" [disabled]="imageUrls && imageUrls.length > 0" />
-              </div>
-              <div class="col s2 noMarginPaddingBN">
-                <div *ngIf="!uploading && imageUrls.length > 0" class="deleteImg linkButtonBN noMarginPaddingBN" (click)="deleteImage(imageUrls[0].prodImgUrl)"><i class="material-icons alignMidBN" style="font-size: 14pt;">close</i></div>
-              </div>
-            </div>
-            <div *ngFor="let img of imageUrls | slice:1" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
-              <div class="col s11 noMarginPaddingBN center">
-                <img class="imgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
-              </div>
-              <div class="col s1 noMarginPaddingBN">
-                <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
-                  <i class="material-icons alignMidBN" style="font-size: 10pt;">close</i>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="imageUrls && imageUrls.length > 0 && imageUrls.length < 10" class="col s4 noMarginPaddingBN">
-              <div class="col s10 file-field input-field noMarginPaddingBN">
-                <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper small active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadImg2" type="file"
-                       (change)="fileChange($event)" />
-              </div>
+        <div *ngIf="editProduct.productType == 'Lifestyle'" class="col s12">
+          <div class="col s10 typeBN">
+            {{'Lifestyle' | translate}}
+          </div>
+          <div class="col s2 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" [(ngModel)]="editProduct.isAvailable" (change)="setProdStock()" checked>
+                <span class="lever" style="margin-left: 0px"></span><span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
             </div>
           </div>
-          <div class="col s12 m7 l7">
-            <div class="input-field col s12">
-              <input id="cTitle" name="cTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
-                     placeholder="{{'Enter the name of your Product' | translate}}" required />
-              <label for="cTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
-            </div>
-            <div class="input-field col s12">
-              <input id="cDescription" name="cDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
-                     placeholder="{{'Mention important details about your product' | translate}}" maxlength="500" />
-              <label for="cDescription" class ="active labelPLBN">{{'Product Description (Optional)' | translate}}</label>
-            </div>
-            <div class="col s12 inputLabelBN">
-              {{'Color' | translate}}
-            </div>
-            <div class="col s12">
-              <div *ngIf="!editProduct.color" class="chips" materialize="material_chip" [materializeParams]="[colorChip]"
-                   (chip.add)="addProdColor($event.detail)">
-
-              </div>
-              <div *ngIf="editProduct.color" class="chip" style="margin-top: 10px">
-                {{editProduct.color}}
-                <i class="close material-icons" (click)="clearProdColor()">close</i>
-              </div>
-            </div>
-            <div class="col s12 inputLabelBN">
-              {{'Size (Optional)' | translate}}
-            </div>
-            <div class="col s12" style="margin-top: 10px;">
-              <div class="chips " materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addProdSize($event.detail)"
-                   (chip.delete)="deleteProdSize($event.detail)">
-                <div *ngFor="let p of prodSizes; let i of index;" class="chip">
-                  {{p.prodSize}}
-                  <i class="close material-icons">close</i>
-                </div>
-              </div>
-            </div>
-            <div class="input-field col s6">
-              <input id="cPrice" name="cPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
-                     placeholder="{{'Product Price' | translate}}" min="0" required />
-              <label for="cPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                     placeholder="{{'Discounted price of the product' | translate}}" />
-              <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
-            </div>
-          </div>
+          <div class="row"></div>
           <div class="row">
-            <div *ngIf="!editProduct.hasVariants" class="col s12 center">
-              <span class="">{{'Have more variants? Add here' | translate}}</span>
-              <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
-              <span class="variantBN linkButtonBN" (click)="updateVariants()">
+            <div class="col s12 m5 l5">
+              <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
+                {{'Product Image' | translate}}
+              </div>
+              <div class="col s12 firstImgBN">
+                <div class="col s10 file-field noMarginPaddingBN">
+                  <img *ngIf="!uploading && imageUrls.length == 0" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <img *ngIf="!uploading && imageUrls.length > 0" class="mainImageBN responsive-img" src={{uploadsURL}}{{imageUrls[0].prodImgUrl}}>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadImg1" type="file"
+                         (change)="fileChange($event)" [disabled]="imageUrls && imageUrls.length > 0" />
+                </div>
+                <div class="col s2 noMarginPaddingBN">
+                  <div *ngIf="!uploading && imageUrls.length > 0" class="deleteImg linkButtonBN noMarginPaddingBN" (click)="deleteImage(imageUrls[0].prodImgUrl)"><i class="material-icons alignMidBN" style="font-size: 14pt;">close</i></div>
+                </div>
+              </div>
+              <div *ngFor="let img of imageUrls | slice:1" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
+                <div class="col s11 noMarginPaddingBN center">
+                  <img class="imgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                </div>
+                <div class="col s1 noMarginPaddingBN">
+                  <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
+                    <i class="material-icons alignMidBN" style="font-size: 10pt;">close</i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="imageUrls && imageUrls.length > 0 && imageUrls.length < 10" class="col s4 noMarginPaddingBN">
+                <div class="col s10 file-field input-field noMarginPaddingBN">
+                  <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="uploadImg2" type="file"
+                         (change)="fileChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m7 l7">
+              <div class="input-field col s12">
+                <input id="cTitle" name="cTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
+                       placeholder="{{'Enter the name of your Product' | translate}}" required />
+                <label for="cTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cDescription" name="cDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
+                       placeholder="{{'Mention important details about your product' | translate}}" maxlength="500" />
+                <label for="cDescription" class ="active labelPLBN">{{'Product Description (Optional)' | translate}}</label>
+              </div>
+              <div class="col s12 inputLabelBN">
+                {{'Color' | translate}}
+              </div>
+              <div class="col s12">
+                <div *ngIf="!editProduct.color" class="chips" materialize="material_chip" [materializeParams]="[colorChip]"
+                     (chip.add)="addProdColor($event.detail)">
+
+                </div>
+                <div *ngIf="editProduct.color" class="chip" style="margin-top: 10px">
+                  {{editProduct.color}}
+                  <i class="close material-icons" (click)="clearProdColor()">close</i>
+                </div>
+              </div>
+              <div class="col s12 inputLabelBN">
+                {{'Size (Optional)' | translate}}
+              </div>
+              <div *ngIf="newProdCheck" class="col s12" style="margin-top: 10px;">
+                <div class="chips " materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addProdSize($event.detail)"
+                     (chip.delete)="deleteProdSize($event.detail)">
+
+                </div>
+              </div>
+              <div class="input-field col s6">
+                <input id="cPrice" name="cPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
+                       placeholder="{{'Product Price' | translate}}" min="0" (keyup)="checkAmount()" required />
+                <label for="cPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
+                <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+              </div>
+              <div class="input-field col s6">
+                <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                       placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="!editProduct.hasVariants" class="col s12 center">
+                <span class="">{{'Have more variants? Add here' | translate}}</span>
+                <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
+                <span class="variantBN linkButtonBN" (click)="updateVariants()">
               {{'Add Variant' | translate}}
             </span>
+              </div>
+              <div *ngIf="editProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
+              <div *ngIf="editProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Variants' | translate}}</div>
             </div>
-            <div *ngIf="editProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
-            <div *ngIf="editProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Variants' | translate}}</div>
-          </div>
-          <div *ngIf="editProduct.hasVariants" class="hide-on-med-and-up">
-            <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
-              <li *ngFor="let vm of variants; let i = index;" class="col s12 test">
-                <div class="collapsible-header">
-                  <span class="">{{'Variant ' | translate}}{{i+1}}</span>
-                  <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
-                </div>
-                <div class="collapsible-body noMarginPaddingBN">
-                  <div class="row noLeftPaddingBN">
-                    <div class="col s7 noLeftPaddingBN">
-                      <div class="col s12 inputLabelBN noLeftPaddingBN">
-                        {{'Variant Color' | translate}}
-                      </div>
-                      <div *ngIf="!vm.color" class="chips noLeftPaddingBN" materialize="material_chip" [materializeParams]="[colorChip]"
-                           (chip.add)="addVarColor(vm.id, $event.detail)">
+            <div *ngIf="editProduct.hasVariants" class="hide-on-med-and-up">
+              <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
+                <li *ngFor="let vm of variants; let i = index;" class="col s12 test">
+                  <div class="collapsible-header">
+                    <span class="">{{'Variant ' | translate}}{{i+1}}</span>
+                    <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
+                  </div>
+                  <div class="collapsible-body noMarginPaddingBN">
+                    <div class="row noLeftPaddingBN">
+                      <div class="col s12 noLeftPaddingBN">
+                        <div class="col s12 inputLabelBN noLeftPaddingBN">
+                          {{'Variant Color' | translate}}
+                        </div>
+                        <div *ngIf="!vm.color" class="chips noLeftPaddingBN" materialize="material_chip" [materializeParams]="[colorChip]"
+                             (chip.add)="addVarColor(vm.id, $event.detail)">
 
-                      </div>
-                      <div *ngIf="vm.color" class="chip noLeftPaddingBN" style="margin-top: 10px">
-                        {{vm.color}}
-                        <i class="close material-icons" (click)="clearVarColor(vm.id)">close</i>
-                      </div>
-                    </div>
-                    <div class="input-field col s5">
-                      <input id="{{vm.id}}+price" name="{{vm.id}}" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
-                             placeholder="{{'Price of Variant' | translate}}"/>
-                      <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-                    </div>
-                    <div class="col s12 noLeftPaddingBN">
-                      <div class="col s12 inputLabelBN noLeftPaddingBN">
-                        {{'Variant Size' | translate}}
-                      </div>
-                      <div class="chips" materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addVarSize(vm.id, $event.detail)"
-                           (chip.delete)="deleteVarSize(vm.id, $event.detail)">
-                        <div *ngFor="let p of vm.listProductSizes; let i of index;" class="chip">
-                          {{p.prodSize}}
-                          <i class="close material-icons">close</i>
+                        </div>
+                        <div *ngIf="vm.color" class="chip noLeftPaddingBN" style="margin-top: 10px">
+                          {{vm.color}}
+                          <i class="close material-icons" (click)="clearVarColor(vm.id)">close</i>
                         </div>
                       </div>
-                    </div>
-                    <div class="input-field col s12">
-                      <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
-                             placeholder="{{'Discounted Variant Price' | translate}}"/>
-                      <label for="{{vm.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <div class="row"></div>
-            <div class="col s12 center">
-              <span class="variantBN linkButtonBN" (click)="addVariant()">
-              {{'Add Variant' | translate}}
-              </span>
-              <div class="row"></div>
-              <span class="inputTextBN">{{'To add more variant click here' | translate}}</span>
-            </div>
-          </div>
-          <div *ngIf="editProduct.hasVariants" class="row hide-on-small-only">
-            <div *ngFor="let v of variants; let i = index;" class="col s6 card-panel grey lighten-5 z-depth-1 variantBoxBN">
-              <div class="col s12 variantTitleBN">
-                <span class="" style="margin-top: 5px;">{{'Variant ' | translate}}{{i+1}}</span>
-                <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(v.id)">delete</i>
-              </div>
-              <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
-                <div class="col s7 noLeftPaddingBN">
-                  <div class="col s12 inputLabelBN noLeftPaddingBN">
-                    {{'Variant Color' | translate}}
-                  </div>
-                  <div *ngIf="!v.color" class="chips noLeftPaddingBN" materialize="material_chip" [materializeParams]="[colorChip]"
-                       (chip.add)="addVarColor(v.id, $event.detail)">
+                      <div class="col s12 noLeftPaddingBN">
+                        <div class="col s12 inputLabelBN noLeftPaddingBN">
+                          {{'Variant Size' | translate}}
+                        </div>
+                        <div class="chips" materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addVarSize(vm.id, $event.detail)"
+                             (chip.delete)="deleteVarSize(vm.id, $event.detail)">
 
-                  </div>
-                  <div *ngIf="v.color" class="chip" style="margin-top: 10px">
-                    {{v.color}}
-                    <i class="close material-icons" (click)="clearVarColor(v.id)">close</i>
-                  </div>
-                </div>
-                <div class="input-field col s5">
-                  <input id="{{v.id}}+price" name="{{v.id}}" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                         placeholder="{{'Price of Variant' | translate}}"/>
-                  <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-                </div>
-                <div class="col s12 noLeftPaddingBN">
-                  <div class="col s12 inputLabelBN noLeftPaddingBN">
-                    {{'Variant Size' | translate}}
-                  </div>
-                  <div class="chips" materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addVarSize(v.id, $event.detail)"
-                       (chip.delete)="deleteVarSize(v.id, $event.detail)">
-                    <div *ngFor="let p of v.listProductSizes; let i of index;" class="chip">
-                      {{p.prodSize}}
-                      <i class="close material-icons">close</i>
+                        </div>
+                      </div>
+                      <div class="input-field col s5">
+                        <input id="{{vm.id}}+price" name="{{vm.id}}" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
+                               placeholder="{{'Price of Variant' | translate}}"/>
+                        <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                      </div>
+                      <div class="input-field col s7">
+                        <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
+                               placeholder="{{'Discounted Variant Price' | translate}}"/>
+                        <label for="{{vm.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="input-field col s12">
-                  <input id="{{v.id}}+dprice" name="{{v.id}}+dprice" type="number" [(ngModel)]="v.discountedPrice" class="validate inputTextBN"
-                         placeholder="{{'Discounted Variant Price' | translate}}"/>
-                  <label for="{{v.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
-                </div>
-              </div>
-            </div>
-            <div class="col s6 card-panel grey lighten-5 z-depth-1">
-              <div class="row"></div>
+                </li>
+              </ul>
               <div class="row"></div>
               <div class="col s12 center">
               <span class="variantBN linkButtonBN" (click)="addVariant()">
@@ -259,332 +199,396 @@
                 <div class="row"></div>
                 <span class="inputTextBN">{{'To add more variant click here' | translate}}</span>
               </div>
-              <div class="row"></div>
-              <div class="row"></div>
+            </div>
+            <div *ngIf="editProduct.hasVariants" class="row hide-on-small-only">
+              <div *ngFor="let v of variants; let i = index;" class="col s6 card-panel grey lighten-5 z-depth-1 variantBoxBN">
+                <div class="col s12 variantTitleBN">
+                  <span class="" style="margin-top: 5px;">{{'Variant ' | translate}}{{i+1}}</span>
+                  <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(v.id)">delete</i>
+                </div>
+                <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
+                  <div class="col s7 noLeftPaddingBN">
+                    <div class="col s12 inputLabelBN noLeftPaddingBN">
+                      {{'Variant Color' | translate}}
+                    </div>
+                    <div *ngIf="!v.color" class="chips noLeftPaddingBN" materialize="material_chip" [materializeParams]="[colorChip]"
+                         (chip.add)="addVarColor(v.id, $event.detail)">
+
+                    </div>
+                    <div *ngIf="v.color" class="chip" style="margin-top: 10px">
+                      {{v.color}}
+                      <i class="close material-icons" (click)="clearVarColor(v.id)">close</i>
+                    </div>
+                  </div>
+                  <div class="input-field col s5">
+                    <input id="{{v.id}}+price" name="{{v.id}}" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
+                           placeholder="{{'Price of Variant' | translate}}"/>
+                    <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                  </div>
+                  <div class="col s12 noLeftPaddingBN">
+                    <div class="col s12 inputLabelBN noLeftPaddingBN">
+                      {{'Variant Size' | translate}}
+                    </div>
+                    <div class="chips" materialize="material_chip" [materializeParams]="[sizeChip]" (chip.add)="addVarSize(v.id, $event.detail)"
+                         (chip.delete)="deleteVarSize(v.id, $event.detail)">
+
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <input id="{{v.id}}+dprice" name="{{v.id}}+dprice" type="number" [(ngModel)]="v.discountedPrice" class="validate inputTextBN"
+                           placeholder="{{'Discounted Variant Price' | translate}}"/>
+                    <label for="{{v.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col s6 card-panel grey lighten-5 z-depth-1">
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="col s12 center">
+              <span class="variantBN linkButtonBN" (click)="addVariant()">
+              {{'Add Variant' | translate}}
+              </span>
+                  <div class="row"></div>
+                  <span class="inputTextBN">{{'To add more variant click here' | translate}}</span>
+                </div>
+                <div class="row"></div>
+                <div class="row"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="editProduct.productType == 'FoodAndBeverages'" class="col s12">
-        <div class="col s12 typeBN">
-          {{'Food And Beverages' | translate}}
-        </div>
-        <div class="row"></div>
-        <div class="row">
-          <div class="col s5">
-            <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
-            </div>
-            <div class="col s12 firstImgBN">
-              <div class="col s10 file-field noMarginPaddingBN">
-                <img *ngIf="!uploading && imageUrls.length == 0" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <img *ngIf="!uploading && imageUrls.length > 0" class="mainImageBN responsive-img" src={{uploadsURL}}{{imageUrls[0].prodImgUrl}}>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="clothUploadImg" type="file"
-                       (change)="fileChange($event)" [disabled]="imageUrls && imageUrls.length > 0" />
-              </div>
-              <div class="col s2 noMarginPaddingBN">
-                <div *ngIf="!uploading && imageUrls.length > 0" class="deleteImg linkButtonBN noMarginPaddingBN" (click)="deleteImage(imageUrls[0].prodImgUrl)"><i class="material-icons alignMidBN" style="font-size: 14pt;">close</i></div>
-              </div>
-            </div>
-            <div *ngFor="let img of imageUrls | slice:1" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
-              <div class="col s11 noMarginPaddingBN center">
-                <img class="imgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
-              </div>
-              <div class="col s1 noMarginPaddingBN">
-                <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
-                  <i class="material-icons alignMidBN" style="font-size: 10pt;">close</i>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="imageUrls && imageUrls.length > 0 && imageUrls.length < 5" class="col s4 noMarginPaddingBN">
-              <div class="col s10 file-field input-field noMarginPaddingBN">
-                <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper small active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="clothUploadImg2" type="file"
-                       (change)="fileChange($event)" />
-              </div>
-            </div>
+        <div *ngIf="editProduct.productType == 'FoodAndBeverages'" class="col s12">
+          <div class="col s12 typeBN">
+            {{'Food And Beverages' | translate}}
           </div>
-          <div class="col s7">
-            <div class="input-field col s12">
-              <input id="fbTitle" name="fbTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
-                     placeholder="{{'Enter the name of your Product' | translate}}" required />
-              <label for="fbTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
-            </div>
-            <div class="input-field col s12">
-              <input id="fbDescription" name="fbDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
-                     placeholder="{{'Mention important details about your product' | translate}}" maxlength="500" />
-              <label for="fbDescription" class ="active labelPLBN">{{'Product Description (Optional)' | translate}}</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
-                     placeholder="{{'Product Price' | translate}}" min="0" required />
-              <label for="fbPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
-            </div>
-            <div class="input-field col s6">
-              <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                     placeholder="{{'Discounted price of the product' | translate}}" />
-              <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
-            </div>
-          </div>
+          <div class="row"></div>
           <div class="row">
-            <div *ngIf="!editProduct.hasVariants" class="col s12 center">
-              <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
-              <span class="variantBN linkButtonBN" (click)="updateVariants()">
+            <div class="col s12 m5 l5">
+              <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
+                {{'Product Image' | translate}}
+              </div>
+              <div class="col s12 firstImgBN">
+                <div class="col s10 file-field noMarginPaddingBN">
+                  <img *ngIf="!uploading && imageUrls.length == 0" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <img *ngIf="!uploading && imageUrls.length > 0" class="mainImageBN responsive-img" src={{uploadsURL}}{{imageUrls[0].prodImgUrl}}>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="clothUploadImg" type="file"
+                         (change)="fileChange($event)" [disabled]="imageUrls && imageUrls.length > 0" />
+                </div>
+                <div class="col s2 noMarginPaddingBN">
+                  <div *ngIf="!uploading && imageUrls.length > 0" class="deleteImg linkButtonBN noMarginPaddingBN" (click)="deleteImage(imageUrls[0].prodImgUrl)"><i class="material-icons alignMidBN" style="font-size: 14pt;">close</i></div>
+                </div>
+              </div>
+              <div *ngFor="let img of imageUrls | slice:1" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
+                <div class="col s11 noMarginPaddingBN center">
+                  <img class="imgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                </div>
+                <div class="col s1 noMarginPaddingBN">
+                  <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
+                    <i class="material-icons alignMidBN" style="font-size: 10pt;">close</i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="imageUrls && imageUrls.length > 0 && imageUrls.length < 5" class="col s4 noMarginPaddingBN">
+                <div class="col s10 file-field input-field noMarginPaddingBN">
+                  <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="clothUploadImg2" type="file"
+                         (change)="fileChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="col s12 m7 l7">
+              <div class="input-field col s12">
+                <input id="fbTitle" name="fbTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
+                       placeholder="{{'Enter the name of your Product' | translate}}" required />
+                <label for="fbTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="fbDescription" name="fbDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
+                       placeholder="{{'Mention important details about your product' | translate}}" maxlength="500" />
+                <label for="fbDescription" class ="active labelPLBN">{{'Product Description (Optional)' | translate}}</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
+                       placeholder="{{'Product Price' | translate}}" min="0" required (keyup)="checkAmount()" />
+                <label for="fbPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
+                <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+              </div>
+              <div class="input-field col s6">
+                <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                       placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="!editProduct.hasVariants" class="col s12 center">
+                <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
+                <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
+                <span class="variantBN linkButtonBN" (click)="updateVariants()">
               {{'Provide Add-ons' | translate}}
             </span>
+              </div>
+              <div *ngIf="editProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
+              <div *ngIf="editProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Add-ons' | translate}}</div>
             </div>
-            <div *ngIf="editProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
-            <div *ngIf="editProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Add-ons' | translate}}</div>
-          </div>
-          <div *ngIf="editProduct.hasVariants" class="hide-on-med-and-up">
-            <ul class="col s6 listPLBN collapsible" data-collapsible="expandable" materialize="collapsible" [materializeActions]="variantDec">
-              <li *ngFor="let v of variants; let i = index;" class="col s12 test">
-                <div class="collapsible-header">
-                  {{'Add-on ' | translate}}{{i+1}}<br>
-                  <a class="linkButtonBN" (click)="deleteVariant(v.id)">Delete Variant</a>
-                </div>
-                <div class="collapsible-body">
-                  <div class="row noLeftPaddingBN">
-                    <div class="input-field col s8 noLeftPaddingBN">
-                      <input id="vColor" name="vColor" type="text" [(ngModel)]="v.color" class="validate inputTextBN"
-                             placeholder="{{'+Color' | translate}}"  />
-                      <label for="vColor" class ="active labelPLBN noLeftPaddingBN">{{'Variant Color' | translate}}</label>
-                    </div>
-                    <div class="input-field col s4 noLeftPaddingBN">
-                      <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                             placeholder="{{'Enter the name of your Product' | translate}}"/>
-                      <label for="vPrice" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-                    </div>
-                    <div class="input-field col s12 noLeftPaddingBN">
-                      <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN"
-                             placeholder="{{'+Size' | translate}}"/>
-                      <label for="vSize" class ="active labelPLBN noLeftPaddingBN">{{'Variant Size' | translate}}</label>
+            <div *ngIf="editProduct.hasVariants" class="hide-on-med-and-up">
+              <ul class="col s6 listPLBN collapsible" data-collapsible="expandable" materialize="collapsible" [materializeActions]="variantDec">
+                <li *ngFor="let v of variants; let i = index;" class="col s12 test">
+                  <div class="collapsible-header">
+                    {{'Add-on ' | translate}}{{i+1}}<br>
+                    <a class="linkButtonBN" (click)="deleteVariant(v.id)">Delete Variant</a>
+                  </div>
+                  <div class="collapsible-body">
+                    <div class="row noLeftPaddingBN">
+                      <div class="input-field col s8 noLeftPaddingBN">
+                        <input id="vColor" name="vColor" type="text" [(ngModel)]="v.color" class="validate inputTextBN"
+                               placeholder="{{'+Color' | translate}}"  />
+                        <label for="vColor" class ="active labelPLBN noLeftPaddingBN">{{'Variant Color' | translate}}</label>
+                      </div>
+                      <div class="input-field col s4 noLeftPaddingBN">
+                        <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
+                               placeholder="{{'Enter the name of your Product' | translate}}"/>
+                        <label for="vPrice" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                      </div>
+                      <div class="input-field col s12 noLeftPaddingBN">
+                        <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN"
+                               placeholder="{{'+Size' | translate}}"/>
+                        <label for="vSize" class ="active labelPLBN noLeftPaddingBN">{{'Variant Size' | translate}}</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            </ul>
-            <div *ngIf="editProduct.hasVariants" class="col s6">
-              <a class="linkButtonBN" (click)="addVariant()">Add Variant</a><br><br>
+                </li>
+              </ul>
+              <div *ngIf="editProduct.hasVariants" class="col s6">
+                <a class="linkButtonBN" (click)="addVariant()">Add Variant</a><br><br>
 
-            </div>
-          </div>
-          <div *ngIf="editProduct.hasVariants" class="row hide-on-small-only">
-            <div *ngFor="let a of variants; let i = index;" class="col s6 card-panel grey lighten-5 z-depth-1 variantBoxBN">
-              <div class="col s12 variantTitleBN">
-                <span class="" style="margin-top: 5px;">{{'Add-on ' | translate}}{{i+1}}</span>
-                <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(a.id)">delete</i>
-              </div>
-              <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
-                <div class="input-field col s12">
-                  <input id="{{a.id}}+name" name="{{a.id}}" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN"
-                         placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
-                  <label for="{{a.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
-                </div>
-                <div class="input-field col s12 ">
-                  <input id="{{a.id}}+desc" name="{{a.id}}" type="text" [(ngModel)]="a.variantDesc" class="validate inputTextBN"
-                         placeholder="{{'Description of add-on' | translate}}" maxlength="500"/>
-                  <label for="{{a.id}}+desc" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Description*' | translate}}</label>
-                </div>
-                <div class="input-field col s6">
-                  <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
-                         placeholder="{{'Price of Add-on' | translate}}" required/>
-                  <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>
-                </div>
-                <div class="input-field col s6">
-                  <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
-                         placeholder="{{'Discounted Price' | translate}}"/>
-                  <label for="{{a.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
-                </div>
               </div>
             </div>
-            <div class="col s6 card-panel grey lighten-5 z-depth-1">
-              <div class="row"></div>
-              <div class="row"></div>
-              <div class="col s12 center">
+            <div *ngIf="editProduct.hasVariants" class="row hide-on-small-only">
+              <div *ngFor="let a of variants; let i = index;" class="col s6 card-panel grey lighten-5 z-depth-1 variantBoxBN">
+                <div class="col s12 variantTitleBN">
+                  <span class="" style="margin-top: 5px;">{{'Add-on ' | translate}}{{i+1}}</span>
+                  <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(a.id)">delete</i>
+                </div>
+                <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
+                  <div class="input-field col s12">
+                    <input id="{{a.id}}+name" name="{{a.id}}" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN"
+                           placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
+                    <label for="{{a.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
+                  </div>
+                  <div class="input-field col s12 ">
+                    <input id="{{a.id}}+desc" name="{{a.id}}" type="text" [(ngModel)]="a.variantDesc" class="validate inputTextBN"
+                           placeholder="{{'Description of add-on' | translate}}" maxlength="500"/>
+                    <label for="{{a.id}}+desc" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Description' | translate}}</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
+                           placeholder="{{'Price of Add-on' | translate}}" required/>
+                    <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>>
+                  </div>
+                  <div class="input-field col s6">
+                    <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
+                           placeholder="{{'Discounted Price' | translate}}"/>
+                    <label for="{{a.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col s6 card-panel grey lighten-5 z-depth-1">
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="col s12 center">
               <span class="variantBN linkButtonBN" (click)="addVariant()">
               {{'More Add-ons' | translate}}
               </span>
+                  <div class="row"></div>
+                  <span class="inputTextBN">{{'To add more add-ons click here' | translate}}</span>
+                </div>
                 <div class="row"></div>
-                <span class="inputTextBN">{{'To add more add-ons click here' | translate}}</span>
+                <div class="row"></div>
               </div>
-              <div class="row"></div>
-              <div class="row"></div>
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="editProduct.productType == 'Event'" class="col s12">
-        <div class="col s12 typeBN">
-          {{'Events & Workshop' | translate}}
-        </div>
-        <div class="row"></div>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="30"
-                   placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
-            <label for="eTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
-          </div>
-          <div class="input-field col s12">
-            <input id="eDescription" name="eDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
-                   placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" />
-            <label for="eDescription" class ="active labelPLBN">{{'Description*' | translate}}</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="ePrice" name="ePrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Ticket Price' | translate}}" required />
-            <label for="ePrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" />
-            <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
-          </div>
-          <div class="input-field col s3">
-            <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="editProduct.startDate">
-            <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
-          </div>
-          <div class="input-field col s3">
-            <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="editProduct.endDate">
-            <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+        <div *ngIf="editProduct.productType == 'Event'" class="col s12">
+          <div class="col s12 typeBN">
+            {{'Events & Workshop' | translate}}
           </div>
           <div class="row"></div>
-          <div class="col s12">
-            <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
+                     placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
+              <label for="eTitle" class ="active labelPLBN">{{'Event Title*' | translate}}</label>
             </div>
-            <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
-              <div class="col s11 noMarginPaddingBN center">
-                <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+            <div class="input-field col s12">
+              <input id="eDescription" name="eDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
+                     placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" maxlength="500" required />
+              <label for="eDescription" class ="active labelPLBN">{{'Description*' | translate}}</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="ePrice" name="ePrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
+                     placeholder="{{'Ticket Price' | translate}}" required (keyup)="checkAmount()" />
+              <label for="ePrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
+              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+            </div>
+            <div class="input-field col s6">
+              <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                     placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" (keyup)="checkAmount()"  />
+              <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+              <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+            </div>
+            <div class="input-field col s6 m3 l3">
+              <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                     [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="editProduct.startDate">
+              <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
+            </div>
+            <div class="input-field col s6 m3 l3">
+              <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
+                     [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="editProduct.endDate">
+              <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+            </div>
+            <div class="input-field col s12 m6 l6">
+              <input id="eVenue" name="eVenue" type="text" [(ngModel)]="editProduct.venue" class="validate inputTextBN"
+                     placeholder="{{'Mention venue of your Event/Workshop(Optional)' | translate}}" maxlength="200" />
+              <label for="eVenue" class ="active labelPLBN">{{'Venue' | translate}}</label>
+            </div>
+            <div class="row"></div>
+            <div class="col s12">
+              <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
+                {{'Product Image' | translate}}
               </div>
-              <div class="col s1 noMarginPaddingBN">
-                <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
-                  <i class="material-icons alignMidBN" style="font-size: 14pt;">close</i>
+              <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
+                <div class="col s11 noMarginPaddingBN center">
+                  <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
                 </div>
-              </div>
-            </div>
-            <div *ngIf="imageUrls && imageUrls.length < 3" class="col s4">
-              <div class="col s10 file-field input-field noMarginPaddingBN">
-                <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper small active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
-                    </div>
+                <div class="col s1 noMarginPaddingBN">
+                  <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
+                    <i class="material-icons alignMidBN" style="font-size: 14pt;">close</i>
                   </div>
                 </div>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="eventUploadImg2" type="file"
-                       (change)="fileChange($event)" />
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="editProduct.productType == 'Other'" class="col s12">
-        <div class="col s12 typeBN">
-          {{'Other' | translate}}
-        </div>
-        <div class="row"></div>
-        <div class="row">
-          <div class="col s12">
-            <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
-            </div>
-            <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
-              <div class="col s11 noMarginPaddingBN center">
-                <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
-              </div>
-              <div class="col s1 noMarginPaddingBN">
-                <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
-                  <i class="material-icons alignMidBN" style="font-size: 14pt;">close</i>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="imageUrls && imageUrls.length < 3" class="col s4">
-              <div class="col s10 file-field input-field noMarginPaddingBN">
-                <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
-                <div *ngIf="uploading" class="col s12 center">
-                  <div class="row"></div>
-                  <div class="row"></div>
-                  <div class="preloader-wrapper small active">
-                    <div class="spinner-layer spinner-red-only">
-                      <div class="circle-clipper left">
+              <div *ngIf="imageUrls && imageUrls.length < 3" class="col s4">
+                <div class="col s10 file-field input-field noMarginPaddingBN">
+                  <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
                         <div class="circle"></div>
-                      </div><div class="gap-patch">
-                      <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                      <div class="circle"></div>
-                    </div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
                     </div>
                   </div>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="eventUploadImg2" type="file"
+                         (change)="fileChange($event)" />
                 </div>
-                <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="eventUploadImg2" type="file"
-                       (change)="fileChange($event)" />
               </div>
             </div>
           </div>
-          <div class="input-field col s12" style="margin-top: 20px">
-            <input id="oTitle" name="oTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="30"
-                   placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
-            <label for="oTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+        </div>
+        <div *ngIf="editProduct.productType == 'Other'" class="col s12">
+          <div class="col s12 typeBN">
+            {{'Other' | translate}}
           </div>
-          <div class="input-field col s12">
-            <input id="oDescription" name="oDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
-                   placeholder="{{'Mention important details about your Event/Workshop(Optional)' | translate}}" />
-            <label for="oDescription" class ="active labelPLBN">{{'Description' | translate}}</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="oPrice" name="oPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Ticket Price' | translate}}" required />
-            <label for="oPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" />
-            <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+          <div class="row"></div>
+          <div class="row">
+            <div class="col s12">
+              <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
+                {{'Product Image' | translate}}
+              </div>
+              <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
+                <div class="col s11 noMarginPaddingBN center">
+                  <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                </div>
+                <div class="col s1 noMarginPaddingBN">
+                  <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
+                    <i class="material-icons alignMidBN" style="font-size: 14pt;">close</i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="imageUrls && imageUrls.length < 3" class="col s4">
+                <div class="col s10 file-field input-field noMarginPaddingBN">
+                  <img *ngIf="!uploading" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                  <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <input title="Product Image Here" accept=".jpg, .jpeg, .png" id="otherUploadImg2" type="file"
+                         (change)="fileChange($event)" />
+                </div>
+              </div>
+            </div>
+            <div class="input-field col s12" style="margin-top: 20px">
+              <input id="oTitle" name="oTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20"
+                     placeholder="{{'Enter the name of your Product' | translate}}" required />
+              <label for="oTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="oDescription" name="oDescription" type="text" [(ngModel)]="editProduct.description" class="validate inputTextBN"
+                     placeholder="{{'Mention important details of your Product(Optional)' | translate}}" maxlength="500" />
+              <label for="oDescription" class ="active labelPLBN">{{'Description' | translate}}</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="oPrice" name="oPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN"
+                     placeholder="{{'Product Price' | translate}}" required (keyup)="checkAmount()" />
+              <label for="oPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
+              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+            </div>
+            <div class="input-field col s6">
+              <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                     placeholder="{{'Discounted price of the product(Optional)' | translate}}" (keyup)="checkAmount()"/>
+              <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
+              <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+            </div>
           </div>
         </div>
-      </div>
       <div class="row"></div>
       <div class="row valign-wrapper">
         <div class="col s5 center">
