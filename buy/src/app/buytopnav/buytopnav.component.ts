@@ -34,7 +34,8 @@ export class BuytopnavComponent implements OnInit {
       this.storeHome = '/' + this.merchantCode + '/store';
       this.cartLink =  '/' + this.merchantCode + '/cart';
 
-      if(!(window && window.location && window.location.href && window.location.href.indexOf('/cart') > 0))
+      if(!(window && window.location && window.location.href && (window.location.href.indexOf('/cart') > 0 ||
+        window.location.href.indexOf('/paymentsuccess/') > 0)))
         this.cartService.getCart(this.merchantCode)
           .then(res => this.cartFilled(res));
     }

@@ -48,6 +48,8 @@ export class CartService {
                 if(item && item.length > 0)
                     this.deleteFromCart(code, item[0].productId, item[0].variantId, item[0].sizeId);
             }
+
+            this.broadcastCart();
         }
     }
 
@@ -238,10 +240,7 @@ export class CartService {
     }
 
     public clearFromCart(code: string, items: Array<CartItem>) {
-        if(this._cart && this._cart.items && this._cart.items.length > 0)
-            this.clearItems(code, items);
-        else
-            this.getCart(code).then(res => this.clearItems(code, items));
+        this.getCart(code).then(res => this.clearItems(code, items));
     }
 
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
