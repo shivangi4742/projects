@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Product, ProductService, StoreService, CartItem, UtilsService } from 'benowservices';
+import { Product, ProductService, StoreService, CartItem, UtilsService, CartService } from 'benowservices';
 
 @Component({
   selector: 'paymentsuccess',
@@ -15,7 +15,7 @@ export class PaymentsuccessComponent implements OnInit {
   items: Array<CartItem>;
 
   constructor(private productService: ProductService, private storeService: StoreService, private activatedRoute: ActivatedRoute,
-    private utilsService: UtilsService) { }
+    private utilsService: UtilsService, private cartService: CartService) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -27,7 +27,6 @@ export class PaymentsuccessComponent implements OnInit {
   }
 
   bindProds(res: Array<Product>) {
-    console.log(res);
     if(res && res.length > 0) {
       this.items = new Array<CartItem>();
       for(let i: number = 0; i < res.length; i++) {
@@ -35,9 +34,9 @@ export class PaymentsuccessComponent implements OnInit {
         this.items.push(new CartItem(res[i].qty, res[i].prodId, res[i].name, res[i].originalPrice, res[i].price, imgURL, null, null, res[i].color,
           res[i].size, res[i].description));
       }
-      //this.clearFromCart(res)
+
+      this.cartService.clearFromCart(this.merchantCode, this.items);
     }
-    //clear from cart too
   }
 
 }

@@ -39,6 +39,18 @@ export class CartService {
         return 0;
     }
 
+    private clearItems(code: string, items: Array<CartItem>) {
+        if(items && items.length > 0 && this._cart && this._cart.items && this._cart.items.length > 0) {
+            for(let i: number = 0; i < items.length; i++) {
+                let item: Array<CartItem> = this._cart.items.filter(ci => ci.quantity == items[i].quantity && ci.name == items[i].name 
+                    && ci.offerPrice == items[i].offerPrice && ((!ci.color && !items[i].color) || ci.color == items[i].color)
+                    && ((!ci.size && !items[i].size) || ci.size == items[i].size));
+                if(item && item.length > 0)
+                    this.deleteFromCart(code, item[0].productId, item[0].variantId, item[0].sizeId);
+            }
+        }
+    }
+
     private pushCartToLocalStorage(code: string): any {
         var crt: any = {};
         if(this._cart) {
@@ -223,6 +235,13 @@ export class CartService {
 
         this._subject.next(this.numCartItems());
         return this._cart;
+    }
+
+    public clearFromCart(code: string, items: Array<CartItem>) {
+        if(this._cart && this._cart.items && this._cart.items.length > 0)
+            this.clearItems(code, items);
+        else
+            this.getCart(code).then(res => this.clearItems(code, items));
     }
 
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
