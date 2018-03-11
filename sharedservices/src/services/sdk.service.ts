@@ -280,13 +280,14 @@ export class SDKService {
             .catch(res => null);
     }
 
-    updateFundraiserCollection(amount: number, fundraiserId: string, campaignId: string): Promise<boolean> {
+    updateFundraiserCollection(amount: number, fundraiserId: string, campaignId: string, txnId: string): Promise<boolean> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.updateFundraiserCollectionURL,
             JSON.stringify({
                 "amount": amount,
                 "campaignId": campaignId,
-                "fundraiserId": fundraiserId
+                "fundraiserId": fundraiserId,
+                "txnId": txnId
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()

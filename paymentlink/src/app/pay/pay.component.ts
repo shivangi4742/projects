@@ -79,6 +79,11 @@ export class PayComponent implements OnInit {
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));
   }
 
+  fundRaised(res: any, res2: boolean) {
+    this.sdkService.send80G(res.data.id, this.id);
+    this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo + '/' + this.fundRaiserId);    
+  }
+
   receivedPayment(res: any) {
     if (res && res.data && res.out == true) {
       this.sdkService.setPaySuccess({
@@ -86,8 +91,13 @@ export class PayComponent implements OnInit {
         "payer": res.data.vpa, "transactionDate": res.data.dt, "products": this.pay.products, "mtype": this.pay.merchantType
       });
       if (this.pay.merchantType == 2) {
-        this.sdkService.send80G(res.data.id, this.id);
-        this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
+        if(this.fundRaiserId)
+          this.sdkService.updateFundraiserCollection(res.data.amount, this.fundRaiserId, this.id, res.data.id)
+            .then(res2 => this.fundRaised(res, res2));
+        else {
+          this.sdkService.send80G(res.data.id, this.id);
+          this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo);
+        }
       }
       else
         this.router.navigateByUrl('/paymentsuccess/' + this.id + '/' + this.txnNo);
@@ -530,10 +540,10 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.upiAmount != this.pay.amount) {
       this.upiURL = null;
-        this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
-          this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-          this.pay.til, this.pay.products)
-          .then(res => this.createQRL(res));
+      this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
+        this.pay.til, this.pay.products)
+        .then(res => this.createQRL(res));
     }
     else
       this.qRLinkShown(this.upiURL, this.upiAmount);
@@ -600,10 +610,10 @@ export class PayComponent implements OnInit {
     this.invalidAmount = false;
     if (this.qrAmount != this.pay.amount) {
       this.qrURL = null;
-        this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
-          this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-          this.pay.til, this.pay.products)
-          .then(res => this.createQR(res));
+      this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
+        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
+        this.pay.til, this.pay.products)
+        .then(res => this.createQR(res));
     }
   }
 
