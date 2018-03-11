@@ -22,11 +22,11 @@ export class PaymentsuccessComponent implements OnInit {
     this.storeService.assignMerchant(this.merchantCode);
     this.productService.getProductsForTransaction(null, this.id)
       .then(res => this.bindProds(res));
-    //Clear Cart
   }
 
   bindProds(res: Array<Product>) {
     console.log(res);
+    //clear from cart too
   }
 
 }
