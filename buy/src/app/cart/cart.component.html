@@ -76,13 +76,23 @@
             <div class="col s5 carttotalpriceBN discountgreenBN" align="right">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
           </div>
           <div class="col s12">&nbsp;</div>
-          <div class="col s12 borderBN"></div>
+          <div class="col s12 padlr10BN">
+            <div class="col s12">
+              <div class="borderBN"></div>
+            </div>
+          </div>
           <div class="col s12 padlr10BN">
             <div class="col s7 carttotalpriceBN">{{'Amount Payable' | translate}} :</div>
             <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalAmount() | number : '1.2-2'}}</div>              
           </div>
-          <div class="col s12 borderBN"></div>
-          <div class="col s12">&nbsp;</div>
+          <div class="col s12 padlr10BN">
+            <div class="col s12">
+              <div class="borderBN"></div>
+            </div>
+          </div>
+          <div class="col s12 padlr10BN smallFontsBN">
+            <div class="col s12"> *{{'Transaction fee applicable as per the payment mode' | translate}}</div>
+          </div>
           <div class="col s12">&nbsp;</div>
           <div class="col s12 padlr10BN">
             <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 

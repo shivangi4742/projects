@@ -50,5 +50,6 @@
     "Redirecting you to payment gateway,": "आपको भुगतान गेटवे पर पुनर्निर्देशित कर रहे हैं,",
     "please do not click back or refresh the page": "कृपया वापस क्लिक न करें या पृष्ठ को रीफ्रेश करें",
     "Thank You!": "धन्यवाद!",
-    "Soon you will get an order confirmation message on the mobile number and mail id provided by you.": "जल्द ही आपको मोबाइल नंबर और आपके द्वारा प्रदान किए गए मेल आईडी पर ऑर्डर पुष्टिकरण संदेश मिलेगा।"
+    "Soon you will get an order confirmation message on the mobile number and mail id provided by you.": "जल्द ही आपको मोबाइल नंबर और आपके द्वारा प्रदान किए गए मेल आईडी पर ऑर्डर पुष्टिकरण संदेश मिलेगा।",
+    "Transaction fee applicable as per the payment mode": "लेन-देन शुल्क भुगतान मोड के अनुसार लागू है"
 }
