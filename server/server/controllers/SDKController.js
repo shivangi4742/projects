@@ -655,8 +655,8 @@ var sdkCont = {
             "errorCode": "Something went wrong. Please try again."
         };
         try {
-            if (req && req.body && req.body.amount && req.body.campaignId && req.body.fundraiserId)
-                this.updateFundraiserCollectionPostCall(req.body.fundraiserId, req.body.campaignId, req.body.amount, req.headers, cb);
+            if (req && req.body && req.body.amount && req.body.campaignId && req.body.fundraiserId && req.body.txnId)
+                this.updateFundraiserCollectionPostCall(req.body.fundraiserId, req.body.campaignId, req.body.txnId, req.body.amount, req.headers, cb);
             else
                 cb(retErr);
         }

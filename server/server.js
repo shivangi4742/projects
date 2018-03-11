@@ -26,6 +26,9 @@ var helpRouter = require('./server/routers/HelpRouter');
 var fileRouter = require('./server/routers/FileRouter');
 var productRouter = require('./server/routers/ProductRouter');
 var campaignRouter = require('./server/routers/CampaignRouter');
+var cartRouter = require('./server/routers/CartRouter');
+var storeController = require('./server/controllers/StoreController');
+var storeRouter = require('./server/routers/StoreRouter');
 var sdkController = require('./server/controllers/SDKController');
 var transactionRouter = require('./server/routers/TransactionRouter');
 var notificationRouter = require('./server/routers/NotificationRouter');
@@ -115,6 +118,8 @@ app.use(config.base + '/dist', express.static(__dirname + urls.distDir));
 app.use(config.base + '/node_modules', express.static(__dirname + urls.extLibsDir));
 app.use(config.base + '/i18n', express.static(__dirname + urls.translationDir));
 app.use(config.base + '/fav', express.static(__dirname + urls.favicon))
+app.use(config.base + '/cart', cartRouter);
+app.use(config.base + '/store', storeRouter);
 app.use(config.base + '/sdk', sdkRouter);
 app.use(config.base + '/file', fileRouter);
 app.use(config.base + '/user', userRouter);
@@ -164,6 +169,48 @@ app.post('/hash', function (req, res) {
 	var hashData = getMd5(payloadObj.strToHash + merchantCode + salt, salt);
 	res.send({ "hash": hashData });
 })
+
+app.get(config.base + '/s/:sturl', function(req, res) {
+	res.setHeader("X-Frame-Options", "ALLOW");
+	storeController.getStoreDetails(req.params.sturl, function(data) {
+		if(data && data.url) {
+			res.send('<!doctype html>' +
+			'<html>' +
+			'    <head>' +
+			'        <meta charset="utf-8">' +
+			'        <meta name="viewport" content="width=device-width, initial-scale=1">' +
+			'        <title>Benow - Merchant Store</title>' +
+			'        <meta property="og:title" content="' + data.title + '" />' +
+			'        <meta property="og:description" content="' + data.description + '" />' +
+			'        <meta property="og:url" content="' + data.url + '" />' +
+			'        <meta property="og:image" content="' + data.imgURL + '" />' +
+			'        <meta property="og:image:secure_url" content="' + data.imgURL + '" />' +
+			'        <script>window.onload = function() { window.location = "' + data.url + '"; return false; };</script>' +
+			'    </head>' +
+			'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' +
+			'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
+			'    </body>' +
+			'</html>'
+			);
+		}
+		else {
+			res.send('<!doctype html>' +
+			'<html>' +
+			'    <head>' +
+			'        <meta charset="utf-8">' +
+			'        <meta name="viewport" content="width=device-width, initial-scale=1">' +
+			'        <title>Benow - Merchant Store</title>' +
+			'        <script>window.onload = function() { window.location = "' + config.me + '/buy/store/' + req.params.sturl + 
+			'"; return false; };</script>' +
+			'    </head>' +
+			'    <body><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />' +
+			'         <div style="font-size:50px; width:100%;" align="center">&nbsp;</div>' +
+			'    </body>' +
+			'</html>'
+			);
+		}
+	});	
+});
 
 app.get(config.base + '/u/:id', function (req, res) {
 	res.setHeader("X-Frame-Options", "ALLOW");
@@ -286,6 +333,25 @@ app.get(config.base + '/ngocsl/*', function (req, res) {
 app.get(config.base + '/zg/*', function (req, res) {
 	res.setHeader("X-Frame-Options", "DENY");
 	res.sendFile(urls.zgHome, { root: __dirname });
+});
+
+app.post(config.base + '/buy/:code/paymentsuccess/:id', function(req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	sdkController.paymentSuccess(req, function () {
+		res.sendFile(urls.buyHome, { root: __dirname });
+	});
+});
+
+app.post(config.base + '/buy/:code/paymentfailure/:id', function(req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	sdkController.paymentFailure(req, function () {
+		res.sendFile(urls.buyHome, { root: __dirname });
+	});
+});
+
+app.get(config.base + '/buy/*', function (req, res) {
+	res.setHeader("X-Frame-Options", "DENY");
+	res.sendFile(urls.buyHome, { root: __dirname });
 });
 
 app.get(config.base + '/mgl/*', function (req, res) {

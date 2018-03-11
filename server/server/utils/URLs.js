@@ -14,12 +14,14 @@ var uRLs = {
     pplHome: '/paymentlink/index.html',
     invalidLink: '/paymentlink/assets/paymentlink/invalidlink.html',
     expdLink: '/paymentlink/assets/paymentlink/expiredlink.html',
+    buyDir: '/buy',
     mglDir: '/mgl',
     buyDir: '/buy',
     zgDir: '/zg',
     zgHome: '/zg/index.html',
     mglHome: '/mgl/index.html',
-    logosDir: '/logos',
+    buyHome: '/buy/index.html',
+    logosDir: '/logos'
 };
 
 module.exports = uRLs;
