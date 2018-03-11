@@ -21,6 +21,7 @@ export class ProductService {
     private _transProducts: Array<Product>;
     private _campaignHasProducts: boolean = false;
     private _urls: any = {
+        getProductURL: 'product/getProduct',        
         getProductForEditURL: 'product/getProductForEdit',
         getProductsURL: 'product/getProducts',
         addProductURL: 'product/addProduct',
@@ -128,7 +129,7 @@ export class ProductService {
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
-            res.color, null, null, null, res.merchantCode);   
+            res.color, res.size, null, null, null, res.merchantCode);   
         if(res.productImages && res.productImages.length > 0) {
             let me: any = this;
             newp.imageURLs = new Array<string>();
@@ -210,6 +211,18 @@ export class ProductService {
 
     }
 
+    getProduct(id: string): Promise<Product> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductURL, 
+                JSON.stringify({
+                    "id": id,
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillStoreProduct(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
+    }
+
     getProductForEdit(id: string): Promise<NewProduct> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getProductForEditURL,
@@ -288,7 +301,8 @@ export class ProductService {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, 
+                    res[i].merchantCode));
         }
 
         return this._campProducts;
@@ -299,7 +313,8 @@ export class ProductService {
             this._transProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, 
+                    res[i].merchantCode));
         }
 
         return this._transProducts;
@@ -317,7 +332,7 @@ export class ProductService {
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
                     prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName, 
-                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, '', null, null, null, res[i].merchantCode));
+                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, res[i].merchantCode));
             }
         }
 
@@ -340,7 +355,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
-                res.prodImgUrl, '', null, null, null, res.merchantCode);
+                res.prodImgUrl, res.color, res.size, null, null, null, res.merchantCode);
         else
             return null;
     }

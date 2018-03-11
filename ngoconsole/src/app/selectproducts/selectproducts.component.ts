@@ -17,7 +17,7 @@ export class SelectproductsComponent implements OnInit {
   active: number = 0;
   numPages: number = 1;
   mtype: number = 1;
-  newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+  newProd: Product = new Product(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
   @Input('user') user: User;
   @Input('modalActions') modalActions: any;
 
