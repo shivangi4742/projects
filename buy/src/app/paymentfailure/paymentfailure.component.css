@@ -1,0 +1,27 @@
+.sorrycontainerBN {
+    padding-right: 20px;
+    padding-left: 20px;        
+}
+
+.sorryBN {
+    font-weight: 600;
+    font-size: 20pt;
+    font-family: 'Barlow', sans-serif;
+    color: #E53935;
+    letter-spacing: 0.1rem;                       
+}
+
+.sorryopBN {
+    font-size: 14pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.sorrycntnuBN {
+    height: 45pt;
+    font-size: 15pt;
+    border-radius: 5px;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
+}
