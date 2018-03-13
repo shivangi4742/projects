@@ -3,14 +3,14 @@
   <div class="row">
     <div class="col s1 m3 l3"></div>
     <div class="col s10 m6 l6 regHdr1BN">
-      <h4>Online Bill Payment</h4>
+      <span class="onlineBP">Online Bill Payment</span>
     </div>
     <div class="col s1 m3 l3"></div>
   </div>
   <div class="row">
     <div class="col s1 m2 l1"></div>
     <div class="col s10 m8 l10 regHdr2BN">
-      <h4>Get ₹50 Cashback on this <img height="30" width="80" src="../../assets/mgl/images/upiw.png" /> &nbsp;transactions.</h4>
+      <span class="getCashBack">Get ₹50 Cashback on this <img  src="../../assets/mgl/images/upiw.png" /> &nbsp;transaction.</span>
     </div>
     <div class="col s1 m2 l1"></div>
   </div>
@@ -40,14 +40,14 @@
             <div class="input-field col s12 m10 offset-m1">
               <input id="CsmNo" name="csm" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="validate regNrmS4BN "
                 maxlength="12" title="please enter a valid 12 digit consumer no." [(ngModel)]="CsmNo" required>
-              <label for="CsmNo">Customer Account Number(CA No.)</label>
+              <label for="CsmNo">Customer Account No. (CA No.)</label>
             </div>
             <div class="col m1 hide-on-small-only"></div>
           </div>
           <div class="valign-wrapper">
               <div class="input-field col s12 m10 offset-m1">
                 <input id="mobno" name="mobno" type="tel" class="validate regNrmS4BN " [(ngModel)]="mobno" required>
-                <label for="mobno">Customer Mobile Number</label>
+                <label for="mobno">Customer Mobile No.</label>
               </div>
               <div class="col m1 hide-on-small-only"></div>
             </div>
@@ -67,7 +67,7 @@
         <div class="row">
           <div class="valign-wrapper">
             <div class="col s12 m10 offset-m1" align="center">
-              <button [disabled]=" hasAllRequiredFields()" class="btn waves-effect waves-light green regNrmS2BN buttonBN" type="submit" name="Proceed">Continue</button>
+              <button [disabled]="hasAllRequiredFields()" class="btn waves-effect waves-light regNrmS2BNC buttonBNC" type="submit" name="Proceed">Continue</button>
             </div>
             <div class="col m1 hide-on-small-only"></div>
           </div>
@@ -78,36 +78,39 @@
   </div>
   <div class="row">
       <div class="col s1 m4 l4"></div>
-      <div class="col s10 m4 l4 regHdr1BN">
+      <div class="col s10 m4 l4 bhimBN">
         <a (click)="openModelBhimUpi()">What is BHIM UPI ?</a>
       </div>
       <div class="col s1 m4 l4"></div>
   </div>
   <div class="row">
       <div class="col s1 m2 l2"></div>
-    <div class="col s10 m8 l8 logoCon">
-      <img height="80" width="120" src="../../assets/mgl/images/bhim.png" /> &nbsp;&nbsp;
-      <img height="80" width="120" src="../../assets/mgl/images/bhimaxis.png" /> &nbsp;&nbsp;
-      <img height="80" width="120" src="../../assets/mgl/images/tlogo.png" /> &nbsp;&nbsp;
-      <img height="80" width="120" src="../../assets/mgl/images/payhindi.png" /> &nbsp;&nbsp;
-      <img height="80" width="120" src="../../assets/mgl/images/pay.png" /> &nbsp;&nbsp;
-      <img height="80" width="120" src="../../assets/mgl/images/logo60.png" /> &nbsp;&nbsp;
+    <div class="col s10 m8 l8 logoCon center">
+      <img  src="../../assets/mgl/images/bhim.png" /> &nbsp;&nbsp;
+      <img  src="../../assets/mgl/images/bhimaxis.png" /> &nbsp;&nbsp;
+      <img  src="../../assets/mgl/images/tlogo.png" /> &nbsp;&nbsp;
+      <img  src="../../assets/mgl/images/payhindi.png" /> &nbsp;&nbsp;
+      <img  src="../../assets/mgl/images/pay.png" /> &nbsp;&nbsp;
+      <img  src="../../assets/mgl/images/logo60.png" /> &nbsp;&nbsp;
     </div>
       <div class="col s1 m2 l2"></div>
   </div>
   <div class="row">
-      <div class="col s1 m2 l2"></div>
-        <div class="col offset-m1 m8 s10 center-align">
-          <span class="regHdrS6BN"> Powered by </span>
-          <span style="font-size: 30px;">
-            <br />
-          </span>
-          <img height="30" src="../../assets/mgl/images/safer.png" /> &nbsp;&nbsp;
-          <span class="colrgrey reNrmBn">and</span> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img height="30" src="../../assets/mgl/images/axis.png" />
+
+    <div class="col s1 m3 l3"></div>
+        <div class="col offset-m1 m6 s10 l6 center-align">
+          <span class="poweredBy"> Powered by </span>
         </div>
         <div class="col m1 hide-on-med-and-down"></div>
-      <div class="col s1 m2 l2"></div>
+      <div class="col s1 m3 l3"></div>
   </div>
-
+  <div class="row">
+      <div class="col s1 m3 l3"></div>
+        <div class="col offset-m1 m6 s10 l6 center-align">
+          <img  src="../../assets/mgl/images/axis.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <img  src="../../assets/mgl/images/pay_safer_shield.png" /> &nbsp;&nbsp;
+        </div>
+        <div class="col m1 hide-on-med-and-down"></div>
+      <div class="col s1 m3 l3"></div>
+  </div>
 </main>
