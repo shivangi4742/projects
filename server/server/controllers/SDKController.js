@@ -443,11 +443,16 @@ var sdkCont = {
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
+                var prods = req.body.prods;
+                if (!prods && prods.length <= 0) {
+                    prods = 0;
+                }
+
                 if (req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
-                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100 + '/' + req.body.fundraiserid);
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100 + '/' + req.body.fundraiserid);
                 }
                 else {
-                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
                 }
 
             }
