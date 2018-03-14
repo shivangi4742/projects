@@ -13,10 +13,10 @@
       <form materialize (ngSubmit)="onSubmit()" #prodEditForm="ngForm">
       <div class="row"></div>
         <div *ngIf="editProduct.productType == 'Lifestyle'" class="col s12">
-          <div class="col s10 typeBN">
+          <div class="col s8 typeBN">
             {{'Lifestyle' | translate}}
           </div>
-          <div class="col s2 typeBN">
+          <div class="col s4 typeBN">
             <div class="switch">
               <label>
                 <input type="checkbox" [(ngModel)]="editProduct.isAvailable" (change)="setProdStock()" checked>
