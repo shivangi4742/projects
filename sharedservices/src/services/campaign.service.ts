@@ -20,9 +20,9 @@ export class CampaignService {
     tomdd1: string;
     fromdd: string;
     dd2: string;
-    eromdd:string;
-    eta2:string[];
-    private _curCampaign: SDK;    
+    eromdd: string;
+    eta2: string[];
+    private _curCampaign: SDK;
     private _sdk: SDK;
     private merchant: Merchant;
     private _customer: Customer;
@@ -57,12 +57,12 @@ export class CampaignService {
     }
 
     getCurrCampaign(): SDK {
-        if(this._curCampaign)
+        if (this._curCampaign)
             return this._curCampaign;
         else
             return new SDK('', false, false, '', false, false, true, true, true, false, false, true, true, true, true, true, false, false, false,
-                false, false, false, true, false, 3, 0, 0, 0, 0, 3, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
-                null, null, null, null, null, null, null, null, null, null, [], null, null, false, false, '', '', '');
+                false, false, false, true, false, 3, 0, 0, 0, 0, 3, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                null, null, null, null, null, null, null, null, null, null, [], null, null, false, false, '', '', '', 0);
     }
 
     setCampaign(sdk: SDK) {
@@ -77,10 +77,10 @@ export class CampaignService {
         else {
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.getCampaignURL,
-                JSON.stringify({
-                    "campaignId": id
-                }),
-                { headers: this.utilsService.getHeaders() })
+                    JSON.stringify({
+                        "campaignId": id
+                    }),
+                    { headers: this.utilsService.getHeaders() })
                 .toPromise()
                 .then(res => this.fillCampaign(res.json(), mtype))
                 .catch(res => this.utilsService.returnGenericError());
@@ -114,8 +114,8 @@ export class CampaignService {
                 res.merchantUser ? res.merchantUser.mccCode : '', res.fileUrl, '', '', res.merchantUser ? res.merchantUser.id : '',
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
                 res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
-                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', 
-                '');
+                res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '',
+                '', res.foodAmount);
         }
 
         return null;
@@ -203,10 +203,10 @@ export class CampaignService {
     editCampaign(sdk: SDK): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.editCampaignURL,
-            JSON.stringify({
-                "sdk": sdk
-            }),
-            { headers: this.utilsService.getHeaders() })
+                JSON.stringify({
+                    "sdk": sdk
+                }),
+                { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
@@ -215,10 +215,10 @@ export class CampaignService {
     saveCampaign(sdk: SDK): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.saveCampaignURL,
-            JSON.stringify({
-                "sdk": sdk
-            }),
-            { headers: this.utilsService.getHeaders() })
+                JSON.stringify({
+                    "sdk": sdk
+                }),
+                { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
@@ -519,12 +519,12 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
-     expirelink( id: string, merchantCode: string, expirydate: string): Promise<CampaignSummary> {
+    expirelink(id: string, merchantCode: string, expirydate: string): Promise<CampaignSummary> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.expirelinkURL,
             JSON.stringify({
-                "id":id,
-                "merchantCode":merchantCode,
+                "id": id,
+                "merchantCode": merchantCode,
                 "expiryDate": expirydate
             }),
             { headers: this.utilsService.getHeaders() }
@@ -552,8 +552,8 @@ export class CampaignService {
         let me = this;
         let totalpages = res.totalNoOfPages;
         let pt = res.merchantPPVoList;
-        
-       if (pt && pt.length > 0) {
+
+        if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i: number = 0; i < pt.length; i++) {
                 var p = '';
@@ -567,7 +567,7 @@ export class CampaignService {
                     var dd1 = pt[i].id;
                 }
                 if ((pt[i].description)) {
-                     p = (pt[i].description).substring(0, 30);
+                    p = (pt[i].description).substring(0, 30);
                 }
                 if (pt[i].creationDate) {
                     var crdate = pt[i].creationDate;
@@ -576,8 +576,8 @@ export class CampaignService {
                     this.fromdd = dtf[2] + '-' + dtf[1] + '-' + dtf[0] + ' ' + dta[1];
                 }
                 let pp: boolean = true;
-                this.tomdd1='';
-                
+                this.tomdd1 = '';
+
                 if (pt[i].expiryDate) {
                     var crdate = pt[i].expiryDate;
                     let dta1: string[] = crdate.split(' ');
@@ -594,7 +594,7 @@ export class CampaignService {
 
                 }
                 else {
-                    me._PaymentLinks.push(new PaymentLinks(p,this.dd2, dd1,
+                    me._PaymentLinks.push(new PaymentLinks(p, this.dd2, dd1,
                         this.fromdd, this.tomdd1, dd, pt.fileurl, pp));
                 }
 
