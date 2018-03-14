@@ -11,9 +11,19 @@
         </div>
         <div class="col s12">&nbsp;</div>
         <div class="col s12">
-          <a materialize="dropdown" class="dropdown-button linkButtonBN storetitleBN" data-activates="storedetailBN" data-beloworigin="true">{{storeName}}
-            <i class="material-icons titleddBN">keyboard_arrow_down</i>
-          </a>
+          <span class="linkButtonBN storetitleBN" >{{storeName}}</span>
+          <div *ngIf="onclickn">
+             <div class="col s12">{{storeAddress}}</div>
+           <div class="col s12">
+               <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+           </div>
+          </div>
+        </div>
+
+         <div class="col s12 redcolBN" (click)="abtbusiness()">
+          <span class="linkButtonBN" >{{'About this business'}}</span>
+            <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
+            <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
         </div>
       </div>
       <div class="col s12 white card-panel z-depth-2 storeprodsBN" *ngIf="products">

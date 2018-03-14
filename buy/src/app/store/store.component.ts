@@ -18,7 +18,7 @@ export class StoreComponent implements OnInit {
   merchantCode: string;
   products: Array<Product>;
   page: number = 1;
-
+  onclickn : boolean = false;
   //HARDCODED
   storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
@@ -74,5 +74,8 @@ export class StoreComponent implements OnInit {
       else
         this.storeLogo = this.utilsService.getDefaultStoreImageURL();
     }
+  }
+  abtbusiness(){
+    this.onclickn = ! this.onclickn;
   }
 }

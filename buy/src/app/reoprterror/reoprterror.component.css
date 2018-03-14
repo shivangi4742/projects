@@ -1,0 +1,44 @@
+.checkHeight{
+  line-height: 10px!important;
+  height: 30px!important;
+  font-size: 10pt;
+  font-weight: bold;
+}
+.textareaBN{
+  height: 123px;
+  line-height: 19px!important;
+}
+.noBottomMarginBN{
+  margin-bottom: 0px!important;
+}
+.inputTextBN{
+  font-family: Barlow;
+  font-size: 12pt!important;
+  line-height: 14px!important;
+}
+.labelPLBN{
+  font-family: Barlow;
+  font-size: 14pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+.labelPL1BN{
+  font-family: Barlow;
+  font-size: 12pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+.labelPL2BN{
+  font-family: Barlow;
+  font-size: 10pt;
+  line-height: 20px;
+  color: rgb(65,58,90);
+  font-weight: bold;
+}
+.errBN {
+    font-size: 11pt;
+    color: red;
+    font-family: Barlow,sans-serif;
+}

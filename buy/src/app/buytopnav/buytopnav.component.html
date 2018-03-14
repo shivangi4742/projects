@@ -1,22 +1,33 @@
 <div materialize>
   <nav materialize class="nav buytopNavBN">
     <div class="nav-wrapper">            
-      <a class="brand-logo linkButtonBN" [routerLink]="storeHome">
-        <img class="buyLogoBN hide-on-med-and-down" src="../assets/shared/images/benoweasy.png" />
-        <img class="buyLogoSBN hide-on-large-only" src="../assets/shared/images/benoweasy.png" />
+      <a class="brand-logo logooBN linkButtonBN hide-on-small-only" [routerLink]="storeHome" *ngIf="storeName">
+        <!--<img class="buyLogoBN hide-on-med-and-down" src="../assets/shared/images/benoweasy.png" />
+        <img class="buyLogoSBN hide-on-large-only" src="../assets/shared/images/benoweasy.png" />-->
+        <i class="material-icons">store</i> &nbsp;{{storeName}}
       </a>
-      <ul class="left padMnuBN hide-on-med-and-down">
-        <li>
-          <a class="linkButtonBN mnuItemTxtBN">{{'About Benow' | translate}}</a>
+       <ul class="right" *ngIf="numCartItems > 0">
+        <li class="linkButtonBN" [routerLink]="cartLink">
+          <div class="valign-wrapper">
+            <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
+            <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
+            <span class="numItemsBN" align="center">
+              <span class="numItemsnumBN hide-on-small-only">{{numCartItems}}</span>
+              <span class="numItemsnumSBN hide-on-med-and-up">{{numCartItems}}</span>
+            </span>&nbsp;&nbsp;&nbsp;
+            <span class="hide-on-small-only">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </li>
+      </ul>
+      <ul class="right padMnuBN hide-on-med-and-down">
+          <li class="padlr10BN">
+              <a class="linkButtonBN mnuItemTxtBN" [routerLink]="storeHome">{{'All Product' | translate}}</a>
+            </li>     
+        <li class="padlr10BN">
+          <a class="linkButtonBN mnuItemTxtBN">{{'Return Policy' | translate}}</a>
         </li>        
         <li class="padlr10BN">
-          <a class="linkButtonBN mnuItemTxtBN">{{'Contact Us' | translate}}</a>
-        </li>        
-        <li class="padlr10BN">
-          <a class="linkButtonBN mnuItemTxtBN">{{'Refund Policy' | translate}}</a>
-        </li>        
-        <li class="padlr10BN">
-          <a class="linkButtonBN mnuItemTxtBN">{{'Report Error' | translate}}</a>
+          <a class="linkButtonBN mnuItemTxtBN" [routerLink]="reprtlink">{{'Report Error' | translate}}</a>
         </li>        
       </ul>
       <ul class="left hide-on-large-only hide-on-small-only">
@@ -33,19 +44,7 @@
           </a>
         </li>
       </ul>
-      <ul class="right" *ngIf="numCartItems > 0">
-        <li class="linkButtonBN" [routerLink]="cartLink">
-          <div class="valign-wrapper">
-            <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
-            <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
-            <span class="numItemsBN" align="center">
-              <span class="numItemsnumBN hide-on-small-only">{{numCartItems}}</span>
-              <span class="numItemsnumSBN hide-on-med-and-up">{{numCartItems}}</span>
-            </span>&nbsp;&nbsp;&nbsp;
-            <span class="hide-on-small-only">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          </div>
-        </li>
-      </ul>
+     
     </div>
   </nav>
   <ul id="slide-out" class="side-nav fixed sidenavBN hide-on-large-only hide-on-small-only">
@@ -53,5 +52,11 @@
   </ul>  
   <ul id="slide-out2" class="side-nav fixed sidenavSBN hide-on-med-and-up">
     <leftnav></leftnav>    
-  </ul>  
+  </ul>
+  <div materialize="modal" id="prodModal1" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="reporterr">
+      <div class="modal-content">
+        
+      </div>
+
+    </div>  
 </div>

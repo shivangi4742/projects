@@ -1,4 +1,9 @@
 <div class="row smallGapBN">&nbsp;</div>
+<div materialize="modal" id="seedeatil2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="seemodalActions">
+      <div class="modal-content">
+          <app-seeproductdetail [selPayment] = "getSelPayment()"></app-seeproductdetail>
+      </div>
+ </div>
 <div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()" >
   <div class="col s12">
     <div class="dateRangeSBN">
@@ -73,7 +78,8 @@
         <div class="row" style="margin-bottom: 0px;">
           <div class="col s12 m4 l4 truncate secondFieldBN"><b>{{'Payment ID' | translate}}</b> <br>{{p.id}}</div>
           <div class="col s12 m5 l5 truncate secondFieldBN"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}<br> {{p.phone}}</div>
-          <div class="col s12 m3 l3"><b>{{'Payment For' | translate}}</b><br>{{p.description}}</div>
+          <!--<div class="col s12 m3 l3"><b>{{'Payment For' | translate}}</b><br>{{p.description}}</div>-->
+          <div class="col s12 m3 l3"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b></div>
         </div>
       </div>
     </li>

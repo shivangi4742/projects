@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
-import { LocationService, User, UserService, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
+import { LocationService, User, UserService,ProductService, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,8 +23,9 @@ export class DashboardComponent implements OnInit {
   selPayments: Array<Payment>;
   displayTransactions: number = 3;
   dateRange: number = 1;
-
-  constructor(private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
+  paymnt:Payment;
+  seemodalActions: any = new EventEmitter<string|MaterializeAction>();
+  constructor(private locationService: LocationService,private productservice: ProductService, private userService: UserService, private utilsService: UtilsService,
               private transactionService: TransactionService) { }
 
   ngOnInit() {
@@ -118,5 +120,24 @@ export class DashboardComponent implements OnInit {
 
   dateRangeChanged(v: any) {
     this.dateRange = +v;
+  }
+
+  seedetails(res: any) {
+   console.log(res);
+    this.paymnt = res;
+     this.productservice.getProductsForTransaction('', res.id)
+       .then(res => this.selecting(this.paymnt));
+  }
+  selecting(res:any){
+     this.transactionService.setSelPayment(res)
+     .then(res => this.selected());
+     
+  }
+  selected(){
+    this.seemodalActions.emit({ action: "modal", params: ['open'] });
+  }
+
+   getSelPayment(): Payment {
+    return this.transactionService.getSelPayment();
   }
 }

@@ -8,7 +8,7 @@
 }
 
 .nameplateBN {
-    height: 180px;
+       height: auto;
 }
 
 .nopadsBN {
@@ -97,4 +97,12 @@
     font-size: 13pt;
     font-family: 'Barlow', sans-serif;
     text-transform: none;        
+}
+
+.redcolBN{
+    color: red;
+    margin-bottom: 20px;
+}
+.poBN{
+    position: absolute;
 }

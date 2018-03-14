@@ -12,6 +12,7 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class TransactionService {
+    private _selPayment:Payment;
     private _urls: any = {
         getTransactionDetailsURL: 'txn/getTransactionDetails',
         getProductTransactionsURL: 'txn/getProductTransactions',
@@ -66,14 +67,20 @@ export class TransactionService {
                         txns.payments[i].products = new Array<Product>();
                         txns.payments[i].hasProducts = true;
                         for(let j: number = 0; j < res.orders[i].payerProduct.length; j++)
+                        
                             txns.payments[i].products!.push(new Product(false, false, false, res.orders[i].payerProduct[j].quantity,
                                 res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].id, null,
                                 res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,
+                                
                                 res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, res.orders[i].payerProduct[j].color, 
                                 res.orders[i].payerProduct[j].size, null, null, null, res.orders[i].payerProduct[j].merchantCode));
+                                
                     }
+                    
                 }
             }
+
+          
             return txns;
         }
         return null;
@@ -146,5 +153,17 @@ export class TransactionService {
             .toPromise()
             .then(res => this.fillProdTransactions(res.json()))
             .catch(res => null);
+    }
+    
+   setSelPayment(p: Payment): Promise<boolean> {
+      this._selPayment = p;
+        if(p.hasCashback && !p.cbTid)
+            return Promise.resolve(false);
+
+        return Promise.resolve(true);
+    }
+
+    getSelPayment(): Payment {
+        return this._selPayment;
     }
 }

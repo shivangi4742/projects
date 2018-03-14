@@ -129,6 +129,7 @@ export class ProductService {
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
+           
             res.color, res.size, null, null, null, res.merchantCode);   
         if(res.productImages && res.productImages.length > 0) {
             let me: any = this;
@@ -309,12 +310,17 @@ export class ProductService {
     }
 
     private fillTransProducts(res: any): Array<Product> {
+       
         if(res && res.length > 0) {
             this._transProducts = new Array<Product>();
-            for(let i: number = 0; i < res.length; i++)
+            
+            for(let i: number = 0; i < res.length; i++) {
+               
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
+                   
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, 
                     res[i].merchantCode));
+          }
         }
 
         return this._transProducts;
@@ -332,14 +338,15 @@ export class ProductService {
             if(res && res.length > 0) {
                 for(let i: number = 0; i < res.length; i++)
                     prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName, 
+                        
                         res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, res[i].merchantCode));
-            }
         }
 
         return { "products": prods, "numPages": numP };
     }
+ }
 
-    getProducts(merchantCode: string, pg: number): Promise<any> {
+   private getProducts(merchantCode: string, pg: number): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
                 JSON.stringify({
@@ -355,6 +362,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
+               
                 res.prodImgUrl, res.color, res.size, null, null, null, res.merchantCode);
         else
             return null;
