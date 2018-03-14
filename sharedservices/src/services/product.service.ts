@@ -346,7 +346,7 @@ export class ProductService {
     }
  }
 
-   private getProducts(merchantCode: string, pg: number): Promise<any> {
+   getProducts(merchantCode: string, pg: number): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
                 JSON.stringify({
