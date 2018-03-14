@@ -312,7 +312,7 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     this.sdk = new SDK(null, false, false, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
       mtype, 0, this.user.language, 0, null, mtype, null, null, null, null, null, null, null, null, this.user.mccCode, null, null, null,
       this.user.id, null, null, null, this.user.merchantCode, this.user.displayName, null, null, null, null, null, null, null, null, null, null, null,
-      null, null, null, null, false, false, '', '', '');
+      null, null, null, null, false, false, '', '', '',null);
 
   }
 
