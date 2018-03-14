@@ -44,6 +44,7 @@
 }
 
 .imgHgtBN {
+    padding-left: 10px;
     height: 380px;
     width: 380px;
     white-space: nowrap;
