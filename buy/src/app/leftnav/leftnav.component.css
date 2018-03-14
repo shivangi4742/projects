@@ -23,7 +23,9 @@
 .hoverBN:hover {
     background-color: #E53935;
 }
-
+.leftNavIconBN {
+    font-size: 17pt;
+}
 .leftNavLinkBN {
     line-height: 19.4pt;
     letter-spacing: 0 em;

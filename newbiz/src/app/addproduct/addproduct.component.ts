@@ -218,7 +218,7 @@ export class AddproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.newProduct.price > this.newProduct.discountedPrice){
+    if(this.newProduct.price < this.newProduct.discountedPrice){
       this.discountError = true;
     }
     else{
@@ -231,9 +231,8 @@ export class AddproductComponent implements OnInit {
     this.variants = [];
     this.prodSizes = [];
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
-      null, null, null, null,null, true, null, null,
+      null, null, null, null,null, true, type, null,
       null, null, null, null, null);
-    this.newProduct.productType = type;
   }
 
   fileChange(e: any){

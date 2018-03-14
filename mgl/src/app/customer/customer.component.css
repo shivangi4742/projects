@@ -5,7 +5,6 @@
 .imags{
     width:50px;
 }
-
 .regHdr1BN {
     color:#0171bd!important;
     font-weight: 600;
@@ -19,17 +18,42 @@
     font-weight: 600;
     font-size: 12pt!important;
     text-align: center;
-    background-color:  #e33c35;
+    background-color: #e33c35;
 }
 .regHdr3BN{
- 
     color: black!important;
     font-size:13pt;
     text-align: center;
 }
+.creditLB{
+    font-family: 'Barlow Light';
+    font-size: 32.62px;
+    color: #131313;
+    opacity: 1;
+}
 .proBN {
     color: black!important;
     font-size:13pt;
+}
+
+.mglBN2{
+    font-family: 'Barlow Regular';
+    font-size: 38px;
+    opacity: 1;
+    color: #ffffff;
+}
+.onlineBP{
+    font-family: 'Arial Blod';
+    font-size: 38px;
+    opacity: 1;
+    color: #006ec3;
+}
+.getCashBack{
+    font-family:'Barlow Regular';
+    font-size: 38px;
+    opacity: 1;
+    color: #ffffff;
+    
 }
 
 .colrgrey {
@@ -45,8 +69,9 @@
 .regNrmS2BN1{
     font-size: 11pt!important;
 }
-.regNrmS2BN {
-    font-size: 10.8pt!important;
+.regNrmS2BNC {
+    font-size: 14pt!important;
+    color: #3d3d3d;
 
 }
 .reNrmBn{
@@ -56,13 +81,32 @@
 .logoCon{
     align-content: center;
 }
-.buttonBN {
+.buttonBNC {
     text-transform: none;
+    font-family: 'Barlow SemiBold';
+    font-size: 47.44px;
+    opacity: 1;
     color: white!important;
     line-height: 50px;
     height: 55px;
-    background-color:#00c038!important;
+    background-color:#00c038;
 }
+
+.bhimBN{
+    font-family: 'Barlow Regular';
+    font-size: 22px;
+    opacity: 1;
+    color: #006ec3;
+    opacity: 1;
+    text-align: center;
+}
+.poweredBy{
+    font-family: 'Barlow SemiBold';
+    font-size: 20px;
+    opacity: 1;
+    color:#353535!important;
+}
+
 .viewModalSBN {
     width: 92%;
     margin-left: 4%;
@@ -70,4 +114,11 @@
 
 .modal0PadBN {
     padding: 0px!important;
+}
+
+label {
+    font-family: 'Barlow-Regular';
+    font-size: 20.62px;
+    opacity: 1;
+    color: #2b2a2a;
 }

@@ -104,3 +104,8 @@
   height: 1px;
   margin-bottom: 5px;
 }
+
+.textcolorBN {
+   color: red !important;
+   text-decoration: underline;
+}

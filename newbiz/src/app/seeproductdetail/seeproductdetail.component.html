@@ -1,0 +1,81 @@
+<div *ngIf="payment">
+    <div class="row">
+        <span class="col s12 regHdrS1BN">{{'Payment Details' | translate}}</span>
+        <span class="col s12 thinFNBN">&nbsp;</span>
+      <!--  <div class="input-field col s7 m8">
+            <input id="dt" name="dt" type="text" class="regNrmS4BN likeLabelBN" value="{{getFormattedDt()}}" disabled>
+            <label for="dt" class="active inptLblBN">{{'Received On' | translate}} :</label>
+        </div>
+        <div class="input-field col s5 m4">
+            <input id="from" name="from" type="text" class="regNrmS4BN likeLabelBN" value="{{payment.mode | translate}}" disabled>
+            <label for="from" class="active inptLblBN">{{'Mode' | translate}} :</label>
+        </div>
+        <div class="input-field col s7 m8">
+            <input id="from" name="from" type="text" class="regNrmS4BN likeBoldLabelBN truncate" value="{{payment.vPA}}" disabled>
+            <label for="from" class="active inptLblBN">{{'From' | translate}} :</label>
+        </div>
+        <div class="input-field col s5 m4">
+            <input id="from" name="from" type="text" class="regNrmS4BN likeBoldLabelBN" value="₹ {{payment.amount | number : '1.2-2'}}" disabled>
+            <label for="from" class="active inptLblBN">{{'Amount' | translate}} :</label>
+        </div>-->
+        <div class="col s12 regNrmS6BN" *ngIf="payment.phone">{{'Ph: ' | translate}}
+            <span class="regNrmS5B1BN"> {{payment.phone}}</span>
+        </div>
+        <div class="col s12 regNrmS6BN" *ngIf="payment.email">{{'Email: ' | translate}}
+            <span class="regNrmS5B1BN"> {{payment.email}}</span>
+        </div>
+        <div class="col s12 regNrmS6BN" *ngIf="payment.address">{{'Address: ' | translate}}
+            <span class="regNrmS5B1BN line-breaker"> {{payment.address}}</span>
+        </div>
+        <p class="col s12 invoiceborderBN"></p>
+        <span *ngIf="payment.products" class="col s12 regHdrS1BN">{{'Order Contains' | translate}}
+            <span class="errHdrS1BN">{{payment.products.length}} {{'Items' | translate}}</span>
+        </span>
+    </div>
+    <div class="row" *ngIf="payment.products">
+        <span class="col s6 m3 regNrmS5B1BN ">{{'Item' | translate}}</span>
+        <span class="col s2 m3 regNrmS5B1BN ">{{'Quantity' | translate}}</span>
+        <span class="col s2 m3 regNrmS5B1BN" >{{'Price' | translate}}</span>
+        <span class="col s2 m3 regNrmS5B1BN" >{{'Amount' | translate}}</span>
+        <div *ngFor="let p of payment.products;  ">
+            <span class="col s2 m3 regNrmS4BN">
+                <div class="valign-wrapper">
+                    <div class="divPrefBN">
+                        <b>{{p.qty}}</b> &nbsp; {{p.uom}} &nbsp; 
+                    </div>
+                </div>
+            </span>
+            <span class="col s2 regNrmS4BN" align="left">
+             <div class="divPrefBN">
+                        <span>{{p.name}}</span>
+                    </div>
+            </span>
+            <span class="col s2 regNrmS4BN" align="right">{{p.price | number : '1.2-2'}}</span>
+            <span class="col s2 m3 regNrmS4BN" align="right">{{p.price * p.qty | number : '1.2-2'}}</span>
+        </div>
+        <!-- <div class="valign-wrapper" *ngFor="let p of payment.products; let i = index;">
+            <div class="col s2">{{p.imageURL}}</div>hxsgjsgdj
+            <div [ngClass]="i > 0 ? 'col s5 paddingTop25BN' : 'col s5'" align="center">                
+                <img *ngIf="p.imageURL" src="{{p.imageURL}}" class="prodImgURL" />
+                <img *ngIf="!p.imageURL" src="../../images/no-image.png" class="prodImgURL" />
+                <div class="regNrmS4BN">₹ {{p.price | number : '1.2-2'}}</div>
+                 <div class="regHdrS-1BN">{{p.color}}</div>
+                 <div class="regHdrS-1BN">{{p.sizes}}</div>
+                 <div class="regHdrS-1BN">{{p.variants}}</div>
+                <div class="regNrmS6BN">{{p.name}}</div>
+                <div class="regNrmS6BN">{{p.uom}}</div>
+            </div>
+            <div class="col s5 regHdrS1BN">X &nbsp;&nbsp;&nbsp;
+                <span class="regHdrS-1BN">{{p.qty}}</span>
+               
+            </div>
+        </div>-->
+         
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s11" align="right">
+        <a (click)="close()" class="modal-action modal-close transparent errNrmS4BN linkButtonBN bottomBN">{{'CLOSE' | translate}}</a>
+    </div>
+</div>

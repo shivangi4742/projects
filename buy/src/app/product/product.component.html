@@ -115,4 +115,231 @@
     </div>
     <div class="row"></div>
   </div>
+  <div class="show-on-medium hide-on-large-only hide-on-small-only">
+    <div class="row"></div>
+    <div class="row containerBN">
+      <div class="col s12 white" *ngIf="product">
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row">
+            <div class="col s8 ">
+              <div class="col s2" align="right">
+                <div *ngIf="images">
+                  <div align="right" *ngIf="numImgPages > 1 && imgPage > 0" class="linkButtonBN" (click)="prevImgPage()">
+                      <i class="material-icons moreProdsBN">keyboard_arrow_up</i>
+                  </div>
+                  <div *ngFor="let image of images" [ngClass]="image == selectedImage ? 'seltncontainrBN' : 'tncontainrBN'" 
+                    align="center" (click)="selectImg(image)">
+                    <span class="helperBN"></span><img [src]="image" class="tnBN linkButtonBN" />
+                  </div>
+                  <div align="right" *ngIf="numImgPages > 1 && imgPage == 0" class="linkButtonBN" (click)="nextImgPage()">
+                      <i class="material-icons moreProdsBN">keyboard_arrow_down</i>
+                  </div>
+                </div>
+              </div>
+              <div class="col s10 imgHgtmedBN" align="center">
+                <span class="helperBN"></span><img [src]="selectedImage" class="mainimgBN responsive-image" /> 
+                
+              </div>
+              
+            </div>
+            <div class="col s4 ">
+              <div class="prodtitlemedBN">{{product.name}}</div>
+              <div class="origpriceBN">{{'Original Price' | translate}}: 
+                <span class="markdownBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
+              </div>
+              <div class="offerpriceBN">{{'Offer Price' | translate}}: 
+                <span class="markupBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
+              </div>
+              <div>&nbsp;</div>
+              <div class="borderBN"></div>
+              <div>&nbsp;</div>
+              <div class="colorscntnrBN" *ngIf="product.color">
+                <span>{{'Color' | translate}}:</span>
+                <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 
+                  *ngIf="!isSysColor(product.color)" (click)="selectVariant(null)">{{product.color}}</span>
+                <div *ngIf="isSysColor(product.color)" (click)="selectVariant(null)" [ngClass]="getColClass(product.color, '-1')">
+                  <span class="tooltiptext">{{product.color}}</span>
+                </div>
+                <span *ngFor="let variant of product.variants">
+                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                    <span class="tooltiptext">{{variant.color}}</span>
+                  </div>
+                </span>
+              </div>
+              <div *ngIf="product.color">&nbsp;</div>
+              <div class="colorscntnrBN" *ngIf="availableSizes">
+                <span>{{'Size' | translate}}:</span>
+                <span *ngFor="let size of availableSizes">
+                  <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    (click)="selectSize(size)">{{size.size}}</span>
+                </span>
+              </div>
+              <div *ngIf="availableSizes">&nbsp;</div>
+              <div class="offerpriceBN">
+                <span>{{'Quantity' | translate}}:&nbsp;&nbsp;&nbsp;</span>
+                <input class="qtyBN" type="number" min="1" step="1" [(ngModel)]="product.qty" />
+              </div>
+              <div class="borderBN"></div>
+              <div>
+                <div class="offerpriceBN ">{{'Description' | translate}}:</div>
+                <div class="descriptionBN">{{product.description}}</div>
+              </div>
+            </div>
+          
+        </div>
+        <div class="row">
+          <div class="row buttonsPartmedBN">
+          <button [disabled]="hasWrongQty()" (click)="addToCart()" 
+            class="btn waves-effect waves-light addtocartBN">{{'Add to Cart' | translate}}</button>
+          <button [disabled]="hasWrongQty()" (click)="buy()" 
+            class="btn waves-effect waves-light red darken-1 buynowBN">{{'Buy Now' | translate}}</button>
+        </div>
+      </div>
+        <div class="row"></div>
+      </div>
+      <div class="row"></div>
+      <div class="row" align="center" *ngIf="loaded">
+        <div class="valign-wrapper">
+          <div class="col s12">
+            <p class="borderBN"></p>
+          </div>
+        </div>
+        <div class="valign-wrapper">
+          <div class="col s12 center shiftRowUpBN">
+            <span *ngIf="product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'You may also like' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span *ngIf="!product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'Sorry, the product you are looking for is not available!!! You may be looking for' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="row white" *ngIf="suggestedmedProds">
+        <div class="row"></div>
+        <div class="row">
+          <div align="center" class="col s3 m4  widgetcntnrBN" *ngFor="let sp of suggestedmedProds">
+            <div class="pborBN linkButtonBN">
+              <prodwidget [product]="sp"></prodwidget>
+            </div>
+          </div>
+        </div>
+        <div class="row" align="center">
+          <button class="btn waves-effect waves-light visitstoreBN" [routerLink]="home">{{'Visit My Store' | translate}}</button>
+        </div>
+        <div class="row"></div>
+      </div>
+    </div>
+    <div class="row"></div>
+  </div>
+  <div class="show-on-small">
+    <div class="row"></div>
+    <div class="row containerBN">
+      <div class="col s12 white" *ngIf="product">
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="row">
+          <div class="col s12 imgHgtsmallBN" align="center">
+              <img [src]="selectedImage" class="mainimgBN responsive-image" /> 
+          </div>
+          </div>
+              <div class="row">
+                <div *ngIf="images">
+                  <div align="center" *ngIf="numImgPages > 1 && imgPage > 0" class="linkButtonBN" (click)="prevImgPage()">
+                      <i class="material-icons moreProdsBN">keyboard_arrow_up</i>
+                  </div>
+                  <div *ngFor="let image of images" [ngClass]="image == selectedImage ? 'seltncontainrBN' : 'tncontainrBN'" 
+                    align="center" (click)="selectImg(image)">
+                    <span class="helperBN"></span><img [src]="image" class="tnBN linkButtonBN" />
+                  </div>
+                  <div align="center" *ngIf="numImgPages > 1 && imgPage == 0" class="linkButtonBN" (click)="nextImgPage()">
+                      <i class="material-icons moreProdsBN">keyboard_arrow_down</i>
+                  </div>
+                </div>
+              </div>
+              
+             <div class="row">
+            <div class="col s12 ">
+              <div class="prodtitlemedBN">{{product.name}}</div>
+              <div class="origpricesmallBN">{{'Original Price' | translate}}: 
+                <span class="markdownBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
+              </div>
+              <div class="offerpricesmallBN">{{'Offer Price' | translate}}: 
+                <span class="markupBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
+              </div>
+              <div class="colorscntnrBN" *ngIf="product.color">
+                <span>{{'Color' | translate}}:</span>
+                <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 
+                  *ngIf="!isSysColor(product.color)" (click)="selectVariant(null)">{{product.color}}</span>
+                <div *ngIf="isSysColor(product.color)" (click)="selectVariant(null)" [ngClass]="getColClass(product.color, '-1')">
+                  <span class="tooltiptext">{{product.color}}</span>
+                </div>
+                <span *ngFor="let variant of product.variants">
+                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                    <span class="tooltiptext">{{variant.color}}</span>
+                  </div>
+                </span>
+              </div>
+              <div *ngIf="product.color">&nbsp;</div>
+              <div class="colorscntnrBN" *ngIf="availableSizes">
+                <span>{{'Size' | translate}}:</span>
+                <span *ngFor="let size of availableSizes">
+                  <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                    (click)="selectSize(size)">{{size.size}}</span>
+                </span>
+              </div>
+              <div *ngIf="availableSizes">&nbsp;</div>
+              <div class="offerpricesmallBN">
+                <span>{{'Quantity' | translate}}:&nbsp;&nbsp;&nbsp;</span>
+                <input class="qtyBN" type="number" min="1" step="1" [(ngModel)]="product.qty" />
+              </div>
+              <div>
+                <div class="offerpricesmallBN ">{{'Description' | translate}}:</div>
+                <div class="descriptionBN">{{product.description}}</div>
+              </div>
+            </div>
+          
+        </div>
+        <div class="row">
+          <div class="">
+          <button [disabled]="hasWrongQty()" (click)="addToCart()" 
+    class="btn waves-effect waves-light addtocartsmalBN">{{'Add to Cart' | translate}}</button>
+          <button [disabled]="hasWrongQty()" (click)="buy()" 
+            class="btn waves-effect waves-light red darken-1 buynowsmalBN ">{{'Buy Now' | translate}}</button>
+        </div>
+      </div>
+        <div class="row"></div>
+      </div>
+      <div class="row"></div>
+      <div class="row" align="center" *ngIf="loaded">
+        <div class="valign-wrapper">
+          <div class="col s12">
+            <p class="borderBN"></p>
+          </div>
+        </div>
+        <div class="valign-wrapper">
+          <div class="col s12 center shiftRowUpBN">
+            <span *ngIf="product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'You may also like' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span *ngIf="!product" class="alsoBN">&nbsp;&nbsp;&nbsp;&nbsp;{{'Sorry, the product you are looking for is not available!!! You may be looking for' | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+      <div class="row white" *ngIf="suggestedmedProds">
+        <div class="row"></div>
+        <div class="row">
+          <div align="center" class="col s12 widgetcntnrBN" *ngFor="let sp of suggestedmedProds">
+            <div class="pborBN linkButtonBN">
+              <prodwidget [product]="sp"></prodwidget>
+            </div>
+          </div>
+        </div>
+        <div class="row" align="center">
+          <button class="btn waves-effect waves-light visitstoreBN" [routerLink]="home">{{'Visit My Store' | translate}}</button>
+        </div>
+        <div class="row"></div>
+      </div>
+    </div>
+    <div class="row"></div>
+  </div>
 </div>

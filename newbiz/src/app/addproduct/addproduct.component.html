@@ -154,19 +154,19 @@
           </div>
           <div class="input-field col s6">
             <input id="cPrice" name="cPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Product Price' | translate}}" min="0" (keyup)="checkAmount()" required />
+                   placeholder="{{'Product Price' | translate}}" min="0" style="margin-bottom: 0px" (keyup)="checkAmount()" required />
             <label for="cPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                   placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
         </div>
         <div class="row">
-          <div *ngIf="!newProduct.hasVariants" class="col s12 center">
+          <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
             <span class="">{{'Have more variants? Add here' | translate}}</span>
             <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
             <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -369,13 +369,13 @@
             </div>
             <div class="input-field col s6">
               <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                     placeholder="{{'Product Price' | translate}}" min="0" required (keyup)="checkAmount()" />
+                     placeholder="{{'Product Price' | translate}}" min="0" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
               <label for="fbPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
             </div>
             <div class="input-field col s6">
               <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                     placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                     placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()" />
               <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
@@ -487,13 +487,13 @@
           </div>
           <div class="input-field col s6">
             <input id="ePrice" name="ePrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Ticket Price' | translate}}" required (keyup)="checkAmount()" />
+                   placeholder="{{'Ticket Price' | translate}}" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="ePrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" (keyup)="checkAmount()"  />
+                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"  />
             <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
@@ -607,13 +607,13 @@
           </div>
           <div class="input-field col s6">
             <input id="oPrice" name="oPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Product Price' | translate}}" required (keyup)="checkAmount()" />
+                   placeholder="{{'Product Price' | translate}}" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="oPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the product(Optional)' | translate}}" (keyup)="checkAmount()"/>
+                   placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"/>
             <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>

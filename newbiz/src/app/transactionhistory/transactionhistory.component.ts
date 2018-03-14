@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  EventEmitter } from '@angular/core';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { TranslateService } from 'ng2-translate';
+import { MaterializeAction } from 'angular2-materialize';
 
-import { User, UserService, TransactionService, Transaction, Product, UtilsService, Payment, LocationService } from 'benowservices';
+import { User, UserService, TransactionService, Transaction,ProductService,  Product, UtilsService, Payment, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-transactionhistory',
@@ -11,7 +12,7 @@ import { User, UserService, TransactionService, Transaction, Product, UtilsServi
   styleUrls: ['./transactionhistory.component.css']
 })
 export class TransactionhistoryComponent implements OnInit {
-
+  paymnt:Payment;
   dashboard: string = '/dashboard';
   searchText: string;
   detailsExpanded: boolean = false;
@@ -29,9 +30,9 @@ export class TransactionhistoryComponent implements OnInit {
   mtype: number = 1;
   encUri: string;
   successCSV: boolean = false;
-
+  seemodalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private locationService: LocationService, private userService: UserService, private transactionService: TransactionService,
-              private utilsService: UtilsService, private sanitizer: DomSanitizer, private translate: TranslateService) { }
+              private utilsService: UtilsService, private sanitizer: DomSanitizer, private productservice: ProductService,private translate: TranslateService) { }
 
   ngOnInit() {
     this.locationService.setLocation('transactionhistory');
@@ -105,7 +106,7 @@ export class TransactionhistoryComponent implements OnInit {
     this.selectedId = id;
   }
 
-  isSelected(id){
+  isSelected(id) {
     if(this.selectedId == id)
       return true;
 
@@ -200,6 +201,24 @@ export class TransactionhistoryComponent implements OnInit {
       this.processingCSV = false;
       this.successCSV = false;
     }
+  }
+  seedetails(res: any) {
+   console.log(res);
+    this.paymnt = res;
+     this.productservice.getProductsForTransaction('', res.id)
+       .then(res => this.selecting(this.paymnt));
+  }
+  selecting(res:any){
+     this.transactionService.setSelPayment(res)
+     .then(res => this.selected());
+     
+  }
+  selected(){
+    this.seemodalActions.emit({ action: "modal", params: ['open'] });
+  }
+
+   getSelPayment(): Payment {
+    return this.transactionService.getSelPayment();
   }
 
 }

@@ -25,6 +25,7 @@ import { CartComponent } from './cart/cart.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 import { PgComponent } from './pg/pg.component';
 import { PaymentfailureComponent } from './paymentfailure/paymentfailure.component';
+import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
@@ -44,7 +45,8 @@ export function HttpFactory(http: Http) {
     CartComponent,
     PaymentsuccessComponent,
     PgComponent,
-    PaymentfailureComponent
+    PaymentfailureComponent,
+    ReoprterrorComponent
   ],
   imports: [
     HttpModule,
