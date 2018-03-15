@@ -208,7 +208,7 @@
                     </div>
                   </div>
                   <div class="input-field col s5">
-                    <input id="{{vm.id}}+price" name="{{vm.id}}" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
+                    <input id="{{vm.id}}+price" name="{{vm.id}}+price" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
                            placeholder="{{'Price of Variant' | translate}}"/>
                     <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
                   </div>
@@ -251,7 +251,7 @@
                 </div>
               </div>
               <div class="input-field col s5">
-                <input id="{{v.id}}+price" name="{{v.id}}" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
+                <input id="{{v.id}}+price" name="{{v.id}}+price" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
                        placeholder="{{'Price of Variant' | translate}}"/>
                 <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
               </div>
@@ -381,7 +381,7 @@
             </div>
           </div>
           <div class="row">
-            <div *ngIf="!newProduct.hasVariants" class="col s12 center">
+            <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
               <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
               <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
               <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -444,7 +444,7 @@
                 <div class="input-field col s6">
                   <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
                          placeholder="{{'Price of Add-on' | translate}}" required/>
-                  <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>>
+                  <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>
                 </div>
                 <div class="input-field col s6">
                   <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
@@ -499,18 +499,18 @@
           </div>
           <div class="input-field col s6 m3 l3">
             <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate">
-            <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
+                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate" required>
+            <label for="fromDt" class="active labelPLBN">{{'Event Start*' | translate}}</label>
           </div>
           <div class="input-field col s6 m3 l3">
             <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate">
-            <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate" required>
+            <label for="toDt" class="active labelPLBN">{{'Event Ends*' | translate}}</label>
           </div>
         <div class="input-field col s12 m6 l6">
           <input id="eVenue" name="eVenue" type="text" [(ngModel)]="newProduct.venue" class="validate inputTextBN"
-                 placeholder="{{'Mention venue of your Event/Workshop(Optional)' | translate}}" maxlength="200" />
-          <label for="eVenue" class ="active labelPLBN">{{'Venue' | translate}}</label>
+                 placeholder="{{'Mention venue of your Event/Workshop' | translate}}" maxlength="200" required />
+          <label for="eVenue" class ="active labelPLBN">{{'Venue*' | translate}}</label>
         </div>
           <div class="row"></div>
         <div class="col s12">
