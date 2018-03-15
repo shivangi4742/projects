@@ -124,19 +124,6 @@ export class ProductcatalogComponent implements OnInit {
       .then(pres => this.updateProds(pres));
   }
 
-  setStock(name: string){
-    console.log(name,' is toggled');
-    this.inStock = !this.inStock;
-  }
-
-  getSwitchText(check: boolean): string{
-    if(check){
-      return 'In Stock';
-    }
-
-    return 'Out of Stock';
-  }
-
   hasProducts(): boolean{
     if(this.products && this.products.length > 0)
       return true;
