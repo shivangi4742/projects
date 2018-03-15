@@ -148,14 +148,9 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    if(this.amount && this.purpose){
-      if(this.amount < 10)
-        return false;
-      else
-        return true;
+    if(this.purpose){
+     return true;
     }
-
-    return false;
   }
 
 }

@@ -188,7 +188,10 @@ export class RegisterComponent implements OnInit {
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-      this.businesspro.pincode, this.businesspro.gstno);
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    );
   }
 
   saveaccount() {
@@ -238,7 +241,10 @@ export class RegisterComponent implements OnInit {
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-        this.businesspro.pincode, this.businesspro.gstno);
+        this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+        this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+        this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+      );
     }
     else {
       this.errpincodevalidate = true;
@@ -257,7 +263,10 @@ export class RegisterComponent implements OnInit {
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-        this.businesspro.pincode, this.businesspro.gstno);
+        this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+        this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+        this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+      );
     } else {
       this.errbusinessvalidate = true;
       this.errorbusiness = 'Business name should not contain special symbol.';
@@ -273,7 +282,10 @@ export class RegisterComponent implements OnInit {
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-        this.businesspro.pincode, this.businesspro.gstno);
+        this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+        this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+        this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+      );
 
     } else {
       this.errdisplayvalidate = true;
@@ -336,11 +348,13 @@ export class RegisterComponent implements OnInit {
 
   savebusinesspro() {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
-      this.businesspro.contactEmailId, this.businesspro.category,
-      this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
-      this.businesspro.contactPerson, this.businesspro.address,
-      this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
-      this.businesspro.gstno);
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    );
   }
 
   getAndSaveBType() {
@@ -407,11 +421,13 @@ export class RegisterComponent implements OnInit {
         if (gst2.match(reg)) {
             this.errgstvalidate = false;
             this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
-                this.businesspro.contactEmailId, this.businesspro.category,
-                this.businesspro.subCategory, this.businesspro.city, this.businesspro.locality,
-                this.businesspro.contactPerson, this.businesspro.address,
-                this.user.mobileNumber, this.businesspro.businessTypeCode, this.businesspro.businessType, this.businesspro.pincode,
-                 this.businesspro.gstno);
+              this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+              this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+              this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+              this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+              this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl, this.businesspro.shipTimeType, this.businesspro.shipTimeInterval,this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+              this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+            );
         }
         else {
             this.errgstvalidate = true;

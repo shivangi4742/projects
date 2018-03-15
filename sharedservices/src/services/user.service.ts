@@ -49,8 +49,8 @@ export class UserService {
     getSubcategoryByCategory: 'user/getSubcategoryByCategory',
     getEnableKyc: 'user/EnableKyc',
     getcomplteregister: 'user/complteregister',
-    setLineOfBusiness:'user/setLineOfBusiness',
-    changePasswordURL:'user/changeoldpassword'
+    setLineOfBusiness: 'user/setLineOfBusiness',
+    changePasswordURL: 'user/changeoldpassword'
   }
 
   constructor(private http: Http, private utilsService: UtilsService) {
@@ -83,11 +83,11 @@ export class UserService {
   getCustomerList(merchantCode: string, pageNumber: number) {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getCustomerList,
-      JSON.stringify({
-        "merchantCode": merchantCode,
-        "pageNumber": pageNumber
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "merchantCode": merchantCode,
+          "pageNumber": pageNumber
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillCustomer(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -101,11 +101,11 @@ export class UserService {
   signIn(email: string, password: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.signIn,
-      JSON.stringify({
-        "email": email,
-        "password": password
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "email": email,
+          "password": password
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillUser(email, res.json()))
       .catch(res => this.handleError(res.json()));
@@ -123,12 +123,12 @@ export class UserService {
   tillAllocate(til: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.allocateTill,
-      JSON.stringify({
-        "till": til,
-        "merchantCode": this._user.merchantCode,
-        "employeeUserCode": this._user.tilLogin
-      }),
-      { headers: this.getTempHeaders() })
+        JSON.stringify({
+          "till": til,
+          "merchantCode": this._user.merchantCode,
+          "employeeUserCode": this._user.tilLogin
+        }),
+        { headers: this.getTempHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
@@ -137,11 +137,11 @@ export class UserService {
   tillRelease(til: string | null): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.releaseTill,
-      JSON.stringify({
-        "till": til,
-        "merchantCode": this._user.merchantCode
-      }),
-      { headers: this.getTempHeaders() })
+        JSON.stringify({
+          "till": til,
+          "merchantCode": this._user.merchantCode
+        }),
+        { headers: this.getTempHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
@@ -150,10 +150,10 @@ export class UserService {
   sendVerificationCode(email: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.sendVerificationMail,
-      JSON.stringify({
-        "email": email,
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "email": email,
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.sentMail(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -162,12 +162,12 @@ export class UserService {
   changePassword(vCode: string, pwd: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.changePassword,
-      JSON.stringify({
-        "email": this._user.email,
-        "verificationCode": vCode,
-        "password": pwd
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "email": this._user.email,
+          "verificationCode": vCode,
+          "password": pwd
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.changedPassword(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -437,26 +437,65 @@ export class UserService {
 
   registerSelfMerchant(id: string, businessName: string, contactEmailId: string, category: string,
     subCategory: string, city: string, locality: string, contactPerson: string, address: string,
-    contactMobileNumber: string, businessTypeCode: string, businessType: string, pinCode: string, gstno: string) {
+    contactMobileNumber: string, businessTypeCode: string, businessType: string, pinCode: string, gstno: string,
+    contactSeller: boolean, noReturnExchange: boolean, productExchange: boolean, productExchangeDay: string, productReturnOrExchange: boolean,
+    productReturnOrExchangeDay: string, returnAvailable: boolean, returnsAvailableDay: string, noExchangeFlage: boolean,
+    noReturnFlage: boolean, publicPhoneNumber: string, publicEmail: string, storeUrl: string, storeImgUrl: string,
+    shipTimeType: string, shipTimeInterval: string, allOverIndia: boolean, selectLocalities: boolean,
+    area: string, freeShip: boolean, chargePerOrder: boolean, orderShipCharge: string, chargePerProd: boolean) {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
-      JSON.stringify({
-        "id": id,
-        "gstNumber": gstno,
-        "businessName": businessName,
-        "contactEmailId": contactEmailId,
-        "category": category,
-        "subCategory": subCategory,
-        "city": city,
-        "locality": locality,
-        "contactPerson": contactPerson,
-        "address": address,
-        "contactMobileNumber": contactMobileNumber,
-        "businessTypeCode": businessTypeCode,
-        "businessType": businessType,
-        "pinCode": pinCode
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "id": id,
+          "gstNumber": gstno,
+          "businessName": businessName,
+          "contactEmailId": contactEmailId,
+          "category": category,
+          "subCategory": subCategory,
+          "city": city,
+          "locality": locality,
+          "contactPerson": contactPerson,
+          "address": address,
+          "contactMobileNumber": contactMobileNumber,
+          "businessTypeCode": businessTypeCode,
+          "businessType": businessType,
+          "pinCode": pinCode,
+          "contactSeller": contactSeller,
+          "noReturnExchange": noReturnExchange,
+          "productExchange": productExchange,
+          "productExchangeDay": productExchangeDay,
+          "productReturnOrExchange": productReturnOrExchange,
+          "productReturnOrExchangeDay": productReturnOrExchangeDay,
+          "returnAvailable": returnAvailable,
+          "returnsAvailableDay": returnsAvailableDay,
+          "noExchangeFlage": noExchangeFlage,
+          "noReturnFlage": noReturnFlage,
+          "publicPhoneNumber": publicPhoneNumber,
+          "publicEmail": publicEmail,
+          "storeUrl": storeUrl,
+          "storeImgUrl": storeImgUrl,
+          "shipTimeType": shipTimeType,
+          "shipTimeInterval": shipTimeInterval,
+          "allOverIndia": allOverIndia,
+          "selectLocalities": selectLocalities,
+
+          "listLocalityVOs": [{
+            "area": area
+          },
+          {
+            "area": area
+          },
+          {
+            "area": area
+          }],
+
+          "freeShip": freeShip,
+          "chargePerOrder": chargePerOrder,
+          "orderShipCharge": orderShipCharge,
+          "chargePerProd": chargePerProd
+
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillMerchantProfile(res.json()))
       .catch(res => false);
@@ -466,19 +505,19 @@ export class UserService {
     bankName: string, merchantName: string, accountHolderName: string, filePassword: string) {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.markSelfMerchantVerified,
-      JSON.stringify({
+        JSON.stringify({
 
-        "id": id,
-        "ifsc": ifsc,
-        "accountRefNumber": accountRefNumber,
-        "panNumber": panNumber,
-        "bankName": bankName,
-        "merchantName": merchantName,
-        "accountHolderName": accountHolderName,
-        "filePassword": filePassword
+          "id": id,
+          "ifsc": ifsc,
+          "accountRefNumber": accountRefNumber,
+          "panNumber": panNumber,
+          "bankName": bankName,
+          "merchantName": merchantName,
+          "accountHolderName": accountHolderName,
+          "filePassword": filePassword
 
-      }),
-      { headers: this.utilsService.getHeaders() })
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAccountProfile(res.json()))
       .catch(res => false);
@@ -491,16 +530,20 @@ export class UserService {
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
     }
-    if(res.merchantUser.kycVerified== null){
+    if (res.merchantUser.kycVerified == null) {
       this._user.kycverified = false;
     }
-    if(res.merchantUser.kycVerified == true){
+    if (res.merchantUser.kycVerified == true) {
       this._user.kycverified = res.merchantUser.kycVerified;
     }
     if (res.merchantUser) {
       let pt = res.merchantUser;
-      this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory,pt.contactPerson,
-        pt.address, pt.numberOfOutlets, pt.contactPersonDesignation, pt.city, pt.contactEmailId, pt.locality, pt.businessTypeCode, pt.pinCode, pt.gstNumber);
+      this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
+        pt.address, pt.numberOfOutlets, pt.contactPersonDesignation, pt.city, pt.contactEmailId, pt.locality, pt.businessTypeCode, pt.pinCode, pt.gstNumber,
+        pt.contactSeller, pt.noReturnExchange, pt.productExchange, pt.productExchangeDay, pt.productReturnOrExchange, pt.productReturnOrExchangeDay, pt.returnAvailable,
+        pt.returnsAvailableDay, pt.noExchangeFlage, pt.noReturnFlage, pt.publicPhoneNumber, pt.publicEmail, pt.storeUrl, pt.storeImgUrl,
+        pt.shipTimeType, pt.shipTimeInterval,pt.allOverIndia, pt.selectLocalities,
+        pt.area, pt.freeShip, pt.chargePerOrder, pt.orderShipCharge, pt.chargePerProd);
     }
     return this._businesspro;
   }
@@ -512,10 +555,10 @@ export class UserService {
     if (res.merchantUser.registrationState == null) {
       this._user.registerd = false;
     }
-    if(res.merchantUser.kycVerified== null){
+    if (res.merchantUser.kycVerified == null) {
       this._user.kycverified = false;
     }
-    if(res.merchantUser.kycVerified == true){
+    if (res.merchantUser.kycVerified == true) {
       this._user.kycverified = res.merchantUser.kycVerified;
     }
     if (res.merchantUser) {
@@ -530,10 +573,10 @@ export class UserService {
     if (profile == "b") {
       return this.http
         .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
-        JSON.stringify({
-          "mobileNumber": mobileNumber
-        }),
-        { headers: this.utilsService.getHeaders() })
+          JSON.stringify({
+            "mobileNumber": mobileNumber
+          }),
+          { headers: this.utilsService.getHeaders() })
 
         .toPromise()
         .then(res => this.fillMerchantProfile(res.json()))
@@ -542,10 +585,10 @@ export class UserService {
     else {
       return this.http
         .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
-        JSON.stringify({
-          "mobileNumber": mobileNumber
-        }),
-        { headers: this.utilsService.getHeaders() })
+          JSON.stringify({
+            "mobileNumber": mobileNumber
+          }),
+          { headers: this.utilsService.getHeaders() })
 
         .toPromise()
         .then(res => this.fillAccountProfile(res.json()))
@@ -556,14 +599,14 @@ export class UserService {
 
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
-      JSON.stringify({
+        JSON.stringify({
 
-        "userId": email,
-        "sourceId": Id,
-        "sourceType": "MERCHANT_REG"// hard code
+          "userId": email,
+          "sourceId": Id,
+          "sourceType": "MERCHANT_REG"// hard code
 
-      }),
-      { headers: this.utilsService.getHeaders() })
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAllgetfetchMerchantForEditDetails(res.json()))
       .catch(res => false);
@@ -583,13 +626,13 @@ export class UserService {
   setConvenienceFee(id: string, flag: boolean): Promise<boolean> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getSetConvenienceFeeURL,
-      JSON.stringify({
+        JSON.stringify({
 
-        "id": id,
-        "chargeConvenienceFee": flag
+          "id": id,
+          "chargeConvenienceFee": flag
 
-      }),
-      { headers: this.utilsService.getHeaders() })
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => null);
@@ -601,10 +644,10 @@ export class UserService {
     else
       return this.http
         .post(this.utilsService.getBaseURL() + this._urls.getMerchantDetails,
-        JSON.stringify({
-          "merchantCode": merchantCode
-        }),
-        { headers: this.utilsService.getHeaders() })
+          JSON.stringify({
+            "merchantCode": merchantCode
+          }),
+          { headers: this.utilsService.getHeaders() })
         .toPromise()
         .then(res => res.json())
         .catch(res => this.handleError(res.json()));
@@ -613,10 +656,10 @@ export class UserService {
   getDashboardCategories(): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getDashboardCategories,
-      JSON.stringify({
+        JSON.stringify({
 
-      }),
-      { headers: this.utilsService.getHeaders() })
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillBusinessCat(res.json()))
       .catch(res => this.handleError(res.json()));
@@ -660,14 +703,14 @@ export class UserService {
     }
     return me._businessType;
   }
-  
+
   enableKyc(merchantCode: string): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getEnableKyc,
-      JSON.stringify({
-        "merchantCode": this._user.merchantCode
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "merchantCode": this._user.merchantCode
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => null);
@@ -676,41 +719,41 @@ export class UserService {
   MerchantCompleteRegistration(): Promise<any> {
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.getcomplteregister,
-      JSON.stringify({
-        "id": this._user.id
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "id": this._user.id
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
   setLineOfBusiness(lob: string): Promise<any> {
-    if(lob) {
+    if (lob) {
       this.utilsService.setLOBInStorage(lob);
       return this.http
-      .post(this.utilsService.getBaseURL() + this._urls.setLineOfBusiness,
-      JSON.stringify({
-        "id": this._user.id,
-        "businessLob": lob
-      }),
-      { headers: this.utilsService.getHeaders() })
-      .toPromise()
-      .then(res => res.json())
-      .catch(res => this.handleError(res.json()));
+        .post(this.utilsService.getBaseURL() + this._urls.setLineOfBusiness,
+          JSON.stringify({
+            "id": this._user.id,
+            "businessLob": lob
+          }),
+          { headers: this.utilsService.getHeaders() })
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.handleError(res.json()));
     }
     else
       return Promise.resolve(null);
   }
-  
-  changeoldpassword(oldpass: string, newpass:string): Promise<any> {
-      return this.http
+
+  changeoldpassword(oldpass: string, newpass: string): Promise<any> {
+    return this.http
       .post(this.utilsService.getBaseURL() + this._urls.changePasswordURL,
-      JSON.stringify({
-        "id": this._user.id,
-       "oldPassword":oldpass,
-	     "newPassword":newpass
-      }),
-      { headers: this.utilsService.getHeaders() })
+        JSON.stringify({
+          "id": this._user.id,
+          "oldPassword": oldpass,
+          "newPassword": newpass
+        }),
+        { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
