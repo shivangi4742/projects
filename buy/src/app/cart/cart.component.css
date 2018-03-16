@@ -9,8 +9,8 @@
 }
 
 .spanelBN {
-    padding-left: 15px;
-    padding-right: 20px;        
+    padding-left: 0px;
+    padding-right: 10px;        
 }
 
 .errPanelBN {
@@ -40,9 +40,9 @@
 .continuespgBN {
     height: 58pt;
     padding-bottom: 14px;
-    margin-top: 30px;
+    margin-top: 0px;
     color: #3D3D3D;
-    font-size: 16pt;
+    font-size: 15pt;
     font-weight: 600;
     font-family: 'Barlow', sans-serif;
     text-transform: none;
@@ -68,8 +68,8 @@
 }
 
 .padlr30BN {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .padlr20BN {
@@ -108,8 +108,8 @@
     position: relative;
     display: inline;
     top: 4px;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .cartprditmqtyBN {
@@ -140,7 +140,7 @@
     padding-left: 15px;
     padding-top: 10px;
     font-weight: 600;
-    font-size: 12pt;
+    font-size: 11pt;
     font-family: 'Barlow', sans-serif;
     color: #B3B3B3;
 }
@@ -152,7 +152,7 @@
 .cartpitemofpBN {
     padding-left: 15px;
     font-weight: 600;
-    font-size: 12pt;
+    font-size: 11pt;
     font-family: 'Barlow', sans-serif;
     color: #3D3D3D;
 }
@@ -169,7 +169,7 @@
 .carttotalpriceBN {
     line-height: 40pt;
     font-weight: 600;
-    font-size: 12pt;
+    font-size: 11pt;
     font-family: 'Barlow', sans-serif;
     color: #3D3D3D;    
 }
@@ -247,4 +247,12 @@
     color: #CBCBCB;
     font-size: 11pt;
     font-family: 'Barlow', sans-serif;    
+}
+
+.medpadright0BN {
+    padding-right: 0px;
+}
+
+.medpadleft0BN {
+    padding-left: 0px;
 }
