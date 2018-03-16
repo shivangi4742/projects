@@ -10,12 +10,14 @@ import { Product } from './../models/product.model';
 import { CartItem } from './../models/cartitem.model';
 import { NewProduct } from './../models/newproduct.model';
 import { Variant } from './../models/variant.model';
-import { NewVariant } from './../models/newvariant.model';
+import { NewVariant } from './../models/newvariant.model'; 
 
 import { UtilsService } from './utils.service';
 
 @Injectable()
 export class ProductService {
+    prodstartdate:string;
+    prodenddate:string;
     private _selProducts: Array<Product>;
     private _campProducts: Array<Product>;
     private _transProducts: Array<Product>;
@@ -495,6 +497,13 @@ export class ProductService {
         if(!product.discountedPrice){
             product.discountedPrice = product.price;
         }
+
+        if(product.startDate) {
+           this.prodstartdate = product.startDate + ' ' + '00:00:00';
+        }
+        if(product.endDate) {
+            this.prodenddate = product.endDate + ' ' + '00:00:00';
+        }
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.addProductHBURL,
                 JSON.stringify({
@@ -507,8 +516,8 @@ export class ProductService {
                     "benowProductVariants": product.variants,
                     "productType": product.productType,
                     "isAvailable": product.isAvailable,
-                    "startDate": product.startDate,
-                    "endDate": product.endDate,
+                    "startDate": this.prodstartdate,
+                    "endDate": this.prodenddate,
                     "fileUrl": product.fileUrl,
                     "venue": product.venue,
                     "discountedPrice": product.discountedPrice,
