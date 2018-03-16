@@ -154,6 +154,7 @@ var sdkCont = {
                                                             .replace('{{RECEIVEDFROMADDRESS}}', dData[0].address ? dData[0].address : '')
                                                             .replace('{{CERTIFICATENUMBER}}', m2Data.ngoCertifnum ? m2Data.ngoCertifnum : '')
                                                             .replace('{{CERTIFICATEISSUEDON}}', m2Data.ngoCertifdate ? m2Data.ngoCertifdate : '')
+                                                            .replace('{{CERTPAYPNGURL}}', config.me + '/certificatepay.png')
                                                             .replace('{{RECEIVEDAMOUNTDETAILED}}', amnt + ' (' + helper.inWords(amnt) + ')');
                                                         var logo = mData.merchantLogoUrl;
                                                         if (m2Data && m2Data.documentResponseVO && m2Data.documentResponseVO.documentList &&
@@ -200,11 +201,11 @@ var sdkCont = {
                                                             else
                                                                 cb();
                                                         });
-                                                        request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
+                                                        request('http://www.html2pdf.it/?url=https%3A%2F%2F' + config.me.replace('https://', '').replace('http://', '') + '%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
                                                             .pipe(pdfstream);
                                                         //THIS IS WHEN PHANTOM WAKES UP
                                                         /*                                         pdf.create(html, options).toFile('./80g/' + req.params.txnid + '.pdf', function(err, res) {
-                                                                                                    request('http://www.html2pdf.it/?url=https%3A%2F%2Fmerchant.benow.in%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
+                                                                                                    request('http://www.html2pdf.it/?url=https%3A%2F%2F' + config.me.replace('https://', '').replace('http://', '') + '%2F80g%2F' + req.params.txnid + '.html&download=false&format=A4&orientation=portrait&margin=1cm')
                                                                                                         .pipe(fs.createWriteStream(__dirname + '/../../80g/' + req.params.txnid + '.pdf'))
                                                                                                     var reqPost = request.post(helper.getDefaultExtFileServerOptions(config.beNowSvc.https + 
                                                                                                         config.beNowSvc.host + ':' + config.beNowSvc.port + '/merchants/merchant/sendEmailNotify', 'POST', 
@@ -443,11 +444,16 @@ var sdkCont = {
         try {
             var cat = req.body.paytype;
             if (cat == 6) { // RAZORPAY flow
+                var prods = req.body.prods;
+                if (!prods && prods.length <= 0) {
+                    prods = 0;
+                }
+
                 if (req.body.hasfundraiser && req.body.hasfundraiser.toString().toLowerCase() == "true") {
-                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100 + '/' + req.body.fundraiserid);
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100 + '/' + req.body.fundraiserid);
                 }
                 else {
-                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + req.body.prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
+                    res.redirect(config.base + '/ppl/razorpay/' + paylinkid + '/' + prods + '/' + txnId + '/' + parseFloat(req.body.payamount) * 100);
                 }
 
             }

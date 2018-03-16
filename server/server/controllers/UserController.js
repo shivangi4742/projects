@@ -558,7 +558,38 @@ var userCont = {
                             "id": req.body.id,
                             "numberOfOutlets": req.body.numberOfOutlets,
                             "agentId": req.body.agentId,
-                            "contactPersonDesignation": req.body.contactPersonDesignation
+                            "contactPersonDesignation": req.body.contactPersonDesignation,
+                            "contactSeller":req.body.contactSeller,
+	                        "noReturnExchange":req.body.noReturnExchange,
+	                    	"productExchange":req.body.productExchange,
+                            "productExchangeDay":req.body.productExchangeDay,
+                            "productReturnOrExchange":req.body.productReturnOrExchange,
+                            "productReturnOrExchangeDay":req.body.productReturnOrExchangeDay,
+                            "returnAvailable":req.body.returnAvailable,
+                             "returnsAvailableDay":req.body.returnsAvailableDay,
+                             "noExchangeFlage":req.body.noExchangeFlage,
+                             "noReturnFlage":req.body.noReturnFlage,
+                             "publicPhoneNumber":req.body.publicPhoneNumber,
+                             "publicEmail":req.body.publicEmail,
+                             "storeUrl":req.body.storeUrl,
+                             "storeImgUrl":req.body.storeImgUrl,
+                             "shipTimeType":req.body.shipTimeType, 
+                             "shipTimeInterval":req.body.shipTimeInterval,  
+                             "allOverIndia":req.body.allOverIndia, 
+                             "selectLocalities":req.body.selectLocalities,  
+                              "listLocalityVOs":[{
+                                  "area":req.body.area
+                              },
+                              {
+                                  "area":req.body.area
+                              },
+                              {
+                                  "area":req.body.area
+                              }],
+                             "freeShip":req.body.freeShip, 
+                             "chargePerOrder":req.body.chargePerOrder,
+                             "orderShipCharge":req.body.orderShipCharge, 
+                             "chargePerProd":req.body.chargePerProd
                         },
                         cb);
                 }

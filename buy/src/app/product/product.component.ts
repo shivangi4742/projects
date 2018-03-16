@@ -20,11 +20,11 @@ export class ProductComponent implements OnInit {
   images: Array<string>;
   availableSizes: Array<Size>;
   suggestedProds: Array<Product>;
+  suggestedmedProds:Array<Product>;
   loaded: boolean = false;
   imgPage: number = 0;
   numImgPages: number = 1;
   selVariant: string = '-1';
-
   constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute,
     private storeService: StoreService, private utilsService: UtilsService, private cartService: CartService) { }
 
@@ -42,6 +42,7 @@ export class ProductComponent implements OnInit {
 
   initRecommendations(res: any) {
     if(res && res.products && res.products.length > 0) {
+     
       for(let i: number = 0; i < res.products.length; i++) {
         if(!this.product || res.products[i].id != this.product.id) {
           if(!this.suggestedProds)
@@ -49,6 +50,16 @@ export class ProductComponent implements OnInit {
           
           this.suggestedProds.push(res.products[i]);
           if(this.suggestedProds.length >= 4)
+            break;
+        }
+      }
+      for(let i: number = 0; i < res.products.length; i++) {
+        if(!this.product || res.products[i].id != this.product.id) {
+          if(!this.suggestedmedProds)
+            this.suggestedmedProds = new Array<Product>();
+          
+          this.suggestedmedProds.push(res.products[i]);
+          if(this.suggestedmedProds.length >= 3)
             break;
         }
       }

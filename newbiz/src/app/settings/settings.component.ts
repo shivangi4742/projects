@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
-import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService, FileService } from 'benowservices';
 
 @Component({
   selector: 'app-settings',
@@ -14,9 +14,14 @@ export class SettingsComponent implements OnInit {
   formLoaded: boolean = true;
   businesspro: Businesspro;
   chargeFee: boolean = false;
+  imageUrls: string;
   user: User;
   conaccountnumber: string;
   gstno: string;
+  businessset: boolean = false;
+  sellercontac: boolean = false;
+  isShipped: boolean = false;
+  isReturn: boolean = false;
   isBusExpanded: boolean = false;
   isPanExpanded: boolean = false;
   isAcctExpanded: boolean = false;
@@ -42,28 +47,51 @@ export class SettingsComponent implements OnInit {
   err: boolean = false;
   err1: boolean = false;
   errmsg: string;
-  errmsg1:string;
-  editt: boolean ;
-
+  errmsg1: string;
+  editt: boolean;
+  imgErrMsg: string;
+  data: any;
+  isImageProcess: boolean = false;
+  uploadsURL: string;
+  uploading: boolean = false;
+  uploaded: boolean = false;
+  publicphonenumber: boolean = true;
+  publicemail: boolean = true;
+  Min: boolean = true;
+  day: boolean = false;
+  hour: boolean = false;
+  localitychip;
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
-    private userService: UserService, private route: ActivatedRoute) { }
+    private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
 
   ngOnInit() {
     this.locationService.setLocation('settings');
     this.utilsService.setStatus(false, false, '');
+
     this.userService.getUser()
       .then(res => this.init(res));
+      this.localitychip={
+        placeholder: '+locality',
+        secondaryPlaceholder: 'please Enter',
+        autocompleteOptions: {
+          data: {
+           },
+          limit: Infinity,
+          minLength: 1
+        }
+      };
   }
   init(usr: User) {
     if (usr && usr.id) {
       this.user = usr;
+      this.uploadsURL = this.utilsService.getUploadsURL();
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));
 
       this.userService.getfetchMerchantForEditDetails(this.user.email, this.user.id)
         .then(res => this.initDetails(res));
 
-    
+
 
       this.loadForm();
     }
@@ -71,7 +99,7 @@ export class SettingsComponent implements OnInit {
   }
   initDetails(res: any) {
     //console.log(res);
-   
+
   }
 
   loadForm() {
@@ -85,19 +113,18 @@ export class SettingsComponent implements OnInit {
       .then(res => this.bind(res));
   }
 
-businessprfo(res:any){
-  if(res)
-  {
-    this.businesspro= res;
-      
+  businessprfo(res: any) {
+    if (res) {
+      this.businesspro = res;
+
+    }
   }
-}
   bind(res: any) {
     if (res && res.id) {
       this.chargeFee = res.chargeConvenienceFee;
-      if(this.route.snapshot.params['open']) {
+      if (this.route.snapshot.params['open']) {
         let elem: any = document.getElementById(this.route.snapshot.params['open']);
-        if(elem)
+        if (elem)
           elem.click();
       }
     }
@@ -105,18 +132,31 @@ businessprfo(res:any){
     this.formLoaded = false;
   }
 
-  initcheckacc(res:any){
-     this.accountpro = res;
-     if(this.accountpro && this.accountpro.accountRefNumber) {
-       this.conaccountnumber = this.accountpro.accountRefNumber;
-     }
-     if(this.businesspro && this.businesspro.contactPerson) {
-       this.editt = true;
-     }
-     else {
-       this.editt = false ;
-     }
-   
+  initcheckacc(res: any) {
+    this.accountpro = res;
+    this.businesspro.shipTimeType = 'minute';
+    if (this.accountpro && this.accountpro.accountRefNumber) {
+      this.conaccountnumber = this.accountpro.accountRefNumber;
+    }
+    if (this.businesspro && this.businesspro.contactPerson) {
+      this.editt = true;
+    }
+    else {
+      this.editt = false;
+    }
+    if (this.businesspro && this.businesspro.publicEmail) {
+      this.publicemail = true;
+    }
+    else {
+      this.publicemail = false;
+    }
+    if (this.businesspro && this.businesspro.publicPhoneNumber) {
+      this.publicphonenumber = true;
+    }
+    else {
+      this.publicphonenumber = false;
+    }
+
   }
 
 
@@ -133,6 +173,7 @@ businessprfo(res:any){
     this.isPanExpanded = false;
     this.ispan1Expanded = false;
     this.isNgoExpanded = false;
+    this.isShipped = false;
   }
 
   personaldetail() {
@@ -148,6 +189,7 @@ businessprfo(res:any){
     this.isAcctExpanded = false;
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
+    this.isShipped = false;
   }
 
   accountdetail() {
@@ -161,6 +203,7 @@ businessprfo(res:any){
     this.isAcctExpanded = false;
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
+    this.isShipped = false
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
   }
@@ -178,6 +221,7 @@ businessprfo(res:any){
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.isShipped = false
   }
   accountdetails() {
     window.scrollTo(0, 0);
@@ -192,6 +236,7 @@ businessprfo(res:any){
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.isShipped = false
   }
   bankdetail() {
     window.scrollTo(0, 0);
@@ -206,6 +251,74 @@ businessprfo(res:any){
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.isShipped = false
+  }
+  returnploicy() {
+    window.scrollTo(0, 0);
+    this.isReturn = !this.isReturn;
+    document.getElementById('returnBN').click();
+  }
+
+  returnploicy1() {
+    this.isReturn = !this.isReturn;
+    this.isNgoExpanded = false;
+    this.isAcctExpanded = false;
+    this.isBusExpanded = false;
+    this.isPanExpanded = false;
+    this.isPaymentExpanded = false;
+    this.ispan1Expanded = false;
+    this.isShipped = false
+  }
+  shippingsetting() {
+    window.scrollTo(0, 0);
+    this.isShipped = !this.isShipped;
+    document.getElementById('shippingbn').click();
+  }
+
+  shippingsetting1() {
+    this.isShipped = !this.isShipped;
+    this.isReturn = false;
+    this.isNgoExpanded = false;
+    this.isAcctExpanded = false;
+    this.isBusExpanded = false;
+    this.isPanExpanded = false;
+    this.isPaymentExpanded = false;
+    this.ispan1Expanded = false;
+  }
+  sellercontact() {
+    window.scrollTo(0, 0);
+    this.sellercontac = !this.sellercontac;
+    document.getElementById('sellerbn').click();
+  }
+
+  sellercontact1() {
+    this.sellercontac = !this.sellercontac;
+    this.businessset = false;
+    this.isReturn = false;
+    this.isNgoExpanded = false;
+    this.isAcctExpanded = false;
+    this.isBusExpanded = false;
+    this.isPanExpanded = false;
+    this.isPaymentExpanded = false;
+    this.ispan1Expanded = false;
+    this.isShipped = false
+  }
+  businesssetting() {
+    window.scrollTo(0, 0);
+    this.businessset = !this.businessset;
+    document.getElementById('returnBN').click();
+  }
+
+  businesssetting1() {
+    this.businessset = !this.businessset;
+    this.isShipped = false;
+    this.isReturn = false;
+    this.isNgoExpanded = false;
+    this.isAcctExpanded = false;
+    this.isBusExpanded = false;
+    this.isPanExpanded = false;
+    this.isPaymentExpanded = false;
+    this.ispan1Expanded = false;
   }
   gstdetail() {
     window.scrollTo(0, 0);
@@ -214,20 +327,21 @@ businessprfo(res:any){
   }
 
   gstdetail1() {
-    
     this.isgstExpanded = !this.isgstExpanded;
+    this.isShipped = false;
+    this.isReturn = false;
     this.isNgoExpanded = false;
     this.isAcctExpanded = false;
     this.isBusExpanded = false;
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
-     if(this.businesspro.gstno) {
-    let ids : any = document.getElementById('test1');
-    if(ids) {
-      ids.click();
+    if (this.businesspro.gstno) {
+      let ids: any = document.getElementById('test1');
+      if (ids) {
+        ids.click();
+      }
     }
-     }
   }
   allgstFields() {
     if (this.gst) {
@@ -244,11 +358,15 @@ businessprfo(res:any){
 
   }
   save() {
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-      this.businesspro.pincode, this.businesspro.gstno);
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    );
   }
   saveaccount() {
     this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
@@ -367,10 +485,10 @@ businessprfo(res:any){
       this.errmsg = 'Account number should be 6 digits!';
 
     } else {
-        this.err = false;
-        this.Accountno1();
-      }
-    
+      this.err = false;
+      this.Accountno1();
+    }
+
   }
   Accountno1() {
     if ((((this.conaccountnumber.trim()).length) > 0) && (((this.conaccountnumber.trim()).length) <= 5)) {
@@ -389,7 +507,7 @@ businessprfo(res:any){
   }
 
   hasAllFields5() {
-    if(this.businesspro.gstno){
+    if (this.businesspro.gstno) {
       return !this.errgstvalidate && this.businesspro.gstno;
     }
     else {
@@ -399,12 +517,76 @@ businessprfo(res:any){
 
   edit() {
     this.editt = false;
-    let asa:any = document.getElementById('contactPerson');
-    if(asa){
-    asa.focus();
+    let asa: any = document.getElementById('contactPerson');
+    if (asa) {
+      asa.focus();
+    }
   }
+
+  fileChange(e: any) {
+    this.uploaded = false;
+    if (e.target && e.target.files) {
+      if (e.target.files && e.target.files[0]) {
+        this.utilsService.setStatus(false, false, '');
+        if (e.target.files[0].size > 5000000) {
+          window.scrollTo(0, 0);
+          this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
+        }
+        else {
+          this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+        }
+        e.target.value = '';
+      }
+    }
   }
-  
+
+  uploadedImage(res: any, me: any) {
+    console.log(res, 'res');
+    if (res && res.success) {
+      me.imageUrls = res.fileName;
+      me.uploaded = true;
+      me.numImages = me.numImages + 1;
+    }
+    else {
+      window.scrollTo(0, 0);
+      me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
+    }
+  }
+
+  hasImage(): boolean {
+    if (this.imageUrls && this.imageUrls.trim() && this.imageUrls.trim().length > 0)
+      return true;
+
+    return false;
+  }
+  phoneedit() {
+    this.publicphonenumber = !this.publicphonenumber;
+  }
+  emailedit() {
+    this.publicemail = !this.publicemail;
+  }
+  min() {
+    this.Min = !this.Min;
+    this.hour = false;
+    this.day = false;
+    this.businesspro.shipTimeType = 'minute';
+  }
+  hours() {
+    this.hour = !this.hour;
+    this.day = false;
+    this.Min = false;
+    this.businesspro.shipTimeType = 'hours';
+  }
+  days() {
+    this.day = !this.day;
+    this.hour = false;
+    this.Min = false;
+    this.businesspro.shipTimeType = 'days';
+  }
+  addProdlocality(res:any){
+    console.log(res);
+
+  }
 }
 
 

@@ -20,6 +20,20 @@
     margin-bottom: 5px;   
     white-space: nowrap; 
 }
+.seltncontainrsmallBN {
+    height: 59px;
+    border: 2px solid #E53935;
+    margin-bottom: 5px;   
+    white-space: nowrap; 
+}
+
+.tncontainrsmallBN {
+    width: auto;
+    height: 59px;
+    border: 1px solid #F7F9FA;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
 
 .tncontainrBN {
     width: 59px;
@@ -44,8 +58,25 @@
 }
 
 .imgHgtBN {
+    padding-left: 10px;
     height: 380px;
     width: 380px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+.imgHgtmedBN {
+    padding-top: 0px;
+    padding-left: 34px;
+    height: 373px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+.imgHgtsmallBN {
+    padding-top: 0px;
+    padding-left: 34px;
+    height: auto;
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
@@ -81,6 +112,13 @@
     color: #3D3D3D;
     letter-spacing: 0.1rem;       
 }
+.prodtitlemedBN {
+    font-size: 17pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;       
+}
 
 .origpriceBN {
     padding-top: 4px;
@@ -90,7 +128,14 @@
     color: #B3B3B3;
     letter-spacing: 0.1rem;           
 }
-
+.origpricesmallBN {
+    padding-top: 4px;
+    font-weight: 600;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+    color: #B3B3B3;
+    letter-spacing: 0.1rem;           
+}
 .colorscntnrBN {
     font-weight: 600;
     font-size: 13pt;
@@ -127,6 +172,13 @@
     color: #3D3D3D;
     letter-spacing: 0.1rem;               
 }
+.offerpricesmallBN {
+    font-weight: 600;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;               
+}
 
 .markdownBN {
     text-decoration: line-through;
@@ -159,7 +211,10 @@
 
 .buttonsPartBN {
     padding-left: 60px;
-    width: 440px;    
+    width: 456px;    
+}
+.buttonsPartmedBN {
+    padding-left: 73px;   
 }
 
 .visitstoreBN {
@@ -181,6 +236,14 @@
     font-family: 'Barlow', sans-serif;
     text-transform: none;
 }
+.addtocartsmalBN {
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;
+}
 
 .buynowBN {
     width: 173px;
@@ -191,7 +254,22 @@
     font-family: 'Barlow', sans-serif;
     text-transform: none;    
 }
-
+.buynowsmalBN {
+    margin-left: 30px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
+.buynowsmallBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
 .shiftRowUpBN {
     margin-top: -31px;    
 }

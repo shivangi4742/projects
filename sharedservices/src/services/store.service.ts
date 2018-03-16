@@ -55,4 +55,17 @@ export class StoreService {
         .then(res => this.setSettings(res.json()))
         .catch(res => this.utilsService.returnGenericError());
     }
+      public fetchStoreDetais(merchantCode: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.fetchStoreDetailsURL,
+            JSON.stringify({
+                "merchantCode": merchantCode
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => this.setSettings(res.json()))
+        .catch(res => this.utilsService.returnGenericError());
+    }
+
 }

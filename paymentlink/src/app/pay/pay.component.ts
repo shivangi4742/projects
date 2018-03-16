@@ -57,6 +57,7 @@ export class PayComponent implements OnInit {
   ccExpanded: boolean = false;
   dcExpanded: boolean = false;
   nbExpanded: boolean = false;
+  sodexoExpanded: boolean = false;
   intPayExpanded: boolean = false;
   qrExpanded: boolean = false;
   supportsCOD: boolean = false;
@@ -73,6 +74,10 @@ export class PayComponent implements OnInit {
   numSupportedModes: number = 0;
   collapsibleActions: any = new EventEmitter<string | MaterializeAction>();
 
+  foodAmount: number = 0; // for sodexo
+  askPanOrig: boolean = false;
+  payModesOrig: Array<string>;
+
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer, private socketService: SocketService) {
     let me: any = this;
@@ -81,7 +86,7 @@ export class PayComponent implements OnInit {
 
   fundRaised(res: any, res2: boolean) {
     this.sdkService.send80G(res.data.id, this.id);
-    this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo + '/' + this.fundRaiserId);    
+    this.router.navigateByUrl('/donationsuccess/' + this.id + '/' + this.txnNo + '/' + this.fundRaiserId);
   }
 
   receivedPayment(res: any) {
@@ -91,7 +96,7 @@ export class PayComponent implements OnInit {
         "payer": res.data.vpa, "transactionDate": res.data.dt, "products": this.pay.products, "mtype": this.pay.merchantType
       });
       if (this.pay.merchantType == 2) {
-        if(this.fundRaiserId)
+        if (this.fundRaiserId)
           this.sdkService.updateFundraiserCollection(res.data.amount, this.fundRaiserId, this.id, res.data.id)
             .then(res2 => this.fundRaised(res, res2));
         else {
@@ -155,6 +160,12 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if (res && res.id) {
       this.pay = res;
+
+      this.askPanOrig = this.pay.askpan;
+      this.payModesOrig = this.pay.supportedModes;
+
+      // this.pay.foodAmount = 1; // Delete this line later
+      this.foodAmount = this.pay.foodAmount;
 
       if (this.pay.mtype == 1) {
         this.pay.askmob = false;
@@ -241,43 +252,7 @@ export class PayComponent implements OnInit {
       this.mobileNumber = this.pay.phone;
 
     this.numSupportedModes = 0;
-    if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
-      if (this.pay.supportedModes.indexOf('UPI') >= 0) {
-        this.supportsUPI = true;
-        this.numSupportedModes++;
-      }
-
-      if (this.pay.supportedModes.indexOf('CC') >= 0) {
-        this.numSupportedModes++;
-        this.supportsCC = true;
-      }
-
-      if (this.pay.supportedModes.indexOf('DC') >= 0) {
-        this.numSupportedModes++;
-        this.supportsDC = true;
-      }
-
-      if (this.pay.supportedModes.indexOf('NB') >= 0) {
-        this.numSupportedModes++;
-        this.supportsNB = true;
-      }
-
-      if (this.pay.supportedModes.indexOf('CASH') >= 0) {
-        this.numSupportedModes++;
-        this.supportsCOD = true;
-      }
-
-      if (this.pay.supportedModes.indexOf('SODEXO') >= 0) {
-        this.numSupportedModes++;
-        this.supportsSodexo = true;
-      }
-
-      if (this.pay.supportedModes.indexOf('RAZORPAY') >= 0) {
-        this.numSupportedModes++;
-        this.supportsRazorPay = true;
-      }
-
-    }
+    this.refreshPaymentModes();
 
     if (this.pay && this.pay.firstName && !this.pay.lastName && this.pay.firstName.indexOf(' ') > 0) {
       let s = this.pay.firstName.split(' ');
@@ -370,6 +345,7 @@ export class PayComponent implements OnInit {
           case 'CASH':
             break;
           case 'SODEXO':
+            this.setMode(4);
             break;
           case 'RAZORPAY':
             this.setMode(6);
@@ -638,6 +614,11 @@ export class PayComponent implements OnInit {
         if (elmnt)
           elmnt.click();
       }
+      else if (this.sodexoExpanded) {
+        let elmnt: any = document.getElementById('sodexoPayBtn');
+        if (elmnt)
+          elmnt.click();
+      }
       else if (this.intPayExpanded) {
         let elmnt: any = document.getElementById('razorPayBtn');
         if (elmnt)
@@ -653,6 +634,8 @@ export class PayComponent implements OnInit {
       this.dcExpanded = true;
     else if (mode == 3)
       this.nbExpanded = true;
+    else if (mode == 4)
+      this.sodexoExpanded = true;
     else if (mode == 5) {
       this.intPayExpanded = true;
     }
@@ -687,6 +670,9 @@ export class PayComponent implements OnInit {
         break;
       case 3:
         paymentMethodType = 'NET_BANKING';
+        break;
+      case 4:
+        paymentMethodType = 'SODEXO';
         break;
       case 6:
         paymentMethodType = 'RAZORPAY';
@@ -778,4 +764,83 @@ export class PayComponent implements OnInit {
       this.validationError = 'Error in connecting payment gateway!';
     }
   }
+
+  residentTypeChanged(type) {
+    if (type.toLowerCase() == 'indian') {
+      this.pay.askpan = this.askPanOrig;
+      this.pay.supportedModes = this.payModesOrig;
+      this.resident = true;
+      this.refreshPaymentModes();
+    }
+    else {
+      let modes: Array<string> = new Array<string>();
+      modes.push('RAZORPAY');
+      this.pay.askpan = false;
+      this.pay.supportedModes = modes;
+      this.resident = false;
+      this.refreshPaymentModes();
+    }
+  }
+
+  refreshPaymentModes(): void {
+    if (this.pay.supportedModes && this.pay.supportedModes.length > 0) {
+      if (this.pay.supportedModes.indexOf('UPI') >= 0) {
+        this.supportsUPI = true;
+        this.numSupportedModes++;
+      }
+      else {
+        this.supportsUPI = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('CC') >= 0) {
+        this.numSupportedModes++;
+        this.supportsCC = true;
+      }
+      else {
+        this.supportsCC = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('DC') >= 0) {
+        this.numSupportedModes++;
+        this.supportsDC = true;
+      }
+      else {
+        this.supportsDC = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('NB') >= 0) {
+        this.numSupportedModes++;
+        this.supportsNB = true;
+      }
+      else {
+        this.supportsNB = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('CASH') >= 0) {
+        this.numSupportedModes++;
+        this.supportsCOD = true;
+      }
+      else {
+        this.supportsCOD = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('SODEXO') >= 0) {
+        this.numSupportedModes++;
+        this.supportsSodexo = true;
+      }
+      else {
+        this.supportsSodexo = false;
+      }
+
+      if (this.pay.supportedModes.indexOf('RAZORPAY') >= 0) {
+        this.numSupportedModes++;
+        this.supportsRazorPay = true;
+      }
+      else {
+        this.supportsRazorPay = false;
+      }
+
+    }
+  }
+
 }

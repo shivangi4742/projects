@@ -151,12 +151,10 @@ export class RazorpayComponent implements OnInit {
     var me = this;
     var options = {
       "key": this.rzKey,
-      // "amount": this.rzModel.amount * 100,
       "amount": (+this.payamount),
       "name": this.rzModel.title,
       "description": '',
-      // "image": this.pay.imageURL,
-      "image": 'https://pbs.twimg.com/profile_images/915212352873578498/qa3oS9PZ_400x400.jpg',
+      "image": this.pay.imageURL,
       "handler": function (response) {
         me.sdkService.setReceivedPaymentSubject(response);
       },

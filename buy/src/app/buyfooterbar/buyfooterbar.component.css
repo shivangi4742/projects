@@ -3,5 +3,13 @@
     font-family: 'Barlow', sans-serif;
     font-size: 10pt;
     color: #ffffff;
-    font-weight: 400;    
+    font-weight: 400;   
+    margin-top: 20px!important;
+    margin-bottom: 0px!important;
+}
+.buyfootercolorBN{
+    color: white !important;
+}
+.buycopyBn{
+    float: right;
 }

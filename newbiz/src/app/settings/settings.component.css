@@ -58,3 +58,22 @@
 .inputBN{
     margin: 0 0 8px 0!important;
 }
+.expro {
+   width:80px!important;
+   height: 11.5pt!important;
+   text-align: center;
+}
+.lineBN {
+    line-height: 20px!important;
+    text-transform: none!important;
+    height: 24px!important;
+}
+.colorwhiteBN{
+    color: white!important;
+}
+.colorbackgroundBN{
+    background-color: red;
+    color: white!important;
+    padding: 2px 0px 0px 0px;
+    border-radius: 5px;
+}

@@ -56,7 +56,37 @@ export class ZgService {
       .catch(res => this.utilsService.returnGenericError());
   }
 
-  payBill(payPinModel: PayPinModel, totalAmount: number, remarks: string, subLedgerList: PaybillChargesModel[]): Promise<PayBillResponseModel> {
+  payBill(payPinModel: PayPinModel, totalAmount: number, billAmount: number, paymentMode: string, convenienceFees: number, remarks: string, subLedgerList: PaybillChargesModel[]): Promise<PayBillResponseModel> {
+
+    var pgModeObj;
+
+    var pgModeArray = [];
+    var upiModeArray = [];
+
+    if (paymentMode == "UPI") {
+      upiModeArray = payPinModel.upi_details;
+    }
+    else if (paymentMode == "NB") {
+
+      var netBankModel = payPinModel.pg_details[0].netbank;
+      var pgChargesDetail = new PgChargesDetails(netBankModel, null, null);
+      pgModeArray.push(pgChargesDetail);
+
+    }
+    else if (paymentMode == "DC") {
+
+      var dcModel = payPinModel.pg_details[0].debitcard;
+      var pgChargesDetail = new PgChargesDetails(null, dcModel, null);
+      pgModeArray.push(pgChargesDetail);
+
+    }
+    else if (paymentMode == "CC") {
+
+      var ccModel = payPinModel.pg_details[0].creditcard;
+      var pgChargesDetail = new PgChargesDetails(null, null, ccModel);
+      pgModeArray.push(pgChargesDetail);
+ 
+    }
 
     var reqData = {
       'pay_pin': payPinModel.pay_pin,
@@ -72,7 +102,11 @@ export class ZgService {
       'subledger_list': subLedgerList,
       'ledger_id': payPinModel.ledger_id,
       'society_id': payPinModel.society_id,
-      'allsubledger_list': []
+      'allsubledger_list': [],
+      'bill_amount': billAmount,
+      'payment_gateway_details': pgModeArray,
+      'upi_details': upiModeArray,
+      'pay_convenience_fees': convenienceFees
     };
 
     return this.http.post(

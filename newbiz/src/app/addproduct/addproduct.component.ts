@@ -87,10 +87,10 @@ export class AddproductComponent implements OnInit {
       autocompleteOptions: {
         data: {
           'Red': '../../assets/shared/images/Red.png', 'Brown': '../../assets/shared/images/Brown.png', 'Grey': '../../assets/shared/images/Grey.png',
-          'Green': '../../assets/shared/images/Green.png', 'Black': '../../assets/shared/images/Black.png', 'Purple': '../../assets/shared/images/Purple.png',
+          'Green': '../../assets/shared/images/green.png', 'Black': '../../assets/shared/images/Black.png', 'Purple': '../../assets/shared/images/Purple.png',
           'Blue': '../../assets/shared/images/Blue.png', 'Pink': '../../assets/shared/images/Pink.png', 'Gold': '../../assets/shared/images/Gold.png',
           'Silver': '../../assets/shared/images/Silver.png', 'Yellow': '../../assets/shared/images/Yellow.png', 'Gunmetal': '../../assets/shared/images/Gunmetal.png',
-          'Maroon': '../../assets/shared/images/Maroon.png', 'White': '../../assets/shared/images/White.png', 'Orange': '../../assets/shared/images/Orange.png',
+          'Maroon': '../../assets/shared/images/Maroon.png', 'White': null, 'Orange': '../../assets/shared/images/Orange.png',
           'Metallic': '../../assets/shared/images/Metallic.png', 'Beige': '../../assets/shared/images/Beige.png', 'Copper': '../../assets/shared/images/Copper.png',
           'Navy Blue': '../../assets/shared/images/Navy.png', 'Burgundy': '../../assets/shared/images/Burgundy.png', 'Olive': '../../assets/shared/images/Olive.png',
           'Steel': '../../assets/shared/images/Steel.png', 'Charcoal': '../../assets/shared/images/Charcoal.png', 'Bronze': '../../assets/shared/images/Bronze.png',
@@ -218,7 +218,7 @@ export class AddproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.newProduct.price > this.newProduct.discountedPrice){
+    if(this.newProduct.price < this.newProduct.discountedPrice){
       this.discountError = true;
     }
     else{
@@ -231,9 +231,8 @@ export class AddproductComponent implements OnInit {
     this.variants = [];
     this.prodSizes = [];
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
-      null, null, null, null,null, true, null, null,
+      null, null, null, null,null, true, type, null,
       null, null, null, null, null);
-    this.newProduct.productType = type;
   }
 
   fileChange(e: any){

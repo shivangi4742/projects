@@ -154,19 +154,19 @@
           </div>
           <div class="input-field col s6">
             <input id="cPrice" name="cPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Product Price' | translate}}" min="0" (keyup)="checkAmount()" required />
+                   placeholder="{{'Product Price' | translate}}" min="0" style="margin-bottom: 0px" (keyup)="checkAmount()" required />
             <label for="cPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                   placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
         </div>
         <div class="row">
-          <div *ngIf="!newProduct.hasVariants" class="col s12 center">
+          <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
             <span class="">{{'Have more variants? Add here' | translate}}</span>
             <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
             <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -208,7 +208,7 @@
                     </div>
                   </div>
                   <div class="input-field col s5">
-                    <input id="{{vm.id}}+price" name="{{vm.id}}" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
+                    <input id="{{vm.id}}+price" name="{{vm.id}}+price" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
                            placeholder="{{'Price of Variant' | translate}}"/>
                     <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
                   </div>
@@ -251,7 +251,7 @@
                 </div>
               </div>
               <div class="input-field col s5">
-                <input id="{{v.id}}+price" name="{{v.id}}" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
+                <input id="{{v.id}}+price" name="{{v.id}}+price" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
                        placeholder="{{'Price of Variant' | translate}}"/>
                 <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
               </div>
@@ -369,19 +369,19 @@
             </div>
             <div class="input-field col s6">
               <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                     placeholder="{{'Product Price' | translate}}" min="0" required (keyup)="checkAmount()" />
+                     placeholder="{{'Product Price' | translate}}" min="0" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
               <label for="fbPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
             </div>
             <div class="input-field col s6">
               <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                     placeholder="{{'Discounted price of the product' | translate}}" (keyup)="checkAmount()" />
+                     placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()" />
               <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
           </div>
           <div class="row">
-            <div *ngIf="!newProduct.hasVariants" class="col s12 center">
+            <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
               <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
               <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
               <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -444,7 +444,7 @@
                 <div class="input-field col s6">
                   <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
                          placeholder="{{'Price of Add-on' | translate}}" required/>
-                  <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>>
+                  <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>
                 </div>
                 <div class="input-field col s6">
                   <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
@@ -487,30 +487,30 @@
           </div>
           <div class="input-field col s6">
             <input id="ePrice" name="ePrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Ticket Price' | translate}}" required (keyup)="checkAmount()" />
+                   placeholder="{{'Ticket Price' | translate}}" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="ePrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" (keyup)="checkAmount()"  />
+                   placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"  />
             <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
           <div class="input-field col s6 m3 l3">
             <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate">
-            <label for="fromDt" class="active labelPLBN">{{'Event Start' | translate}}</label>
+                   [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate" required>
+            <label for="fromDt" class="active labelPLBN">{{'Event Start*' | translate}}</label>
           </div>
           <div class="input-field col s6 m3 l3">
             <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
-                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate">
-            <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
+                   [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate" required>
+            <label for="toDt" class="active labelPLBN">{{'Event Ends*' | translate}}</label>
           </div>
         <div class="input-field col s12 m6 l6">
           <input id="eVenue" name="eVenue" type="text" [(ngModel)]="newProduct.venue" class="validate inputTextBN"
-                 placeholder="{{'Mention venue of your Event/Workshop(Optional)' | translate}}" maxlength="200" />
-          <label for="eVenue" class ="active labelPLBN">{{'Venue' | translate}}</label>
+                 placeholder="{{'Mention venue of your Event/Workshop' | translate}}" maxlength="200" required />
+          <label for="eVenue" class ="active labelPLBN">{{'Venue*' | translate}}</label>
         </div>
           <div class="row"></div>
         <div class="col s12">
@@ -607,13 +607,13 @@
           </div>
           <div class="input-field col s6">
             <input id="oPrice" name="oPrice" type="number" [(ngModel)]="newProduct.price" class="validate inputTextBN"
-                   placeholder="{{'Product Price' | translate}}" required (keyup)="checkAmount()" />
+                   placeholder="{{'Product Price' | translate}}" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
             <label for="oPrice" class ="active labelPLBN">{{'Price*' | translate}}</label>
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
             <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the product(Optional)' | translate}}" (keyup)="checkAmount()"/>
+                   placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"/>
             <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
