@@ -90,7 +90,7 @@ export class BuyerinfoComponent implements OnInit {
     if(this.cart && this.settings) {
       this.paidAmount = this.cartService.getCartTotal();
       if(this.settings.chargeConvenienceFee)
-        this.paidAmount = this.paidAmount * 1.02;
+        this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
 
       this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
         .then(res => this.getUPIURL(res));    

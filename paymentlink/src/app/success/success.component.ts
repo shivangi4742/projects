@@ -489,7 +489,7 @@ export class SuccessComponent implements OnInit {
       this.pay.title = res.businessName;
       if (res.chargeConvenienceFee) {
         this.purchaseAmount = Math.round(this.pay.amount * 100) / 100;
-        this.pay.amount = Math.round(this.pay.amount * 1.02 * 100) / 100;
+        this.pay.amount = Math.round(this.pay.amount * 1.0236 * 100) / 100;
         this.convFee = this.pay.amount - this.purchaseAmount;
       }
 

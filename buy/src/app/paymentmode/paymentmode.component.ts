@@ -166,7 +166,7 @@ export class PaymentmodeComponent implements OnInit {
     if(this.cart && this.settings) {
       this.paidAmount = this.cartService.getCartTotal();
       if(this.settings.chargeConvenienceFee)
-        this.paidAmount = this.paidAmount * 1.02;
+        this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
 
       this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
         .then(res => this.getUPIURL(res));    
@@ -204,6 +204,19 @@ export class PaymentmodeComponent implements OnInit {
     }
   }
 
+  finishPayUPayment(res: any) {
+    let cf: number = 0;
+    if(this.settings.chargeConvenienceFee)
+      cf = 1;
+      
+    if (res && res.transactionRef)
+      this.router.navigateByUrl('/' + this.merchantCode + '/pg/' + res.transactionRef + '/' + cf);            
+    else {
+      this.processing = false;
+      //handle error.
+    }    
+  }
+  
   pay() {
     if(this.cartService.isCartPayable()) {
       this.paidAmount = this.cartService.getCartTotal();
@@ -215,10 +228,19 @@ export class PaymentmodeComponent implements OnInit {
         case 'UPI':
           this.payRequest = null;
           if(this.settings.chargeConvenienceFee)
-            this.paidAmount = this.paidAmount * 1.02;
+            this.paidAmount = Math.round(this.paidAmount * 102.36)/100;
 
           this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
             .then(res => this.finishUPIPayment(res));
+          break;
+        case 'CC':
+        case 'DC':
+        case 'NB':
+          if(this.settings.chargeConvenienceFee)
+            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
+
+          this.cartService.startPayUPaymentProcess(this.settings.displayName, this.paidAmount)
+            .then(res => this.finishPayUPayment(res))
           break;
         default:
           break;

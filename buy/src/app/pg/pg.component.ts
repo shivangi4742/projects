@@ -25,7 +25,7 @@ export class PgComponent implements OnInit {
     if(res) {
       this.amount = this.cartService.getCartTotal();
       if(this.cf > 0)
-        this.amount = Math.round(this.amount * 102) / 100;
+        this.amount = Math.round(this.amount * 102.36) / 100;
   
       this.cart = res;
       this.submitMe();  

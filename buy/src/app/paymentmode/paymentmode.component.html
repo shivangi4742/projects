@@ -94,8 +94,10 @@
               </div>
               <div class="col s12">&nbsp;</div>
               <div class="col s12 padlr10BN">
-                <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 
-                  [routerLink]="buyerInfoLink">{{'Place Order' | translate}}</button>
+                <button *ngIf="!isUPIButton()" class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" type="submit"
+                  [disabled]="!cart.paymentMode || processing">{{'Place Order' | translate}}</button>
+                <a *ngIf="isUPIButton() && upiURL" class="pt10BN col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 
+                  target="_blank" [attr.href]="sanitize(upiURL)">{{'Place Order' | translate}}</a>
               </div>          
               <div class="col s12">&nbsp;</div>
             </div>

@@ -20,7 +20,7 @@ export class PaymentfailureComponent implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    this.cartLink = '/' + this.merchantCode + '/buyerinfo';
+    this.cartLink = '/' + this.merchantCode + '/paymentmode';
     this.storeService.assignMerchant(this.merchantCode);
     this.storeService.fetchStoreDetails(this.merchantCode)
       .then(res => this.settings = res);
