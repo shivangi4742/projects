@@ -17,22 +17,22 @@
         <div class="col s12 padlr30BN">
           <div *ngFor="let item of cart.items; let i = index;">
             <div class="col s12">&nbsp;</div>
-            <div class="col s4 m3 l4 itemPanelBN">
+            <div class="col s3 m3 l4 itemPanelBN">
               <div class="col s12 cproditemimgctnrBN linkButtonBN itemPanelBN" [routerLink]="getProductlink(item.productId)" align="center">
                 <span class="helperBN"></span><img [src]="item.imageURL" class="cprodimgBN responsive-img" />
               </div>
-              <div class="col s12 cartprditmqtydivBN itemPanelBN hide-on-med-only" align="center">
+              <div class="col s12 cartprditmqtydivBN itemPanelBN hide-on-med-and-down" align="center">
                 <i [ngClass]="item.quantity > 1 ? 'material-icons addremoveBN linkButtonBN' : 'material-icons addremoveBN linkButtonBN hiddeniconBN'"
                   (click)="addQty(item, -1)">remove_circle_outline</i>
                 <input class="cartprditmqtyBN" type="number" min="1" step="1" [(ngModel)]="item.quantity" />
                 <i class="material-icons addremoveBN linkButtonBN" (click)="addQty(item, 1)">add_circle_outline</i>
               </div>
             </div>
-            <div class="col s8 m9 l8">
-              <div align="left" class="col s11 m10 l11 cartpitemtitleBN truncate">
+            <div class="col s9 m9 l8">
+              <div align="left" class="col s10 m10 l11 cartpitemtitleBN truncate">
                 <span [routerLink]="getProductlink(item.productId)" class="linkButtonBN">{{item.name}}</span>
               </div>
-              <div class="col s1 m2 l1">
+              <div class="col s2 m2 l1">
                 <i class="material-icons linkButtonBN delcartitemBN" (click)="remove(item)">delete</i>
               </div>
               <div align="left" [ngClass]="!item.color && item.size ? 'col s12 cicolor2BN' : 'col s12 cicolorBN'">
@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="col s12">
-              <div class="col s12 cartprditmqtydivBN itemPanelBN hide-on-small-only hide-on-large-only" align="center">
+              <div class="col s12 cartprditmqtydivBN itemPanelBN hide-on-large-only" align="center">
                 <i [ngClass]="item.quantity > 1 ? 'material-icons addremoveBN linkButtonBN' : 'material-icons addremoveBN linkButtonBN hiddeniconBN'"
                   (click)="addQty(item, -1)">remove_circle_outline</i>
                 <input class="cartprditmqtyBN" type="number" min="1" step="1" [(ngModel)]="item.quantity" />
