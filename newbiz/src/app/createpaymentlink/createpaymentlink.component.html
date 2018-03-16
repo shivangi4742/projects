@@ -65,7 +65,7 @@
           <div class="row valign-wrapper">
             <div class="col s12 center">
               <button class="btn waves-effect waves-light regNrmS4BN center buttonBN checkHeight" type="submit" name="create"
-                      [disabled]="!validateForm() || !paymentLinkForm.form.valid">{{'CREATE PAYMENT LINK' | translate}}</button>
+                      [disabled]="!validateForm() ">{{'CREATE PAYMENT LINK' | translate}}</button>
             </div>
           </div>
         </form>
@@ -91,7 +91,7 @@
             <div class="input-field col s12">
               <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN"
                      placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" required>
-              <label for="amount" class ="active labelPLBN">{{'Amount*' | translate}}</label>
+              <label for="amount" class ="active labelPLBN">{{'Amount' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
             </div>
           </div>

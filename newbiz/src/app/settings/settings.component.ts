@@ -55,6 +55,12 @@ export class SettingsComponent implements OnInit {
   uploadsURL: string;
   uploading: boolean = false;
   uploaded: boolean = false;
+  publicphonenumber: boolean = true;
+  publicemail: boolean = true;
+  Min: boolean = true;
+  day: boolean = false;
+  hour: boolean = false;
+  localitychip;
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
@@ -62,8 +68,19 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.locationService.setLocation('settings');
     this.utilsService.setStatus(false, false, '');
+
     this.userService.getUser()
       .then(res => this.init(res));
+      this.localitychip={
+        placeholder: '+locality',
+        secondaryPlaceholder: 'please Enter',
+        autocompleteOptions: {
+          data: {
+           },
+          limit: Infinity,
+          minLength: 1
+        }
+      };
   }
   init(usr: User) {
     if (usr && usr.id) {
@@ -117,6 +134,7 @@ export class SettingsComponent implements OnInit {
 
   initcheckacc(res: any) {
     this.accountpro = res;
+    this.businesspro.shipTimeType = 'minute';
     if (this.accountpro && this.accountpro.accountRefNumber) {
       this.conaccountnumber = this.accountpro.accountRefNumber;
     }
@@ -125,6 +143,18 @@ export class SettingsComponent implements OnInit {
     }
     else {
       this.editt = false;
+    }
+    if (this.businesspro && this.businesspro.publicEmail) {
+      this.publicemail = true;
+    }
+    else {
+      this.publicemail = false;
+    }
+    if (this.businesspro && this.businesspro.publicPhoneNumber) {
+      this.publicphonenumber = true;
+    }
+    else {
+      this.publicphonenumber = false;
     }
 
   }
@@ -243,11 +273,9 @@ export class SettingsComponent implements OnInit {
     window.scrollTo(0, 0);
     this.isShipped = !this.isShipped;
     document.getElementById('shippingbn').click();
-    this.min();
   }
 
   shippingsetting1() {
-     this.min();
     this.isShipped = !this.isShipped;
     this.isReturn = false;
     this.isNgoExpanded = false;
@@ -330,11 +358,15 @@ export class SettingsComponent implements OnInit {
 
   }
   save() {
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
-      this.businesspro.pincode, this.businesspro.gstno);
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    );
   }
   saveaccount() {
     this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
@@ -491,14 +523,6 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  phoneedit() {
-
-  }
-
-  emailedit() {
-
-  }
-
   fileChange(e: any) {
     this.uploaded = false;
     if (e.target && e.target.files) {
@@ -535,30 +559,33 @@ export class SettingsComponent implements OnInit {
 
     return false;
   }
+  phoneedit() {
+    this.publicphonenumber = !this.publicphonenumber;
+  }
+  emailedit() {
+    this.publicemail = !this.publicemail;
+  }
   min() {
-    document.getElementById('min').className = 'tab lineBN linkButtonBN colorbackgroundBN ';
-    document.getElementById('minanchor').className = 'colorwhiteBN';
-    document.getElementById('days').className = 'tab lineBN linkButtonBN  ';
-    document.getElementById('daysanchor').className = '';
-    document.getElementById('hours').className = 'tab lineBN linkButtonBN ';
-    document.getElementById('hoursanchor').className = '';
+    this.Min = !this.Min;
+    this.hour = false;
+    this.day = false;
+    this.businesspro.shipTimeType = 'minute';
   }
   hours() {
-    document.getElementById('hours').className = 'tab lineBN linkButtonBN colorbackgroundBN ';
-    document.getElementById('hoursanchor').className = 'colorwhiteBN';
-    document.getElementById('min').className = 'tab lineBN linkButtonBN  ';
-    document.getElementById('minanchor').className = '';
-    document.getElementById('days').className = 'tab lineBN linkButtonBN  ';
-    document.getElementById('daysanchor').className = '';
+    this.hour = !this.hour;
+    this.day = false;
+    this.Min = false;
+    this.businesspro.shipTimeType = 'hours';
   }
   days() {
-    document.getElementById('hours').className = 'tab lineBN linkButtonBN ';
-    document.getElementById('hoursanchor').className = '';
-    document.getElementById('min').className = 'tab lineBN linkButtonBN ';
-    document.getElementById('minanchor').className = '';
-    document.getElementById('days').className = 'tab lineBN linkButtonBN colorbackgroundBN ';
+    this.day = !this.day;
+    this.hour = false;
+    this.Min = false;
+    this.businesspro.shipTimeType = 'days';
+  }
+  addProdlocality(res:any){
+    console.log(res);
 
-    document.getElementById('daysanchor').className = 'colorwhiteBN';
   }
 }
 

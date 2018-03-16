@@ -20,6 +20,20 @@
     margin-bottom: 5px;   
     white-space: nowrap; 
 }
+.seltncontainrsmallBN {
+    height: 59px;
+    border: 2px solid #E53935;
+    margin-bottom: 5px;   
+    white-space: nowrap; 
+}
+
+.tncontainrsmallBN {
+    width: auto;
+    height: 59px;
+    border: 1px solid #F7F9FA;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
 
 .tncontainrBN {
     width: 59px;
@@ -242,6 +256,14 @@
 }
 .buynowsmalBN {
     margin-left: 30px;
+    border-radius: 5px;
+    color: white;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;    
+}
+.buynowsmallBN {
+    width: 250px;
     border-radius: 5px;
     color: white;
     font-size: 13pt;

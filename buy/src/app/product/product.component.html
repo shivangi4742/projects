@@ -245,14 +245,15 @@
               <div class="row">
                 <div *ngIf="images">
                   <div align="center" *ngIf="numImgPages > 1 && imgPage > 0" class="linkButtonBN" (click)="prevImgPage()">
-                      <i class="material-icons moreProdsBN">keyboard_arrow_up</i>
+                      <i class="material-icons moreProdsBN">keyboard_arrow_left</i>
                   </div>
-                  <div *ngFor="let image of images" [ngClass]="image == selectedImage ? 'seltncontainrBN' : 'tncontainrBN'" 
-                    align="center" (click)="selectImg(image)">
-                    <span class="helperBN"></span><img [src]="image" class="tnBN linkButtonBN" />
+                  <div *ngFor="let image of images" [ngClass]="image == selectedImage ? 'col s3 ' : 'col s3 '" 
+                    (click)="selectImg(image)">
+                  <div [ngClass]="image == selectedImage ? 'seltncontainrsmallBN':'tncontainrsmallBN' ">
+                    <img [src]="image" class="tnBN linkButtonBN" /></div>  
                   </div>
-                  <div align="center" *ngIf="numImgPages > 1 && imgPage == 0" class="linkButtonBN" (click)="nextImgPage()">
-                      <i class="material-icons moreProdsBN">keyboard_arrow_down</i>
+                  <div  *ngIf="numImgPages > 1 && imgPage == 0" class="linkButtonBN" (click)="nextImgPage()">
+                      <i class="material-icons moreProdsBN">keyboard_arrow_right</i>
                   </div>
                 </div>
               </div>
@@ -301,13 +302,14 @@
             </div>
           
         </div>
-        <div class="row">
-          <div class="">
+        <div class="row center">
           <button [disabled]="hasWrongQty()" (click)="addToCart()" 
-    class="btn waves-effect waves-light addtocartsmalBN">{{'Add to Cart' | translate}}</button>
+    class="btn waves-effect waves-light visitstoreBN">{{'Add to Cart' | translate}}</button>
+   </div>
+    <div class="row center">
           <button [disabled]="hasWrongQty()" (click)="buy()" 
-            class="btn waves-effect waves-light red darken-1 buynowsmalBN ">{{'Buy Now' | translate}}</button>
-        </div>
+            class="btn waves-effect waves-light red darken-1 buynowsmallBN ">{{'Buy Now' | translate}}</button>
+      
       </div>
         <div class="row"></div>
       </div>

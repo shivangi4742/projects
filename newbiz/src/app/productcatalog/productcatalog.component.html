@@ -37,8 +37,8 @@
         </div>
         <div *ngFor="let p of products" class="col s10 m6 l4 offset-s2 prodBoxBN">
           <div class="col s6 m7 l6 imageHeightBN">
-            <img *ngIf="!p.imageURL" src="../../assets/shared/images/addproducts2@2x.png" width="80" height="90" />
-            <img *ngIf="p.imageURL" class="prodImageBN" src={{uploadsURL}}{{p.imageURL}} />
+            <img *ngIf="p.prodImgUrls.length < 1" src="../../assets/shared/images/addproducts2@2x.png" width="80" height="90" />
+            <img *ngIf="p.prodImgUrls.length > 0" class="prodImageBN" src={{uploadsURL}}{{p.prodImgUrls[0].prodImgUrl}} />
           </div>
           <div class="col s6 m5 l6 prodDetailsBN">
             <a class="col s12 linkButtonBN prodOptionsBN" style="color: red" (click)="edit(p.id)">
@@ -56,7 +56,9 @@
           </div>
           <div class="col s12 smallGapBN"></div>
           <div class="col s12 prodTitleBN">
-            <b>Price:</b> ₹ {{p.originalPrice | number : '1.2-2'}}
+            <span *ngIf="p.hasVariants && p.productType == 'Lifestyle'" class="">{{'Variants: '}}{{p.variants.length}}</span>
+            <span *ngIf="p.hasVariants && p.productType == 'FoodAndBeverages'" class="">{{'Add-ons: '}}{{p.variants.length}}</span>
+            <span *ngIf="!p.hasVariants" class="">{{'Price: '}}{{p.price}}</span>
           </div>
         </div>
       </div>

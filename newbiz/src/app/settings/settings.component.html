@@ -34,9 +34,9 @@
       <div id="returnBN" (click)="returnploicy1()" [ngClass]="!isReturn?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="returnploicy()">
-           <i  *ngIf="isReturn" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isReturn" class="material-icons alignMidBN">keyboard_arrow_right</i>
-          </span>{{'Return Policy Setting' | translate}}
+          <i *ngIf="isReturn" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isReturn" class="material-icons alignMidBN">keyboard_arrow_right</i>
+        </span>{{'Return Policy Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
 
@@ -46,52 +46,56 @@
             <div class="row"></div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" />
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" [(ngModel)]="businesspro.contactSeller"
+                />
                 <label for="filled-in-box">Contact the seller</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box11" />
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box11" [(ngModel)]="businesspro.noReturnExchange" />
                 <label for="filled-in-box11">No returns or exchanges</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box1" />
-                <label for="filled-in-box1">Exchange only on faulty products within <input type="text" class="expro" name="day"> days of return.(No returns)</label>
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box1" [(ngModel)]="businesspro.productExchange" />
+                <label for="filled-in-box1">Exchange only on faulty products within
+                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.productExchangeDay"> days of return.(No returns)</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box2" />
-                <label for="filled-in-box2">Returns /exchange only on faulty products within <input type="text" class="expro" name="day"> days.</label>
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box2" [(ngModel)]="businesspro.productReturnOrExchange"
+                />
+                <label for="filled-in-box2">Returns /exchange only on faulty products within
+                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.productReturnOrExchangeDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box3" />
-                <label for="filled-in-box3">Returns available within <input type="text" class="expro" name="day"> days.</label>
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box3" [(ngModel)]="businesspro.returnAvailable" />
+                <label for="filled-in-box3">Returns available within
+                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.returnsAvailableDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box4" />
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box4" [(ngModel)]="businesspro.noExchangeFlage" />
                 <label for="filled-in-box4">No questions asked exchange</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box5" />
+                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box5" [(ngModel)]="businesspro.noReturnFlage" />
                 <label for="filled-in-box5">No questions asked return</label>
               </div>
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
-                <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
-                  (click)="save()" name="submit">
-              {{'SUBMIT' | translate}}
-             </button>
+                <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                  {{'SUBMIT' | translate}}
+                </button>
               </div>
 
             </div>
@@ -106,9 +110,9 @@
       <div id="shippingbn" (click)="shippingsetting1()" [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="shippingsetting()">
-           <i  *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-          </span>{{'Shipping Setting' | translate}}
+          <i *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+        </span>{{'Shipping Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
 
@@ -118,19 +122,28 @@
             <div class="row"></div>
             <div class="row">
               <div class="col s12">
-                <span class="regNrmS5B2BN">   {{'Average time for Shipping/Delivery' | translate}}</span>
+                <span class="regNrmS5B2BN"> {{'Average time for Shipping/Delivery' | translate}}</span>
               </div>
             </div>
             <div class="row">
               <div class="col s4">
-                {{'Ships within' | translate}} &nbsp; &nbsp;<input type="text" class="expro" name="day"> 
+                {{'Ships within' | translate}} &nbsp; &nbsp;
+                <input type="text" class="expro" name="day"[(ngModel)]="businesspro.shipTimeInterval">
               </div>
-                <div class="col s8"><ul class="tabs lineBN">
-        <li class="tab lineBN linkButtonBN" id="min"><a id="minanchor" (click)="min()" >Min</a></li>
-        <li class="tab lineBN linkButtonBN" id="hours"><a id="hoursanchor" (click)="hours()"class="active" >Hours</a></li>
-        <li class="tab lineBN linkButtonBN" id="days"><a id="daysanchor" (click)="days()">Days</a></li>
-      </ul></div>
-             
+              <div class="col s8">
+                <ul class="tabs lineBN">
+                  <li [ngClass]="Min ? 'tab lineBN linkButtonBN colorbackgroundBN ':'tab lineBN linkButtonBN '">
+                    <a [ngClass]="Min ? 'colorwhiteBN':''" (click)="min()">Min</a>
+                  </li>
+                  <li [ngClass]="hour ? 'tab lineBN linkButtonBN colorbackgroundBN ':'tab lineBN linkButtonBN '">
+                    <a [ngClass]="hour ? 'colorwhiteBN':''" (click)="hours()" class="active">Hours</a>
+                  </li>
+                  <li [ngClass]="day ? 'tab lineBN linkButtonBN colorbackgroundBN ':'tab lineBN linkButtonBN '">
+                    <a [ngClass]="day ? 'colorwhiteBN':''" (click)="days()">Days</a>
+                  </li>
+                </ul>
+              </div>
+
             </div>
             <div class="row">
               <div class="row">
@@ -140,16 +153,23 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" />
-                  <label for="filled-in-box">All over India</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box21" checked="checked" [(ngModel)]="businesspro.allOverIndia" />
+                  <label for="filled-in-box21">All over India</label>
                 </div>
-              </div>
+                </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" />
-                  <label for="filled-in-box">Within select localities</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box22"  [(ngModel)]="businesspro.selectLocalities" />
+                  <label for="filled-in-box22">Within select localities</label>
                 </div>
-              </div>
+                
+                <div class="col s12" *ngIf="businesspro.selectLocalities">
+                  <div class="chips" materialize="material_chip" [materializeParams]="[localitychip]"
+                       (chip.add)="addProdlocality($event.detail)">
+      
+                  </div>
+               </div>
+            </div>
             </div>
             <div class="row">
               <div class="row">
@@ -159,21 +179,34 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" />
-                  <label for="filled-in-box">Free Shipping</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip"/>
+                  <label for="filled-in-box23">Free Shipping</label>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" />
-                  <label for="filled-in-box">Flat Shipping charge per order</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder"/>
+                  <label for="filled-in-box24">Flat Shipping charge per order</label>
                 </div>
+                <div class="col s12 m6 l6" *ngIf="businesspro.chargePerOrder">
+                 <input type="text" name="changeper" [(ngModel)]="businesspro.orderShipCharge">
+               </div>
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" />
-                  <label for="filled-in-box">Charge Shipping for Each Product</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box25" [(ngModel)]="businesspro.chargePerProd"/>
+                  <label for="filled-in-box25">Charge Shipping for Each Product</label>
                 </div>
+                
+              </div>
+              <div class="row"></div>
+              <div class="row busDetails detailBodyBN mrgnBn">
+                <div class="input-field s12 m12 l12 center regNrmS4BN">
+                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                    {{'SUBMIT' | translate}}
+                  </button>
+                </div>
+  
               </div>
             </div>
           </div>
@@ -185,9 +218,9 @@
       <div id="paybn" (click)="paymentdetail1()" [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="paymentdetail()">
-           <i  *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
-          </span>{{'Payment Setting' | translate}}
+          <i *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+        </span>{{'Payment Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
 
@@ -197,11 +230,13 @@
             <div class="row"></div>
             <div class="row">
               <div class="col s12">
-                <div class="switch"><span class="regNrmS5B2BN">{{'Convenience Fee' | translate}}&nbsp;&nbsp;</span>
+                <div class="switch">
+                  <span class="regNrmS5B2BN">{{'Convenience Fee' | translate}}&nbsp;&nbsp;</span>
                   <label>
-               <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
-               <span class="lever"></span><span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span>
-               </label>
+                    <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
+                    <span class="lever"></span>
+                    <span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span>
+                  </label>
                 </div>
               </div>
               <div class="col s12">&nbsp;</div>
@@ -219,9 +254,9 @@
       <div id="sellerbn" (click)="sellercontact1()" [ngClass]="!sellercontac?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="sellercontact()">
-           <i  *ngIf="sellercontac" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!sellercontac" class="material-icons alignMidBN">keyboard_arrow_right</i>
-          </span>{{'Seller Contact Setting' | translate}}
+          <i *ngIf="sellercontac" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!sellercontac" class="material-icons alignMidBN">keyboard_arrow_right</i>
+        </span>{{'Seller Contact Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
 
@@ -233,25 +268,35 @@
               <div class="row busDetails detailBodyBN mrgnBn">
                 <span class="col s12 heBN">{{'Public Phone Number' |translate}}</span>
                 <div class="input-field col col s12 m5 l5 regNrmS4BN">
-                  <input id="mobilenumber" [readonly]="true" name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="user.mobileNumber"
+                  <input id="mobilenumber" [readonly]="publicphonenumber" name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="businesspro.publicPhoneNumber"
                     placeholder="{{'Enter Your Mobile Number' |translate}}" />
-                  <label for="mobilenumber" [ngClass]="{active: mobilenumber}"></label>
+                  <label for="mobilenumber" [ngClass]="{active: businesspro.publicPhoneNumber}"></label>
                 </div>
-                <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="phoneedit()"> <i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
+                <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="phoneedit()">
+                  <i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
 
               </div>
               <div class="row busDetails detailBodyBN mrgnBn">
                 <span class="col s12 heBN">{{'Public Email Address' |translate}}</span>
                 <div class="input-field col col s12 m5 l5 regNrmS4BN">
-                  <input id="email" [readonly]="true" name="email" type="text" class="inputboxBN  validate" [(ngModel)]="user.email" placeholder="{{'Enter Your Email Address'| translate}}"
-                  />
-                  <label for="email" [ngClass]="{active: user.email}"></label>
+                  <input id="email" [readonly]="publicemail" name="email" type="text" class="inputboxBN  validate" [(ngModel)]="businesspro.publicEmail"
+                    placeholder="{{'Enter Your Email Address'| translate}}" />
+                  <label for="email" [ngClass]="{active: businesspro.publicEmail}"></label>
                 </div>
-                <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="emailedit()"><i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
+                <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="emailedit()">
+                  <i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
 
               </div>
               <div class="col s12">
                 These details will be shown on your store and shared with the buyer.
+              </div>
+              <div class="row busDetails detailBodyBN mrgnBn">
+                <div class="input-field s12 m12 l12 center regNrmS4BN">
+                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                    {{'SUBMIT' | translate}}
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -265,10 +310,10 @@
       <div id="personalbn" (click)="personaldetail1()" [ngClass]="!ispan1Expanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="personaldetail()">
-           <i  *ngIf="ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!ispan1Expanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span> {{'Personal Setting' |translate}}
+        </span> {{'Personal Setting' |translate}}
 
       </div>
       <div class="collapsible-body paddindfBN" style="display: block;">
@@ -283,7 +328,8 @@
                   [(ngModel)]="businesspro.contactPerson" [readonly]="editt" />
                 <label for="contactPerson" [ngClass]="{active: businesspro.contactPerson}"></label>
               </div>
-              <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="edit()"> <i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
+              <span class="col s4 alignMidBN editButBN linkButtonBN" (click)="edit()">
+                <i class="material-icons iconPrefixBN alignMidBN">edit</i> {{'Edit' | translate}} </span>
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{'Your Email Address' |translate}}</span>
@@ -308,8 +354,8 @@
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
                   (click)="save()" name="submit">
-              {{'SUBMIT' | translate}}
-             </button>
+                  {{'SUBMIT' | translate}}
+                </button>
               </div>
 
             </div>
@@ -326,10 +372,10 @@
       'collapsible-header setTitleBN profileDetailRedBN'">
 
         <span class="mrlBN" (click)="bankdetails()">
-           <i  *ngIf="isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isPanExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span> {{'Business Setting' | translate}}
+        </span> {{'Business Setting' | translate}}
 
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
@@ -340,13 +386,13 @@
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{"Upload Your Store Image" |translate}}</span>
               <div class="file-field input-field col s10 offset-s1 m4">
-                  <img *ngIf="!uploaded" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png"
-                  />
-                  <img *ngIf="uploaded && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{imageUrls}} />
-                  <div *ngIf="uploaded && hasImage()" align="left" class="editOverlayBN" > &nbsp;<i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
-                  <input accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
-                </div>
-              
+                <img *ngIf="!uploaded" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
+                <img *ngIf="uploaded && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{imageUrls}} />
+                <div *ngIf="uploaded && hasImage()" align="left" class="editOverlayBN"> &nbsp;
+                  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
+                <input accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
+              </div>
+
 
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
@@ -362,8 +408,7 @@
               <span class="col s12 heBN">{{"Store URL" |translate}}</span>
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
                 <input id="DisplayName" name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="{{'Enter Store URL' | translate}}"
-                  [(ngModel)]="user.displayName" />
-                <span *ngIf="errdisplayvalidate" class="errNrmS6BN">{{errordisplay}}</span>
+                  [(ngModel)]="businesspro.storeUrl" />
               </div>
 
             </div>
@@ -401,8 +446,8 @@
               <div class="input-field col s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields1()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
                   (click)="save()" name="submit">
-              {{'SUBMIT' | translate}}
-             </button>
+                  {{'SUBMIT' | translate}}
+                </button>
               </div>
 
             </div>
@@ -418,10 +463,10 @@
       'collapsible-header setTitleBN profileDetailRedBN'">
 
         <span class="mrlBN" (click)="accountdetail()">
-           <i  *ngIf="isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isBusExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span> {{'PAN Setting' | translate}}
+        </span> {{'PAN Setting' | translate}}
 
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
@@ -442,8 +487,8 @@
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields2()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
                   (click)="saveaccount() " name="submit">
-              {{'SUBMIT' | translate}}
-             </button>
+                  {{'SUBMIT' | translate}}
+                </button>
               </div>
 
             </div>
@@ -456,10 +501,10 @@
       <div id="bnkset" (click)="bankdetail1()" [ngClass]="!isNgoExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="bankdetail()">
-           <i  *ngIf="isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isNgoExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span> {{'Bank Setting' | translate}}
+        </span> {{'Bank Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row">
@@ -507,8 +552,8 @@
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields4()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
                   name="submit" (click)="saveaccount()">
-              {{'SUBMIT' | translate}}
-             </button>
+                  {{'SUBMIT' | translate}}
+                </button>
               </div>
 
             </div>
@@ -524,10 +569,10 @@
       'collapsible-header setTitleBN profileDetailRedBN'">
 
         <span class="mrlBN" (click)="gstdetail()">
-           <i  *ngIf="isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-            <i *ngIf="!isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isgstExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
 
-          </span> {{'GST Setting' | translate}}
+        </span> {{'GST Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
         <div class="row">
@@ -575,8 +620,8 @@
                 <div class="input-field col s12 m12 l12 center regNrmS4BN ">
                   <button [disabled]="!hasAllFields5()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight " type="submit"
                     (click)="save()" name="submit">
-              {{'SUBMIT' | translate}}
-             </button>
+                    {{'SUBMIT' | translate}}
+                  </button>
                 </div>
 
               </div>
