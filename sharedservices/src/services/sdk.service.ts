@@ -89,7 +89,7 @@ export class SDKService {
 
     saveCashPaymentSuccess(amount: number, txnid: string, phone: string, merchantCode: string, merchantName: string, linkId: string): Promise<any> {
         return this.http
-            .post(this.utilsService.getBaseURL() + this._urls.saveCashPaymentSuccessURL,
+            .post(this.utilsService.getBaseURL() + this._urls.saveCashPaymentSuccessURL + '/' + merchantCode,
                 JSON.stringify({
                     "status": 'success',
                     "mode": 'CASH',

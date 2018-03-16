@@ -202,7 +202,7 @@ export class BuyerinfoComponent implements OnInit {
         case 'UPI':
           this.payRequest = null;
           if(this.settings.chargeConvenienceFee)
-            this.paidAmount = Math.round(this.paidAmount * 102) / 100;
+            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
 
           this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
             .then(res => this.finishUPIPayment(res));
@@ -211,7 +211,7 @@ export class BuyerinfoComponent implements OnInit {
         case 'DC':
         case 'NB':
           if(this.settings.chargeConvenienceFee)
-            this.paidAmount = Math.round(this.paidAmount * 102) / 100;
+            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
 
           this.cartService.startPayUPaymentProcess(this.settings.displayName, this.paidAmount)
             .then(res => this.finishPayUPayment(res))
