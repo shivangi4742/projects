@@ -162,6 +162,7 @@ export class PrepageComponent implements OnInit {
       }
 
       this.totalBillAmount = this.payPinModel.bill_amount;
+      this.strAmount = this.payPinModel.bill_amount + '';
       this.payableAmount = this.payPinModel.payable_amount;
       this.calculateTotalAmount();
     }
@@ -183,10 +184,10 @@ export class PrepageComponent implements OnInit {
         subLedgerList.push(new PaybillChargesModel(obj.amount, obj.type, obj.subledger_code));
       });
 
-      this.zgService.payBill(this.payPinModel, this.totalAmount, this.remarks, subLedgerList)
+      this.zgService.payBill(this.payPinModel, +(parseFloat(this.totalAmount + '').toFixed(2)), +(parseFloat(this.strAmount).toFixed(2)), this.paymentMode, +(parseFloat((this.convenienceFee + this.gst) + '').toFixed(2)), this.remarks, subLedgerList)
         .then(res => this.saveChargesAndNavigate(res));
     }
-
+ 
   }
 
   saveChargesAndNavigate(payBillResponse: PayBillResponseModel): void {

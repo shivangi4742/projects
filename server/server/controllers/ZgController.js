@@ -41,7 +41,6 @@ var zgCont = {
                 if (error) {
                     console.log(error);
                 }
-
                 cb(response.body);
 
             });
