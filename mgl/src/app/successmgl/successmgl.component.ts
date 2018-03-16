@@ -12,6 +12,10 @@ export class SuccessmglComponent implements OnInit {
   constructor(private mglservice:MglService ) { }
 
   ngOnInit() {
+    if((window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {'send_to': 'AW-822247326/zguyCJ7nxn4Qnv-JiAM'});
+    }           
+              
     if((window as any).fbq) {
       (window as any).fbq('track', 'Purchase', {value: '0.00', currency: 'USD'});
      }
