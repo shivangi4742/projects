@@ -1,61 +1,107 @@
 <div materialize *ngIf="cart && settings">
   <form materialize (ngSubmit)="onSubmit()" #paymentModeForm="ngForm">
     <div class="row"></div>
-    <div class="row white">
-      <div class="row">
-        <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
-        <div class="col s12 borderBN"></div>                
+    <div class="row">
+      <div class="col s12 center itemPanelBN">
+        <img class="hide-on-med-and-up" width="300px" src="../../assets/buy/imgs/SB3300.png" />
+        <img class="hide-on-med-and-down" width="900px" src="../../assets/buy/imgs/SB3900.png" />
+        <img class="hide-on-large-only hide-on-small-only" width="600px" src="../../assets/buy/imgs/SB3600.png" />
       </div>
-      <div class="row">
-        <div class="col s12 offsetlrBN">
-          <div class="rdoGrpBN">
-            <input name="pmode" type="radio" id="upi" [(ngModel)]="cart.paymentMode" [value]="'UPI'" />
-            <label for="upi" class="rdolblBN">
-              <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
-              <span class="upiBN">&nbsp;&nbsp;{{'UPI' | translate}}</span>
-              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
-            </label>        
-          </div>
-        </div>
-        <div class="col s12 offsetlrBN">
-          <div class="rdoGrpBN">
-            <input name="pmode" type="radio" id="dc" [(ngModel)]="cart.paymentMode" [value]="'DC'" />
-            <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
-              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
-            </label>        
-          </div>
-        </div>
-        <div class="col s12 offsetlrBN">
-          <div class="rdoGrpBN">
-            <input name="pmode" type="radio" id="cc" [(ngModel)]="cart.paymentMode" [value]="'CC'" />
-            <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
-              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
-            </label>        
-          </div>
-        </div>
-        <div class="col s12 offsetlrBN">
-          <div class="rdoGrpBN">
-            <input name="pmode" type="radio" id="nb" [(ngModel)]="cart.paymentMode" [value]="'NB'" />
-            <label for="nb" class="rdolblBN">{{'Net Banking' | translate}}
-              <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
-            </label>        
-          </div>
-        </div>
-        <div class="col s12 offsetlrBN">
-          <div class="rdoGrpNoBrdrBN">
-            <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
-            <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
-          </div>
-        </div>
-      </div>
-      <div class="col s10 offset-s1 nolrpdBN">
-        <button class="col s12 buy2BN btn waves-effect waves-light red darken-1" name="continue"
-          [disabled]="!cart.paymentMode || processing" *ngIf="!isUPIButton()">{{'Continue' | translate}}</button>
-        <a class="col s12 buy2BN2 btn waves-effect waves-light red darken-1" name="continue" target="_blank" [attr.href]="sanitize(upiURL)"
-          *ngIf="isUPIButton() && upiURL">{{'Continue' | translate}}</a>
-      </div>            
-      <div class="col s1"></div>
       <div class="col s12">&nbsp;</div>
+      <div class="col s12 m7 l8 ipanelBN">
+        <div class="col s12 white itemPanelBN card-panel z-depth-2">
+          <div class="row">
+            <div class="col s12 titleBN offsetBN">{{'Payment Options' | translate}}</div>
+            <div class="col s12 borderBN"></div>                
+          </div>
+          <div class="row">
+            <div class="col s12 offsetlrBN">
+              <div class="rdoGrpBN">
+                <input name="pmode" type="radio" id="upi" [(ngModel)]="cart.paymentMode" [value]="'UPI'" />
+                <label for="upi" class="rdolblBN">
+                  <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
+                  <span class="upiBN">&nbsp;&nbsp;{{'UPI' | translate}}</span>
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                </label>        
+              </div>
+            </div>
+            <div class="col s12 offsetlrBN">
+              <div class="rdoGrpBN">
+                <input name="pmode" type="radio" id="dc" [(ngModel)]="cart.paymentMode" [value]="'DC'" />
+                <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                </label>        
+              </div>
+            </div>
+            <div class="col s12 offsetlrBN">
+              <div class="rdoGrpBN">
+                <input name="pmode" type="radio" id="cc" [(ngModel)]="cart.paymentMode" [value]="'CC'" />
+                <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+                </label>        
+              </div>
+            </div>
+            <div class="col s12 offsetlrBN">
+              <div class="rdoGrpBN">
+                <input name="pmode" type="radio" id="nb" [(ngModel)]="cart.paymentMode" [value]="'NB'" />
+                <label for="nb" class="rdolblBN">{{'Net Banking' | translate}}
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
+                </label>        
+              </div>
+            </div>
+            <div class="col s12 offsetlrBN">
+              <div class="rdoGrpNoBrdrBN">
+                <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
+                <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
+              </div>
+            </div>
+          </div>
+          <div class="col s12">&nbsp;</div>
+        </div>
+      </div>
+      <div class="col s12 m5 l4 spanelBN">
+        <div class="col s12 white itemPanelBN card-panel z-depth-2">
+          <div class="row">
+            <div class="col s12 ctitleBN coffsetBN">{{'Price Details' | translate}}</div>
+            <div class="col s12 borderBN"></div>                
+            <div class="col s12">&nbsp;</div>
+            <div class="col s12 padlr10BN">
+              <div class="col s12 padlr10BN">
+                <div class="col s7 carttotalpriceBN nopadleftBN">{{'Total Price' | translate}} :</div>
+                <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
+                <div class="col s8 carttotalpriceBN nopadleftBN" *ngIf="settings.chargeConvenienceFee">{{'Convenience Fee' | translate}} :</div>
+                <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" align="right">₹ {{getConvenienceFee() | number : '1.2-2'}}</div>
+                <div class="col s7 carttotalpriceBN discountgreenBN nopadleftBN">{{'Discount' | translate}} :</div>
+                <div class="col s5 carttotalpriceBN discountgreenBN" align="right">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
+              </div>
+              <div class="col s12">&nbsp;</div>
+              <div class="col s12 padlr10BN">
+                <div class="col s12 nopadleftBN">
+                  <div class="borderBN"></div>
+                </div>
+              </div>
+              <div class="col s12 padlr10BN">
+                <div class="col s7 l7 m8 carttotalpriceBN medpadright0BN nopadleftBN">{{'Amount Payable' | translate}} :</div>
+                <div class="col s5 l5 m4 carttotalpriceBN medpadleft0BN" align="right">₹ {{getPayableAmount() | number : '1.2-2'}}</div>              
+              </div>
+              <div class="col s12 padlr10BN">
+                <div class="col s12 nopadleftBN">
+                  <div class="borderBN"></div>
+                </div>
+              </div>
+              <div class="col s12 padlr10BN smallFontsBN">
+                <div class="col s12"> *{{'Transaction fee applicable as per the payment mode' | translate}}</div>
+              </div>
+              <div class="col s12">&nbsp;</div>
+              <div class="col s12 padlr10BN">
+                <button class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 
+                  [routerLink]="buyerInfoLink">{{'Place Order' | translate}}</button>
+              </div>          
+              <div class="col s12">&nbsp;</div>
+            </div>
+          </div>            
+        </div>
+      </div>
     </div>
   </form>
   <div materialize="modal" id="spqrModal" class="modal modal-fixed-footer spqrModalBN" [materializeActions]="modalActions">

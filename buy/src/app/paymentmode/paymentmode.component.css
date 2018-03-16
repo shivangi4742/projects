@@ -21,8 +21,8 @@
 }
 
 .rdoGrpBN {
-    padding-top: 20px;
-    min-height: 70px;
+    padding-top: 14px;
+    min-height: 58px;
     border-bottom: 1px solid #EDECEA;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .rdoGrpNoBrdrBN {
-    padding-top: 30px;
-    min-height: 70px;    
+    padding-top: 14px;
+    min-height: 58px;    
 }
 
 .upiBN {
@@ -123,4 +123,81 @@
 
 .spqrrgtBN {
     width: 140px;
+}
+
+.medpadleft0BN {
+    padding-left: 0px;
+}
+
+.ipanelBN {
+    padding-left: 10px;
+    padding-right: 10px;        
+}
+
+.spanelBN {
+    padding-left: 10px;
+    padding-right: 10px;            
+}
+
+.ctitleBN {
+    font-size: 20pt;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    color: #9D9B9B;  
+    line-height: 40pt;        
+}
+
+.coffsetBN {
+    padding-left: 35px;    
+}
+
+.padlr10BN {
+    padding-left: 10px;
+    padding-right: 10px;        
+}
+
+.carttotalpriceBN {
+    line-height: 25pt;
+    font-weight: 600;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;    
+}
+
+.discountgreenBN {
+    color: #79A616;
+}
+
+.medpadright0BN {
+    padding-right: 0px;
+}
+
+.medpadleft0BN {
+    padding-left: 0px;
+}
+
+.smallFontsBN {
+    padding-top: 10px;
+    font-weight: 600;
+    color: #CBCBCB;
+    font-size: 11pt;
+    font-family: 'Barlow', sans-serif;    
+}
+
+.placeorderbtnBN {
+    text-transform: none;
+    border-radius: 5px;
+    height: 60px;
+    font-size: 17pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+}
+
+.itemPanelBN {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.nopadleftBN {
+    padding-left: 0px;    
 }

@@ -31,6 +31,36 @@ export class PaymentmodeComponent implements OnInit {
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));        
   }
 
+  getTotalPrice(): number {
+    let tp: number = 0;
+    if(this.cart && this.cart.items && this.cart.items.length > 0) {
+      this.cart.items.forEach(function(i) {
+        tp += i.origPrice * i.quantity;
+      });
+    }
+
+    return tp;
+  }
+
+  getConvenienceFee(): number {
+    if(this.settings.chargeConvenienceFee && this.cart.paymentMode != 'CASH')
+      return Math.round(this.getTotalAmount() * 2.36)/100;
+
+    return 0;
+  }
+
+  getPayableAmount(): number {
+    return this.getTotalAmount() + this.getConvenienceFee();
+  }
+
+  getTotalDiscount(): number {
+    return this.getTotalPrice() - this.getTotalAmount();
+  }
+
+  getTotalAmount(): number {
+    return this.cartService.getCartTotal();
+  }
+
   sanitize(url: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
