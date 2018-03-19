@@ -19,7 +19,7 @@ export class UtilsService {
   private _baseURL: string = 'http://localhost:9090/';
   private _newbizURL: string = 'http://localhost:9090/newbiz';
   private _oldbizURL: string = 'http://localhost:9090/mybiz';
-  private _buyURL: string = 'http://localhost:9090/buy';
+  private _buyURL: string = 'http://localhost:9090/buy/';
   private _requestURL: string = 'http://localhost:9090/paysdk';
 
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
