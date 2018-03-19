@@ -155,7 +155,8 @@ export class ProductcatalogComponent implements OnInit {
   }
   
   twitterbutton() {
-    window.open('https://twitter.com/share?url=' + '','', 
+    this.url = this.utilsService.getbuyURL() + this.user.merchantCode + '/product/' + this.prodId;
+    window.open('https://twitter.com/share?url=' + this.url,'', 
     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
