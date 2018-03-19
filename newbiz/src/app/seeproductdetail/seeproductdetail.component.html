@@ -1,7 +1,9 @@
 <div *ngIf="payment">
-    <div class="row">
-        <span class="col s12 regHdrS1BN">{{'Payment Details' | translate}}</span>
-        <span class="col s12 thinFNBN">&nbsp;</span>
+        <div class="row">
+                <div class="col s6 m6 l6 regHdrS1BN">{{'Payment Details' | translate}}</div>
+                <div class="col s6 m6 l6 thinFNBN right" ><i class="material-icons errNrmS4BN alignMidBN modal-action modal-close  linkButtonBN right" (click)="close()">close</i></div>
+                </div>
+                <div class="row">   
       <!--  <div class="input-field col s7 m8">
             <input id="dt" name="dt" type="text" class="regNrmS4BN likeLabelBN" value="{{getFormattedDt()}}" disabled>
             <label for="dt" class="active inptLblBN">{{'Received On' | translate}} :</label>
@@ -72,11 +74,5 @@
             </div>
         </div>-->
          
-    </div>
-</div>
-
-<div class="row">
-    <div class="col s11" align="right">
-        <a (click)="close()" class="modal-action modal-close transparent errNrmS4BN linkButtonBN bottomBN">{{'CLOSE' | translate}}</a>
     </div>
 </div>

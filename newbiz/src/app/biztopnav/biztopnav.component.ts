@@ -106,5 +106,8 @@ export class BiztopnavComponent implements OnInit {
   changePassword() {
    this.router.navigateByUrl('/changepassword');
   }
+  settings() {
+    this.router.navigateByUrl('/settings'); 
+  }
   
 }

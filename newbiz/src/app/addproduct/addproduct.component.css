@@ -61,6 +61,7 @@
   color: red;
   padding: 3px 10px 3px 10px;
   font-weight: bold;
+  
 }
 
 .variantTitleBN{
@@ -105,6 +106,8 @@
 .variantBoxBN{
   height: 325px;
   overflow: auto;
+  width:48%!important;
+  margin-right: 10px!important;
 }
 
 .successModalBN{

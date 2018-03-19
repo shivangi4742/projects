@@ -12,7 +12,6 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class SeeproductdetailComponent implements OnInit {
  @Input('selPayment') payment: Payment;
- p
  seemodalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor() { }
 
@@ -21,6 +20,7 @@ export class SeeproductdetailComponent implements OnInit {
   }
 
   close() {
+    console.log('sdjhgjsdgfj')
    this.seemodalActions.emit({ action: "modal", params: ['close'] });
   }
 

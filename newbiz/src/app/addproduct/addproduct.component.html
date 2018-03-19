@@ -169,6 +169,7 @@
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
         </div>
+        <div class="row"></div>
         <div class="row">
           <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
             <span class="">{{'Have more variants? Add here' | translate}}</span>
@@ -177,7 +178,7 @@
               {{'Add Variant' | translate}}
             </span>
           </div>
-          <div *ngIf="newProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div>
+         <!--  <div *ngIf="newProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div> -->
           <div *ngIf="newProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Variants' | translate}}</div>
         </div>
         <div *ngIf="newProduct.hasVariants" class="hide-on-med-and-up">
@@ -278,7 +279,7 @@
               </div>
             </div>
           </div>
-          <div class="col s6 card-panel grey lighten-5 z-depth-1">
+          <div class="col s6 card-panel grey lighten-5 z-depth-1 right">
             <div class="row"></div>
             <div class="row"></div>
             <div class="col s12 center">
@@ -387,6 +388,7 @@
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
           </div>
+          <div class="row"></div>
           <div class="row">
             <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
               <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
