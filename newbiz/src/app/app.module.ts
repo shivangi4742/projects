@@ -37,6 +37,8 @@ import { AddproducttocampaignComponent } from './addproducttocampaign/addproduct
 import { CreatecampaignurlComponent } from './createcampaignurl/createcampaignurl.component';
 import { SeeproductdetailComponent } from './seeproductdetail/seeproductdetail.component';
 import { EditproductComponent } from './editproduct/editproduct.component';
+import { ImageCropperModule } from 'ng2-img-cropper';
+
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
 }
@@ -75,6 +77,7 @@ export function HttpFactory(http: Http) {
     MaterializeModule,
     SharedComponentsModule,
     ClipboardModule,
+    ImageCropperModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
       provide: TranslateLoader,

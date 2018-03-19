@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { MaterializeAction } from 'angular2-materialize';
 import { Router, ActivatedRoute } from "@angular/router";
 
@@ -36,6 +37,11 @@ export class AddproductComponent implements OnInit {
   numImages: number = 0;
   variantDec = new EventEmitter<string|MaterializeAction>();
   modalActions: any = new EventEmitter<string|MaterializeAction>();
+  modalActions2: any = new EventEmitter<string|MaterializeAction>();
+  cropperSettings: CropperSettings;
+  data: any;
+  isImageProcess: boolean = false;
+  @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
   fromDt: any;
   toDt: any;
   dateParams: any;
@@ -65,7 +71,20 @@ export class AddproductComponent implements OnInit {
   fileerrormessage :string;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
-              private productService: ProductService, private fileService: FileService) { }
+              private productService: ProductService, private fileService: FileService) {
+    this.cropperSettings = new CropperSettings();
+    this.cropperSettings.width = 120;
+    this.cropperSettings.height = 120;
+    this.cropperSettings.croppedWidth = 120;
+    this.cropperSettings.croppedHeight = 120;
+    this.cropperSettings.canvasWidth = 120;
+    this.cropperSettings.canvasHeight = 120;
+    this.cropperSettings.noFileInput = true;
+    this.cropperSettings.preserveSize = true;
+    this.cropperSettings.keepAspect = false;
+
+    this.data = {};
+  }
 
   ngOnInit() {
     let me = this;
@@ -239,10 +258,50 @@ export class AddproductComponent implements OnInit {
       null, null, null, null, null);
   }
 
+  isImageOptimizing(): boolean {
+    if(this.isImageProcess)
+      return true;
+
+    return false;
+  }
+
+  imgOptimize(file: File) {
+    var image:any = new Image();
+    var myReader: FileReader = new FileReader();
+    let me = this;
+
+    myReader.onloadend = function (loadEvent:any) {
+      image.src = loadEvent.target.result;
+      me.cropper.setImage(image);
+    };
+    myReader.readAsDataURL(file);
+  }
+
+  closeImgOpti(){
+    this.isImageProcess = false;
+    this.modalActions2.emit({ action: "modal", params: ['close'] });
+  }
+
+  saveImage() {
+    if (this.data.image) {
+      let a = (this.data.image).split(/,(.+)/)[1];
+      var blob = this.utilsService.b64toBlob(a,'image/png','');
+      var file = new File([blob], 'Test.png', {type: 'image/png', lastModified: Date.now()});
+      this.uploading = true;
+
+      this.fileService.upload(file, "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+    }
+    else{
+      this.utilsService.setStatus(true, false, 'Please select an image!');
+    }
+    this.isImageProcess = false;
+    this.modalActions2.emit({ action: "modal", params: ['close'] });
+  }
+
   fileChange(e: any){
-    this.uploading = true;
     if (e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
+        this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
         if (e.target.files[0].size > 500000) {
           window.scrollTo(0, 0);
@@ -252,7 +311,8 @@ export class AddproductComponent implements OnInit {
         }
         else {
           this.isError = false;
-          this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+          this.imgOptimize(e.target.files[0]);
+          this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
         e.target.value = '';
       }
