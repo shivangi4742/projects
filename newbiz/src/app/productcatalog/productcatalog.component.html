@@ -99,8 +99,11 @@
         </div>
       </div>
       <div *ngIf="hasProducts()" class="row">
+         
         <div class="row">
-          <div class="col s10 offset-s2 m6 offset-m6 l5 offset-l7 pagingBN">
+          <div class="col l6 center">
+            <a [href]="storeURL" target="_blank" class="redcBN">{{storeURL}}</a></div>
+          <div class="col s10 offset-s2 m6 offset-m6 l6 pagingBN">
             <a class="linkButtonBN previousBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
               <i class="material-icons alignMidBN">navigate_before</i>
               <span class="alignMidBN">{{'Previous' | translate}}&nbsp;</span>

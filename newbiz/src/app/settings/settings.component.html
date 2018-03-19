@@ -93,7 +93,7 @@
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
-                <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="returnploicysave()" name="submit">
                   {{'SUBMIT' | translate}}
                 </button>
               </div>
@@ -107,11 +107,11 @@
       </div>
     </li>
     <li>
-      <div id="shippingbn" (click)="shippingsetting1()" [ngClass]="!isPaymentExpanded?'collapsible-header setTitleBN profileDetailBN':
+      <div id="shippingbn" (click)="shippingsetting1()" [ngClass]="!isShipped?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="shippingsetting()">
-          <i *ngIf="isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
-          <i *ngIf="!isPaymentExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+          <i *ngIf="isShipped" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!isShipped" class="material-icons alignMidBN">keyboard_arrow_right</i>
         </span>{{'Shipping Setting' | translate}}
       </div>
       <div class="paddindfBN collapsible-body" style="display: block;">
@@ -202,7 +202,7 @@
               <div class="row"></div>
               <div class="row busDetails detailBodyBN mrgnBn">
                 <div class="input-field s12 m12 l12 center regNrmS4BN">
-                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="shippingploicysave()" name="submit">
                     {{'SUBMIT' | translate}}
                   </button>
                 </div>
@@ -242,6 +242,14 @@
               <div class="col s12">&nbsp;</div>
               <div class="col s12 regNrmS6BN">{{'Your customer will pay a nominal fee of 2% (+ GST) on every payment that you receive' | translate}}.</div>
               <div class="col s12 regNrmS6BN">{{"You won't be charged the platform fee" | translate}}.</div>
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="input-field s12 m12 l12 center regNrmS4BN">
+                <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="paymentsave()" name="submit">
+                  {{'SUBMIT' | translate}}
+                </button>
+              </div>
+
             </div>
           </div>
           <div class="col s1 m1 l1 "></div>
@@ -290,9 +298,10 @@
               <div class="col s12">
                 These details will be shown on your store and shared with the buyer.
               </div>
+              <div class="row"></div>
               <div class="row busDetails detailBodyBN mrgnBn">
                 <div class="input-field s12 m12 l12 center regNrmS4BN">
-                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="save()" name="submit">
+                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="sellercontactsave()" name="submit">
                     {{'SUBMIT' | translate}}
                   </button>
                 </div>
@@ -349,11 +358,11 @@
               </div>
 
             </div>
-
+            <div class="row"></div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
-                  (click)="save()" name="submit">
+                  (click)="personalsave()" name="submit">
                   {{'SUBMIT' | translate}}
                 </button>
               </div>
@@ -442,10 +451,11 @@
               </div>
 
             </div>
+            <div class="row"></div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field col s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields1()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
-                  (click)="save()" name="submit">
+                  (click)="businesssave()" name="submit">
                   {{'SUBMIT' | translate}}
                 </button>
               </div>
@@ -483,6 +493,7 @@
               </div>
 
             </div>
+            <div class="row"></div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields2()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
@@ -548,10 +559,11 @@
               </div>
 
             </div>
+            <div class="row"></div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button [disabled]="!hasAllFields4()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
-                  name="submit" (click)="saveaccount()">
+                  name="submit" (click)="banksaveaccount()">
                   {{'SUBMIT' | translate}}
                 </button>
               </div>
@@ -616,10 +628,11 @@
                   </div>
                 </div>
               </div>
+              <div class="row"></div>
               <div class="row busDetails detailBodyBN mrgnBn">
                 <div class="input-field col s12 m12 l12 center regNrmS4BN ">
                   <button [disabled]="!hasAllFields5()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight " type="submit"
-                    (click)="save()" name="submit">
+                    (click)="gstsave()" name="submit">
                     {{'SUBMIT' | translate}}
                   </button>
                 </div>

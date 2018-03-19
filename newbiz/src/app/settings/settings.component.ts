@@ -173,7 +173,9 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.ispan1Expanded = false;
     this.isNgoExpanded = false;
+    this.businessset = false;
     this.isShipped = false;
+    this.isReturn = false;
   }
 
   personaldetail() {
@@ -187,9 +189,11 @@ export class SettingsComponent implements OnInit {
     this.isPaymentExpanded = false;
     this.isBusExpanded = false;
     this.isAcctExpanded = false;
+    this.businessset = false;
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
     this.isShipped = false;
+    this.isReturn = false;
   }
 
   accountdetail() {
@@ -203,9 +207,11 @@ export class SettingsComponent implements OnInit {
     this.isAcctExpanded = false;
     this.isPanExpanded = false;
     this.isNgoExpanded = false;
-    this.isShipped = false
+    this.isShipped = false;
+    this.isReturn = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.businessset = false;
   }
 
   bankdetails() {
@@ -217,11 +223,13 @@ export class SettingsComponent implements OnInit {
   bankdetail11() {
     this.isPanExpanded = !this.isPanExpanded;
     this.isAcctExpanded = false;
+    this.businessset = false;
     this.isBusExpanded = false;
     this.isNgoExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
-    this.isShipped = false
+    this.isShipped = false;
+    this.isReturn = false;
   }
   accountdetails() {
     window.scrollTo(0, 0);
@@ -237,6 +245,7 @@ export class SettingsComponent implements OnInit {
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
     this.isShipped = false
+    this.isReturn = false;
   }
   bankdetail() {
     window.scrollTo(0, 0);
@@ -251,7 +260,9 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
-    this.isShipped = false
+    this.isShipped = false;
+    this.isReturn = false;
+    this.businessset = false;
   }
   returnploicy() {
     window.scrollTo(0, 0);
@@ -268,6 +279,7 @@ export class SettingsComponent implements OnInit {
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
     this.isShipped = false
+    this.businessset = false;
   }
   shippingsetting() {
     window.scrollTo(0, 0);
@@ -284,6 +296,7 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.businessset = false;
   }
   sellercontact() {
     window.scrollTo(0, 0);
@@ -357,7 +370,7 @@ export class SettingsComponent implements OnInit {
     this.gst = res;
 
   }
-  save() {
+  returnploicysave() {
      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -366,12 +379,88 @@ export class SettingsComponent implements OnInit {
       this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
       this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
       this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
-    );
+    ).then(res => this.shippingsetting());
+    
+  }
+  shippingploicysave() {
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+     this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+     this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+     this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+     this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+     this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+     this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+     this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+   ).then(res => this.paymentdetail());
+   
+ }
+ paymentsave(){
+  this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+    this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+    this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+    this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+    this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+    this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+    this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+  ).then(res => this.sellercontact());
+}
+  
+  sellercontactsave(){
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    ).then(res => this.personaldetail());
+  }
+  personalsave(){
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    ).then(res => this.bankdetails());
+  }
+  businesssave(){
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    ).then(res => this.accountdetail());
+
   }
   saveaccount() {
     this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
-      this.accountpro.panNumber, this.accountpro.bankName,
-      this.businesspro.contactPerson, this.accountpro.accountHolderName, this.accountpro.filePassword);
+      this.accountpro.panNumber, this.accountpro.bankName,this.businesspro.contactPerson, 
+      this.accountpro.accountHolderName, this.accountpro.filePassword).then(res => this.bankdetail());
+  }
+  banksaveaccount(){
+    this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+      this.accountpro.panNumber, this.accountpro.bankName,this.businesspro.contactPerson, 
+      this.accountpro.accountHolderName, this.accountpro.filePassword).then(res => this.gstdetail());
+  }
+  gstsave(){
+    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
+      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
+      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
+      this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+    );
+
   }
   getSwitchText(flag: boolean) {
     if (flag)
