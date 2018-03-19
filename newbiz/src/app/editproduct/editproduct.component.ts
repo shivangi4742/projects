@@ -55,7 +55,7 @@ export class EditproductComponent implements OnInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+  
   constructor(private locationService: LocationService, private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) { }
 
@@ -232,8 +232,9 @@ export class EditproductComponent implements OnInit {
     if(this.editProduct.prodImgUrls.length > 0){
       this.imageUrls = this.editProduct.prodImgUrls;
     }
-    if(this.editProduct.prodSizes){
+    if(this.editProduct.prodSizes.length >0){
       this.prodSizes = this.editProduct.prodSizes;
+     // console.log(this.prodSizes,'sjdfjgsdjdhkkf');
     }
   }
 
@@ -301,5 +302,45 @@ export class EditproductComponent implements OnInit {
 
     return false;
   }
+  onSubmit() {
+    //console.log( this.prodSizes,'this.editProduct');
+    this.editProduct.prodSizes = this.prodSizes;
+    this.editProduct.prodImgUrls = this.imageUrls;
+    this.editProduct.variants = this.variants;
+   // console.log(this.editProduct,'hello');
+    this.productService.editProductHB(this.user.merchantCode, this.editProduct);
+  }
+  updateVariants(){
+    this.editProduct.hasVariants = true;
+    this.addVariant();
+  }
 
+  addVariant(){
+    let me = this;
+    this.numVariants = this.numVariants + 1;
+    let id: string = this.numVariants.toString();
+    this.variants.push(new NewVariant(null, null, id, null, true, null, null ,new Array<NewSize>()));
+    if(this.numVariants < 2){
+      setTimeout(function(){ me.openVariant(me.numVariants); }, 300);
+    }
+    else{
+      this.openVariant(this.numVariants);
+    }
+  }
+
+  openVariant(id) {
+    this.variantDec.emit({action:"collapsible",params:['open', id-1]});
+  }
+
+  deleteVariant(id: any){
+    if(id && this.variants && this.variants.length > 0) {
+      this.variants = this.variants.filter(i => i.id != id);
+      this.numVariants = this.numVariants - 1;
+    }
+    if(this.numVariants == 0){
+      this.editProduct.hasVariants = false;
+    }
+  }
+
+  
 }

@@ -24,7 +24,10 @@ export class ProductcatalogComponent implements OnInit {
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   fromDt: any;
   toDt: any;
+  url:string;
+  isCopied1: boolean = false;
   dateParams: any;
+  prodId:string;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -47,7 +50,7 @@ export class ProductcatalogComponent implements OnInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+  sharemodalActions: any = new EventEmitter<string|MaterializeAction>();
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService) {
@@ -102,7 +105,7 @@ export class ProductcatalogComponent implements OnInit {
   updateProds(res: any){
     this.numPages = res.numPages;
     this.products = res.products;
-
+//     console.log(this.products,'this.products');
     this.processing = false;
   }
 
@@ -149,5 +152,28 @@ export class ProductcatalogComponent implements OnInit {
   edit(id: any){
     this.router.navigateByUrl('/editproduct/'+id);
   }
+  
+  twitterbutton() {
+    window.open('https://twitter.com/share?url=' + '','', 
+    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
+  }
+
+  fbClick() {
+    this.url = this.utilsService.getbuyURL() + this.user.merchantCode + '/product/' + this.prodId;
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
+    this.url + '&display=popup&ref=plugin&src=share_button', '',
+     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
+  }
+  share(id:any){
+    this.prodId= id;
+    this.sharemodalActions.emit({ action: "modal", params: ['open'] });
+    this.url = this.utilsService.getbuyURL() + this.user.merchantCode + '/product/' + this.prodId;
+}
+shareclose(){
+  this.sharemodalActions.emit({ action: "modal", params: ['close'] });
+}
+  
 
 }

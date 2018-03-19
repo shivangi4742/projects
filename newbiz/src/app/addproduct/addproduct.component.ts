@@ -13,6 +13,7 @@ import { UtilsService, User, UserService, LocationService, Product, ProductServi
 export class AddproductComponent implements OnInit {
 
   user: User;
+  varientprice:number;
   newProduct = new NewProduct(true, false, false, null, null, null, null,
     null, null, null, null,null,true, 'Lifestyle', null,
     null, null, null, null, null);
@@ -30,6 +31,7 @@ export class AddproductComponent implements OnInit {
   sizeChip;
   newProdCheck: boolean = true;
   uploading: boolean = false;
+  isvarientprice: boolean = false;
   imageUrls = new Array<ProductImage>();
   numImages: number = 0;
   variantDec = new EventEmitter<string|MaterializeAction>();
@@ -59,6 +61,8 @@ export class AddproductComponent implements OnInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  isError:boolean= false;
+  fileerrormessage :string;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) { }
@@ -240,11 +244,14 @@ export class AddproductComponent implements OnInit {
     if (e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 5000000) {
+        if (e.target.files[0].size > 500000) {
           window.scrollTo(0, 0);
-          this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
+          //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
+          this.isError= true;
+          this.fileerrormessage='Product size is less than 5 MB!';
         }
         else {
+          this.isError = false;
           this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
         }
         e.target.value = '';
@@ -265,6 +272,7 @@ export class AddproductComponent implements OnInit {
   }
 
   deleteImage(id: any){
+    this.isError=false;
     if(id && this.imageUrls && this.imageUrls.length > 0) {
       this.imageUrls = this.imageUrls.filter(i => i.prodImgUrl != id);
       this.numImages = this.numImages - 1;
@@ -372,5 +380,15 @@ export class AddproductComponent implements OnInit {
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
+  }
+  checkVarientamount(res:any){
+    console.log(res, 'this.varientprice');
+    this.varientprice = res;
+    if(this.varientprice < 10){
+      this.isvarientprice = true;
+    }
+    else{
+      this.isvarientprice = false;
+    }
   }
 }

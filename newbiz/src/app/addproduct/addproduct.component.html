@@ -1,5 +1,5 @@
 <div materialize>
-  <div class="row"></div>
+ 
   <div materialize="modal" id="productsModal" class="modal modal-fixed-footer successModalBN" [materializeParams]="[{dismissible: false}]"
        [materializeActions]="modalActions">
     <div *ngIf="newProduct" class="row">
@@ -63,10 +63,14 @@
           <div class="col s12 firstImgBN">
               <div class="col s10 file-field noMarginPaddingBN">
                 <img *ngIf="!uploading && imageUrls.length == 0" src="../../assets/shared/images/add-image.png" class="responsive-img">
+                <div class="row " *ngIf="isError">
+                    {{fileerrormessage}}
+                </div>
+               
                 <div *ngIf="uploading" class="col s12 center">
                   <div class="row"></div>
                   <div class="row"></div>
-                  <div class="preloader-wrapper active">
+                  <div class="preloader-wrapper active" >
                     <div class="spinner-layer spinner-red-only">
                       <div class="circle-clipper left">
                         <div class="circle"></div>
@@ -209,8 +213,10 @@
                   </div>
                   <div class="input-field col s5">
                     <input id="{{vm.id}}+price" name="{{vm.id}}+price" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
-                           placeholder="{{'Price of Variant' | translate}}"/>
+                           placeholder="{{'Price of Variant' | translate}}" (keyup)="checkVarientamount(v.price)"/>
                     <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                 
+                     <span *ngIf="isvarientprice" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                   </div>
                   <div class="input-field col s7">
                     <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
@@ -252,8 +258,9 @@
               </div>
               <div class="input-field col s5">
                 <input id="{{v.id}}+price" name="{{v.id}}+price" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                       placeholder="{{'Price of Variant' | translate}}"/>
+                       placeholder="{{'Price of Variant' | translate}}" (keyup)="checkVarientamount(v.price)"/>
                 <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                <span *ngIf="isvarientprice" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="col s12 noLeftPaddingBN">
                 <div class="col s12 inputLabelBN noLeftPaddingBN">
@@ -407,8 +414,9 @@
                     </div>
                     <div class="input-field col s4 noLeftPaddingBN">
                       <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                             placeholder="{{'Enter the name of your Product' | translate}}"/>
+                             placeholder="{{'Enter the name of your Product' | translate}}" (keyup)="checkVarientamount(v.price)"/>
                       <label for="vPrice" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                      
                     </div>
                     <div class="input-field col s12 noLeftPaddingBN">
                       <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN"
