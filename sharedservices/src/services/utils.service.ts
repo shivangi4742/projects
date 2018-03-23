@@ -19,7 +19,7 @@ export class UtilsService {
   private _baseURL: string = 'http://localhost:9090/';
   private _newbizURL: string = 'http://localhost:9090/newbiz';
   private _oldbizURL: string = 'http://localhost:9090/mybiz';
-  private _buyURL: string = 'http://localhost:9090/buy';
+  private _buyURL: string = 'http://localhost:9090/buy/';
   private _requestURL: string = 'http://localhost:9090/paysdk';
 
   private _processPaymentURL: string = 'http://localhost:9090/sdk/processPayment';
@@ -43,7 +43,7 @@ export class UtilsService {
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
   // private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
   private _paytmPgUrl: string = 'https://securegw.paytm.in/theia/processTransaction';
-  private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
+private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/addproducts2@2x.png';
   private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
   private _sysColors: Array<string> = ['brown', 'grey', 'black', 'blue', 'purple', 'green', 'pink', 'gold', 'red', 'silver', 'yellow', 'gunmetal', 

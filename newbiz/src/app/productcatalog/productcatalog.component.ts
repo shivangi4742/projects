@@ -10,7 +10,7 @@ import { MaterializeAction } from "angular2-materialize";
   styleUrls: ['./productcatalog.component.css']
 })
 export class ProductcatalogComponent implements OnInit {
-
+  storeURL:string;
   user: User;
   dashboard: string = '/dashboard';
   uploadsURL: string;
@@ -107,6 +107,7 @@ export class ProductcatalogComponent implements OnInit {
     this.products = res.products;
 //     console.log(this.products,'this.products');
     this.processing = false;
+    this.storeURL= this.utilsService.getbuyURL() + this.user.merchantCode + '/store';
   }
 
   next() {
@@ -154,7 +155,8 @@ export class ProductcatalogComponent implements OnInit {
   }
   
   twitterbutton() {
-    window.open('https://twitter.com/share?url=' + '','', 
+    this.url = this.utilsService.getbuyURL() + this.user.merchantCode + '/product/' + this.prodId;
+    window.open('https://twitter.com/share?url=' + this.url,'', 
     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }

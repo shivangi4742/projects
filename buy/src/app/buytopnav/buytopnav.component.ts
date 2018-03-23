@@ -19,26 +19,19 @@ export class BuytopnavComponent implements OnInit {
   merchantCode: string;
   subscription: Subscription;
   subscription2: Subscription;
-  subscription3: Subscription;
   storeName:string;
+  showStoreHomeLink: boolean = true;
+  showReportErrorLink: boolean = true;
   reporterr: any = new EventEmitter<string|MaterializeAction>();
  
   constructor(private storeService: StoreService, private cartService: CartService, private router: Router,
    private activatedRoute: ActivatedRoute,) { 
     let me: any = this; 
-    this.subscription3 = this.storeService.merchantAssigned().subscribe(message => me.hello(message));
     this.subscription = this.cartService.numItemsChanged().subscribe(message => me.numCartItems = message);    
-    this.subscription2 = this.storeService.merchantAssigned().subscribe(message => me.assignLinks(message));
-   
+    this.subscription2 = this.storeService.merchantAssigned().subscribe(message => me.assignLinks(message));   
   }
-   hello(res:any) {
-     
-    this.merchantCode = res;    
-     this.storeService.fetchStoreDetais(this.merchantCode)
-      .then(res => this.fillStoreDetails(res));
-  }
-   fillStoreDetails(res: any) {
-      console.log(res);
+    
+  fillStoreDetails(res: any) {
     if(res && res.id) {
       this.storeName = res.displayName;
     }
@@ -55,6 +48,19 @@ export class BuytopnavComponent implements OnInit {
       this.storeHome = '/' + this.merchantCode + '/store';
       this.cartLink =  '/' + this.merchantCode + '/cart';
       this.reprtlink = '/' + this.merchantCode + '/reporterror';
+      if(!this.storeName)
+        this.storeService.fetchStoreDetais(this.merchantCode)
+          .then(res => this.fillStoreDetails(res));
+          
+      if(window && window.location && window.location.href && window.location.href.indexOf('/store') > 0)
+        this.showStoreHomeLink = false;
+      else
+        this.showStoreHomeLink = true;
+
+      if(window && window.location && window.location.href && window.location.href.indexOf('/reporterror') > 0)
+        this.showReportErrorLink = false;
+      else
+        this.showReportErrorLink = true;
 
       if(!(window && window.location && window.location.href && (window.location.href.indexOf('/cart') > 0 ||
         window.location.href.indexOf('/paymentsuccess/') > 0)))

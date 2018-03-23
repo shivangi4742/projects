@@ -1,7 +1,9 @@
 <div *ngIf="payment">
-    <div class="row">
-        <span class="col s12 regHdrS1BN">{{'Payment Details' | translate}}</span>
-        <span class="col s12 thinFNBN">&nbsp;</span>
+        <div class="row">
+                <div class="col s6 m6 l6 regHdrS1BN">{{'Payment Details' | translate}}</div>
+                <div class="col s6 m6 l6 thinFNBN right" ><i class="material-icons errNrmS4BN alignMidBN modal-action modal-close  linkButtonBN right" (click)="close()">close</i></div>
+                </div>
+                <div class="row">   
       <!--  <div class="input-field col s7 m8">
             <input id="dt" name="dt" type="text" class="regNrmS4BN likeLabelBN" value="{{getFormattedDt()}}" disabled>
             <label for="dt" class="active inptLblBN">{{'Received On' | translate}} :</label>
@@ -34,25 +36,25 @@
     </div>
     <div class="row" *ngIf="payment.products">
        
-        <span class="col s2 m3 regNrmS5B1BN ">{{'Quantity' | translate}}</span>
-        <span class="col s6 m3 regNrmS5B1BN ">{{'Name' | translate}}</span>
-        <span class="col s2 m3 regNrmS5B1BN" >{{'Price' | translate}}</span>
-        <span class="col s2 m3 regNrmS5B1BN" >{{'Amount' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN ">{{'Quantity' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN ">{{'Name' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN" >{{'Price' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN" >{{'Amount' | translate}}</span>
         <div *ngFor="let p of payment.products;  ">
-            <span class="col s6 m3 regNrmS4BN">
+            <span class="col s3 m3 regNrmS4BN">
                 <div class="valign-wrapper">
                     <div class="divPrefBN">
                         <b>{{p.qty}}</b> &nbsp; {{p.uom}} &nbsp; 
                     </div>
                 </div>
             </span>
-            <span class="col s2 m3 regNrmS4BN" align="left">
+            <span class="col s3 m3 regNrmS4BN" align="left">
              <div class="divPrefBN">
                         <span>{{p.name}}</span>
                     </div>
             </span>
-            <span class="col s2 m3 regNrmS4BN" >{{p.price | number : '1.2-2'}}</span>
-            <span class="col s2 m3 regNrmS4BN" >{{p.price * p.qty | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN" >{{p.price | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN" >{{p.price * p.qty | number : '1.2-2'}}</span>
         </div>
         <!-- <div class="valign-wrapper" *ngFor="let p of payment.products; let i = index;">
             <div class="col s2">{{p.imageURL}}</div>hxsgjsgdj
@@ -72,11 +74,5 @@
             </div>
         </div>-->
          
-    </div>
-</div>
-
-<div class="row">
-    <div class="col s11" align="right">
-        <a (click)="close()" class="modal-action modal-close transparent errNrmS4BN linkButtonBN bottomBN">{{'CLOSE' | translate}}</a>
     </div>
 </div>

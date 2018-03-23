@@ -717,7 +717,7 @@ export class PayComponent implements OnInit {
 
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
           'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
-          1, 'WEB', 'BFSI', 'FullerWEB', '', 8291389666, 'hari@benow.in',
+          this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', 8291389666, 'hari@benow.in',
           'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
           '', '', callbackUrl, ''
         ));

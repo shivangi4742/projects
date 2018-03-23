@@ -89,6 +89,14 @@
   height: 56px;
 }
 
+.buttonModalBN{
+  text-transform: none;
+  color: white!important;
+  height: 30px;
+  line-height: 30px;
+  background-color: #E53935!important;
+}
+
 .normalImgListBN{
   height: 150px;
 }

@@ -40,8 +40,10 @@ export class AppComponent implements OnInit {
 
   init(usr: User) {
     if(usr && usr.id && usr.id.trim().length > 0) {
-      if(this.utilsService.isHB(usr.merchantCode, usr.lob))
-        this.mtype = 3;
+      if(this.utilsService.isHB(usr.merchantCode, usr.lob)) {
+        window.location.href = this.utilsService.getNewBizURL();
+        return;
+      }
       
       this.user = usr;
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));   

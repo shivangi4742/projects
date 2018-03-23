@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilsService, Status, LocationService, CampaignService } from 'benowservices';
+import { ActivatedRoute } from '@angular/router';
+
+import { UtilsService, Status, LocationService, CampaignService, StoreService } from 'benowservices';
 
 @Component({
   selector: 'app-reoprterror',
@@ -9,12 +11,15 @@ import { UtilsService, Status, LocationService, CampaignService } from 'benowser
 export class ReoprterrorComponent implements OnInit {
   email:string;
   description: string;
+  merchantCode: string;
   msg:string;
   err: boolean = false;
-  constructor(private CampaignService:CampaignService) { }
+  constructor(private CampaignService:CampaignService, private activatedRoute: ActivatedRoute, private storeService: StoreService) { }
 
   ngOnInit() {
+    this.merchantCode = this.activatedRoute.snapshot.params['code'];
     this.email='helpdesk@benow.in';
+    this.storeService.assignMerchant(this.merchantCode);
   }
 
   send() {
@@ -22,9 +27,9 @@ export class ReoprterrorComponent implements OnInit {
      .then(res => this.sendpost(res));
   }
   sendpost(res:any){
-   if(res== true){
+   if(res == true){
      this.err= true;
-      this.msg="successfully complain sent!";
+      this.msg="Successfully sent complaint!";
    }
    else {
      this.err= true;
