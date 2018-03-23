@@ -16,7 +16,7 @@
     "Continue": "चालू ठेवणे",
     "Payment Options": "पैसे भरणासाठीचे पर्याय",
     "UPI": "यूपीआय",
-    "Transaction fee": "व्यवहार शुल्क",
+    "Transaction fee": "सुविधा शुल्क",
     "Debit Card": "डेबिट कार्ड",
     "Credit Card": "क्रेडीट कार्ड",
     "Net Banking": "नेट बँकिंग",
@@ -51,8 +51,17 @@
     "please do not click back or refresh the page": "कृपया परत क्लिक करू नका किंवा पृष्ठ रीफ्रेश करू नका",
     "Thank You!": "धन्यवाद!",
     "Soon you will get an order confirmation message on the mobile number and mail id provided by you.": "लवकरच आपल्याला मोबाइल क्रमांक आणि आपल्याद्वारे प्रदान केलेल्या मेल आयडी वर ऑर्डर पुष्टीकरण संदेश मिळेल।",
-    "Transaction fee applicable as per the payment mode": "देयक मोडानुसार व्यवहार शुल्क लागू",
+    "Transaction fee applicable as per the payment mode": "देयक मोडानुसार सुविधा शुल्क लागू",
     "Proceed to Pay": "पे ला जा",
     "Convenience Fee": "सुविधा शुल्क",
-    "All Products": "सर्व उत्पादने"
+    "All Products": "सर्व उत्पादने",
+    "Contact the seller": "विक्रेताशी संपर्क साधा",
+    "No returns or echanges": "परतावा किंवा एक्सचेंजेस नाही",
+    "Exchange only on faulty products within": "सदोष उत्पादनास फक्त एक्सचेंज करा, रिटर्नच्या",
+    "days of return. (No returns)": "दिवसाच्या आत। (कोणतेही परतावे नाही)",
+    "Returns / exchange only on faulty products within": "सदोष उत्पादनांवर परत परतावा / एक्सचेंज",
+    "days.": "दिवसाच्या आत।",
+    "Returns available within": "आत उपलब्ध रिटर्न",
+    "No questions asked exchange.": "कोणतेही प्रश्न विचारले नाहीत।",
+    "No questions asked return.": "कोणतेही प्रश्न विचारले नाही।"
 }
