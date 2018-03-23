@@ -13,6 +13,7 @@ export class StoreComponent implements OnInit {
   numPages: number;
   storeName: string;
   storeLogo: string;
+  storeEmail: string;
   storeContact: string;
   storeAddress: string;
   merchantCode: string;
@@ -20,7 +21,7 @@ export class StoreComponent implements OnInit {
   page: number = 1;
   onclickn : boolean = false;
   //HARDCODED
-  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
+//  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
     private productService: ProductService) { }
@@ -28,7 +29,8 @@ export class StoreComponent implements OnInit {
   ngOnInit() {
     let imgHeight: number = Math.round((screen.height - 100) * 0.5);
     let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
-    document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
+//    document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
+    document.getElementById('storeimgdiv').style.backgroundColor = 'white';
     document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
     document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
     document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
@@ -69,6 +71,7 @@ export class StoreComponent implements OnInit {
       this.storeAddress = res.address;
       this.storeName = res.displayName;
       this.storeContact = res.mobileNumber;
+      this.storeEmail = res.userId;
       if(res.logoURL)
         this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
       else

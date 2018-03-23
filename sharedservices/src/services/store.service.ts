@@ -30,7 +30,7 @@ export class StoreService {
     }
 
     public assignMerchant(code: string) {
-        if(!this._code || this._code != code) {
+        if(code) {
             this._code = code;
             this._subject.next(code);
         }
