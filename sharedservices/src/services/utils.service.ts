@@ -41,7 +41,8 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
-  private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
+  // private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
+  private _paytmPgUrl: string = 'https://securegw.paytm.in/theia/processTransaction';
   private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
   private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
@@ -72,7 +73,7 @@ export class UtilsService {
       return true;
 
     if (mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5' ||
-      mCode === 'AL7I2' || mCode === 'ALA73')
+      mCode === 'AL7I2' || mCode === 'ALA73' || mCode === 'AC149')
       return true;
 
     return false;

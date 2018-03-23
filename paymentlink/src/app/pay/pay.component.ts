@@ -708,12 +708,20 @@ export class PayComponent implements OnInit {
           authMode = 'USRPWD';
         }
 
+        // this.sdkService.setPaytmRequest(new PaytmRequestModel(
+        //   'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
+        //   1, 'WEB', 'Retail', 'WEB_STAGING', '', 8291389666, 'hari@benow.in',
+        //   'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
+        //   '', '', callbackUrl, ''
+        // ));
+
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
           'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
-          1, 'WEB', 'Retail', 'WEB_STAGING', '', 8291389666, 'hari@benow.in',
+          1, 'WEB', 'BFSI', 'FullerWEB', '', 8291389666, 'hari@benow.in',
           'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
           '', '', callbackUrl, ''
         ));
+
         this.router.navigateByUrl('/paytmrequest/' + this.id);
       }
       else if (res.paymentGateway == 'RAZORPAY') {
