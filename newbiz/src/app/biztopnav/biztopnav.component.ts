@@ -29,13 +29,6 @@ export class BiztopnavComponent implements OnInit {
     private socketService: SocketService,private router: Router) { }
 
   ngOnInit() {
-    if(this.user.lob && this.user.lob.toUpperCase() == 'HB') {
-      if(window.location.href.indexOf('/newbiz/') > 0)
-        window.location.href = window.location.href.replace('/newbiz/', '/mybiz/');
-      else
-        window.location.href = this.utilsService.getOldBizURL();
-    }
-
     this.newPayments = this.socketService.getNewPayments();
     this.language = this.user.language;
     this.name = this.user.displayName;
