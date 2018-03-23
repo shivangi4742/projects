@@ -21,6 +21,7 @@ export class BuytopnavComponent implements OnInit {
   subscription2: Subscription;
   storeName:string;
   showStoreHomeLink: boolean = true;
+  showReportErrorLink: boolean = true;
   reporterr: any = new EventEmitter<string|MaterializeAction>();
  
   constructor(private storeService: StoreService, private cartService: CartService, private router: Router,
@@ -53,6 +54,11 @@ export class BuytopnavComponent implements OnInit {
         this.showStoreHomeLink = false;
       else
         this.showStoreHomeLink = true;
+
+      if(window && window.location && window.location.href && window.location.href.indexOf('/reporterror') > 0)
+        this.showReportErrorLink = false;
+      else
+        this.showReportErrorLink = true;
 
       if(!(window && window.location && window.location.href && (window.location.href.indexOf('/cart') > 0 ||
         window.location.href.indexOf('/paymentsuccess/') > 0)))
