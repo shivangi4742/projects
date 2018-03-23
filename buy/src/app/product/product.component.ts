@@ -78,7 +78,7 @@ export class ProductComponent implements OnInit {
         break;
     }
 
-    this.imgPage = 0;
+    this.imgPage = 1;
   }
 
   prevImgPage() {
@@ -86,7 +86,7 @@ export class ProductComponent implements OnInit {
     for(let i: number = 0; i < 5; i++)
       this.images.push(this.product.imageURLs[i]);
 
-    this.imgPage = 1;
+    this.imgPage = 0;
   }
 
   hasWrongQty(): boolean {
@@ -161,7 +161,7 @@ export class ProductComponent implements OnInit {
       if(this.availableSizes && this.availableSizes.length > 0)
         this.selectedSize = this.availableSizes[0];
 
-      this.numImgPages = Math.round(this.product.imageURLs.length / 6) + 1;
+      this.numImgPages = Math.floor(this.product.imageURLs.length / 6) + 1;
       if(this.numImgPages == 1)
         this.images = this.product.imageURLs;
       else {
