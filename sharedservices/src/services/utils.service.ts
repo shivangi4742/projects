@@ -99,6 +99,9 @@ export class UtilsService {
   }
 
   public isSysColor(col: string): boolean {
+    if(col && col.trim().toLowerCase() == 'navy blue')
+      col = 'navy';
+      
     if(col && this._sysColors.indexOf(col.trim().toLowerCase()) >= 0)
       return true;
 
