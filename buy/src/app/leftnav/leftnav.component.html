@@ -6,7 +6,7 @@
     </div>
     <div class="col s1"></div>
   </div>
-  <div class="col s12 hoverBN linkButtonBN" (click)="goto('refund')">
+  <div class="col s12 hoverBN linkButtonBN" *ngIf="false" (click)="goto('refund')">
     <div class="col s10 offset-s1">
       <i class="material-icons  leftNavIconBN alignMidBN">assignment_returned</i>&nbsp;&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Return Policy' | translate}}</span>

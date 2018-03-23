@@ -48,8 +48,10 @@ export class BuytopnavComponent implements OnInit {
       this.storeHome = '/' + this.merchantCode + '/store';
       this.cartLink =  '/' + this.merchantCode + '/cart';
       this.reprtlink = '/' + this.merchantCode + '/reporterror';
-      this.storeService.fetchStoreDetais(this.merchantCode)
-        .then(res => this.fillStoreDetails(res));
+      if(!this.storeName)
+        this.storeService.fetchStoreDetais(this.merchantCode)
+          .then(res => this.fillStoreDetails(res));
+          
       if(window && window.location && window.location.href && window.location.href.indexOf('/store') > 0)
         this.showStoreHomeLink = false;
       else

@@ -19,6 +19,13 @@
               <i class="material-icons phonedetBN">phone</i> {{storeContact}}
             </div>
             <div class="col s12">&nbsp;</div>
+            <div class="col s12">
+              <b>{{'Return Policy' | translate}}:</b>
+              <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
+              <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
+              <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
+            </div>
+            <div class="col s12">&nbsp;</div>
           </div>
         </div>
 
