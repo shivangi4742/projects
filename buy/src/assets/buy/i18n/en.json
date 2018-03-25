@@ -16,7 +16,7 @@
     "Continue": "Continue",
     "Payment Options": "Payment Options",
     "UPI": "UPI",
-    "Transaction fee": "Transaction fee",
+    "Transaction fee": "Convenience fee",
     "Debit Card": "Debit Card",
     "Credit Card": "Credit Card",
     "Net Banking": "Net Banking",
@@ -51,7 +51,17 @@
     "please do not click back or refresh the page": "please do not click back or refresh the page",
     "Thank You!": "Thank You!",
     "Soon you will get an order confirmation message on the mobile number and mail id provided by you.": "Soon you will get an order confirmation message on the mobile number and mail id provided by you.",
-    "Transaction fee applicable as per the payment mode": "Transaction fee applicable as per the payment mode",
+    "Transaction fee applicable as per the payment mode": "Convenience fee applicable as per the payment mode",
     "Proceed to Pay": "Proceed to Pay",
-    "Convenience Fee": "Convenience Fee"
+    "Convenience Fee": "Convenience Fee",
+    "All Products": "All Products",
+    "Contact the seller": "Contact the seller",
+    "No returns or echanges": "No returns or echanges",
+    "Exchange only on faulty products within": "Exchange only on faulty products within",
+    "days of return. (No returns)": "days of return. (No returns)",
+    "Returns / exchange only on faulty products within": "Returns / exchange only on faulty products within",
+    "days.": "days.",
+    "Returns available within": "Returns available within",
+    "No questions asked exchange.": "No questions asked exchange.",
+    "No questions asked return.": "No questions asked return."
 }

@@ -33,12 +33,6 @@ export class AppComponent {
     return h + 'px';
   }
 
-  prevVersion() {
-    let me: any = this;
-    this.userService.setLineOfBusiness('HB')
-      .then(window.location.href = me.utilsService.getOldBizURL())
-  }
-
   ngOnInit() { 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd))

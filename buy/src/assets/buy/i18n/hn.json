@@ -16,7 +16,7 @@
     "Continue": "जारी रहें",
     "Payment Options": "भुगतान विकल्प",
     "UPI": "यूपीआई",
-    "Transaction fee": "लेनदेन शुल्क",
+    "Transaction fee": "सुविधा शुल्क",
     "Debit Card": "डेबिट कार्ड",
     "Credit Card": "क्रेडिट कार्ड",
     "Net Banking": "नेट बैंकिंग",
@@ -51,7 +51,17 @@
     "please do not click back or refresh the page": "कृपया वापस क्लिक न करें या पृष्ठ को रीफ्रेश करें",
     "Thank You!": "धन्यवाद!",
     "Soon you will get an order confirmation message on the mobile number and mail id provided by you.": "जल्द ही आपको मोबाइल नंबर और आपके द्वारा प्रदान किए गए मेल आईडी पर ऑर्डर पुष्टिकरण संदेश मिलेगा।",
-    "Transaction fee applicable as per the payment mode": "लेन-देन शुल्क भुगतान मोड के अनुसार लागू है",
+    "Transaction fee applicable as per the payment mode": "सुविधा शुल्क भुगतान मोड के अनुसार लागू है",
     "Proceed to Pay": "चुकाने के लिए कार्रवाई शुरू करो",
-    "Convenience Fee": "सुविधा शुल्क"
+    "Convenience Fee": "सुविधा शुल्क",
+    "All Products": "सारे उत्पाद",
+    "Contact the seller": "विक्रयकर्ता से सम्पर्क करें",
+    "No returns or echanges": "रिटर्न या एक्सचेंज नहीं",
+    "Exchange only on faulty products within": "दोषपूर्ण उत्पादों पर केवल एक्सचेंज करें, रिटर्न  के",
+    "days of return. (No returns)": "दिनों के भीतर। (वापसी नहीं)",
+    "Returns / exchange only on faulty products within": "दोषपूर्ण उत्पादों पर रिटर्न / एक्सचेंज",
+    "days.": "दिनों के भीतर।",
+    "Returns available within": "रिटर्न उपलब्ध है",
+    "No questions asked exchange.": "कोई सवाल नहीं पूछा विनिमय।",
+    "No questions asked return.": "कोई सवाल नहीं पूछा वापसी।"
 }

@@ -20,26 +20,26 @@
         </li>
       </ul>
       <ul class="right padMnuBN hide-on-med-and-down">
-          <li class="padlr10BN">
-              <a class="linkButtonBN mnuItemTxtBN" [routerLink]="storeHome">{{'All Product' | translate}}</a>
-            </li>     
-        <li class="padlr10BN">
+        <li class="padlr10BN" *ngIf="showStoreHomeLink">
+          <a class="linkButtonBN mnuItemTxtBN" [routerLink]="storeHome">{{'All Products' | translate}}</a>
+        </li>     
+        <li class="padlr10BN" *ngIf="false">
           <a class="linkButtonBN mnuItemTxtBN">{{'Return Policy' | translate}}</a>
         </li>        
-        <li class="padlr10BN">
+        <li class="padlr10BN" *ngIf="showReportErrorLink">
           <a class="linkButtonBN mnuItemTxtBN" [routerLink]="reprtlink">{{'Report Error' | translate}}</a>
         </li>        
       </ul>
       <ul class="left hide-on-large-only hide-on-small-only">
         <li>
-          <a materialize="sideNav" data-activates="slide-out" class="button-collapse linkButtonBN">
+          <a materialize="sideNav" data-activates="slide-out" class="button-collapse linkButtonBN" id="sidenavelem">
             <i class="material-icons">menu</i>
           </a>
         </li>
       </ul>
       <ul class="left hide-on-large-only hide-on-med-and-up">
         <li>
-          <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN">
+          <a materialize="sideNav" data-activates="slide-out2" class="button-collapse linkButtonBN" id="sidenavelem2">
             <i class="material-icons">menu</i>
           </a>
         </li>

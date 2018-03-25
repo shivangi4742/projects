@@ -1,22 +1,22 @@
 <div class="row whiteFontBN">
-  <div [ngClass]="location == 'refund' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('store')">
+  <div class="col s12 hoverBN linkButtonBN" *ngIf="showStoreHomeLink" (click)="goto('store')">
     <div class="col s10 offset-s1">
       <i class="material-icons  leftNavIconBN alignMidBN">view_module</i>&nbsp;&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN" [routerLink]="storeHome">{{'All Product' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN">{{'All Products' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div [ngClass]="location == 'refund' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('refund')">
+  <div class="col s12 hoverBN linkButtonBN" *ngIf="false" (click)="goto('refund')">
     <div class="col s10 offset-s1">
       <i class="material-icons  leftNavIconBN alignMidBN">assignment_returned</i>&nbsp;&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Return Policy' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>
-  <div [ngClass]="location == 'report' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('report')">
+  <div class="col s12 hoverBN linkButtonBN" *ngIf="showReportErrorLink" (click)="goto('report')">
     <div class="col s10 offset-s1">
       <i class="material-icons  leftNavIconBN alignMidBN">error</i>&nbsp;&nbsp;&nbsp;
-      <span class="alignMidBN leftNavLinkBN" [routerLink]="reprtlink">{{'Report Error' | translate}}</span>
+      <span class="alignMidBN leftNavLinkBN">{{'Report Error' | translate}}</span>
     </div>
     <div class="col s1"></div>
   </div>

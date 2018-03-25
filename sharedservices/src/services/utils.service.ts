@@ -41,8 +41,9 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
-  private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
-  private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/no-image.png';
+  // private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
+  private _paytmPgUrl: string = 'https://securegw.paytm.in/theia/processTransaction';
+private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/addproducts2@2x.png';
   private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
   private _sysColors: Array<string> = ['brown', 'grey', 'black', 'blue', 'purple', 'green', 'pink', 'gold', 'red', 'silver', 'yellow', 'gunmetal', 
@@ -72,7 +73,7 @@ export class UtilsService {
       return true;
 
     if (mCode === 'AL7D6' || mCode === 'ADCT7' || mCode === 'AA8A0' || mCode === 'AF4V6' || mCode === 'ADJ69' || mCode === 'AACH5' ||
-      mCode === 'AL7I2' || mCode === 'ALA73')
+      mCode === 'AL7I2' || mCode === 'ALA73' || mCode === 'AC149')
       return true;
 
     return false;
@@ -99,6 +100,9 @@ export class UtilsService {
   }
 
   public isSysColor(col: string): boolean {
+    if(col && col.trim().toLowerCase() == 'navy blue')
+      col = 'navy';
+      
     if(col && this._sysColors.indexOf(col.trim().toLowerCase()) >= 0)
       return true;
 
