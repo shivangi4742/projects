@@ -132,7 +132,7 @@ export class ProductService {
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),           
-            res.color, res.size, res.productType, null, null, null, res.merchantCode);   
+            res.color, res.size, res.productType, null, null, null, res.merchantCode, null);   
         if(res.productImages && res.productImages.length > 0) {
             newp.imageURLs = new Array<string>();
             res.productImages.forEach(function(pi: any) {
@@ -166,6 +166,9 @@ export class ProductService {
                     newp.variants.push(me.getCAVariant(v));
                 }
             });
+        }
+        else if (newp.type == 'FoodAndBeverages' && res.benowProductVariants && res.benowProductVariants.length > 0) {
+
         }
 
         return newp;
@@ -307,7 +310,7 @@ export class ProductService {
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
-                    null, res[i].merchantCode));
+                    null, res[i].merchantCode, null));
         }
 
         return this._campProducts;
@@ -322,7 +325,7 @@ export class ProductService {
                
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,                   
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
-                    null, res[i].merchantCode));
+                    null, res[i].merchantCode, null));
           }
         }
 
@@ -379,7 +382,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,                
-                res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode);
+                res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode, null);
         else
             return null;
     }

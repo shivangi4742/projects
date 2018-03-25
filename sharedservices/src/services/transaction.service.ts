@@ -73,7 +73,7 @@ export class TransactionService {
                                 res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,                                
                                 res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, res.orders[i].payerProduct[j].color, 
                                 res.orders[i].payerProduct[j].size, res.orders[i].payerProduct[j].productType, null, null, null, 
-                                res.orders[i].payerProduct[j].merchantCode));
+                                res.orders[i].payerProduct[j].merchantCode, null));
                                 
                     }
                     
