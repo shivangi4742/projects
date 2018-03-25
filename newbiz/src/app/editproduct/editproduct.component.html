@@ -634,7 +634,14 @@
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" style="margin-right: 20px" name="cancel" [routerLink]="catalogue">{{'CANCEL' | translate}}</button>
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" type="submit" name="edit" [disabled]="!prodEditForm.form.valid || checkForm()">{{'UPDATE PRODUCT' | translate}}</button>
           </div>
+          
         </div>
+        <div class="row valign-wrapper">
+        <div class="col s12 errNrmS6B2BN center" *ngIf="subsucees">
+          {{'product updated successfully'}}
+         </div>
+        </div>
+       
       </form>
     </div>
   </div>

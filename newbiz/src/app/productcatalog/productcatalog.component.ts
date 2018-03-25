@@ -176,6 +176,9 @@ export class ProductcatalogComponent implements OnInit {
 shareclose(){
   this.sharemodalActions.emit({ action: "modal", params: ['close'] });
 }
+createprod(){
+  this.router.navigateByUrl('/addproduct');
+}
   
 
 }
