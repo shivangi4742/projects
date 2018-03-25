@@ -69,6 +69,10 @@ export class AddproductComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   isError:boolean= false;
   fileerrormessage :string;
+  dcountprice:string;
+  price: string;
+  isdisprice: boolean = false;
+  idis:string;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
@@ -240,11 +244,10 @@ export class AddproductComponent implements OnInit {
     else{
       this.isAmountLess = false;
     }
-
-    if(this.newProduct.price < this.newProduct.discountedPrice){
+    if(this.newProduct.price <= this.newProduct.discountedPrice){
       this.discountError = true;
     }
-    else{
+    else {
       this.discountError = false;
     }
   }
@@ -303,14 +306,15 @@ export class AddproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 500000) {
+        if (e.target.files[0].size > 1500000) {
           window.scrollTo(0, 0);
+          console.log('error');
           //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-          this.isError= true;
-          this.fileerrormessage='Product size is less than 5 MB!';
+         //  this.isError= true;
+          //this.fileerrormessage='Product size is less than 5 MB!';
         }
         else {
-          this.isError = false;
+         // this.isError = false;
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
@@ -449,6 +453,17 @@ export class AddproductComponent implements OnInit {
     }
     else{
       this.isvarientprice = false;
+    }
+  }
+  discountprice(res:any, i:any,vm:any) {
+    console.log(res, vm , i, 'this.varientprice');
+    this.dcountprice= res;
+    this.price = vm;
+    if(this.price <= this.dcountprice) {
+        this.isdisprice= true;
+        this.idis= i;
+    } else {
+      this.isdisprice= false;
     }
   }
 }

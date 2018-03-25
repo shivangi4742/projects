@@ -38,6 +38,7 @@ export class EditproductComponent implements OnInit {
   isImageProcess: boolean = false;
   isError:boolean= false;
   fileerrormessage :string;
+  subsucees: boolean = false;
   fromDt: any;
   toDt: any;
   dateParams: any;
@@ -267,7 +268,7 @@ export class EditproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.editProduct.price < this.editProduct.discountedPrice){
+    if(this.editProduct.price <= this.editProduct.discountedPrice){
       this.discountError = true;
     }
     else{
@@ -325,12 +326,18 @@ export class EditproductComponent implements OnInit {
   }
 
   onSubmit() {
-    //console.log( this.prodSizes,'this.editProduct');
     this.editProduct.prodSizes = this.prodSizes;
     this.editProduct.prodImgUrls = this.imageUrls;
     this.editProduct.variants = this.variants;
-   // console.log(this.editProduct,'hello');
-    this.productService.editProductHB(this.user.merchantCode, this.editProduct);
+    this.productService.editProductHB(this.user.merchantCode, this.editProduct)
+      .then(res  => this.onsubmitpost(res));
+  }
+  onsubmitpost(res:any){
+   console.log(res);
+   if(res)
+   {
+     this.subsucees= true;
+   }
   }
 
   isImageOptimizing(): boolean {
@@ -378,14 +385,14 @@ export class EditproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 500000) {
+        if (e.target.files[0].size > 2500000) {
           window.scrollTo(0, 0);
           //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-          this.isError= true;
-          this.fileerrormessage='Product size is less than 5 MB!';
+         // this.isError= true;
+          //this.fileerrormessage='Product size is less than 5 MB!';
         }
         else {
-          this.isError = false;
+        
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
@@ -406,7 +413,6 @@ export class EditproductComponent implements OnInit {
   }
 
   deleteImage(id: any){
-    this.isError=false;
     if(id && this.imageUrls && this.imageUrls.length > 0) {
       this.imageUrls = this.imageUrls.filter(i => i.prodImgUrl != id);
     }

@@ -17,6 +17,10 @@
   border: 1px solid grey;
   border-radius: 43px;
 }
+.colrnewBN{
+  color:white!important;
+  font-size: 10pt!important;
+}
 
 .searchIconBN{
   padding-top: 8px;
