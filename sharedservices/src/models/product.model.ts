@@ -1,4 +1,5 @@
 import { Size } from './size.model';
+import { AddOn } from './addon.model';
 import { Variant } from "./variant.model";
 
 export class Product {
@@ -17,8 +18,10 @@ export class Product {
     public imageURL: string,
     public color: string,
     public size: string,
+    public type: string|null,
     public sizes: Array<Size>|null,
     public variants: Array<Variant>|null,
     public imageURLs: Array<string>|null,
-    public merchantCode: string) { }
+    public merchantCode: string,
+    public addOns: Array<AddOn>|null) { }
 }

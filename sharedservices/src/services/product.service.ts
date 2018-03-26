@@ -128,13 +128,12 @@ export class ProductService {
     }
 
     fillStoreProduct(res: any): Product {
+        let me: any = this;
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
-            res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
-           
-            res.color, res.size, null, null, null, res.merchantCode);   
+            res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),           
+            res.color, res.size, res.productType, null, null, null, res.merchantCode, null);   
         if(res.productImages && res.productImages.length > 0) {
-            let me: any = this;
             newp.imageURLs = new Array<string>();
             res.productImages.forEach(function(pi: any) {
                 if(newp.imageURLs && pi && pi.prodImgUrl)
@@ -160,25 +159,31 @@ export class ProductService {
             });
         }
 
-        if(res.benowProductVariants && res.benowProductVariants.length > 0) {
+        if(newp.type != 'FoodAndBeverages' && res.benowProductVariants && res.benowProductVariants.length > 0) {
             newp.variants = new Array<Variant>();
             res.benowProductVariants.forEach(function(v: any) {
                 if(newp.variants && v && v.id && v.isAvailable != false) {
-                    let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, v.isAvailable, null);
-                    if(v.productSizes && v.productSizes.length > 0) {
-                        newv.sizes = new Array<Size>();
-                        v.productSizes.forEach(function(vps: any) {
-                            if(newv.sizes && vps && vps.prodSize)
-                                newv.sizes.push(new Size(vps.id, vps.prodSize));
-                        });
-                    }
-
-                    newp.variants.push(newv);
+                    newp.variants.push(me.getCAVariant(v));
                 }
             });
         }
+        else if (newp.type == 'FoodAndBeverages' && res.benowProductVariants && res.benowProductVariants.length > 0) {
+
+        }
 
         return newp;
+    }
+
+    getCAVariant(v: any): Variant {
+                    let newv: Variant = new Variant(null, v.discountedPrice ? v.discountedPrice : v.price, v.price, v.id, v.color, v.isAvailable, null);        if(v.productSizes && v.productSizes.length > 0) {
+            newv.sizes = new Array<Size>();
+            v.productSizes.forEach(function(vps: any) {
+                if(newv.sizes && vps && vps.prodSize)
+                    newv.sizes.push(new Size(vps.id, vps.prodSize));
+            });
+        }
+
+        return newv;
     }
 
     fillStoreProducts(res2: any): any {
@@ -304,8 +309,8 @@ export class ProductService {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, 
-                    res[i].merchantCode));
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
+                    null, res[i].merchantCode, null));
         }
 
         return this._campProducts;
@@ -318,10 +323,9 @@ export class ProductService {
             
             for(let i: number = 0; i < res.length; i++) {
                
-                this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
-                   
-                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, 
-                    res[i].merchantCode));
+                this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,                   
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
+                    null, res[i].merchantCode, null));
           }
         }
 
@@ -377,9 +381,8 @@ export class ProductService {
 
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
-            return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom, 
-               
-                res.prodImgUrl, res.color, res.size, null, null, null, res.merchantCode);
+            return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,                
+                res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode, null);
         else
             return null;
     }
