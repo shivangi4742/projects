@@ -33,7 +33,7 @@
           <div class="col s4 typeBN">
             <div class="switch">
               <label>
-                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable" (change)="setProdStock()" checked>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
                 <span class="lever" style="margin-left: 0px"></span>
                 <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
               </label>
@@ -280,8 +280,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'FoodAndBeverages'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Food And Beverages' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -472,8 +481,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'Event'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Events & Workshop' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -559,8 +577,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'Other'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Other' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -634,14 +661,14 @@
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" style="margin-right: 20px" name="cancel" [routerLink]="catalogue">{{'CANCEL' | translate}}</button>
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" type="submit" name="edit" [disabled]="!prodEditForm.form.valid || checkForm()">{{'UPDATE PRODUCT' | translate}}</button>
           </div>
-          
+
         </div>
         <div class="row valign-wrapper">
         <div class="col s12 errNrmS6B2BN center" *ngIf="subsucees">
-          {{'product updated successfully'}}
+          {{'Product updated successfully'}}
          </div>
         </div>
-       
+
       </form>
     </div>
   </div>

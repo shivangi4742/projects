@@ -252,10 +252,27 @@ export class AddproductComponent implements OnInit {
     }
   }
 
+  checkVarAmount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].price){
+          if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
   selectProdType(type: string){
     this.imageUrls = [];
     this.variants = [];
     this.prodSizes = [];
+    this.isAmountLess = false;
+    this.discountError = false;
+    this.numVariants = 0;
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
       null, null, null, null,null, true, type, null,
       null, null, null, null, null);
@@ -425,7 +442,7 @@ export class AddproductComponent implements OnInit {
   }
 
   added(res: any){
-    console.log('Added Prod: ', res);
+    console.log('Added Prod ');
   }
 
   done(){
@@ -444,26 +461,5 @@ export class AddproductComponent implements OnInit {
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
-  }
-  checkVarientamount(res:any){
-    console.log(res, 'this.varientprice');
-    this.varientprice = res;
-    if(this.varientprice < 10){
-      this.isvarientprice = true;
-    }
-    else{
-      this.isvarientprice = false;
-    }
-  }
-  discountprice(res:any, i:any,vm:any) {
-    console.log(res, vm , i, 'this.varientprice');
-    this.dcountprice= res;
-    this.price = vm;
-    if(this.price <= this.dcountprice) {
-        this.isdisprice= true;
-        this.idis= i;
-    } else {
-      this.isdisprice= false;
-    }
   }
 }
