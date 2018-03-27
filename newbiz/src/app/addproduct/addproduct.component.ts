@@ -244,11 +244,14 @@ export class AddproductComponent implements OnInit {
     else{
       this.isAmountLess = false;
     }
-    if(this.newProduct.price <= this.newProduct.discountedPrice){
-      this.discountError = true;
-    }
-    else {
-      this.discountError = false;
+
+    if(this.newProduct.discountedPrice){
+      if(this.newProduct.price <= this.newProduct.discountedPrice || this.newProduct.discountedPrice < 10){
+        this.discountError = true;
+      }
+      else {
+        this.discountError = false;
+      }
     }
   }
 
@@ -257,6 +260,20 @@ export class AddproductComponent implements OnInit {
       if(id == this.variants[i].id){
         if(this.variants[i].price){
           if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  checkVarDiscount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].discountedPrice){
+          if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
             return true;
           }
         }
@@ -410,6 +427,14 @@ export class AddproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
       if(!this.newProduct.color){
@@ -425,6 +450,14 @@ export class AddproductComponent implements OnInit {
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].variantCode){
             return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
           }
         }
       }

@@ -196,7 +196,7 @@
           <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
             <li *ngFor="let vm of variants; let i = index;" class="col s12 test">
               <div class="collapsible-header">
-                <div class="col s12 variantTitleBN">
+                <div class="col s12 variantMobTitleBN">
                   <span class="" style="margin-top: 5px;">{{'Variant ' | translate}}{{i+1}}</span>
                   <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
                 </div>
@@ -229,13 +229,13 @@
                     <input id="{{vm.id}}+price" name="{{vm.id}}+price" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
                            placeholder="{{'Price of Variant' | translate}}" style="margin-bottom: 0px" (keyup)="checkVarientamount(v.price)"/>
                     <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-
                     <span *ngIf="checkVarAmount(vm.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                   </div>
                   <div class="input-field col s7">
                     <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
-                           placeholder="{{'Discounted Variant Price' | translate}}"/>
+                           placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px"/>
                     <label for="{{vm.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                    <span *ngIf="checkVarDiscount(vm.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                   </div>
                 </div>
               </div>
@@ -287,8 +287,9 @@
               </div>
               <div class="input-field col s12">
                 <input id="{{v.id}}+dprice" name="{{v.id}}+dprice" type="number" [(ngModel)]="v.discountedPrice" class="validate inputTextBN"
-                       placeholder="{{'Discounted Variant Price' | translate}}"/>
+                       placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px;"/>
                 <label for="{{v.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="checkVarDiscount(v.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
             </div>
           </div>
@@ -417,7 +418,7 @@
             <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
               <li *ngFor="let ad of variants; let i = index;" class="col s12 test">
                 <div class="collapsible-header">
-                  <div class="col s12 variantTitleBN">
+                  <div class="col s12 variantMobTitleBN">
                     <span class="" style="margin-top: 5px;">{{'Add-on ' | translate}}{{i+1}}</span>
                     <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(ad.id)">delete</i>
                   </div>
@@ -443,8 +444,9 @@
                       </div>
                       <div class="input-field col s7">
                         <input id="{{ad.id}}+dprice" name="{{ad.id}}+dprice" type="number" [(ngModel)]="ad.discountedPrice" class="validate inputTextBN"
-                               placeholder="{{'Discounted Price' | translate}}"/>
+                               placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px;"/>
                         <label for="{{ad.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                        <span *ngIf="checkVarDiscount(ad.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                       </div>
                     </div>
                   </div>
@@ -485,8 +487,9 @@
                 </div>
                 <div class="input-field col s6">
                   <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
-                         placeholder="{{'Discounted Price' | translate}}"/>
+                         placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px;"/>
                   <label for="{{a.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                  <span *ngIf="checkVarDiscount(a.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                 </div>
               </div>
             </div>
