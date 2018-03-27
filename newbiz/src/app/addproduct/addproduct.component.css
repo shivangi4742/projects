@@ -70,6 +70,11 @@
   font-weight: bold;
 }
 
+.variantMobTitleBN{
+  margin-top: 5px;
+  font-weight: bold;
+}
+
 .deleteImg{
   color: black;
   background-color: #dddddd;

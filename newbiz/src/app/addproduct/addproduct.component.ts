@@ -244,18 +244,52 @@ export class AddproductComponent implements OnInit {
     else{
       this.isAmountLess = false;
     }
-    if(this.newProduct.price <= this.newProduct.discountedPrice){
-      this.discountError = true;
+
+    if(this.newProduct.discountedPrice){
+      if(this.newProduct.price <= this.newProduct.discountedPrice || this.newProduct.discountedPrice < 10){
+        this.discountError = true;
+      }
+      else {
+        this.discountError = false;
+      }
     }
-    else {
-      this.discountError = false;
+  }
+
+  checkVarAmount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].price){
+          if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
     }
+
+    return false;
+  }
+
+  checkVarDiscount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].discountedPrice){
+          if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 
   selectProdType(type: string){
     this.imageUrls = [];
     this.variants = [];
     this.prodSizes = [];
+    this.isAmountLess = false;
+    this.discountError = false;
+    this.numVariants = 0;
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
       null, null, null, null,null, true, type, null,
       null, null, null, null, null,null);
@@ -393,6 +427,14 @@ export class AddproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
       if(!this.newProduct.color){
@@ -408,6 +450,14 @@ export class AddproductComponent implements OnInit {
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].variantCode){
             return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
           }
         }
       }
@@ -425,7 +475,7 @@ export class AddproductComponent implements OnInit {
   }
 
   added(res: any){
-    console.log('Added Prod: ', res);
+    console.log('Added Prod ');
   }
 
   done(){
@@ -444,26 +494,5 @@ export class AddproductComponent implements OnInit {
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
-  }
-  checkVarientamount(res:any){
-    console.log(res, 'this.varientprice');
-    this.varientprice = res;
-    if(this.varientprice < 10){
-      this.isvarientprice = true;
-    }
-    else{
-      this.isvarientprice = false;
-    }
-  }
-  discountprice(res:any, i:any,vm:any) {
-    console.log(res, vm , i, 'this.varientprice');
-    this.dcountprice= res;
-    this.price = vm;
-    if(this.price <= this.dcountprice) {
-        this.isdisprice= true;
-        this.idis= i;
-    } else {
-      this.isdisprice= false;
-    }
   }
 }

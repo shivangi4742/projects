@@ -196,15 +196,16 @@
               {{'Add Variant' | translate}}
             </span>
           </div>
-         <!--  <div *ngIf="newProduct.hasVariants" class="col s12" style="border-bottom: 1px solid #dddddd;"></div> -->
           <div *ngIf="newProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Variants' | translate}}</div>
         </div>
         <div *ngIf="newProduct.hasVariants" class="hide-on-med-and-up">
           <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
             <li *ngFor="let vm of variants; let i = index;" class="col s12 test">
               <div class="collapsible-header">
-                <span class="">{{'Variant ' | translate}}{{i+1}}</span>
-                <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
+                <div class="col s12 variantMobTitleBN">
+                  <span class="" style="margin-top: 5px;">{{'Variant ' | translate}}{{i+1}}</span>
+                  <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
+                </div>
               </div>
               <div class="collapsible-body noMarginPaddingBN">
                 <div class="row noLeftPaddingBN">
@@ -232,15 +233,15 @@
                   </div>
                   <div class="input-field col s5">
                     <input id="{{vm.id}}+price" name="{{vm.id}}+price" type="number" [(ngModel)]="vm.price" class="validate inputTextBN"
-                           placeholder="{{'Price of Variant' | translate}}" (keyup)="checkVarientamount(v.price)"/>
+                           placeholder="{{'Price of Variant' | translate}}" style="margin-bottom: 0px" (keyup)="checkVarientamount(v.price)"/>
                     <label for="{{vm.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-
-                     <span *ngIf="isvarientprice" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+                    <span *ngIf="checkVarAmount(vm.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                   </div>
                   <div class="input-field col s7">
                     <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
-                           placeholder="{{'Discounted Variant Price' | translate}}"/>
+                           placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px"/>
                     <label for="{{vm.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                    <span *ngIf="checkVarDiscount(vm.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                   </div>
                 </div>
               </div>
@@ -277,9 +278,9 @@
               </div>
               <div class="input-field col s5">
                 <input id="{{v.id}}+price" name="{{v.id}}+price" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                       placeholder="{{'Price of Variant' | translate}}" (keyup)="checkVarientamount(v.price)"/>
+                       placeholder="{{'Price of Variant' | translate}}" style="margin-bottom: 0px" (keyup)="checkVarientamount(v.price)"/>
                 <label for="{{v.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-                <span *ngIf="isvarientprice" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+                <span *ngIf="checkVarAmount(v.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="col s12 noLeftPaddingBN">
                 <div class="col s12 inputLabelBN noLeftPaddingBN">
@@ -292,8 +293,9 @@
               </div>
               <div class="input-field col s12">
                 <input id="{{v.id}}+dprice" name="{{v.id}}+dprice" type="number" [(ngModel)]="v.discountedPrice" class="validate inputTextBN"
-                       placeholder="{{'Discounted Variant Price' | translate}}"/>
+                       placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px;"/>
                 <label for="{{v.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="checkVarDiscount(v.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
             </div>
           </div>
@@ -425,37 +427,51 @@
             <div *ngIf="newProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Add-ons' | translate}}</div>
           </div>
           <div *ngIf="newProduct.hasVariants" class="hide-on-med-and-up">
-            <ul class="col s6 listPLBN collapsible" data-collapsible="expandable" materialize="collapsible" [materializeActions]="variantDec">
-              <li *ngFor="let v of variants; let i = index;" class="col s12 test">
+            <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
+              <li *ngFor="let ad of variants; let i = index;" class="col s12 test">
                 <div class="collapsible-header">
-                  {{'Add-on ' | translate}}{{i+1}}<br>
-                  <a class="linkButtonBN" (click)="deleteVariant(v.id)">Delete Variant</a>
+                  <div class="col s12 variantMobTitleBN">
+                    <span class="" style="margin-top: 5px;">{{'Add-on ' | translate}}{{i+1}}</span>
+                    <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(ad.id)">delete</i>
+                  </div>
                 </div>
-                <div class="collapsible-body">
+                <div class="collapsible-body noMarginPaddingBN">
                   <div class="row noLeftPaddingBN">
-                    <div class="input-field col s8 noLeftPaddingBN">
-                      <input id="vColor" name="vColor" type="text" [(ngModel)]="v.color" class="validate inputTextBN"
-                             placeholder="{{'+Color' | translate}}"  />
-                      <label for="vColor" class ="active labelPLBN noLeftPaddingBN">{{'Variant Color' | translate}}</label>
-                    </div>
-                    <div class="input-field col s4 noLeftPaddingBN">
-                      <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN"
-                             placeholder="{{'Enter the name of your Product' | translate}}" (keyup)="checkVarientamount(v.price)"/>
-                      <label for="vPrice" class ="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-
-                    </div>
-                    <div class="input-field col s12 noLeftPaddingBN">
-                      <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN"
-                             placeholder="{{'+Size' | translate}}"/>
-                      <label for="vSize" class ="active labelPLBN noLeftPaddingBN">{{'Variant Size' | translate}}</label>
+                    <div class="col s12 noLeftPaddingBN">
+                      <div class="input-field col s12">
+                        <input id="{{ad.id}}+name" name="{{ad.id}}+name" type="text" [(ngModel)]="ad.variantCode" class="validate inputTextBN"
+                               placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
+                        <label for="{{ad.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
+                      </div>
+                      <div class="input-field col s12 ">
+                        <input id="{{ad.id}}+desc" name="{{ad.id}}+desc" type="text" [(ngModel)]="ad.variantDesc" class="validate inputTextBN"
+                               placeholder="{{'Description of add-on' | translate}}" maxlength="500"/>
+                        <label for="{{ad.id}}+desc" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Description' | translate}}</label>
+                      </div>
+                      <div class="input-field col s5">
+                        <input id="{{ad.id}}+price" name="{{ad.id}}+price" type="number" [(ngModel)]="ad.price" class="validate inputTextBN"
+                               placeholder="{{'Price of Add-on' | translate}}" style="margin-bottom: 0px" />
+                        <label for="{{ad.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price' | translate}}</label>
+                        <span *ngIf="checkVarAmount(ad.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+                      </div>
+                      <div class="input-field col s7">
+                        <input id="{{ad.id}}+dprice" name="{{ad.id}}+dprice" type="number" [(ngModel)]="ad.discountedPrice" class="validate inputTextBN"
+                               placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px;"/>
+                        <label for="{{ad.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                        <span *ngIf="checkVarDiscount(ad.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </li>
             </ul>
-            <div *ngIf="newProduct.hasVariants" class="col s6">
-              <a class="linkButtonBN" (click)="addVariant()">Add Variant</a><br><br>
-
+            <div class="row"></div>
+            <div class="col s12 center">
+              <span class="variantBN linkButtonBN" (click)="addVariant()">
+              {{'More Add-ons' | translate}}
+              </span>
+              <div class="row"></div>
+              <span class="inputTextBN">{{'To add more add-ons click here' | translate}}</span>
             </div>
           </div>
           <div *ngIf="newProduct.hasVariants" class="row hide-on-small-only">
@@ -466,24 +482,26 @@
               </div>
               <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
                 <div class="input-field col s12">
-                  <input id="{{a.id}}+name" name="{{a.id}}" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN"
+                  <input id="{{a.id}}+name" name="{{a.id}}+name" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN"
                          placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
                   <label for="{{a.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
                 </div>
                 <div class="input-field col s12 ">
-                  <input id="{{a.id}}+desc" name="{{a.id}}" type="text" [(ngModel)]="a.variantDesc" class="validate inputTextBN"
+                  <input id="{{a.id}}+desc" name="{{a.id}}+desc" type="text" [(ngModel)]="a.variantDesc" class="validate inputTextBN"
                          placeholder="{{'Description of add-on' | translate}}" maxlength="500"/>
                   <label for="{{a.id}}+desc" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Description' | translate}}</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
-                         placeholder="{{'Price of Add-on' | translate}}" required/>
+                  <input id="{{a.id}}+price" name="{{a.id}}+price" type="number" [(ngModel)]="a.price" class="validate inputTextBN"
+                         placeholder="{{'Price of Add-on' | translate}}" style="margin-bottom: 0px" required/>
                   <label for="{{a.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>
+                  <span *ngIf="checkVarAmount(a.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                 </div>
                 <div class="input-field col s6">
                   <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
-                         placeholder="{{'Discounted Price' | translate}}"/>
+                         placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px;"/>
                   <label for="{{a.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                  <span *ngIf="checkVarDiscount(a.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                 </div>
               </div>
             </div>
@@ -526,11 +544,12 @@
             <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
           </div>
           <div class="input-field col s6">
-            <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
+            <input id="eDiscountPrice" name="eDiscountPrice" type="number" [(ngModel)]="newProduct.discountedPrice" class="validate inputTextBN"
                    placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"  />
             <label for="eDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
+          <div class="row"></div>
           <div class="input-field col s6 m3 l3">
             <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate"
                    [materializeParams]="dateParams" placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="newProduct.startDate" required>
@@ -553,7 +572,7 @@
             </div>
             <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
               <div class="col s11 noMarginPaddingBN center">
-                <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                <img class="normalImgListBN responsive-img" src={{uploadsURL}}{{img.prodImgUrl}}>
               </div>
               <div class="col s1 noMarginPaddingBN">
                 <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
@@ -598,7 +617,7 @@
           </div>
           <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
             <div class="col s11 noMarginPaddingBN center">
-              <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+              <img class="normalImgListBN responsive-img" src={{uploadsURL}}{{img.prodImgUrl}}>
             </div>
             <div class="col s1 noMarginPaddingBN">
               <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">

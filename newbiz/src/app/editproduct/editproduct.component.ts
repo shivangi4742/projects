@@ -268,12 +268,42 @@ export class EditproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.editProduct.price <= this.editProduct.discountedPrice){
-      this.discountError = true;
+    if(this.editProduct.discountedPrice){
+      if(this.editProduct.price <= this.editProduct.discountedPrice || this.editProduct.discountedPrice < 10){
+        this.discountError = true;
+      }
+      else {
+        this.discountError = false;
+      }
     }
-    else{
-      this.discountError = false;
+  }
+
+  checkVarAmount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].price){
+          if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
     }
+
+    return false;
+  }
+
+  checkVarDiscount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].discountedPrice){
+          if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 
   checkForm(){
@@ -294,6 +324,14 @@ export class EditproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
       if(!this.editProduct.color){
@@ -309,6 +347,14 @@ export class EditproductComponent implements OnInit {
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].variantCode){
             return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
           }
         }
       }
@@ -392,7 +438,7 @@ export class EditproductComponent implements OnInit {
           //this.fileerrormessage='Product size is less than 5 MB!';
         }
         else {
-        
+
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
