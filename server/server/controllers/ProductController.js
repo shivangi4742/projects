@@ -153,7 +153,8 @@ var prodCont = {
                             "venue": d.venue,
                             "discountedPrice": d.discountedPrice,
                             "color": d.color,
-                            "prodSizes": d.prodSizes
+                            "prodSizes": d.prodSizes,
+                            "shippingCharge":d.shippingCharge
                         }, cb);
                 else
                     cb(retErr);
@@ -194,7 +195,8 @@ var prodCont = {
                             "venue": d.venue,
                             "discountedPrice": d.discountedPrice,
                             "color": d.color,
-                            "prodSizes": d.prodSizes
+                            "prodSizes": d.prodSizes,
+                            "shippingCharge":d.shippingCharge
                         }, cb);
                 else
                     cb(retErr);
