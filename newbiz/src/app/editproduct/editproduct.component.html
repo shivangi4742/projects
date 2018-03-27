@@ -147,15 +147,22 @@
               </div>
               <div class="input-field col s6">
                 <input id="cPrice" name="cPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                  min="0" style="margin-bottom: 0px" (keyup)="checkAmount()" required />
+                  min="0" style="margin-bottom:10px" (keyup)="checkAmount()" required />
                 <label for="cPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
                 <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="input-field col s6">
                 <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
                 <label for="cDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+              <div class="input-field col s12">
+                <input id="Shipping" name="Shipping" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                  placeholder="{{'Shipping charge of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
+                />
+                <label for="Shipping" class="active labelPLBN">{{'Shipping Charge' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
             </div>
@@ -210,6 +217,7 @@
                           placeholder="{{'Discounted Variant Price' | translate}}" />
                         <label for="{{vm.id}}+dprice" class="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
                       </div>
+                      
                     </div>
                   </div>
                 </li>
@@ -367,16 +375,22 @@
               </div>
               <div class="input-field col s6">
                 <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                  min="0" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
+                  min="0" required style="margin-bottom: 10px" (keyup)="checkAmount()" />
                 <label for="fbPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
                 <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="input-field col s6">
                 <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
                 <label for="fbDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+              <div class="input-field col s12">
+                <input id="Deliverycharge" name="Deliverycharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                  placeholder="{{'Delivery Charge of the product' | translate}}" style="margin-bottom: 15px" 
+                />
+                <label for="Deliverycharge" class="active labelPLBN">{{'Delivery Charge' | translate}}</label>
               </div>
             </div>
             <div class="row">
@@ -615,16 +629,23 @@
             </div>
             <div class="input-field col s6">
               <input id="oPrice" name="oPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                required style="margin-bottom: 0px" (keyup)="checkAmount()" />
+                required style="margin-bottom: 20px" (keyup)="checkAmount()" />
               <label for="oPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+              <input id="oDiscountPrice" name="oDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 20px" (keyup)="checkAmount()"
               />
               <label for="oDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+            </div>
+            <div class="input-field col s12">
+              <input id="oshippingcharge" name="oshippingcharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                placeholder="{{'Shipping Charge of the product' | translate}}" style="margin-bottom: 10px"
+              />
+              <label for="oshippingcharge" class="active labelPLBN">{{'Shipping Charge' | translate}}</label>
+             
             </div>
           </div>
         </div>

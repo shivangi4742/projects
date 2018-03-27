@@ -72,8 +72,12 @@
     color: white!important;
 }
 .colorbackgroundBN{
-    background-color: red;
+    background-color: #E53935!important;
     color: white!important;
     padding: 2px 0px 0px 0px;
     border-radius: 5px;
+}
+.sellBN {
+    font-family: 'Barlow', sans-serif;
+    color:black;
 }

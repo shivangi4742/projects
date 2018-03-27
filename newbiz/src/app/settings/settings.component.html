@@ -48,47 +48,47 @@
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" [(ngModel)]="businesspro.contactSeller"
                 />
-                <label for="filled-in-box">Contact the seller</label>
+                <label for="filled-in-box" class="sellBN">Contact the seller</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box11" [(ngModel)]="businesspro.noReturnExchange" />
-                <label for="filled-in-box11">No returns or exchanges</label>
+                <label for="filled-in-box11" class="sellBN">No returns or exchanges</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box1" [(ngModel)]="businesspro.productExchange" />
-                <label for="filled-in-box1">Exchange only on faulty products within
-                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.productExchangeDay"> days of return.(No returns)</label>
+                <label for="filled-in-box1" class="sellBN">Exchange only on faulty products within
+                  <input type="text" class="expro" name="day" [readonly]="!businesspro.productExchange" [(ngModel)]="businesspro.productExchangeDay"> days of return.(No returns)</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box2" [(ngModel)]="businesspro.productReturnOrExchange"
                 />
-                <label for="filled-in-box2">Returns /exchange only on faulty products within
-                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.productReturnOrExchangeDay"> days.</label>
+                <label for="filled-in-box2" class="sellBN">Returns /exchange only on faulty products within
+                  <input type="text" class="expro" name="day" [readonly]="!businesspro.productReturnOrExchange"  [(ngModel)]="businesspro.productReturnOrExchangeDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box3" [(ngModel)]="businesspro.returnAvailable" />
-                <label for="filled-in-box3">Returns available within
-                  <input type="text" class="expro" name="day" [(ngModel)]="businesspro.returnsAvailableDay"> days.</label>
+                <label for="filled-in-box3" class="sellBN">Returns available within
+                  <input type="text" class="expro" name="day" [readonly]="!businesspro.returnAvailable"  [(ngModel)]="businesspro.returnsAvailableDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box4" [(ngModel)]="businesspro.noExchangeFlage" />
-                <label for="filled-in-box4">No questions asked exchange</label>
+                <label for="filled-in-box4" class="sellBN">No questions asked exchange</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box5" [(ngModel)]="businesspro.noReturnFlage" />
-                <label for="filled-in-box5">No questions asked return</label>
+                <label for="filled-in-box5" class="sellBN">No questions asked return</label>
               </div>
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
@@ -154,13 +154,13 @@
               <div class="row">
                 <div class="col s12">
                   <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box21" checked="checked" [(ngModel)]="businesspro.allOverIndia" />
-                  <label for="filled-in-box21">All over India</label>
+                  <label for="filled-in-box21" class="sellBN">All over India</label>
                 </div>
                 </div>
               <div class="row">
                 <div class="col s12">
                   <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box22"  [(ngModel)]="businesspro.selectLocalities" />
-                  <label for="filled-in-box22">Within select localities</label>
+                  <label for="filled-in-box22" class="sellBN">Within select localities</label>
                 </div>
                 
                 <div class="col s12" *ngIf="businesspro.selectLocalities">
@@ -179,14 +179,14 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip"/>
-                  <label for="filled-in-box23">Free Shipping</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip" />
+                  <label for="filled-in-box23" class="sellBN">Free Shipping</label>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder"/>
-                  <label for="filled-in-box24">Flat Shipping charge per order</label>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder" (click)="shiping()"/>
+                  <label for="filled-in-box24" class="sellBN">Flat Shipping charge per order</label>
                 </div>
                 <div class="col s12 m6 l6" *ngIf="businesspro.chargePerOrder">
                  <input type="text" name="changeper" [(ngModel)]="businesspro.orderShipCharge">
@@ -195,7 +195,7 @@
               <div class="row">
                 <div class="col s12">
                   <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box25" [(ngModel)]="businesspro.chargePerProd"/>
-                  <label for="filled-in-box25">Charge Shipping for Each Product</label>
+                  <label for="filled-in-box25" class="sellBN">Charge Shipping for Each Product</label>
                 </div>
                 
               </div>

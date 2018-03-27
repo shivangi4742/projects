@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit {
   day: boolean = false;
   hour: boolean = false;
   localitychip;
+  exchfaulty: boolean = true;
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
@@ -280,6 +281,10 @@ export class SettingsComponent implements OnInit {
     this.ispan1Expanded = false;
     this.isShipped = false
     this.businessset = false;
+    if(this.businesspro.productExchange){
+    this.exchfaulty= false;
+    }
+
   }
   shippingsetting() {
     window.scrollTo(0, 0);
@@ -675,6 +680,12 @@ export class SettingsComponent implements OnInit {
   addProdlocality(res:any){
     console.log(res);
 
+  }
+  shiping(){
+    if(this.businesspro.chargePerOrder)
+    {
+      this.businesspro.freeShip= false;
+    }
   }
 }
 
