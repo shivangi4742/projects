@@ -23,6 +23,7 @@ export class NewProduct {
         public venue: string | null,
         public startDate: any,
         public endDate: any,
-        public fileUrl: string | null
+        public fileUrl: string | null,
+        public shippingcharge: string | null
     ) { }
 }

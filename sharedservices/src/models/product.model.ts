@@ -23,5 +23,6 @@ export class Product {
     public variants: Array<Variant>|null,
     public imageURLs: Array<string>|null,
     public merchantCode: string,
-    public addOns: Array<AddOn>|null) { }
+    public addOns: Array<AddOn>|null,
+    public shippingcharge: string | null) { }
 }
