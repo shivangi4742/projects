@@ -51,6 +51,7 @@ export { NewProduct } from './models/newproduct.model';
 export { NewVariant } from './models/newvariant.model';
 export { NewSize } from './models/newsize.model';
 export { ProductImage } from './models/productimage.model';
+export { Locality} from './models/locality.model';
 
 export { SDKService } from './services/sdk.service';
 export { CartService } from './services/cart.service';

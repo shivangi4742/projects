@@ -153,19 +153,20 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box21" checked="checked" [(ngModel)]="businesspro.allOverIndia" />
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box21" checked="checked" [(ngModel)]="businesspro.allOverIndia" (ngModelChange)="locality1()" />
                   <label for="filled-in-box21" class="sellBN">All over India</label>
                 </div>
                 </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box22"  [(ngModel)]="businesspro.selectLocalities" />
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box22"  [(ngModel)]="businesspro.selectLocalities" (ngModelChange)="locality()"/>
                   <label for="filled-in-box22" class="sellBN">Within select localities</label>
                 </div>
                 
                 <div class="col s12" *ngIf="businesspro.selectLocalities">
                   <div class="chips" materialize="material_chip" [materializeParams]="[localitychip]"
-                       (chip.add)="addProdlocality($event.detail)">
+                       (chip.add)="addProdlocality($event.detail)" 
+                       (chip.delete)="deleteProdlocality($event.detail)">
       
                   </div>
                </div>
@@ -179,13 +180,13 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip" />
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip"  (ngModelChange)="shiping1()"/>
                   <label for="filled-in-box23" class="sellBN">Free Shipping</label>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder" (click)="shiping()"/>
+                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder" (ngModelChange)="shiping()"/>
                   <label for="filled-in-box24" class="sellBN">Flat Shipping charge per order</label>
                 </div>
                 <div class="col s12 m6 l6" *ngIf="businesspro.chargePerOrder">

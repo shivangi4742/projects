@@ -269,7 +269,7 @@ export class AddproductComponent implements OnInit {
     return false;
   }
 
-  checkVarDiscount(id: any): boolean{
+  checkVarDiscount(id: any): boolean {
     for(let i:number = 0; i < this.variants.length; i++){
       if(id == this.variants[i].id){
         if(this.variants[i].discountedPrice){
@@ -340,20 +340,13 @@ export class AddproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 1500000) {
-          window.scrollTo(0, 0);
-          console.log('error');
-          //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-         //  this.isError= true;
-          //this.fileerrormessage='Product size is less than 5 MB!';
-        }
-        else {
-         // this.isError = false;
+        
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
-        }
-        e.target.value = '';
+        
+     
       }
+      e.target.value = '';
     }
   }
 
@@ -464,11 +457,11 @@ export class AddproductComponent implements OnInit {
     }
 
     if(this.newProduct.productType == 'Event'){
-
+     
     }
 
     if(this.newProduct.productType == 'Other'){
-
+     
     }
 
     return false;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
-import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService, FileService } from 'benowservices';
+import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, Locality, LocationService, FileService } from 'benowservices';
 
 @Component({
   selector: 'app-settings',
@@ -62,6 +62,7 @@ export class SettingsComponent implements OnInit {
   hour: boolean = false;
   localitychip;
   exchfaulty: boolean = true;
+  dlocality = new Array<Locality>();
 
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
@@ -135,7 +136,6 @@ export class SettingsComponent implements OnInit {
 
   initcheckacc(res: any) {
     this.accountpro = res;
-    this.businesspro.shipTimeType = 'minute';
     if (this.accountpro && this.accountpro.accountRefNumber) {
       this.conaccountnumber = this.accountpro.accountRefNumber;
     }
@@ -293,6 +293,7 @@ export class SettingsComponent implements OnInit {
   }
 
   shippingsetting1() {
+   
     this.isShipped = !this.isShipped;
     this.isReturn = false;
     this.isNgoExpanded = false;
@@ -679,12 +680,31 @@ export class SettingsComponent implements OnInit {
   }
   addProdlocality(res:any){
     console.log(res);
+    this.dlocality.push(new Locality(res.tag));
+    console.log(this.dlocality,'dlocality');
+  }
+  deleteProdlocality(res:any){
 
   }
+  locality(){
+    if(this.businesspro.selectLocalities){
+      this.businesspro.allOverIndia = false;
+    }
+  }
+    locality1(){
+    if(this.businesspro.allOverIndia){
+      this.businesspro.selectLocalities = false;
+    }
+    
+  }
   shiping(){
-    if(this.businesspro.chargePerOrder)
-    {
-      this.businesspro.freeShip= false;
+    if(this.businesspro.chargePerOrder){
+      this.businesspro.freeShip = false;
+    }
+  }
+  shiping1(){
+    if(this.businesspro.freeShip){
+      this.businesspro.chargePerOrder= false;
     }
   }
 }

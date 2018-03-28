@@ -8,38 +8,66 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s4 typeBN">
-          <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+        <div class="col s3 typeBN">
+          <a (click)="emaiil()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
           </a>
         </div>
-        <div class="col s8">Email</div>
+        <div class="col s9">Email</div>
       </div>
-      <div class="row">
-        <div class="col s4 typeBN">
-          <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <div class="row bderBN" *ngIf="emailtext">
+        <div class="valign wrapper">
+        <div class="col s12 maiBN">
+         <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="maiBN">
+        </div>
+      </div>
+      <div class="valign wrapper ">
+          <div class="col s12 center">
+           <button type="submit" class="btn waves-effect waves-light buttonBN smallerFontBN center" (click)="emailpost()">Email</button>
+
+          </div>
+         <div class="col s12 center smsBN" *ngIf="suceessmsg">{{'successfully email sent!' | translate}}</div>
+        </div>
+        
+      </div>
+      <div class="row" >
+        <div class="col s3 typeBN">
+          <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
           </a>
         </div>
-        <div class="col s8">SMS</div>
+        <div class="col s9">SMS</div>
       </div>
+      <div class="row bderBN" *ngIf="smstext">
+          <div class="valign wrapper">
+          <div class="col s12 maiBN">
+           <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="maiBN">
+          </div>
+        </div>
+        <div class="valign wrapper">
+            <div class="col s12 center">
+             <button type="submit" class="btn waves-effect waves-light buttonBN smallerFontBN center" (click)="smspost()">SMS</button>
+            </div>
+          </div>
+         <div *ngIf="smsucess" class="col s12 center smsBN">{{'successfully sms sent !'}}</div>
+        </div>
       <div class="row">
-        <div class="col s4 typeBN">
+        <div class="col s3 typeBN">
           <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
             />
           </a>
         </div>
-        <div class="col s8">Facebook</div>
+        <div class="col s9">Facebook</div>
       </div>
       <div class="row">
-        <div class="col s4 typeBN">
+        <div class="col s3 typeBN">
           <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
             title="Twitter Tweet Button" (click)="twitterbutton()">
             <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
           </a>
         </div>
-        <div class="col s8">Twitter</div>
+        <div class="col s9">Twitter</div>
       </div>
       <div class="row">
         <span class="col s12">Click to copy link</span>

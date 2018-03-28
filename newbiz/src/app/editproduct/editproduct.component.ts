@@ -431,19 +431,10 @@ export class EditproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 2500000) {
-          window.scrollTo(0, 0);
-          //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-         // this.isError= true;
-          //this.fileerrormessage='Product size is less than 5 MB!';
-        }
-        else {
-
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
-        }
-        e.target.value = '';
       }
+      e.target.value = '';
     }
   }
 

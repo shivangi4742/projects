@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { UtilsService, User, UserService, LocationService, NewProduct, ProductService, NewVariant, NewSize, Product } from 'benowservices';
+import { UtilsService, User, UserService, LocationService, NewProduct, ProductService, NewVariant, NewSize, Product, CampaignService } from 'benowservices';
 import { MaterializeAction } from "angular2-materialize";
 
 @Component({
@@ -11,6 +11,12 @@ import { MaterializeAction } from "angular2-materialize";
 })
 export class ProductcatalogComponent implements OnInit {
   storeURL:string;
+  smsucess:boolean = false;
+  emailtext:boolean = false;
+  subject:string;
+  email:string;
+  mobileNumber:string;
+  smstext:boolean = false;
   user: User;
   dashboard: string = '/dashboard';
   uploadsURL: string;
@@ -28,6 +34,8 @@ export class ProductcatalogComponent implements OnInit {
   isCopied1: boolean = false;
   dateParams: any;
   prodId:string;
+  text:string;
+  suceessmsg:boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -52,7 +60,7 @@ export class ProductcatalogComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   sharemodalActions: any = new EventEmitter<string|MaterializeAction>();
 
-  constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
+  constructor(private router: Router,private campaignservice:CampaignService, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService) {
     this.uploadsURL = utilsService.getUploadsURL();
   }
@@ -179,6 +187,34 @@ shareclose(){
 createprod(){
   this.router.navigateByUrl('/addproduct');
 }
-  
+emaiil(){
+  this.emailtext = !this.emailtext;
+  this.smstext = false;
+}
+emailpost(){
+  this.text=this.url;
+  this.subject="";
+  this.campaignservice.sendEmail(this.email, this.text, this.subject,'')
+    .then(res => this.emailposth(res));
+}
+emailposth(res:any){
+  console.log(res);
+  if(res){
+    this.suceessmsg= true;
+  }
+}
+sms() {
+this.smstext = !this.smstext;
+this.emailtext = false;
+}
+smspost(){
+  this.campaignservice.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
+   .then(res => this.smsposth(res));
+}
+smsposth(res:any){
+  if(res){
+    this.smsucess= true;
+  }
+}
 
 }
