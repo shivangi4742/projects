@@ -14,6 +14,7 @@ import { BusinessCategory } from '../models/businesscategory.model';
 import { BusinessType } from '../models/businesstype.model';
 
 import { UtilsService } from './utils.service';
+import { Locality } from '../models/locality.model';
 
 @Injectable()
 export class UserService {
@@ -442,7 +443,8 @@ export class UserService {
     productReturnOrExchangeDay: string, returnAvailable: boolean, returnsAvailableDay: string, noExchangeFlage: boolean,
     noReturnFlage: boolean, publicPhoneNumber: string, publicEmail: string, storeUrl: string, storeImgUrl: string,
     shipTimeType: string, shipTimeInterval: string, allOverIndia: boolean, selectLocalities: boolean,
-    area: string, freeShip: boolean, chargePerOrder: boolean, orderShipCharge: string, chargePerProd: boolean) {
+    area: Array<Locality>, freeShip: boolean, chargePerOrder: boolean, orderShipCharge: string, chargePerProd: boolean) {
+     // console.log(area,'area');
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
         JSON.stringify({
@@ -480,12 +482,6 @@ export class UserService {
           "selectLocalities": selectLocalities,
 
           "listLocalityVOs": [{
-            "area": area
-          },
-          {
-            "area": area
-          },
-          {
             "area": area
           }],
 
