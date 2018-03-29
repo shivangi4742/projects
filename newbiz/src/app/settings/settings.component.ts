@@ -75,7 +75,7 @@ export class SettingsComponent implements OnInit {
 
     this.userService.getUser()
       .then(res => this.init(res));
-      this.localitychip={
+      this.localitychip = {
         placeholder: '+locality',
         secondaryPlaceholder: 'please Enter',
         autocompleteOptions: {
@@ -137,7 +137,7 @@ export class SettingsComponent implements OnInit {
     else {
       this.publicphonenumber = false;
     }
-     this.businesspro.area = this.dlocality
+    // this.businesspro.area = this.dlocality
   }
   bind(res: any) {
     if (res && res.id) {

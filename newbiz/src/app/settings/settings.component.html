@@ -169,6 +169,12 @@
                        (chip.delete)="deleteProdlocality($event.detail)">
       
                   </div>
+                  <div *ngIf="businesspro.area" >
+                    <div *ngFor ="let t of businesspro.area" class="chip" style="margin-top: 10px">
+                      {{t.area}}
+                      <i class="close material-icons" >close</i>
+                    </div>
+                  </div>
                </div>
             </div>
             </div>
