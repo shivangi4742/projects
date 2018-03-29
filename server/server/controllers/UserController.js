@@ -320,6 +320,7 @@ var userCont = {
     check: function (req, res) {
         var me = this;
         this.checkPost(req, function (data) {
+//            console.log(data, 'dfhgjdgj')
             res.setHeader("X-Frame-Options", "DENY");
             res.json(data);
         });
@@ -521,7 +522,7 @@ var userCont = {
     registerSelfMerchant: function (req, res) {
         var me = this;
         this.registerSelfMerchantpost(req, function (data) {
-            //res.setHeader("X-Frame-Options", "DENY");
+//            console.log(data);
             res.json(data);
         });
     },
@@ -538,6 +539,7 @@ var userCont = {
                 cb(retErr);
             }
             else {
+   //             console.log(req.body.area,req.body.city,'req.body.area');
                 if (req.body && req.body.id) {
                     helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
                         {
@@ -577,15 +579,7 @@ var userCont = {
                              "shipTimeInterval":req.body.shipTimeInterval,  
                              "allOverIndia":req.body.allOverIndia, 
                              "selectLocalities":req.body.selectLocalities,  
-                              "listLocalityVOs":[{
-                                  "area":req.body.area
-                              },
-                              {
-                                  "area":req.body.area
-                              },
-                              {
-                                  "area":req.body.area
-                              }],
+                              "listLocalityVOs": req.body.area,
                              "freeShip":req.body.freeShip, 
                              "chargePerOrder":req.body.chargePerOrder,
                              "orderShipCharge":req.body.orderShipCharge, 
