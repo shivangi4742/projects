@@ -60,10 +60,12 @@ export class SettingsComponent implements OnInit {
   Min: boolean = true;
   day: boolean = false;
   hour: boolean = false;
+   
   localitychip;
   exchfaulty: boolean = true;
   dlocality = new Array<Locality>();
-
+  
+  
   constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
 
@@ -116,10 +118,26 @@ export class SettingsComponent implements OnInit {
   }
 
   businessprfo(res: any) {
-    if (res) {
       this.businesspro = res;
-
+    if (this.businesspro && this.businesspro.contactPerson) {
+      this.editt = true;
     }
+    else {
+      this.editt = false;
+    }
+    if (this.businesspro && this.businesspro.publicEmail) {
+      this.publicemail = true;
+    }
+    else {
+      this.publicemail = false;
+    }
+    if (this.businesspro && this.businesspro.publicPhoneNumber) {
+      this.publicphonenumber = true;
+    }
+    else {
+      this.publicphonenumber = false;
+    }
+     this.businesspro.area = this.dlocality
   }
   bind(res: any) {
     if (res && res.id) {
@@ -139,25 +157,7 @@ export class SettingsComponent implements OnInit {
     if (this.accountpro && this.accountpro.accountRefNumber) {
       this.conaccountnumber = this.accountpro.accountRefNumber;
     }
-    if (this.businesspro && this.businesspro.contactPerson) {
-      this.editt = true;
-    }
-    else {
-      this.editt = false;
-    }
-    if (this.businesspro && this.businesspro.publicEmail) {
-      this.publicemail = true;
-    }
-    else {
-      this.publicemail = false;
-    }
-    if (this.businesspro && this.businesspro.publicPhoneNumber) {
-      this.publicphonenumber = true;
-    }
-    else {
-      this.publicphonenumber = false;
-    }
-
+   
   }
 
 
@@ -376,7 +376,7 @@ export class SettingsComponent implements OnInit {
     this.gst = res;
 
   }
-  returnploicysave() {
+  returnploicysave() { 
      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -384,7 +384,7 @@ export class SettingsComponent implements OnInit {
       this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
       this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
       this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
-      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+      this.businesspro.area,this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
     ).then(res => this.shippingsetting());
     
   }
@@ -679,9 +679,7 @@ export class SettingsComponent implements OnInit {
     this.businesspro.shipTimeType = 'days';
   }
   addProdlocality(res:any){
-    console.log(res);
-    this.dlocality.push(new Locality(res.tag));
-    console.log(this.dlocality,'dlocality');
+    this.dlocality.push(new Locality(res.tag));  
   }
   deleteProdlocality(res:any){
 
