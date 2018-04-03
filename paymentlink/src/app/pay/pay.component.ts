@@ -160,7 +160,6 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if (res && res.id) {
       this.pay = res;
-      console.log('pay', this.pay);
       this.askPanOrig = this.pay.askpan;
       this.payModesOrig = this.pay.supportedModes;
 
