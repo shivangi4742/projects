@@ -34,6 +34,7 @@ export { PayRequest } from './models/payrequest.model';
 export { Attachment } from './models/attachment.model';
 export { Transaction } from './models/transaction.model';
 export { Payment } from './models/payment.model';
+export { AddOn } from './models/addon.model';
 export { Variant } from './models/variant.model';
 export { Notification } from './models/notification.model';
 export { CampaignSummary } from './models/campaignsummary.model';
@@ -50,6 +51,7 @@ export { NewProduct } from './models/newproduct.model';
 export { NewVariant } from './models/newvariant.model';
 export { NewSize } from './models/newsize.model';
 export { ProductImage } from './models/productimage.model';
+export { Locality} from './models/locality.model';
 
 export { SDKService } from './services/sdk.service';
 export { CartService } from './services/cart.service';

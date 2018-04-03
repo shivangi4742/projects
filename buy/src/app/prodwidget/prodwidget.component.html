@@ -6,8 +6,10 @@
     </div>
     <div class="col s12">&nbsp;</div>
     <div align="center" class="col s12 pwtitleBN truncate">{{product.name}}</div>
-    <div align="center" class="col s12 pworpBN truncate">{{'Original Price'}}:
-      <span class="pwmdBN">₹ {{product.originalPrice | number : '1.2-2'}}</span>
+    <div align="center" class="col s12 pworpBN truncate">
+      <span *ngIf="product.originalPrice > product.price">{{'Original Price'}}:
+        <span class="pwmdBN">₹ {{product.originalPrice | number : '1.2-2'}}</span>
+      </span>&nbsp;
     </div>
     <div align="center" class="col s12 pwofpBN truncate">{{'Offer Price' | translate}}:
       <span class="pwmuBN"> ₹ {{product.price | number : '1.2-2'}}</span>

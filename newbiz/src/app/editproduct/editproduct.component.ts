@@ -38,6 +38,7 @@ export class EditproductComponent implements OnInit {
   isImageProcess: boolean = false;
   isError:boolean= false;
   fileerrormessage :string;
+  subsucees: boolean = false;
   fromDt: any;
   toDt: any;
   dateParams: any;
@@ -267,12 +268,42 @@ export class EditproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.editProduct.price < this.editProduct.discountedPrice){
-      this.discountError = true;
+    if(this.editProduct.discountedPrice){
+      if(this.editProduct.price <= this.editProduct.discountedPrice || this.editProduct.discountedPrice < 10){
+        this.discountError = true;
+      }
+      else {
+        this.discountError = false;
+      }
     }
-    else{
-      this.discountError = false;
+  }
+
+  checkVarAmount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].price){
+          if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
     }
+
+    return false;
+  }
+
+  checkVarDiscount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].discountedPrice){
+          if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 
   checkForm(){
@@ -293,6 +324,14 @@ export class EditproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
       if(!this.editProduct.color){
@@ -308,6 +347,14 @@ export class EditproductComponent implements OnInit {
         for(let i:number = 0; i < this.variants.length; i++){
           if(!this.variants[i].price && !this.variants[i].variantCode){
             return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
           }
         }
       }
@@ -325,12 +372,18 @@ export class EditproductComponent implements OnInit {
   }
 
   onSubmit() {
-    //console.log( this.prodSizes,'this.editProduct');
     this.editProduct.prodSizes = this.prodSizes;
     this.editProduct.prodImgUrls = this.imageUrls;
     this.editProduct.variants = this.variants;
-   // console.log(this.editProduct,'hello');
-    this.productService.editProductHB(this.user.merchantCode, this.editProduct);
+    this.productService.editProductHB(this.user.merchantCode, this.editProduct)
+      .then(res  => this.onsubmitpost(res));
+  }
+  onsubmitpost(res:any){
+   console.log(res);
+   if(res)
+   {
+     this.subsucees= true;
+   }
   }
 
   isImageOptimizing(): boolean {
@@ -378,19 +431,10 @@ export class EditproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 500000) {
-          window.scrollTo(0, 0);
-          //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-          this.isError= true;
-          this.fileerrormessage='Product size is less than 5 MB!';
-        }
-        else {
-          this.isError = false;
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
-        }
-        e.target.value = '';
       }
+      e.target.value = '';
     }
   }
 
@@ -406,7 +450,6 @@ export class EditproductComponent implements OnInit {
   }
 
   deleteImage(id: any){
-    this.isError=false;
     if(id && this.imageUrls && this.imageUrls.length > 0) {
       this.imageUrls = this.imageUrls.filter(i => i.prodImgUrl != id);
     }

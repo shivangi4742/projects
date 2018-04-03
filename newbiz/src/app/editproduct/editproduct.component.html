@@ -33,7 +33,7 @@
           <div class="col s4 typeBN">
             <div class="switch">
               <label>
-                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable" (change)="setProdStock()" checked>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
                 <span class="lever" style="margin-left: 0px"></span>
                 <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
               </label>
@@ -147,15 +147,22 @@
               </div>
               <div class="input-field col s6">
                 <input id="cPrice" name="cPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                  min="0" style="margin-bottom: 0px" (keyup)="checkAmount()" required />
+                  min="0" style="margin-bottom:10px" (keyup)="checkAmount()" required />
                 <label for="cPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
                 <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="input-field col s6">
                 <input id="cDiscountPrice" name="cDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
                 <label for="cDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
+                <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+              <div class="input-field col s12">
+                <input id="Shipping" name="Shipping" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                  placeholder="{{'Shipping charge of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
+                />
+                <label for="Shipping" class="active labelPLBN">{{'Shipping Charge' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
             </div>
@@ -174,8 +181,10 @@
               <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
                 <li *ngFor="let vm of variants; let i = index;" class="col s12 test">
                   <div class="collapsible-header">
-                    <span class="">{{'Variant ' | translate}}{{i+1}}</span>
-                    <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
+                    <div class="col s12 variantMobTitleBN">
+                      <span class="" style="margin-top: 5px;">{{'Variant ' | translate}}{{i+1}}</span>
+                      <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(vm.id)">delete</i>
+                    </div>
                   </div>
                   <div class="collapsible-body noMarginPaddingBN">
                     <div class="row noLeftPaddingBN">
@@ -202,14 +211,17 @@
                       </div>
                       <div class="input-field col s5">
                         <input id="{{vm.id}}+price" name="{{vm.id}}" type="number" [(ngModel)]="vm.price" class="validate inputTextBN" placeholder="{{'Price of Variant' | translate}}"
-                        />
+                        style="margin-bottom: 0px"/>
                         <label for="{{vm.id}}+price" class="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                        <span *ngIf="checkVarAmount(vm.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                       </div>
                       <div class="input-field col s7">
                         <input id="{{vm.id}}+dprice" name="{{vm.id}}+dprice" type="number" [(ngModel)]="vm.discountedPrice" class="validate inputTextBN"
-                          placeholder="{{'Discounted Variant Price' | translate}}" />
+                          placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px" />
                         <label for="{{vm.id}}+dprice" class="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                        <span *ngIf="checkVarDiscount(vm.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                       </div>
+                      
                     </div>
                   </div>
                 </li>
@@ -244,8 +256,9 @@
                   </div>
                   <div class="input-field col s5">
                     <input id="{{v.id}}+price" name="{{v.id}}" type="number" [(ngModel)]="v.price" class="validate inputTextBN" placeholder="{{'Price of Variant' | translate}}"
-                    />
+                    style="margin-bottom: 0px"/>
                     <label for="{{v.id}}+price" class="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
+                    <span *ngIf="checkVarAmount(v.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                   </div>
                   <div class="col s12 noLeftPaddingBN">
                     <div class="col s12 inputLabelBN noLeftPaddingBN">
@@ -258,8 +271,9 @@
                   </div>
                   <div class="input-field col s12">
                     <input id="{{v.id}}+dprice" name="{{v.id}}+dprice" type="number" [(ngModel)]="v.discountedPrice" class="validate inputTextBN"
-                      placeholder="{{'Discounted Variant Price' | translate}}" />
+                      placeholder="{{'Discounted Variant Price' | translate}}" style="margin-bottom: 0px" />
                     <label for="{{v.id}}+dprice" class="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                    <span *ngIf="checkVarDiscount(v.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                   </div>
                 </div>
               </div>
@@ -280,8 +294,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'FoodAndBeverages'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Food And Beverages' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -367,16 +390,22 @@
               </div>
               <div class="input-field col s6">
                 <input id="fbPrice" name="fbPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                  min="0" required style="margin-bottom: 0px" (keyup)="checkAmount()" />
+                  min="0" required style="margin-bottom: 10px" (keyup)="checkAmount()" />
                 <label for="fbPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
                 <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
               </div>
               <div class="input-field col s6">
                 <input id="fbDiscountPrice" name="fbDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+                  placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
                 <label for="fbDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+              </div>
+              <div class="input-field col s12">
+                <input id="Deliverycharge" name="Deliverycharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                  placeholder="{{'Delivery Charge of the product' | translate}}" style="margin-bottom: 15px" 
+                />
+                <label for="Deliverycharge" class="active labelPLBN">{{'Delivery Charge' | translate}}</label>
               </div>
             </div>
             <div class="row">
@@ -391,39 +420,51 @@
               <div *ngIf="editProduct.hasVariants" class="col s12 center" style="margin-top: 10px; font-weight: bold">{{'Add-ons' | translate}}</div>
             </div>
             <div *ngIf="editProduct.hasVariants" class="hide-on-med-and-up">
-              <ul class="col s6 listPLBN collapsible" data-collapsible="expandable" materialize="collapsible" [materializeActions]="variantDec">
-                <li *ngFor="let v of variants; let i = index;" class="col s12 test">
+              <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible" [materializeActions]="variantDec">
+                <li *ngFor="let ad of variants; let i = index;" class="col s12 test">
                   <div class="collapsible-header">
-                    {{'Add-on ' | translate}}{{i+1}}
-                    <br>
-                    <a class="linkButtonBN" (click)="deleteVariant(v.id)">Delete Variant</a>
+                    <div class="col s12 variantMobTitleBN">
+                      <span class="" style="margin-top: 5px;">{{'Add-on ' | translate}}{{i+1}}</span>
+                      <i class="right linkButtonBN material-icons alignMidBN" (click)="deleteVariant(ad.id)">delete</i>
+                    </div>
                   </div>
-                  <div class="collapsible-body">
+                  <div class="collapsible-body noMarginPaddingBN">
                     <div class="row noLeftPaddingBN">
-                      <div class="input-field col s8 noLeftPaddingBN">
-                        <input id="vColor" name="vColor" type="text" [(ngModel)]="v.color" class="validate inputTextBN" placeholder="{{'+Color' | translate}}"
-                        />
-                        <label for="vColor" class="active labelPLBN noLeftPaddingBN">{{'Variant Color' | translate}}</label>
-                      </div>
-                      <div class="input-field col s4 noLeftPaddingBN">
-                        <input id="vPrice" name="vPrice" type="number" [(ngModel)]="v.price" class="validate inputTextBN" placeholder="{{'Enter the name of your Product' | translate}}"
-                        />
-                        <label for="vPrice" class="active labelPLBN noLeftPaddingBN">{{'Variant Price' | translate}}</label>
-                      </div>
-                      <div class="input-field col s12 noLeftPaddingBN">
-                        <input id="vSize" name="vSize" type="text" [(ngModel)]="v.size" class="validate inputTextBN" placeholder="{{'+Size' | translate}}"
-                        />
-                        <label for="vSize" class="active labelPLBN noLeftPaddingBN">{{'Variant Size' | translate}}</label>
+                      <div class="col s12 noLeftPaddingBN">
+                        <div class="input-field col s12">
+                          <input id="{{ad.id}}+name" name="{{ad.id}}+name" type="text" [(ngModel)]="ad.variantCode" class="validate inputTextBN"
+                                 placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
+                          <label for="{{ad.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
+                        </div>
+                        <div class="input-field col s12 ">
+                          <input id="{{ad.id}}+desc" name="{{ad.id}}+desc" type="text" [(ngModel)]="ad.variantDesc" class="validate inputTextBN"
+                                 placeholder="{{'Description of add-on' | translate}}" maxlength="500"/>
+                          <label for="{{ad.id}}+desc" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Description' | translate}}</label>
+                        </div>
+                        <div class="input-field col s5">
+                          <input id="{{ad.id}}+price" name="{{ad.id}}+price" type="number" [(ngModel)]="ad.price" class="validate inputTextBN"
+                                 placeholder="{{'Price of Add-on' | translate}}" style="margin-bottom: 0px" />
+                          <label for="{{ad.id}}+price" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Price' | translate}}</label>
+                          <span *ngIf="checkVarAmount(ad.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
+                        </div>
+                        <div class="input-field col s7">
+                          <input id="{{ad.id}}+dprice" name="{{ad.id}}+dprice" type="number" [(ngModel)]="ad.discountedPrice" class="validate inputTextBN"
+                                 placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px;"/>
+                          <label for="{{ad.id}}+dprice" class ="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                          <span *ngIf="checkVarDiscount(ad.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </li>
               </ul>
-              <div *ngIf="editProduct.hasVariants" class="col s6">
-                <a class="linkButtonBN" (click)="addVariant()">Add Variant</a>
-                <br>
-                <br>
-
+              <div class="row"></div>
+              <div class="col s12 center">
+              <span class="variantBN linkButtonBN" (click)="addVariant()">
+              {{'More Add-ons' | translate}}
+              </span>
+                <div class="row"></div>
+                <span class="inputTextBN">{{'To add more add-ons click here' | translate}}</span>
               </div>
             </div>
             <div *ngIf="editProduct.hasVariants" class="row hide-on-small-only">
@@ -445,13 +486,15 @@
                   </div>
                   <div class="input-field col s6">
                     <input id="{{a.id}}+price" name="{{a.id}}" type="number" [(ngModel)]="a.price" class="validate inputTextBN" placeholder="{{'Price of Add-on' | translate}}"
-                      required/>
+                      required style="margin-bottom: 0px"/>
                     <label for="{{a.id}}+price" class="active labelPLBN noLeftPaddingBN">{{'Add-on Price*' | translate}}</label>
+                    <span *ngIf="checkVarAmount(a.id)" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
                   </div>
                   <div class="input-field col s6">
                     <input id="{{a.id}}+dprice" name="{{a.id}}+dprice" type="number" [(ngModel)]="a.discountedPrice" class="validate inputTextBN"
-                      placeholder="{{'Discounted Price' | translate}}" />
+                      placeholder="{{'Discounted Price' | translate}}" style="margin-bottom: 0px" />
                     <label for="{{a.id}}+dprice" class="active labelPLBN noLeftPaddingBN">{{'Discounted Price' | translate}}</label>
+                    <span *ngIf="checkVarDiscount(a.id)" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
                   </div>
                 </div>
               </div>
@@ -472,8 +515,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'Event'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Events & Workshop' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -495,12 +547,13 @@
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="eDiscountPrice" name="eDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+              <input id="eDiscountPrice" name="eDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
                 placeholder="{{'Discounted price of the ticket(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
               />
               <label for="eDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
+            <div class="row"></div>
             <div class="input-field col s6 m3 l3">
               <input id="fromDt" name="fromDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate" [materializeParams]="dateParams"
                 placeholder="{{'Select Start Date' | translate}}" [(ngModel)]="editProduct.startDate">
@@ -523,7 +576,7 @@
               </div>
               <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
                 <div class="col s11 noMarginPaddingBN center">
-                  <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                  <img class="normalImgListBN responsive-img" src={{uploadsURL}}{{img.prodImgUrl}}>
                 </div>
                 <div class="col s1 noMarginPaddingBN">
                   <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
@@ -559,8 +612,17 @@
           </div>
         </div>
         <div *ngIf="editProduct.productType == 'Other'" class="col s12">
-          <div class="col s12 typeBN">
+          <div class="col s7 typeBN">
             {{'Other' | translate}}
+          </div>
+          <div class="col s5 typeBN">
+            <div class="switch">
+              <label>
+                <input type="checkbox" name="inStock" [(ngModel)]="editProduct.isAvailable">
+                <span class="lever" style="margin-left: 0px"></span>
+                <span [ngClass]="editProduct.isAvailable ? 'onBN' : 'offBN'">{{getSwitchProdText(editProduct.isAvailable) | translate}}</span>
+              </label>
+            </div>
           </div>
           <div class="row"></div>
           <div class="row">
@@ -570,7 +632,7 @@
               </div>
               <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
                 <div class="col s11 noMarginPaddingBN center">
-                  <img class="normalImgListBN" src={{uploadsURL}}{{img.prodImgUrl}}>
+                  <img class="normalImgListBN responsive-img" src={{uploadsURL}}{{img.prodImgUrl}}>
                 </div>
                 <div class="col s1 noMarginPaddingBN">
                   <div class="deleteImgSmall linkButtonBN " (click)="deleteImage(img.prodImgUrl)">
@@ -615,16 +677,23 @@
             </div>
             <div class="input-field col s6">
               <input id="oPrice" name="oPrice" type="number" [(ngModel)]="editProduct.price" class="validate inputTextBN" placeholder="{{'Product Price' | translate}}"
-                required style="margin-bottom: 0px" (keyup)="checkAmount()" />
+                required style="margin-bottom: 20px" (keyup)="checkAmount()" />
               <label for="oPrice" class="active labelPLBN">{{'Price*' | translate}}</label>
               <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Min Price: ₹10' | translate}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="oDiscountPrice" name="oDiscountPrice" type="text" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
-                placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 0px" (keyup)="checkAmount()"
+              <input id="oDiscountPrice" name="oDiscountPrice" type="number" [(ngModel)]="editProduct.discountedPrice" class="validate inputTextBN"
+                placeholder="{{'Discounted price of the product(Optional)' | translate}}" style="margin-bottom: 20px" (keyup)="checkAmount()"
               />
               <label for="oDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
+            </div>
+            <div class="input-field col s12">
+              <input id="oshippingcharge" name="oshippingcharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
+                placeholder="{{'Shipping Charge of the product' | translate}}" style="margin-bottom: 10px"
+              />
+              <label for="oshippingcharge" class="active labelPLBN">{{'Shipping Charge' | translate}}</label>
+             
             </div>
           </div>
         </div>
@@ -634,7 +703,14 @@
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" style="margin-right: 20px" name="cancel" [routerLink]="catalogue">{{'CANCEL' | translate}}</button>
             <button class="btn waves-effect waves-light buttonBN regNrmS4BN checkHeight" type="submit" name="edit" [disabled]="!prodEditForm.form.valid || checkForm()">{{'UPDATE PRODUCT' | translate}}</button>
           </div>
+
         </div>
+        <div class="row valign-wrapper">
+        <div class="col s12 errNrmS6B2BN center" *ngIf="subsucees">
+          {{'Product updated successfully'}}
+         </div>
+        </div>
+
       </form>
     </div>
   </div>

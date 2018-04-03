@@ -1,3 +1,5 @@
+import { Locality } from './locality.model';
+
 export class Businesspro {
   constructor(
     public businessName: string,
@@ -32,7 +34,7 @@ export class Businesspro {
     public shipTimeInterval: string,
     public allOverIndia: boolean,
     public selectLocalities: boolean,
-    public area: string,
+    public area: Array<Locality>|null,
     public freeShip: boolean,
     public chargePerOrder: boolean,
     public orderShipCharge: string,

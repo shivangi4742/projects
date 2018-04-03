@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
-import { UtilsService, User, UserService, Status, Accountpro, Businesspro, Merchant, LocationService, FileService } from 'benowservices';
+import { UtilsService, User, UserService, StoreService, Status, Accountpro, Businesspro, Merchant, Locality, LocationService, FileService } from 'benowservices';
 
 @Component({
   selector: 'app-settings',
@@ -60,9 +60,13 @@ export class SettingsComponent implements OnInit {
   Min: boolean = true;
   day: boolean = false;
   hour: boolean = false;
+  storeLogo: string;
   localitychip;
-
-  constructor(private translate: TranslateService, private utilsService: UtilsService, private locationService: LocationService,
+  exchfaulty: boolean = true;
+  dlocality = new Array<Locality>();
+  
+  
+  constructor(private translate: TranslateService,private storeservice: StoreService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
 
   ngOnInit() {
@@ -71,7 +75,7 @@ export class SettingsComponent implements OnInit {
 
     this.userService.getUser()
       .then(res => this.init(res));
-      this.localitychip={
+      this.localitychip = {
         placeholder: '+locality',
         secondaryPlaceholder: 'please Enter',
         autocompleteOptions: {
@@ -111,33 +115,23 @@ export class SettingsComponent implements OnInit {
 
     this.userService.getMerchantDetails(this.user.merchantCode)
       .then(res => this.bind(res));
+
+    this.storeservice.fetchStoreDetails(this.user.merchantCode)
+      .then(res => this.logourl(res));
+  }
+  
+  logourl(res){
+    if(res && res.id) {
+      if(res.logoURL)
+        this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
+      else
+        this.storeLogo = this.utilsService.getDefaultStoreImageURL();
+    }
+
   }
 
   businessprfo(res: any) {
-    if (res) {
       this.businesspro = res;
-
-    }
-  }
-  bind(res: any) {
-    if (res && res.id) {
-      this.chargeFee = res.chargeConvenienceFee;
-      if (this.route.snapshot.params['open']) {
-        let elem: any = document.getElementById(this.route.snapshot.params['open']);
-        if (elem)
-          elem.click();
-      }
-    }
-
-    this.formLoaded = false;
-  }
-
-  initcheckacc(res: any) {
-    this.accountpro = res;
-    this.businesspro.shipTimeType = 'minute';
-    if (this.accountpro && this.accountpro.accountRefNumber) {
-      this.conaccountnumber = this.accountpro.accountRefNumber;
-    }
     if (this.businesspro && this.businesspro.contactPerson) {
       this.editt = true;
     }
@@ -156,7 +150,27 @@ export class SettingsComponent implements OnInit {
     else {
       this.publicphonenumber = false;
     }
+   
+  }
+  bind(res: any) {
+    if (res && res.id) {
+      this.chargeFee = res.chargeConvenienceFee;
+      if (this.route.snapshot.params['open']) {
+        let elem: any = document.getElementById(this.route.snapshot.params['open']);
+        if (elem)
+          elem.click();
+      }
+    }
 
+    this.formLoaded = false;
+  }
+
+  initcheckacc(res: any) {
+    this.accountpro = res;
+    if (this.accountpro && this.accountpro.accountRefNumber) {
+      this.conaccountnumber = this.accountpro.accountRefNumber;
+    }
+   
   }
 
 
@@ -268,6 +282,7 @@ export class SettingsComponent implements OnInit {
     window.scrollTo(0, 0);
     this.isReturn = !this.isReturn;
     document.getElementById('returnBN').click();
+    
   }
 
   returnploicy1() {
@@ -280,6 +295,49 @@ export class SettingsComponent implements OnInit {
     this.ispan1Expanded = false;
     this.isShipped = false
     this.businessset = false;
+    if(this.businesspro.contactSeller) {
+      let ids: any = document.getElementById('s1');
+      if (ids) {
+        ids.click();
+      }
+    }
+    if(this.businesspro.noReturnExchange) {
+      let id2s: any = document.getElementById('s2');
+      if (id2s) {
+        id2s.click();
+      }
+   }
+   if(this.businesspro.productExchange && this.businesspro.productExchangeDay) {
+    let id3s: any = document.getElementById('s3');
+    if (id3s) {
+      id3s.click();
+    }
+   }
+   if(this.businesspro.productReturnOrExchange && this.businesspro.productReturnOrExchangeDay) {
+    let id4s: any = document.getElementById('s4');
+      if (id4s) {
+        id4s.click();
+      }
+   }
+   if(this.businesspro.returnAvailable && this.businesspro.returnsAvailableDay) {
+     let id5s: any = document.getElementById('s5');
+     if (id5s) {
+       id5s.click();
+     }
+   }
+   if(this.businesspro.noExchangeFlage) {
+    let id6s: any = document.getElementById('s6');
+      if (id6s) {
+        id6s.click();
+      }
+   }
+   if(this.businesspro.noReturnFlage) {
+    let id7s: any = document.getElementById('s7');
+      if (id7s) {
+        id7s.click();
+      }
+   }
+    
   }
   shippingsetting() {
     window.scrollTo(0, 0);
@@ -288,6 +346,7 @@ export class SettingsComponent implements OnInit {
   }
 
   shippingsetting1() {
+   
     this.isShipped = !this.isShipped;
     this.isReturn = false;
     this.isNgoExpanded = false;
@@ -297,6 +356,36 @@ export class SettingsComponent implements OnInit {
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
     this.businessset = false;
+    if(this.businesspro.allOverIndia) {
+      let il1s: any = document.getElementById('l1');
+        if (il1s) {
+          il1s.click();
+        }
+     }
+     if(this.businesspro.selectLocalities) {
+      let il2s: any = document.getElementById('l2');
+        if (il2s) {
+          il2s.click();
+        }
+     }
+     if(this.businesspro.freeShip) {
+      let is1s: any = document.getElementById('sj');
+        if (is1s) {
+          is1s.click();
+        }
+     }
+     if(this.businesspro.chargePerOrder) {
+      let is2s: any = document.getElementById('sj1');
+        if (is2s) {
+          is2s.click();
+        }
+     }if(this.businesspro.chargePerProd) {
+      let is3s: any = document.getElementById('sj2');
+        if (is3s) {
+          is3s.click();
+        }
+     }
+     
   }
   sellercontact() {
     window.scrollTo(0, 0);
@@ -370,7 +459,11 @@ export class SettingsComponent implements OnInit {
     this.gst = res;
 
   }
-  returnploicysave() {
+  returnploicysave() { 
+    console.log(this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
+      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
+      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
+      this.businesspro.area,this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd,'fhjkdshfkdkfjkddkkkkkkkkkkkkkkkkkkkkkk');
      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -378,11 +471,11 @@ export class SettingsComponent implements OnInit {
       this.businesspro.pincode, this.businesspro.gstno, this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
       this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
       this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
-      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
+      this.businesspro.area,this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
     ).then(res => this.shippingsetting());
     
   }
-  shippingploicysave() {
+  shippingploicysave(res) {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -622,7 +715,7 @@ export class SettingsComponent implements OnInit {
           this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
         }
         else {
-          this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+          this.fileService.upload(e.target.files[0], "15", "merchant_logo", this.uploadedImage, this);
         }
         e.target.value = '';
       }
@@ -673,9 +766,125 @@ export class SettingsComponent implements OnInit {
     this.businesspro.shipTimeType = 'days';
   }
   addProdlocality(res:any){
-    console.log(res);
+    this.dlocality.push(new Locality(res.tag));  
+  }
+  deleteProdlocality(res:any){
 
   }
+  locality(){
+      this.businesspro.allOverIndia = true;
+      this.businesspro.selectLocalities = false;
+    
+  }
+    locality1(){
+      this.businesspro.selectLocalities = true;
+      this.businesspro.allOverIndia = false;
+    
+  }
+  shiping1(){
+      this.businesspro.freeShip = true;
+      this.businesspro.chargePerOrder= false;
+      this.businesspro.chargePerProd = false
+    
+  }
+  shiping2(){
+    this.businesspro.freeShip = false;
+      this.businesspro.chargePerOrder= true;
+      this.businesspro.chargePerProd = false
+    
+  }
+  shiping3(){
+    this.businesspro.freeShip = false;
+      this.businesspro.chargePerOrder= false;
+      this.businesspro.chargePerProd = true
+    
+  }
+  contactseller(res:any) {
+    this.businesspro.contactSeller = true;
+    this.businesspro.noReturnExchange = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.productExchange = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.productExchangeDay = '';
+    this.businesspro.productReturnOrExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+
+  }
+  noReturnExchange(res:any){
+    this.businesspro.noReturnExchange = true;
+    this.businesspro.contactSeller = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.productExchange = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.productExchangeDay = '';
+    this.businesspro.productReturnOrExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+  }
+  returnAvailable(res:any){
+    this.businesspro.returnAvailable = true;
+    this.businesspro.noReturnExchange = false;
+    this.businesspro.contactSeller = false;
+    this.businesspro.productExchange = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.productExchangeDay = '';
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.productReturnOrExchangeDay = '';
+
+  }
+  productExchange(res:any){
+    this.businesspro.productExchange= true;
+    this.businesspro.noReturnExchange = false;
+    this.businesspro.contactSeller = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.productReturnOrExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+  }
+  noExchangeFlage(res:any){
+    this.businesspro.noExchangeFlage = true;
+    this.businesspro.productExchange= false;
+    this.businesspro.noReturnExchange = false;
+    this.businesspro.contactSeller = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.productReturnOrExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+    this.businesspro.productExchangeDay = '';
+    
+  }
+  noReturnFlage(res:any){
+    this.businesspro.noReturnFlage = true;
+    this.businesspro.productExchange= false;
+    this.businesspro.contactSeller = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.productReturnOrExchange = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.productReturnOrExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+    this.businesspro.productExchangeDay = '';
+   
+  }
+  productReturnOrExchange(res:any){
+    this.businesspro.productReturnOrExchange = true;
+    this.businesspro.productExchange= false;
+    this.businesspro.noReturnFlage = false;
+    this.businesspro.noReturnExchange = false;
+    this.businesspro.contactSeller = false;
+    this.businesspro.returnAvailable = false;
+    this.businesspro.noExchangeFlage = false;
+    this.businesspro.productExchangeDay = '';
+    this.businesspro.returnsAvailableDay = '';
+
+  }
+  
 }
 
 

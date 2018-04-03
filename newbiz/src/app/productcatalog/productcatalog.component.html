@@ -1,25 +1,4 @@
 <div materialize>
-  <ul id="share12" Class="pcBN  dropBN topNavDDMenuNGOBN" *ngIf="false">
-    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
-    </a>
-    <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
-    </a>
-    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
-      />
-    </a>
-    <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
-      title="Twitter Tweet Button" (click)="twitterbutton()">
-      <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
-    </a>
-    <a class="linkButtonBN hide-on-large-only" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px;"
-      title="Twitter Tweet Button" (click)="twitterbutton()">
-      <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
-    </a>
-
-  </ul>
   <div materialize="modal" id="seedeatil2" class="modal modlBN productModalBN" [materializeActions]="sharemodalActions">
     <div class="modal-content">
       <div class="row">
@@ -29,54 +8,90 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s4 typeBN">
-          <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+        <div class="col s3 typeBN">
+          <a (click)="emaiil()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
           </a>
         </div>
-        <div class="col s8">Email</div>
+        <div class="col s9">Email</div>
       </div>
-      <div class="row">
-        <div class="col s4 typeBN">
-          <a width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <div class="row bderBN" *ngIf="emailtext">
+        <div class="valign wrapper">
+        <div class="col s12 maiBN">
+         <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="maiBN">
+        </div>
+      </div>
+      <div class="valign wrapper ">
+          <div class="col s12 center">
+           <button type="submit" class="btn waves-effect waves-light buttonBN smallerFontBN center" (click)="emailpost()">Email</button>
+
+          </div>
+         <div class="col s12 center smsBN" *ngIf="suceessmsg">{{'successfully email sent!' | translate}}</div>
+        </div>
+        
+      </div>
+      <div class="row" >
+        <div class="col s3 typeBN">
+          <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
           </a>
         </div>
-        <div class="col s8">SMS</div>
+        <div class="col s9">SMS</div>
       </div>
+      <div class="row bderBN" *ngIf="smstext">
+          <div class="valign wrapper">
+          <div class="col s12 maiBN">
+           <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="maiBN">
+          </div>
+        </div>
+        <div class="valign wrapper">
+            <div class="col s12 center">
+             <button type="submit" class="btn waves-effect waves-light buttonBN smallerFontBN center" (click)="smspost()">SMS</button>
+            </div>
+          </div>
+         <div *ngIf="smsucess" class="col s12 center smsBN">{{'successfully sms sent !'}}</div>
+        </div>
       <div class="row">
-        <div class="col s4 typeBN">
-          <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button"
-            style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+        <div class="col s3 typeBN">
+          <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
             <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
             />
           </a>
         </div>
-        <div class="col s8">Facebook</div>
+        <div class="col s9">Facebook</div>
       </div>
       <div class="row">
-        <div class="col s4 typeBN">
-          <a class="linkButtonBN hide-on-med-and-down" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+        <div class="col s3 typeBN">
+          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
             title="Twitter Tweet Button" (click)="twitterbutton()">
             <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
           </a>
         </div>
-        <div class="col s8">Twitter</div>
+        <div class="col s9">Twitter</div>
+      </div>
+      <div class="row show-on-small hide-on-large-only">
+        <div class="col s3 typeBN">
+          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+            title="WhatsApp share Button" (click)="WhatsApp()">
+            <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="Tweet on Twitter" width="35" height="35" />
+          </a>
+        </div>
+        <div class="col s9">WhatsApp</div>
       </div>
       <div class="row">
         <span class="col s12">Click to copy link</span>
-          <div class="col s12 typeBN">
+        <div class="col s12 typeBN">
 
-              <div class="smallFontBN noLeftPaddingBN">
-                  <a class="copyBN" [class.btn-success]= "isCopied1"
-                  type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
-                  <input type="text" class="smallFontBN inputBN" [(ngModel)]="url" disabled/>
-                  </a>
-                </div>
+          <div class="smallFontBN noLeftPaddingBN">
+            <a class="copyBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
+              <input type="text" class="smallFontBN inputBN" [(ngModel)]="url" disabled/>
+            </a>
           </div>
+        </div>
       </div>
-      </div>
+    </div>
   </div>
+ 
   <div class="row"></div>
   <div class="row mainBodyBN">
     <div class="col s12 noLeftPaddingBN">
@@ -85,8 +100,36 @@
         <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
       </a>
     </div>
+    <div *ngIf="!hasProducts()">
+        <div class="row"></div>
+        <div class="row"></div>
+        <div class="roundBorderMainBN col s10 offset-s1 hide-on-small-only">
+          <div class="row">
+            <div class="titleBN col s12 center greyBN">
+              {{'You have not added to your store...' | translate}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="titleBN col s12 center">
+              <img src="../../assets/newbiz/imgs/social3_04.jpg" style="
+              max-width: 183px;
+          " alt="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="titleBN col s12 center regNrmS2BN">
+              {{"Lets's get you started!" | translate}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 center">
+              <button class="btn waves-effect waves-light buttonPLBN red regNrmS4BN colrnewBN center" type="submit" name="create" (click)="createprod()">{{'Add your first product Now!' | translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <div class="row"></div>
-    <div class="row catalogBN">
+    <div class="row catalogBN" *ngIf="hasProducts()">
       <div class="col s12 m7 l7 searchBorderBN">
         <i class="col s2 material-icons searchIconBN">search</i>
         <input id="searchCamp" placeholder="{{'Search' | translate}}..." name="searchCamp" class="col s10 searchBN" type="text" [(ngModel)]="searchText">
@@ -98,11 +141,15 @@
           Hello!
         </div>
       </div>
+
+    
+
+
       <div *ngIf="hasProducts()" class="row">
-         
         <div class="row">
           <div class="col s12 m12 l6 center">
-            <a [href]="storeURL" target="_blank" class="redcBN">{{storeURL}}</a></div>
+            <a [href]="storeURL" target="_blank" class="redcBN">{{storeURL}}</a>
+          </div>
           <div class="col s10 offset-s2 m6 offset-m6 l6 pagingBN">
             <a class="linkButtonBN previousBN" (click)="previous()" *ngIf="numPages > 1 && page > 1">
               <i class="material-icons alignMidBN">navigate_before</i>

@@ -28,7 +28,7 @@ import { PaymentfailureComponent } from './paymentfailure/paymentfailure.compone
 import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 
 export function HttpFactory(http: Http) {
-  return new TranslateStaticLoader(http, '/assets/newbiz/i18n', '.json');
+  return new TranslateStaticLoader(http, '/assets/buy/i18n', '.json');
 }
 
 @NgModule({

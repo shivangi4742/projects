@@ -34,7 +34,7 @@
             </div>
             <div class="otherThanImagesBN">
               <div class="prodtitleBN">{{product.name}}</div>
-              <div class="origpriceBN">{{'Original Price' | translate}}: 
+              <div class="origpriceBN" *ngIf="product.originalPrice > product.price">{{'Original Price' | translate}}: 
                 <span class="markdownBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
               </div>
               <div class="offerpriceBN">{{'Offer Price' | translate}}: 
@@ -44,24 +44,24 @@
               <div class="borderBN"></div>
               <div>&nbsp;</div>
               <div class="colorscntnrBN" *ngIf="product.color">
-                <span>{{'Color' | translate}}:</span>
-                <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 
-                  *ngIf="!isSysColor(product.color)" (click)="selectVariant(null)">{{product.color}}</span>
-                <div *ngIf="isSysColor(product.color)" (click)="selectVariant(null)" [ngClass]="getColClass(product.color, '-1')">
-                  <span class="tooltiptext">{{product.color}}</span>
-                </div>
-                <span *ngFor="let variant of product.variants">
-                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
-                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
-                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
-                    <span class="tooltiptext">{{variant.color}}</span>
+                  <span>{{'Color' | translate}}:</span>
+                  <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 
+                    *ngIf="!isSysColor(product.color)" (click)="selectVariant(null)">{{product.color}}</span>
+                  <div *ngIf="isSysColor(product.color)" (click)="selectVariant(null)" [ngClass]="getColClass(product.color, '-1')">
+                    <span class="tooltiptext">{{product.color}}</span>
                   </div>
-                </span>
+                <span *ngFor="let variant of product.variants">
+                    <span [ngClass]="selVariant == variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                      *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                    <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                      <span class="tooltiptext">{{variant.color}}</span>
+                    </div>                    
+                  </span>
               </div>
               <div *ngIf="product.color">&nbsp;</div>
               <div class="colorscntnrBN" *ngIf="availableSizes">
                 <span>{{'Size' | translate}}:</span>
-                <span *ngFor="let size of availableSizes">
+                <span *ngFor="let size of availableSizes" class="sizesBN">
                   <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
                     (click)="selectSize(size)">{{size.size}}</span>
                 </span>
@@ -145,7 +145,7 @@
             </div>
             <div class="col s4 ">
               <div class="prodtitlemedBN">{{product.name}}</div>
-              <div class="origpriceBN">{{'Original Price' | translate}}: 
+              <div class="origpriceBN" *ngIf="product.originalPrice > product.price">{{'Original Price' | translate}}: 
                 <span class="markdownBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
               </div>
               <div class="offerpriceBN">{{'Offer Price' | translate}}: 
@@ -162,17 +162,17 @@
                   <span class="tooltiptext">{{product.color}}</span>
                 </div>
                 <span *ngFor="let variant of product.variants">
-                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
-                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
-                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
-                    <span class="tooltiptext">{{variant.color}}</span>
-                  </div>
-                </span>
+                    <span [ngClass]="selVariant == variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                      *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                    <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                      <span class="tooltiptext">{{variant.color}}</span>
+                    </div>
+                  </span>
               </div>
               <div *ngIf="product.color">&nbsp;</div>
               <div class="colorscntnrBN" *ngIf="availableSizes">
                 <span>{{'Size' | translate}}:</span>
-                <span *ngFor="let size of availableSizes">
+                <span *ngFor="let size of availableSizes" class="sizesBN">
                   <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
                     (click)="selectSize(size)">{{size.size}}</span>
                 </span>
@@ -261,7 +261,7 @@
              <div class="row">
             <div class="col s12 ">
               <div class="prodtitlemedBN">{{product.name}}</div>
-              <div class="origpricesmallBN">{{'Original Price' | translate}}: 
+              <div class="origpricesmallBN" *ngIf="product.originalPrice > product.price">{{'Original Price' | translate}}: 
                 <span class="markdownBN"> ₹ {{product.originalPrice | number : '1.2-2'}}</span>
               </div>
               <div class="offerpricesmallBN">{{'Offer Price' | translate}}: 
@@ -275,17 +275,17 @@
                   <span class="tooltiptext">{{product.color}}</span>
                 </div>
                 <span *ngFor="let variant of product.variants">
-                  <span [ngClass]="selVariant == product.variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
-                    *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
-                  <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
-                    <span class="tooltiptext">{{variant.color}}</span>
-                  </div>
-                </span>
+                    <span [ngClass]="selVariant == variant.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
+                      *ngIf="!isSysColor(variant.color)" (click)="selectVariant(variant)">{{variant.color}}</span>
+                    <div *ngIf="isSysColor(variant.color)" (click)="selectVariant(variant)" [ngClass]="getColClass(variant.color, variant.id)">
+                      <span class="tooltiptext">{{variant.color}}</span>
+                    </div>
+                  </span>
               </div>
               <div *ngIf="product.color">&nbsp;</div>
               <div class="colorscntnrBN" *ngIf="availableSizes">
                 <span>{{'Size' | translate}}:</span>
-                <span *ngFor="let size of availableSizes">
+                <span *ngFor="let size of availableSizes" class="sizesBN">
                   <span [ngClass]="size.id == selectedSize.id ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'"
                     (click)="selectSize(size)">{{size.size}}</span>
                 </span>

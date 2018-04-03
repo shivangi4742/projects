@@ -14,6 +14,7 @@ import { BusinessCategory } from '../models/businesscategory.model';
 import { BusinessType } from '../models/businesstype.model';
 
 import { UtilsService } from './utils.service';
+import { Locality } from '../models/locality.model';
 
 @Injectable()
 export class UserService {
@@ -52,6 +53,7 @@ export class UserService {
     setLineOfBusiness: 'user/setLineOfBusiness',
     changePasswordURL: 'user/changeoldpassword'
   }
+  arealo:  Array<Locality>;
 
   constructor(private http: Http, private utilsService: UtilsService) {
     this.refresh();
@@ -442,7 +444,8 @@ export class UserService {
     productReturnOrExchangeDay: string, returnAvailable: boolean, returnsAvailableDay: string, noExchangeFlage: boolean,
     noReturnFlage: boolean, publicPhoneNumber: string, publicEmail: string, storeUrl: string, storeImgUrl: string,
     shipTimeType: string, shipTimeInterval: string, allOverIndia: boolean, selectLocalities: boolean,
-    area: string, freeShip: boolean, chargePerOrder: boolean, orderShipCharge: string, chargePerProd: boolean) {
+    area: Array<Locality>, freeShip: boolean, chargePerOrder: boolean, orderShipCharge: string, chargePerProd: boolean) {
+     // console.log(area,'area');
     return this.http
       .post(this.utilsService.getBaseURL() + this._urls.registerSelfMerchant,
         JSON.stringify({
@@ -478,17 +481,7 @@ export class UserService {
           "shipTimeInterval": shipTimeInterval,
           "allOverIndia": allOverIndia,
           "selectLocalities": selectLocalities,
-
-          "listLocalityVOs": [{
-            "area": area
-          },
-          {
-            "area": area
-          },
-          {
-            "area": area
-          }],
-
+          "area": area,
           "freeShip": freeShip,
           "chargePerOrder": chargePerOrder,
           "orderShipCharge": orderShipCharge,
@@ -536,15 +529,25 @@ export class UserService {
     if (res.merchantUser.kycVerified == true) {
       this._user.kycverified = res.merchantUser.kycVerified;
     }
-    if (res.merchantUser) {
+    if(res.merchantUser){
+       let arealo = new Array<Locality>();
+      if(res.merchantUser.merchantLocalities && res.merchantUser.merchantLocalities.length > 0){
+        let arealo = new Array<Locality>();
+        let d = res.merchantUser.merchantLocalities;
+        for(let i:number = 0; i < d.length; i++){
+          arealo.push(new Locality(d[i].localityCode))
+          }
+       }
       let pt = res.merchantUser;
       this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
         pt.address, pt.numberOfOutlets, pt.contactPersonDesignation, pt.city, pt.contactEmailId, pt.locality, pt.businessTypeCode, pt.pinCode, pt.gstNumber,
         pt.contactSeller, pt.noReturnExchange, pt.productExchange, pt.productExchangeDay, pt.productReturnOrExchange, pt.productReturnOrExchangeDay, pt.returnAvailable,
         pt.returnsAvailableDay, pt.noExchangeFlage, pt.noReturnFlage, pt.publicPhoneNumber, pt.publicEmail, pt.storeUrl, pt.storeImgUrl,
         pt.shipTimeType, pt.shipTimeInterval,pt.allOverIndia, pt.selectLocalities,
-        pt.area, pt.freeShip, pt.chargePerOrder, pt.orderShipCharge, pt.chargePerProd);
+        null, pt.freeShip, pt.chargePerOrder, pt.orderShipCharge, pt.chargePerProd);
+       
     }
+  
     return this._businesspro;
   }
 

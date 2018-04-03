@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { UtilsService, User, UserService, BusinessType, BusinessCategory, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
+import { UtilsService, User, UserService,Locality, BusinessType, BusinessCategory, Status, Accountpro, Businesspro, Merchant, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-register',
@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
   errmsg: string;
   editt: boolean = true;
   homeLink: string = '/dashboard';
+  dlocality = new Array<Locality>();
 
 
   constructor(private translate: TranslateService, private router: Router, private utilsService: UtilsService, private locationService: LocationService,
@@ -86,7 +87,7 @@ export class RegisterComponent implements OnInit {
       .then(ares => this.initcheckacc(ares));
 
     this.userService.checkMerchant(this.user.mobileNumber, "b")
-      .then(mres => this.businesspro = mres);
+      .then(mres => this.initceckacc(mres));
 
     this.formLoaded = true;
   }
@@ -97,7 +98,12 @@ export class RegisterComponent implements OnInit {
     if (this.accountpro.accountRefNumber) {
       this.conaccountnumber = this.accountpro.accountRefNumber;
     }
+    
 
+  }
+  initceckacc(res:any){
+    this.businesspro = res;
+    this.businesspro.area = this.dlocality
   }
 
 

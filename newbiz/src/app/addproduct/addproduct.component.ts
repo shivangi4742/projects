@@ -17,7 +17,7 @@ export class AddproductComponent implements OnInit {
   varientprice:number;
   newProduct = new NewProduct(true, false, false, null, null, null, null,
     null, null, null, null,null,true, 'Lifestyle', null,
-    null, null, null, null, null);
+    null, null, null, null, null, null);
   variants = new Array<NewVariant>();
   prodSizes = new Array<NewSize>();
   variantSizes = new Array<NewSize>();
@@ -69,6 +69,10 @@ export class AddproductComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   isError:boolean= false;
   fileerrormessage :string;
+  dcountprice:string;
+  price: string;
+  isdisprice: boolean = false;
+  idis:string;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
@@ -241,21 +245,54 @@ export class AddproductComponent implements OnInit {
       this.isAmountLess = false;
     }
 
-    if(this.newProduct.price < this.newProduct.discountedPrice){
-      this.discountError = true;
+    if(this.newProduct.discountedPrice){
+      if(this.newProduct.price <= this.newProduct.discountedPrice || this.newProduct.discountedPrice < 10){
+        this.discountError = true;
+      }
+      else {
+        this.discountError = false;
+      }
     }
-    else{
-      this.discountError = false;
+  }
+
+  checkVarAmount(id: any): boolean{
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].price){
+          if(this.variants[i].price < 10){
+            return true;
+          }
+        }
+      }
     }
+
+    return false;
+  }
+
+  checkVarDiscount(id: any): boolean {
+    for(let i:number = 0; i < this.variants.length; i++){
+      if(id == this.variants[i].id){
+        if(this.variants[i].discountedPrice){
+          if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
   }
 
   selectProdType(type: string){
     this.imageUrls = [];
     this.variants = [];
     this.prodSizes = [];
+    this.isAmountLess = false;
+    this.discountError = false;
+    this.numVariants = 0;
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
       null, null, null, null,null, true, type, null,
-      null, null, null, null, null);
+      null, null, null, null, null,null);
   }
 
   isImageOptimizing(): boolean {
@@ -303,19 +340,13 @@ export class AddproductComponent implements OnInit {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        if (e.target.files[0].size > 500000) {
-          window.scrollTo(0, 0);
-          //this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
-          this.isError= true;
-          this.fileerrormessage='Product size is less than 5 MB!';
-        }
-        else {
-          this.isError = false;
+        
           this.imgOptimize(e.target.files[0]);
           this.modalActions2.emit({ action: "modal", params: ['open'] });
-        }
-        e.target.value = '';
+        
+     
       }
+      e.target.value = '';
     }
   }
 
@@ -389,6 +420,14 @@ export class AddproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].color){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
       if(!this.newProduct.color){
@@ -405,23 +444,31 @@ export class AddproductComponent implements OnInit {
           if(!this.variants[i].price && !this.variants[i].variantCode){
             return true;
           }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
         }
       }
     }
 
     if(this.newProduct.productType == 'Event'){
-
+     
     }
 
     if(this.newProduct.productType == 'Other'){
-
+     
     }
 
     return false;
   }
 
   added(res: any){
-    console.log('Added Prod: ', res);
+    console.log('Added Prod ');
   }
 
   done(){
@@ -440,15 +487,5 @@ export class AddproductComponent implements OnInit {
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
-  }
-  checkVarientamount(res:any){
-    console.log(res, 'this.varientprice');
-    this.varientprice = res;
-    if(this.varientprice < 10){
-      this.isvarientprice = true;
-    }
-    else{
-      this.isvarientprice = false;
-    }
   }
 }

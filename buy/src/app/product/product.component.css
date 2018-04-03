@@ -304,3 +304,7 @@
     position: relative;
     top: 10px;
 }
+
+.sizesBN {
+    line-height: 35px;
+}

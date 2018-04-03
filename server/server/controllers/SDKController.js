@@ -17,8 +17,6 @@ var sdkCont = {
             };
             var status = req.body.status;
             var statusMsg = 'Failed';
-            if (status && status.toLowerCase() == 'success')
-                statusMsg = 'Successful';
 
             var pmtype = 'DEBIT_CARD';
             if (req.body.mode === 'CC')
@@ -70,6 +68,259 @@ var sdkCont = {
         }
     },
 
+    sendEmail: function(dto, dtext, dsubject, dcc, dbcc, hdrs, cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (dto && dtext && dsubject)
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/sendEmailNotification', 'POST', hdrs),
+                    {
+                        "to": dto,
+                        "text": dtext,
+                        "subject": dsubject,
+                        "cc": dcc,
+                        "bcc": dbcc
+                    }, cb);
+            else
+                cb(retErr);
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    
+    getSellerMailBody(amount, transactionId, customerName, customerPhone, customerEmail, customerAddress) {
+        return '<html> ' +
+            '<head> ' +
+            '  <style> ' +
+            '  table { ' +
+            '      font-family: \'Open Sans\', sans-serif; ' +
+            '      font-size: 1.75vw; ' +
+            '      border-collapse: collapse; ' +
+            '      width: 100%; ' +
+            '  } ' +
+            '  td, th { ' +
+            '      border-bottom: 1px solid #dddddd; ' +
+            '      text-align: left; ' +
+            '      padding: 12px; ' +
+            '  } ' +
+            '  .mainContent{ ' +
+            '    margin-left: 15%; ' +
+            '    margin-right: 15%; ' +
+            '    padding: 10px; ' +
+            '    font-family: \'Open Sans\', sans-serif; ' +
+            '    font-size: 1.5vw; ' +
+            '  } ' +
+            '  .logoImage{ ' +
+            '    text-align: center; ' +
+            '    margin-bottom: 10px; ' +
+            '  } ' +
+            '  .title{ ' +
+            '    text-align: center; ' +
+            '    padding: 12px; ' +
+            '    font-size: 1.8vw; ' +
+            '  } ' +
+            '  .heading{ ' +
+            '    font-size: 1.5vw; ' +
+            '    font-weight: bold; ' +
+            '    margin-bottom: 5px; ' +
+            '  } ' +
+            '  .table{ ' +
+            '    margin-bottom: 20px; ' +
+            '  } ' +
+            '  .columnnames{ ' +
+            '    background-color: #f5f4f4; ' +
+            '    color: #e53935; ' +
+            '    width: 40%; ' +
+            '  } ' +
+            '  .data{ ' +
+            ' ' +
+            '  } ' +
+            '  .helpdesk{ ' +
+            '    margin-bottom: 30px; ' +
+            '  } ' +
+            '  a{ ' +
+            '    color: royalblue; ' +
+            '    text-decoration:  none; ' +
+            '  } ' +
+            '  a:hover{ ' +
+            '    cursor: pointer; ' +
+            '  } ' +
+            '  .footer{ ' +
+            '    border-color: #cccccc; ' +
+            '    text-align: center; ' +
+            '  } ' +
+            ' ' +
+            '  </style> ' +
+            '</head> ' +
+            '<body> ' +
+            '  <div class="mainContent"> ' +
+            '    <div class="logoImage"> ' +
+            '      <img src="http://www.benow.in/wp-content/uploads/2017/11/logo@2x.png" width="108px" height="77"> ' +
+            '    </div> ' +
+            '    <div class="title"> ' +
+            '      Payment Received.<br> ' +
+            '      ₹' + amount + ' successfully received. ' +
+            '    </div> ' +
+            '    <div class="heading"> ' +
+            '      Payment Details ' +
+            '    </div> ' +
+            '    <div class="table"> ' +
+            '      <table> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Amount</td> ' +
+            '          <td>₹' + amount + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Payment ID</td> ' +
+            '          <td>' + transactionId + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Name</td> ' +
+            '          <td>' + customerName + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Mobile Number</td> ' +
+            '          <td>' + customerPhone + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Email</td> ' +
+            '          <td class="data">' + customerEmail + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Address</td> ' +
+            '          <td class="data">' + customerAddress + '</td> ' +
+            '        </tr> ' +
+            '      </table> ' +
+            '    </div> ' +
+            '    <div class="helpdesk"> ' +
+            '      <a href="mailto:helpdesk@benow.in" target="_top">Raise an issue</a>, if there is a problem with this ' +
+            '    </div> ' +
+            '    <div class="footer"> ' +
+            '      © 2018 Benow. All Rights Reserved.<br><br> ' +
+            'Hiranandani Lighthall, Tower A, 507 Above Maruti Suzuki Showroom Saki Vihar Road, Andheri East Mumbai 400072 ' +
+            '    </div> ' +
+            '  </div> ' +
+            '</body> ' +
+            '</html> ';
+    },
+
+    getBuyerMailBody(amount, merchant, merchantMobileNumber, merchantUserId, transactionId) {
+        return '<html> ' +
+            '<head> ' +
+            '  <style> ' +
+            '  table { ' +
+            '      font-family: \'Open Sans\', sans-serif; ' +
+            '      font-size: 1.75vw; ' +
+            '      border-collapse: collapse; ' +
+            '      width: 100%; ' +
+            '  } ' +
+            '  td, th { ' +
+            '      border-bottom: 1px solid #dddddd; ' +
+            '      text-align: left; ' +
+            '      padding: 12px; ' +
+            '  } ' +
+            '  .mainContent{ ' +
+            '    margin-left: 15%; ' +
+            '    margin-right: 15%; ' +
+            '    padding: 10px; ' +
+            '    font-family: \'Open Sans\', sans-serif; ' +
+            '    font-size: 1.5vw; ' +
+            '  } ' +
+            '  .logoImage{ ' +
+            '    text-align: center; ' +
+            '    margin-bottom: 10px; ' +
+            '  } ' +
+            '  .title{ ' +
+            '    text-align: center; ' +
+            '    padding: 12px; ' +
+            '    font-size: 1.8vw; ' +
+            '  } ' +
+            '  .heading{ ' +
+            '    font-size: 1.5vw; ' +
+            '    font-weight: bold; ' +
+            '    margin-bottom: 5px; ' +
+            '  } ' +
+            '  .table{ ' +
+            '    margin-bottom: 20px; ' +
+            '  } ' +
+            '  .columnnames{ ' +
+            '    background-color: #f5f4f4; ' +
+            '    color: #e53935; ' +
+            '    width: 40%; ' +
+            '  } ' +
+            '  .data{ ' +
+            ' ' +
+            '  } ' +
+            '  .helpdesk{ ' +
+            '    margin-bottom: 30px; ' +
+            '  } ' +
+            '  a{ ' +
+            '    color: royalblue; ' +
+            '    text-decoration:  none; ' +
+            '  } ' +
+            '  a:hover{ ' +
+            '    cursor: pointer; ' +
+            '  } ' +
+            '  .footer{ ' +
+            '    border-color: #cccccc; ' +
+            '    text-align: center; ' +
+            '  } ' +
+            ' ' +
+            '  </style> ' +
+            '</head> ' +
+            '<body> ' +
+            '  <div class="mainContent"> ' +
+            '    <div class="logoImage"> ' +
+            '      <img src="http://www.benow.in/wp-content/uploads/2017/11/logo@2x.png"  width="108px" height="77"> ' +
+            '    </div> ' +
+            '    <div class="title"> ' +
+            '      Your payment is successful.<br> ' +
+            '<img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="13px" height="15px"/>' + amount + ' successfully paid. ' +
+            '    </div> ' +
+            '    <div class="heading"> ' +
+            '      Payment Details ' +
+            '    </div> ' +
+            '    <div class="table"> ' +
+            '      <table> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Merchant Name</td> ' +
+            '          <td>' + merchant + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Merchant Number</td> ' +
+            '          <td>' + merchantMobileNumber + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Merchant Email</td> ' +
+            '          <td>' + merchantUserId + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Payment ID</td> ' +
+            '          <td>' + transactionId + '</td> ' +
+            '        </tr> ' +
+            '        <tr> ' +
+            '          <td class="columnnames">Amount</td> ' +
+            '          <td class="data"><img src="http://trak.in/wp-content/uploads/2011/07/image5.png" width="10px" height="12px"/>' + amount + 
+            '</td> ' +
+            '        </tr> ' +
+            '      </table> ' +
+            '    </div> ' +
+            '    <div class="helpdesk"> ' +
+            '      <a href="mailto:helpdesk@benow.in" target="_top">Raise an issue</a>, if there is a problem with this ' +
+            '    </div> ' +
+            '    <div class="footer"> ' +
+            '      © 2018 Benow. All Rights Reserved.<br><br> ' +
+            'Hiranandani Lighthall, Tower A, 507 Above Maruti Suzuki Showroom Saki Vihar Road, Andheri East Mumbai 400072 ' +
+            '    </div> ' +
+            '  </div> ' +
+            '</body> ' +
+            '</html> ';
+    },
+    
     saveCashPaymentSuccess: function (req, res) {
         res.setHeader("X-Frame-Options", "DENY");
         this.paymentSuccess(req, function (data) {
@@ -95,6 +346,45 @@ var sdkCont = {
         this.send80G(req, function (data) {
             res.json(data);
         });
+    },
+
+    sendSuccessEmails: function(req) {
+        try {
+            var me = this;
+            if(req && req.body && req.body.txnid && req.params && req.params.code) {
+                helper.postAndCallback(helper.getDefaultedExtServerOptions('/merchants/merchant/fetchMerchantDetails', 'POST',
+                    req.headers),
+                    {
+                        "merchantCode": req.params.code
+                    },
+                    function (mData) {
+                        if(mData && mData.userId) {
+                            helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/paymentadapter/getPayerDetailByTransactionRefNumber',
+                            'POST', req.headers),
+                            {
+                                "txnRefNumber": req.body.txnid
+                            }, 
+                            function(cData2) {
+                                if(cData2 && cData2.length > 0) {
+                                    var cData = cData2[0];
+                                    if(cData && cData.txnRefNumber) {
+                                        me.sendEmail(mData.userId, me.getSellerMailBody(req.body.amount, req.body.txnid, cData.name, cData.mobileNo, 
+                                            cData.email, cData.address), 'Ordered Successfully', null, null, req.headers, function(m1) {
+                                            });
+                                        if(cData.email)
+                                            me.sendEmail(cData.email, me.getBuyerMailBody(req.body.amount, mData.displayName, mData.mobileNumber,
+                                                mData.userId, req.body.txnid), 'Order Received on Benow', null, null, req.headers, function(m2) {
+                                                })    
+                                    }    
+                                }
+                            });
+                        }
+                    });
+            }
+        }
+        catch(exc) {
+
+        }
     },
 
     send80G: function (req, cb) {
@@ -295,6 +585,7 @@ var sdkCont = {
                     ]
                 },
                 function (dd) {
+                    me.sendSuccessEmails(req);
                     if (req.body.send80GAutomatically)
                         me.send80G(req, function () {
                         });
