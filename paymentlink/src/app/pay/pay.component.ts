@@ -160,7 +160,7 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if (res && res.id) {
       this.pay = res;
-
+      console.log('pay', this.pay);
       this.askPanOrig = this.pay.askpan;
       this.payModesOrig = this.pay.supportedModes;
 
@@ -714,10 +714,10 @@ export class PayComponent implements OnInit {
         //   'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
         //   '', '', callbackUrl, ''
         // ));
-
+ 
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
-          'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
-          this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', 8291389666, 'hari@benow.in',
+          'DEFAULT', res.mId, initPaymentRes.transactionRef, this.pay.phone,
+          this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', +this.pay.phone, this.pay.email,
           'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
           '', '', callbackUrl, ''
         ));
