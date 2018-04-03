@@ -25,12 +25,11 @@ export class PaytmrequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.id = this.route.snapshot.params['id'];
 
     this.paytmReq = this.sdkService.getPaytmRequestModel();
     this.paytmRequestUrl = this.utilService.getPaytmPgUrl();
-    // this.paytmRequestUrl = this.utilService.getBaseURL() + 'paytmresponse';
 
     this.getCheckSum();
   }
@@ -54,6 +53,8 @@ export class PaytmrequestComponent implements OnInit {
 
   setChecksum(res: any): void {
     this.checksum = res.checkSum;
+    console.log('checksum', this.checksum);
+    console.log('paytmReq', this.paytmReq);
     this.submitMe();
   }
 
