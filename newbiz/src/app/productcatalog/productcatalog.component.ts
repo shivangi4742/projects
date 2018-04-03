@@ -198,7 +198,6 @@ emailpost(){
     .then(res => this.emailposth(res));
 }
 emailposth(res:any){
-  console.log(res);
   if(res){
     this.suceessmsg= true;
   }
@@ -215,6 +214,9 @@ smsposth(res:any){
   if(res){
     this.smsucess= true;
   }
+}
+WhatsApp(){
+  window.open('whatsapp://send?text=' + this.url);
 }
 
 }
