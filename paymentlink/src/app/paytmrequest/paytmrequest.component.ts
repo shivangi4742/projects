@@ -53,8 +53,6 @@ export class PaytmrequestComponent implements OnInit {
 
   setChecksum(res: any): void {
     this.checksum = res.checkSum;
-    console.log('checksum', this.checksum);
-    console.log('paytmReq', this.paytmReq);
     this.submitMe();
   }
 
