@@ -706,8 +706,10 @@ export class PayComponent implements OnInit {
           authMode = 'USRPWD';
         }
 
+        var invoiceNumber = this.pay.invoiceNumber.replace(/ +/g, "");
+        invoiceNumber = invoiceNumber.replace(',', ""); 
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
-          'DEFAULT', res.mId, initPaymentRes.transactionRef, this.pay.invoiceNumber,
+          'DEFAULT', res.mId, initPaymentRes.transactionRef, invoiceNumber,
           this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', +this.pay.phone, this.pay.email,
           'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
           '', '', callbackUrl, ''
