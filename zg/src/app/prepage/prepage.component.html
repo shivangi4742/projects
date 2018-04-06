@@ -13,7 +13,9 @@
           <div *ngIf="hasPayPin" class="valign-wrapper">
             <div class="input-field col s11">
               <input disabled value="{{payPin}}" id="paypin" type="text" class="validate">
-              <label class="active" for="paypin">PAY PIN ID</label>
+              <label class="active" for="paypin">PAY PIN ID
+                <label class="error-text-normal mandatory">*</label>
+              </label>
             </div>
             <i class="material-icons left col s1" (click)="onEditClick()">edit</i>
           </div>
@@ -60,7 +62,9 @@
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s5" align="left">Payer name</div>
+            <div class="col s5" align="left">Payer name
+              <span class="error-text-normal">*</span>
+            </div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
               <input id="name" type="text" name="name" class="validate" required [(ngModel)]="strFullName" (input)="onEnterName($event.target.value)">
@@ -71,7 +75,9 @@
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s5" align="left">Email address</div>
+            <div class="col s5" align="left">Email address
+              <span class="error-text-normal">*</span>
+            </div>
             <div class="col s1" align="left">: </div>
             <div class="col s6" align="left">
               <input id="inp_email" type="email" class="validate" required [(ngModel)]="strEmail" name="email" (input)="onEnterEmail($event.target.value)">
@@ -82,7 +88,9 @@
           </div>
 
           <div class="row valign-wrapper">
-            <div class="col s5" align="left">Mobile number</div>
+            <div class="col s5" align="left">Mobile number
+              <span class="error-text-normal">*</span>
+            </div>
             <div class="col s1" align="left">: </div>
             <div class="col s6 truncate" align="left">
               <input id="mobile" type="text" class="validate" required [(ngModel)]="strMobile" name="mobile" (input)="onEnterMobile($event.target.value)">
@@ -110,7 +118,9 @@
               <div class="col s4">
                 <div class="input-field col s12">
                   <input value="{{subLedger.amount}}" id="amount" type="text" class="validate">
-                  <label class="active" for="amount">Amount</label>
+                  <label class="active" for="amount">Amount
+                    <label class="error-text-normal mandatory">*</label>
+                  </label>
                 </div>
               </div>
             </div>
@@ -207,7 +217,9 @@
           <div class="row center-align">
             <div class="input-field col s12">
               <input value="{{totalBillAmount}}" name="isValidPayment" id="amount" type="text" class="validate" required (input)="onEnterPayment($event.target.value, i)">
-              <label class="active" for="amount">Amount</label>
+              <label class="active" for="amount">Amount
+                <label class="error-text-normal mandatory">*</label>
+              </label>
               <div class="row">
                 <span *ngIf="strInvalidAmount" class="error-text-normal col s12 left-align">{{strInvalidAmount}}</span>
               </div>
@@ -430,8 +442,10 @@
 
           <div class="row valign-wrapper">
             <div class="input-field col s12">
-              <input value="" id="remarks" type="text" class="validate" (input)="onEnterRemarks($event.target.value)">
-              <label class="active" for="remarks">Remarks</label>
+              <input value="{{remarks}}" id="remarks" type="text" class="validate" (input)="onEnterRemarks($event.target.value)">
+              <label class="active" for="remarks">Remarks
+                <label class="error-text-normal mandatory">*</label>
+              </label>
               <div class="row">
                 <span *ngIf="strInvalidRemarks" class="error-text-normal col s12 left">{{strInvalidRemarks}}</span>
               </div>

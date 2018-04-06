@@ -18,6 +18,7 @@ import { PaybillChargesModel } from "./../models/paybillcharges.model";
 import { PayBillResponseModel } from '../models/paybillresponse.model';
 import { PayBillBenow } from '../models/paybillbenow.model';
 import { PayBill } from '../models/paybill.model';
+import { PayRequestModel } from "../models/payrequest.model";
 
 @Injectable()
 export class ZgService {
@@ -35,6 +36,8 @@ export class ZgService {
   private allSubLedgerArray: SubLedgerModel[] = new Array();
   private pgChargesList: PgChargesList;
   private chargesModel: ChargesModel;
+
+  private payRequest: PayRequestModel;
 
   private _urls: any = {
     'getPayPinDetailsURL': 'zgsvc/getPayPinDetails',
@@ -85,7 +88,7 @@ export class ZgService {
       var ccModel = payPinModel.pg_details[0].creditcard;
       var pgChargesDetail = new PgChargesDetails(null, null, ccModel);
       pgModeArray.push(pgChargesDetail);
- 
+
     }
 
     var reqData = {
@@ -258,6 +261,87 @@ export class ZgService {
 
     };
     return new Headers(headers);
+  }
+
+  setPayRequest(payRequest: PayRequestModel): Promise<void> {
+    return this.getHash(payRequest)
+      .then(res => this.assignPayRequest(res, payRequest));
+  }
+
+  assignPayRequest(hash: string, payRequest: PayRequestModel) {
+    this.payRequest = payRequest;
+    this.payRequest.hash = hash;
+  }
+
+  private getHash(pr: PayRequestModel): Promise<string> {
+    let data: any = {
+      "amount": pr.amount,
+      "email": pr.email,
+      "firstName": pr.firstName,
+      "failureURL": pr.failureURL,
+      "merchantCode": pr.merchantCode,
+      "mccCode": pr.mccCode,
+      "description": pr.description,
+      "successURL": pr.successURL,
+      "txnid": pr.txnid,
+      "udf1": pr.udf1,
+      "udf2": pr.udf2,
+      "udf3": pr.udf3,
+      "udf4": pr.udf4,
+      "udf5": pr.udf5,
+      "phone": pr.phone
+    };
+
+    let hdrs: any = { 'content-type': 'application/json' };
+    var json = JSON.parse(JSON.stringify(data));
+    var strToHash = pr.amount
+      + "|" + pr.description
+      + "|" + pr.email
+      + "|" + pr.failureURL
+      + "|" + pr.firstName
+      + "|" + pr.mccCode
+      + "|" + pr.merchantCode
+      + "|" + pr.phone
+      + "|" + pr.successURL
+      + "|" + pr.txnid
+      + "|" + pr.udf1
+      + "|" + pr.udf2
+      + "|" + pr.udf3
+      + "|" + pr.udf4
+      + "|" + pr.udf5;
+
+    var salt = '';
+    if (pr.merchantCode == 'APF03') {
+      salt = '[B@6af00024';
+    }
+    else if (pr.merchantCode == 'ALIO2') {
+      salt = '[B@19b076ea';
+    }
+
+
+    var payloadObj: any = {
+      "data": JSON.stringify(json),
+      "merchantCode": pr.merchantCode,
+      "strToHash": strToHash,
+      "salt": salt
+    };
+
+    return this.http
+      .post('/hash',
+        payloadObj,
+        { headers: hdrs }
+      )
+      .toPromise()
+      .then(res => this.returnHash(res.json()))
+      .catch(res => null);
+  }
+
+  returnHash(res: any): string {
+    return res.hash;
+  }
+
+  getPayRequest(): PayRequestModel {
+    return this.payRequest;
   }
 
 }

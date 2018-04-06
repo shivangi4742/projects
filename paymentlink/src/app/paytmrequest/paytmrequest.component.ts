@@ -25,12 +25,11 @@ export class PaytmrequestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.id = this.route.snapshot.params['id'];
 
     this.paytmReq = this.sdkService.getPaytmRequestModel();
     this.paytmRequestUrl = this.utilService.getPaytmPgUrl();
-    // this.paytmRequestUrl = this.utilService.getBaseURL() + 'paytmresponse';
 
     this.getCheckSum();
   }

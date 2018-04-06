@@ -46,49 +46,49 @@
             <div class="row"></div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box" checked="checked" [(ngModel)]="businesspro.contactSeller"
+                <input type="radio" class="with-gap" name="r1"  id="s1" checked="checked" (click)="contactseller('true')" 
                 />
-                <label for="filled-in-box" class="sellBN">Contact the seller</label>
+                <label for="s1" class="sellBN">Contact the seller</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box11" [(ngModel)]="businesspro.noReturnExchange" />
-                <label for="filled-in-box11" class="sellBN">No returns or exchanges</label>
+                <input type="radio" class="with-gap" name="r1" id="s2" (click)="noReturnExchange('true')" />
+                <label for="s2" class="sellBN">No returns or exchanges</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box1" [(ngModel)]="businesspro.productExchange" />
-                <label for="filled-in-box1" class="sellBN">Exchange only on faulty products within
+                <input type="radio" class="with-gap" name="r1" id="s3" (click)="productExchange('true')"  />
+                <label for="s3" class="sellBN">Exchange only on faulty products within
                   <input type="text" class="expro" name="day" [readonly]="!businesspro.productExchange" [(ngModel)]="businesspro.productExchangeDay"> days of return.(No returns)</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box2" [(ngModel)]="businesspro.productReturnOrExchange"
+                <input type="radio" class="with-gap" name="r1" id="s4" (click)="productReturnOrExchange('true')"
                 />
-                <label for="filled-in-box2" class="sellBN">Returns /exchange only on faulty products within
+                <label for="s4" class="sellBN">Returns /exchange only on faulty products within
                   <input type="text" class="expro" name="day" [readonly]="!businesspro.productReturnOrExchange"  [(ngModel)]="businesspro.productReturnOrExchangeDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box3" [(ngModel)]="businesspro.returnAvailable" />
-                <label for="filled-in-box3" class="sellBN">Returns available within
+                <input type="radio" class="with-gap" name="r1" id="s5" (click)="returnAvailable('true')" />
+                <label for="s5" class="sellBN">Returns available within
                   <input type="text" class="expro" name="day" [readonly]="!businesspro.returnAvailable"  [(ngModel)]="businesspro.returnsAvailableDay"> days.</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box4" [(ngModel)]="businesspro.noExchangeFlage" />
-                <label for="filled-in-box4" class="sellBN">No questions asked exchange</label>
+                <input type="radio" class="with-gap" name="r1" id="s6" (click)="noExchangeFlage('true')" />
+                <label for="s6" class="sellBN">No questions asked exchange</label>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
-                <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box5" [(ngModel)]="businesspro.noReturnFlage" />
-                <label for="filled-in-box5" class="sellBN">No questions asked return</label>
+                <input type="radio" class="with-gap" name="r1" id="s7" (click)="noReturnFlage('true')" />
+                <label for="s7" class="sellBN">No questions asked return</label>
               </div>
             </div>
             <div class="row busDetails detailBodyBN mrgnBn">
@@ -153,14 +153,14 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box21" checked="checked" [(ngModel)]="businesspro.allOverIndia" (ngModelChange)="locality1()" />
-                  <label for="filled-in-box21" class="sellBN">All over India</label>
+                  <input type="radio" class="with-gap" name="loc" id="l1" checked="checked" (click)="locality()" />
+                  <label for="l1" class="sellBN">All over India</label>
                 </div>
                 </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box22"  [(ngModel)]="businesspro.selectLocalities" (ngModelChange)="locality()"/>
-                  <label for="filled-in-box22" class="sellBN">Within select localities</label>
+                  <input type="radio" class="with-gap" name="loc" id="l2"  (click)="locality1()" />
+                  <label for="l2" class="sellBN">Within select localities</label>
                 </div>
                 
                 <div class="col s12" *ngIf="businesspro.selectLocalities">
@@ -186,14 +186,14 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box23" checked="checked" [(ngModel)]="businesspro.freeShip"  (ngModelChange)="shiping1()"/>
-                  <label for="filled-in-box23" class="sellBN">Free Shipping</label>
+                  <input type="radio" class="with-gap" name="shp" id="sj" checked="checked" (click)="shiping1()"/>
+                  <label for="sj" class="sellBN">Free Shipping</label>
                 </div>
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box24" [(ngModel)]="businesspro.chargePerOrder" (ngModelChange)="shiping()"/>
-                  <label for="filled-in-box24" class="sellBN">Flat Shipping charge per order</label>
+                  <input type="radio" class="with-gap" name="shp" id="sj1" (click)="shiping2()"/>
+                  <label for="sj1" class="sellBN">Flat Shipping charge per order</label>
                 </div>
                 <div class="col s12 m6 l6" *ngIf="businesspro.chargePerOrder">
                  <input type="text" name="changeper" [(ngModel)]="businesspro.orderShipCharge">
@@ -201,8 +201,8 @@
               </div>
               <div class="row">
                 <div class="col s12">
-                  <input type="checkbox" class="filled-in checkbox-red " id="filled-in-box25" [(ngModel)]="businesspro.chargePerProd"/>
-                  <label for="filled-in-box25" class="sellBN">Charge Shipping for Each Product</label>
+                  <input type="radio" class="with-gap" name="shp" id="sj2"(click)="shiping3()"/>
+                  <label for="sj2" class="sellBN">Charge Shipping for Each Product</label>
                 </div>
                 
               </div>
@@ -402,8 +402,8 @@
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{"Upload Your Store Image" |translate}}</span>
               <div class="file-field input-field col s10 offset-s1 m4">
-                <img *ngIf="!uploaded" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
-                <img *ngIf="uploaded && hasImage()" class="responsive-img editProdImageBN" src={{uploadsURL}}{{imageUrls}} />
+                <img *ngIf="!storeLogo" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
+                <img  *ngIf="storeLogo" class="responsive-img editProdImageBN" src={{storeLogo}} />
                 <div *ngIf="uploaded && hasImage()" align="left" class="editOverlayBN"> &nbsp;
                   <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
                 <input accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">

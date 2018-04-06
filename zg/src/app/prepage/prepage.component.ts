@@ -9,6 +9,7 @@ import { PgChargesModel } from "./../models/pgcharges.model";
 import { SubLedgerModel } from "./../models/subledger.model";
 import { ChargesModel } from "./../models/charges.model";
 import { PaybillChargesModel } from "./../models/paybillcharges.model";
+import { PayRequestModel } from "./../models/payrequest.model";
 
 import { ZgService } from "./../services/zg.service";
 import { forEach } from '@angular/router/src/utils/collection';
@@ -75,6 +76,10 @@ export class PrepageComponent implements OnInit {
   strInvalidRemarks: string;
   isFormValid: boolean;
 
+  supportModes: string[];
+  surl: string;
+  furl: string;
+
   constructor(private route: ActivatedRoute,
     private zgService: ZgService,
     private router: Router) { }
@@ -127,6 +132,7 @@ export class PrepageComponent implements OnInit {
       this.strFullName = this.payPinModel.payee_first_name + ' ' + this.payPinModel.payee_last_name;
       this.strEmail = this.payPinModel.email_id;
       this.strMobile = this.payPinModel.contact_number;
+      this.remarks = this.payPinModel.remark;
 
       // Assign UPI charges
       if (this.payPinModel.upi_details && this.payPinModel.upi_details.length > 0) {
@@ -187,7 +193,7 @@ export class PrepageComponent implements OnInit {
       this.zgService.payBill(this.payPinModel, +(parseFloat(this.totalAmount + '').toFixed(2)), +(parseFloat(this.strAmount).toFixed(2)), this.paymentMode, +(parseFloat((this.convenienceFee + this.gst) + '').toFixed(2)), this.remarks, subLedgerList)
         .then(res => this.saveChargesAndNavigate(res));
     }
- 
+
   }
 
   saveChargesAndNavigate(payBillResponse: PayBillResponseModel): void {
@@ -224,14 +230,60 @@ export class PrepageComponent implements OnInit {
         fixedPaymentMode = '4343'
       }
 
-      document.location.href = redirectURL + '/pay/' + fixedPaymentMode + '/' + this.strFullName.replace(' ', '%20'); // Redirect to payment page 
+      this.supportModes = [this.paymentMode];
+
+      this.surl = '';
+      this.furl = '';
+
+      var merchantCode, mccCode, merchantDesc, merchantTitle, merchantVpa, udf1, udf2, udf3, udf4, udf5;
+
+      udf1 = 'Bill';
+      udf2 = this.strEmail;
+      udf3 = this.strMobile;
+      udf4 = '';
+      udf5 = this.payPin;
+
+      if (this.payPinModel.society_id == 'S144') { // This is oberoi
+        merchantCode = 'APF03';
+        mccCode = '5499';
+        merchantDesc = 'Payment for ' + this.payPinModel.flat + ', ' + this.payPinModel.community_name + ', by ' + this.strFullName;
+        merchantTitle = 'SPLENDOR COMPLEX';
+        merchantVpa = 'APF03@idfcbank';
+        udf4 = 'Oberoi Splendor Jogeshwari (East) Mumbai 400060 Maharashtra';
+      }
+      else {
+        merchantCode = 'ALIO2';
+        mccCode = '5499';
+        merchantDesc = 'Payment for ' + this.payPinModel.flat + ', ' + this.payPinModel.community_name + ', by ' + this.strFullName;
+        merchantTitle = 'MYAASHIANA MANAGEMENT SERVICES PVT LTD';
+        merchantVpa = 'ALIO2@idfcbank';
+      }
+
+      if (this.payPin == 'SPLDRZA-104F26AB6') {
+        this.zgService.setPayRequest(new PayRequestModel(2, this.totalAmount + '', false, false, true, false, merchantDesc,
+          this.strEmail, this.furl, this.strFullName, '', '', '', this.payPin, mccCode, merchantCode, '1', merchantVpa,
+          false, false, false, true, '', this.strMobile, false, false, false, true, this.surl, merchantTitle, 'TXN01', udf1,
+          udf2, udf3, udf4, udf5, '', this.supportModes))
+          .then(res => this.navigate());
+      }
+      else {
+        document.location.href = redirectURL + '/pay/' + fixedPaymentMode + '/' + this.strFullName.replace(' ', '%20'); // Redirect to payment page   
+      }
+
     }
     else {
 
     }
   }
 
+  navigate() {
+    this.router.navigateByUrl('/redirect');
+  }
+
   paymentModeChanged(mode) {
+    if (!this.remarks || this.remarks.length <= 0) {
+      this.strInvalidRemarks = 'Remarks cannot be blank';
+    }
     this.paymentMode = mode;
     this.selectedCharges = this.getChargesModel(this.paymentMode);
     this.calculateTotalAmount();
@@ -266,7 +318,13 @@ export class PrepageComponent implements OnInit {
   }
 
   onEnterRemarks(remark: string) {
-    this.strInvalidRemarks = '';
+    if (remark && remark.length > 0) {
+      this.strInvalidRemarks = '';
+    }
+    else {
+      this.strInvalidRemarks = 'Remarks cannot be blank';
+    }
+
     this.remarks = remark;
   }
 

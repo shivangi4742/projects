@@ -160,7 +160,6 @@ export class PayComponent implements OnInit {
   init(res: SDK) {
     if (res && res.id) {
       this.pay = res;
-
       this.askPanOrig = this.pay.askpan;
       this.payModesOrig = this.pay.supportedModes;
 
@@ -691,7 +690,6 @@ export class PayComponent implements OnInit {
       if (res.paymentGateway == 'PAYTM') {
 
         var callbackUrl = this.utilsService.getBaseURL() + 'ppl/paytmresponse/' + this.id + '/' + initPaymentRes.transactionRef;
-        // var callbackUrl = 'http://localhost:9090/' + 'ppl/paytmresponse/' + this.id + '/' + initPaymentRes.transactionRef;
         var paymentModeOnly = '';
         var authMode = '';
 
@@ -708,16 +706,11 @@ export class PayComponent implements OnInit {
           authMode = 'USRPWD';
         }
 
-        // this.sdkService.setPaytmRequest(new PaytmRequestModel(
-        //   'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
-        //   1, 'WEB', 'Retail', 'WEB_STAGING', '', 8291389666, 'hari@benow.in',
-        //   'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
-        //   '', '', callbackUrl, ''
-        // ));
-
+        var invoiceNumber = this.pay.invoiceNumber.replace(/ +/g, "");
+        invoiceNumber = invoiceNumber.replace(',', ""); 
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
-          'DEFAULT', res.mId, initPaymentRes.transactionRef, '8291389666',
-          this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', 8291389666, 'hari@benow.in',
+          'DEFAULT', res.mId, initPaymentRes.transactionRef, invoiceNumber,
+          this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', +this.pay.phone, this.pay.email,
           'YES', authMode, paymentModeOnly, '', '', '', '', '', '', '', '', '', '', '',
           '', '', callbackUrl, ''
         ));
