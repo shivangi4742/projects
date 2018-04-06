@@ -65,10 +65,10 @@ export class StoreComponent implements OnInit {
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
-      //u="https://pay.archana.benow.in/"
+      //u = "https://pay-archana.benow.in/";
       if(u) {
         u = u.replace('https://', '').replace('http://', '');
-        if(u.startsWith('pay.')) {
+        if(u.startsWith('pay-')) {
           this.isStore = false;
           this.amount = +this.activatedRoute.snapshot.params['amount'];          
           if(this.amount > 0) {
