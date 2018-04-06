@@ -12,6 +12,7 @@ import { PaymentfailureComponent } from './paymentfailure/paymentfailure.compone
 import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 
 const routes: Routes = [
+    { path: '', component: StoreComponent },
     { path: ':code/cart', component: CartComponent },
     { path: ':code/buyerinfo', component: BuyerinfoComponent }, 
     { path: ':code/paymentmode', component: PaymentmodeComponent }, 

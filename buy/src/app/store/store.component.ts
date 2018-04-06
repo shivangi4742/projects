@@ -38,10 +38,29 @@ export class StoreComponent implements OnInit {
     document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
     document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    this.storeService.assignMerchant(this.merchantCode);
-    this.fetchProducts();
-    this.storeService.fetchStoreDetails(this.merchantCode)
-      .then(res => this.fillStoreDetails(res));
+    if(this.merchantCode) {
+      this.storeService.assignMerchant(this.merchantCode);
+      this.fetchProducts();
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res => this.fillStoreDetails(res));  
+    }
+    else
+      this.newInit();
+  }
+
+  fillMerchantDetails(m: any) {
+    if(m && m.merchantCode) {
+      this.merchantCode = m.merchantCode;
+      this.storeService.assignMerchant(this.merchantCode);
+      this.fetchProducts();
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res => this.fillStoreDetails(res));    
+    }
+  }
+
+  newInit() {
+    this.storeService.getMerchantDetailsFromURL()
+      .then(res => this.fillMerchantDetails(res));
   }
 
   fetchProducts() {
