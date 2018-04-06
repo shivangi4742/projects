@@ -63,5 +63,10 @@
     "days.": "दिनों के भीतर।",
     "Returns available within": "रिटर्न उपलब्ध है",
     "No questions asked exchange.": "कोई सवाल नहीं पूछा विनिमय।",
-    "No questions asked return.": "कोई सवाल नहीं पूछा वापसी।"
+    "No questions asked return.": "कोई सवाल नहीं पूछा वापसी।",
+    "Pay": "दें",
+    "Amount (at least ₹ 10)": "राशि (कम से कम 10)",
+    "Purpose": "उद्देश्य",
+    "Enter amount to pay": "भुगतान करने के लिए राशि दर्ज करें",
+    "Enter what you are paying for": "दर्ज करें कि आप किसके लिए भुगतान कर रहे हैं"
 }

@@ -7,6 +7,11 @@
     padding-left: 30px;
 }
 
+.pad20lrBN {
+    padding-right: 20px;
+    padding-left: 20px;    
+}
+
 .nameplateBN {
        height: auto;
 }
@@ -73,6 +78,17 @@
     top: 12px;
 }
 
+.payTextBN {
+    font-size: 25pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;               
+}
+
+.amountTextBN {
+    color: #E53935;
+    font-weight: 600;
+}
+
 .storedetailBN {
     margin-top: 10px;
     margin-left: 50px;
@@ -105,4 +121,58 @@
 }
 .poBN{
     position: absolute;
+}
+
+.topPadImgBN {
+    margin-top: 65px;
+}
+
+.paymentFrmBN {
+    max-width: 400px;
+}
+
+.labelBN {
+    font-size: 13pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;  
+}
+
+.offsetBN {
+    padding-left: 25px;
+}
+
+.offsetlrBN {
+    padding-left: 25px;
+    padding-right: 35px;    
+}
+
+.binputdivBN {
+    margin-top: 10px;
+}
+
+.binputBN {
+    background-color: #F7F9FA!important;
+    padding-left: 20px!important;
+    letter-spacing: 0.01rem; 
+    border: none!important; 
+    font-size: 13pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.txtareaBN {
+    min-height: 5rem;
+}
+
+.buy1MBN {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;    
 }
