@@ -22,6 +22,7 @@ export class StoreComponent implements OnInit {
   storeContact: string;
   storeAddress: string;
   merchantCode: string;
+  storeDescription: string;
   products: Array<Product>;
   page: number = 1;
   onclickn : boolean = false;
@@ -149,6 +150,7 @@ export class StoreComponent implements OnInit {
 
   fillStoreDetails(res: any) {
     if(res && res.id) {
+      this.storeDescription = res.description;
       this.storeAddress = res.address;
       this.storeName = res.displayName;
       this.storeContact = res.mobileNumber;
