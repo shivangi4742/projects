@@ -5,7 +5,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService  } from 'benowservices';
+import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService, PaymentlinkService } from 'benowservices';
 
 @Component({
   selector: 'buyerinfo',
@@ -22,11 +22,14 @@ export class BuyerinfoComponent implements OnInit {
   payRequest: PayRequest;
   subscription: Subscription;  
   settings: any;
+  plInfo: any;
   processing: boolean = false;
+  isPaymentlink: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private cartService: CartService, private router: Router, private activatedRoute: ActivatedRoute, private storeService: StoreService,
-    private sdkService: SDKService, private socketService: SocketService, private utilsService: UtilsService, private sanitizer: DomSanitizer) { 
+    private sdkService: SDKService, private socketService: SocketService, private utilsService: UtilsService, private sanitizer: DomSanitizer,
+    private paymentlinkService: PaymentlinkService) { 
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));  
   }
@@ -42,12 +45,27 @@ export class BuyerinfoComponent implements OnInit {
 
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    this.storeService.assignMerchant(this.merchantCode);
-    this.cartService.getCart(this.merchantCode)
-      .then(res => this.fillCart(res));
-
-    this.storeService.fetchStoreDetails(this.merchantCode)
-      .then(res2 => this.fillStoreSettings(res2))
+    if(this.merchantCode) {
+      this.storeService.assignMerchant(this.merchantCode);
+      this.cartService.getCart(this.merchantCode)
+        .then(res => this.fillCart(res));
+  
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res2 => this.fillStoreSettings(res2))  
+    }
+    else {
+      this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
+      if(this.plInfo && this.plInfo.merchantCode) {
+        this.isPaymentlink = true;
+        this.merchantCode = this.plInfo.merchantCode;
+        this.cart = new Cart('', '', '', '', null, this.merchantCode, '');
+        this.storeService.assignMerchant(this.merchantCode);
+        this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res2 => this.fillStoreSettings(res2))  
+      }
+      else
+        this.router.navigateByUrl('/');   
+    }
   }
 
   fillStoreSettings(res: any) {
@@ -109,8 +127,18 @@ export class BuyerinfoComponent implements OnInit {
   }
 
   onSSubmit() {
-    this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
-    this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');
+    if(this.isPaymentlink) {
+      this.plInfo.name = this.cart.name;
+      this.plInfo.email = this.cart.email;
+      this.plInfo.address = this.cart.address;
+      this.plInfo.phone = this.cart.phone;
+      this.paymentlinkService.setPaymentlinkDetails(this.plInfo);
+      this.router.navigateByUrl('/paymentmode');  
+    }
+    else {
+      this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
+      this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');  
+    }
   }
 
   codMarked(res: any) {

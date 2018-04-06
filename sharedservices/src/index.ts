@@ -12,6 +12,7 @@ import { SocketService } from './services/socket.service';
 import { ProductService } from './services/product.service';
 import { CampaignService } from './services/campaign.service';
 import { LocationService } from './services/location.service';
+import { PaymentlinkService } from './services/paymentlink.service';
 import { TransactionService } from './services/transaction.service';
 import { NotificationService } from './services/notification.service';
 
@@ -64,6 +65,7 @@ export { SocketService } from './services/socket.service';
 export { ProductService } from './services/product.service';
 export { CampaignService } from './services/campaign.service';
 export { LocationService } from './services/location.service';
+export { PaymentlinkService } from './services/paymentlink.service';
 export { TransactionService } from './services/transaction.service';
 export { NotificationService } from './services/notification.service';
 
@@ -92,6 +94,7 @@ export class SharedServicesModule {
         ProductService,
         CampaignService,
         LocationService,
+        PaymentlinkService,
         TransactionService,
         NotificationService
       ]

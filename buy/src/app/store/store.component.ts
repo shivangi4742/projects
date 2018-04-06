@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
-import { Product, StoreService, UtilsService, ProductService } from 'benowservices';
+import { Product, StoreService, UtilsService, ProductService, PaymentlinkService } from 'benowservices';
 
 @Component({
   selector: 'store',
@@ -32,7 +32,7 @@ export class StoreComponent implements OnInit {
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
-    private productService: ProductService) { }
+    private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router) { }
 
   setImgAndHeights() {
     let imgHeight: number = Math.round((screen.height - 100) * 0.5);
@@ -45,7 +45,12 @@ export class StoreComponent implements OnInit {
   }
 
   proceed() {
-    
+    this.paymentlinkService.setPaymentlinkDetails({
+      "amount": this.amount,
+      "purpose": this.purpose,
+      "merchantCode": this.merchantCode
+    });   
+    this.router.navigateByUrl('/payerinfo'); 
   }
 
   ngOnInit() {

@@ -2,7 +2,7 @@
   <form materialize (ngSubmit)="onSubmit()" #paymentModeForm="ngForm">
     <div class="row"></div>
     <div class="row">
-      <div class="col s12 center itemPanelBN">
+      <div class="col s12 center itemPanelBN" *ngIf="!isPaymentlink">
         <img class="hide-on-med-and-up" width="300px" src="../../assets/buy/imgs/SB3300.png" />
         <img class="hide-on-med-and-down" width="900px" src="../../assets/buy/imgs/SB3900.png" />
         <img class="hide-on-large-only hide-on-small-only" width="600px" src="../../assets/buy/imgs/SB3600.png" />
@@ -49,7 +49,7 @@
                 </label>        
               </div>
             </div>
-            <div class="col s12 offsetlrBN">
+            <div class="col s12 offsetlrBN" *ngIf="!isPaymentlink">
               <div class="rdoGrpNoBrdrBN">
                 <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
                 <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
@@ -62,17 +62,22 @@
       <div class="col s12 m5 l4 spanelBN">
         <div class="col s12 white itemPanelBN card-panel z-depth-2">
           <div class="row">
-            <div class="col s12 ctitleBN coffsetBN">{{'Price Details' | translate}}</div>
+            <div class="col s12 ctitleBN coffsetBN" *ngIf="!isPaymentlink">{{'Price Details' | translate}}</div>
+            <div class="col s12 ctitleBN coffsetBN" *ngIf="isPaymentlink">{{'Payment Details' | translate}}</div>
             <div class="col s12 borderBN"></div>                
             <div class="col s12">&nbsp;</div>
             <div class="col s12 padlr10BN">
               <div class="col s12 padlr10BN">
-                <div class="col s7 carttotalpriceBN nopadleftBN">{{'Total Price' | translate}} :</div>
-                <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
+                <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="!isPaymentlink">{{'Total Price' | translate}} :</div>
+                <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="isPaymentlink">{{'Pay Amount' | translate}} :</div>
+                <div class="col s5 carttotalpriceBN" align="right" *ngIf="!isPaymentlink">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
+                <div class="col s5 carttotalpriceBN" align="right" *ngIf="isPaymentlink">₹ {{plInfo.amount | number : '1.2-2'}}</div>
                 <div class="col s8 carttotalpriceBN nopadleftBN" *ngIf="settings.chargeConvenienceFee">{{'Convenience Fee' | translate}} :</div>
-                <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" align="right">₹ {{getConvenienceFee() | number : '1.2-2'}}</div>
-                <div class="col s7 carttotalpriceBN discountgreenBN nopadleftBN">{{'Discount' | translate}} :</div>
-                <div class="col s5 carttotalpriceBN discountgreenBN" align="right">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
+                <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" 
+                  align="right">₹ {{getConvenienceFee() | number : '1.2-2'}}</div>
+                <div class="col s7 carttotalpriceBN discountgreenBN nopadleftBN" *ngIf="!isPaymentlink">{{'Discount' | translate}} :</div>
+                <div class="col s5 carttotalpriceBN discountgreenBN" align="right" 
+                  *ngIf="!isPaymentlink">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
               </div>
               <div class="col s12">&nbsp;</div>
               <div class="col s12 padlr10BN">
@@ -95,9 +100,15 @@
               <div class="col s12">&nbsp;</div>
               <div class="col s12 padlr10BN">
                 <button *ngIf="!isUPIButton()" class="col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" type="submit"
-                  [disabled]="!cart.paymentMode || processing">{{'Place Order' | translate}}</button>
+                  [disabled]="!cart.paymentMode || processing">
+                  <span *ngIf="!isPaymentlink">{{'Place Order' | translate}}</span>
+                  <span *ngIf="isPaymentlink">{{'Pay' | translate}}</span>
+                </button>
                 <a *ngIf="isUPIButton() && upiURL" class="pt10BN col s12 btn waves-effect waves-light red darken-1 placeorderbtnBN" 
-                  target="_blank" [attr.href]="sanitize(upiURL)">{{'Place Order' | translate}}</a>
+                  target="_blank" [attr.href]="sanitize(upiURL)">
+                  <span *ngIf="!isPaymentlink">{{'Place Order' | translate}}</span>
+                  <span *ngIf="isPaymentlink">{{'Pay' | translate}}</span>
+                </a>
               </div>          
               <div class="col s12">&nbsp;</div>
             </div>

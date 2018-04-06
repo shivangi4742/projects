@@ -13,6 +13,8 @@ import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 
 const routes: Routes = [
     { path: '', component: StoreComponent },
+    { path: 'payerinfo', component: BuyerinfoComponent },
+    { path: 'paymentmode', component: PaymentmodeComponent },
     { path: ':amount', component: StoreComponent },
     { path: ':code/cart', component: CartComponent },
     { path: ':code/buyerinfo', component: BuyerinfoComponent }, 

@@ -5,7 +5,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService } from 'benowservices';
+import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService, PaymentlinkService } from 'benowservices';
 
 @Component({
   selector: 'paymentmode',
@@ -22,11 +22,14 @@ export class PaymentmodeComponent implements OnInit {
   payRequest: PayRequest;
   subscription: Subscription;  
   settings: any;
+  plInfo: any;
+  isPaymentlink: boolean = false;
   processing: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
 
   constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
-    private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService, private sanitizer: DomSanitizer) { 
+    private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService, 
+    private sanitizer: DomSanitizer, private paymentlinkService: PaymentlinkService) { 
     let me: any = this;
     this.subscription = this.socketService.receivedPayment().subscribe(message => me.receivedPayment(message));        
   }
@@ -43,8 +46,12 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   getConvenienceFee(): number {
-    if(this.settings.chargeConvenienceFee && this.cart.paymentMode != 'CASH')
-      return Math.round(this.getTotalAmount() * 2.36)/100;
+    if(this.settings.chargeConvenienceFee && this.cart.paymentMode != 'CASH') {
+      if(this.isPaymentlink)
+        return Math.round(this.plInfo.amount * 2.4)/100;
+      else
+        return Math.round(this.getTotalAmount() * 2.4)/100;
+    }
 
     return 0;
   }
@@ -154,12 +161,27 @@ export class PaymentmodeComponent implements OnInit {
 
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    this.storeService.assignMerchant(this.merchantCode);
-    this.cartService.getCart(this.merchantCode)
-      .then(res => this.fillCart(res));
-
-    this.storeService.fetchStoreDetails(this.merchantCode)
-      .then(res2 => this.fillStoreSettings(res2))
+    if(this.merchantCode) {
+      this.storeService.assignMerchant(this.merchantCode);
+      this.cartService.getCart(this.merchantCode)
+        .then(res => this.fillCart(res));
+  
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res2 => this.fillStoreSettings(res2))  
+    }
+    else {
+      this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
+      if(this.plInfo && this.plInfo.merchantCode) {
+        this.isPaymentlink = true;
+        this.merchantCode = this.plInfo.merchantCode;
+        this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '');
+        this.storeService.assignMerchant(this.merchantCode);
+        this.storeService.fetchStoreDetails(this.merchantCode)
+          .then(res2 => this.fillStoreSettings(res2))  
+      }
+      else
+        this.router.navigateByUrl('/');                 
+    }
   }
 
   buildUPIURL() {
@@ -216,8 +238,31 @@ export class PaymentmodeComponent implements OnInit {
       //handle error.
     }    
   }
-  
+
   pay() {
+    if(this.plInfo.amount > 0) {
+      let total: number = this.plInfo.amount + this.getConvenienceFee();
+      total = Math.round(total * 100) / 100;
+      this.paidAmount = total;
+      switch(this.plInfo.paymentMode) {
+        case 'UPI':
+          this.payRequest = null;
+          this.paymentlinkService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, total)
+            .then(res => this.finishUPIPayment(res));
+          break;
+        case 'CC':
+        case 'DC':
+        case 'NB':
+          this.cartService.startPayUPaymentProcess(this.settings.displayName, total)
+            .then(res => this.finishPayUPayment(res))
+          break;
+        default:
+          break;        
+      }
+    }
+  }
+  
+  payForCart() {
     if(this.cartService.isCartPayable()) {
       this.paidAmount = this.cartService.getCartTotal();
       switch(this.cart.paymentMode) {
@@ -254,7 +299,14 @@ export class PaymentmodeComponent implements OnInit {
 
   onSubmit() {
     this.processing = true;
-    this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
-    this.pay();
+    if(this.isPaymentlink) {
+      this.plInfo.paymentMode = this.cart.paymentMode;
+      this.paymentlinkService.setPaymentlinkDetails(this.plInfo);
+      this.pay()
+    }
+    else {
+      this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
+      this.payForCart();
+    }
   }
 }
