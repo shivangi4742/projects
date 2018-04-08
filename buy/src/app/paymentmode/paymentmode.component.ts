@@ -92,10 +92,11 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   receivedPayment(res: any) {
-    console.log(res, 'contr2');
     if(this.room && res && res.data && res.out == true) {
-      if(this.isPaymentlink)
+      if(this.isPaymentlink) {
+        this.closeModal();
         this.router.navigateByUrl('/paid/' + this.room);      
+      }
       else
         this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);      
     }

@@ -434,7 +434,7 @@ gulp.task('change:indexzg', function() {
 
 gulp.task('change:indexbuy', function() {
   return gulp.src([buyIndexFile])
-    .pipe(replace('<base href="/">', '<base href="/buy/">'))
+    .pipe(replace('<base href="/">', '<base href="/">'))
     .pipe(gulp.dest(buyServerFolder));
 });
 
