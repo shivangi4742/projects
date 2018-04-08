@@ -36,15 +36,10 @@ export class PaymentfailureComponent implements OnInit {
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
       this.merchantCode = m.merchantCode;
-      this.homeLink = window.location.href;
-      let u: string = window.location.href;
-      if(u) {
-        let indx = u.indexOf('.benow.in');
-        if(indx > 0)
-          this.homeLink = u.substring(0, indx);
-      }
-
+      this.cartLink = '';
       this.storeService.assignMerchant(this.merchantCode);
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res => this.settings = res);  
     }
   }
 }

@@ -13,6 +13,7 @@ export class PaymentsuccessComponent implements OnInit {
   homeLink: string;
   merchantCode: string;
   items: Array<CartItem>;
+  isPaymentlink: boolean = false;
 
   constructor(private productService: ProductService, private storeService: StoreService, private activatedRoute: ActivatedRoute,
     private utilsService: UtilsService, private cartService: CartService) { }
@@ -35,14 +36,8 @@ export class PaymentsuccessComponent implements OnInit {
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
       this.merchantCode = m.merchantCode;
-      this.homeLink = window.location.href;
-      let u: string = window.location.href;
-      if(u) {
-        let indx = u.indexOf('.benow.in');
-        if(indx > 0)
-          this.homeLink = u.substring(0, indx);
-      }
-
+      this.homeLink = '';
+      this.isPaymentlink = true;
       this.storeService.assignMerchant(this.merchantCode);
     }
   }

@@ -70,5 +70,7 @@
     "Enter amount to pay": "Enter amount to pay",
     "Enter what you are paying for": "Enter what you are paying for",
     "Payment Details": "Payment Details",
-    "Pay Amount": "Pay Amount"
+    "Pay Amount": "Pay Amount",
+    "Make Another Payment": "Make Another Payment",
+    "You have successfully paid and your Transaction Id is": "You have successfully paid and your Transaction Id is"
 }
