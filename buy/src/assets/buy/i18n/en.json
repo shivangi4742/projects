@@ -68,5 +68,7 @@
     "Amount (at least ₹ 10)": "Amount (at least ₹ 10)",
     "Purpose": "Purpose",
     "Enter amount to pay": "Enter amount to pay",
-    "Enter what you are paying for": "Enter what you are paying for"
+    "Enter what you are paying for": "Enter what you are paying for",
+    "Payment Details": "Payment Details",
+    "Pay Amount": "Pay Amount"
 }

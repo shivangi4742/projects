@@ -68,5 +68,7 @@
     "Amount (at least ₹ 10)": "रक्कम (किमान ₹ 10)",
     "Purpose": "उद्देश",
     "Enter amount to pay": "देय रक्कम प्रविष्ट करा",
-    "Enter what you are paying for": "आपण कोणासाठी देय आहात ते प्रविष्ट करा"
+    "Enter what you are paying for": "आपण कोणासाठी देय आहात ते प्रविष्ट करा",
+    "Payment Details": "भरणा तपशील",
+    "Pay Amount": "देय रक्कम"
 }

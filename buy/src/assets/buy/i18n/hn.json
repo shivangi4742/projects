@@ -68,5 +68,7 @@
     "Amount (at least ₹ 10)": "राशि (कम से कम 10)",
     "Purpose": "उद्देश्य",
     "Enter amount to pay": "भुगतान करने के लिए राशि दर्ज करें",
-    "Enter what you are paying for": "दर्ज करें कि आप किसके लिए भुगतान कर रहे हैं"
+    "Enter what you are paying for": "दर्ज करें कि आप किसके लिए भुगतान कर रहे हैं",
+    "Payment Details": "भुगतान विवरण",
+    "Pay Amount": "भुगतान राशि"
 }

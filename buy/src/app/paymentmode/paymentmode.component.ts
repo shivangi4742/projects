@@ -231,8 +231,17 @@ export class PaymentmodeComponent implements OnInit {
     if(this.settings.chargeConvenienceFee)
       cf = 1;
       
-    if (res && res.transactionRef)
-      this.router.navigateByUrl('/' + this.merchantCode + '/pg/' + res.transactionRef + '/' + cf);            
+    if (res && res.transactionRef) {
+      if(this.isPaymentlink) {
+        this.plInfo.transactionId = res.transactionRef;
+        this.plInfo.convenienceFee = this.getConvenienceFee();
+        this.plInfo.totalAmount = this.paidAmount;
+        this.paymentlinkService.setPaymentlinkDetails(this.plInfo);
+        this.router.navigateByUrl('/pg');            
+      }
+      else
+        this.router.navigateByUrl('/' + this.merchantCode + '/pg/' + res.transactionRef + '/' + cf);            
+    }
     else {
       this.processing = false;
       //handle error.
@@ -253,7 +262,7 @@ export class PaymentmodeComponent implements OnInit {
         case 'CC':
         case 'DC':
         case 'NB':
-          this.cartService.startPayUPaymentProcess(this.settings.displayName, total)
+          this.paymentlinkService.startPayUPaymentProcess(this.settings.displayName, total)
             .then(res => this.finishPayUPayment(res))
           break;
         default:
