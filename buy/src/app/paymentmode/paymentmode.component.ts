@@ -92,8 +92,13 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   receivedPayment(res: any) {
-    if(this.room && res && res.data && res.out == true)
-      this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);      
+    console.log(res, 'contr2');
+    if(this.room && res && res.data && res.out == true) {
+      if(this.isPaymentlink)
+        this.router.navigateByUrl('/paid/' + this.room);      
+      else
+        this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);      
+    }
   }
 
   getDefaultVPA(): string {

@@ -19,6 +19,7 @@ export class SocketService {
         this._socket = io();
         let me: any = this;
         this._socket.on('paymentreceived', function(paymentData: any) {
+            console.log(paymentData, 'pd');
             me._subject2.next({ out: true, data: paymentData });
         });
     }
@@ -28,6 +29,7 @@ export class SocketService {
     }
 
     joinTransactionRoom(txnId: string) {
+        console.log(txnId, 't');
         if(txnId)
             this._socket.emit('transactionroom', { "room": txnId });
     }
