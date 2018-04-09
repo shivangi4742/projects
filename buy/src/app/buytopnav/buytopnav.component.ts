@@ -45,7 +45,11 @@ export class BuytopnavComponent implements OnInit {
   assignLinks(mcode: string) {
     this.merchantCode = mcode;
     if(this.merchantCode) {
-      this.storeHome = '/' + this.merchantCode + '/store';
+      if(window.location.href.indexOf('merchant.benow.in') >= 0)
+        this.storeHome = '/' + this.merchantCode + '/store';
+      else
+        this.storeHome = '';
+        
       this.cartLink =  '/' + this.merchantCode + '/cart';
       this.reprtlink = '/' + this.merchantCode + '/reporterror';
       if(!this.storeName)
@@ -68,7 +72,7 @@ export class BuytopnavComponent implements OnInit {
           .then(res => this.cartFilled(res));
     }
   }
- ngOnInit(){
 
- }
+  ngOnInit() {
+  }
 }
