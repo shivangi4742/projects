@@ -65,7 +65,10 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   getTotalAmount(): number {
-    return this.cartService.getCartTotal();
+    if(this.isPaymentlink)
+      return this.plInfo.amount;
+    else
+      return this.cartService.getCartTotal();
   }
 
   sanitize(url: string): SafeUrl {
