@@ -20,7 +20,7 @@
         </li>
       </ul>
       <ul class="right padMnuBN hide-on-med-and-down">
-        <li class="padlr10BN" *ngIf="showStoreHomeLink">
+        <li class="padlr10BN" *ngIf="showStoreHomeLink && !isPaymentlink">
           <a class="linkButtonBN mnuItemTxtBN" [routerLink]="storeHome">{{'All Products' | translate}}</a>
         </li>     
         <li class="padlr10BN" *ngIf="false">
