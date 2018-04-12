@@ -7,15 +7,23 @@
       <div class="row">
         <div class="col s12 center tyBN">{{'Thank You!' | translate}}</div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="!isPaymentlink">
         <div class="col s12 center tyopBN">{{'Your order is successfully placed and your Order Id is' | translate}}
           <b>{{id}}.</b>
         </div>
         <div class="col s12 center tyopBN">{{'Soon you will get an order confirmation message on the mobile number and mail id provided by you.' | translate}}</div>
       </div>
+      <div class="row" *ngIf="isPaymentlink">
+        <div class="col s12 center tyopBN">{{'You have successfully paid and your Transaction Id is' | translate}}
+          <b>{{id}}.</b>
+        </div>            
+      </div>
       <div class="row">
         <div class="col s12 center">
-          <button class="red darken-1 btn waves-effect waves-light tycntnuBN" [routerLink]="homeLink">{{'Continue Shopping' | translate}}</button>
+          <button class="red darken-1 btn waves-effect waves-light tycntnuBN" [routerLink]="homeLink">
+            <span *ngIf="isPaymentlink">{{'Make Another Payment' | translate}}</span>
+            <span *ngIf="!isPaymentlink">{{'Continue Shopping' | translate}}</span>
+          </button>
         </div>
       </div>
     </div>

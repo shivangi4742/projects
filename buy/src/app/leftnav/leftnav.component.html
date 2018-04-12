@@ -1,5 +1,5 @@
 <div class="row whiteFontBN">
-  <div class="col s12 hoverBN linkButtonBN" *ngIf="showStoreHomeLink" (click)="goto('store')">
+  <div class="col s12 hoverBN linkButtonBN" *ngIf="showStoreHomeLink && !isPaymentlink" (click)="goto('store')">
     <div class="col s10 offset-s1">
       <i class="material-icons  leftNavIconBN alignMidBN">view_module</i>&nbsp;&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'All Products' | translate}}</span>

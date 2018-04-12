@@ -13,9 +13,11 @@ import { UtilsService } from './utils.service';
 export class StoreService {
     private _code: string;
     private _settings: any;
+    private _urlMerchant: any;
     private _subject = new Subject<any>();
     private _urls: any = {
-        fetchStoreDetailsURL: 'store/fetchStoreDetails'
+        fetchStoreDetailsURL: 'store/fetchStoreDetails',
+        getMerchantDetailsFromURLURL: 'store/getMerchantDetailsFromURL'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -23,6 +25,11 @@ export class StoreService {
     private setSettings(res: any): any {
         this._settings = res;
         return this._settings;
+    }
+
+    private setURLMerchant(res: any): any {
+        this._urlMerchant = res;
+        return this._urlMerchant;
     }
 
     public merchantAssigned(): Observable<any> {
@@ -33,6 +40,27 @@ export class StoreService {
         if(code) {
             this._code = code;
             this._subject.next(code);
+        }
+    }
+
+    public getMerchantDetailsFromURL(): Promise<any> {
+        if(this._urlMerchant)
+            return Promise.resolve(this._urlMerchant);
+        else {
+            let u: string = window.location.href;
+            if(this.utilsService.getIsDevEnv())
+                u = this.utilsService.getTestDomainURL();
+                
+            return this.http.post(
+                this.utilsService.getBaseURL() + this._urls.getMerchantDetailsFromURLURL,
+                JSON.stringify({
+                    "url": u
+                }),
+                { headers: this.utilsService.getHeaders() }
+            )        
+            .toPromise()
+            .then(res => this.setURLMerchant(res.json()))
+            .catch(res => this.utilsService.returnGenericError());
         }
     }
 

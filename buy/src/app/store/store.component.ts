@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
-import { Product, StoreService, UtilsService, ProductService } from 'benowservices';
+import { Product, StoreService, UtilsService, ProductService, PaymentlinkService } from 'benowservices';
 
 @Component({
   selector: 'store',
@@ -10,7 +10,9 @@ import { Product, StoreService, UtilsService, ProductService } from 'benowservic
   styleUrls: ['./store.component.css']
 })
 export class StoreComponent implements OnInit {
+  amount: number;
   numPages: number;
+  purpose: string;
   retPolicy: string;
   storeName: string;
   storeLogo: string;
@@ -20,28 +22,84 @@ export class StoreComponent implements OnInit {
   storeContact: string;
   storeAddress: string;
   merchantCode: string;
+  storeDescription: string;
   products: Array<Product>;
   page: number = 1;
   onclickn : boolean = false;
+  isStore: boolean = true;
+  amountEditable: boolean = true;
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
-    private productService: ProductService) { }
+    private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router) { }
 
-  ngOnInit() {
+  setImgAndHeights() {
     let imgHeight: number = Math.round((screen.height - 100) * 0.5);
     let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
 //    document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
     document.getElementById('storeimgdiv').style.backgroundColor = 'white';
     document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
     document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
-    document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
+    document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';    
+  }
+
+  proceed() {
+    this.paymentlinkService.setPaymentlinkDetails({
+      "amount": this.amount,
+      "purpose": this.purpose,
+      "merchantCode": this.merchantCode
+    });   
+    this.router.navigateByUrl('/payerinfo'); 
+  }
+
+  ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    this.storeService.assignMerchant(this.merchantCode);
-    this.fetchProducts();
-    this.storeService.fetchStoreDetails(this.merchantCode)
-      .then(res => this.fillStoreDetails(res));
+    if(this.merchantCode) {
+      this.setImgAndHeights();
+      this.storeService.assignMerchant(this.merchantCode);
+      this.fetchProducts();
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res => this.fillStoreDetails(res));  
+    }
+    else
+      this.newInit();
+  }
+
+  fillMerchantDetails(m: any) {
+    if(m && m.merchantCode) {
+      this.merchantCode = m.merchantCode;
+      this.storeService.assignMerchant(this.merchantCode);
+      let u: string = window.location.href;
+      if(this.utilsService.getIsDevEnv())
+        u = this.utilsService.getTestDomainURL();
+
+      if(u) {
+        u = u.replace('https://', '').replace('http://', '');
+        if(u.startsWith('pay-')) {
+          this.isStore = false;
+          this.amount = +this.activatedRoute.snapshot.params['amount'];          
+          if(this.amount > 0) {
+            this.amountEditable = false;
+            this.amount = Math.round(this.amount * 100) / 100;
+          }
+          else
+            this.amount = null;
+        }
+        else {
+          this.setImgAndHeights();
+          this.fetchProducts();
+        }
+      }
+
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res => this.fillStoreDetails(res));    
+    }
+  }
+
+  newInit() {
+    this.storeService.getMerchantDetailsFromURL()
+      .then(res => this.fillMerchantDetails(res));
   }
 
   fetchProducts() {
@@ -99,6 +157,7 @@ export class StoreComponent implements OnInit {
 
   fillStoreDetails(res: any) {
     if(res && res.id) {
+      this.storeDescription = res.description;
       this.storeAddress = res.address;
       this.storeName = res.displayName;
       this.storeContact = res.mobileNumber;

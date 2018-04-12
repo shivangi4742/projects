@@ -1,60 +1,110 @@
-<div class="row">
-  <div class="col s12 nopadsBN" align="center">
-    <div class="storeimgBN" id="storeimgdiv"></div>
-    <div class="clearingBN" id="clearingdiv">&nbsp;</div>
-    <div class="pad30lrBN">
-      <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
-        <div class="col s12" align="center" *ngIf="storeLogo">
-          <div class="storeLogoDivBN" align="center">
-              <span class="helperBN"></span><img [src]="storeLogo" class="storeLogoBN" />
-          </div>
-        </div>
-        <div class="col s12">&nbsp;</div>
-        <div class="col s12">
-          <span class="linkButtonBN storetitleBN" >{{storeName}}</span>
-          <div *ngIf="onclickn">
-            <div class="col s12">{{storeAddress}}</div>
-            <div class="col s12">{{storeEmail}}</div>
-            <div class="col s12">
-              <i class="material-icons phonedetBN">phone</i> {{storeContact}}
-            </div>
-            <div class="col s12">&nbsp;</div>
-            <div class="col s12">
-              <b>{{'Return Policy' | translate}}:</b>
-              <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
-              <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
-              <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
-            </div>
-            <div class="col s12">&nbsp;</div>
-          </div>
-        </div>
-
-         <div class="col s12 redcolBN" (click)="abtbusiness()">
-          <span class="linkButtonBN" >{{'About this business'}}</span>
-            <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
-            <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
-        </div>
-      </div>
-      <div class="col s12 white card-panel z-depth-2 storeprodsBN" *ngIf="products">
-        <div class="row"></div>
-        <div class="row">
-          <div align="center" class="col l3 m4 s12 storewidgetcntnrBN" *ngFor="let product of products">
-            <div class="storepborBN linkButtonBN">
-              <prodwidget [product]="product"></prodwidget>
+<div *ngIf="isStore">
+  <div class="row">
+    <div class="col s12 nopadsBN" align="center">
+      <div class="storeimgBN" id="storeimgdiv"></div>
+      <div class="clearingBN" id="clearingdiv">&nbsp;</div>
+      <div class="pad30lrBN">
+        <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
+          <div class="col s12" align="center" *ngIf="storeLogo">
+            <div class="storeLogoDivBN" align="center">
+                <span class="helperBN"></span><img [src]="storeLogo" class="storeLogoBN" />
             </div>
           </div>
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">
+            <span class="linkButtonBN storetitleBN" >{{storeName}}</span>
+            <div *ngIf="onclickn">
+              <div class="col s12">{{storeAddress}}</div>
+              <div class="col s12">{{storeEmail}}</div>
+              <div class="col s12">
+                <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+              </div>
+              <div class="col s12">&nbsp;</div>
+              <div class="col s12">
+                <b>{{'Return Policy' | translate}}:</b>
+                <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
+                <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
+                <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
+              </div>
+              <div class="col s12">&nbsp;</div>
+            </div>
+          </div>
+  
+           <div class="col s12 redcolBN" (click)="abtbusiness()">
+            <span class="linkButtonBN" >{{'About this business'}}</span>
+              <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
+              <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
+          </div>
         </div>
-        <div class="row" align="center" *ngIf="page < numPages">
-          <button class="btn waves-effect waves-light morefromstoreBN" (click)="more()">{{'See More Products' | translate}}</button>
+        <div class="col s12 white card-panel z-depth-2 storeprodsBN" *ngIf="products">
+          <div class="row"></div>
+          <div class="row">
+            <div align="center" class="col l3 m4 s12 storewidgetcntnrBN" *ngFor="let product of products">
+              <div class="storepborBN linkButtonBN">
+                <prodwidget [product]="product"></prodwidget>
+              </div>
+            </div>
+          </div>
+          <div class="row" align="center" *ngIf="page < numPages">
+            <button class="btn waves-effect waves-light morefromstoreBN" (click)="more()">{{'See More Products' | translate}}</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div id="storedetailBN" class="dropdown-content storedetailBN" *ngIf="storeAddress" align="center">
-  <div class="col s12">{{storeAddress}}</div>
-  <div class="col s12">&nbsp;</div>
-  <div class="col s12">
-    <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+  <div id="storedetailBN" class="dropdown-content storedetailBN" *ngIf="storeAddress" align="center">
+    <div class="col s12">{{storeAddress}}</div>
+    <div class="col s12">&nbsp;</div>
+    <div class="col s12">
+      <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+    </div>
   </div>
+</div>
+<div *ngIf="!isStore">
+  <div class="row topPadImgBN pad20lrBN">
+    <div class="col s12 white card-panel z-depth-2 nameplateBN" align="center" *ngIf="storeName">
+      <div class="col s12" align="center" *ngIf="storeLogo">
+        <div class="storeLogoDivBN" align="center">
+            <span class="helperBN"></span><img [src]="storeLogo" class="storeLogoBN" />
+        </div>
+      </div>
+      <div class="col s12">&nbsp;</div>
+      <div class="col s12">
+        <span class="linkButtonBN storetitleBN" >{{storeName}}</span>
+      </div>
+      <div class="col s12">{{storeDescription}}</div>
+      <div class="col s12">&nbsp;</div>
+      <div class="col s12">{{storeAddress}}</div>
+      <div class="col s12">{{storeEmail}}</div>
+      <div class="col s12">
+        <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+      </div>
+      <div class="col s12">&nbsp;</div>
+      <form materialize (ngSubmit)="proceed()" class="paymentFrmBN" #paymentLinkForm="ngForm">
+        <div *ngIf="!amountEditable" class="col s12">
+          <span class="payTextBN">{{'Pay'}}
+            <span class="amountTextBN">&nbsp;&nbsp;₹ {{amount | number : '1.2-2'}}</span>
+          </span>
+        </div>
+        <div *ngIf="amountEditable" align="left">
+          <div class="col s12 labelBN offsetBN">{{'Amount (at least ₹ 10)' | translate}} * :</div>
+          <div class="col s12 offsetlrBN input-field binputdivBN">
+            <input class="binputBN validate" placeholder="{{'Enter amount to pay' | translate}}" [(ngModel)]="amount" type="number" 
+              name="amount" min="10" max="99999" step="0.01" required />
+          </div>    
+        </div>
+        <div class="col s12 input-field labelBN offsetBN" align="left">{{'Purpose' | translate}} :</div>
+        <div class="input-field col s12 offsetlrBN binputdivBN" align="left">
+          <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="purpose"
+            placeholder="{{'Enter what you are paying for' | translate}}" [(ngModel)]="purpose"></textarea>
+        </div>
+        <div class="col s10 offset-s1">
+          <button class="col s12 buy1MBN btn waves-effect waves-light red darken-1" type="submit" name="continues"
+            [disabled]="!paymentLinkForm.form.valid || amount < 10">{{'Proceed to Pay' | translate}}</button>
+        </div>
+        <div class="col s1"></div>
+      </form>
+      <div class="col s12">&nbsp;</div>
+    </div>
+  </div>  
 </div>

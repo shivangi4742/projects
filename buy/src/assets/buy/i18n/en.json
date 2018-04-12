@@ -63,5 +63,14 @@
     "days.": "days.",
     "Returns available within": "Returns available within",
     "No questions asked exchange.": "No questions asked exchange.",
-    "No questions asked return.": "No questions asked return."
+    "No questions asked return.": "No questions asked return.",
+    "Pay": "Pay",
+    "Amount (at least ₹ 10)": "Amount (at least ₹ 10)",
+    "Purpose": "Purpose",
+    "Enter amount to pay": "Enter amount to pay",
+    "Enter what you are paying for": "Enter what you are paying for",
+    "Payment Details": "Payment Details",
+    "Pay Amount": "Pay Amount",
+    "Make Another Payment": "Make Another Payment",
+    "You have successfully paid and your Transaction Id is": "You have successfully paid and your Transaction Id is"
 }
