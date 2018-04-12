@@ -46,17 +46,22 @@ export class StoreService {
     public getMerchantDetailsFromURL(): Promise<any> {
         if(this._urlMerchant)
             return Promise.resolve(this._urlMerchant);
-        else
+        else {
+            let u: string = window.location.href;
+            if(this.utilsService.getIsDevEnv())
+                u = this.utilsService.getTestDomainURL();
+                
             return this.http.post(
                 this.utilsService.getBaseURL() + this._urls.getMerchantDetailsFromURLURL,
                 JSON.stringify({
-                    "url": window.location.href
+                    "url": u
                 }),
                 { headers: this.utilsService.getHeaders() }
             )        
             .toPromise()
             .then(res => this.setURLMerchant(res.json()))
             .catch(res => this.utilsService.returnGenericError());
+        }
     }
 
     public fetchStoreDetails(merchantCode: string): Promise<any> {

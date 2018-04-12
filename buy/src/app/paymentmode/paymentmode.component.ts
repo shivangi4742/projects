@@ -23,6 +23,7 @@ export class PaymentmodeComponent implements OnInit {
   subscription: Subscription;  
   settings: any;
   plInfo: any;
+  supportsUPI: boolean = false;
   isPaymentlink: boolean = false;
   processing: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
@@ -79,6 +80,15 @@ export class PaymentmodeComponent implements OnInit {
     if(res) {
       this.settings = res;
       this.defaultVPA = this.getDefaultVPA();
+      if(this.settings.acceptedPaymentMethods && this.settings.acceptedPaymentMethods.length > 0) {
+        for(let i = 0; i < this.settings.acceptedPaymentMethods.length; i++) {
+          if(this.settings.acceptedPaymentMethods[i].paymentMethod 
+            && this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('upi') >= 0) {
+              this.supportsUPI = true;
+              break;
+            }
+        }
+      }
     }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');

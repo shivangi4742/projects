@@ -71,7 +71,9 @@ export class StoreComponent implements OnInit {
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
-      //u = "https://pay-archana.benow.in/";
+      if(this.utilsService.getIsDevEnv())
+        u = this.utilsService.getTestDomainURL();
+
       if(u) {
         u = u.replace('https://', '').replace('http://', '');
         if(u.startsWith('pay-')) {

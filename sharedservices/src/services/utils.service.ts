@@ -14,6 +14,8 @@ export class UtilsService {
   private _isNGO: boolean = false;
   private _initialized: boolean = false;
   private _isUnRegistered: boolean = false;
+  private _isDevEnv: boolean = true;
+  private _testDomainURL: string = "https://pay-archana.benow.in/";
   private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
@@ -63,6 +65,14 @@ private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/image
 
   getRedirectURL(): string {
     return this._redirectURL;
+  }
+
+  getTestDomainURL(): string {
+    return this._testDomainURL;
+  }
+
+  getIsDevEnv(): boolean {
+    return this._isDevEnv;
   }
 
   isHB(mCode: string | null, lob: string | null): boolean {
