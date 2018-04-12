@@ -13,7 +13,7 @@ sdkRouter.post('/startPaymentProcess', sdkController.startPaymentProcess.bind(sd
 sdkRouter.post('/getFundraiserDetails', sdkController.getFundraiserDetails.bind(sdkController));
 sdkRouter.post('/getTransactionStatus', sdkController.getTransactionStatus.bind(sdkController));
 sdkRouter.post('/getPaymentLinkDetails', sdkController.getPaymentLinkDetails.bind(sdkController));
-sdkRouter.post('/saveCashPaymentSuccess', sdkController.saveCashPaymentSuccess.bind(sdkController));
+sdkRouter.post('/saveCashPaymentSuccess/:code', sdkController.saveCashPaymentSuccess.bind(sdkController));
 sdkRouter.post('/updateFundraiserCollection', sdkController.updateFundraiserCollection.bind(sdkController));
 sdkRouter.post('/getLogById', sdkController.getLogById.bind(sdkController));
 sdkRouter.post('/createPaymentLink', sdkController.createPaymentLink.bind(sdkController));

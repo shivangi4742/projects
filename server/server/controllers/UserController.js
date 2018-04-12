@@ -268,7 +268,9 @@ var userCont = {
                             "displayName": d.displayName,
                             "contactPerson": d.fullName,
                             "source": d.source,
-                            "otp": d.otp
+                            "otp": d.otp,
+                            "storeUrl":d.storeUrl,
+                            "category":d.category
                         },
                         cb);
                 }
@@ -320,7 +322,6 @@ var userCont = {
     check: function (req, res) {
         var me = this;
         this.checkPost(req, function (data) {
-//            console.log(data, 'dfhgjdgj')
             res.setHeader("X-Frame-Options", "DENY");
             res.json(data);
         });
@@ -522,7 +523,7 @@ var userCont = {
     registerSelfMerchant: function (req, res) {
         var me = this;
         this.registerSelfMerchantpost(req, function (data) {
-//            console.log(data);
+            //res.setHeader("X-Frame-Options", "DENY");
             res.json(data);
         });
     },
@@ -539,7 +540,6 @@ var userCont = {
                 cb(retErr);
             }
             else {
-   //             console.log(req.body.area,req.body.city,'req.body.area');
                 if (req.body && req.body.id) {
                     helper.postAndCallback(helper.getExtServerOptions('/merchants/merchant/registerSelfMerchant', 'POST', req.headers),
                         {
@@ -922,6 +922,75 @@ setLineOfBusinesspost: function (req, cb) {
             cb(retErr);
         }
     },
+
+    displayupdate: function (req, res) {
+        var me = this;
+        this.displayupdatePost(req, function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+    
+    displayupdatePost: function (req,  cb) {
+        var retErr = {
+            "success": false,
+            "errorCode": "Something went wrong. Please try again."
+        };
+
+        try {
+            if (!req || !req.body ) {
+                cb(retErr);
+            }
+            else {
+                var d = req.body;
+                if (d) {
+                    var obj = {
+                        "storeUrl": d.storeUrl
+                    };
+
+                    helper.postAndCallback(helper.getDefaultExtServerOptions('/merchants/merchant/saveMerchantStroreUrl',
+                        'POST', req.headers), obj, cb);
+                }
+                else
+                    cb(retErr);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+    getDashboardCategory: function (req, res) {
+        var me = this;
+        this.getDashboardCategorypost(req,function (data) {
+            res.setHeader("X-Frame-Options", "DENY");
+            res.json({ "data": data });
+        });
+    },
+
+    getDashboardCategorypost: function (req, cb) {
+        var retErr = {
+            "success": false,
+            
+            "errorCode": "Something went wrong. Please try again."
+        }
+
+        try {
+            if (!req || !req.body ) {
+                cb(retErr);
+            }
+            else {
+                helper.postAndCallback(helper.getDefaultExtServerOptions('/payments/getDashboardCategories', 'POST', req.headers),
+                    {
+                        "businessLob": "HB"
+                    },
+                    cb);
+            }
+        }
+        catch (err) {
+            cb(retErr);
+        }
+    },
+
 
   changeoldpass: function (req, res) {
         var me = this;

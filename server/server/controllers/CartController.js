@@ -19,10 +19,13 @@ var cartCont = {
                 'X-AUTHORIZATION': config.paymentGateway.xauth,
                 'Content-Type': 'application/json'
             };
-    
             var surl = config.paymentGateway.buysurl + d.merchantcode + '/paymentsuccess/' + d.txnid;
             var furl = config.paymentGateway.buyfurl + d.merchantcode + '/paymentfailure/' + d.txnid;
-    
+            if(d.burl) {
+                surl = config.mehttp + d.burl + config.mesubdomain + '/paid/' + d.txnid;
+                furl = config.mehttp + d.burl + config.mesubdomain + '/unpaid/' + d.txnid;
+            }
+
             var payload = {
                 "key": config.paymentGateway.key,
                 "curl": config.paymentGateway.curl,
@@ -148,10 +151,13 @@ var cartCont = {
                                                 "transactionRef": data.hdrTransRefNumber,
                                                 "merchantCode": d.merchantcode,
                                                 "amount": d.payamount,
+                                                "purpose": d.purpose,
                                                 "txnDate": Date.now()
                                             },
                                             function (sdata) {
-                                                if(sdata && sdata.amount) {
+                                                if(d.isPaymentlink == true)
+                                                    cb({ "transactionRef": data.hdrTransRefNumber });
+                                                else if(sdata && sdata.amount) {
                                                     var cartitemsobj = {
                                                         "transactionRef": data.hdrTransRefNumber,
                                                         "payerProductVOs": []
