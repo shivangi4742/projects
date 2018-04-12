@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { PrepageComponent } from './prepage/prepage.component';
 
 import { ZgService } from "./services/zg.service";
+import { RedirectComponent } from './components/redirect/redirect.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/mgl/i18n', '.json');
@@ -24,7 +25,8 @@ export function HttpFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent,
-    PrepageComponent
+    PrepageComponent,
+    RedirectComponent
   ],
   imports: [
     HttpModule,

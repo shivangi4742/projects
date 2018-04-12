@@ -190,14 +190,16 @@ export class ZgService {
           me.subLedgerArray.push(subLedger);
         });
 
-        payPinDetail.allsubledger_list.forEach(function (subledger: any) {
-          var amount = subledger.amount;
-          var subledger_code = subledger.subledger_code;
-          var type = subledger.type;
+        if (payPinDetail.allsubledger_list && payPinDetail.allsubledger_list.length > 0) {
+          payPinDetail.allsubledger_list.forEach(function (subledger: any) {
+            var amount = subledger.amount;
+            var subledger_code = subledger.subledger_code;
+            var type = subledger.type;
 
-          var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
-          me.allSubLedgerArray.push(subLedger);
-        });
+            var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
+            me.allSubLedgerArray.push(subLedger);
+          });
+        }
 
         var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray, payPinDetail.ledger_id, payPinDetail.society_id);
         me.payPinModelArray.push(payPinModel);

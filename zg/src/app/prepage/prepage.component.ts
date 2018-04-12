@@ -44,7 +44,7 @@ export class PrepageComponent implements OnInit {
   selectedCharges: PgChargesModel;
   chargesModel: ChargesModel;
   subLedgerList: SubLedgerModel[];
-  allSubLedgerList: SubLedgerModel[];
+  allSubLedgerList: SubLedgerModel[]  = new Array();;
 
   upiSelected: boolean = false;
   netBankingSelected: boolean = false;
@@ -179,7 +179,7 @@ export class PrepageComponent implements OnInit {
 
     if (this.enteredPayPin && this.enteredPayPin.length > 0) {
       this.getPayPinValues(this.enteredPayPin);
-    }
+    } 
     else {
       var subLedgerList: PaybillChargesModel[] = new Array();
       this.subLedgerList.forEach(obj => {
@@ -259,6 +259,7 @@ export class PrepageComponent implements OnInit {
         merchantVpa = 'ALIO2@idfcbank';
       }
 
+      // Remove this if else when SDK goes live. This is just for zipgrid to test.
       if (this.payPin == 'SPLDRZA-104F26AB6') {
         this.zgService.setPayRequest(new PayRequestModel(2, this.totalAmount + '', false, false, true, false, merchantDesc,
           this.strEmail, this.furl, this.strFullName, '', '', '', this.payPin, mccCode, merchantCode, '1', merchantVpa,
