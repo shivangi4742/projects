@@ -95,8 +95,6 @@ export class SettingsComponent implements OnInit {
       this.userService.getfetchMerchantForEditDetails(this.user.email, this.user.id)
         .then(res => this.initDetails(res));
 
-
-
       this.loadForm();
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
-import { LocationService, User, UserService,ProductService, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
+import { LocationService, User, UserService,ProductService,Accountpro, Businesspro, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
 import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
@@ -11,6 +11,7 @@ import { MaterializeAction } from 'angular2-materialize';
 export class DashboardComponent implements OnInit {
   chargeFee: boolean = false;
   transactionHistory: string = '/transactionhistory';
+  addproduct:string = '/addproduct';
   user: User;
   transactions: Transaction;
   payments: Array<Payment>;
@@ -24,13 +25,16 @@ export class DashboardComponent implements OnInit {
   displayTransactions: number = 3;
   dateRange: number = 1;
   paymnt:Payment;
+  businesspro:Businesspro;
+  storeurl:string;
+  streurl:string;
   seemodalActions: any = new EventEmitter<string|MaterializeAction>();
+  sharemodalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private locationService: LocationService,private productservice: ProductService, private userService: UserService, private utilsService: UtilsService,
               private transactionService: TransactionService) { }
 
   ngOnInit() {
     this.locationService.setLocation('dashboard');
-
     this.userService.getUser()
       .then(res => this.init(res));
   }
@@ -38,10 +42,18 @@ export class DashboardComponent implements OnInit {
   init(res: User){
     this.user = res;
     this.processing = true;
-
+    this.userService.checkMerchant(this.user.mobileNumber,'b')
+        .then(bres=>this.initshare(bres));
+   
     this.transactionService.getProductTransactions(this.user.merchantCode, this.utilsService.getLastYearDateString()+" 00:00:00",
       this.utilsService.getCurDateString()+" 23:59:59", this.page)
       .then(tres => this.updateTransactions(tres));
+  }
+  initshare(res:any){
+    this.businesspro = res
+    this.sharemodalActions.emit({ action: "modal", params: ['open'] });
+    this.storeurl="pay-"+ this.businesspro.storeUrl + ".benow.in";
+    this.streurl=this.businesspro.storeUrl + ".benow.in"
   }
 
   updateTransactions(res: Transaction){

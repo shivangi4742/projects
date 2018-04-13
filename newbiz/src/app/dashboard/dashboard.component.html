@@ -1,4 +1,47 @@
 <div class="row smallGapBN">&nbsp;</div>
+<div materialize="modal" id="sharr" class="modal modlBN1 " [materializeActions]="sharemodalActions">
+  <div class="modal-content">
+      <div class="row center ">
+        <span class="textgreenBN">
+            Congratulations!
+        </span></div>
+     <div class="row center">
+        <div class="col s1 m1 l1"></div>
+       <div class="col s10 m10 l10">
+          You have Sucessfully created your digital Identity.
+          Now you can share your Payment link to collect money or you can add product to your online store and start selling them online.
+    
+       </div>  
+       <div class="col s1 m1 l1"></div>
+     </div>
+    <div class="row"> <b>Payment Link:</b></div>
+     <div class="row">
+        <div class="col s12 m8 l8">
+       <input type="text" class="inputjBN" [(ngModel)]="storeurl" readonly="true"/> 
+       </div>
+       <div class="col s12 m4 l4">
+       <i class="material-icons alignMidBN">content_copy</i> <i class="material-icons alignMidBN">share</i>
+      </div>
+      </div>
+    
+    <p class="borfBN"></p>
+     <div class="row"> <b>Online Store Link:</b></div>
+    
+     <div class="row">  
+       <div class="col s12 m8 l8">
+       <input type="text" class="inputjBN" [(ngModel)]="streurl" readonly="true" />
+       </div><div class="col s12 m4 l4">
+       <i class="material-icons alignMidBN">content_copy</i> <i class="material-icons alignMidBN">share</i>
+      </div>
+    </div> 
+     <div class="row">
+       <div class="col s12 m8 l8"><span>Selling Online, Add your product now</span> </div>
+       <div class="col s12 m4 l4">
+        <button class="col s12 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" [routerLink]="addproduct">
+            {{'Add product' | translate}}</button></div>
+     </div>
+    </div>
+</div>
 <div materialize="modal" id="seedeatil2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="seemodalActions">
       <div class="modal-content">
           <app-seeproductdetail [selPayment] = "getSelPayment()"></app-seeproductdetail>
