@@ -117,9 +117,9 @@ export class ProductcatalogComponent implements OnInit {
   initshare(res:any){
     
     this.businesspro = res;
-    this.url="https://pay-"+ this.businesspro.storeUrl + ".benow.in";
     this.storeurl= "https://pay-"+ this.businesspro.storeUrl + ".benow.in";
     this.streurl= this.businesspro.storeUrl + ".benow.in";
+    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
    
   }
 
@@ -178,14 +178,14 @@ export class ProductcatalogComponent implements OnInit {
   }
   
   twitterbutton() {
-    this.url="https://pay-"+ this.businesspro.storeUrl + ".benow.in";
+    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
     window.open('https://twitter.com/share?url=' + this.url,'', 
     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
 
   fbClick() {
-    this.url="https://pay-"+ this.businesspro.storeUrl + ".benow.in";
+    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
     window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
     this.url + '&display=popup&ref=plugin&src=share_button', '',
      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
@@ -194,7 +194,7 @@ export class ProductcatalogComponent implements OnInit {
   share(id:any){
     this.prodId= id;
     this.sharemodalActions.emit({ action: "modal", params: ['open'] });
-    this.url="https://pay-"+ this.businesspro.storeUrl + ".benow.in";
+    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
 }
 shareclose(){
   this.sharemodalActions.emit({ action: "modal", params: ['close'] });
