@@ -109,3 +109,22 @@
    color: red !important;
    text-decoration: underline;
 }
+
+.textgreenBN{
+  color:green;
+  font-size: 18pt;
+}
+.modlBN1{
+  width: 39% !important;
+  max-height: 85%!important;
+}
+.borfBN{
+  border: solid .5px grey!important;
+}
+.inputjBN{
+  width: 65%!important;
+  height: 13%!important;
+  background-color: #f2f2f2!important;
+  border: #f2f2f2!important;
+  padding: 10px!important;
+}
