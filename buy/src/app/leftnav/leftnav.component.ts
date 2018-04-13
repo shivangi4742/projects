@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
-import { StoreService, CartService, Cart } from 'benowservices';
+import { StoreService, CartService, Cart, UtilsService } from 'benowservices';
 @Component({
   selector: 'leftnav',
   templateUrl: './leftnav.component.html',
@@ -15,16 +15,23 @@ export class LeftnavComponent implements OnInit {
   storeHome: string;
   cartLink: string;
   reprtlink: string;
+  isPaymentlink: boolean = false;
   showStoreHomeLink: boolean = true;
   showReportErrorLink: boolean = true;
 
-  constructor(private storeService: StoreService, private router: Router) { 
+  constructor(private storeService: StoreService, private router: Router, private utilsService: UtilsService) { 
     let me: any = this; 
     this.subs= this.storeService.merchantAssigned().subscribe(message => me.rep(message));
   }
 
   ngOnInit() {
-  }
+    let u: string = window.location.href;
+    if(this.utilsService.getIsDevEnv())
+      u = this.utilsService.getTestDomainURL();
+
+    if(u.indexOf('pay-') >= 0)
+      this.isPaymentlink = true;
+}
 
   goto(loc: string) {
     let sn: any = document.getElementById('sidenavelem');
