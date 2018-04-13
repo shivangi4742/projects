@@ -61,7 +61,6 @@ export class StoreComponent implements OnInit {
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     if(this.merchantCode) {
-      this.setImgAndHeights();
       this.storeService.assignMerchant(this.merchantCode);
       this.fetchProducts();
       this.storeService.fetchStoreDetails(this.merchantCode)
@@ -118,6 +117,7 @@ export class StoreComponent implements OnInit {
   }
 
   fillProductsInStore(res: any) {
+    this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;
       if(!this.products)
