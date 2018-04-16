@@ -1,4 +1,162 @@
 <div class="row smallGapBN">&nbsp;</div>
+<div materialize="modal" id="seedeatil2" class="modal modlBN productModalBN" [materializeActions]="sharelinkurlmodalActions">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s4 typeBN">Share</div>
+        <div class="col s8">
+          <i class="material-icons alignMidBN right linkButtonBN" style="font-size: 14pt;" (click)="shareclose()">close</i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s3 typeBN">
+          <a (click)="emaiil()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+            <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+          </a>
+        </div>
+        <div class="col s9">Email</div>
+      </div>
+      <div class="row bderBN" *ngIf="emailtext">
+        <div class="valign wrapper">
+        <div class="col s12 maiBN">
+         <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="maiBN">
+        </div>
+      </div>
+      <div class="valign wrapper ">
+          <div class="col s12 center">
+           <button type="submit" class="btn waves-effect waves-light buttonBN smallerFonttBN center" (click)="emailpost()">Email</button>
+
+          </div>
+         <div class="col s12 center smsBN" *ngIf="suceessmsg">{{'successfully email sent!' | translate}}</div>
+        </div>
+        
+      </div>
+      <div class="row" >
+        <div class="col s3 typeBN">
+          <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+            <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+          </a>
+        </div>
+        <div class="col s9">SMS</div>
+      </div>
+      <div class="row bderBN" *ngIf="smstext">
+          <div class="valign wrapper">
+          <div class="col s12 maiBN">
+           <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="maiBN">
+          </div>
+        </div>
+        <div class="valign wrapper">
+            <div class="col s12 center">
+             <button type="submit" class="btn waves-effect waves-light buttonBN smallerFonttBN center" (click)="smspost()">SMS</button>
+            </div>
+          </div>
+         <div *ngIf="smsucess" class="col s12 center smsBN">{{'successfully sms sent !'}}</div>
+        </div>
+      <div class="row">
+        <div class="col s3 typeBN">
+          <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+            <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+            />
+          </a>
+        </div>
+        <div class="col s9">Facebook</div>
+      </div>
+      <div class="row">
+        <div class="col s3 typeBN">
+          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+            title="Twitter Tweet Button" (click)="twitterbutton()">
+            <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
+          </a>
+        </div>
+        <div class="col s9">Twitter</div>
+      </div>
+      <div class="row show-on-small hide-on-large-only">
+        <div class="col s3 typeBN">
+          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+            title="WhatsApp share Button" (click)="WhatsApp()">
+            <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="Tweet on Twitter" width="35" height="35" />
+          </a>
+        </div>
+        <div class="col s9">WhatsApp</div>
+      </div>
+      <div class="row">
+        <span class="col s12">Click to copy link</span>
+        <div class="col s12 typeBN">
+
+          <div class="smallFontBN noLeftPaddingBN">
+            <a class="copyBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
+              <input type="text" class="smallFontBN inputBN" [(ngModel)]="url" disabled/>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<div materialize="modal" id="sharr" class="modal modlBN1 " [materializeActions]="sharemodalActions">
+    
+  <div class="modal-content">
+      <div class="row right ">
+        <div class="col s12">
+          <span (click)="close()">
+            <i class="material-icons alignMidBN linkButtonBN" >close</i>
+          </span></div>
+
+        </div>
+        <br>
+      <div class="row center ">
+        <span class="textgreenBN">
+            Congratulations!
+        </span></div>
+     <div class="row center">
+        <div class="col s1 m1 l1"></div>
+       <div class="col s10 m10 l10">
+          You have Sucessfully created your digital Identity.
+          Now you can share your Payment link to collect money or you can add product to your online store and start selling them online.
+    
+       </div>  
+       <div class="col s1 m1 l1"></div>
+     </div>
+    <div class="row"> <b>Digital Payment Link:</b></div>
+     <div class="row">
+        <div class="col s12 m8 l8">
+       <input type="text" class="inputjBN" [(ngModel)]="storeurl" readonly="true"/> 
+       </div>
+       <div class="col s12 m4 l4">
+          <a class="copyBN linkButtonBN alignMidBN" [class.btn-success]= "isCopied1"
+          type="button" ngxClipboard [cbContent]="storeurl" (cbOnSuccess)="isCopied1 = true">
+            <i class="material-icons alignMidBN">content_copy</i>
+            <span class="alignMidBN" style="margin-right: 10px;"></span>
+          </a>
+          
+              <i class="material-icons linkButtonBN alignMidBN" (click)="shareopen(2)">share</i>
+            
+      </div>
+      </div>
+    
+    <p class="borfBN"></p>
+     <div class="row"> <b>Online Store Link:</b></div>
+    
+     <div class="row">  
+       <div class="col s12 m8 l8">
+       <input type="text" class="inputjBN" [(ngModel)]="streurl" readonly="true" />
+       </div><div class="col s12 m4 l4">
+          <a class="copyBN linkButtonBN" [class.btn-success]= "isCopied2"
+          type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied2 = true">
+            <i class="material-icons alignMidBN">content_copy</i>
+            <span class="alignMidBN" style="margin-right: 10px;"></span>
+          </a>
+          <i class="material-icons linkButtonBN alignMidBN"  (click)="shareopen(1)">share</i>
+           
+      </div>
+    </div> 
+     <div class="row">
+       <div class="col s12 m8 l8"><span>Selling Online, Add your product now</span> </div>
+       <div class="col s12 m4 l4">
+        <button class="col s12 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" (click)="adproduct()">
+            {{'Add product' | translate}}</button></div>
+     </div>
+    </div>
+</div>
 <div materialize="modal" id="seedeatil2" class="modal modlBN modal-fixed-footer productModalBN" [materializeActions]="seemodalActions">
       <div class="modal-content">
           <app-seeproductdetail [selPayment] = "getSelPayment()"></app-seeproductdetail>

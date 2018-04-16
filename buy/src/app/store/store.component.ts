@@ -38,10 +38,15 @@ export class StoreComponent implements OnInit {
     let imgHeight: number = Math.round((screen.height - 100) * 0.5);
     let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
 //    document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
-    document.getElementById('storeimgdiv').style.backgroundColor = 'white';
-    document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
-    document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
-    document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';    
+    if(document.getElementById('storeimgdiv')) {
+      document.getElementById('storeimgdiv').style.backgroundColor = 'white';
+      document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
+    }
+
+    if(document.getElementById('clearingdiv')) {
+      document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+      document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      
+    }
   }
 
   proceed() {
@@ -56,7 +61,6 @@ export class StoreComponent implements OnInit {
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     if(this.merchantCode) {
-      this.setImgAndHeights();
       this.storeService.assignMerchant(this.merchantCode);
       this.fetchProducts();
       this.storeService.fetchStoreDetails(this.merchantCode)
@@ -113,6 +117,7 @@ export class StoreComponent implements OnInit {
   }
 
   fillProductsInStore(res: any) {
+    this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;
       if(!this.products)

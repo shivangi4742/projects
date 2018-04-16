@@ -43,8 +43,6 @@ export class RegisterComponent implements OnInit {
   errmsg: string;
   editt: boolean = true;
   homeLink: string = '/dashboard';
-  dlocality = new Array<Locality>();
-
 
   constructor(private translate: TranslateService, private router: Router, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService) {
@@ -103,7 +101,6 @@ export class RegisterComponent implements OnInit {
   }
   initceckacc(res:any){
     this.businesspro = res;
-    this.businesspro.area = this.dlocality
   }
 
 

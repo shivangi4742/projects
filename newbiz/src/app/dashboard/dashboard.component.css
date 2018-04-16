@@ -85,6 +85,13 @@
   padding: 0px;
   height: 25px;
 }
+.smallerFonttBN{
+  font-family: Barlow;
+  font-size: 10pt!important;
+  line-height: 12px!important;
+ 
+  height: 25px;
+}
 
 .dateRangeBN {
   max-width: 150px;
@@ -108,4 +115,34 @@
 .textcolorBN {
    color: red !important;
    text-decoration: underline;
+}
+
+.textgreenBN{
+  color:green;
+  font-size: 18pt;
+}
+.modlBN1{
+  width: 39% !important;
+  max-height: 85%!important;
+}
+.borfBN{
+  border: solid .5px grey!important;
+}
+.inputjBN{
+  width: 65%!important;
+  height: 13%!important;
+  background-color: #f2f2f2!important;
+  border: #f2f2f2!important;
+  padding: 10px!important;
+}
+.copyBN{
+  color:black!important;
+}
+.sharelin{
+left:287.797px!important;
+}
+.modlBN{
+  width: 297px;
+  height: 418px;
+  margin-top: 86px;
 }
