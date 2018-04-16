@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { PayRequestModel } from "./../../models/payrequest.model";
 import { ZgService } from "./../../services/zg.service";
+import { UtilsService } from 'benowservices';
 
 @Component({
   selector: 'app-redirect',
@@ -14,15 +15,14 @@ export class RedirectComponent implements OnInit {
   payrequestmodel: PayRequestModel;
 
   constructor(
-    private zgService: ZgService
+    private zgService: ZgService,
+    private utilsservice: UtilsService
   ) { }
 
   ngOnInit() {
     this.payrequestmodel = this.zgService.getPayRequest();
-    console.log('payrequestmodel', this.payrequestmodel);
-    this.requestUrl = 'https://merchant.benow.in/paysdk';
-    // this.requestUrl = 'http://localhost:9090/paysdk'; 
-    // this.submitMe();
+    this.requestUrl = this.utilsservice.getRequestURL();
+    this.submitMe();
   }
 
   submitMe() {
