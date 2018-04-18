@@ -1,7 +1,7 @@
 <div *ngIf="payment">
         <div class="row">
                 <div class="col s6 m6 l6 regHdrS1BN">{{'Payment Details' | translate}}</div>
-                <div class="col s6 m6 l6 thinFNBN right" ><i class="material-icons errNrmS4BN alignMidBN modal-action modal-close  linkButtonBN right" (click)="close()">close</i></div>
+                <div class="col s6 m6 l6 thinFNBN right" ><i class="material-icons alignMidBN modal-action modal-close  linkButtonBN right">close</i></div>
                 </div>
                 <div class="row">   
       <!--  <div class="input-field col s7 m8">
@@ -40,8 +40,8 @@
         <span class="col s3 m3 regNrmS5B1BN ">{{'Name' | translate}}</span>
         <span class="col s3 m3 regNrmS5B1BN" >{{'Price' | translate}}</span>
         <span class="col s3 m3 regNrmS5B1BN" >{{'Amount' | translate}}</span>
-        <div *ngFor="let p of payment.products;  ">
-            <span class="col s3 m3 regNrmS4BN">
+        <div *ngFor="let p of payment.products;  " class="col s12">
+            <span class="col s3 m3 regNrmS4BN truncate">
                 <div class="valign-wrapper">
                     <div class="divPrefBN">
                         <b>{{p.qty}}</b> &nbsp; {{p.uom}} &nbsp; 
@@ -49,12 +49,12 @@
                 </div>
             </span>
             <span class="col s3 m3 regNrmS4BN" align="left">
-             <div class="divPrefBN">
+             <div class="divPrefBN ">
                         <span>{{p.name}}</span>
                     </div>
             </span>
-            <span class="col s3 m3 regNrmS4BN" >{{p.price | number : '1.2-2'}}</span>
-            <span class="col s3 m3 regNrmS4BN" >{{p.price * p.qty | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN truncate " >{{p.price | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN truncate" >{{p.price * p.qty | number : '1.2-2'}}</span>
         </div>
         <!-- <div class="valign-wrapper" *ngFor="let p of payment.products; let i = index;">
             <div class="col s2">{{p.imageURL}}</div>hxsgjsgdj
