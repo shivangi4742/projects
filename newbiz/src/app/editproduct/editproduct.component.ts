@@ -260,6 +260,7 @@ export class EditproductComponent implements OnInit {
     }
   }
 
+ 
   checkAmount(){
     if(this.editProduct.price < 10){
       this.isAmountLess = true;
@@ -267,14 +268,17 @@ export class EditproductComponent implements OnInit {
     else{
       this.isAmountLess = false;
     }
-
+   
     if(this.editProduct.discountedPrice){
-      if(this.editProduct.price <= this.editProduct.discountedPrice || this.editProduct.discountedPrice < 10){
+      if(this.editProduct.price <= this.editProduct.discountedPrice ){
         this.discountError = true;
       }
       else {
         this.discountError = false;
       }
+    }
+    else {
+      this.discountError = false;
     }
   }
 
