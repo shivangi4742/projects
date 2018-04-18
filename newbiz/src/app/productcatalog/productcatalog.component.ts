@@ -117,9 +117,15 @@ export class ProductcatalogComponent implements OnInit {
   initshare(res:any){
     
     this.businesspro = res;
+    if(this.businesspro.storeUrl!=null){
     this.storeurl= "https://pay-"+ this.businesspro.storeUrl + ".benow.in";
     this.streurl= this.businesspro.storeUrl + ".benow.in";
     this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
+    } else {
+      this.storeurl= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
+    this.streurl= this.businesspro.storeUrl + ".benow.in";
+    this.url= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
+    }
    
   }
 
