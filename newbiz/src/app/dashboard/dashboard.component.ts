@@ -63,8 +63,16 @@ export class DashboardComponent implements OnInit {
       .then(tres => this.updateTransactions(tres));
   }
   initshare(res: any) {
-    this.businesspro = res
-    this.sharemodalActions.emit({ action: "modal", params: ['open'] });
+    this.businesspro = res;
+    this.shsh();
+
+  }
+  shsh(){
+    //console.log(this.businesspro.storeUrl,'this.businesspro.storeUrl');
+    if(this.businesspro.storeUrl!=null){
+      this.sharemodalActions.emit({ action: "modal", params: ['open'] });
+    }
+    
     this.storeurl = "pay-" + this.businesspro.storeUrl + ".benow.in";
     this.streurl = this.businesspro.storeUrl + ".benow.in"
   }

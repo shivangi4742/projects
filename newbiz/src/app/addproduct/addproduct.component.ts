@@ -4,7 +4,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { UtilsService, User, UserService, LocationService, Product, ProductService, FileService, NewProduct, NewVariant,
-  ProductImage, NewSize } from 'benowservices';
+  ProductImage, NewSize, Businesspro} from 'benowservices';
 
 @Component({
   selector: 'app-addproduct',
@@ -14,6 +14,7 @@ import { UtilsService, User, UserService, LocationService, Product, ProductServi
 export class AddproductComponent implements OnInit {
 
   user: User;
+  businesspro:Businesspro;
   varientprice:number;
   newProduct = new NewProduct(true, false, false, null, null, null, null,
     null, null, null, null,null,true, 'Lifestyle', null,
@@ -235,7 +236,15 @@ export class AddproductComponent implements OnInit {
   init(res: User){
     this.user = res;
     this.uploadsURL = this.utilsService.getUploadsURL();
+
+    this.userService.checkMerchant(this.user.mobileNumber,'b')
+      .then(res => this.innitpst(res));
+
   }
+  innitpst(res){
+    this.businesspro= res;
+    console.log(this.businesspro,'this.businesspro');
+    }
 
   checkAmount(){
     if(this.newProduct.price < 10){
@@ -244,14 +253,17 @@ export class AddproductComponent implements OnInit {
     else{
       this.isAmountLess = false;
     }
-
+   
     if(this.newProduct.discountedPrice){
-      if(this.newProduct.price <= this.newProduct.discountedPrice || this.newProduct.discountedPrice < 10){
+      if(this.newProduct.price <= this.newProduct.discountedPrice ){
         this.discountError = true;
       }
       else {
         this.discountError = false;
       }
+    }
+    else {
+      this.discountError = false;
     }
   }
 

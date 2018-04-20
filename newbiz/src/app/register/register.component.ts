@@ -298,22 +298,14 @@ export class RegisterComponent implements OnInit {
   }
 
   hasAllFields1() {
-    if(this.gst){
-    return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
-      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address &&
-      !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
-      && this.accountpro.ifsc && this.conaccountnumber && !this.err && this.businesspro.category &&
-      this.businesspro.businessType && !this.errpancard &&
-      this.accountpro.panNumber && this.businesspro.gstno && !this.errgstvalidate ;
-    }
-    else {
+    
       return  !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address &&
       !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
       && this.accountpro.ifsc && this.conaccountnumber && !this.err && this.businesspro.category &&
       this.businesspro.businessType && !this.errpancard &&
       this.accountpro.panNumber ;
-    }
+    
   }
 
 
@@ -403,7 +395,7 @@ export class RegisterComponent implements OnInit {
     return false;
   }
 
-  allgstFields() {
+ /*  allgstFields() {
     if (this.gst) {
       if (this.businesspro.gstno && !this.errgstvalidate) {
         return true;
@@ -411,7 +403,7 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     return true;
-  }
+  } */
 
   setount(res: boolean) {
     this.gst = res;

@@ -125,12 +125,15 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   checkAmount(){
-    if(this.amount < 10){
+    console.log(this.amount,'hsdjs');
+    
+    if(this.amount!=null && this.amount < 10){
       this.isAmountLess = true;
     }
     else{
       this.isAmountLess = false;
     }
+   
   }
 
   isCreated(res: any){
@@ -148,9 +151,14 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    if(this.purpose){
-     return true;
-    }
+   
+    if(this.purpose && !this.isAmountLess){
+      return true;
+    } 
+    else if(!this.purpose){
+      return false;
+    } 
+    return false;
   }
 
 }
