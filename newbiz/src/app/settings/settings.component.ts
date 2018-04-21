@@ -61,8 +61,10 @@ export class SettingsComponent implements OnInit {
   day: boolean = false;
   hour: boolean = false;
   storeLogo: string;
+  uploadbannnerURL:string;
   localitychip;
   exchfaulty: boolean = true;
+  filchange: boolean = false;
   dlocality = new Array<Locality>();
   
   
@@ -89,7 +91,7 @@ export class SettingsComponent implements OnInit {
   init(usr: User) {
     if (usr && usr.id) {
       this.user = usr;
-      this.uploadsURL = this.utilsService.getUploadsURL();
+      this.uploadsURL = this.utilsService.getUploadsURL1();
       this.translate.use(this.utilsService.getLanguageCode(this.user.language));
 
       this.userService.getfetchMerchantForEditDetails(this.user.email, this.user.id)
@@ -114,18 +116,24 @@ export class SettingsComponent implements OnInit {
     this.userService.getMerchantDetails(this.user.merchantCode)
       .then(res => this.bind(res));
 
-    this.storeservice.fetchStoreDetails(this.user.merchantCode)
+    this.storeservice.fetchStoreimagDetais(this.user.email, this.user.id)
       .then(res => this.logourl(res));
   }
   
-  logourl(res){
-    if(res && res.id) {
-      if(res.logoURL)
-        this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
-      else
-        this.storeLogo = this.utilsService.getDefaultStoreImageURL();
-    }
-
+  logourl(res) {
+      var data = res.data;
+        if (data && data.documentResponseVO) {
+            var p = data.documentResponseVO.documentList;
+            if (p && p.length > 0) {
+                for (var i = 0; i < p.length; i++) {
+                    if (p[i].documentName == 'Merchant_logo')
+                        this.storeLogo = p[i].documentUrl;
+                    if (p[i].documentName == 'Merchant_Banner')
+                        this.uploadbannnerURL = p[i].documentUrl;
+                             
+                }
+            }
+        }
   }
 
   businessprfo(res: any) {
@@ -473,7 +481,7 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.shippingsetting());
     
   }
-  shippingploicysave(res) {
+  shippingploicysave() {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -702,9 +710,8 @@ export class SettingsComponent implements OnInit {
       asa.focus();
     }
   }
-
-  fileChange(e: any) {
-    this.uploaded = false;
+  bannerChange(e: any) {
+    this.uploading = true;
     if (e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
         this.utilsService.setStatus(false, false, '');
@@ -713,7 +720,38 @@ export class SettingsComponent implements OnInit {
           this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
         }
         else {
-          this.fileService.upload(e.target.files[0], "15", "merchant_logo", this.uploadedImage, this);
+          this.fileService.upload2(e.target.files[0], this.user.id, "MERCHANT_REG", "Merchant_Banner", "Merchant_Bannner", this.uploadedbannerImage, this);
+        }
+        e.target.value = '';
+      }
+    }
+  }
+
+  uploadedbannerImage(res: any, me: any) {
+    console.log(res, 'res');
+    if (res && res.success) {
+
+      me.uploadbannnerURL = res.documentUrl;
+      me.uploading= false;
+     
+    }
+    else {
+      window.scrollTo(0, 0);
+      me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
+    }
+  }
+
+  fileChange(e: any) {
+    this.uploaded = true;
+    if (e.target && e.target.files) {
+      if (e.target.files && e.target.files[0]) {
+        this.utilsService.setStatus(false, false, '');
+        if (e.target.files[0].size > 5000000) {
+          window.scrollTo(0, 0);
+          this.utilsService.setStatus(true, false, 'File is bigger than 1 MB!');//5 MB
+        }
+        else {
+          this.fileService.upload2(e.target.files[0], this.user.id, "MERCHANT_REG", "Merchant_logo", "Merchant_logo", this.uploadedImage, this);
         }
         e.target.value = '';
       }
@@ -723,8 +761,8 @@ export class SettingsComponent implements OnInit {
   uploadedImage(res: any, me: any) {
     console.log(res, 'res');
     if (res && res.success) {
-      me.imageUrls = res.fileName;
-      me.uploaded = true;
+      me.storeLogo = res.documentUrl;
+      me.uploaded = false;
       me.numImages = me.numImages + 1;
     }
     else {
@@ -732,13 +770,8 @@ export class SettingsComponent implements OnInit {
       me.utilsService.setStatus(true, false, res.errorMsg ? res.errorMsg : 'Something went wrong. Please try again.');
     }
   }
+  
 
-  hasImage(): boolean {
-    if (this.imageUrls && this.imageUrls.trim() && this.imageUrls.trim().length > 0)
-      return true;
-
-    return false;
-  }
   phoneedit() {
     this.publicphonenumber = !this.publicphonenumber;
   }
@@ -782,20 +815,23 @@ export class SettingsComponent implements OnInit {
   shiping1(){
       this.businesspro.freeShip = true;
       this.businesspro.chargePerOrder= false;
-      this.businesspro.chargePerProd = false
+      this.businesspro.chargePerProd = false;
+      this.businesspro.orderShipCharge= "";
+     
     
   }
   shiping2(){
     this.businesspro.freeShip = false;
       this.businesspro.chargePerOrder= true;
-      this.businesspro.chargePerProd = false
-    
+      this.businesspro.chargePerProd = false;
+     
   }
   shiping3(){
     this.businesspro.freeShip = false;
       this.businesspro.chargePerOrder= false;
-      this.businesspro.chargePerProd = true
-    
+      this.businesspro.chargePerProd = true;
+      this.businesspro.orderShipCharge= "";
+      
   }
   contactseller(res:any) {
     this.businesspro.contactSeller = true;

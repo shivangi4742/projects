@@ -402,15 +402,64 @@
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{"Upload Your Store Image" |translate}}</span>
               <div class="file-field input-field col s10 offset-s1 m4">
-                <img *ngIf="!storeLogo" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
-                <img  *ngIf="storeLogo" class="responsive-img editProdImageBN" src={{storeLogo}} />
-                <div *ngIf="uploaded && hasImage()" align="left" class="editOverlayBN"> &nbsp;
-                  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp;</div>
+                <img  *ngIf="!storeLogo" class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
+                <div *ngIf="storeLogo && !uploaded" align="left" class="editOverlayBN"> &nbsp;
+                    <img class="responsive-img editProdImageBN" src={{uploadsURL}}{{storeLogo}} />
+                 <!--  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp; --></div>
+                 <div *ngIf="uploaded" class="col s12 center">
+                  <div class="row"></div>
+                  <div class="row"></div>
+                  <div class="preloader-wrapper active" >
+                    <div class="spinner-layer spinner-red-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                      <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="storeLogo && uploaded" align="left" class="editOverlayBN"> &nbsp;
+                    <img   class="responsive-img editProdImageBN" src={{uploadsURL}}{{storeLogo}} />
+                 <!--  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp; --></div>
                 <input accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="fileChange($event)">
               </div>
 
 
             </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+                <span class="col s12 heBN">{{"Upload Your Banner Image" |translate}}</span>
+                <div class="file-field input-field col s10 offset-s1 m4">
+                  <img  *ngIf="!uploadbannnerURL
+                  " class="responsive-img editProdImageBN circle" src="../../assets/shared/images/no-image.png" />
+                  <div *ngIf="uploadbannnerURL && !uploading" align="left" class="editOverlayBN"> &nbsp;
+                      <img class="responsive-img editProdImageBN" src={{uploadsURL}}{{uploadbannnerURL}} />
+                   <!--  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp; --></div>
+                   <div *ngIf="uploading" class="col s12 center">
+                    <div class="row"></div>
+                    <div class="row"></div>
+                    <div class="preloader-wrapper active" >
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="uploadbannnerURL && uploading" align="left" class="editOverlayBN"> &nbsp;
+                      <img   class="responsive-img editProdImageBN" src={{uploadsURL}}{{uploadbannnerURL}} />
+                   <!--  <i class="material-icons editOverlayIconBN">mode_edit</i>&nbsp; --></div>
+                  <input accept=".jpg, .jpeg, .png" id="uploadImg" type="file" (change)="bannerChange($event)">
+                </div>
+  
+  
+              </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{"Store Name (Brand name)" |translate}}</span>
               <div class="input-field col col s12 m5 l5 regNrmS4BN">
