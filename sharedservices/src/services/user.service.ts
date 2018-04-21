@@ -176,7 +176,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
   }
 
   private changedPassword(res: any): any {

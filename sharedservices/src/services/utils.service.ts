@@ -43,6 +43,7 @@ export class UtilsService {
   private _managerDashboardPageURL: string = 'http://localhost:9090/manager/dashboard';
   private _merchantDashboardPageURL: string = 'http://localhost:9090/merchant/dashboard';
   private _uploadsURL: string = 'https://mobilepayments.benow.in/merchants/merchant/document/15/';
+  private _uploadsURL1: string = 'https://mobilepayments.benow.in/merchants/';
   // private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
   private _paytmPgUrl: string = 'https://securegw.paytm.in/theia/processTransaction';
 private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/addproducts2@2x.png';
@@ -125,6 +126,9 @@ private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/image
 
   public getUploadsURL(): string {
     return this._uploadsURL;
+  }
+  public getUploadsURL1(): string {
+    return this._uploadsURL1;
   }
 
   public getDefaultStoreImageURL(): string {
