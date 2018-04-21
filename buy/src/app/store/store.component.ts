@@ -119,10 +119,24 @@ logoourl(res:any) {
             this.amount = null;
         }
         else {
-         
 
-          this.fetchProducts();
-        }
+          let fullUrl: string = window.location.href;
+          if(fullUrl && fullUrl.toLowerCase().indexOf('/pay') > 0) {
+            this.isStore = false;
+            this.amount = +this.activatedRoute.snapshot.params['amount'];          
+            if(this.amount > 0) {
+              this.amountEditable = false;
+              this.amount = Math.round(this.amount * 100) / 100;
+            }
+            else
+              this.amount = null;
+          }
+          else {
+            this.setImgAndHeights();
+            this.fetchProducts();  
+          }
+         }
+
       }
 
       this.storeService.fetchStoreDetails(this.merchantCode)
