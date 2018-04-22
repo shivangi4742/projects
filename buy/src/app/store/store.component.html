@@ -7,9 +7,9 @@
       <div class="clearingBN" id="clearingdiv">&nbsp;</div>
       <div class="pad30lrBN">
         <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
-          <div class="col s12" align="center" *ngIf="storeLogo">
+          <div class="col s12" align="center" *ngIf="strlogo">
             <div class="storeLogoDivBN" align="center">
-                <span class="helperBN"></span><img src="{{uploadsURL}}{{storeLogo}}" class="storeLogoBN" />
+                <span class="helperBN"></span><img [src]="strlogo" class="storeLogoBN" />
             </div>
           </div>
           <div class="col s12">&nbsp;</div>
