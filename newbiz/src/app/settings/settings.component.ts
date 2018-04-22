@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 import { UtilsService, User, UserService, StoreService, Status, Accountpro, Businesspro, Merchant, Locality, LocationService, FileService } from 'benowservices';
+import { resolve } from 'url';
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +17,7 @@ export class SettingsComponent implements OnInit {
   chargeFee: boolean = false;
   imageUrls: string;
   user: User;
+  avilable: boolean = false;
   conaccountnumber: string;
   gstno: string;
   businessset: boolean = false;
@@ -65,6 +67,7 @@ export class SettingsComponent implements OnInit {
   localitychip;
   exchfaulty: boolean = true;
   filchange: boolean = false;
+  storeerr:boolean = false;
   dlocality = new Array<Locality>();
   
   
@@ -118,6 +121,8 @@ export class SettingsComponent implements OnInit {
 
     this.storeservice.fetchStoreimagDetais(this.user.email, this.user.id)
       .then(res => this.logourl(res));
+
+    //this.storeurlcheck();
   }
   
   logourl(res) {
@@ -917,6 +922,31 @@ export class SettingsComponent implements OnInit {
     this.businesspro.productExchangeDay = '';
     this.businesspro.returnsAvailableDay = '';
 
+  }
+  storeurl(){
+    var p = this.businesspro.storeUrl;
+    var t = p.replace(/\s/g,'');
+    this.businesspro.storeUrl = t;
+    if (((/^[a-zA-Z0-9\-\s]+$/).test(this.businesspro.storeUrl)) &&  this.businesspro.storeUrl != 'benow' &&  this.businesspro.storeUrl != 'givnow' &&  this.businesspro.storeUrl!= 'givnow' &&  this.businesspro.storeUrl != 'pay' &&  this.businesspro.storeUrl!= 'merchant') {
+     this.storeerr = false;
+     //this.storeurlcheck();
+  }  else {
+    this.storeerr= true;
+  }
+   
+  }
+  storeurlcheck(){
+    this.userService.storavailable(this.businesspro.storeUrl)
+      .then(res => this.storecheckavailable(res));
+
+  }
+  storecheckavailable(res:any){
+    console.log(res);
+    if(res.data.responseFromAPI == false){
+       this.avilable= true;
+    } else{
+      this.avilable= false;
+    }
   }
   
 }
