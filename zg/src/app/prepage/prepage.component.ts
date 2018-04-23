@@ -44,7 +44,7 @@ export class PrepageComponent implements OnInit {
   selectedCharges: PgChargesModel;
   chargesModel: ChargesModel;
   subLedgerList: SubLedgerModel[];
-  allSubLedgerList: SubLedgerModel[]  = new Array();;
+  allSubLedgerList: SubLedgerModel[] = new Array();;
 
   upiSelected: boolean = false;
   netBankingSelected: boolean = false;
@@ -80,6 +80,9 @@ export class PrepageComponent implements OnInit {
   surl: string;
   furl: string;
 
+  serverError: boolean = false;
+  serverMessage: string;
+
   constructor(private route: ActivatedRoute,
     private zgService: ZgService,
     private router: Router) { }
@@ -114,12 +117,15 @@ export class PrepageComponent implements OnInit {
 
     if (res.success == false) {
       this.invalidPaypin = true;
+      this.serverError = true;
+      this.serverMessage = res.message;
     }
     else {
       this.showprogress = false;
 
       this.enteredPayPin = '';
       this.invalidPaypin = false;
+      this.serverError = false;
 
       this.payPinResponse = res;
       this.payPinModel = this.payPinResponse.benow.payPinDetails[0];
@@ -179,18 +185,19 @@ export class PrepageComponent implements OnInit {
 
     if (this.enteredPayPin && this.enteredPayPin.length > 0) {
       this.getPayPinValues(this.enteredPayPin);
-    } 
+    }
     else {
       var subLedgerList: PaybillChargesModel[] = new Array();
+      var allSubLedgerList: PaybillChargesModel[] = new Array();
       this.subLedgerList.forEach(obj => {
         subLedgerList.push(new PaybillChargesModel(obj.amount, obj.type, obj.subledger_code));
       });
 
       this.allSubLedgerList.forEach(obj => {
-        subLedgerList.push(new PaybillChargesModel(obj.amount, obj.type, obj.subledger_code));
+        allSubLedgerList.push(new PaybillChargesModel(obj.amount, obj.type, obj.subledger_code));
       });
 
-      this.zgService.payBill(this.payPinModel, +(parseFloat(this.totalAmount + '').toFixed(2)), +(parseFloat(this.strAmount).toFixed(2)), this.paymentMode, +(parseFloat((this.convenienceFee + this.gst) + '').toFixed(2)), this.remarks, subLedgerList)
+      this.zgService.payBill(this.payPinModel, +(parseFloat(this.totalAmount + '').toFixed(2)), +(parseFloat(this.strAmount).toFixed(2)), this.paymentMode, +(parseFloat((this.convenienceFee + this.gst) + '').toFixed(2)), this.remarks, subLedgerList, allSubLedgerList)
         .then(res => this.saveChargesAndNavigate(res));
     }
 
@@ -260,7 +267,7 @@ export class PrepageComponent implements OnInit {
       }
 
       // Remove this if else when SDK goes live. This is just for zipgrid to test.
-      if (this.payPin == 'SPLDRZA-104F26AB6') {
+      if (this.payPin === 'SPLDRZA-104F26AB6') {
         this.zgService.setPayRequest(new PayRequestModel(2, this.totalAmount + '', false, false, true, false, merchantDesc,
           this.strEmail, this.furl, this.strFullName, '', '', '', this.payPin, mccCode, merchantCode, '1', merchantVpa,
           false, false, false, true, '', this.strMobile, false, false, false, true, this.surl, merchantTitle, 'TXN01', udf1,

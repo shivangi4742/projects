@@ -59,7 +59,7 @@ export class ZgService {
       .catch(res => this.utilsService.returnGenericError());
   }
 
-  payBill(payPinModel: PayPinModel, totalAmount: number, billAmount: number, paymentMode: string, convenienceFees: number, remarks: string, subLedgerList: PaybillChargesModel[]): Promise<PayBillResponseModel> {
+  payBill(payPinModel: PayPinModel, totalAmount: number, billAmount: number, paymentMode: string, convenienceFees: number, remarks: string, subLedgerList: PaybillChargesModel[], allSubLedgerList: PaybillChargesModel[]): Promise<PayBillResponseModel> {
 
     var pgModeObj;
 
@@ -105,7 +105,7 @@ export class ZgService {
       'subledger_list': subLedgerList,
       'ledger_id': payPinModel.ledger_id,
       'society_id': payPinModel.society_id,
-      'allsubledger_list': [],
+      'allsubledger_list': allSubLedgerList,
       'bill_amount': billAmount,
       'payment_gateway_details': pgModeArray,
       'upi_details': upiModeArray,
@@ -143,7 +143,7 @@ export class ZgService {
   setPayPinResponse(res: any): PayPinResponseModel {
     var me = this;
     if (!JSON.parse(res.data).success) {
-      this.payPinResponse = new PayPinResponseModel(null, false); // False hardcoded because the api sometimes returns null value
+      this.payPinResponse = new PayPinResponseModel(null, false, JSON.parse(res.data).message); // False hardcoded because the api sometimes returns null value
     }
     else {
       JSON.parse(res.data).benow.payPinDetails.forEach(function (payPinDetail: any) {
@@ -152,12 +152,14 @@ export class ZgService {
         var contactNumber = payPinDetail.contact_number;
         var dueDate = payPinDetail.due_date;
         var emailId = payPinDetail.email_id;
-        var flat = payPinDetail.flat;
+        var flat = payPinDetail.flat; 
         var payableAmount = payPinDetail.payable_amount;
         var firstName = payPinDetail.payee_first_name;
         var lastName = payPinDetail.payee_last_name;
         var payPin = payPinDetail.pay_pin;
         var remark = payPinDetail.remark;
+
+        me.pgChargesDetailArray = new Array();
 
         payPinDetail.payment_gateway_details.forEach(function (pgDetails: any) {
           var netbank = pgDetails.netbank;
@@ -172,6 +174,8 @@ export class ZgService {
           me.pgChargesDetailArray.push(pgChargesDetail);
         });
 
+        me.upiChargesDetailArray = new Array();
+
         payPinDetail.upi_details.forEach(function (upiDetails: any) {
           var netbank = upiDetails.netbank;
 
@@ -181,6 +185,8 @@ export class ZgService {
           me.upiChargesDetailArray.push(upiChargesDetail);
         });
 
+        me.subLedgerArray = new Array();
+
         payPinDetail.subledger_list.forEach(function (subledger: any) {
           var amount = subledger.amount;
           var subledger_code = subledger.subledger_code;
@@ -189,6 +195,8 @@ export class ZgService {
           var subLedger = new SubLedgerModel(amount, subledger_code, type, amount);
           me.subLedgerArray.push(subLedger);
         });
+
+        me.allSubLedgerArray = new Array();
 
         if (payPinDetail.allsubledger_list && payPinDetail.allsubledger_list.length > 0) {
           payPinDetail.allsubledger_list.forEach(function (subledger: any) {
@@ -201,14 +209,15 @@ export class ZgService {
           });
         }
 
+        me.payPinModelArray = new Array();
+
         var payPinModel = new PayPinModel(me.allSubLedgerArray, billAmount, communityName, contactNumber, dueDate, emailId, flat, payableAmount, firstName, lastName, payPin, me.pgChargesDetailArray, remark, me.subLedgerArray, me.upiChargesDetailArray, payPinDetail.ledger_id, payPinDetail.society_id);
         me.payPinModelArray.push(payPinModel);
       });
 
       this.benowModel = new BenowModel(me.payPinModelArray);
-      this.payPinResponse = new PayPinResponseModel(this.benowModel, res.success);
+      this.payPinResponse = new PayPinResponseModel(this.benowModel, res.success, '');
     }
-
     return this.payPinResponse;
   }
 

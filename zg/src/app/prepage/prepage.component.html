@@ -1,9 +1,23 @@
 <main>
   <div *ngIf="showprogress">
-    <div class="progress">
-      <div class="indeterminate"></div>
-    </div>
-    <h5 align="center">Fetching your details please wait.</h5>
+    <div *ngIf="serverError ;then showError else other_content"></div>
+    <ng-template #showError>
+      <br>
+      <div align="center" class="error-text col s12">{{serverMessage}}</div>
+      <br>
+      <div align="center" class="error-text col s12">Please close this window and try again after some time.</div>
+      <!-- <br>
+      <div class="col s12 center-align">
+        <div name="close" class="btn waves-effect waves-light red">Close Window
+        </div>
+      </div> -->
+    </ng-template>
+    <ng-template #other_content>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+      <h5 align="center">Fetching your details please wait.</h5>
+    </ng-template>
   </div>
   <div materialize>
     <div class="row container" *ngIf="!showprogress">
@@ -25,7 +39,7 @@
             <span class="helper-text" data-error="wrong" data-success="right">You can find your PAY PIN ID in the bill</span>
             <div *ngIf="invalidPaypin ;then showError else other_content"></div>
             <ng-template #showError>
-              <div align="left" class="error-text col s12">This is not a valid PAY PIN ID</div>
+              <div align="left" class="error-text col s12">{{serverMessage}}</div>
             </ng-template>
             <ng-template #other_content>
             </ng-template>
