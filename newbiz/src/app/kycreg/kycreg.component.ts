@@ -160,7 +160,7 @@ export class KycregComponent implements OnInit {
     }
      getStatus(): Status {
       return this.utilsService.getStatus();
- }
+    }
 
     uploadauthticatebank(res: any, me: any) {
         me.uploading = false;

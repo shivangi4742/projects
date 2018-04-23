@@ -18,7 +18,7 @@ export class AddproductComponent implements OnInit {
   varientprice:number;
   newProduct = new NewProduct(true, false, false, null, null, null, null,
     null, null, null, null,null,true, 'Lifestyle', null,
-    null, null, null, null, null, null);
+    null, null, null, null, null, null, null, null);
   variants = new Array<NewVariant>();
   prodSizes = new Array<NewSize>();
   variantSizes = new Array<NewSize>();
@@ -242,9 +242,9 @@ export class AddproductComponent implements OnInit {
 
   }
   innitpst(res){
-    this.businesspro= res;
-    console.log(this.businesspro,'this.businesspro');
-    }
+    this.businesspro = res;
+      
+  }
 
   checkAmount(){
     if(this.newProduct.price < 10){
@@ -304,7 +304,7 @@ export class AddproductComponent implements OnInit {
     this.numVariants = 0;
     this.newProduct = new NewProduct(true, false, false, null, null, null, null,
       null, null, null, null,null, true, type, null,
-      null, null, null, null, null,null);
+      null, null, null, null, null,null,null,null);
   }
 
   isImageOptimizing(): boolean {

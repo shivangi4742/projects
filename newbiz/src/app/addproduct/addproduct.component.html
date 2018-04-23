@@ -21,7 +21,7 @@
     <button class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" (click)="done()">
       {{'DONE' | translate}}</button>
   </div>
-  <div class="row mainBodyBN">
+  <div class="row mainBodyBN" *ngIf="businesspro">
     <form materialize (ngSubmit)="onSubmit()" #prodForm="ngForm">
     <div class="col s12 noLeftPaddingBN">
       <a class="linkButtonBN dashboardRedirectBN" [routerLink]="dashboard">
@@ -68,7 +68,7 @@
         {{'Lifestyle' | translate}}
       </div>
       <div class="row"></div>
-      <div class="row">
+      <div class="row" >
         <div class="col s12 m5 l5">
           <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
             {{'Product Image' | translate}}
@@ -180,7 +180,7 @@
             <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12" >
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip" >
             <input id="shippingcharge" name="shippingcharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 10px"  />
             <label for="shippingcharge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
@@ -406,7 +406,7 @@
               <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
-            <div class="input-field col s6">
+            <div class="input-field col s6 " *ngIf="!businesspro.freeShip">
               <input id="deliverycharge" name="deliverycharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                      placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px"  />
               <label for="deliverycharge" class ="active labelPLBN">{{'Delivery Charge' | translate}}</label>
@@ -559,6 +559,16 @@
                    [materializeParams]="dateParams" placeholder="{{'Select End Date' | translate}}" [(ngModel)]="newProduct.endDate" >
             <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
           </div>
+        <div class="input-field col s6 m3 l3">
+          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.durationHours" class="validate inputTextBN"
+          placeholder="{{'Enter Duration Hours' | translate}}"  />
+          <label for="edurationhrs" class ="active labelPLBN">{{'Duration Hours' | translate}}</label>
+        </div>
+        <div class="input-field col s6 m3 l3">
+          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.durationMinutes" class="validate inputTextBN"
+          placeholder="{{'Enter Duration Minutes' | translate}}"       />
+          <label for="edurationmin" class ="active labelPLBN">{{'Duration Minutes' | translate}}</label>
+        </div>
         <div class="input-field col s12 m6 l6">
           <input id="eVenue" name="eVenue" type="text" [(ngModel)]="newProduct.venue" class="validate inputTextBN"
                  placeholder="{{'Mention venue of your Event/Workshop' | translate}}" maxlength="200" required />
@@ -669,7 +679,7 @@
             <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12">
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip">
             <input id="shipchrge" name="shipchrge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px"  />
             <label for="shipchrge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>

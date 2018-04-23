@@ -51,7 +51,8 @@ export class UserService {
     getEnableKyc: 'user/EnableKyc',
     getcomplteregister: 'user/complteregister',
     setLineOfBusiness: 'user/setLineOfBusiness',
-    changePasswordURL: 'user/changeoldpassword'
+    changePasswordURL: 'user/changeoldpassword',
+    storeavailableURL: 'user/displayupdate'
   }
   arealo:  Array<Locality>;
 
@@ -176,7 +177,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
   }
 
   private changedPassword(res: any): any {
@@ -755,6 +756,18 @@ export class UserService {
           "id": this._user.id,
           "oldPassword": oldpass,
           "newPassword": newpass
+        }),
+        { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => res.json())
+      .catch(res => this.handleError(res.json()));
+  }
+
+  storavailable(storeUrl: string): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.storeavailableURL,
+        JSON.stringify({
+         "storeUrl":storeUrl
         }),
         { headers: this.utilsService.getHeaders() })
       .toPromise()

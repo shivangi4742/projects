@@ -59,8 +59,8 @@
 }
 
 .storeLogoBN {
-    max-height: 125px;
-    max-width: 125px;
+    max-height: 130px;
+    width: 127px;
     vertical-align: middle;
 }
 
@@ -104,6 +104,7 @@
     display: inline;
     top: 5px;
 }
+
 
 .morefromstoreBN {
     width: 250px;

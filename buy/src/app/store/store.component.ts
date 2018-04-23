@@ -23,31 +23,24 @@ export class StoreComponent implements OnInit {
   storeAddress: string;
   merchantCode: string;
   storeDescription: string;
+  stmerId:string;
   products: Array<Product>;
   page: number = 1;
   onclickn : boolean = false;
   isStore: boolean = true;
   amountEditable: boolean = true;
+  uploadbannnerURL:string;
+  uploadsURL:string;
+  imag:string;
+  strlogo:string;
+  
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
     private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router) { }
 
-  setImgAndHeights() {
-    let imgHeight: number = Math.round((screen.height - 100) * 0.5);
-    let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
-//    document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.storeimage + "')";
-    if(document.getElementById('storeimgdiv')) {
-      document.getElementById('storeimgdiv').style.backgroundColor = 'white';
-      document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
-    }
-
-    if(document.getElementById('clearingdiv')) {
-      document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
-      document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      
-    }
-  }
+ 
 
   proceed() {
     this.paymentlinkService.setPaymentlinkDetails({
@@ -59,19 +52,67 @@ export class StoreComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.uploadsURL = "https://mobilepayments.benow.in/merchants/";
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     if(this.merchantCode) {
       this.storeService.assignMerchant(this.merchantCode);
       this.fetchProducts();
       this.storeService.fetchStoreDetails(this.merchantCode)
         .then(res => this.fillStoreDetails(res));  
+
+  
     }
     else
       this.newInit();
   }
 
+    
+logoourl(res:any) {
+    var data = res.data;
+      if (data && data.documentResponseVO) {
+          var p = data.documentResponseVO.documentList;
+          if (p && p.length > 0) {
+              for (var i = 0; i < p.length; i++) {
+                  if (p[i].documentName == 'Merchant_logo')
+                      this.storeLogo = p[i].documentUrl;
+              
+                  if (p[i].documentName == 'Merchant_Banner')
+                      this.uploadbannnerURL = p[i].documentUrl;
+                           
+              }
+          }
+      }
+    this.strlogo = this.uploadsURL + this.storeLogo;
+  
+    if(this.storeLogo || this.uploadbannnerURL) {
+      this.setImgAndHeights();
+      }
+    }
+      setImgAndHeights() {
+        let imgHeight: number = Math.round((screen.height - 100) * 0.5);
+        let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
+      if(this.uploadbannnerURL) {
+          this.imag = this.uploadsURL + this.uploadbannnerURL;
+        if(document.getElementById('storeimgdiv')) {	
+           document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.imag + "')";
+          document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
+          document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+          document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
+        }
+      }
+      else {
+        //console.log(this.imag,'na')
+        if(document.getElementById('storeimgdiv')) {	
+            document.getElementById('storeimgdiv').style.backgroundColor = 'white';	
+            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';        	
+         }
+      }
+     }
+
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
+     
+      
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
@@ -81,6 +122,7 @@ export class StoreComponent implements OnInit {
       if(u) {
         u = u.replace('https://', '').replace('http://', '');
         if(u.startsWith('pay-')) {
+         
           this.isStore = false;
           this.amount = +this.activatedRoute.snapshot.params['amount'];          
           if(this.amount > 0) {
@@ -91,6 +133,7 @@ export class StoreComponent implements OnInit {
             this.amount = null;
         }
         else {
+         
           let fullUrl: string = window.location.href;
           if(fullUrl && fullUrl.toLowerCase().indexOf('/pay') > 0) {
             this.isStore = false;
@@ -103,12 +146,13 @@ export class StoreComponent implements OnInit {
               this.amount = null;
           }
           else {
-            this.setImgAndHeights();
+            
+           // this.setImgAndHeights();
             this.fetchProducts();  
           }
          }
-      }
 
+      }
       this.storeService.fetchStoreDetails(this.merchantCode)
         .then(res => this.fillStoreDetails(res));    
     }
@@ -117,6 +161,7 @@ export class StoreComponent implements OnInit {
   newInit() {
     this.storeService.getMerchantDetailsFromURL()
       .then(res => this.fillMerchantDetails(res));
+   
   }
 
   fetchProducts() {
@@ -130,7 +175,7 @@ export class StoreComponent implements OnInit {
   }
 
   fillProductsInStore(res: any) {
-    this.setImgAndHeights();
+   // this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;
       if(!this.products)
@@ -174,17 +219,18 @@ export class StoreComponent implements OnInit {
   }
 
   fillStoreDetails(res: any) {
+  
     if(res && res.id) {
       this.storeDescription = res.description;
       this.storeAddress = res.address;
       this.storeName = res.displayName;
       this.storeContact = res.mobileNumber;
       this.storeEmail = res.userId;
+      this.stmerId = res.id;
+     
       this.fillReturnPolicy(res);
-      if(res.logoURL)
-        this.storeLogo = this.utilsService.getDocumentsPrefixURL() + res.logoURL;
-      else
-        this.storeLogo = this.utilsService.getDefaultStoreImageURL();
+      this.storeService.fetchStoreimagDetais(this.storeEmail, this.stmerId)
+      .then(pres => this.logoourl(pres));
     }
   }
   abtbusiness(){
