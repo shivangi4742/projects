@@ -267,8 +267,8 @@ export class PrepageComponent implements OnInit {
       }
 
       // Remove this if else when SDK goes live. This is just for zipgrid to test.
-      if (this.payPin === 'SPLDRZA-104F26AB6') {
-        this.zgService.setPayRequest(new PayRequestModel(2, this.totalAmount + '', false, false, true, false, merchantDesc,
+      if (this.payPin === 'SPLDRZA-104F26AB6') { 
+        this.zgService.setPayRequest(new PayRequestModel(1, this.totalAmount + '', false, false, true, false, merchantDesc,
           this.strEmail, this.furl, this.strFullName, '', '', '', this.payPin, mccCode, merchantCode, '1', merchantVpa,
           false, false, false, true, '', this.strMobile, false, false, false, true, this.surl, merchantTitle, 'TXN01', udf1,
           udf2, udf3, udf4, udf5, '', this.supportModes))
