@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { StoreService, CartService, Cart } from 'benowservices';
+import { StoreService, CartService, Cart, UtilsService } from 'benowservices';
 
 @Component({
   selector: 'buytopnav',
@@ -26,7 +26,7 @@ export class BuytopnavComponent implements OnInit {
   reporterr: any = new EventEmitter<string|MaterializeAction>();
  
   constructor(private storeService: StoreService, private cartService: CartService, private router: Router,
-   private activatedRoute: ActivatedRoute,) { 
+   private activatedRoute: ActivatedRoute, private utilsService: UtilsService) { 
     let me: any = this; 
     this.subscription = this.cartService.numItemsChanged().subscribe(message => me.numCartItems = message);    
     this.subscription2 = this.storeService.merchantAssigned().subscribe(message => me.assignLinks(message));   
@@ -46,8 +46,12 @@ export class BuytopnavComponent implements OnInit {
   assignLinks(mcode: string) {
     this.merchantCode = mcode;
     if(this.merchantCode) {
-      if(window.location.href.indexOf('pay-') >= 0)
-        this.isPaymentlink = true;
+      let u: string = window.location.href;
+      if(this.utilsService.getIsDevEnv())
+        u = this.utilsService.getTestDomainURL();
+  
+      if(u.indexOf('pay-') >= 0 || u.replace('https://pay', '').indexOf('/pay') > 0)
+          this.isPaymentlink = true;
         
       if(window.location.href.indexOf('merchant.benow.in') >= 0)
         this.storeHome = '/' + this.merchantCode + '/store';

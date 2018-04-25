@@ -82,7 +82,9 @@ export class PgComponent implements OnInit {
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, 
           this.plInfo.paymentMode);
         let url: string = window.location.href;
-        //url = 'https://pay-archana.benow.in';
+        if(this.utilsService.getIsDevEnv())
+          url = this.utilsService.getTestDomainURL();
+
         if(url) {
           url = url.toLowerCase().replace('https://', '').replace('http://', '').replace('.benow.in', '');
           let indx: number = url.indexOf('/');

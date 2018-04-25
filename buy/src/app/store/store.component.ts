@@ -135,7 +135,7 @@ logoourl(res:any) {
         else {
          
           let fullUrl: string = window.location.href;
-          if(fullUrl && fullUrl.toLowerCase().indexOf('/pay') > 0) {
+          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
             this.isStore = false;
             this.amount = +this.activatedRoute.snapshot.params['amount'];          
             if(this.amount > 0) {
