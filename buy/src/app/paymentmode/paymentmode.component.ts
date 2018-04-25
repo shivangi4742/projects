@@ -87,6 +87,14 @@ export class PaymentmodeComponent implements OnInit {
               this.supportsUPI = true;
               break;
             }
+           
+            if(this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('cash') >= 0) {
+              let em: any =  document.getElementById("cod");
+              this.cart.paymentMode = "CASH";
+              if(em)
+                em.click();
+               
+            }
         }
       }
     }

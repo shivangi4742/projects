@@ -17,6 +17,7 @@ export class StoreComponent implements OnInit {
   storeName: string;
   storeLogo: string;
   storeEmail: string;
+  storeEmail1: string;
   retPolicy1: string;
   retPolicy2: string;
   storeContact: string;
@@ -83,6 +84,7 @@ logoourl(res:any) {
               }
           }
       }
+
     this.strlogo = this.uploadsURL + this.storeLogo;
   
     if(this.storeLogo || this.uploadbannnerURL) {
@@ -112,8 +114,6 @@ logoourl(res:any) {
 
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
-     
-      
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
@@ -222,20 +222,28 @@ logoourl(res:any) {
   fillStoreDetails(res: any) {
   
     if(res && res.id) {
+      this.storeEmail1 = res.userId;
+      this.stmerId = res.id;
       this.storeDescription = res.description;
       this.storeAddress = res.address;
       this.storeName = res.displayName;
-      this.storeContact = res.mobileNumber;
-      this.storeEmail = res.userId;
-      this.stmerId = res.id;
+      if(res.publicEmail && res.publicPhoneNumber){
+      this.storeContact = res.publicPhoneNumber;
+      this.storeEmail = res.publicEmail;
+      }
+      else {
+        this.storeContact = res.mobileNumber;
+        this.storeEmail = res.userId;
+      }
       if(this.storeEmail)
         this.mailStoreEmail = 'mailto:' + this.storeEmail;
 
       if(this.storeContact)
         this.callStoreContact = 'tel:' + this.storeContact;
      
+     
       this.fillReturnPolicy(res);
-      this.storeService.fetchStoreimagDetais(this.storeEmail, this.stmerId)
+      this.storeService.fetchStoreimagDetais(this.storeEmail1, this.stmerId)
       .then(pres => this.logoourl(pres));
     }
   }
