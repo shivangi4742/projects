@@ -7,7 +7,7 @@
         <i class="material-icons">store</i> &nbsp;{{storeName}}
       </a>
        <ul class="right" *ngIf="numCartItems > 0">
-        <li class="linkButtonBN" [routerLink]="cartLink">
+        <li class="linkButtonBN" [routerLink]="cartLink && !isPaymentlink">
           <div class="valign-wrapper">
             <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;
             <span class="cartGrpBN cartTextBN hide-on-small-only">&nbsp;{{'Cart' | translate}}&nbsp;&nbsp;&nbsp;</span>
