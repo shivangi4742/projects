@@ -12,6 +12,7 @@ import { resolve } from 'url';
 })
 export class SettingsComponent implements OnInit {
   accountpro: Accountpro;
+  codEnabled: boolean = false;
   formLoaded: boolean = true;
   businesspro: Businesspro;
   chargeFee: boolean = false;
@@ -46,6 +47,7 @@ export class SettingsComponent implements OnInit {
   errorbusiness: string;
   errdisplayvalidate: boolean = false;
   errordisplay: string;
+  codExpanded : boolean = false;
   err: boolean = false;
   err1: boolean = false;
   errmsg: string;
@@ -161,7 +163,7 @@ export class SettingsComponent implements OnInit {
     else {
       this.publicphonenumber = false;
     }
-   
+    this.businesspro.freeShip = false;
   }
   bind(res: any) {
     if (res && res.id) {
@@ -171,6 +173,13 @@ export class SettingsComponent implements OnInit {
         if (elem)
           elem.click();
       }
+      if(res.acceptedPaymentMethods && res.acceptedPaymentMethods.length > 0) {
+        for(let i: number = 0; i < res.acceptedPaymentMethods.length; i++) {
+           
+            if(res.acceptedPaymentMethods[i].paymentMethod == 'CASH')
+                this.codEnabled = true;
+        }
+    }
     }
 
     this.formLoaded = false;
@@ -183,8 +192,7 @@ export class SettingsComponent implements OnInit {
     }
    
   }
-
-
+ 
   paymentdetail() {
     window.scrollTo(0, 0);
     this.isPaymentExpanded = !this.isPaymentExpanded;
@@ -433,6 +441,24 @@ export class SettingsComponent implements OnInit {
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
   }
+  coddetail() {
+    window.scrollTo(0, 0);
+    this.codExpanded = !this.codExpanded;
+    document.getElementById('codbn').click();
+  }
+
+  coddetail1() {
+    this.codExpanded = !this.codExpanded;
+    this.businessset = false;
+    this.isShipped = false;
+    this.isReturn = false;
+    this.isNgoExpanded = false;
+    this.isAcctExpanded = false;
+    this.isBusExpanded = false;
+    this.isPanExpanded = false;
+    this.isPaymentExpanded = false;
+    this.ispan1Expanded = false;
+  }
   gstdetail() {
     window.scrollTo(0, 0);
     this.isgstExpanded = !this.isgstExpanded;
@@ -497,6 +523,9 @@ export class SettingsComponent implements OnInit {
      this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
    ).then(res => this.paymentdetail());
    
+ }
+ savecod(){
+   this.paymentsave();
  }
  paymentsave(){
   this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
@@ -576,6 +605,10 @@ export class SettingsComponent implements OnInit {
   setConvenience() {
     this.userService.setConvenienceFee(this.user.id, this.chargeFee);
   }
+  setCOD() {        
+    this.userService.setCOD(this.user.merchantCode, this.codEnabled);
+    }
+    
   validategst(res) {
     var res1 = res.toUpperCase();
     this.businesspro.gstno = res1;
@@ -826,7 +859,7 @@ export class SettingsComponent implements OnInit {
     
   }
   shiping2(){
-    this.businesspro.freeShip = false;
+      this.businesspro.freeShip = false;
       this.businesspro.chargePerOrder= true;
       this.businesspro.chargePerProd = false;
      

@@ -375,7 +375,7 @@ export class RegisterComponent implements OnInit {
   }
   isbusinessdetail() {
     if (this.businesspro.businessName && this.businesspro.businessType && this.businesspro.pincode &&
-      this.businesspro.category && this.businesspro.address && !this.errpincodevalidate ) {
+       this.businesspro.address && !this.errpincodevalidate ) {
       return true;
     }
     return false;
@@ -388,8 +388,10 @@ export class RegisterComponent implements OnInit {
   }
 
   isbankdetail() {
+    console.log('heheheh')
     if (this.accountpro.accountHolderName && this.accountpro.accountRefNumber && this.accountpro.ifsc
       && this.conaccountnumber && !this.errorifsc && !this.err ) {
+        console.log('heh')
       return true;
     }
     return false;

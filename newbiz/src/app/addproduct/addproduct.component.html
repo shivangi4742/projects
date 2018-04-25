@@ -137,7 +137,7 @@
         </div>
         <div class="col s12 m7 l7">
           <div class="input-field col s12">
-            <input id="cTitle" name="cTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="20"
+            <input id="cTitle" name="cTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="50"
                    placeholder="{{'Enter the name of your Product' | translate}}" required />
             <label for="cTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
           </div>
@@ -385,7 +385,7 @@
           </div>
           <div class="col s12 m7 l7">
             <div class="input-field col s12">
-              <input id="fbTitle" name="fbTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="20"
+              <input id="fbTitle" name="fbTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="50"
                      placeholder="{{'Enter the name of your Product' | translate}}" required />
               <label for="fbTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
             </div>
@@ -408,7 +408,7 @@
             </div>
             <div class="input-field col s6 " *ngIf="!businesspro.freeShip">
               <input id="deliverycharge" name="deliverycharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
-                     placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px"  />
+                     placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 0px"  />
               <label for="deliverycharge" class ="active labelPLBN">{{'Delivery Charge' | translate}}</label>
               <span *ngIf="deliverycharg" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
@@ -658,7 +658,7 @@
           </div>
         </div>
           <div class="input-field col s12" style="margin-top: 20px">
-            <input id="oTitle" name="oTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="20"
+            <input id="oTitle" name="oTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="50"
                    placeholder="{{'Enter the name of your Product' | translate}}" required />
             <label for="oTitle" class ="active labelPLBN">{{'Product Title*' | translate}}</label>
           </div>
@@ -681,7 +681,7 @@
           </div>
           <div class="input-field col s12" *ngIf="!businesspro.freeShip">
             <input id="shipchrge" name="shipchrge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
-                   placeholder="{{'Discounted price of the product' | translate}}" style="margin-bottom: 0px"  />
+                   placeholder="{{'Shipping price of the product' | translate}}" style="margin-top: 10px"  />
             <label for="shipchrge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
             <span *ngIf="shippingcharg" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
