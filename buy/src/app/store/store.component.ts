@@ -33,7 +33,8 @@ export class StoreComponent implements OnInit {
   uploadsURL:string;
   imag:string;
   strlogo:string;
-  
+  mailStoreEmail: string;
+  callStoreContact: string;  
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
@@ -227,6 +228,11 @@ logoourl(res:any) {
       this.storeContact = res.mobileNumber;
       this.storeEmail = res.userId;
       this.stmerId = res.id;
+      if(this.storeEmail)
+        this.mailStoreEmail = 'mailto:' + this.storeEmail;
+
+      if(this.storeContact)
+        this.callStoreContact = 'tel:' + this.storeContact;
      
       this.fillReturnPolicy(res);
       this.storeService.fetchStoreimagDetais(this.storeEmail, this.stmerId)

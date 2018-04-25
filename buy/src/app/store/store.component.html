@@ -15,21 +15,29 @@
           <div class="col s12">&nbsp;</div>
           <div class="col s12">
             <span class="linkButtonBN storetitleBN" >{{storeName}}</span>
-            <div *ngIf="onclickn">
-              <div class="col s12">{{storeAddress}}</div>
-              <div class="col s12">{{storeEmail}}</div>
-              <div class="col s12">
-                <i class="material-icons phonedetBN">phone</i> {{storeContact}}
-              </div>
-              <div class="col s12">&nbsp;</div>
-              <div class="col s12">
-                <b>{{'Return Policy' | translate}}:</b>
-                <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
-                <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
-                <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
-              </div>
-              <div class="col s12">&nbsp;</div>
+          </div>
+          <div class="col s12">{{storeDescription}}</div>
+          <div class="col s12">&nbsp;</div>
+          <div *ngIf="onclickn">
+            <div class="col s12 storeDescFont">{{storeAddress}}</div>
+            <div class="col s12">
+              <a class="linkButtonBN storeDescFont" [href]="mailStoreEmail">
+                <i class="material-icons phonedetBN">email</i> {{storeEmail}}
+              </a>
             </div>
+            <div class="col s12">
+              <a class="linkButtonBN storeDescFont" [href]="callStoreContact">
+                <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+              </a>
+            </div>
+            <div class="col s12">&nbsp;</div>
+            <div class="col s12">
+              <b>{{'Return Policy' | translate}}:</b>
+              <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
+              <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
+              <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
+            </div>
+            <div class="col s12">&nbsp;</div>
           </div>
   
            <div class="col s12 redcolBN" (click)="abtbusiness()">
@@ -67,7 +75,7 @@
     <div class="col s12 white card-panel z-depth-2 nameplateBN" align="center" *ngIf="storeName">
       <div class="col s12" align="center" *ngIf="storeLogo">
         <div class="storeLogoDivBN" align="center">
-            <span class="helperBN"></span><img [src]="storeLogo" class="storeLogoBN" />
+            <span class="helperBN"></span><img [src]="strlogo" class="storeLogoBN" />
         </div>
       </div>
       <div class="col s12">&nbsp;</div>
@@ -76,10 +84,24 @@
       </div>
       <div class="col s12">{{storeDescription}}</div>
       <div class="col s12">&nbsp;</div>
-      <div class="col s12">{{storeAddress}}</div>
-      <div class="col s12">{{storeEmail}}</div>
-      <div class="col s12">
-        <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+      <div *ngIf="onclickn">
+        <div class="col s12 storeDescFont">{{storeAddress}}</div>
+        <div class="col s12">
+          <a class="linkButtonBN storeDescFont" [href]="mailStoreEmail">
+            <i class="material-icons phonedetBN">email</i> {{storeEmail}}
+          </a>
+        </div>
+        <div class="col s12">
+          <a class="linkButtonBN storeDescFont" [href]="callStoreContact">
+            <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+          </a>
+        </div> 
+        <div class="col s12">&nbsp;</div> 
+      </div>
+      <div class="col s12 redcolBN" (click)="abtbusiness()">
+        <span class="linkButtonBN" >{{'About this business'}}</span>
+        <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
+        <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
       </div>
       <div class="col s12">&nbsp;</div>
       <form materialize (ngSubmit)="proceed()" class="paymentFrmBN" #paymentLinkForm="ngForm">

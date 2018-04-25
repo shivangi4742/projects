@@ -99,6 +99,12 @@
     color: #3D3D3D;           
 }
 
+.storeDescFont {
+    font-size: 13pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;           
+}
+
 .phonedetBN {
     position: relative;
     display: inline;
