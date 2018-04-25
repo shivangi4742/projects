@@ -85,11 +85,14 @@ logoourl(res:any) {
           }
       }
 
+    if(this.storeLogo ){
     this.strlogo = this.uploadsURL + this.storeLogo;
+    } else {
+      this.strlogo= "../../assets/shared/images/addproducts2@2x.png"
+    }
   
-    if(this.storeLogo || this.uploadbannnerURL) {
-      this.setImgAndHeights();
-      }
+    this.setImgAndHeights();
+    
     }
       setImgAndHeights() {
         let imgHeight: number = Math.round((screen.height - 100) * 0.5);
@@ -107,7 +110,9 @@ logoourl(res:any) {
         //console.log(this.imag,'na')
         if(document.getElementById('storeimgdiv')) {	
             document.getElementById('storeimgdiv').style.backgroundColor = 'white';	
-            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';        	
+            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
+            document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+            document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	
          }
       }
      }
@@ -148,7 +153,7 @@ logoourl(res:any) {
           }
           else {
             
-           // this.setImgAndHeights();
+           this.setImgAndHeights();
             this.fetchProducts();  
           }
          }
@@ -176,7 +181,7 @@ logoourl(res:any) {
   }
 
   fillProductsInStore(res: any) {
-   // this.setImgAndHeights();
+   this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;
       if(!this.products)
