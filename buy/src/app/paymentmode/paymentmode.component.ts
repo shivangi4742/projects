@@ -198,16 +198,15 @@ export class PaymentmodeComponent implements OnInit {
     }
     else {
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
-      if(this.plInfo && this.plInfo.merchantCode) {
-        if(this.utilsService.isAnyMobile())
-          this.buildUPIURL();
-          
+      if(this.plInfo && this.plInfo.merchantCode) {          
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '');
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillStoreSettings(res2))  
+        if(this.utilsService.isAnyMobile())
+          this.buildUPIURL();
       }
       else
         this.router.navigateByUrl('/');                 
@@ -216,9 +215,13 @@ export class PaymentmodeComponent implements OnInit {
 
   buildUPIURL() {
     if(this.cart && this.settings) {
-      this.paidAmount = this.cartService.getCartTotal();
-      if(this.settings.chargeConvenienceFee)
-        this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
+      if(this.isPaymentlink)
+        this.paidAmount = this.plInfo.amount;
+      else {
+        this.paidAmount = this.cartService.getCartTotal();
+        if(this.settings.chargeConvenienceFee)
+          this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;  
+      }
 
       this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
         .then(res => this.getUPIURL(res));    
