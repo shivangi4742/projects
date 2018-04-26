@@ -215,16 +215,21 @@ export class PaymentmodeComponent implements OnInit {
 
   buildUPIURL() {
     if(this.cart && this.settings) {
-      if(this.isPaymentlink)
-        this.paidAmount = this.plInfo.amount;
+      if(this.isPaymentlink) {
+        let total: number = this.plInfo.amount + this.getConvenienceFee();
+        total = Math.round(total * 100) / 100;
+        this.paidAmount = total;  
+        this.paymentlinkService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+          .then(res => this.getUPIURL(res));    
+      }
       else {
         this.paidAmount = this.cartService.getCartTotal();
         if(this.settings.chargeConvenienceFee)
           this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;  
-      }
 
-      this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
-        .then(res => this.getUPIURL(res));    
+        this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+          .then(res => this.getUPIURL(res));    
+      }
     }
     else {
       let me: any = this;
