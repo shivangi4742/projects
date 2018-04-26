@@ -199,6 +199,9 @@ export class PaymentmodeComponent implements OnInit {
     else {
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
       if(this.plInfo && this.plInfo.merchantCode) {
+        if(this.utilsService.isAnyMobile())
+          this.buildUPIURL();
+          
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '');
