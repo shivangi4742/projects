@@ -388,10 +388,10 @@ export class RegisterComponent implements OnInit {
   }
 
   isbankdetail() {
-    console.log('heheheh')
+    
     if (this.accountpro.accountHolderName && this.accountpro.accountRefNumber && this.accountpro.ifsc
-      && this.conaccountnumber && !this.errorifsc && !this.err ) {
-        console.log('heh')
+      && this.conaccountnumber && !this.errvalidate && !this.err ) {
+      
       return true;
     }
     return false;
