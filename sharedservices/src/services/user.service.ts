@@ -52,7 +52,9 @@ export class UserService {
     getcomplteregister: 'user/complteregister',
     setLineOfBusiness: 'user/setLineOfBusiness',
     changePasswordURL: 'user/changeoldpassword',
-    storeavailableURL: 'user/displayupdate'
+    storeavailableURL: 'user/displayupdate',
+    getSetCODURL: 'user/setCOD',
+    getSetCODOffURL: 'user/setCODOff'
   }
   arealo:  Array<Locality>;
 
@@ -774,6 +776,23 @@ export class UserService {
       .then(res => res.json())
       .catch(res => this.handleError(res.json()));
   }
+  
+  setCOD(merchantCode: string, codEnabled: boolean) {
+    let url: string = this._urls.getSetCODOffURL;
+    if(codEnabled)
+        url = this._urls.getSetCODURL;
 
+    return this.http
+        .post(this.utilsService.getBaseURL() +url,
+        JSON.stringify({
+            
+                "merchantCode": merchantCode
+           
+        }),
+        { headers: this.utilsService.getHeaders() })
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => null);
+}
 
 }

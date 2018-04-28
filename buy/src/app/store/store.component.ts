@@ -17,6 +17,7 @@ export class StoreComponent implements OnInit {
   storeName: string;
   storeLogo: string;
   storeEmail: string;
+  storeEmail1: string;
   retPolicy1: string;
   retPolicy2: string;
   storeContact: string;
@@ -33,7 +34,8 @@ export class StoreComponent implements OnInit {
   uploadsURL:string;
   imag:string;
   strlogo:string;
-  
+  mailStoreEmail: string;
+  callStoreContact: string;  
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
@@ -82,11 +84,15 @@ logoourl(res:any) {
               }
           }
       }
+
+    if(this.storeLogo ){
     this.strlogo = this.uploadsURL + this.storeLogo;
+    } else {
+      this.strlogo= "../../assets/shared/images/addproducts2@2x.png"
+    }
   
-    if(this.storeLogo || this.uploadbannnerURL) {
-      this.setImgAndHeights();
-      }
+    this.setImgAndHeights();
+    
     }
       setImgAndHeights() {
         let imgHeight: number = Math.round((screen.height - 100) * 0.5);
@@ -104,15 +110,15 @@ logoourl(res:any) {
         //console.log(this.imag,'na')
         if(document.getElementById('storeimgdiv')) {	
             document.getElementById('storeimgdiv').style.backgroundColor = 'white';	
-            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';        	
+            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
+            document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+            document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	
          }
       }
      }
 
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
-     
-      
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
@@ -135,7 +141,7 @@ logoourl(res:any) {
         else {
          
           let fullUrl: string = window.location.href;
-          if(fullUrl && fullUrl.toLowerCase().indexOf('/pay') > 0) {
+          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
             this.isStore = false;
             this.amount = +this.activatedRoute.snapshot.params['amount'];          
             if(this.amount > 0) {
@@ -147,7 +153,7 @@ logoourl(res:any) {
           }
           else {
             
-           // this.setImgAndHeights();
+           this.setImgAndHeights();
             this.fetchProducts();  
           }
          }
@@ -175,7 +181,7 @@ logoourl(res:any) {
   }
 
   fillProductsInStore(res: any) {
-   // this.setImgAndHeights();
+   this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;
       if(!this.products)
@@ -221,15 +227,28 @@ logoourl(res:any) {
   fillStoreDetails(res: any) {
   
     if(res && res.id) {
+      this.storeEmail1 = res.userId;
+      this.stmerId = res.id;
       this.storeDescription = res.description;
       this.storeAddress = res.address;
       this.storeName = res.displayName;
-      this.storeContact = res.mobileNumber;
-      this.storeEmail = res.userId;
-      this.stmerId = res.id;
+      if(res.publicEmail && res.publicPhoneNumber){
+      this.storeContact = res.publicPhoneNumber;
+      this.storeEmail = res.publicEmail;
+      }
+      else {
+        this.storeContact = res.mobileNumber;
+        this.storeEmail = res.userId;
+      }
+      if(this.storeEmail)
+        this.mailStoreEmail = 'mailto:' + this.storeEmail;
+
+      if(this.storeContact)
+        this.callStoreContact = 'tel:' + this.storeContact;
+     
      
       this.fillReturnPolicy(res);
-      this.storeService.fetchStoreimagDetais(this.storeEmail, this.stmerId)
+      this.storeService.fetchStoreimagDetais(this.storeEmail1, this.stmerId)
       .then(pres => this.logoourl(pres));
     }
   }

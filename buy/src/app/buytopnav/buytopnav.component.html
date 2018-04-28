@@ -6,7 +6,7 @@
         <img class="buyLogoSBN hide-on-large-only" src="../assets/shared/images/benoweasy.png" />-->
         <i class="material-icons">store</i> &nbsp;{{storeName}}
       </a>
-       <ul class="right" *ngIf="numCartItems > 0">
+       <ul class="right" *ngIf="numCartItems > 0 && !isPaymentlink">
         <li class="linkButtonBN" [routerLink]="cartLink">
           <div class="valign-wrapper">
             <i class="material-icons cartGrpBN cartIconBN">shopping_cart</i>&nbsp;

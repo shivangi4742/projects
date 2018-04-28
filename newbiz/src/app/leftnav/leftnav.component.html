@@ -1,4 +1,4 @@
-<div class="row whiteFontBN">
+<div class="row whiteFontBN" *ngIf="user">
   <div class="col s12">&nbsp;</div>
   <div class="col s10 center offset-s1">
     <div [ngClass]="location == 'createpaylink' ? 'selectedLeftNavBtnBN' : 'leftnavBtnBN'" (click)="goto('createpaylink')">
@@ -65,7 +65,14 @@
     </div>
     <div class="col s1"></div>
   </div>
-  <div [ngClass]="location == 'settings' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('settings')">
+  <div  *ngIf="!oncheckadd()"  [ngClass]="location == 'settings' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('settings')">
+    <div class="col s10 offset-s1">
+      <i class="material-icons leftNavIconBN alignMidBN">settings_applications</i>&nbsp;&nbsp;
+      <span class="alignMidBN leftNavLinkBN">{{'Merchant Settings' | translate}}</span>
+    </div>
+    <div class="col s1"></div>
+  </div>
+  <div  *ngIf="oncheckadd()" [ngClass]="location == 'settings' ? 'col s12 selectedBN' : 'col s12 hoverBN linkButtonBN'" (click)="goto('registrationprocess')">
     <div class="col s10 offset-s1">
       <i class="material-icons leftNavIconBN alignMidBN">settings_applications</i>&nbsp;&nbsp;
       <span class="alignMidBN leftNavLinkBN">{{'Merchant Settings' | translate}}</span>

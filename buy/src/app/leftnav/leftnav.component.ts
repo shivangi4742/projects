@@ -29,7 +29,7 @@ export class LeftnavComponent implements OnInit {
     if(this.utilsService.getIsDevEnv())
       u = this.utilsService.getTestDomainURL();
 
-    if(u.indexOf('pay-') >= 0)
+    if(u.indexOf('pay-') >= 0 || u.replace('https://pay', '').indexOf('/pay') > 0)
       this.isPaymentlink = true;
 }
 

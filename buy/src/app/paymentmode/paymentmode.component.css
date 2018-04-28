@@ -57,6 +57,15 @@
     top: -7px;
 }
 
+.convfee2BN {
+    font-size: 10pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #79A616;
+    letter-spacing: 0.05rem;   
+    position: relative;
+    top: -7px;
+}
+
 .nolrpdBN {
     padding-left: 0px;
     padding-right: 0px;

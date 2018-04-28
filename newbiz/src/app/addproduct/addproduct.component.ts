@@ -243,7 +243,9 @@ export class AddproductComponent implements OnInit {
   }
   innitpst(res){
     this.businesspro = res;
-      
+     if( this.businesspro.freeShip == null ){
+       this.businesspro.freeShip = true;
+     }
   }
 
   checkAmount(){

@@ -87,6 +87,14 @@ export class PaymentmodeComponent implements OnInit {
               this.supportsUPI = true;
               break;
             }
+           
+            if(this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('cash') >= 0) {
+              let em: any =  document.getElementById("cod");
+              this.cart.paymentMode = "CASH";
+              if(em)
+                em.click();
+               
+            }
         }
       }
     }
@@ -190,13 +198,15 @@ export class PaymentmodeComponent implements OnInit {
     }
     else {
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
-      if(this.plInfo && this.plInfo.merchantCode) {
+      if(this.plInfo && this.plInfo.merchantCode) {          
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '');
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillStoreSettings(res2))  
+        if(this.utilsService.isAnyMobile())
+          this.buildUPIURL();
       }
       else
         this.router.navigateByUrl('/');                 
@@ -205,12 +215,21 @@ export class PaymentmodeComponent implements OnInit {
 
   buildUPIURL() {
     if(this.cart && this.settings) {
-      this.paidAmount = this.cartService.getCartTotal();
-      if(this.settings.chargeConvenienceFee)
-        this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
+      if(this.isPaymentlink) {
+        let total: number = this.plInfo.amount + this.getConvenienceFee();
+        total = Math.round(total * 100) / 100;
+        this.paidAmount = total;  
+        this.paymentlinkService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+          .then(res => this.getUPIURL(res));    
+      }
+      else {
+        this.paidAmount = this.cartService.getCartTotal();
+        if(this.settings.chargeConvenienceFee)
+          this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;  
 
-      this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
-        .then(res => this.getUPIURL(res));    
+        this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
+          .then(res => this.getUPIURL(res));    
+      }
     }
     else {
       let me: any = this;

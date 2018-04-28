@@ -128,11 +128,12 @@ export class ProductService {
     }
 
     fillStoreProduct(res: any): Product {
-        console.log(res, 'fillstore');
+
         let me: any = this;
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice, 
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),           
+
             res.color, res.size, res.productType, null, null, null, res.merchantCode, null, res.shippingCharge,  res.durationHours,  res.durationMinutes);   
         if(res.productImages && res.productImages.length > 0) {
             newp.imageURLs = new Array<string>();
@@ -247,6 +248,7 @@ export class ProductService {
     fillProduct(res: any): NewProduct {
         let product: NewProduct = new NewProduct(false, false, false, 0,
             0, '', '', null, null, null, null, null, false,
+
             '', false, null, null, null, null, null, null,null,null);
         let hasVariants: boolean = false;
         let variants = new Array<NewVariant>();
@@ -262,6 +264,7 @@ export class ProductService {
 
             product = new NewProduct(false, true, false, res.prodPrice, res.discountedPrice,
                 res.id, res.prodName, res.prodDescription, res.uom, res.color, res.productSizes, res.productImages, res.isAvailable,
+
                 res.productType, hasVariants, variants, res.venue, res.startDate, res.endDate, res.fileUrl ,res.shippingCharge, res.durationHours, res.durationMinutes);
         }
 
@@ -310,7 +313,9 @@ export class ProductService {
             this._campProducts = new Array<Product>();
             for(let i: number = 0; i < res.length; i++)
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId, 
-                    res[i].prodName, res[i].promdDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
+
+                    res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
+
                     null, res[i].merchantCode, null, res[i].shippingCharge,res[i].durationHours,
                     res[i].durationMinutes));
         }
@@ -327,6 +332,7 @@ export class ProductService {
                
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,                   
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
+
                     null, res[i].merchantCode, null, res[i].shippingCharge, res[i].durationHours,
                     res[i].durationMinutes));
           }
@@ -362,6 +368,7 @@ export class ProductService {
                     }
                     prods.push(new NewProduct(false, true, false, res[i].prodPrice, res[i].discountedPrice,
                         res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, res[i].color, res[i].productSizes, res[i].productImages, res[i].isAvailable,
+
                         res[i].productType, hasVariants, variants, res[i].venue, res[i].startDate, res[i].endDate, res[i].fileUrl, res[i].shippingCharge, res[i].durationHours, res[i].durationMinutes));
                 }
             }
@@ -387,6 +394,7 @@ export class ProductService {
     private addedProduct(res: any): Product|null {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,                
+
                 res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode, null, null,res.durationHours,
                 res.durationMinutes);
         else
@@ -403,10 +411,12 @@ export class ProductService {
                         res.benowProductVariants[i].variantCode, res.benowProductVariants[i].variantDesc, res.benowProductVariants[i].listProductSizes))
                 }
                 return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
+
                     res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.durationHours, res.durationMinutes);
             }
 
             return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
+
                 res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.durationHours, res.durationMinutes);
         }
         else
@@ -532,6 +542,7 @@ export class ProductService {
                     "discountedPrice": product.discountedPrice,
                     "color": product.color,
                     "prodSizes": product.prodSizes,
+
                     "shippingCharge":product.shippingcharge,
                     "durationHours":product.durationHours,
                     "durationMinutes":product.durationMinutes
@@ -566,6 +577,7 @@ export class ProductService {
                     "discountedPrice": product.discountedPrice,
                     "color": product.color,
                     "prodSizes": product.prodSizes,
+
                     "shippingCharge":product.shippingcharge,
                     "durationHours": product.durationHours,
                     "durationMinutes": product.durationMinutes

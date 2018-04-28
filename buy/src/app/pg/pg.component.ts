@@ -65,6 +65,19 @@ export class PgComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.cf = +this.route.snapshot.params['cf'];
     this.merchantCode = this.route.snapshot.params['code'];
+    let url: string = window.location.href;
+    if(this.utilsService.getIsDevEnv())
+      url = this.utilsService.getTestDomainURL();
+
+    if(url) {
+      url = url.toLowerCase().replace('https://', '').replace('http://', '').replace('.benow.in', '');
+      let indx: number = url.indexOf('/');
+      if(indx > 0)
+        this.burl = url.substring(0, indx);
+      else
+        this.burl = url;
+    }
+    
     if(this.id && this.merchantCode) {
       this.cartService.getCart(this.merchantCode)
         .then(res => this.fillCart(res));
@@ -81,17 +94,6 @@ export class PgComponent implements OnInit {
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, 
           this.plInfo.paymentMode);
-        let url: string = window.location.href;
-        //url = 'https://pay-archana.benow.in';
-        if(url) {
-          url = url.toLowerCase().replace('https://', '').replace('http://', '').replace('.benow.in', '');
-          let indx: number = url.indexOf('/');
-          if(indx > 0)
-            this.burl = url.substring(0, indx);
-          else
-            this.burl = url;
-        }
-
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillSettings(res2));
       }

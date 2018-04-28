@@ -12,6 +12,7 @@ export class ReoprterrorComponent implements OnInit {
   email:string;
   description: string;
   merchantCode: string;
+  merchantName: string;
   msg:string;
   err: boolean = false;
   constructor(private CampaignService:CampaignService, private activatedRoute: ActivatedRoute, private storeService: StoreService) { }
@@ -20,10 +21,19 @@ export class ReoprterrorComponent implements OnInit {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     this.email='helpdesk@benow.in';
     this.storeService.assignMerchant(this.merchantCode);
+    this.storeService.fetchStoreDetails(this.merchantCode)
+      .then(res => this.fillStoreDetails(res))
+  }
+
+  fillStoreDetails(res: any) {
+    if(res && res.id) {
+      this.merchantName = res.displayName;
+    }    
   }
 
   send() {
-    this.CampaignService.sendEmail(this.email, this.description,'Report camplain against product','')
+    this.CampaignService.sendEmail(this.email, this.description,'Complain registered against ' + this.merchantCode + ' - ' + 
+      this.merchantName, '')
      .then(res => this.sendpost(res));
   }
   sendpost(res:any){

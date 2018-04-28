@@ -266,6 +266,49 @@
       </div>
     </li>
     <li>
+      <div id="codbn" (click)="coddetail1()" [ngClass]="!codExpanded?'collapsible-header setTitleBN profileDetailBN':
+      'collapsible-header setTitleBN profileDetailRedBN'">
+
+        <span class="mrlBN" (click)="coddetail()">
+          <i *ngIf="codExpanded" class="material-icons alignMidBN">keyboard_arrow_down</i>
+          <i *ngIf="!codExpanded" class="material-icons alignMidBN">keyboard_arrow_right</i>
+
+        </span> {{'COD Setting' | translate}}
+
+      </div>
+      <div class="paddindfBN collapsible-body" style="display: block;">
+        <div class="row">
+          <div class="col s1 m1 l1 "></div>
+          <div class="col s10 m10 l10">
+            
+            <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="switch"><span class="regNrmS5B2BN">{{'Enable COD' | translate}}&nbsp;&nbsp;</span><label>
+                <input type="checkbox" [(ngModel)]="codEnabled" (change)="setCOD()" checked>
+                <span class="lever"></span><span [ngClass]="codEnabled ? 'onBN' : 'offBN'">({{getSwitchText(codEnabled) | translate}})</span></label>
+            </div> 
+            
+            </div>
+            <div class="row"></div>
+            <div class="row">
+              <div class="regNrmS6BN">
+                {{'Your customer will be able to see "COD" option in your store during checkout' | translate}}.
+              </div> 
+            </div>
+            <!-- <div class="row busDetails detailBodyBN mrgnBn">
+              <div class="input-field s12 m12 l12 center regNrmS4BN">
+                <button  class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
+                  (click)="savecod() " name="submit">
+                  {{'SUBMIT' | translate}}
+                </button>
+              </div>
+
+            </div> -->
+          </div>
+          <div class="col s1 m1 l1 "></div>
+        </div>
+      </div>
+    </li>
+    <li>
       <div id="sellerbn" (click)="sellercontact1()" [ngClass]="!sellercontac?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
         <span class="mrlBN" (click)="sellercontact()">
@@ -528,6 +571,7 @@
         </div>
       </div>
     </li>
+   
     <li>
       <div id="acbn" (click)="accountdetail1()" [ngClass]="!isBusExpanded?'collapsible-header setTitleBN profileDetailBN':
       'collapsible-header setTitleBN profileDetailRedBN'">
