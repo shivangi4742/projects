@@ -44,7 +44,8 @@ export class SDKService {
         razorpayCapturePayment: 'sdk/razorpayCapturePayment',
         razorpayConfirmPayment: 'sdk/razorpayConfirmPayment',
         getMerchantPaymentInfo: 'sdk/getMerchantPaymentInfo',
-        getPaytmChecksum: 'sdk/getPaytmChecksum'
+        getPaytmChecksum: 'sdk/getPaytmChecksum',
+        createSodexoTransactionURL: 'sdk/createSodexoTransaction'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -501,6 +502,26 @@ export class SDKService {
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
 
+    }
+
+    public createSodexoTransaction(txnId: string, amount: string, currency: string, aid: string, mid: string, tid: string, purpose: string, furl: string, surl: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.createSodexoTransactionURL,
+                JSON.stringify({
+                    "requestId": txnId,
+                    "amount": amount,
+                    "currency": currency,
+                    "aid": aid,
+                    "mid": mid,
+                    "tid": tid,
+                    "purpose": purpose,
+                    "failureUrl": furl,
+                    "successUrl": surl
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
     }
 
 }

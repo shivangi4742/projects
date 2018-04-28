@@ -23,6 +23,7 @@ import { FailureComponent } from './failure/failure.component';
 import { RazorpayComponent } from './razorpay/razorpay.component';
 import { PaytmrequestComponent } from './paytmrequest/paytmrequest.component';
 import { PaytmresponseComponent } from './paytmresponse/paytmresponse.component';
+import { SodexoresponseComponent } from './sodexoresponse/sodexoresponse.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/paymentlink/i18n', '.json');
@@ -39,7 +40,8 @@ export function HttpFactory(http: Http) {
     FailureComponent,
     RazorpayComponent,
     PaytmrequestComponent,
-    PaytmresponseComponent
+    PaytmresponseComponent,
+    SodexoresponseComponent
   ],
   imports: [
     HttpModule,

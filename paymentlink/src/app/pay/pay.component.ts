@@ -707,7 +707,7 @@ export class PayComponent implements OnInit {
         }
 
         var invoiceNumber = this.pay.invoiceNumber.replace(/ +/g, "");
-        invoiceNumber = invoiceNumber.replace(',', ""); 
+        invoiceNumber = invoiceNumber.replace(',', "");
         this.sdkService.setPaytmRequest(new PaytmRequestModel(
           'DEFAULT', res.mId, initPaymentRes.transactionRef, invoiceNumber,
           this.pay.amount, 'WEB', 'BFSI', 'FullerWEB', '', +this.pay.phone, this.pay.email,
@@ -720,12 +720,24 @@ export class PayComponent implements OnInit {
       else if (res.paymentGateway == 'RAZORPAY') {
         this.goToPG(initPaymentRes);
       }
+      else if (paymentMode == 4) {
+        var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber;
+        var sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess';
+        this.sdkService.createSodexoTransaction(initPaymentRes.transactionRef, this.pay.amount + '', 'INR', '123565', res.mId, res.tId, 'FOOD', sodexoFurl, sodexoSurl)
+          .then(res => this.goToSodexo(res));
+      }
       else {
         this.goToPG(initPaymentRes);
       }
     }
     else {
       this.goToPG(initPaymentRes);
+    }
+  }
+
+  goToSodexo(res: any) {
+    if (res && res.redirectUserTo) {
+      document.location.href = res.redirectUserTo;
     }
   }
 
