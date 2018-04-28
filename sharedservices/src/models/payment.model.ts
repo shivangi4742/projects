@@ -20,5 +20,8 @@ export class Payment {
         public email: string | null,
         public phone: string | null,
         public address: string | null,
-        public description: string | null) { }
+        public description: string | null,
+        public pin: string | null,
+        public city: string | null,
+        public state: string | null) { }
 }

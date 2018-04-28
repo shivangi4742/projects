@@ -98,7 +98,8 @@ export class DashboardComponent implements OnInit {
         pmnts.push(new Payment(res.payments[i].hasCashback, res.payments[i].amount, res.payments[i].status, res.payments[i].cbAmount,
           res.payments[i].id, res.payments[i].tr, res.payments[i].till, res.payments[i].mode, res.payments[i].vPA,
           res.payments[i].merchantVPA, res.payments[i].dateAndTime, res.payments[i].cbTid, res.payments[i].cbMode, res.payments[i].hasProducts,
-          res.payments[i].products, res.payments[i].email, res.payments[i].phone, res.payments[i].address, res.payments[i].description));
+          res.payments[i].products, res.payments[i].email, res.payments[i].phone, res.payments[i].address, res.payments[i].description,
+          res.payments[i].pin, res.payments[i].city, res.payments[i].state));
       }
       this.selPayments = pmnts;
       this.numPayments = this.transactions.numPayments;

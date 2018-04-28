@@ -235,7 +235,8 @@
       <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
         <div class="row" style="margin-bottom: 0px;">
           <div class="col s6 m4 l4 truncate secondFieldBN center"><b>{{'Payment ID' | translate}}</b> <br>{{p.id}}</div>
-          <div class="col s6 m5 l5 truncate secondFieldBN center"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}<br> {{p.phone}}</div>
+          <div class="col s6 m5 l5 truncate secondFieldBN center"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}
+            <br> {{p.phone}}<br>{{p.city}} - {{p.pin}}<br>{{p.state}}</div>
          <div class="col  s12 m3 l3 truncate secondFieldBN center" ><b>{{'Payment For' | translate}}</b> <br> {{p.description}}
           <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b></span></div>  </div>
       </div>

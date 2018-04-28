@@ -61,7 +61,8 @@ export class TransactionService {
 
                     txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, null, null, res.orders[i].payHistHdrTxnRefNo,
                         res.orders[i].tr, null, mode, nm, res.orders[i].merchantVPA, res.orders[i].orderDate, null, null, false, null, res.orders[i].email,
-                        res.orders[i].mobileNo, res.orders[i].address, res.orders[i].orderDescription));
+                        res.orders[i].mobileNo, res.orders[i].address, res.orders[i].orderDescription, res.orders[i].pincode, 
+                        res.orders[i].city, res.orders[i].state));
 
                     if(res.orders[i].payerProduct && res.orders[i].payerProduct.length > 0) {
                         txns.payments[i].products = new Array<Product>();
