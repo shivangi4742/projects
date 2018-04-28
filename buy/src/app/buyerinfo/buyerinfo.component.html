@@ -36,8 +36,12 @@
                 <input class="binputBN validate" type="text" placeholder="{{'Enter your PIN Code' | translate}}" maxlength="6" 
                   [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required />
               </div>  
-              <div class="col s12 hide-on-med-and-up labelBN offsetBN cityBN" *ngIf="!isPaymentlink">{{'City' | translate}}: {{cart.city}}</div>
-              <div class="col s12 hide-on-med-and-up labelBN offsetBN stateBN" *ngIf="!isPaymentlink">{{'State' | translate}}: {{cart.state}}</div>  
+              <div class="col s12 hide-on-med-and-up label2BN offsetBN cityBN" *ngIf="!isPaymentlink">
+                <b>{{'City' | translate}}:</b> {{cart.city}}
+              </div>
+              <div class="col s12 hide-on-med-and-up label2BN offsetBN stateBN" *ngIf="!isPaymentlink">
+                <b>{{'State' | translate}}:</b> {{cart.state}}
+              </div>  
               <div class="col hide-on-small-only m5 nolrpdBN" *ngIf="!isPaymentlink">
                 <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}* :</div>
                 <div class="col s12 input-field offsetlBN binputdivBN" *ngIf="!isPaymentlink">
