@@ -177,7 +177,8 @@ export class CartService {
             crt = JSON.parse(crtstr);
             
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
+            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode,
+                crt.pin, crt.city, crt.state);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
                 crt.items.forEach(function(ci: any) {
@@ -193,9 +194,10 @@ export class CartService {
             return Promise.resolve(this._cart);
     }
 
-    public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string) {
+    public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string, pin: string, city: string, 
+        state: string) {
         if(!this._cart)
-            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '');
+            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '', pin, city, state);
         else {
             this._cart.name = name;
             this._cart.email = email;
@@ -208,7 +210,7 @@ export class CartService {
 
     public setPaymentMode(paymentMode: string, merchantCode: string) {
         if(!this._cart)
-            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode);
+            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode, '', '', '');
         else
             this._cart.paymentMode = paymentMode;
 
@@ -246,7 +248,7 @@ export class CartService {
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
-                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '');
+                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '', '', '', '');
             
             if(!this._cart.items)
                 this._cart.items = new Array<CartItem>();

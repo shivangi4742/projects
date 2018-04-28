@@ -14,8 +14,13 @@ import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRe
 })
 export class BuyerinfoComponent implements OnInit {
   paidAmount: number;
+  pin: string;
+  city: string;
+  state: string;
   room: string;
   upiURL: string;
+  prevPIN: string;
+  errorMsg: string;
   defaultVPA: string;
   merchantCode: string;
   cart: Cart;
@@ -43,6 +48,41 @@ export class BuyerinfoComponent implements OnInit {
       this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);      
   }
 
+  gotCity(res: any) {
+    if(res && res.PostOffice && res.PostOffice.length > 0) {
+      this.errorMsg = '';
+      let p: any = res.PostOffice[0];
+      if(p.Taluk && p.Taluk.toUpperCase() != 'NA')
+        this.cart.city = p.Taluk;
+      else
+        this.cart.city = p.District;
+
+      this.cart.state = p.State;
+      this.pin = this.cart.pin;
+      this.city = this.cart.city;
+      this.state = this.cart.state;
+    }
+  }
+
+  getCity() {
+    if(this.prevPIN != this.cart.pin) {
+      this.cart.city = '';
+      this.cart.state = '';
+      this.prevPIN = this.cart.pin;
+      if(this.cart.pin && this.cart.pin.length == 6) {
+        if(this.pin == this.cart.pin) {
+          this.errorMsg = '';
+          this.cart.city = this.city;
+          this.cart.state = this.state;
+        }
+        else {
+          this.storeService.getDetailsForPIN(this.cart.pin)
+            .then(res => this.gotCity(res));
+        }
+      }
+    }        
+  }
+
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     if(this.merchantCode) {
@@ -58,7 +98,7 @@ export class BuyerinfoComponent implements OnInit {
       if(this.plInfo && this.plInfo.merchantCode) {
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
-        this.cart = new Cart('', '', '', '', null, this.merchantCode, '');
+        this.cart = new Cart('', '', '', '', null, this.merchantCode, '', '', '', '');
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
         .then(res2 => this.fillStoreSettings(res2))  
@@ -136,8 +176,14 @@ export class BuyerinfoComponent implements OnInit {
       this.router.navigateByUrl('/paymentmode');  
     }
     else {
-      this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
-      this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');  
+      this.errorMsg = '';
+      if(this.cart.city) {
+        this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode, this.cart.pin,
+          this.cart.city, this.cart.state);
+        this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');  
+      }
+      else
+        this.errorMsg = 'Please enter a valid PIN Code';
     }
   }
 
@@ -252,9 +298,10 @@ export class BuyerinfoComponent implements OnInit {
 
   onSubmit() {
     this.processing = true;
-    this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode);
+    this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode, this.cart.pin,
+      this.cart.city, this.cart.state);
     this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
-    this.pay();
+    this.pay();  
   }
 
   closeModal() {

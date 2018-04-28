@@ -72,5 +72,10 @@
     "Payment Details": "भुगतान विवरण",
     "Pay Amount": "भुगतान राशि",
     "Make Another Payment": "एक और भुगतान करें",
-    "You have successfully paid and your Transaction Id is": "आपने सफलतापूर्वक भुगतान किया है और आपका लेनदेन आईडी है"
+    "You have successfully paid and your Transaction Id is": "आपने सफलतापूर्वक भुगतान किया है और आपका लेनदेन आईडी है",
+    "Please enter a valid PIN Code": "कृपया एक वैध पिन कोड प्रविष्ट करा!!!",
+    "PIN Code": "पिन कोड",
+    "Enter your PIN Code": "अपना पिन कोड दर्ज करें",
+    "City": "शहर",
+    "State": "राज्य"
 }

@@ -201,7 +201,8 @@ export class PaymentmodeComponent implements OnInit {
       if(this.plInfo && this.plInfo.merchantCode) {          
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
-        this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '');
+        this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '',
+          this.plInfo.pin, this.plInfo.city, this.plInfo.state);
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillStoreSettings(res2))  

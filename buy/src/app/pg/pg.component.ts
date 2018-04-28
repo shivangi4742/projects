@@ -93,7 +93,7 @@ export class PgComponent implements OnInit {
         this.amount = this.plInfo.totalAmount;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, 
-          this.plInfo.paymentMode);
+          this.plInfo.paymentMode, this.plInfo.pin, this.plInfo.city, this.plInfo.state);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillSettings(res2));
       }

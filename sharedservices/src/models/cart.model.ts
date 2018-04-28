@@ -8,6 +8,9 @@ export class Cart {
         public address: string,
         public items: Array<CartItem>,
         public merchantCode: string,
-        public paymentMode: string
+        public paymentMode: string,
+        public pin: string,
+        public city: string,
+        public state: string
     ){ }
 }

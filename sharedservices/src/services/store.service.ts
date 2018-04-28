@@ -20,7 +20,8 @@ export class StoreService {
     private _urls: any = {
         fetchStoreDetailsURL: 'store/fetchStoreDetails',
         getMerchantDetailsFromURLURL: 'store/getMerchantDetailsFromURL',
-        fetchStoreDetailedURL:'user/fetchMerchantForEditDetails'
+        fetchStoreDetailedURL:'user/fetchMerchantForEditDetails',
+        getDetailsForPINURL: 'store/getDetailsForPIN'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -86,7 +87,21 @@ export class StoreService {
         .then(res => this.setSettings(res.json()))
         .catch(res => this.utilsService.returnGenericError());
     }
-      public fetchStoreDetais(merchantCode: string): Promise<any> {
+
+    public getDetailsForPIN(pincode: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.getDetailsForPINURL,
+            JSON.stringify({
+                "pincode": pincode
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => this.setSettings(res.json()))
+        .catch(res => this.utilsService.returnGenericError());
+    }
+
+    public fetchStoreDetais(merchantCode: string): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.fetchStoreDetailsURL,
             JSON.stringify({

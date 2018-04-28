@@ -72,5 +72,10 @@
     "Payment Details": "Payment Details",
     "Pay Amount": "Pay Amount",
     "Make Another Payment": "Make Another Payment",
-    "You have successfully paid and your Transaction Id is": "You have successfully paid and your Transaction Id is"
+    "You have successfully paid and your Transaction Id is": "You have successfully paid and your Transaction Id is",
+    "Please enter a valid PIN Code": "Please enter a valid PIN Code!!!",
+    "PIN Code": "PIN Code",
+    "Enter your PIN Code": "Enter your PIN Code",
+    "City": "City",
+    "State": "State"
 }
