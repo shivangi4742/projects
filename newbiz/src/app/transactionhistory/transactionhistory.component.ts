@@ -168,9 +168,8 @@ export class TransactionhistoryComponent implements OnInit {
 
   createMyBizCSV(res: Transaction, id:string) {
     if (res && res.payments && res.payments.length > 0) {
-      let data: any = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Products']];
-      if (this.mtype == 2)
-        data = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Donation Options']];
+      let data: any = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Phone', 'E-Mail', 'PIN Code', 'City', 'State', 'Address', 
+        'Products']];
 
       for (var t of res.payments) {
         let prods: string = '';
@@ -182,7 +181,9 @@ export class TransactionhistoryComponent implements OnInit {
             prods = prods.substring(0, prods.length - 1);
         }
 
-        data.push([t.tr, t.vPA, t.amount.toFixed(2), t.mode, t.dateAndTime, '"' + prods + '"']);
+        let dt: Date = new Date(t.dateAndTime);
+        data.push([t.tr, t.vPA, t.amount.toFixed(2), t.mode, this.utilsService.getDTStr(dt), '"' + t.phone + '"', t.email, t.pin, t.city, 
+          t.state, t.address, '"' + prods + '"']);
       }
 
       let csvContent: string = "data:text/csv;charset=utf-8,";
