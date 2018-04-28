@@ -88,7 +88,7 @@ logoourl(res:any) {
     if(this.storeLogo ){
     this.strlogo = this.uploadsURL + this.storeLogo;
     } else {
-      this.strlogo= "../../assets/shared/images/addproducts2@2x.png"
+      this.strlogo = this.utilsService.getDefaultStoreImageURL()
     }
   
     this.setImgAndHeights();
