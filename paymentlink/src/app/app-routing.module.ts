@@ -40,6 +40,8 @@ const routes: Routes = [
     { path: 'paytmrequest/:id', component: PaytmrequestComponent },
     { path: 'paytmresponse', component: PaytmresponseComponent },
     { path: 'paytmresponse/:id/:txnid', component: SuccessComponent },
+    { path: 'sodexosuccess', component: SuccessComponent },
+    { path: 'sodexofailure/:code', component: FailureComponent },
     { path: 'paysdk', component: PayComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
 ];
