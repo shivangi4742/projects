@@ -98,21 +98,19 @@ logoourl(res:any) {
         let imgHeight: number = Math.round((screen.height - 100) * 0.5);
         let gap: number = imgHeight > 150 ? imgHeight - 90 : 100;
       if(this.uploadbannnerURL) {
-          this.imag = this.uploadsURL + this.uploadbannnerURL;
+        this.imag = this.uploadsURL + this.uploadbannnerURL;
         if(document.getElementById('storeimgdiv')) {	
-           document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.imag + "')";
+          document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.imag + "')";
           document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';
           document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
           document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';
         }
       }
       else {
-        //console.log(this.imag,'na')
         if(document.getElementById('storeimgdiv')) {	
-            document.getElementById('storeimgdiv').style.backgroundColor = 'white';	
-            document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
-            document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
-            document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	
+          document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
+          document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
+          document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	
          }
       }
      }

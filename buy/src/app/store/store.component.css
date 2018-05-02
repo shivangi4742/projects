@@ -50,12 +50,9 @@
 
 .storeLogoDivBN {
     margin-top: -65px;
-    height: 130px;
-    width: 130px;
-    border-radius: 65px;
-    overflow: hidden;
-    background-color: white;
-    white-space: nowrap;    
+    max-height: 130px;
+    max-width: 130px;
+    background-color: transparent;
 }
 
 .storeLogoBN {
@@ -182,4 +179,10 @@
     font-family: 'Barlow', sans-serif;
     letter-spacing: 0.1rem;   
     text-transform: none;    
+}
+
+.storeimgBN {
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center top;
 }

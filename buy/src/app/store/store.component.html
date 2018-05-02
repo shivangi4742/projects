@@ -1,17 +1,15 @@
 <div *ngIf="isStore">
   <div class="row">
     <div class="col s12 nopadsBN" align="center">
-      <div class="storeimgBN" id="storeimgdiv">  
-      </div>
+      <div class="storeimgBN" id="storeimgdiv"></div>
       <div class="clearingBN" id="clearingdiv">&nbsp;</div>
       <div class="pad30lrBN">
         <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
           <div class="col s12" align="center" *ngIf="strlogo">
             <div class="storeLogoDivBN" align="center">
-                <span class="helperBN"></span><img [src]="strlogo" class="storeLogoBN" />
+              <img [src]="strlogo" class="storeLogoBN" />
             </div>
-          </div>
-          
+          </div>          
           <div class="col s12">&nbsp;</div>
           <div class="col s12">
             <span class="storetitleBN" >{{storeName}}</span>
