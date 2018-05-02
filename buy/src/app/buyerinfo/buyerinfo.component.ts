@@ -28,6 +28,8 @@ export class BuyerinfoComponent implements OnInit {
   subscription: Subscription;  
   settings: any;
   plInfo: any;
+  sedit: boolean = false;
+  cedit: boolean = false;
   processing: boolean = false;
   isPaymentlink: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
@@ -48,16 +50,28 @@ export class BuyerinfoComponent implements OnInit {
       this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);      
   }
 
+  editedState() {
+    this.sedit = true;
+  }
+
+  editedCity() {
+    this.cedit = true;
+  }
+
   gotCity(res: any) {
     if(res && res.PostOffice && res.PostOffice.length > 0) {
       this.errorMsg = '';
       let p: any = res.PostOffice[0];
-      if(p.Taluk && p.Taluk.toUpperCase() != 'NA')
-        this.cart.city = p.Taluk;
-      else
-        this.cart.city = p.District;
+      if(!this.cart.city || !this.cedit) {
+        if(p.Taluk && p.Taluk.toUpperCase() != 'NA')
+          this.cart.city = p.Taluk;
+        else
+          this.cart.city = p.District;
+      }
 
-      this.cart.state = p.State;
+      if(!this.cart.state || !this.sedit)
+        this.cart.state = p.State;
+        
       this.pin = this.cart.pin;
       this.city = this.cart.city;
       this.state = this.cart.state;
@@ -76,6 +90,8 @@ export class BuyerinfoComponent implements OnInit {
           this.cart.state = this.state;
         }
         else {
+          this.cedit = false;
+          this.sedit = false;
           this.storeService.getDetailsForPIN(this.cart.pin)
             .then(res => this.gotCity(res));
         }

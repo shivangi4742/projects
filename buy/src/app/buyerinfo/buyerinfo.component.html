@@ -31,33 +31,22 @@
                 <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
                   [(ngModel)]="cart.email" name="email" required />
               </div>
-              <div class="col s12 hide-on-med-and-up labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}* :</div>
-              <div class="col s12 hide-on-med-and-up input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}* :</div>
+              <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
                 <input class="binputBN validate" type="text" placeholder="{{'Enter your PIN Code' | translate}}" maxlength="6" 
-                  [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required />
+                  [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                  (keyup)="getCity()" required />
               </div>  
-              <div class="col s12 hide-on-med-and-up label2BN offsetBN cityBN" *ngIf="!isPaymentlink">
-                <b>{{'City' | translate}}:</b> {{cart.city}}
-              </div>
-              <div class="col s12 hide-on-med-and-up label2BN offsetBN stateBN" *ngIf="!isPaymentlink">
-                <b>{{'State' | translate}}:</b> {{cart.state}}
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'City' | translate}}* :</div>
+              <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
+                <input class="binputBN validate" type="text" placeholder="{{'Enter your City' | translate}}" [(ngModel)]="cart.city" 
+                  name="city" (keyup)="editedCity()" required />
               </div>  
-              <div class="col hide-on-small-only m5 nolrpdBN" *ngIf="!isPaymentlink">
-                <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}* :</div>
-                <div class="col s12 input-field offsetlBN binputdivBN" *ngIf="!isPaymentlink">
-                  <input class="binputBN validate" type="text" placeholder="{{'Enter your PIN Code' | translate}}" maxlength="6" 
-                    [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
-                    (keyup)="getCity()" required />
-                </div>  
-              </div>
-              <div class="col hide-on-small-only s12 m7 norpdBN" *ngIf="!isPaymentlink">
-                <div class="col s12 label2BN offsetlr2BN cityBN truncate" *ngIf="!isPaymentlink">
-                  <b>{{'City' | translate}}:</b> {{cart.city}}
-                </div>
-                <div class="col s12 label2BN offsetlr2BN stateBN truncate" *ngIf="!isPaymentlink">
-                  <b>{{'State' | translate}}:</b> {{cart.state}}
-                </div>  
-              </div>
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'State' | translate}}* :</div>  
+              <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
+                <input class="binputBN validate" type="text" placeholder="{{'Enter your State' | translate}}" [(ngModel)]="cart.state" 
+                  name="state" (keyup)="editedState()" required />
+              </div>  
               <div class="col s12 input-field labelBN offsetBN" *ngIf="!isPaymentlink">{{'Address' | translate}}* :</div>
               <div class="input-field col s12 offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
                 <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address"
