@@ -41,6 +41,7 @@ export class StoreService {
     }
 
     public assignMerchant(code: string) {
+//        console.log(code,'this.code')
         if(code) {
             this._code = code;
             this._subject.next(code);
@@ -70,11 +71,12 @@ export class StoreService {
 
     public fetchStoreDetails(merchantCode: string): Promise<any> {
         if(this._code && merchantCode == this._code) {
+//           console.log(this._settings,'this._settings')
             if(this._settings)
                 return Promise.resolve(this._settings);
         }
         else
-            this.assignMerchant(merchantCode);
+          {  this.assignMerchant(merchantCode);}
 
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.fetchStoreDetailsURL,
@@ -97,7 +99,7 @@ export class StoreService {
             { headers: this.utilsService.getHeaders() }
         )
         .toPromise()
-        .then(res => this.setSettings(res.json()))
+        .then(res => res.json())
         .catch(res => this.utilsService.returnGenericError());
     }
 
