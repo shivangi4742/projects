@@ -7,7 +7,17 @@
       <span class="alignMidBN">{{'Back to Dashboard' | translate}}</span>
     </a>
   </div>
+</div> 
+<div class="row">
+    <div class="col s1 m1 l1 "></div>
+    <div class="col s10 m10 l10 reset">
+  {{'Reset Password' | translate}}
+  </div>
+
+  <div class="col s1 m1 l1 "></div>
+ 
 </div>
+<!-- <div class="row"></div> -->
 <div class="row">
   <div class="col s1 m1 l1 "></div>
   <div class="col s10 m10 l10">
@@ -44,7 +54,7 @@
 
     <div class="row busDetails detailBodyBN mrgnBn">
       <div class="input-field s12 m12 l12 center regNrmS4BN">
-        <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit"
+        <button [disabled]="!hasAllFields()" class="btn waves-effect waves-light buttonBN regNrmS4BN left checkHeight" type="submit"
           (click)="submit()" name="submit">
               {{'SUBMIT' | translate}}
              </button>
