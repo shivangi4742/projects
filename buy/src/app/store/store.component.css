@@ -59,7 +59,11 @@
     max-height: 130px;
     width: 127px;
     vertical-align: middle;
+    background-color: white;
+    border: 3px solid white;
+    box-shadow: 0 1px 1px 1px #e0e0e0;
 }
+
 
 .helperBN {
     display: inline-block;
