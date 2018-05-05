@@ -65,6 +65,9 @@ export class ProductcatalogComponent implements OnInit {
   sharemodalActions: any = new EventEmitter<string|MaterializeAction>();
   storeurl:string;
   streurl:string;
+  streurlpre: string;
+  streurlpaypre : string;
+  urlstorepre : string;
 
   constructor(private router: Router,private campaignservice:CampaignService, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService) {
@@ -121,13 +124,19 @@ export class ProductcatalogComponent implements OnInit {
     
     this.businesspro = res;
     if(this.businesspro.storeUrl!=null){
-    this.storeurl= "https://pay-"+ this.businesspro.storeUrl + ".benow.in";
     this.streurl= this.businesspro.storeUrl + ".benow.in";
-   
     this.storenewurl=  this.businesspro.storeUrl + ".benow.in/store";
+    this.streurlpre = "https://"+this.businesspro.storeUrl + ".benow.in/store";
     } else {
-      this.storeurl= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
-    this.streurl= this.businesspro.storeUrl + ".benow.in";
+        var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
+       
+        this.streurl = t ;
+        this.storenewurl= t;
+
+        this.streurlpre = t;
+        this.streurlpaypre = t +"/pay";
+        this.urlstorepre =  t + "/store";
+        
    
     }
    

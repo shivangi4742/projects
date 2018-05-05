@@ -45,6 +45,10 @@ export class DashboardComponent implements OnInit {
   text: string;
   suceessmsg: boolean = false;
   url: string;
+  formLoaded: boolean = true;
+  streurlpre: string;
+  streurlpaypre : string;
+  urlstorepre : string;
   seemodalActions: any = new EventEmitter<string | MaterializeAction>();
   sharemodalActions: any = new EventEmitter<string | MaterializeAction>();
   sharelinkurlmodalActions: any = new EventEmitter<string | MaterializeAction>();
@@ -70,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
   initshare(res: any) {
     this.businesspro = res;
-
+   
     if ((window as any).fbq)
       (window as any).fbq('track', 'CompleteRegistration');
 
@@ -82,11 +86,28 @@ export class DashboardComponent implements OnInit {
     if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
     }
-
-    this.storeurl = "pay-" + this.businesspro.storeUrl + ".benow.in";
+    if(this.businesspro.storeUrl != null){
+    this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
+    this.storeurl = "https://" + this.businesspro.storeUrl + ".benow.in";
     this.streurl = this.businesspro.storeUrl + ".benow.in";
     this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
     this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
+    this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
+    this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
+    this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
+    this.formLoaded= false;
+    }
+    else {
+      var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
+      this.storeurl = t ;
+      this.streurl = t ;
+      this.streurlpay = t +"/pay";
+      this.urlstore = t + "/store";
+      this.streurlpre = t;
+      this.streurlpaypre = t +"/pay";
+      this.urlstorepre =  t + "/store";
+      this.formLoaded= false;
+    }
   }
 
   close() {
@@ -298,7 +319,4 @@ export class DashboardComponent implements OnInit {
     }
     return true;
   }
-  adproduct(){
-    window.location.href=this.businesspro.storeUrl + ".benow.in";
-  }
-}
+ }

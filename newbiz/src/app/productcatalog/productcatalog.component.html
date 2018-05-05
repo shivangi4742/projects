@@ -93,7 +93,7 @@
   </div>
 
   <div class="row"></div>
-  <div class="row mainBodyBN">
+  <div class="row mainBodyBN" *ngIf="businesspro">
     <div class="col s12 noLeftPaddingBN">
       <a class="linkButtonBN dashboardRedirectBN" [routerLink]="dashboard">
         <i class="material-icons alignMidBN">arrow_back</i>
@@ -140,7 +140,7 @@
             <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="storenewurl" (cbOnSuccess)="isCopied1 = true">
               <i class="material-icons alignMidBN">content_copy</i>
             </a> &nbsp;
-            <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="storenewurl" target="_blank">
+            <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="streurlpre" target="_blank">
               <i class="material-icons alignMidBN">remove_red_eye</i>
             </a>
             &nbsp;

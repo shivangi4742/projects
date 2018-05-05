@@ -35,6 +35,9 @@ export class CreatepaymentlinkComponent implements OnInit {
   subject: string;
   payshare:boolean = false;
   emailtext: boolean = false;
+  streurlpre: string;
+  streurlpaypre : string;
+  urlstorepre : string;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -110,8 +113,25 @@ export class CreatepaymentlinkComponent implements OnInit {
    this.share();
   }
   share(){
-    this.streurlpay= this.businesspro.storeUrl + ".benow.in/pay";
+    if(this.businesspro.storeUrl!=null){
+    this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
+    this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
     this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
+
+    this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
+    this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
+    this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
+
+    }
+    else{
+        var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
+        this.streurlpay = t ;
+        this.urlstore = t ;
+        
+        this.streurlpre = t;
+        this.streurlpaypre = t +"/pay";
+        this.urlstorepre =  t + "/store";
+    }
   }
   getStatus(): Status {
     return this.utilsService.getStatus();
