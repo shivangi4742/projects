@@ -28,7 +28,7 @@ ul.side-nav.fixed {
 
 .sidenavsmallBN {
     background-color: #413A5A;
-    width: 200px;
+    width: 221px;
     position: absolute;
     overflow: auto!important;
     margin-top: 56px!important;    
@@ -36,12 +36,12 @@ ul.side-nav.fixed {
 
 .sidenavBN {
     background-color: #413A5A;
-    width: 200px;
+    width: 212px;
     position: absolute;
 }
 
 main {
-    padding-left: 200px;
+    padding-left: 225px;
 }
 
 @media only screen and (max-width : 992px) {

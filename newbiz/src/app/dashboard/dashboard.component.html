@@ -1,168 +1,483 @@
 <div class="row smallGapBN">&nbsp;</div>
-<div materialize="modal" id="seedeatil2" class="modal modlBN productModalBN" [materializeActions]="sharelinkurlmodalActions">
-    <div class="modal-content">
-      <div class="row">
-        <div class="col s4 typeBN">Share</div>
-        <div class="col s8">
-          <i class="material-icons alignMidBN right linkButtonBN" style="font-size: 14pt;" (click)="shareclose()">close</i>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s3 typeBN">
-          <a (click)="emaiil()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-            <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
-          </a>
-        </div>
-        <div class="col s9">Email</div>
-      </div>
-      <div class="row bderBN" *ngIf="emailtext">
-        <div class="valign wrapper">
-        <div class="col s12 maiBN">
-         <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="maiBN">
-        </div>
-      </div>
-      <div class="valign wrapper ">
-          <div class="col s12 center">
-           <button type="submit" class="btn waves-effect waves-light buttonBN smallerFonttBN center" (click)="emailpost()">Email</button>
 
-          </div>
-         <div class="col s12 center smsBN" *ngIf="suceessmsg">{{'successfully email sent!' | translate}}</div>
-        </div>
-        
-      </div>
-      <div class="row" >
-        <div class="col s3 typeBN">
-          <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-            <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
-          </a>
-        </div>
-        <div class="col s9">SMS</div>
-      </div>
-      <div class="row bderBN" *ngIf="smstext">
-          <div class="valign wrapper">
-          <div class="col s12 maiBN">
-           <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="maiBN">
-          </div>
-        </div>
-        <div class="valign wrapper">
-            <div class="col s12 center">
-             <button type="submit" class="btn waves-effect waves-light buttonBN smallerFonttBN center" (click)="smspost()">SMS</button>
-            </div>
-          </div>
-         <div *ngIf="smsucess" class="col s12 center smsBN">{{'successfully sms sent !'}}</div>
-        </div>
-      <div class="row">
-        <div class="col s3 typeBN">
-          <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
-            <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
-            />
-          </a>
-        </div>
-        <div class="col s9">Facebook</div>
-      </div>
-      <div class="row">
-        <div class="col s3 typeBN">
-          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
-            title="Twitter Tweet Button" (click)="twitterbutton()">
-            <img src="../../assets/newbiz/imgs/Twitter_Icon.png" alt="Tweet on Twitter" width="35" height="35" />
-          </a>
-        </div>
-        <div class="col s9">Twitter</div>
-      </div>
-      <div class="row show-on-small hide-on-large-only">
-        <div class="col s3 typeBN">
-          <a class="linkButtonBN " style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
-            title="WhatsApp share Button" (click)="WhatsApp()">
-            <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="Tweet on Twitter" width="35" height="35" />
-          </a>
-        </div>
-        <div class="col s9">WhatsApp</div>
-      </div>
-      <div class="row">
-        <span class="col s12">Click to copy link</span>
-        <div class="col s12 typeBN">
 
-          <div class="smallFontBN noLeftPaddingBN">
-            <a class="copyBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="url" (cbOnSuccess)="isCopied1 = true">
-              <input type="text" class="smallFontBN inputBN" [(ngModel)]="url" disabled/>
-            </a>
-          </div>
-        </div>
+<div materialize="modal" id="sharr" class="modal modlBN1 " [materializeActions]="sharemodalActions">
+
+  <div class="modal-content">
+    <div class="row right ">
+      <div class="col s12">
+        <span (click)="close()">
+          <i class="material-icons alignMidBN linkButtonBN">close</i>
+        </span>
       </div>
+
+    </div>
+    <br>
+    <div class="row center ">
+      <span class="textgreenBN">
+        Congratulations!
+      </span>
+    </div>
+    <div class="row center mrgnBN">
+      <div class="col s1 m1 l1"></div>
+      <div class="col s10 m10 l10">
+        You have Sucessfully created your digital Identity.
+
+      </div>
+      <div class="col s1 m1 l1"></div>
+    </div>
+    <div class="row center mghBN">
+      <b> Your Digital Identity:</b>
+    </div>
+    <div class="row mghBN">
+      <div class="col s12 m12 l12 center">
+        <input type="text" class="inputjBN center" [(ngModel)]="streurl" readonly="true" />
+      </div>
+
+    </div>
+
+
+    <div class="row mrgnBN">
+      <div class="col s12 m12 l12">
+        <p class="borfBN"></p>
+      </div>
+    </div>
+
+
+    <div class="row ">
+      <div class="col s12 m6 l6 ">
+        <span class="paygBN right">Payment Link:</span>
+      </div>
+      <div class="col s12 m6 l6">
+        <input type="text" class="inputjBN center" [(ngModel)]="streurlpay" readonly="true" />
+      </div>
+    </div>
+    <div class="row center mghBN modBN">Payment Link can be used to collect money from your computer.</div>
+    <div class="row">
+      <div class="col s12 m6 l6 ">
+        <span class="paygBN right">Online Store Link:</span>
+      </div>
+      <div class="col s12 m6 l6">
+        <input type="text" class="inputjBN center" [(ngModel)]="urlstore" readonly="true" />
+      </div>
+    </div>
+    <div class="row center mghBN modBN">Online store is digital store, you can list your products and sell them online.</div>
+    <br>
+    <div class="row center mghBN modBN">
+      <span>Your digital Identity is ready, have a look.</span>
+    </div>
+    <div class="row center mghBN">
+
+      <button class="btn waves-effect waves-light  center checkBN" type="submit" name="create" (click)="adproduct()">
+        {{'Check Out Your Page' | translate}}</button>
+
     </div>
   </div>
- 
-<div materialize="modal" id="sharr" class="modal modlBN1 " [materializeActions]="sharemodalActions">
-    
-  <div class="modal-content">
-      <div class="row right ">
-        <div class="col s12">
-          <span (click)="close()">
-            <i class="material-icons alignMidBN linkButtonBN" >close</i>
-          </span></div>
-
-        </div>
-        <br>
-      <div class="row center ">
-        <span class="textgreenBN">
-            Congratulations!
-        </span></div>
-     <div class="row center">
-        <div class="col s1 m1 l1"></div>
-       <div class="col s10 m10 l10">
-          You have Sucessfully created your digital Identity.
-          Now you can share your Payment link to collect money or you can add product to your online store and start selling them online.
-    
-       </div>  
-       <div class="col s1 m1 l1"></div>
-     </div>
-    <div class="row"> <b>Digital Payment Link:</b></div>
-     <div class="row">
-        <div class="col s12 m8 l8">
-       <input type="text" class="inputjBN" [(ngModel)]="storeurl" readonly="true"/> 
-       </div>
-       <div class="col s12 m4 l4">
-          <a class="copyBN linkButtonBN alignMidBN" [class.btn-success]= "isCopied1"
-          type="button" ngxClipboard [cbContent]="storeurl" (cbOnSuccess)="isCopied1 = true">
-            <i class="material-icons alignMidBN">content_copy</i>
-            <span class="alignMidBN" style="margin-right: 10px;"></span>
-          </a>
-          
-              <i class="material-icons linkButtonBN alignMidBN" (click)="shareopen(2)">share</i>
-            
-      </div>
-      </div>
-    
-    <p class="borfBN"></p>
-     <div class="row"> <b>Online Store Link:</b></div>
-    
-     <div class="row">  
-       <div class="col s12 m8 l8">
-       <input type="text" class="inputjBN" [(ngModel)]="streurl" readonly="true" />
-       </div><div class="col s12 m4 l4">
-          <a class="copyBN linkButtonBN" [class.btn-success]= "isCopied2"
-          type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied2 = true">
-            <i class="material-icons alignMidBN">content_copy</i>
-            <span class="alignMidBN" style="margin-right: 10px;"></span>
-          </a>
-          <i class="material-icons linkButtonBN alignMidBN"  (click)="shareopen(1)">share</i>
-           
-      </div>
-    </div> 
-     <div class="row">
-       <div class="col s12 m8 l8"><span>Selling Online, Add your product now</span> </div>
-       <div class="col s12 m4 l4">
-        <button class="col s12 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" (click)="adproduct()">
-            {{'Add product' | translate}}</button></div>
-     </div>
-    </div>
 </div>
 <div materialize="modal" id="seedeatil2" class="modal  modal-fixed-footer productModalBN" [materializeActions]="seemodalActions">
-      <div class="modal-content">
-          <app-seeproductdetail [selPayment] = "getSelPayment()"></app-seeproductdetail>
-      </div>
- </div>
-<div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()" >
+  <div class="modal-content">
+    <app-seeproductdetail [selPayment]="getSelPayment()"></app-seeproductdetail>
+  </div>
+</div>
+<div class="row"> </div>
+<div class="row"></div>
+<div class="roundBorderMainBN col s12 " *ngIf="streurlpay">
+  <div class="row"></div>
+  <div class="row">
+    <div class="titleBN col s12">
+      {{'My Unique Digital identity ' | translate}}
+    </div>
+  </div>
+
+  <div class="row hide-on-med-and-up">
+    <div class=" col s12 m8 l8 center">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="streurl" class="validate inputjBN">
+    </div>
+    <div class="row"></div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="streurl" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(1)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+  </div>
+  <div class="row hide-on-small-only">
+    <div class=" col s12 m8 l8 ">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="streurl" class="validate inputjBN">
+    </div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="streurl" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(1)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+  </div>
+
+  <div class="row  center hide-on-small-only" *ngIf="strshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+    <span *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBN">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+
+
+    </span>
+
+
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+
+    <span *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBN">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </span>
+
+
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    <div class="row"></div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+  <div class="row  center hide-on-med-and-up" *ngIf="strshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    <div class="row center" *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBNM">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </div>
+    <div class="row center" *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBNM">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+  <p style="
+    border-bottom: 1px dotted #f5f5f5;
+"></p>
+  <div class="row">
+    <div class="titleBN col s12">
+      {{'My Payment Link' | translate}}
+    </div>
+  </div>
+
+  <div class="row hide-on-med-and-up">
+    <div class=" col s12 m8 l8 center">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="streurlpay" class="validate inputjBN">
+    </div>
+    <div class="row"></div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="streurlpay" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+
+  </div>
+  <div class="row hide-on-small-only">
+    <div class=" col s12 m8 l8 ">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="streurlpay" class="validate inputjBN">
+    </div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="streurlpay" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+
+  </div>
+  <div class="row  center hide-on-small-only" *ngIf="payshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+    <span *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBN">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+
+
+    </span>
+
+
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+
+    <span *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBN">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </span>
+
+
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    <div class="row"></div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+  <div class="row  center  hide-on-med-and-up" *ngIf="payshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    
+    <div class="row center" *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBNM">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+
+
+    </div>
+
+    <div class="row center"  *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBNM">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+
+
+  <p style="
+    border-bottom: 1px dotted #f5f5f5;"></p>
+  <div class="row">
+    <div class="titleBN col s12">
+      {{'My Store Link' | translate}}
+    </div>
+  </div>
+
+  <div class="row hide-on-small-only">
+    <div class=" col s12 m8 l8 ">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="urlstore" class="validate inputjBN">
+    </div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="urlstore" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+  </div>
+  <div class="row hide-on-med-and-up">
+    <div class=" col s12 m8 l8 center">
+      <i class="material-icons alignMidBN tpBN">link</i>
+      <input type="text" [readonly]="true" [(ngModel)]="urlstore" class="validate inputjBN">
+    </div>
+    <div class="row"></div>
+    <div class=" col s12 m4 l4 center">
+
+      <a class="alignMidBN linkButtonBN copyBN linkButtonBN" [href]="urlstore" target="_blank">
+        <i class="material-icons alignMidBN">remove_red_eye</i>
+      </a>
+      &nbsp;
+      <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
+      <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true">
+        <i class="material-icons alignMidBN">content_copy</i>
+      </a>
+    </div>
+  </div>
+  <div class="row center hide-on-small-only" *ngIf="storeshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+    <span *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBN">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+
+
+    </span>
+
+
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+
+
+    <span *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBN">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </span>
+
+
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    <div class="row"></div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+  <div class="row center hide-on-med-and-up" *ngIf="storeshare">
+    <a (click)="emaiil()" class="linkButtonBN" width="78" height="50" title="Email Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/email.png" alt="email" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a (click)="sms()" width="59" height="20" class="linkButtonBN" width="78" height="50" title="SMS Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/SMS.png" alt="sms" width="35" height="35" style="border-radius: 17px;" />
+    </a>
+    <a width="59" height="20" class="linkButtonBN" (click)="fbClick()" width="78" height="50" title="Facebook Share Button" style="border: 0; overflow: hidden; vertical-align:middle; padding-right: 10px; ">
+      <img src="../../assets/newbiz/imgs/facebook.png" alt="Share on Facebook" width="35" height="35" style="border-radius: 17px;"
+      />
+    </a>
+    <a class="linkButtonBN hide-on-med-and-up" style="border: 0; overflow: hidden; vertical-align:middle;padding-right: 10px;"
+      title="WhatsApp share Button" (click)="WhatsApp()">
+      <img src="../../assets/newbiz/imgs/wtsup.jpg" alt="whatsapp" width="35" height="35" />
+    </a>
+    
+    <div class="row center" *ngIf="emailtext">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="please enter Email-Id" class="shrtextBNM">
+
+      <button [disabled]="hasemail()" type="submit" class="btn regNrmS4BN center buttonBN subBN " (click)="emailpost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </div>
+    <div class="row center" *ngIf="smstext">
+      <input type="text" name="mobilenumber" [(ngModel)]="mobileNumber" placeholder="please enter Mobile Number" class="shrtextBNM">
+
+      <button [disabled]="hasSMS()" type="submit" class="btn regNrmS4BN center buttonBN  subBN " (click)="smspost()">
+        <i class="material-icons send">send</i>
+      </button>
+    </div>
+    <div class="smsmailBN center" *ngIf="suceessmsg">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the mail.' | translate}}</span>
+    </div>
+    <div class="smsmailBN center" *ngIf="smsucess">
+      <span class="center smsBN">{{'successful! We have sent a payment link message to the number.' | translate}}</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()">
   <div class="col s12">
     <div class="dateRangeSBN">
       <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
@@ -174,13 +489,13 @@
   </div>
 </div>
 <div class="row hide-on-small-only">
-    <div class="col m4 dateRangeBN offset-m8" align="right" *ngIf="hasTransactions()" >
-        <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
-            <option value="1">{{'Today' | translate}}</option>
-            <option value="2">{{'This Week' | translate}}</option>
-            <option value="3">{{'This Month' | translate}}</option>
-        </select>
-    </div>
+  <div class="col m4 dateRangeBN offset-m8" align="right" *ngIf="hasTransactions()">
+    <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
+      <option value="1">{{'Today' | translate}}</option>
+      <option value="2">{{'This Week' | translate}}</option>
+      <option value="3">{{'This Month' | translate}}</option>
+    </select>
+  </div>
 </div>
 <div class="row smallGapBN"></div>
 <div class="row">
@@ -194,7 +509,7 @@
   </div>
   <div class="col s1 m3 l3"></div>
   <div class="col s10 offset-s1 m6 offset-m3 l6 offset-l3 statsBoxBN">
-    <div class="col s6 leftPaneBN truncate" >
+    <div class="col s6 leftPaneBN truncate">
       ₹ {{totalAmount | number : '1.2-2'}}
     </div>
     <div class="col s6 rightPaneBN">
@@ -216,16 +531,17 @@
 <div *ngIf="hasTransactions()" class="row">
   <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
     <li *ngFor="let p of selPayments; let i = index;">
-      <div [id]="p.id" [ngClass]= 'checkClass(i, p.id)' (click)="arrowChange(p.id)">
+      <div [id]="p.id" [ngClass]='checkClass(i, p.id)' (click)="arrowChange(p.id)">
         <span (click)="changeIcon(p.id)">
-          <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_right</i>
-          <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_down</i>
+          <i *ngIf="!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_right</i>
+          <i *ngIf="isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_down</i>
         </span>
         <div class="col s6 m5 l5 fieldBN">
           {{p.dateAndTime | date: 'MMM d, yyyy h:mm a'}}
         </div>
         <div class="col s6 m4 l4 truncate fieldBN">
-          {{p.vPA}}<br>
+          {{p.vPA}}
+          <br>
           <span class="hide-on-med-and-up">₹ {{p.amount | number : '1.2-2'}}</span>
         </div>
         <div class="col m3 l3 hide-on-small-only fieldBN">
@@ -234,18 +550,32 @@
       </div>
       <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
         <div class="row" style="margin-bottom: 0px;">
-          <div class="col s6 m4 l4 truncate secondFieldBN center"><b>{{'Payment ID' | translate}}</b> <br>{{p.id}}</div>
-          <div class="col s6 m5 l5 truncate secondFieldBN center"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}
-            <br> {{p.phone}}<br>{{p.address}}<br>{{p.pin}} - {{p.city}}<br>{{p.state}}</div>
-         <div class="col  s12 m3 l3 truncate secondFieldBN center" ><b>{{'Payment For' | translate}}</b> <br> {{p.description}}
-          <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b></span></div>  </div>
+          <div class="col s6 m4 l4 truncate secondFieldBN center">
+            <b>{{'Payment ID' | translate}}</b>
+            <br>{{p.id}}</div>
+          <div class="col s6 m5 l5 truncate secondFieldBN center">
+            <b>{{'Buyer Details' | translate}}</b>
+            <br> {{p.email}}
+            <br> {{p.phone}}
+            <br>{{p.address}}
+            <br>{{p.pin}} - {{p.city}}
+            <br>{{p.state}}</div>
+          <div class="col  s12 m3 l3 truncate secondFieldBN center">
+            <b>{{'Payment For' | translate}}</b>
+            <br> {{p.description}}
+            <span *ngIf="p.products">
+              <b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b>
+            </span>
+          </div>
+        </div>
       </div>
     </li>
   </ul>
   <div class="row">
-  <button class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit" name="create" [routerLink]="transactionHistory">
-    {{'VIEW ALL SALES' | translate}}</button>
-</div>
+    <button class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 btn waves-effect waves-light buttonBN smallerFontBN center" type="submit"
+      name="create" [routerLink]="transactionHistory">
+      {{'VIEW ALL SALES' | translate}}</button>
+  </div>
 </div>
 <div *ngIf="processing" class="col s12 center">
   <div class="row"></div>
@@ -254,11 +584,13 @@
     <div class="spinner-layer spinner-red-only">
       <div class="circle-clipper left">
         <div class="circle"></div>
-      </div><div class="gap-patch">
-      <div class="circle"></div>
-    </div><div class="circle-clipper right">
-      <div class="circle"></div>
-    </div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
     </div>
   </div>
   <div class="col s12 center">
@@ -272,4 +604,3 @@
     {{'No Transactions Found!' | translate}}
   </div>
 </div>
-

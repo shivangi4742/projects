@@ -180,7 +180,7 @@
             <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12" *ngIf="!businesspro.freeShip" >
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder" >
             <input id="shippingcharge" name="shippingcharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 10px"  />
             <label for="shippingcharge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
@@ -406,7 +406,7 @@
               <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
-            <div class="input-field col s6 " *ngIf="!businesspro.freeShip">
+            <div class="input-field col s6 " *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder">
               <input id="deliverycharge" name="deliverycharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                      placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 0px"  />
               <label for="deliverycharge" class ="active labelPLBN">{{'Delivery Charge' | translate}}</label>
@@ -414,8 +414,8 @@
             </div>
           </div>
           <div class="row"></div>
-          <div class="row">
-            <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
+          <!-- <div class="row">
+             <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
               <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
               <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
               <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -517,9 +517,9 @@
               <div class="row"></div>
               <div class="row"></div>
             </div>
-          </div>
+          </div> -->
         </div>
-      </div>
+      </div> 
     <div *ngIf="newProduct.productType == 'Event'" class="col s12">
       <div class="col s12 typeBN">
         {{'Events & Workshop' | translate}}
@@ -679,7 +679,7 @@
             <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12" *ngIf="!businesspro.freeShip">
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder">
             <input id="shipchrge" name="shipchrge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Shipping price of the product' | translate}}" style="margin-top: 10px"  />
             <label for="shipchrge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>

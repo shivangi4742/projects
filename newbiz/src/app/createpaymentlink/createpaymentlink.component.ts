@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, SDKService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService,Businesspro,ProductService,Accountpro,CampaignService, SDKService, Status, LocationService } from 'benowservices';
 
 
 @Component({
@@ -12,7 +12,9 @@ import { UtilsService, User, UserService, SDKService, Status, LocationService } 
   styleUrls: ['./createpaymentlink.component.css']
 })
 export class CreatepaymentlinkComponent implements OnInit {
-
+  businesspro:Businesspro;
+  streurlpay:string;
+  urlstore:string;
   dateParams: any;
   user: User;
   dashboard: string = "/dashboard";
@@ -22,6 +24,17 @@ export class CreatepaymentlinkComponent implements OnInit {
   invoiceNum: string;
   detailsExpanded: boolean = false;
   isAmountLess: boolean = false;
+  isCopied1: boolean = false;
+  email: string;
+  mobileNumber: string;
+  smstext: boolean = false;
+  text: string;
+  suceessmsg: boolean = false;
+  url: string;
+  smsucess: boolean = false;
+  subject: string;
+  payshare:boolean = false;
+  emailtext: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -48,7 +61,7 @@ export class CreatepaymentlinkComponent implements OnInit {
 
   constructor(private translate: TranslateService, private utilsService: UtilsService,
               private userService: UserService, private router: Router, private locationService: LocationService,
-              private route: ActivatedRoute, private sdkService: SDKService) { }
+              private route: ActivatedRoute, private sdkService: SDKService, private CampaignService: CampaignService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -76,16 +89,8 @@ export class CreatepaymentlinkComponent implements OnInit {
   ngOnInit() {
     this.locationService.setLocation('createpaylink');
     this.userService.getUser()
-      .then(res => this.user = res);
+      .then(res => this.init(res));
     let me = this;
-    /*this.translate.onLangChange.subscribe((event: any) => {
-      this.translate.getTranslation(this.translate.currentLang)
-        .subscribe(res => me.translateCalStrings(res, true));
-    });
-    this.translate.getTranslation(this.translate.currentLang)
-      .subscribe(res => me.translateCalStrings(res, false));
-    */
-
     this.dateParams = [{
       format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 2, min: this.utilsService.getNextDateString(), monthsFull: this.monthsFull,
       monthsShort: this.monthsShort, weekdaysFull: this.weekdaysFull, weekdaysLetter: this.weekdaysShort, showWeekdaysFull: false, today: this.today,
@@ -93,7 +98,21 @@ export class CreatepaymentlinkComponent implements OnInit {
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
     }];
   }
-
+  init(res: User){
+    this.user = res;
+    this.userService.checkMerchant(this.user.mobileNumber,'b')
+    .then(bres=>this.initshare(bres));
+  }
+  initshare(res:any){
+   if(res){
+     this.businesspro= res;
+   }
+   this.share();
+  }
+  share(){
+    this.streurlpay= this.businesspro.storeUrl + ".benow.in/pay";
+    this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
+  }
   getStatus(): Status {
     return this.utilsService.getStatus();
   }
@@ -160,5 +179,72 @@ export class CreatepaymentlinkComponent implements OnInit {
     } 
     return false;
   }
-
+  sharej(){
+    this.url= this.businesspro.storeUrl + ".benow.in/pay";
+    this.payshare=!this.payshare;
+  }
+  fbClick() {
+    this.suceessmsg= false;
+    this.emailtext= false;
+    this.smsucess= false;
+    this.smstext = false;
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
+    this.url + '&display=popup&ref=plugin&src=share_button', '',
+     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
+  }
+  twitterbutton() {
+    window.open('https://twitter.com/share?url=' + this.url,'', 
+    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    return false;
+  }
+  emaiil() {
+    this.emailtext = !this.emailtext;
+    this.smstext = false;
+  }
+  emailpost() {
+    this.text = this.url;
+    this.subject = "";
+    this.CampaignService.sendEmail(this.email, this.text, this.subject, '')
+      .then(res => this.emailposth(res));
+  }
+  emailposth(res: any) {
+    if (res) {
+      this.suceessmsg = true;
+      this.smsucess = false;
+    }
+  }
+  sms() {
+    this.smstext = !this.smstext;
+    this.emailtext = false;
+  }
+  smspost() {
+    this.CampaignService.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
+      .then(res => this.smsposth(res));
+  }
+  smsposth(res: any) {
+    if (res) {
+      this.suceessmsg = false;
+      this.smsucess = true;
+    }
+  }
+  WhatsApp() {
+    this.suceessmsg= false;
+    this.emailtext= false;
+    this.smsucess= false;
+    this.smstext = false;
+    window.open('whatsapp://send?text=' + this.url);
+  }
+  hasemail(){
+    if(this.email){
+      return false;
+    }
+    return true;
+  }
+  hasSMS(){
+    if(this.mobileNumber){
+      return false;
+    }
+    return true;
+  }
 }

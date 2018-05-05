@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, AnimationKeyframe } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { LocationService, User, UserService, ProductService, Accountpro, Businesspro, CampaignService, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
@@ -32,7 +32,12 @@ export class DashboardComponent implements OnInit {
   isCopied2: boolean = false;
   smsucess: boolean = false;
   emailtext: boolean = false;
+  strshare: boolean = false;
+  payshare: boolean = false;
+  storeshare: boolean = false;
   subject: string;
+  urlstore: string;
+  streurlpay: string;
   email: string;
   mobileNumber: string;
   smstext: boolean = false;
@@ -62,27 +67,32 @@ export class DashboardComponent implements OnInit {
       this.utilsService.getCurDateString() + " 23:59:59", this.page)
       .then(tres => this.updateTransactions(tres));
   }
+
   initshare(res: any) {
     this.businesspro = res;
-    this.shsh();
 
+    if ((window as any).fbq)
+      (window as any).fbq('track', 'CompleteRegistration');
+
+    this.userService.congratulation(this.user.id)
+      .then(res => this.shsh(res));
   }
-  shsh(){
-    //console.log(this.businesspro.storeUrl,'this.businesspro.storeUrl');
-    if(this.businesspro.storeUrl!=null){
+
+  shsh(res) {
+    if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
     }
-    
+
     this.storeurl = "pay-" + this.businesspro.storeUrl + ".benow.in";
-    this.streurl = this.businesspro.storeUrl + ".benow.in"
+    this.streurl = this.businesspro.storeUrl + ".benow.in";
+    this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
+    this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
   }
+
   close() {
     this.sharemodalActions.emit({ action: "modal", params: ['close'] });
   }
-  adproduct() {
-    this.sharemodalActions.emit({ action: "modal", params: ['close'] });
-    this.router.navigateByUrl("/addproduct");
-  }
+
   updateTransactions(res: Transaction) {
     this.selPayments = null;
     if (res && res.payments) {
@@ -180,32 +190,66 @@ export class DashboardComponent implements OnInit {
   getSelPayment(): Payment {
     return this.transactionService.getSelPayment();
   }
-  shareopen(id:any) {
-    if(id==1){
-      this.url = "https://" + this.businesspro.storeUrl + ".benow.in";
-    }else {
-      this.url = "https://pay-" + this.businesspro.storeUrl + ".benow.in";
+
+  share(res: any) {
+    if (res == 1) {
+      this.url = this.businesspro.storeUrl + ".benow.in";
+      this.strshare = !this.strshare;
+      this.payshare = false;
+      this.storeshare = false;
+      this.smsucess = false;
+      this.smstext = false;
+      this.email = "";
+      this.mobileNumber = "";
+      this.emailtext = false;
+      this.suceessmsg = false;
     }
-   
-    this.sharelinkurlmodalActions.emit({ action: "modal", params: ['open'] });
-    this.sharemodalActions.emit({ action: "modal", params: ['close'] });
+    if (res == 2) {
+      this.url = this.businesspro.storeUrl + ".benow.in/pay";
+      this.payshare = !this.payshare;
+      this.strshare = false;
+      this.storeshare = false;
+      this.smsucess = false;
+      this.smstext = false;
+      this.suceessmsg = false;
+      this.email = "";
+      this.mobileNumber = "";
+      this.emailtext = false;
+    }
+    if (res == 3) {
+      this.url = this.businesspro.storeUrl + ".benow.in/store";
+      this.storeshare = !this.storeshare;
+      this.strshare = false;
+      this.payshare = false;
+      this.smsucess = false;
+      this.smstext = false;
+      this.emailtext = false;
+      this.email = "";
+      this.mobileNumber = "";
+      this.suceessmsg = false;
+    }
   }
+
   fbClick() {
-    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
-    this.url + '&display=popup&ref=plugin&src=share_button', '',
-     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    this.suceessmsg = false;
+    this.emailtext = false;
+    this.smsucess = false;
+    this.smstext = false;
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' +
+      this.url + '&display=popup&ref=plugin&src=share_button', '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
   twitterbutton() {
-    window.open('https://twitter.com/share?url=' + this.url,'', 
-    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    window.open('https://twitter.com/share?url=' + this.url, '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
-  
+
   shareclose() {
     this.sharelinkurlmodalActions.emit({ action: "modal", params: ['close'] });
   }
- 
+
   createprod() {
     this.router.navigateByUrl('/addproduct');
   }
@@ -222,6 +266,7 @@ export class DashboardComponent implements OnInit {
   emailposth(res: any) {
     if (res) {
       this.suceessmsg = true;
+      this.smsucess = false;
     }
   }
   sms() {
@@ -234,10 +279,23 @@ export class DashboardComponent implements OnInit {
   }
   smsposth(res: any) {
     if (res) {
+      this.suceessmsg = false;
       this.smsucess = true;
     }
   }
   WhatsApp() {
     window.open('whatsapp://send?text=' + this.url);
+  }
+  hasemail() {
+    if (this.email) {
+      return false;
+    }
+    return true;
+  }
+  hasSMS() {
+    if (this.mobileNumber) {
+      return false;
+    }
+    return true;
   }
 }

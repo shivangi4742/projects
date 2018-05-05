@@ -12,7 +12,9 @@ import { MaterializeAction } from "angular2-materialize";
 export class ProductcatalogComponent implements OnInit {
   businesspro:Businesspro;
   storeURL:string;
+  storenewurl:string;
   smsucess:boolean = false;
+  storeshare:boolean = false;
   emailtext:boolean = false;
   subject:string;
   email:string;
@@ -28,6 +30,7 @@ export class ProductcatalogComponent implements OnInit {
   processing: boolean = false;
   deleting: boolean = false;
   inStock: boolean = false;
+  
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   fromDt: any;
   toDt: any;
@@ -120,11 +123,12 @@ export class ProductcatalogComponent implements OnInit {
     if(this.businesspro.storeUrl!=null){
     this.storeurl= "https://pay-"+ this.businesspro.storeUrl + ".benow.in";
     this.streurl= this.businesspro.storeUrl + ".benow.in";
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
+   
+    this.storenewurl=  this.businesspro.storeUrl + ".benow.in/store";
     } else {
       this.storeurl= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
     this.streurl= this.businesspro.storeUrl + ".benow.in";
-    this.url= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
+   
     }
    
   }
@@ -184,27 +188,26 @@ export class ProductcatalogComponent implements OnInit {
   }
   
   twitterbutton() {
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
     window.open('https://twitter.com/share?url=' + this.url,'', 
     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
 
   fbClick() {
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
+    this.suceessmsg= false;
+    this.emailtext= false;
+    this.smsucess= false;
+    this.smstext = false;
     window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
     this.url + '&display=popup&ref=plugin&src=share_button', '',
      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
-  share(id:any){
-    this.prodId= id;
-    this.sharemodalActions.emit({ action: "modal", params: ['open'] });
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
+  share(){
+    this.storeshare = ! this.storeshare; 
+    this.url=  this.businesspro.storeUrl + ".benow.in/store";
 }
-shareclose(){
-  this.sharemodalActions.emit({ action: "modal", params: ['close'] });
-}
+
 createprod(){
   this.router.navigateByUrl('/addproduct');
 }
@@ -221,6 +224,7 @@ emailpost(){
 emailposth(res:any){
   if(res){
     this.suceessmsg= true;
+    this.smsucess= false;
   }
 }
 sms() {
@@ -234,10 +238,25 @@ smspost(){
 smsposth(res:any){
   if(res){
     this.smsucess= true;
+    this.suceessmsg= false;
   }
 }
 WhatsApp(){
   window.open('whatsapp://send?text=' + this.url);
 }
-
+addpro(){
+  this.router.navigateByUrl('/addproduct');
+}
+hasemail(){
+  if(this.email){
+    return false;
+  }
+  return true;
+}
+hasSMS(){
+  if(this.mobileNumber){
+    return false;
+  }
+  return true;
+}
 }
