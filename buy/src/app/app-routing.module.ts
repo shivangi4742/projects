@@ -10,10 +10,12 @@ import { PaymentmodeComponent } from './paymentmode/paymentmode.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 import { PaymentfailureComponent } from './paymentfailure/paymentfailure.component';
 import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
-
+import { DashComponent } from './dash/dash.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 const routes: Routes = [
-    { path: '', component: StoreComponent },
+    { path: ':code/dash', component: DashComponent },
     { path: 'pay', component: StoreComponent },
+  
     { path: 'store', component: StoreComponent },
     { path: 'payerinfo', component: BuyerinfoComponent },
     { path: 'paymentmode', component: PaymentmodeComponent },
@@ -32,7 +34,8 @@ const routes: Routes = [
     { path: ':code/paymentfailure/:id', component: PaymentfailureComponent },
     { path: ':code/pg/:id/:cf', component: PgComponent },
     { path: ':code/reporterror', component: ReoprterrorComponent },
-    { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
+    { path: 'notfound', component: NotfoundComponent },
+     { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MaterializeAction } from 'angular2-materialize';
 
 import { Cart, CartService, StoreService, SDKService, User, SocketService, PayRequest, UtilsService, PaymentlinkService } from 'benowservices';
+//import { Z_DEFAULT_STRATEGY } from 'zlib';
 
 @Component({
   selector: 'paymentmode',
@@ -55,6 +56,12 @@ export class PaymentmodeComponent implements OnInit {
     }
 
     return 0;
+  }
+  cod(): boolean {
+    if(this.settings.chargeConvenienceFee && this.cart.paymentMode != 'CASH') {
+      return false;
+    }
+    return true;
   }
 
   getPayableAmount(): number {
