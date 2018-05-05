@@ -186,7 +186,9 @@ export class ProductcatalogComponent implements OnInit {
   edit(id: any){
     this.router.navigateByUrl('/editproduct/'+id);
   }
-  
+  shareclose(){
+    this.sharemodalActions.emit({ action: "modal", params: ['close'] });
+  }
   twitterbutton() {
     window.open('https://twitter.com/share?url=' + this.url,'', 
     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
@@ -206,6 +208,10 @@ export class ProductcatalogComponent implements OnInit {
   share(){
     this.storeshare = ! this.storeshare; 
     this.url=  this.businesspro.storeUrl + ".benow.in/store";
+}
+sharep(){
+  this.url=  this.businesspro.storeUrl + ".benow.in/store";
+  this.sharemodalActions.emit({ action: "modal", params: ['open'] });
 }
 
 createprod(){
