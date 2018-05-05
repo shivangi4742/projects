@@ -298,4 +298,7 @@ export class DashboardComponent implements OnInit {
     }
     return true;
   }
+  adproduct(){
+    window.location.href=this.businesspro.storeUrl + ".benow.in";
+  }
 }
