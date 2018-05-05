@@ -13,7 +13,9 @@ import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 import { DashComponent } from './dash/dash.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 const routes: Routes = [
-    { path: ':code/dash', component: DashComponent },
+    { path: ':code/homepage', component: DashComponent },
+    { path: '', component: DashComponent },
+    { path: 'homepage', component: DashComponent },
     { path: 'pay', component: StoreComponent },
   
     { path: 'store', component: StoreComponent },
@@ -35,7 +37,7 @@ const routes: Routes = [
     { path: ':code/pg/:id/:cf', component: PgComponent },
     { path: ':code/reporterror', component: ReoprterrorComponent },
     { path: 'notfound', component: NotfoundComponent },
-     { path: '**', redirectTo: '1/store', pathMatch: 'full' }//TODO: Not found
+     { path: '**', redirectTo: 'homepage', pathMatch: 'full' }//TODO: Not found
 ];
 
 @NgModule({

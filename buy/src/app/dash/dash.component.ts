@@ -256,9 +256,9 @@ logoourl(res:any) {
     this.onclickn = ! this.onclickn;
   }
   pay(){
-    this.router.navigateByUrl(window.location.href + "/pay");
+    this.router.navigateByUrl("/pay");
   }
   store(){
-    this.router.navigateByUrl(this.merchantCode + "/store");
+    this.router.navigateByUrl("/store");
   }
 }
