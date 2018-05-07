@@ -68,7 +68,7 @@ export class CartService {
                     crt.items.push({
                         "pid": ci.productId,
                         "vid": ci.variantId,
-                        "siz": ci.size,
+                        "siz": ci.sizeId,
                         "qty": ci.quantity
                     });
                 })
