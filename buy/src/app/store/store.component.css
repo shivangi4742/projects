@@ -190,3 +190,36 @@
     background-repeat: no-repeat;
     background-position: center top;
 }
+.storeimgBN {
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.storetitle1BN{
+    font-size: 16pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #3D3D3D;  
+}
+.storetitle2BN {
+    font-size: 15pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55)
+}
+.storetitle3BN {
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55) 
+}
+.storetitle4BN{
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #E53935;
+}

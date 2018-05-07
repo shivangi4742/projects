@@ -57,6 +57,18 @@
             <button class="btn waves-effect waves-light morefromstoreBN" (click)="more()">{{'See More Products' | translate}}</button>
           </div>
         </div>
+        <div class="row center" *ngIf="!products">
+          <div class="col s10 m10 l10 center offset-s1 offset-m1 offset-l1 storeprodsBN" >
+            <img src="../assets/buy/imgs/noun_632851_cc.png" alt="Noproduct" name=""/>
+            <div class="row"></div>
+            <div class="row center storetitle2BN">Empty Store</div>
+            <span class="center storetitle3BN ">It seems there is no product here.</span> 
+            <span class="center storetitle3BN ">If it is your Store Page over Benow, kindly add your first product here<br> 
+              <a [href]="pp" class="storetitle4BN" target="_blank">Login</a>
+            </span>     
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -132,6 +144,18 @@
       </form>
       <div class="col s12">&nbsp;</div>
     </div>
+    <div class="row center" *ngIf="!products">
+      <div class="col s10 m10 l10 center offset-s1 offset-m1 offset-l1 storeprodsBN" >
+        <img src="../assets/buy/imgs/noun_632851_cc.png" alt="Noproduct" name=""/>
+        <div class="row"></div>
+        <div class="row center storetitle2BN">Empty Store</div>
+        <span class="center storetitle3BN ">It seems there is no product here.</span> 
+        <span class="center storetitle3BN ">If it is your Store Page over Benow, kindly add your first product here<br> 
+          <a [href]="pp" class="storetitle4BN" target="_blank">Login</a>
+        </span>     
+      </div>
+    </div>
   </div>  
-</div>  
+</div> 
+
 </div>

@@ -48,7 +48,7 @@ export class PaymentsuccessComponent implements OnInit {
       for(let i: number = 0; i < res.length; i++) {
         let imgURL: string = res[i].imageURL ? this.utilsService.getUploadsURL() + res[i].imageURL : this.utilsService.getNoProdImageURL();
         this.items.push(new CartItem(res[i].qty, res[i].prodId, res[i].name, res[i].originalPrice, res[i].price, imgURL, null, null, res[i].color,
-          res[i].size, res[i].description));
+          res[i].size, res[i].description, res[i].shippingcharge));
       }
 
       this.cartService.clearFromCart(this.merchantCode, this.items);
