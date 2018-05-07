@@ -25,6 +25,7 @@ export class PaymentmodeComponent implements OnInit {
   settings: any;
   plInfo: any;
   supportsUPI: boolean = false;
+  supportsCOD: boolean = false;
   isPaymentlink: boolean = false;
   processing: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
@@ -90,18 +91,11 @@ export class PaymentmodeComponent implements OnInit {
       if(this.settings.acceptedPaymentMethods && this.settings.acceptedPaymentMethods.length > 0) {
         for(let i = 0; i < this.settings.acceptedPaymentMethods.length; i++) {
           if(this.settings.acceptedPaymentMethods[i].paymentMethod 
-            && this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('upi') >= 0) {
+            && this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('upi') >= 0)
               this.supportsUPI = true;
-              break;
-            }
            
-            if(this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('cash') >= 0) {
-              let em: any =  document.getElementById("cod");
-              this.cart.paymentMode = "CASH";
-              if(em)
-                em.click();
-               
-            }
+            if(this.settings.acceptedPaymentMethods[i].paymentMethod.toLowerCase().indexOf('cash') >= 0)
+              this.supportsCOD = true;
         }
       }
     }

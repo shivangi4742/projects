@@ -22,7 +22,7 @@
                   <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
                   <span class="upiBN">&nbsp;&nbsp;{{'BHIM UPI' | translate}}</span>
                   <span class="convfee2BN">({{'Earn upto ₹750 cashback per month from Govt of India' | translate}})</span>
-                  <span class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
                 </label>        
               </div>
             </div>
@@ -50,7 +50,7 @@
                 </label>        
               </div>
             </div>
-            <div class="col s12 offsetlrBN" *ngIf="!isPaymentlink && cod()">
+            <div class="col s12 offsetlrBN" *ngIf="!isPaymentlink && supportsCOD">
               <div class="rdoGrpNoBrdrBN">                                                                                                                                
                 <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
                 <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
