@@ -190,8 +190,10 @@ export class CartService {
                 crt.pin, crt.city, crt.state);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
+               
                 crt.items.forEach(function(ci: any) {
-                    me._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', ''));
+                   
+                    me._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', '', ci.shippingCharge));
                 });
 
                 return this.productService.fillCartItemsDetails(this._cart);
@@ -287,9 +289,9 @@ export class CartService {
                                 }
                             }
                         }
-    
+                      
                         this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, 
-                            c, s, prod.description));                        
+                            c, s, prod.description, prod.shippingcharge));                        
                     }
                 }
                 else {
@@ -301,7 +303,7 @@ export class CartService {
                     }
                     
                     this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, c, s, 
-                        prod.description));                
+                        prod.description, prod.shippingcharge));                
                 }
             }
 

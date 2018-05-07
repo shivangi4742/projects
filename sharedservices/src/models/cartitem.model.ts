@@ -10,6 +10,7 @@ export class CartItem {
         public sizeId: string,
         public color: string,
         public size: string,
-        public description: string
+        public description: string,
+        public shippingcharge: string | null
     ){ }
 }
