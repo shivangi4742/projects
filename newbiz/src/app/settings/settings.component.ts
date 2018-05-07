@@ -145,6 +145,7 @@ export class SettingsComponent implements OnInit {
 
   businessprfo(res: any) {
       this.businesspro = res;
+      console.log(this.businesspro,'hehe');
     if (this.businesspro && this.businesspro.contactPerson) {
       this.editt = true;
     }
@@ -163,7 +164,6 @@ export class SettingsComponent implements OnInit {
     else {
       this.publicphonenumber = false;
     }
-    this.businesspro.freeShip = false;
   }
   bind(res: any) {
     if (res && res.id) {
@@ -391,17 +391,21 @@ export class SettingsComponent implements OnInit {
       let is1s: any = document.getElementById('sj');
         if (is1s) {
           is1s.click();
+          this.shiping1()
         }
      }
      if(this.businesspro.chargePerOrder) {
       let is2s: any = document.getElementById('sj1');
         if (is2s) {
           is2s.click();
+          this.shiping2();
         }
-     }if(this.businesspro.chargePerProd) {
+     }
+     if(this.businesspro.chargePerProd) {
       let is3s: any = document.getElementById('sj2');
         if (is3s) {
           is3s.click();
+          this.shiping3()
         }
      }
      
@@ -513,6 +517,7 @@ export class SettingsComponent implements OnInit {
     
   }
   shippingploicysave() {
+    console.log(this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd);
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -868,7 +873,7 @@ export class SettingsComponent implements OnInit {
     this.businesspro.freeShip = false;
       this.businesspro.chargePerOrder= false;
       this.businesspro.chargePerProd = true;
-      this.businesspro.orderShipCharge= "";
+      this.businesspro.orderShipCharge = "";
       
   }
   contactseller(res:any) {
