@@ -61,8 +61,6 @@ export class StoreComponent implements OnInit {
       this.fetchProducts();
       this.storeService.fetchStoreDetails(this.merchantCode)
         .then(res => this.fillStoreDetails(res));  
-
-  
     }
     else
       this.newInit();

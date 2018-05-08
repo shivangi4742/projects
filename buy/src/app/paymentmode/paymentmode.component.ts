@@ -29,6 +29,11 @@ export class PaymentmodeComponent implements OnInit {
   isPaymentlink: boolean = false;
   processing: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
+  isLoaded: boolean = false;
+  orderShipCharge: number;
+  freeship:boolean = false;
+  chargeperprod:boolean = false;
+  chargePerOrder:boolean = false;
 
   constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
     private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService, 
@@ -66,7 +71,7 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   getPayableAmount(): number {
-    return this.getTotalAmount() + this.getConvenienceFee();
+    return this.getTotalAmount() + this.getConvenienceFee() + this.getshippingPrice(); 
   }
 
   getTotalDiscount(): number {
@@ -86,6 +91,16 @@ export class PaymentmodeComponent implements OnInit {
 
   fillStoreSettings(res: any) {
     if(res) {
+      if(res.chargePerOrder) {
+        this.chargePerOrder = res.chargePerOrder;
+        this.orderShipCharge = res.orderShipCharge;
+      }
+      if(res.freeShip) {
+        this.freeship = true
+      }
+      if(res.chargePerProd){
+        this.chargeperprod = true
+      }
       this.settings = res;
       this.defaultVPA = this.getDefaultVPA();
       if(this.settings.acceptedPaymentMethods && this.settings.acceptedPaymentMethods.length > 0) {
@@ -358,4 +373,27 @@ export class PaymentmodeComponent implements OnInit {
       this.payForCart();
     }
   }
+  getshippingPrice(){
+    let shipping: number = 0;
+    if(this.freeship){
+      shipping = 0;
+    }
+    if(this.chargePerOrder){
+
+      shipping = this.orderShipCharge;
+     
+    }
+  else {
+     if(this.cart && this.cart.items && this.cart.items.length > 0 && this.chargeperprod ) {
+      this.cart.items.forEach(function(i) {
+        if(i.shippingcharge != null){
+        let p : number ;
+        p = parseInt(i.shippingcharge);
+        shipping += p;
+        }
+      });
+  }
+}
+  return shipping;
+}
 }
