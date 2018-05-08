@@ -25,8 +25,8 @@ export class ProdwidgetComponent implements OnInit {
   ngOnInit() {
 
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
-    if (this.merchantCode) {
-      this.storeService.fetchStoreDetails(this.merchantCode)
+    if (this.product.merchantCode || this.merchantCode) {
+      this.storeService.fetchStoreDetails(this.product.merchantCode)
         .then(res => this.fillStoreDetails(res));
     }
 
