@@ -75,9 +75,6 @@ export class DashboardComponent implements OnInit {
   initshare(res: any) {
     this.businesspro = res;
    
-    if ((window as any).fbq)
-      (window as any).fbq('track', 'CompleteRegistration');
-
     this.userService.congratulation(this.user.id)
       .then(res => this.shsh(res));
   }

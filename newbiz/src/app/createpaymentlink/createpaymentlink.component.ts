@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService,Businesspro,ProductService,Accountpro,CampaignService, SDKService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, Businesspro, ProductService, Accountpro, CampaignService, SDKService, Status, LocationService } from 'benowservices';
 
 
 @Component({
@@ -12,9 +12,9 @@ import { UtilsService, User, UserService,Businesspro,ProductService,Accountpro,C
   styleUrls: ['./createpaymentlink.component.css']
 })
 export class CreatepaymentlinkComponent implements OnInit {
-  businesspro:Businesspro;
-  streurlpay:string;
-  urlstore:string;
+  businesspro: Businesspro;
+  streurlpay: string;
+  urlstore: string;
   dateParams: any;
   user: User;
   dashboard: string = "/dashboard";
@@ -33,11 +33,11 @@ export class CreatepaymentlinkComponent implements OnInit {
   url: string;
   smsucess: boolean = false;
   subject: string;
-  payshare:boolean = false;
+  payshare: boolean = false;
   emailtext: boolean = false;
   streurlpre: string;
-  streurlpaypre : string;
-  urlstorepre : string;
+  streurlpaypre: string;
+  urlstorepre: string;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -63,8 +63,8 @@ export class CreatepaymentlinkComponent implements OnInit {
 
 
   constructor(private translate: TranslateService, private utilsService: UtilsService,
-              private userService: UserService, private router: Router, private locationService: LocationService,
-              private route: ActivatedRoute, private sdkService: SDKService, private CampaignService: CampaignService) { }
+    private userService: UserService, private router: Router, private locationService: LocationService,
+    private route: ActivatedRoute, private sdkService: SDKService, private CampaignService: CampaignService) { }
 
   private translateCalStrings(res: any, langCh: boolean) {
     this.today = res[this.todayX];
@@ -101,121 +101,120 @@ export class CreatepaymentlinkComponent implements OnInit {
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
     }];
   }
-  init(res: User){
+  init(res: User) {
     this.user = res;
-    this.userService.checkMerchant(this.user.mobileNumber,'b')
-    .then(bres=>this.initshare(bres));
+    this.userService.checkMerchant(this.user.mobileNumber, 'b')
+      .then(bres => this.initshare(bres));
   }
-  initshare(res:any){
-   if(res){
-     this.businesspro= res;
-   }
-   this.share();
+  initshare(res: any) {
+    if (res) {
+      this.businesspro = res;
+    }
+    this.share();
   }
-  share(){
-    if(this.businesspro.storeUrl!=null){
-    this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
-    this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
-    this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
+  share() {
+    if (this.businesspro.storeUrl != null) {
+      this.businesspro.storeUrl = (this.businesspro.storeUrl).toLowerCase();
+      this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
+      this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
 
-    this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
-    this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
-    this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
+      this.streurlpre = "https://" + this.businesspro.storeUrl + ".benow.in";
+      this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
+      this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
 
     }
-    else{
-        var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
-        this.streurlpay = t ;
-        this.urlstore = t ;
-        
-        this.streurlpre = t;
-        this.streurlpaypre = t +"/pay";
-        this.urlstorepre =  t + "/store";
+    else {
+      var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode;
+      this.streurlpay = t;
+      this.urlstore = t;
+
+      this.streurlpre = t;
+      this.streurlpaypre = t + "/pay";
+      this.urlstorepre = t + "/store";
     }
   }
   getStatus(): Status {
     return this.utilsService.getStatus();
   }
 
-  arrowChange(){
+  arrowChange() {
     this.detailsExpanded = !this.detailsExpanded;
   }
 
-  changeIcon(){
+  changeIcon() {
     let a: any = document.getElementById('advance');
     a.click();
     this.arrowChange();
   }
 
-  changeIconMob(){
+  changeIconMob() {
     let a: any = document.getElementById('advanceMob');
     a.click();
     this.arrowChange();
   }
 
-  dateClickedMob(){
+  dateClickedMob() {
     let a: any = document.getElementById('expDtMob');
     a.click();
   }
 
-  dateClickedDesk(){
+  dateClickedDesk() {
     let a: any = document.getElementById('expDt');
     a.click();
   }
 
-  checkAmount(){
-    console.log(this.amount,'hsdjs');
-    
-    if(this.amount!=null && this.amount < 10){
+  checkAmount() {
+  
+    if (this.amount != null && this.amount < 10) {
       this.isAmountLess = true;
     }
-    else{
+    else {
       this.isAmountLess = false;
     }
-   
+
   }
 
-  isCreated(res: any){
-    if(res){
-      this.router.navigateByUrl('/successpaylink/'+res.paymentReqNumber);
+  isCreated(res: any) {
+    if (res) {
+      this.router.navigateByUrl('/successpaylink/' + res.amount);
     }
-    else{
+    else {
       alert('Error in creating Payment Link!');
     }
   }
 
-  onSubmit(){
+  onSubmit() {
     this.sdkService.createPaymentLink(this.user.merchantCode, this.purpose, this.amount, this.invoiceNum, this.sampleDate)
       .then(res => this.isCreated(res));
   }
 
   validateForm(): boolean {
-   
-    if(this.purpose && !this.isAmountLess){
+
+    if (this.purpose && !this.isAmountLess) {
       return true;
-    } 
-    else if(!this.purpose){
+    }
+    else if (!this.purpose) {
       return false;
-    } 
+    }
     return false;
   }
-  sharej(){
-    this.url= this.businesspro.storeUrl + ".benow.in/pay";
-    this.payshare=!this.payshare;
+  sharej() {
+    this.url = this.businesspro.storeUrl + ".benow.in/pay";
+    this.payshare = !this.payshare;
   }
   fbClick() {
-    this.suceessmsg= false;
-    this.emailtext= false;
-    this.smsucess= false;
+    this.suceessmsg = false;
+    this.emailtext = false;
+    this.smsucess = false;
     this.smstext = false;
-    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
-    this.url + '&display=popup&ref=plugin&src=share_button', '',
-     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' +
+      this.url + '&display=popup&ref=plugin&src=share_button', '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
   twitterbutton() {
-    window.open('https://twitter.com/share?url=' + this.url,'', 
-    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    window.open('https://twitter.com/share?url=' + this.url, '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
   emaiil() {
@@ -249,20 +248,20 @@ export class CreatepaymentlinkComponent implements OnInit {
     }
   }
   WhatsApp() {
-    this.suceessmsg= false;
-    this.emailtext= false;
-    this.smsucess= false;
+    this.suceessmsg = false;
+    this.emailtext = false;
+    this.smsucess = false;
     this.smstext = false;
     window.open('whatsapp://send?text=' + this.url);
   }
-  hasemail(){
-    if(this.email){
+  hasemail() {
+    if (this.email) {
       return false;
     }
     return true;
   }
-  hasSMS(){
-    if(this.mobileNumber){
+  hasSMS() {
+    if (this.mobileNumber) {
       return false;
     }
     return true;

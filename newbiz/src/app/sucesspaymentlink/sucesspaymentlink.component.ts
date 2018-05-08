@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { SDK, CampaignService, UserService, User, UtilsService, LocationService } from 'benowservices';
+import { SDK,Businesspro, CampaignService, UserService, User, UtilsService, LocationService } from 'benowservices';
 
 @Component({
   selector: 'app-sucesspaymentlink',
@@ -11,7 +11,7 @@ import { SDK, CampaignService, UserService, User, UtilsService, LocationService 
   styleUrls: ['./sucesspaymentlink.component.css']
 })
 export class SucesspaymentlinkComponent implements OnInit {
-
+  businesspro:Businesspro;
   createPaymentLink: string = '/createpaylink';
   paymentList: string = '/paymentlist';
   dashboard: string = '/dashboard';
@@ -39,7 +39,7 @@ export class SucesspaymentlinkComponent implements OnInit {
   ngOnInit() {
     this.locationService.setLocation('successpaylink');
     this.txnId = this.route.snapshot.params['id'];
-    this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
+   
 
     this.userService.getUser()
       .then(res => this.init(res));
@@ -55,10 +55,25 @@ export class SucesspaymentlinkComponent implements OnInit {
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob)){
       this.mtype = 3;
     }
+    this.userService.checkMerchant(this.user.mobileNumber, 'b')
+    .then(bres => this.initshare(bres));
 
+   
     this.whatsAppLink = 'whatsapp://send?text='+this.url;
   }
 
+  initshare(res: any) {
+    this.businesspro = res;
+    this.initstart();
+  }
+
+  initstart(){
+     if(this.businesspro.storeUrl) {
+       this.url= 'https://'+ this.businesspro.storeUrl + ".benow.in/pay/"+this.txnId;
+     } else {
+       this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
+  }
+}
   sent(res: any) {
     this.sending = false;
     if (res === true)
