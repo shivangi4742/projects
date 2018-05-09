@@ -113,7 +113,7 @@ export class CreatepaymentlinkComponent implements OnInit {
     this.share();
   }
   share() {
-    if (this.businesspro.storeUrl != null) {
+    if (this.businesspro.storeUrl) {
       this.businesspro.storeUrl = (this.businesspro.storeUrl).toLowerCase();
       this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
       this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
@@ -125,10 +125,10 @@ export class CreatepaymentlinkComponent implements OnInit {
     }
     else {
       var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode;
-      this.streurlpay = t;
-      this.urlstore = t;
+      this.streurlpay = t+ "/homepage";
+      this.urlstore = t+ "/homepage";
 
-      this.streurlpre = t;
+      this.streurlpre = t+ "/homepage";
       this.streurlpaypre = t + "/pay";
       this.urlstorepre = t + "/store";
     }
@@ -199,7 +199,11 @@ export class CreatepaymentlinkComponent implements OnInit {
     return false;
   }
   sharej() {
-    this.url = this.businesspro.storeUrl + ".benow.in/pay";
+     if(this.businesspro.storeUrl) {
+      this.url = this.businesspro.storeUrl + ".benow.in/pay";
+      } else{
+        this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/pay" ;
+      }
     this.payshare = !this.payshare;
   }
   fbClick() {

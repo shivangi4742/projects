@@ -83,7 +83,8 @@ export class DashboardComponent implements OnInit {
     if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
     }
-    if(this.businesspro.storeUrl != null){
+    console.log(this.businesspro.storeUrl,'sdjhjks');
+    if(this.businesspro.storeUrl){
     this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
     this.storeurl = "https://" + this.businesspro.storeUrl + ".benow.in";
     this.streurl = this.businesspro.storeUrl + ".benow.in";
@@ -92,15 +93,16 @@ export class DashboardComponent implements OnInit {
     this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
     this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
     this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
-    this.formLoaded= false;
+    this.formLoaded = false;
     }
     else {
+      this.user.merchantCode = (this.user.merchantCode).toUpperCase();
       var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
-      this.storeurl = t ;
-      this.streurl = t ;
+      this.storeurl = t + "/homepage";
+      this.streurl = t + "/homepage";
       this.streurlpay = t +"/pay";
       this.urlstore = t + "/store";
-      this.streurlpre = t;
+      this.streurlpre = t+ "/homepage";
       this.streurlpaypre = t +"/pay";
       this.urlstorepre =  t + "/store";
       this.formLoaded= false;
@@ -211,7 +213,11 @@ export class DashboardComponent implements OnInit {
 
   share(res: any) {
     if (res == 1) {
-      this.url = this.businesspro.storeUrl + ".benow.in";
+      if(this.businesspro.storeUrl) {
+        this.url = this.businesspro.storeUrl + ".benow.in";
+      } else {
+        this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/homepage" ;
+      }
       this.strshare = !this.strshare;
       this.payshare = false;
       this.storeshare = false;
@@ -223,7 +229,11 @@ export class DashboardComponent implements OnInit {
       this.suceessmsg = false;
     }
     if (res == 2) {
+      if(this.businesspro.storeUrl) {
       this.url = this.businesspro.storeUrl + ".benow.in/pay";
+      } else{
+        this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/pay" ;
+      }
       this.payshare = !this.payshare;
       this.strshare = false;
       this.storeshare = false;
@@ -235,7 +245,11 @@ export class DashboardComponent implements OnInit {
       this.emailtext = false;
     }
     if (res == 3) {
+      if(this.businesspro.storeUrl) {
       this.url = this.businesspro.storeUrl + ".benow.in/store";
+      } else{
+        this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store" ;
+      }
       this.storeshare = !this.storeshare;
       this.strshare = false;
       this.payshare = false;
@@ -278,7 +292,7 @@ export class DashboardComponent implements OnInit {
   emailpost() {
     this.text = this.url;
     this.subject = "";
-    this.CampaignService.sendEmail(this.email, this.text, this.subject, '')
+    this.CampaignService.sendEmail(this.email, this.text, this.subject,'')
       .then(res => this.emailposth(res));
   }
   emailposth(res: any) {

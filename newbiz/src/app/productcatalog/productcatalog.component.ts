@@ -123,17 +123,17 @@ export class ProductcatalogComponent implements OnInit {
   initshare(res:any){
     
     this.businesspro = res;
-    if(this.businesspro.storeUrl!=null){
+    if(this.businesspro.storeUrl){
     this.streurl= this.businesspro.storeUrl + ".benow.in";
     this.storenewurl=  this.businesspro.storeUrl + ".benow.in/store";
     this.streurlpre = "https://"+this.businesspro.storeUrl + ".benow.in/store";
     } else {
         var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode ;
        
-        this.streurl = t ;
-        this.storenewurl= t;
+        this.streurl = t+ "/homepage";
+        this.storenewurl= t+ "/homepage";
 
-        this.streurlpre = t;
+        this.streurlpre = t+ "/homepage";
         this.streurlpaypre = t +"/pay";
         this.urlstorepre =  t + "/store";
         
@@ -219,7 +219,11 @@ export class ProductcatalogComponent implements OnInit {
     this.url=  this.businesspro.storeUrl + ".benow.in/store";
 }
 sharep(){
-  this.url=  this.businesspro.storeUrl + ".benow.in/store";
+  if(this.businesspro.storeUrl) {
+    this.url = this.businesspro.storeUrl + ".benow.in/store";
+    } else{
+      this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store" ;
+    }
   this.sharemodalActions.emit({ action: "modal", params: ['open'] });
 }
 
