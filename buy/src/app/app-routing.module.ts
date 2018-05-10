@@ -25,6 +25,7 @@ const routes: Routes = [
     { path: 'paid/:id', component: PaymentsuccessComponent },
     { path: 'unpaid/:id', component: PaymentfailureComponent },
     { path: ':amount', component: StoreComponent },
+    { path: ':code/pay/:amount', component: StoreComponent },
     { path: 'pay/:amount', component: StoreComponent },
     { path: ':code/cart', component: CartComponent },
     { path: ':code/buyerinfo', component: BuyerinfoComponent }, 

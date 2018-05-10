@@ -74,9 +74,9 @@
                 
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="!isPaymentlink">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="isPaymentlink">₹ {{plInfo.amount | number : '1.2-2'}}</div>
-                <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="getshippingPrice()">{{'Shipping Charge' | translate}} :</div>
+                <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="getshippingPrice() && !isPaymentlink">{{'Shipping Charge' | translate}} :</div>
                 
-                <div class="col s5 carttotalpriceBN" align="right" *ngIf="getshippingPrice()">₹ {{getshippingPrice() | number : '1.2-2'}}</div>
+                <div class="col s5 carttotalpriceBN" align="right" *ngIf="getshippingPrice() && !isPaymentlink">₹ {{getshippingPrice() | number : '1.2-2'}}</div>
                 
                 <div class="col s8 carttotalpriceBN nopadleftBN" *ngIf="settings.chargeConvenienceFee">{{'Convenience Fee' | translate}} :</div>
                 <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" 
