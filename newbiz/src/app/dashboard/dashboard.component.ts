@@ -49,6 +49,10 @@ export class DashboardComponent implements OnInit {
   streurlpre: string;
   streurlpaypre : string;
   urlstorepre : string;
+  errorMobileNumber: boolean= false;
+  errorMobMsg: string|null;
+  errorEmailId: boolean = false;
+  errorEmailMsg: string|null;
   seemodalActions: any = new EventEmitter<string | MaterializeAction>();
   sharemodalActions: any = new EventEmitter<string | MaterializeAction>();
   sharelinkurlmodalActions: any = new EventEmitter<string | MaterializeAction>();
@@ -124,7 +128,7 @@ export class DashboardComponent implements OnInit {
         this.displayTransactions = this.payments.length;
       }
 
-      for (let i: number = 0; i < this.displayTransactions; i++) {
+      for (let i: number = 0; i < this.displayTransactions; i++) { 
         pmnts.push(new Payment(res.payments[i].hasCashback, res.payments[i].amount, res.payments[i].status, res.payments[i].cbAmount,
           res.payments[i].id, res.payments[i].tr, res.payments[i].till, res.payments[i].mode, res.payments[i].vPA,
           res.payments[i].merchantVPA, res.payments[i].dateAndTime, res.payments[i].cbTid, res.payments[i].cbMode, res.payments[i].hasProducts,
@@ -319,15 +323,16 @@ export class DashboardComponent implements OnInit {
     window.open('whatsapp://send?text=' + this.url);
   }
   hasemail() {
-    if (this.email) {
+    if (this.email && /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.email)) {
       return false;
     }
     return true;
   }
   hasSMS() {
-    if (this.mobileNumber) {
+    if (this.mobileNumber && /^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/.test(this.mobileNumber) ){
       return false;
     }
     return true;
   }
+
  }
