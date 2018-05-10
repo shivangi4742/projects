@@ -221,7 +221,7 @@ export class ProductcatalogComponent implements OnInit {
   sharep(id: any) {
     this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
     if (this.businesspro.storeUrl) {
-      this.url = this.businesspro.storeUrl + ".benow.in/"+ this.user.merchantCode +"product/" + id;
+      this.url = this.businesspro.storeUrl + ".benow.in/"+ this.user.merchantCode +"/product/" + id;
     } else {
       this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode + "/product/" + id;
     }
