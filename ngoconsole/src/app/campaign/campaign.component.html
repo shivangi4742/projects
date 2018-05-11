@@ -55,6 +55,36 @@
                       <input [disabled]="uploading" title="{{bannerImage() | translate}}" accept=".jpg, .jpeg, .png" id="uploadImg" type="file"
                         (change)="fileChange($event)">
                     </div>
+                    <div materialize="modal" id="imageCropModal" class="modal" [materializeParams]="[{dismissible: false}]"
+                         [materializeActions]="modalActions2">
+                      <div class="modal-content" id="imageCropModalContent">
+                        <!--<div *ngIf="!isImageSmall" class="row">
+                          <div class="col s12">
+                            <img-cropper #cropper [image]="data" [settings]="cropperSettings" ></img-cropper>
+                          </div>
+                          <div class="col s12">
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="saveImage()">{{'Done' | translate}}</div>
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+                          </div>
+                        </div>-->
+                        <div class="row">
+                          <div class="col s12">
+                            <img-cropper #cropperSmall [image]="dataSmall" [settings]="cropperSettingsSmall" ></img-cropper>
+                          </div>
+                          <div class="col s12">
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="saveImageSmall()">{{'Done' | translate}}</div>
+                            <div class="col s2"></div>
+                            <div class="buttonModalBN linkButtonBN col s3" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+                          </div>
+                          <div class="col s12 center white">
+                            <img [src]="dataSmall.image" >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div *ngIf="!sdk.isButton" [ngClass]="uploading ? 'file-field input-field workingBN hide-on-med-and-up' : 'file-field input-field hide-on-med-and-up'">
                       <img *ngIf="!uploading && !sdk.imageURL" class="featuredImageSmallBN responsive-img"
                         title="{{'No Campaign Image Selected' | translate}}" src="../../assets/shared/images/no-image-wide.png" />

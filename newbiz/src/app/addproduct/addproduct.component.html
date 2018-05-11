@@ -49,6 +49,20 @@
       </div>
     </div>
     <div class="row"></div>
+      <div materialize="modal" id="imageModal" class="modal modal-fixed-footer successModalBN" [materializeParams]="[{dismissible: false}]"
+           [materializeActions]="modalActions2">
+        <div *ngIf="isImageOptimizing()" class="row">
+          <div class="col s12 center ">
+            <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+          </div>
+          <div class="col s12">
+            <div class="col m3 l3 hide-on-small-only"></div>
+            <div class="buttonModalBN linkButtonBN col s5 offset-s1 m3 l3 center" style="margin-right: 5px;" (click)="saveImage()">{{'Confirm' | translate}}</div>
+            <div class="buttonModalBN linkButtonBN col s5 m3 l3 center" style="padding: 0px" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
+            <div class="col m3 l3 hide-on-small-only"></div>
+          </div>
+        </div>
+      </div>
     <div *ngIf="newProduct.productType == 'Lifestyle'" class="col s12">
       <div class="col s12 typeBN">
         {{'Lifestyle' | translate}}

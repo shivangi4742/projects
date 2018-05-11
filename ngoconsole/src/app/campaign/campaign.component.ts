@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, AfterViewInit, ViewChild } from '@angu
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
+import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { MaterializeAction } from 'angular2-materialize';
 
 import { FileService, UtilsService, User, UserService, Product, ProductService, CampaignService, SDKService, Status, HelpService, Campaign, CampaignList, SDK } from 'benowservices';
@@ -66,14 +67,38 @@ export class CampaignComponent implements OnInit, AfterViewInit {
   modalActions2: any = new EventEmitter<string | MaterializeAction>();
   allCampaigns: Array<Campaign>;
   campaignList: Array<CampaignList>;
+  //cropperSettings: CropperSettings;
+  cropperSettingsSmall: CropperSettings;
   //data: any;
   dataSmall: any;
   isImageSmall: boolean = true;
   @ViewChild(SelectproductsComponent) spc: SelectproductsComponent;
+  @ViewChild('cropper', undefined) cropper: ImageCropperComponent;
+  @ViewChild('cropperSmall', undefined) cropperSmall: ImageCropperComponent;
 
   constructor(private translate: TranslateService, private fileService: FileService, private utilsService: UtilsService,
     private userService: UserService, private productService: ProductService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private sdkService: SDKService, private helpService: HelpService) {
+    /*this.cropperSettings = new CropperSettings();
+    this.cropperSettings.minWidth = 480;
+    this.cropperSettings.minHeight = 150;
+    this.cropperSettings.croppedWidth = 480;
+    this.cropperSettings.croppedHeight = 150;
+    this.cropperSettings.canvasWidth = 480;
+    this.cropperSettings.canvasHeight = 150;
+    this.cropperSettings.noFileInput = true;
+    this.cropperSettings.keepAspect = true;*/
+
+    this.cropperSettingsSmall = new CropperSettings();
+    this.cropperSettingsSmall.canvasWidth = 480;
+    this.cropperSettingsSmall.canvasHeight = 150;
+    this.cropperSettingsSmall.minWidth = 5;
+    this.cropperSettingsSmall.minHeight = 3;
+    this.cropperSettingsSmall.noFileInput = true;
+    this.cropperSettingsSmall.keepAspect = false;
+    this.cropperSettingsSmall.preserveSize = true;
+
+    /*this.data = {};*/
     this.dataSmall = {};
   }
 
@@ -316,6 +341,64 @@ export class CampaignComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /*imgOptimize(file: File) {
+    var image: any = new Image();
+    var myReader: FileReader = new FileReader();
+    let me = this;
+
+    myReader.onloadend = function (loadEvent: any) {
+      image.src = loadEvent.target.result;
+      me.cropper.setImage(image);
+    };
+    myReader.readAsDataURL(file);
+  }*/
+
+  imgOptimizeSmall(file: File) {
+    var image: any = new Image();
+    var myReader: FileReader = new FileReader();
+    let me = this;
+
+    myReader.onloadend = function (loadEvent: any) {
+      image.src = loadEvent.target.result;
+      me.cropperSmall.setImage(image);
+    };
+    myReader.readAsDataURL(file);
+  }
+
+  closeImgOpti() {
+    this.modalActions2.emit({ action: "modal", params: ['close'] });
+  }
+
+  /*saveImage() {
+    if (this.data.image) {
+      let a = (this.data.image).split(/,(.+)/)[1];
+      var blob = this.utilsService.b64toBlob(a, 'image/png', '');
+      var file = new File([blob], 'Test.png', { type: 'image/png', lastModified: Date.now() });
+      this.uploading = true;
+
+      this.fileService.upload(file, "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+    }
+    else {
+      this.utilsService.setStatus(true, false, 'Please select an image!');
+    }
+    this.modalActions2.emit({ action: "modal", params: ['close'] });
+  }*/
+
+  saveImageSmall() {
+    if (this.dataSmall.image) {
+      let a = (this.dataSmall.image).split(/,(.+)/)[1];
+      var blob = this.utilsService.b64toBlob(a, 'image/png', '');
+      var file = new File([blob], 'Test.png', { type: 'image/png', lastModified: Date.now() });
+      this.uploading = true;
+
+      this.fileService.upload(file, "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+    }
+    else {
+      this.utilsService.setStatus(true, false, 'Please select an image!');
+    }
+    this.modalActions2.emit({ action: "modal", params: ['close'] });
+  }
+
   fileChange(e: any) {
     if (!this.uploading && e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
@@ -344,7 +427,8 @@ export class CampaignComponent implements OnInit, AfterViewInit {
             }
           };
 
-          this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
+          this.imgOptimizeSmall(e.target.files[0]);
+          this.modalActions2.emit({ action: "modal", params: ['open'] });
         }
         e.target.value = '';
       }
