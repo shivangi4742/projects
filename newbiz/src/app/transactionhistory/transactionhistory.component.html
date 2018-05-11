@@ -93,7 +93,8 @@
                 <br> {{p.phone}}<br>{{p.address}}<br>{{p.pin}} - {{p.city}}<br>{{p.state}}</div>
               <div class="col  s12 m3 l3 truncate secondFieldBN center" ><b>{{'Payment For' | translate}}</b> <br> {{p.description}}
               <br> 
-              <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b></span></div>
+              <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b><br /><br />
+                <b class="linkButtonBN textcolorBN" (click)="printReceipt(p)">{{'Download Invoice' | translate}}</b></span></div>
             </div>
           </div>
         </li>

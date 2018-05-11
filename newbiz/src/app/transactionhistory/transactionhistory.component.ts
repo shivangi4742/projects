@@ -4,7 +4,8 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from 'ng2-translate';
 import { MaterializeAction } from 'angular2-materialize';
 
-import { User, UserService, TransactionService, Transaction,ProductService,  Product, UtilsService, Payment, LocationService } from 'benowservices';
+import { User, UserService, TransactionService, Transaction,ProductService,  Product, UtilsService, Payment, LocationService,
+  SDKService } from 'benowservices';
 
 @Component({
   selector: 'app-transactionhistory',
@@ -32,7 +33,8 @@ export class TransactionhistoryComponent implements OnInit {
   successCSV: boolean = false;
   seemodalActions: any = new EventEmitter<string|MaterializeAction>();
   constructor(private locationService: LocationService, private userService: UserService, private transactionService: TransactionService,
-              private utilsService: UtilsService, private sanitizer: DomSanitizer, private productservice: ProductService,private translate: TranslateService) { }
+              private utilsService: UtilsService, private sanitizer: DomSanitizer, private productservice: ProductService,
+              private translate: TranslateService, private sdkService: SDKService) { }
 
   ngOnInit() {
     this.locationService.setLocation('transactionhistory');
@@ -164,6 +166,10 @@ export class TransactionhistoryComponent implements OnInit {
         console.log('Not a HB');
       }
     }
+  }
+
+  printReceipt(txn: Payment) {
+    this.sdkService.getInvoice(this.user.merchantCode, txn.id);
   }
 
   createMyBizCSV(res: Transaction, id:string) {
