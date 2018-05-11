@@ -1,6 +1,6 @@
 <div materialize>
   <div class="row"></div>
-  <div class="row mainBodyBN">
+  <div class="row mainBodyBN" *ngIf="businesspro">
     <div class="col s12 noLeftPaddingBN">
       <a class="linkButtonBN dashboardRedirectBN" [routerLink]="catalogue">
         <i class="material-icons alignMidBN">arrow_back</i>
@@ -158,7 +158,7 @@
                 <label for="cDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
-              <div class="input-field col s12">
+              <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
                 <input id="Shipping" name="Shipping" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                   placeholder="{{'Shipping charge of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
@@ -401,7 +401,7 @@
                 <label for="fbDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
-              <div class="input-field col s12">
+              <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
                 <input id="Deliverycharge" name="Deliverycharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                   placeholder="{{'Delivery Charge of the product' | translate}}" style="margin-bottom: 15px" 
                 />
@@ -688,7 +688,7 @@
               <label for="oDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
-            <div class="input-field col s12">
+            <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
               <input id="oshippingcharge" name="oshippingcharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                 placeholder="{{'Shipping Charge of the product' | translate}}" style="margin-bottom: 10px"
               />

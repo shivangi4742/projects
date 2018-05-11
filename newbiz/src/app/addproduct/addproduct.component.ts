@@ -97,6 +97,7 @@ export class AddproductComponent implements OnInit {
 
     this.userService.getUser()
       .then(res => this.init(res));
+      
 
     this.dateParams = [{
       format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 10, min: this.utilsService.getCurDateString(), monthsFull: this.monthsFull,
@@ -489,6 +490,7 @@ export class AddproductComponent implements OnInit {
     this.selectProdType('Lifestyle');
     this.newProdCheck = true;
     this.modalActions.emit({ action: "modal", params: ['close'] });
+    this.router.navigateByUrl('catalogue')
   }
 
   onSubmit(){
