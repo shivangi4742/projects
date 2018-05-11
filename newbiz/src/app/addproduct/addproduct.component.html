@@ -685,16 +685,19 @@
             <label for="shipchrge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
             <span *ngIf="shippingcharg" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-         
+          
       </div>
     </div>
       <div class="row"></div>
       <div class="row valign-wrapper">
         <div class="col s12 center">
           <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="create"
-                  [disabled]="!prodForm.form.valid || checkForm()">{{'ADD TO STORE' | translate}}</button>
+                 >{{'ADD TO STORE' | translate}}</button>
+                 <div class= "row"> </div>
+                 <span class="col s12 center err" *ngIf= "errSubmit " >Please fill the fields marked with * </span>
         </div>
       </div>
+      
     </form>
   </div>
 </div>

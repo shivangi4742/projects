@@ -74,6 +74,7 @@ export class AddproductComponent implements OnInit {
   price: string;
   isdisprice: boolean = false;
   idis:string;
+  errSubmit: boolean= false;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
@@ -111,6 +112,7 @@ export class AddproductComponent implements OnInit {
         tag: 'Red',
         image: '../../assets/shared/images/redCircle.png'
       }],*/
+      
       placeholder: '+Color',
       secondaryPlaceholder: 'Done',
       autocompleteOptions: {
@@ -173,7 +175,9 @@ export class AddproductComponent implements OnInit {
   }
 
   addProdColor(res: any){
+
     this.newProduct.color = res.tag;
+
   }
 
   clearProdColor(){
@@ -445,7 +449,7 @@ export class AddproductComponent implements OnInit {
           }
         }
       }
-      if(!this.newProduct.color){
+      if(!this.newProduct.color ){
         return true;
       }
     }
@@ -490,18 +494,25 @@ export class AddproductComponent implements OnInit {
     this.selectProdType('Lifestyle');
     this.newProdCheck = true;
     this.modalActions.emit({ action: "modal", params: ['close'] });
-    this.router.navigateByUrl('catalogue')
+    this.router.navigateByUrl('/catalogue');
   }
-
+  
   onSubmit(){
+    this.errSubmit= true;
+    if(!this.checkForm()){
+      this.errSubmit= false;
     this.newProduct.prodSizes = this.prodSizes;
     this.newProduct.prodImgUrls = this.imageUrls;
     this.newProduct.variants = this.variants;
-    console.log('Submitted!', this.newProduct);
     this.productService.addProductHB(this.user.merchantCode, this.newProduct)
       .then(res => this.added(res));
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
   }
+  else {
+       this.errSubmit= true;
+ }
+
+}
 }
