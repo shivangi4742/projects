@@ -11,6 +11,7 @@ import { resolve } from 'url';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  loaded:boolean= false;
   accountpro: Accountpro;
   codEnabled: boolean = false;
   formLoaded: boolean = true;
@@ -70,6 +71,7 @@ export class SettingsComponent implements OnInit {
   exchfaulty: boolean = true;
   filchange: boolean = false;
   storeerr:boolean = false;
+  unavilable:boolean = false;
   dlocality = new Array<Locality>();
   
   
@@ -124,7 +126,7 @@ export class SettingsComponent implements OnInit {
     this.storeservice.fetchStoreimagDetais(this.user.email, this.user.id)
       .then(res => this.logourl(res));
 
-    //this.storeurlcheck();
+    
   }
   
   logourl(res) {
@@ -163,6 +165,13 @@ export class SettingsComponent implements OnInit {
     }
     else {
       this.publicphonenumber = false;
+    }
+    if(!this.businesspro.storeUrl){  
+       this.storeurlcheck();
+    }
+    else {
+      this.avilable = false;
+      this.unavilable = false;
     }
   }
   bind(res: any) {
@@ -435,6 +444,7 @@ export class SettingsComponent implements OnInit {
   }
 
   businesssetting1() {
+    this.storeurl();
     this.businessset = !this.businessset;
     this.isShipped = false;
     this.isReturn = false;
@@ -501,11 +511,7 @@ export class SettingsComponent implements OnInit {
 
   }
   returnploicysave() { 
-    console.log(this.businesspro.contactSeller, this.businesspro.noReturnExchange, this.businesspro.productExchange, this.businesspro.productExchangeDay, this.businesspro.productReturnOrExchange, this.businesspro.productReturnOrExchangeDay, this.businesspro.returnAvailable,
-      this.businesspro.returnsAvailableDay, this.businesspro.noExchangeFlage, this.businesspro.noReturnFlage, this.businesspro.publicPhoneNumber, this.businesspro.publicEmail, this.businesspro.storeUrl, this.businesspro.storeImgUrl,
-      this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
-      this.businesspro.area,this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd,'fhjkdshfkdkfjkddkkkkkkkkkkkkkkkkkkkkkk');
-     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+        this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -567,6 +573,7 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.bankdetails());
   }
   businesssave(){
+    if(!this.storeerr && this.avilable) {
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -576,6 +583,7 @@ export class SettingsComponent implements OnInit {
       this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
       this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
     ).then(res => this.accountdetail());
+  }
 
   }
   saveaccount() {
@@ -691,8 +699,14 @@ export class SettingsComponent implements OnInit {
     return this.businesspro.contactPerson && this.user.email && this.user.mobileNumber;
   }
   hasAllFields1() {
-    return !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
+    if(!this.businesspro.storeUrl) {
+    return this.avilable && !this.storeerr && !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+    } else {
+      return  !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
+      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+
+    }
   }
   hasAllFields2() {
     return !this.errpancard && this.accountpro.panNumber;
@@ -964,26 +978,36 @@ export class SettingsComponent implements OnInit {
   storeurl(){
     var p = this.businesspro.storeUrl;
     var t = p.replace(/\s/g,'');
-    this.businesspro.storeUrl = t;
+    var t1 = t.toLowerCase();
+    this.businesspro.storeUrl = t1;
     if (((/^[a-zA-Z0-9\-\s]+$/).test(this.businesspro.storeUrl)) &&  this.businesspro.storeUrl != 'benow' &&  this.businesspro.storeUrl != 'givnow' &&  this.businesspro.storeUrl!= 'givnow' &&  this.businesspro.storeUrl != 'pay' &&  this.businesspro.storeUrl!= 'merchant') {
      this.storeerr = false;
-     //this.storeurlcheck();
+     this.loaded= true;
+     this.storeurlcheck();
   }  else {
+    this.loaded= false;
     this.storeerr= true;
   }
    
   }
   storeurlcheck(){
+    this.loaded= true;
+    this.avilable = false;
+    this.unavilable = false;
     this.userService.storavailable(this.businesspro.storeUrl)
       .then(res => this.storecheckavailable(res));
 
   }
   storecheckavailable(res:any){
-    console.log(res);
+    this.loaded= false;
     if(res.data.responseFromAPI == false){
-       this.avilable= true;
-    } else{
-      this.avilable= false;
+      this.loaded= false;
+       this.avilable = true;
+       this.unavilable = false;
+    } else {
+      this.loaded= false;
+      this.avilable = false;
+      this.unavilable = true;
     }
   }
   
