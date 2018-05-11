@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter, AnimationKeyframe } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { LocationService, User, UserService, ProductService, Accountpro, Businesspro, CampaignService, Transaction, Payment, TransactionService, UtilsService } from 'benowservices';
+import { LocationService, User, UserService, ProductService, Accountpro, Businesspro, CampaignService, Transaction, Payment, 
+  TransactionService, UtilsService, SDKService } from 'benowservices';
 import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
@@ -57,7 +58,8 @@ export class DashboardComponent implements OnInit {
   sharemodalActions: any = new EventEmitter<string | MaterializeAction>();
   sharelinkurlmodalActions: any = new EventEmitter<string | MaterializeAction>();
   constructor(private locationService: LocationService, private productservice: ProductService, private userService: UserService, private utilsService: UtilsService,
-    private transactionService: TransactionService, private router: Router, private CampaignService: CampaignService) { }
+    private transactionService: TransactionService, private router: Router, private CampaignService: CampaignService,
+    private sdkService: SDKService) { }
 
   ngOnInit() {
     this.locationService.setLocation('dashboard');
@@ -196,8 +198,11 @@ export class DashboardComponent implements OnInit {
     this.dateRange = +v;
   }
 
+  printReceipt(txn: Payment) {
+    this.sdkService.getInvoice(this.user.merchantCode, txn.id);
+  }
+
   seedetails(res: any) {
-    console.log(res);
     this.paymnt = res;
     this.productservice.getProductsForTransaction('', res.id)
       .then(res => this.selecting(this.paymnt));

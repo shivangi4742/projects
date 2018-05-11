@@ -31,6 +31,7 @@ export class SDKService {
         get80GURL: 'sdk/get80G',
         send80GURL: 'sdk/send80G',
         getHashURL: 'sdk/getHash',
+        getInvoiceURL: 'sdk/getInvoice',
         createBillURL: 'sdk/createBill',
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
@@ -232,6 +233,26 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    getInvoice(merchantCode: string, txnId: string): Promise<any> {
+        if(txnId && merchantCode) {
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getInvoiceURL,
+                    { "txnId": txnId, "merchantCode": merchantCode },
+                    { headers: this.utilsService.getPDFHeaders(), responseType: ResponseContentType.Blob })
+                .toPromise()
+                .then(response => {
+                    let fileBlob = response.blob();
+                    let blob = new Blob([fileBlob], {
+                        type: 'application/pdf'
+                    });
+                    FileSaver.saveAs(blob, txnId + '.pdf');
+                })
+                .catch(res => null);
+        }
+
+        return Promise.resolve(null);
     }
 
     get80G(campaignId: string, txnId: string): Promise<any> {

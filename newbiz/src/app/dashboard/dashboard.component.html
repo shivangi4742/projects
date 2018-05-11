@@ -585,7 +585,8 @@
               <b>{{'Payment For' | translate}}</b>
               <br> {{p.description}}
               <span *ngIf="p.products">
-                <b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b>
+                <b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b><br /><br />
+                <b class="linkButtonBN textcolorBN" (click)="printReceipt(p)">{{'Download Invoice' | translate}}</b>
               </span>
             </div>
           </div>
