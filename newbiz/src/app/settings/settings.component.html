@@ -517,16 +517,32 @@
               <div class="input-field col col s10 m5 l5 regNrmS4BN">
                 <input id="DisplayName" name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="{{'Enter Store URL' | translate}}"
                   [(ngModel)]="businesspro.storeUrl" (keyup)="storeurl()"/>
-              
+                 
               <span *ngIf="storeerr" class="errNrmS6BN">{{"Special character is not allowed!"}}</span>
             </div>
-            <div class="input-field col s2 m5 l5 regNrmS4BN">
-              
+            <div class="input-field col s12 m5 l5 regNrmS4BN">
+              <div class="col s12 center NrmS6BN" *ngIf="avilable">Available</div>
+              <div class="col s12 center errNrmS6BN" *ngIf="unavilable">Unavailable</div>
+              <div  class="col s12 center" *ngIf="loaded">
+                <div class="preloader-wrapper active strurlBN">
+                  <div class="spinner-layer spinner-red-only strurlBN">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
           </div>
             <div class="row busDetails detailBodyBN mrgnBn">
               <span class="col s12 heBN">{{"Business Name" |translate}}</span>
-              <div class="input-field col col s12 m5 l5 regNrmS4BN">
+              <div class="input-field col s12 m5 l5 regNrmS4BN">
                 <input id="businessName" name="businessName" type="text" class="inputboxBN inputBN validate" placeholder="{{'Enter Business Name' | translate}}"
                   [(ngModel)]="businesspro.businessName" (keyup)="validatebusiness()" />
                 <span *ngIf="errbusinessvalidate" class="errNrmS6BN">{{errorbusiness}}</span>

@@ -433,7 +433,7 @@
                       <div class="col s12 noLeftPaddingBN">
                         <div class="input-field col s12">
                           <input id="{{ad.id}}+name" name="{{ad.id}}+name" type="text" [(ngModel)]="ad.variantCode" class="validate inputTextBN"
-                                 placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
+                                 placeholder="{{'Name of add-on' | translate}}" maxlength="50" required/>
                           <label for="{{ad.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
                         </div>
                         <div class="input-field col s12 ">
@@ -476,7 +476,7 @@
                 <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
                   <div class="input-field col s12">
                     <input id="{{a.id}}+name" name="{{a.id}}" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN" placeholder="{{'Name of add-on' | translate}}"
-                      maxlength="20" required/>
+                      maxlength="50" required/>
                     <label for="{{a.id}}+name" class="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
                   </div>
                   <div class="input-field col s12 ">
@@ -530,7 +530,7 @@
           <div class="row"></div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20" placeholder="{{'Enter the Title of your Event/Workshop' | translate}}"
+              <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="50" placeholder="{{'Enter the Title of your Event/Workshop' | translate}}"
                 required />
               <label for="eTitle" class="active labelPLBN">{{'Event Title*' | translate}}</label>
             </div>
