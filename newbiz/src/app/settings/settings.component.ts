@@ -166,7 +166,13 @@ export class SettingsComponent implements OnInit {
     else {
       this.publicphonenumber = false;
     }
-    this.storeurlcheck();
+    if(!this.businesspro.storeUrl){  
+       this.storeurlcheck();
+    }
+    else {
+      this.avilable = false;
+      this.unavilable = false;
+    }
   }
   bind(res: any) {
     if (res && res.id) {
@@ -693,8 +699,14 @@ export class SettingsComponent implements OnInit {
     return this.businesspro.contactPerson && this.user.email && this.user.mobileNumber;
   }
   hasAllFields1() {
+    if(!this.businesspro.storeUrl) {
     return this.avilable && !this.storeerr && !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+    } else {
+      return  !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
+      && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address;
+
+    }
   }
   hasAllFields2() {
     return !this.errpancard && this.accountpro.panNumber;
@@ -964,10 +976,10 @@ export class SettingsComponent implements OnInit {
 
   }
   storeurl(){
-    console.log('dhh');
     var p = this.businesspro.storeUrl;
     var t = p.replace(/\s/g,'');
-    this.businesspro.storeUrl = t;
+    var t1 = t.toLowerCase();
+    this.businesspro.storeUrl = t1;
     if (((/^[a-zA-Z0-9\-\s]+$/).test(this.businesspro.storeUrl)) &&  this.businesspro.storeUrl != 'benow' &&  this.businesspro.storeUrl != 'givnow' &&  this.businesspro.storeUrl!= 'givnow' &&  this.businesspro.storeUrl != 'pay' &&  this.businesspro.storeUrl!= 'merchant') {
      this.storeerr = false;
      this.loaded= true;

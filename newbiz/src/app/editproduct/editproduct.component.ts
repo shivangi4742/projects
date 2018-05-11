@@ -392,9 +392,7 @@ export class EditproductComponent implements OnInit {
       .then(res  => this.onsubmitpost(res));
   }
   onsubmitpost(res:any){
-   console.log(res);
-   if(res)
-   {
+   if(res) {
      this.subsucees= true;
    }
   }
