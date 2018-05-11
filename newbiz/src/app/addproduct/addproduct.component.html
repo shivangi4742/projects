@@ -52,7 +52,7 @@
       <div materialize="modal" id="imageModal" class="modal modal-fixed-footer successModalBN" [materializeParams]="[{dismissible: false}]"
            [materializeActions]="modalActions2">
         <div *ngIf="isImageOptimizing()" class="row">
-          <div class="col s12 center">
+          <div class="col s12 center ">
             <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
           </div>
           <div class="col s12">
@@ -71,7 +71,7 @@
       <div class="row" >
         <div class="col s12 m5 l5">
           <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-            {{'Product Image' | translate}}
+            {{'Product Image*' | translate}}
           </div>
           <div class="col s12 firstImgBN">
             <div class="col s10 file-field noMarginPaddingBN">
@@ -322,7 +322,7 @@
         <div class="row">
           <div class="col s12 m5 l5">
             <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
+              {{'Product Image*' | translate}}
             </div>
             <div class="col s12 firstImgBN">
               <div class="col s10 file-field noMarginPaddingBN">
@@ -577,7 +577,7 @@
           <div class="row"></div>
         <div class="col s12">
             <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
+              {{'Product Image*' | translate}}
             </div>
             <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
               <div class="col s11 noMarginPaddingBN center">
@@ -622,7 +622,7 @@
       <div class="row">
         <div class="col s12">
           <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-            {{'Product Image' | translate}}
+            {{'Product Image*' | translate}}
           </div>
           <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
             <div class="col s11 noMarginPaddingBN center">
