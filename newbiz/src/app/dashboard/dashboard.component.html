@@ -123,9 +123,11 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(1)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied3" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied3 = true">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class= "row"> </div>
+        <span *ngIf= "isCopied3 && !isCopied1 &&!isCopied2">Link is copied!</span>
       </div>
     </div>
     <div class="row hide-on-small-only">
@@ -140,9 +142,12 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(1)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied3" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied3 = true" (cbOnSuccess)="isCopied2 = false " (cbOnSuccess)="isCopied1 = false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class= "row"> </div>
+        <span *ngIf= "isCopied3 && !isCopied1 &&!isCopied2">Link is copied!</span>
+
       </div>
     </div>
 
@@ -253,9 +258,11 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true" (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class ="row"></div>
+        <span *ngIf= "isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
       </div>
 
     </div>
@@ -271,9 +278,11 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true" (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class ="row"></div>
+        <span *ngIf= "isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
       </div>
 
     </div>
@@ -388,9 +397,11 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true" (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class ="row"></div>
+        <span *ngIf= "isCopied1 && !isCopied2 &&!iscopied3">Link is copied! </span>
       </div>
     </div>
     <div class="row hide-on-med-and-up">
@@ -406,9 +417,11 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true" (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
+        <div class ="row"></div>
+        <span *ngIf= "isCopied1 && !isCopied2 &&!isCopied3">Link is copied! </span>
       </div>
     </div>
     <div class="row center hide-on-small-only" *ngIf="storeshare">

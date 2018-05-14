@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   streurl: string;
   isCopied1: boolean = false;
   isCopied2: boolean = false;
+  isCopied3: boolean= false;
   smsucess: boolean = false;
   emailtext: boolean = false;
   strshare: boolean = false;
