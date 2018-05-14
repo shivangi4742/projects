@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
   storeerr:boolean = false;
   unavilable:boolean = false;
   dlocality = new Array<Locality>();
-  
+  storeUrl:string
   
   constructor(private translate: TranslateService,private storeservice: StoreService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
@@ -147,7 +147,7 @@ export class SettingsComponent implements OnInit {
 
   businessprfo(res: any) {
       this.businesspro = res;
-      console.log(this.businesspro,'hehe');
+     
     if (this.businesspro && this.businesspro.contactPerson) {
       this.editt = true;
     }
@@ -444,7 +444,7 @@ export class SettingsComponent implements OnInit {
   }
 
   businesssetting1() {
-    this.storeurl();
+    
     this.businessset = !this.businessset;
     this.isShipped = false;
     this.isReturn = false;
@@ -454,6 +454,8 @@ export class SettingsComponent implements OnInit {
     this.isPanExpanded = false;
     this.isPaymentExpanded = false;
     this.ispan1Expanded = false;
+    this.loaded= false;
+    this.storeurl();
   }
   coddetail() {
     window.scrollTo(0, 0);
@@ -573,7 +575,7 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.bankdetails());
   }
   businesssave(){
-    if(!this.storeerr && this.avilable) {
+   this.businesspro.storeUrl = this.storeUrl;
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
@@ -583,7 +585,8 @@ export class SettingsComponent implements OnInit {
       this.businesspro.shipTimeType, this.businesspro.shipTimeInterval, this.businesspro.allOverIndia, this.businesspro.selectLocalities,
       this.businesspro.area, this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd
     ).then(res => this.accountdetail());
-  }
+ 
+  
 
   }
   saveaccount() {
@@ -785,7 +788,6 @@ export class SettingsComponent implements OnInit {
   }
 
   uploadedbannerImage(res: any, me: any) {
-    console.log(res, 'res');
     if (res && res.success) {
 
       me.uploadbannnerURL = res.documentUrl;
@@ -975,12 +977,13 @@ export class SettingsComponent implements OnInit {
     this.businesspro.returnsAvailableDay = '';
 
   }
-  storeurl(){
-    var p = this.businesspro.storeUrl;
+  storeurl() {
+    this.loaded= false;
+    var p = this.storeUrl;
     var t = p.replace(/\s/g,'');
     var t1 = t.toLowerCase();
-    this.businesspro.storeUrl = t1;
-    if (((/^[a-zA-Z0-9\-\s]+$/).test(this.businesspro.storeUrl)) &&  this.businesspro.storeUrl != 'benow' &&  this.businesspro.storeUrl != 'givnow' &&  this.businesspro.storeUrl!= 'givnow' &&  this.businesspro.storeUrl != 'pay' &&  this.businesspro.storeUrl!= 'merchant') {
+    this.storeUrl = t1;
+    if (((/^[a-zA-Z0-9\-\s]+$/).test(this.storeUrl)) &&  this.storeUrl != 'benow' &&  this.storeUrl != 'givnow' &&  this.storeUrl!= 'givnow' &&  this.storeUrl != 'pay' &&  this.storeUrl!= 'merchant') {
      this.storeerr = false;
      this.loaded= true;
      this.storeurlcheck();
@@ -994,7 +997,7 @@ export class SettingsComponent implements OnInit {
     this.loaded= true;
     this.avilable = false;
     this.unavilable = false;
-    this.userService.storavailable(this.businesspro.storeUrl)
+    this.userService.storavailable(this.storeUrl)
       .then(res => this.storecheckavailable(res));
 
   }
@@ -1010,7 +1013,6 @@ export class SettingsComponent implements OnInit {
       this.unavilable = true;
     }
   }
-  
 }
 
 

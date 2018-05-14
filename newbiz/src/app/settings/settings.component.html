@@ -514,12 +514,16 @@
             </div>
             <div class="row busDetails detailBodyBN mrgnBn" >
               <span class="col s12 heBN">{{"Store URL" |translate}}</span>
-              <div class="input-field col col s10 m5 l5 regNrmS4BN">
-                <input id="st" [readonly]="businesspro.storeUrl" name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="{{'Enter Store URL' | translate}}"
-                  [(ngModel)]="businesspro.storeUrl" (keyup)="storeurl()"/>
+              <div class="input-field col col s10 m5 l5 regNrmS4BN" *ngIf="!businesspro.storeUrl">
+                <input id="st"  name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="{{'Enter Store URL' | translate}}"
+                  [(ngModel)]="storeUrl" (keyup)="storeurl()"/>
                  
               <span *ngIf="storeerr" class="errNrmS6BN">{{"Special character is not allowed!"}}</span>
             </div>
+            <div class="input-field col col s10 m5 l5 regNrmS4BN" *ngIf="businesspro.storeUrl">
+              <input id="st" [readonly]="true" name="DisplayName" type="text" class="inputboxBN inputBN  validate" placeholder="{{'Enter Store URL' | translate}}"
+                [(ngModel)]="businesspro.storeUrl" />
+          </div>
             <div class="input-field col s12 m5 l5 regNrmS4BN">
               <div class="col s12 center NrmS6BN" *ngIf="avilable">Available</div>
               <div class="col s12 center errNrmS6BN" *ngIf="unavilable">Unavailable</div>
