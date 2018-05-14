@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit {
       this.suceessmsg = false;
       this.smsucess = true;
     }
-  } 
+  }    
   WhatsApp() {
     window.open('whatsapp://send?text=' + this.url);
   }
