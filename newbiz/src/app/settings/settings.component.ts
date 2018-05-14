@@ -575,7 +575,10 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.bankdetails());
   }
   businesssave(){
-   this.businesspro.storeUrl = this.storeUrl;
+    
+    if(this.storeUrl){
+    this.businesspro.storeUrl = this.storeUrl;
+    }
     this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
