@@ -15,6 +15,7 @@ export class ReoprterrorComponent implements OnInit {
   merchantName: string;
   msg:string;
   err: boolean = false;
+  cc:string;
   constructor(private CampaignService:CampaignService, private activatedRoute: ActivatedRoute, private storeService: StoreService) { }
 
   ngOnInit() {
@@ -32,8 +33,8 @@ export class ReoprterrorComponent implements OnInit {
   }
 
   send() {
-    this.CampaignService.sendEmail(this.email, this.description,'Complain registered against ' + this.merchantCode + ' - ' + 
-      this.merchantName, '')
+    this.CampaignService.sendEmail(this.email, this.description,'Register complain against ' + this.merchantCode + ' - ' + 
+      this.merchantName, this.cc)
      .then(res => this.sendpost(res));
   }
   sendpost(res:any){
@@ -47,6 +48,6 @@ export class ReoprterrorComponent implements OnInit {
    }
   }
   hasrequired(){
-    return this.description && this.email;
+    return this.description && this.email && this.cc;
   }
 }

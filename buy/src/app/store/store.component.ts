@@ -30,12 +30,14 @@ export class StoreComponent implements OnInit {
   onclickn : boolean = false;
   isStore: boolean = true;
   amountEditable: boolean = true;
+  processing: boolean = false;
   uploadbannnerURL:string;
   uploadsURL:string;
   imag:string;
   strlogo:string;
   mailStoreEmail: string;
   callStoreContact: string;  
+  pp:string;
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
@@ -56,6 +58,7 @@ export class StoreComponent implements OnInit {
   ngOnInit() {
     this.uploadsURL = "https://mobilepayments.benow.in/merchants/";
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
+    this.pp= this.utilsService.getBaseURL();
     if(this.merchantCode) {
       this.storeService.assignMerchant(this.merchantCode);
       this.fetchProducts();
@@ -118,6 +121,7 @@ logoourl(res:any) {
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
+      
       if(this.utilsService.getIsDevEnv())
         u = this.utilsService.getTestDomainURL();
 
@@ -138,6 +142,7 @@ logoourl(res:any) {
          
           let fullUrl: string = window.location.href;
           if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
+           
             this.isStore = false;
             this.amount = +this.activatedRoute.snapshot.params['amount'];          
             if(this.amount > 0) {
@@ -223,6 +228,7 @@ logoourl(res:any) {
   fillStoreDetails(res: any) {
   
     if(res && res.id) {
+      this.processing = true;
       this.storeEmail1 = res.userId;
       this.stmerId = res.id;
       this.storeDescription = res.description;

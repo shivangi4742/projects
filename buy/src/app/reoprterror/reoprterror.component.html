@@ -15,6 +15,13 @@
       </div>
       <div class="row valign-wrapper">
         <div class="input-field col s12 m12 l6">
+           <input type="text" name="" [(ngModel)]="cc" placeholder="Please enter your emailId" required>
+           <label class="labelPL1BN">From</label>
+        </div>
+       <div class="input-field col l6"></div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="input-field col s12 m12 l6">
           <br>
           <textarea id="campaigndescription" rows="4" cols="50" name="campaigndescription" [(ngModel)]="description" class="validate noBottomMarginBN textareaBN inputTextBN"
             maxlength="500" placeholder="{{'Explain in short. Mention important details.' | translate}}" required>

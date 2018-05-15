@@ -29,6 +29,7 @@ export class DashComponent implements OnInit {
   page: number = 1;
   onclickn : boolean = false;
   isStore: boolean = true;
+  loader: boolean = false;
   amountEditable: boolean = true;
   uploadbannnerURL:string;
   uploadsURL:string;
@@ -130,6 +131,7 @@ logoourl(res:any) {
         if(u.startsWith('pay-')) {
          
           this.isStore = false;
+          
           this.amount = +this.activatedRoute.snapshot.params['amount'];          
           if(this.amount > 0) {
             this.amountEditable = false;
@@ -143,6 +145,7 @@ logoourl(res:any) {
           let fullUrl: string = window.location.href;
           if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
             this.isStore = false;
+           
             this.amount = +this.activatedRoute.snapshot.params['amount'];          
             if(this.amount > 0) {
               this.amountEditable = false;
@@ -227,6 +230,7 @@ logoourl(res:any) {
   fillStoreDetails(res: any) {
   
     if(res && res.id) {
+      this.loader = true;
       this.storeEmail1 = res.userId;
       this.stmerId = res.id;
       this.storeDescription = res.description;
