@@ -429,6 +429,9 @@ export class AddproductComponent implements OnInit {
     if(this.discountError){
       return true;
     }
+    if(!this.newProduct.price){
+      return true;
+    }
 
     if(this.newProduct.productType == 'Lifestyle'){
       if(this.imageUrls.length < 1){
@@ -436,7 +439,7 @@ export class AddproductComponent implements OnInit {
       }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
-          if(!this.variants[i].price && !this.variants[i].color){
+          if(!this.variants[i].price && !this.variants[i].color ){
             return true;
           }
           if(this.variants[i].price < 10){
@@ -452,15 +455,24 @@ export class AddproductComponent implements OnInit {
       if(!this.newProduct.color ){
         return true;
       }
+      if(!this.newProduct.name ){
+        return true;
+      }
     }
 
     if(this.newProduct.productType == 'FoodAndBeverages'){
       if(this.imageUrls.length < 1){
         return true;
       }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
-          if(!this.variants[i].price && !this.variants[i].variantCode){
+          if(!this.variants[i].price ){
             return true;
           }
           if(this.variants[i].price < 10){
@@ -476,11 +488,63 @@ export class AddproductComponent implements OnInit {
     }
 
     if(this.newProduct.productType == 'Event'){
-     
+      if(this.imageUrls.length < 1){
+        return true;
+      }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
+      if(!this.newProduct.startDate){
+        return true;
+      }
+      if(!this.newProduct.venue){
+        return true;
+      }
+      if(this.newProduct.hasVariants){
+        for(let i:number = 0; i < this.variants.length; i++){
+          if(!this.variants[i].price ){
+            return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
+        }
+      }
     }
 
     if(this.newProduct.productType == 'Other'){
-     
+      if(this.imageUrls.length < 1){
+        return true;
+      }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
+      if(this.newProduct.hasVariants){
+        for(let i:number = 0; i < this.variants.length; i++){
+          if(!this.variants[i].price ){
+            return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
+        }
+      }
     }
 
     return false;

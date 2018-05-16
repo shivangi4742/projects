@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   streurl: string;
   isCopied1: boolean = false;
   isCopied2: boolean = false;
+  isCopied3: boolean= false;
   smsucess: boolean = false;
   emailtext: boolean = false;
   strshare: boolean = false;
@@ -323,7 +324,7 @@ export class DashboardComponent implements OnInit {
       this.suceessmsg = false;
       this.smsucess = true;
     }
-  }
+  }    
   WhatsApp() {
     window.open('whatsapp://send?text=' + this.url);
   }
@@ -339,5 +340,5 @@ export class DashboardComponent implements OnInit {
     }
     return true;
   }
-
+   
  }
