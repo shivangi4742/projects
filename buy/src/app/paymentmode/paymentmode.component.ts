@@ -34,6 +34,7 @@ export class PaymentmodeComponent implements OnInit {
   freeship: boolean = false;
   chargeperprod: boolean = false;
   chargePerOrder: boolean = false;
+  currency: string = 'INR';
 
   constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
     private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService,
@@ -215,6 +216,9 @@ export class PaymentmodeComponent implements OnInit {
     else {
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
       if (this.plInfo && this.plInfo.merchantCode) {
+        if(this.plInfo.currency)
+          this.currency = this.plInfo.currency;
+          
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '',

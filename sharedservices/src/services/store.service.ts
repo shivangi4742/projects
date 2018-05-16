@@ -18,6 +18,7 @@ export class StoreService {
     private _urlMerchant: any;
     private _subject = new Subject<any>();
     private _urls: any = {
+        getPLDataURL: 'store/getPLData',
         fetchStoreDetailsURL: 'store/fetchStoreDetails',
         getMerchantDetailsFromURLURL: 'store/getMerchantDetailsFromURL',
         fetchStoreDetailedURL:'user/fetchMerchantForEditDetails',
@@ -67,6 +68,19 @@ export class StoreService {
             .then(res => this.setURLMerchant(res.json()))
             .catch(res => this.utilsService.returnGenericError());
         }
+    }
+
+    public getPLData(linkid: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.getPLDataURL,
+            JSON.stringify({
+                "linkid": linkid
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());        
     }
 
     public fetchStoreDetails(merchantCode: string): Promise<any> {
