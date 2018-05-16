@@ -1,17 +1,35 @@
-<div *ngIf="isStore">
+<div *ngIf="!processing" class="col s12 center">
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 center">
+    {{'Loading Store' | translate}}
+  </div>
+</div>
+<div *ngIf="isStore && processing">
   <div class="row">
     <div class="col s12 nopadsBN" align="center">
-      <div class="storeimgBN" id="storeimgdiv">  
-      </div>
+      <div class="storeimgBN" id="storeimgdiv"></div>
       <div class="clearingBN" id="clearingdiv">&nbsp;</div>
       <div class="pad30lrBN">
         <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
           <div class="col s12" align="center" *ngIf="strlogo">
             <div class="storeLogoDivBN" align="center">
-                <span class="helperBN"></span><img [src]="strlogo" class="storeLogoBN" />
+              <img [src]="strlogo" class="storeLogoBN" />
             </div>
-          </div>
-          
+          </div>          
           <div class="col s12">&nbsp;</div>
           <div class="col s12">
             <span class="storetitleBN" >{{storeName}}</span>
@@ -59,6 +77,18 @@
             <button class="btn waves-effect waves-light morefromstoreBN" (click)="more()">{{'See More Products' | translate}}</button>
           </div>
         </div>
+        <div class="row center" *ngIf="!products">
+          <div class="col s10 m10 l10 center offset-s1 offset-m1 offset-l1 storeprodsBN" >
+            <img src="../assets/buy/imgs/noun_632851_cc.png" alt="Noproduct" name=""/>
+            <div class="row"></div>
+            <div class="row center storetitle2BN">Empty Store</div>
+            <span class="center storetitle3BN ">It seems there is no product here.</span> 
+            <span class="center storetitle3BN ">If it is your Store Page over Benow, kindly add your first product here<br> 
+              <a [href]="pp" class="storetitle4BN" target="_blank">Login</a>
+            </span>     
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -70,7 +100,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="!isStore">
+<div *ngIf="!isStore && processing">
   <div class="row">
       <div class="col s12 nopadsBN">
       <div class="storeimgBN" id="storeimgdiv"></div>
@@ -134,6 +164,8 @@
       </form>
       <div class="col s12">&nbsp;</div>
     </div>
+   
   </div>  
-</div>  
+</div> 
+
 </div>

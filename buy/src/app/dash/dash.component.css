@@ -1,0 +1,220 @@
+.clearingBN {
+    width: 100%;
+}
+
+.pad30lrBN {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.pad20lrBN {
+    padding-right: 20px;
+    padding-left: 20px;    
+}
+
+.nameplateBN {
+       height: auto;
+}
+
+.nopadsBN {
+    padding-right: 0px;
+    padding-left: 0px;    
+}
+
+.storetitleBN {
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #3D3D3D;       
+}
+
+.storeprodsBN {
+    padding-top: 10px;
+}
+
+.storewidgetcntnrBN {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.storepborBN {
+    border: 1px solid #F7F9FA;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.storepborBN:hover {
+    background-color: #F7F9FA; 
+}
+
+.storeLogoDivBN {
+    margin-top: -65px;
+    max-height: 130px;
+    max-width: 130px;
+    background-color: transparent;
+}
+
+.storeLogoBN {
+    max-height: 130px;
+    width: 127px;
+    vertical-align: middle;
+    background-color: white;
+    border: 3px solid white;
+    box-shadow: 0 1px 1px 1px #e0e0e0;
+}
+
+
+.helperBN {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;    
+}
+
+.titleddBN {
+    font-size: 30pt;
+    font-weight: 100;
+    position: relative;
+    display: inline;
+    top: 12px;
+}
+
+.payTextBN {
+    font-size: 25pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;               
+}
+
+.amountTextBN {
+    color: #E53935;
+    font-weight: 600;
+}
+
+.storedetailBN {
+    margin-top: 10px;
+    margin-left: 50px;
+    padding: 10px;
+    width: 300px!important;
+    font-size: 14pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;           
+}
+
+.storeDescFont {
+    font-size: 13pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;           
+}
+
+.phonedetBN {
+    position: relative;
+    display: inline;
+    top: 5px;
+}
+
+
+.morefromstoreBN {
+    width: 250px;
+    border-radius: 5px;
+    color: white;
+    background-color: #413A5A;
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    text-transform: none;        
+}
+
+.redcolBN{
+    color: red;
+    margin-bottom: 20px;
+}
+.poBN{
+    position: absolute;
+}
+
+.topPadImgBN {
+    margin-top: 65px;
+}
+
+.paymentFrmBN {
+    max-width: 400px;
+}
+
+.labelBN {
+    font-size: 13pt;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;  
+}
+
+.offsetBN {
+    padding-left: 25px;
+}
+
+.offsetlrBN {
+    padding-left: 25px;
+    padding-right: 35px;    
+}
+
+.binputdivBN {
+    margin-top: 10px;
+}
+
+.binputBN {
+    background-color: #F7F9FA!important;
+    padding-left: 20px!important;
+    letter-spacing: 0.01rem; 
+    border: none!important; 
+    font-size: 13pt!important;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+}
+
+.txtareaBN {
+    min-height: 5rem;
+}
+
+.buy1MBN {
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 80px;
+    font-size: 20pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.1rem;   
+    text-transform: none;    
+}
+
+.storeimgBN {
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.storetitle1BN{
+    font-size: 16pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #3D3D3D;  
+}
+.storetitle2BN {
+    font-size: 15pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55)
+}
+.storetitle3BN {
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55) 
+}
+.storetitle4BN{
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #E53935;
+}

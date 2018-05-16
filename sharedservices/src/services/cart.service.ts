@@ -68,7 +68,7 @@ export class CartService {
                     crt.items.push({
                         "pid": ci.productId,
                         "vid": ci.variantId,
-                        "siz": ci.size,
+                        "siz": ci.sizeId,
                         "qty": ci.quantity
                     });
                 })
@@ -93,6 +93,9 @@ export class CartService {
                 "name": this._cart.name,
                 "address": this._cart.address,
                 "email": this._cart.email,
+                "pin": this._cart.pin,
+                "city": this._cart.city,
+                "state": this._cart.state,
                 "payamount": amount,
                 "phone": this._cart.phone,
                 "merchantcode": this._cart.merchantCode,
@@ -113,6 +116,9 @@ export class CartService {
                 "name": this._cart.name,
                 "address": this._cart.address,
                 "email": this._cart.email,
+                "pin": this._cart.pin,
+                "city": this._cart.city,
+                "state": this._cart.state,
                 "payamount": amount,
                 "phone": this._cart.phone,
                 "merchantcode": this._cart.merchantCode,
@@ -134,6 +140,9 @@ export class CartService {
                 "name": this._cart.name,
                 "address": this._cart.address,
                 "email": this._cart.email,
+                "pin": this._cart.pin,
+                "city": this._cart.city,
+                "state": this._cart.state,
                 "payamount": this.getCartTotal(),
                 "phone": this._cart.phone,
                 "merchantcode": this._cart.merchantCode,
@@ -177,11 +186,14 @@ export class CartService {
             crt = JSON.parse(crtstr);
             
         if(crt) {
-            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode);
+            this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode,
+                crt.pin, crt.city, crt.state);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
+               
                 crt.items.forEach(function(ci: any) {
-                    me._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', ''));
+                   
+                    me._cart.items.push(new CartItem(ci.qty, ci.pid, '', 0, 0, '', ci.vid, ci.siz, '', '', '', ci.shippingCharge));
                 });
 
                 return this.productService.fillCartItemsDetails(this._cart);
@@ -193,9 +205,10 @@ export class CartService {
             return Promise.resolve(this._cart);
     }
 
-    public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string) {
+    public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string, pin: string, city: string, 
+        state: string) {
         if(!this._cart)
-            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '');
+            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '', pin, city, state);
         else {
             this._cart.name = name;
             this._cart.email = email;
@@ -208,7 +221,7 @@ export class CartService {
 
     public setPaymentMode(paymentMode: string, merchantCode: string) {
         if(!this._cart)
-            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode);
+            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode, '', '', '');
         else
             this._cart.paymentMode = paymentMode;
 
@@ -246,7 +259,7 @@ export class CartService {
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
-                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '');
+                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '', '', '', '');
             
             if(!this._cart.items)
                 this._cart.items = new Array<CartItem>();
@@ -276,9 +289,9 @@ export class CartService {
                                 }
                             }
                         }
-    
+                      
                         this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, 
-                            c, s, prod.description));                        
+                            c, s, prod.description, prod.shippingcharge));                        
                     }
                 }
                 else {
@@ -290,7 +303,7 @@ export class CartService {
                     }
                     
                     this._cart.items.push(new CartItem(qty, prod.id, prod.name, prod.originalPrice, prod.price, prod.imageURL, variant, size, c, s, 
-                        prod.description));                
+                        prod.description, prod.shippingcharge));                
                 }
             }
 

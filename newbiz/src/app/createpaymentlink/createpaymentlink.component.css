@@ -1,6 +1,8 @@
 .roundBorderMainBN{
   border: 1px solid;
   border-color: rgb(204,204,204);
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .noLeftPaddingBN{
@@ -79,4 +81,95 @@
 
 .noBottomMarginBN{
   margin-bottom: 0px!important;
+}
+.inputjBN{
+  width: 65%!important;
+  height: 13%!important;
+  background-color: #f2f2f2!important;
+  border: #f2f2f2!important;
+  padding: 10px!important;
+  margin:0px!important;
+  text-transform:lowercase!important;
+}
+.copyBN{
+  color:black;
+}
+.shrtextBN {
+  width: 32%!important;
+  border: 1px #ddd solid!important;
+  border-bottom: 1px #ddd solid!important;
+  margin:0px!important;
+  padding-left: 10px!important;
+  background-color: grey;
+  height:2.5rem!important;
+}
+.shrtextBNM {
+  width: 32%!important;
+  border: 1px #ddd solid!important;
+  border-bottom: 1px #ddd solid!important;
+  margin:0px!important;
+  padding-left: 10px!important;
+  background-color: grey;
+  height:2.5rem!important;
+}
+.subBN{
+  margin-left: -4px!important;
+  vertical-align: middle!important;
+  height:30pt!important;
+  height: 40px!important;
+  margin-top: -4.5px;
+  padding: 0 1rem!important;
+  box-shadow: 0px!important;
+  margin-right: 15px;
+}
+.send{
+  color:white;
+}
+.paygBN{
+  font-weight:800;
+  font-size: 13pt; 
+}
+.mrgnBN{
+  margin-bottom: 0px!important;
+}
+.mghBN{
+  margin-bottom: 10px!important;
+}
+.checkBN{
+ background-color: red!important;
+}
+.modBN{
+  color:grey;
+}
+.roundBorderMainBN {
+  border: 1px solid;
+  border-color: rgb(204,204,204);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.titleBN {
+  font-family: Barlow;
+  font-size: 12pt;
+  line-height: 17px;
+  color: rgb(61,61,61);
+  margin-top: 10px;
+  font-weight: bold;
+}
+.smsBN{
+  color: green;
+  font-size: 10pt;}
+  .smsmailBN{
+  margin-bottom: 10px;
+}
+.brdrNB{
+  border-bottom: 1px dotted grey;
+}
+.tpBN{
+  background-color: #f2f2f2!important;
+    height: 38px;
+    padding-top: 6px;
+    width: 35px;
+    margin-right: -3px;
+    padding-left: 7px;
+    margin-top: -3px;
 }

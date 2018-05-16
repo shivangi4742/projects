@@ -40,6 +40,9 @@
               <div class="offerpriceBN">{{'Offer Price' | translate}}: 
                 <span class="markupBN"> ₹ {{product.price | number : '1.2-2'}}</span>
               </div>
+              <div class="offerpriceBN" *ngIf="product.shippingcharge">{{'Shipping Charge' | translate}}: 
+                  <span class="markupBN"> ₹ {{product.shippingcharge }}</span>
+                </div>
               <div>&nbsp;</div>
               <div class="borderBN"></div>
               <div>&nbsp;</div>
@@ -151,6 +154,9 @@
               <div class="offerpriceBN">{{'Offer Price' | translate}}: 
                 <span class="markupBN"> ₹ {{product.price | number : '1.2-2'}}</span>
               </div>
+              <div class="offerpriceBN" *ngIf="product.shippingcharge">{{'Shipping Charge' | translate}}: 
+                  <span class="markupBN"> ₹ {{product.shippingcharge}}</span>
+                </div>
               <div>&nbsp;</div>
               <div class="borderBN"></div>
               <div>&nbsp;</div>
@@ -267,6 +273,9 @@
               <div class="offerpricesmallBN">{{'Offer Price' | translate}}: 
                 <span class="markupBN"> ₹ {{product.price | number : '1.2-2'}}</span>
               </div>
+              <div class="offerpriceBN" *ngIf="product.shippingcharge">{{'Shipping Charge' | translate}}: 
+                  <span class="markupBN"> ₹ {{product.shippingcharge}}</span>
+                </div>
               <div class="colorscntnrBN" *ngIf="product.color">
                 <span>{{'Color' | translate}}:</span>
                 <span [ngClass]="selVariant == '-1' ? 'colornameBN linkButtonBN selectedoptionBN' : 'colornameBN linkButtonBN'" 

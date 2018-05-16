@@ -1,0 +1,160 @@
+<div *ngIf="!loader" class="col s12 center">
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="preloader-wrapper active">
+    <div class="spinner-layer spinner-red-only">
+      <div class="circle-clipper left">
+        <div class="circle"></div>
+      </div>
+      <div class="gap-patch">
+        <div class="circle"></div>
+      </div>
+      <div class="circle-clipper right">
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 center">
+    {{'Loading ....' | translate}}
+  </div>
+</div>
+
+<div *ngIf="isStore && loader">
+  <div class="row">
+    <div class="col s12 nopadsBN" align="center">
+      <div class="storeimgBN" id="storeimgdiv"></div>
+      <div class="clearingBN" id="clearingdiv">&nbsp;</div>
+      <div class="pad30lrBN">
+        <div class="col s12 white card-panel z-depth-2 nameplateBN" *ngIf="storeName">
+          <div class="col s12" align="center" *ngIf="strlogo">
+            <div class="storeLogoDivBN" align="center">
+              <img [src]="strlogo" class="storeLogoBN" />
+            </div>
+          </div>          
+          <div class="col s12">&nbsp;</div>
+          <div class="col s12">
+            <span class="storetitleBN" >{{storeName}}</span>
+          </div>
+          <div class="col s12">{{storeDescription}}</div>
+          <div class="col s12">&nbsp;</div>
+          <div *ngIf="onclickn">
+            <div class="col s12 storeDescFont">{{storeAddress}}</div>
+            <div class="col s12">
+              <a class="linkButtonBN storeDescFont" [href]="mailStoreEmail">
+                <i class="material-icons phonedetBN">email</i> {{storeEmail}}
+              </a>
+            </div>
+            <div class="col s12">
+              <a class="linkButtonBN storeDescFont" [href]="callStoreContact">
+                <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+              </a>
+            </div>
+            <div class="col s12">&nbsp;</div>
+            <div class="col s12">
+              <b>{{'Return Policy' | translate}}:</b>
+              <span *ngIf="retPolicy">{{retPolicy | translate}}</span>
+              <span *ngIf="retPolicy1">{{retPolicy1 | translate}}</span>
+              <span *ngIf="retPolicy2">{{retPolicy2 | translate}}</span>
+            </div>
+            <div class="col s12">&nbsp;</div>
+          </div>
+  
+           <div class="col s12 redcolBN" (click)="abtbusiness()">
+            <span class="linkButtonBN" >{{'About this business'}}</span>
+              <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
+              <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
+          </div>
+        </div>
+        <div class="row center" >
+        <div class="col s10 m5 l4 center offset-s1 offset-m1 offset-l1 white card-panel z-depth-2 storeprodsBN"  (click)="pay()">
+          <img src="../assets/buy/imgs/Asset2-big.png" alt="digital payment link" name=""/>
+          <div class="row"></div>
+          <div class="row center storetitle1BN">Digital Payment Link</div>
+                  
+        </div>
+        <div class="col s10 m5 l4 center offset-s1 offset-m1 offset-l2  white card-panel z-depth-2 storeprodsBN" (click)="store()">
+            <img src="../assets/buy/imgs/Asset-big.png" alt="online store" name=""/>
+            <div class="row"></div>
+          <div class="row center storetitle1BN">Online Store</div>
+                  
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+  <div id="storedetailBN" class="dropdown-content storedetailBN" *ngIf="storeAddress" align="center">
+    <div class="col s12">{{storeAddress}}</div>
+    <div class="col s12">&nbsp;</div>
+    <div class="col s12">
+      <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+    </div>
+  </div>
+</div>
+<div *ngIf="!isStore && loader">
+  <div class="row">
+      <div class="col s12 nopadsBN">
+      <div class="storeimgBN" id="storeimgdiv"></div>
+        <div class="clearingBN" id="clearingdiv">&nbsp;</div>
+    <div class="col s12 white card-panel z-depth-2 nameplateBN" align="center" *ngIf="storeName">
+      <div class="col s12" align="center" *ngIf="strlogo">
+        <div class="storeLogoDivBN" align="center">
+            <span class="helperBN"></span><img [src]="strlogo" class="storeLogoBN" />
+        </div>
+      </div>
+     
+      <div class="col s12">&nbsp;</div>
+      <div class="col s12">
+        <span class="storetitleBN" >{{storeName}}</span>
+      </div>
+      <div class="col s12">{{storeDescription}}</div>
+      <div class="col s12">&nbsp;</div>
+      <div *ngIf="onclickn">
+        <div class="col s12 storeDescFont">{{storeAddress}}</div>
+        <div class="col s12">
+          <a class="linkButtonBN storeDescFont" [href]="mailStoreEmail">
+            <i class="material-icons phonedetBN">email</i> {{storeEmail}}
+          </a>
+        </div>
+        <div class="col s12">
+          <a class="linkButtonBN storeDescFont" [href]="callStoreContact">
+            <i class="material-icons phonedetBN">phone</i> {{storeContact}}
+          </a>
+        </div> 
+        <div class="col s12">&nbsp;</div> 
+      </div>
+      <div class="col s12 redcolBN" (click)="abtbusiness()">
+        <span class="linkButtonBN" >{{'About this business'}}</span>
+        <i class="material-icons linkButtonBN poBN" *ngIf="!onclickn">keyboard_arrow_down</i>
+        <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
+      </div>
+      <div class="col s12">&nbsp;</div>
+      <form materialize (ngSubmit)="proceed()" class="paymentFrmBN" #paymentLinkForm="ngForm">
+        <div *ngIf="!amountEditable" class="col s12">
+          <span class="payTextBN">{{'Pay'}}
+            <span class="amountTextBN">&nbsp;&nbsp;₹ {{amount | number : '1.2-2'}}</span>
+          </span>
+        </div>
+        <div *ngIf="amountEditable" align="left">
+          <div class="col s12 labelBN offsetBN">{{'Amount (at least ₹ 10)' | translate}} * :</div>
+          <div class="col s12 offsetlrBN input-field binputdivBN">
+            <input class="binputBN validate" placeholder="{{'Enter amount to pay' | translate}}" [(ngModel)]="amount" type="number" 
+              name="amount" min="10" max="99999" step="0.01" required />
+          </div>    
+        </div>
+        <div class="col s12 input-field labelBN offsetBN" align="left">{{'Purpose' | translate}} :</div>
+        <div class="input-field col s12 offsetlrBN binputdivBN" align="left">
+          <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="purpose"
+            placeholder="{{'Enter what you are paying for' | translate}}" [(ngModel)]="purpose"></textarea>
+        </div>
+        <div class="col s10 offset-s1">
+          <button class="col s12 buy1MBN btn waves-effect waves-light red darken-1" type="submit" name="continues"
+            [disabled]="!paymentLinkForm.form.valid || amount < 10">{{'Proceed to Pay' | translate}}</button>
+        </div>
+        <div class="col s1"></div>
+      </form>
+      <div class="col s12">&nbsp;</div>
+    </div>
+  </div>  
+</div>  
+</div>

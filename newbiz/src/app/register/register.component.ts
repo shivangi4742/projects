@@ -302,7 +302,7 @@ export class RegisterComponent implements OnInit {
       return  !this.errpincodevalidate && !this.errbusinessvalidate && !this.errdisplayvalidate
       && this.user.displayName && this.businesspro.businessName && this.businesspro.pincode && this.businesspro.address &&
       !this.errvalidate && this.accountpro.accountHolderName && this.accountpro.accountRefNumber
-      && this.accountpro.ifsc && this.conaccountnumber && !this.err && this.businesspro.category &&
+      && this.accountpro.ifsc && this.conaccountnumber && !this.err &&
       this.businesspro.businessType && !this.errpancard &&
       this.accountpro.panNumber ;
     

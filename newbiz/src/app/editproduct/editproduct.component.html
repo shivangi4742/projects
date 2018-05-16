@@ -1,6 +1,6 @@
 <div materialize>
   <div class="row"></div>
-  <div class="row mainBodyBN">
+  <div class="row mainBodyBN" *ngIf="businesspro">
     <div class="col s12 noLeftPaddingBN">
       <a class="linkButtonBN dashboardRedirectBN" [routerLink]="catalogue">
         <i class="material-icons alignMidBN">arrow_back</i>
@@ -158,7 +158,7 @@
                 <label for="cDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
-              <div class="input-field col s12">
+              <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
                 <input id="Shipping" name="Shipping" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                   placeholder="{{'Shipping charge of the product' | translate}}" style="margin-bottom: 10px" (keyup)="checkAmount()"
                 />
@@ -401,7 +401,7 @@
                 <label for="fbDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
                 <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
               </div>
-              <div class="input-field col s12">
+              <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
                 <input id="Deliverycharge" name="Deliverycharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                   placeholder="{{'Delivery Charge of the product' | translate}}" style="margin-bottom: 15px" 
                 />
@@ -433,7 +433,7 @@
                       <div class="col s12 noLeftPaddingBN">
                         <div class="input-field col s12">
                           <input id="{{ad.id}}+name" name="{{ad.id}}+name" type="text" [(ngModel)]="ad.variantCode" class="validate inputTextBN"
-                                 placeholder="{{'Name of add-on' | translate}}" maxlength="20" required/>
+                                 placeholder="{{'Name of add-on' | translate}}" maxlength="50" required/>
                           <label for="{{ad.id}}+name" class ="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
                         </div>
                         <div class="input-field col s12 ">
@@ -476,7 +476,7 @@
                 <div class="col s12 noLeftPaddingBN" style="margin-top: 10px;">
                   <div class="input-field col s12">
                     <input id="{{a.id}}+name" name="{{a.id}}" type="text" [(ngModel)]="a.variantCode" class="validate inputTextBN" placeholder="{{'Name of add-on' | translate}}"
-                      maxlength="20" required/>
+                      maxlength="50" required/>
                     <label for="{{a.id}}+name" class="active labelPLBN noLeftPaddingBN">{{'Add-on Name*' | translate}}</label>
                   </div>
                   <div class="input-field col s12 ">
@@ -530,7 +530,7 @@
           <div class="row"></div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="20" placeholder="{{'Enter the Title of your Event/Workshop' | translate}}"
+              <input id="eTitle" name="eTitle" type="text" [(ngModel)]="editProduct.name" class="validate inputTextBN" maxlength="50" placeholder="{{'Enter the Title of your Event/Workshop' | translate}}"
                 required />
               <label for="eTitle" class="active labelPLBN">{{'Event Title*' | translate}}</label>
             </div>
@@ -563,6 +563,16 @@
               <input id="toDt" name="toDt" type="text" class="datepicker inputTextBN dtpkrBN dateInputBN" materialize="pickadate" [materializeParams]="dateParams"
                 placeholder="{{'Select End Date' | translate}}" [(ngModel)]="editProduct.endDate">
               <label for="toDt" class="active labelPLBN">{{'Event Ends*' | translate}}</label>
+            </div>
+            <div class="input-field col s6 m3 l3">
+              <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="editProduct.durationHours" class="timepicker inputTextBN"
+              placeholder="{{'Enter Start Time' | translate}}" materialize="pickatime"  />
+              <label for="edurationhrs" class ="active labelPLBN">{{'Start Time' | translate}}</label>
+            </div>
+            <div class="input-field col s6 m3 l3">
+              <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="editProduct.durationMinutes" class="timepicker inputTextBN" 
+              materialize="pickatime" placeholder="{{'Enter End Time' | translate}}"       />
+              <label for="edurationmin" class ="active labelPLBN">{{'End Time' | translate}}</label>
             </div>
             <div class="input-field col s12 m6 l6">
               <input id="eVenue" name="eVenue" type="text" [(ngModel)]="editProduct.venue" class="validate inputTextBN" placeholder="{{'Mention venue of your Event/Workshop(Optional)' | translate}}"
@@ -688,7 +698,7 @@
               <label for="oDiscountPrice" class="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
-            <div class="input-field col s12">
+            <div class="input-field col s12" *ngIf="editProduct.shippingcharge && !businesspro.freeShip && !businesspro.chargePerOrder">
               <input id="oshippingcharge" name="oshippingcharge" type="number" [(ngModel)]="editProduct.shippingcharge" class="validate inputTextBN"
                 placeholder="{{'Shipping Charge of the product' | translate}}" style="margin-bottom: 10px"
               />

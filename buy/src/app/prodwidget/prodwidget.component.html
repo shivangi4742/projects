@@ -1,4 +1,4 @@
-
+<div *ngIf="loaded">
  <div class="row" [routerLink]="productLink">
     <div class="col s12 center pwcBN">
       <span class="helperBN"></span>
@@ -13,10 +13,20 @@
     </div>
     <div align="center" class="col s12 pwofpBN truncate">{{'Offer Price' | translate}}:
       <span class="pwmuBN"> ₹ {{product.price | number : '1.2-2'}}</span>
+      
     </div>
-    <div class="col s12">&nbsp;</div>
-    <div align="center" class="col s12 pwvBN truncate">
+    <div align="center" class="col s12 pwofpBN truncate" *ngIf="product.shippingcharge && !freeship && !chargePerOrder">{{'Shipping Charge' | translate}}:
+      <span class="pwmuBN" > ₹ {{product.shippingcharge | number : '1.2-2'}}</span>
+    </div>
+    <div class="col s12 pwvBN truncate" *ngIf="!(product.shippingcharge && !freeship && !chargePerOrder)"  >
+      <span class="pwmuBN" >&nbsp;</span>
+    </div>
+    <div class="col s12 pwvBN truncate"  >
+      <span class="pwmuBN" >&nbsp;</span>
+    </div>
+    <div align="center" class="col s12 pwvBN truncate"  >
       <span *ngIf="numVariants == 1">+ {{numVariants}} {{'more option' | translate}}</span>
       <span *ngIf="numVariants > 1">+ {{numVariants}} {{'more options' | translate}}</span>&nbsp;
     </div>
   </div>
+</div>

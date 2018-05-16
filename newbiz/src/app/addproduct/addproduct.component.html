@@ -52,7 +52,7 @@
       <div materialize="modal" id="imageModal" class="modal modal-fixed-footer successModalBN" [materializeParams]="[{dismissible: false}]"
            [materializeActions]="modalActions2">
         <div *ngIf="isImageOptimizing()" class="row">
-          <div class="col s12 center">
+          <div class="col s12 center ">
             <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
           </div>
           <div class="col s12">
@@ -71,7 +71,7 @@
       <div class="row" >
         <div class="col s12 m5 l5">
           <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-            {{'Product Image' | translate}}
+            {{'Product Image*' | translate}}
           </div>
           <div class="col s12 firstImgBN">
             <div class="col s10 file-field noMarginPaddingBN">
@@ -180,7 +180,7 @@
             <label for="cDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12" *ngIf="!businesspro.freeShip" >
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder" >
             <input id="shippingcharge" name="shippingcharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 10px"  />
             <label for="shippingcharge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
@@ -322,7 +322,7 @@
         <div class="row">
           <div class="col s12 m5 l5">
             <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
+              {{'Product Image*' | translate}}
             </div>
             <div class="col s12 firstImgBN">
               <div class="col s10 file-field noMarginPaddingBN">
@@ -406,7 +406,7 @@
               <label for="fbDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
               <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
             </div>
-            <div class="input-field col s6 " *ngIf="!businesspro.freeShip">
+            <div class="input-field col s6 " *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder">
               <input id="deliverycharge" name="deliverycharge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                      placeholder="{{'Shipping price of the product' | translate}}" style="margin-bottom: 0px"  />
               <label for="deliverycharge" class ="active labelPLBN">{{'Delivery Charge' | translate}}</label>
@@ -414,8 +414,8 @@
             </div>
           </div>
           <div class="row"></div>
-          <div class="row">
-            <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
+          <!-- <div class="row">
+             <div *ngIf="!newProduct.hasVariants" class="col s12 center" style="margin-top: 10px">
               <span class="">{{'Have any Add-ons? Add here' | translate}}</span>
               <div class="row hide-on-med-and-up" style="margin-top: 10px;"></div>
               <span class="variantBN linkButtonBN" (click)="updateVariants()">
@@ -517,9 +517,9 @@
               <div class="row"></div>
               <div class="row"></div>
             </div>
-          </div>
+          </div> -->
         </div>
-      </div>
+      </div> 
     <div *ngIf="newProduct.productType == 'Event'" class="col s12">
       <div class="col s12 typeBN">
         {{'Events & Workshop' | translate}}
@@ -527,7 +527,7 @@
       <div class="row"></div>
       <div class="row">
           <div class="input-field col s12">
-            <input id="eTitle" name="eTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="20"
+            <input id="eTitle" name="eTitle" type="text" [(ngModel)]="newProduct.name" class="validate inputTextBN" maxlength="50"
                    placeholder="{{'Enter the Title of your Event/Workshop' | translate}}" required />
             <label for="eTitle" class ="active labelPLBN">{{'Event Title*' | translate}}</label>
           </div>
@@ -560,14 +560,14 @@
             <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
           </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.durationHours" class="validate inputTextBN"
-          placeholder="{{'Enter Duration Hours' | translate}}"  />
-          <label for="edurationhrs" class ="active labelPLBN">{{'Duration Hours' | translate}}</label>
+          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.durationHours" class="timepicker inputTextBN"
+          placeholder="{{'Enter Start Time' | translate}}" materialize="pickatime"  />
+          <label for="edurationhrs" class ="active labelPLBN">{{'Start Time' | translate}}</label>
         </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.durationMinutes" class="validate inputTextBN"
-          placeholder="{{'Enter Duration Minutes' | translate}}"       />
-          <label for="edurationmin" class ="active labelPLBN">{{'Duration Minutes' | translate}}</label>
+          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.durationMinutes" class="timepicker inputTextBN" 
+          materialize="pickatime" placeholder="{{'Enter End Time' | translate}}"       />
+          <label for="edurationmin" class ="active labelPLBN">{{'End Time' | translate}}</label>
         </div>
         <div class="input-field col s12 m6 l6">
           <input id="eVenue" name="eVenue" type="text" [(ngModel)]="newProduct.venue" class="validate inputTextBN"
@@ -577,7 +577,7 @@
           <div class="row"></div>
         <div class="col s12">
             <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-              {{'Product Image' | translate}}
+              {{'Product Image*' | translate}}
             </div>
             <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
               <div class="col s11 noMarginPaddingBN center">
@@ -622,7 +622,7 @@
       <div class="row">
         <div class="col s12">
           <div class="col s12 inputTextBN noLeftPaddingBN" style="margin-bottom: 10px">
-            {{'Product Image' | translate}}
+            {{'Product Image*' | translate}}
           </div>
           <div *ngFor="let img of imageUrls" class="col s4 card-panel grey lighten-5 z-depth-1 noMarginPaddingBN">
             <div class="col s11 noMarginPaddingBN center">
@@ -679,22 +679,25 @@
             <label for="oDiscountPrice" class ="active labelPLBN">{{'Discounted Price' | translate}}</label>
             <span *ngIf="discountError" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-          <div class="input-field col s12" *ngIf="!businesspro.freeShip">
+          <div class="input-field col s12" *ngIf="!businesspro.freeShip && !businesspro.chargePerOrder">
             <input id="shipchrge" name="shipchrge" type="number" [(ngModel)]="newProduct.shippingcharge" class="validate inputTextBN"
                    placeholder="{{'Shipping price of the product' | translate}}" style="margin-top: 10px"  />
             <label for="shipchrge" class ="active labelPLBN">{{'Shipping Charge' | translate}}</label>
             <span *ngIf="shippingcharg" class="errNrmS6B2BN">{{'Improper Discount' | translate}}</span>
           </div>
-         
+          
       </div>
     </div>
       <div class="row"></div>
       <div class="row valign-wrapper">
         <div class="col s12 center">
           <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="create"
-                  [disabled]="!prodForm.form.valid || checkForm()">{{'ADD TO STORE' | translate}}</button>
+                 >{{'ADD TO STORE' | translate}}</button>
+                 <div class= "row"> </div>
+                 <span class="col s12 center err" *ngIf= "errSubmit " >Please fill the fields marked with * </span>
         </div>
       </div>
+      
     </form>
   </div>
 </div>

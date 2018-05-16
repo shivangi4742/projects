@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MaterializeAction } from 'angular2-materialize';
 
 import { UtilsService, User, UserService, LocationService, Product, ProductService, FileService, NewProduct, NewVariant,
-  ProductImage, NewSize } from 'benowservices';
+  ProductImage, NewSize, Businesspro } from 'benowservices';
 
 @Component({
   selector: 'app-editproduct',
@@ -12,7 +12,7 @@ import { UtilsService, User, UserService, LocationService, Product, ProductServi
   styleUrls: ['./editproduct.component.css']
 })
 export class EditproductComponent implements OnInit {
-
+  businesspro:Businesspro;
   prodId: any;
   editProduct: NewProduct;
   variants = new Array<NewVariant>();
@@ -225,12 +225,21 @@ export class EditproductComponent implements OnInit {
     }
   }
 
-  init(res: User){
+  init(res: User) {
     this.user = res;
     this.uploadsURL = this.utilsService.getUploadsURL();
 
     this.productService.getProductForEdit(this.prodId)
       .then(res => this.loadProduct(res));
+
+    this.userService.checkMerchant(this.user.mobileNumber, 'b')
+      .then(bres => this.initstart(bres));
+  }
+
+  initstart(res:any){
+     this.businesspro = res;
+     console.log(this.businesspro);
+
   }
 
   setProdStock(){
@@ -383,9 +392,7 @@ export class EditproductComponent implements OnInit {
       .then(res  => this.onsubmitpost(res));
   }
   onsubmitpost(res:any){
-   console.log(res);
-   if(res)
-   {
+   if(res) {
      this.subsucees= true;
    }
   }

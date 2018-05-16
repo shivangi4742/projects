@@ -207,6 +207,12 @@ private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/image
     return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy;
   }
 
+  public getDTStr(dt: Date): string {
+    let yy = dt.getFullYear();
+    return this.getDate(dt.getDate()) + '-' + this.getMonth(dt.getMonth()) + '-' + yy + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + 
+      dt.getSeconds();    
+  }
+
   public getCurDateString(): string {
     let dt = new Date();
     let yy = dt.getFullYear();

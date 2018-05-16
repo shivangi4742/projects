@@ -22,7 +22,7 @@
                   <img class="upiLogoBN" src="../assets/shared/images/upi-icon-black.png" />
                   <span class="upiBN">&nbsp;&nbsp;{{'BHIM UPI' | translate}}</span>
                   <span class="convfee2BN">({{'Earn upto ₹750 cashback per month from Govt of India' | translate}})</span>
-                  <span class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
+                  <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">&nbsp;&nbsp;({{'Transaction fee' | translate}} 2%)</span>
                 </label>        
               </div>
             </div>
@@ -50,7 +50,7 @@
                 </label>        
               </div>
             </div>
-            <div class="col s12 offsetlrBN" *ngIf="!isPaymentlink">
+            <div class="col s12 offsetlrBN" *ngIf="!isPaymentlink && supportsCOD">
               <div class="rdoGrpNoBrdrBN">                                                                                                                                
                 <input name="pmode" type="radio" id="cod" [(ngModel)]="cart.paymentMode" [value]="'CASH'" />
                 <label for="cod" class="rdolblBN">{{'COD (Cash On Delivery)' | translate}}</label>        
@@ -71,8 +71,13 @@
               <div class="col s12 padlr10BN">
                 <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="!isPaymentlink">{{'Total Price' | translate}} :</div>
                 <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="isPaymentlink">{{'Pay Amount' | translate}} :</div>
+                
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="!isPaymentlink">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="isPaymentlink">₹ {{plInfo.amount | number : '1.2-2'}}</div>
+                <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="getshippingPrice() && !isPaymentlink">{{'Shipping Charge' | translate}} :</div>
+                
+                <div class="col s5 carttotalpriceBN" align="right" *ngIf="getshippingPrice() && !isPaymentlink">₹ {{getshippingPrice() | number : '1.2-2'}}</div>
+                
                 <div class="col s8 carttotalpriceBN nopadleftBN" *ngIf="settings.chargeConvenienceFee">{{'Convenience Fee' | translate}} :</div>
                 <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" 
                   align="right">₹ {{getConvenienceFee() | number : '1.2-2'}}</div>

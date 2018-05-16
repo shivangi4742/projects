@@ -18,9 +18,11 @@ export class StoreService {
     private _urlMerchant: any;
     private _subject = new Subject<any>();
     private _urls: any = {
+        getPLDataURL: 'store/getPLData',
         fetchStoreDetailsURL: 'store/fetchStoreDetails',
         getMerchantDetailsFromURLURL: 'store/getMerchantDetailsFromURL',
-        fetchStoreDetailedURL:'user/fetchMerchantForEditDetails'
+        fetchStoreDetailedURL:'user/fetchMerchantForEditDetails',
+        getDetailsForPINURL: 'store/getDetailsForPIN'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -40,6 +42,7 @@ export class StoreService {
     }
 
     public assignMerchant(code: string) {
+//        console.log(code,'this.code')
         if(code) {
             this._code = code;
             this._subject.next(code);
@@ -67,13 +70,27 @@ export class StoreService {
         }
     }
 
+    public getPLData(linkid: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.getPLDataURL,
+            JSON.stringify({
+                "linkid": linkid
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());        
+    }
+
     public fetchStoreDetails(merchantCode: string): Promise<any> {
         if(this._code && merchantCode == this._code) {
+//           console.log(this._settings,'this._settings')
             if(this._settings)
                 return Promise.resolve(this._settings);
         }
         else
-            this.assignMerchant(merchantCode);
+          {  this.assignMerchant(merchantCode);}
 
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.fetchStoreDetailsURL,
@@ -86,7 +103,21 @@ export class StoreService {
         .then(res => this.setSettings(res.json()))
         .catch(res => this.utilsService.returnGenericError());
     }
-      public fetchStoreDetais(merchantCode: string): Promise<any> {
+
+    public getDetailsForPIN(pincode: string): Promise<any> {
+        return this.http.post(
+            this.utilsService.getBaseURL() + this._urls.getDetailsForPINURL,
+            JSON.stringify({
+                "pincode": pincode
+            }),
+            { headers: this.utilsService.getHeaders() }
+        )
+        .toPromise()
+        .then(res => res.json())
+        .catch(res => this.utilsService.returnGenericError());
+    }
+
+    public fetchStoreDetais(merchantCode: string): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.fetchStoreDetailsURL,
             JSON.stringify({

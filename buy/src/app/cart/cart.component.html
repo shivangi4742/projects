@@ -59,6 +59,9 @@
               <div align="left" class="col s12 cartpitemofpBN truncate">{{'Offer Price' | translate}}:
                 <span class="cartpitemwmuBN"> ₹ {{item.offerPrice | number : '1.2-2'}}</span>
               </div>
+              <div class="offerpriceBN" *ngIf="item.shippingcharge && !chargePerOrder && !freeship">{{'Shipping Charge' | translate}}: 
+                  <span class="markupBN"> ₹ {{item.shippingcharge | number : '1.2-2'}}</span>
+              </div>
             </div>
             <div class="col s12">
               <div class="col s12 cartprditmqtydivBN itemPanelBN hide-on-large-only" align="center">
@@ -85,6 +88,8 @@
           <div class="col s12 padlr10BN">
             <div class="col s7 carttotalpriceBN">{{'Total Price' | translate}} :</div>
             <div class="col s5 carttotalpriceBN" align="right">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
+            <div class="col s7 carttotalpriceBN">{{'Shipping Charge' | translate}} :</div>
+            <div class="col s5 carttotalpriceBN" align="right">₹ {{getshippingPrice() | number : '1.2-2'}}</div>
             <div class="col s7 carttotalpriceBN discountgreenBN">{{'Discount' | translate}} :</div>
             <div class="col s5 carttotalpriceBN discountgreenBN" align="right">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
           </div>

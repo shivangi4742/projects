@@ -16,9 +16,33 @@
     padding-right: 55px;    
 }
 
+.offsetlBN {
+    padding-left: 35px;
+}
+
+.offsetlr2BN {
+    padding-left: 20px;
+    padding-right: 55px;    
+}
+
 .labelBN {
     font-size: 13pt;
     font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    color: #3D3D3D;
+    letter-spacing: 0.1rem;  
+}
+
+.errorLblBN {
+    font-size: 13pt;
+    font-family: 'Barlow', sans-serif;
+    color: #E53935;
+    font-weight: 600;
+    letter-spacing: 0.1rem;      
+}
+
+.label2BN {
+    font-size: 13pt;
     font-family: 'Barlow', sans-serif;
     color: #3D3D3D;
     letter-spacing: 0.1rem;  
@@ -200,4 +224,12 @@
 .itemPanelBN {
     padding-left: 0px;
     padding-right: 0px;    
+}
+
+.cityBN {
+    padding-top: 8px;
+}
+
+.stateBN {
+    padding-top: 15px;
 }

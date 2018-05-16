@@ -74,6 +74,7 @@ export class AddproductComponent implements OnInit {
   price: string;
   isdisprice: boolean = false;
   idis:string;
+  errSubmit: boolean= false;
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
@@ -97,6 +98,7 @@ export class AddproductComponent implements OnInit {
 
     this.userService.getUser()
       .then(res => this.init(res));
+      
 
     this.dateParams = [{
       format: 'dd-mm-yyyy', closeOnSelect: true, selectMonths: true, selectYears: 10, min: this.utilsService.getCurDateString(), monthsFull: this.monthsFull,
@@ -110,6 +112,7 @@ export class AddproductComponent implements OnInit {
         tag: 'Red',
         image: '../../assets/shared/images/redCircle.png'
       }],*/
+      
       placeholder: '+Color',
       secondaryPlaceholder: 'Done',
       autocompleteOptions: {
@@ -172,7 +175,9 @@ export class AddproductComponent implements OnInit {
   }
 
   addProdColor(res: any){
+
     this.newProduct.color = res.tag;
+
   }
 
   clearProdColor(){
@@ -424,6 +429,9 @@ export class AddproductComponent implements OnInit {
     if(this.discountError){
       return true;
     }
+    if(!this.newProduct.price){
+      return true;
+    }
 
     if(this.newProduct.productType == 'Lifestyle'){
       if(this.imageUrls.length < 1){
@@ -431,7 +439,7 @@ export class AddproductComponent implements OnInit {
       }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
-          if(!this.variants[i].price && !this.variants[i].color){
+          if(!this.variants[i].price && !this.variants[i].color ){
             return true;
           }
           if(this.variants[i].price < 10){
@@ -444,7 +452,10 @@ export class AddproductComponent implements OnInit {
           }
         }
       }
-      if(!this.newProduct.color){
+      if(!this.newProduct.color ){
+        return true;
+      }
+      if(!this.newProduct.name ){
         return true;
       }
     }
@@ -453,9 +464,15 @@ export class AddproductComponent implements OnInit {
       if(this.imageUrls.length < 1){
         return true;
       }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
       if(this.newProduct.hasVariants){
         for(let i:number = 0; i < this.variants.length; i++){
-          if(!this.variants[i].price && !this.variants[i].variantCode){
+          if(!this.variants[i].price ){
             return true;
           }
           if(this.variants[i].price < 10){
@@ -471,11 +488,63 @@ export class AddproductComponent implements OnInit {
     }
 
     if(this.newProduct.productType == 'Event'){
-     
+      if(this.imageUrls.length < 1){
+        return true;
+      }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
+      if(!this.newProduct.startDate){
+        return true;
+      }
+      if(!this.newProduct.venue){
+        return true;
+      }
+      if(this.newProduct.hasVariants){
+        for(let i:number = 0; i < this.variants.length; i++){
+          if(!this.variants[i].price ){
+            return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
+        }
+      }
     }
 
     if(this.newProduct.productType == 'Other'){
-     
+      if(this.imageUrls.length < 1){
+        return true;
+      }
+      if(!this.newProduct.name ){
+        return true;
+      }
+      if(!this.newProduct.price){
+        return true;
+      }
+      if(this.newProduct.hasVariants){
+        for(let i:number = 0; i < this.variants.length; i++){
+          if(!this.variants[i].price ){
+            return true;
+          }
+          if(this.variants[i].price < 10){
+            return true;
+          }
+          if(this.variants[i].discountedPrice){
+            if(this.variants[i].discountedPrice < 10 || this.variants[i].price <= this.variants[i].discountedPrice){
+              return true;
+            }
+          }
+        }
+      }
     }
 
     return false;
@@ -489,17 +558,25 @@ export class AddproductComponent implements OnInit {
     this.selectProdType('Lifestyle');
     this.newProdCheck = true;
     this.modalActions.emit({ action: "modal", params: ['close'] });
+    this.router.navigateByUrl('/catalogue');
   }
-
+  
   onSubmit(){
+    this.errSubmit= true;
+    if(!this.checkForm()){
+      this.errSubmit= false;
     this.newProduct.prodSizes = this.prodSizes;
     this.newProduct.prodImgUrls = this.imageUrls;
     this.newProduct.variants = this.variants;
-    console.log('Submitted!', this.newProduct);
     this.productService.addProductHB(this.user.merchantCode, this.newProduct)
       .then(res => this.added(res));
 
     this.modalActions.emit({ action: "modal", params: ['open'] });
     this.newProdCheck = false;
   }
+  else {
+       this.errSubmit= true;
+ }
+
+}
 }

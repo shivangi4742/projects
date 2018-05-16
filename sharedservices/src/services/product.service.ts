@@ -523,6 +523,13 @@ export class ProductService {
         if(product.endDate) {
             this.prodenddate = product.endDate + ' ' + '00:00:00';
         }
+        if(product.durationHours){
+            
+        }
+        if( product.durationMinutes){
+
+        }
+        
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.addProductHBURL,
                 JSON.stringify({
@@ -544,8 +551,8 @@ export class ProductService {
                     "prodSizes": product.prodSizes,
 
                     "shippingCharge":product.shippingcharge,
-                    "durationHours":product.durationHours,
-                    "durationMinutes":product.durationMinutes
+                    "durationHours":"",
+                    "durationMinutes":""
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { UtilsService, User, UserService, LocationService, NewProduct,Businesspro, ProductService, NewVariant, NewSize, Product, CampaignService } from 'benowservices';
+import { UtilsService, User, UserService, LocationService, NewProduct, Businesspro, ProductService, NewVariant, NewSize, Product, CampaignService } from 'benowservices';
 import { MaterializeAction } from "angular2-materialize";
 
 @Component({
@@ -10,14 +10,16 @@ import { MaterializeAction } from "angular2-materialize";
   styleUrls: ['./productcatalog.component.css']
 })
 export class ProductcatalogComponent implements OnInit {
-  businesspro:Businesspro;
-  storeURL:string;
-  smsucess:boolean = false;
-  emailtext:boolean = false;
-  subject:string;
-  email:string;
-  mobileNumber:string;
-  smstext:boolean = false;
+  businesspro: Businesspro;
+  storeURL: string;
+  storenewurl: string;
+  smsucess: boolean = false;
+  storeshare: boolean = false;
+  emailtext: boolean = false;
+  subject: string;
+  email: string;
+  mobileNumber: string;
+  smstext: boolean = false;
   user: User;
   dashboard: string = '/dashboard';
   uploadsURL: string;
@@ -28,15 +30,16 @@ export class ProductcatalogComponent implements OnInit {
   processing: boolean = false;
   deleting: boolean = false;
   inStock: boolean = false;
-  modalActions: any = new EventEmitter<string|MaterializeAction>();
+
+  modalActions: any = new EventEmitter<string | MaterializeAction>();
   fromDt: any;
   toDt: any;
-  url:string;
+  url: string;
   isCopied1: boolean = false;
   dateParams: any;
-  prodId:string;
-  text:string;
-  suceessmsg:boolean = false;
+  prodId: string;
+  text: string;
+  suceessmsg: boolean = false;
   today: string = 'Today';
   close: string = 'Close';
   clear: string = 'Clear';
@@ -59,12 +62,15 @@ export class ProductcatalogComponent implements OnInit {
   monthsShortX: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   monthsFull: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  sharemodalActions: any = new EventEmitter<string|MaterializeAction>();
-  storeurl:string;
-  streurl:string;
+  sharemodalActions: any = new EventEmitter<string | MaterializeAction>();
+  storeurl: string;
+  streurl: string;
+  streurlpre: string;
+  streurlpaypre: string;
+  urlstorepre: string;
 
-  constructor(private router: Router,private campaignservice:CampaignService, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
-              private productService: ProductService) {
+  constructor(private router: Router, private campaignservice: CampaignService, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
+    private productService: ProductService) {
     this.uploadsURL = utilsService.getUploadsURL();
   }
 
@@ -106,37 +112,44 @@ export class ProductcatalogComponent implements OnInit {
 
   }
 
-  init(res: User){
+  init(res: User) {
     this.user = res;
-    this.userService.checkMerchant(this.user.mobileNumber,'b')
-    .then(bres=>this.initshare(bres));
+    this.userService.checkMerchant(this.user.mobileNumber, 'b')
+      .then(bres => this.initshare(bres));
 
     this.productService.getProducts(this.user.merchantCode, this.page)
       .then(pres => this.updateProds(pres));
   }
-  initshare(res:any){
-    
+  initshare(res: any) {
+
     this.businesspro = res;
-    if(this.businesspro.storeUrl!=null){
-    this.storeurl= "https://pay-"+ this.businesspro.storeUrl + ".benow.in";
-    this.streurl= this.businesspro.storeUrl + ".benow.in";
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
+    if (this.businesspro.storeUrl) {
+      this.streurl = this.businesspro.storeUrl + ".benow.in";
+      this.storenewurl = this.businesspro.storeUrl + ".benow.in/store";
+      this.streurlpre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
     } else {
-      this.storeurl= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
-    this.streurl= this.businesspro.storeUrl + ".benow.in";
-    this.url= this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode +"/store";
+      var t = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode;
+
+      this.streurl = t + "/homepage";
+      this.storenewurl = t + "/homepage";
+
+      this.streurlpre = t + "/homepage";
+      this.streurlpaypre = t + "/pay";
+      this.urlstorepre = t + "/store";
+
+
     }
-   
+
   }
 
 
-  updateProds(res: any){
+  updateProds(res: any) {
     this.numPages = res.numPages;
     this.products = res.products;
-//     console.log(this.products,'this.products');
+    //     console.log(this.products,'this.products');
     this.processing = false;
-    
-  
+
+
   }
 
   next() {
@@ -157,15 +170,15 @@ export class ProductcatalogComponent implements OnInit {
       .then(pres => this.updateProds(pres));
   }
 
-  hasProducts(): boolean{
-    if(this.products && this.products.length > 0)
+  hasProducts(): boolean {
+    if (this.products && this.products.length > 0)
       return true;
 
     return false;
   }
 
   deleted(res: Boolean) {
-    if(res == true){
+    if (res == true) {
       this.productService.getProducts(this.user.merchantCode, this.page)
         .then(pres => this.updateProds(pres));
     }
@@ -179,65 +192,91 @@ export class ProductcatalogComponent implements OnInit {
       .then(res => this.deleted(res));
   }
 
-  edit(id: any){
-    this.router.navigateByUrl('/editproduct/'+id);
+  edit(id: any) {
+    this.router.navigateByUrl('/editproduct/' + id);
   }
-  
+  shareclose() {
+    this.sharemodalActions.emit({ action: "modal", params: ['close'] });
+  }
   twitterbutton() {
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
-    window.open('https://twitter.com/share?url=' + this.url,'', 
-    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    window.open('https://twitter.com/share?url=' + this.url, '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
 
   fbClick() {
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
-    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' + 
-    this.url + '&display=popup&ref=plugin&src=share_button', '',
-     'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+    this.suceessmsg = false;
+    this.emailtext = false;
+    this.smsucess = false;
+    this.smstext = false;
+    window.open('https://www.facebook.com/sharer/sharer.php?kid_directed_site=0&u=' +
+      this.url + '&display=popup&ref=plugin&src=share_button', '',
+      'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
     return false;
   }
-  share(id:any){
-    this.prodId= id;
+  share() {
+    this.storeshare = !this.storeshare;
+    this.url = this.businesspro.storeUrl + ".benow.in/store";
+  }
+  sharep(id: any) {
+    this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
+    if (this.businesspro.storeUrl) {
+      this.url = this.businesspro.storeUrl + ".benow.in/"+ this.user.merchantCode +"/product/" + id;
+    } else {
+      this.url = this.utilsService.getBaseURL() + "buy/" + this.user.merchantCode + "/product/" + id;
+    }
     this.sharemodalActions.emit({ action: "modal", params: ['open'] });
-    this.url= "https://"+ this.businesspro.storeUrl + ".benow.in";
-}
-shareclose(){
-  this.sharemodalActions.emit({ action: "modal", params: ['close'] });
-}
-createprod(){
-  this.router.navigateByUrl('/addproduct');
-}
-emaiil(){
-  this.emailtext = !this.emailtext;
-  this.smstext = false;
-}
-emailpost(){
-  this.text=this.url;
-  this.subject="";
-  this.campaignservice.sendEmail(this.email, this.text, this.subject,'')
-    .then(res => this.emailposth(res));
-}
-emailposth(res:any){
-  if(res){
-    this.suceessmsg= true;
   }
-}
-sms() {
-this.smstext = !this.smstext;
-this.emailtext = false;
-}
-smspost(){
-  this.campaignservice.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
-   .then(res => this.smsposth(res));
-}
-smsposth(res:any){
-  if(res){
-    this.smsucess= true;
-  }
-}
-WhatsApp(){
-  window.open('whatsapp://send?text=' + this.url);
-}
 
+  createprod() {
+    this.router.navigateByUrl('/addproduct');
+  }
+  emaiil() {
+    this.emailtext = !this.emailtext;
+    this.smstext = false;
+  }
+  emailpost() {
+    this.text = this.url;
+    this.subject = "";
+    this.campaignservice.sendEmail(this.email, this.text, this.subject, '')
+      .then(res => this.emailposth(res));
+  }
+  emailposth(res: any) {
+    if (res) {
+      this.suceessmsg = true;
+      this.smsucess = false;
+    }
+  }
+  sms() {
+    this.smstext = !this.smstext;
+    this.emailtext = false;
+  }
+  smspost() {
+    this.campaignservice.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
+      .then(res => this.smsposth(res));
+  }
+  smsposth(res: any) {
+    if (res) {
+      this.smsucess = true;
+      this.suceessmsg = false;
+    }
+  }
+  WhatsApp() {
+    window.open('whatsapp://send?text=' + this.url);
+  }
+  addpro() {
+    this.router.navigateByUrl('/addproduct');
+  }
+  hasemail() {
+    if (this.email) {
+      return false;
+    }
+    return true;
+  }
+  hasSMS() {
+    if (this.mobileNumber) {
+      return false;
+    }
+    return true;
+  }
 }

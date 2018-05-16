@@ -54,7 +54,8 @@ export class UserService {
     changePasswordURL: 'user/changeoldpassword',
     storeavailableURL: 'user/displayupdate',
     getSetCODURL: 'user/setCOD',
-    getSetCODOffURL: 'user/setCODOff'
+    getSetCODOffURL: 'user/setCODOff',
+    congratulationURL: 'user/congratulationupdate',
   }
   arealo:  Array<Locality>;
 
@@ -795,4 +796,15 @@ export class UserService {
         .catch(res => null);
 }
 
+congratulation(id: string): Promise<any> {
+  return this.http
+    .post(this.utilsService.getBaseURL() + this._urls.congratulationURL,
+      JSON.stringify({
+       "id":id
+      }),
+      { headers: this.utilsService.getHeaders() })
+    .toPromise()
+    .then(res => res.json())
+    .catch(res => this.handleError(res.json()));
+}
 }

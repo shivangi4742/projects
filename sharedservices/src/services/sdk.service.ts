@@ -31,6 +31,7 @@ export class SDKService {
         get80GURL: 'sdk/get80G',
         send80GURL: 'sdk/send80G',
         getHashURL: 'sdk/getHash',
+        getInvoiceURL: 'sdk/getInvoice',
         createBillURL: 'sdk/createBill',
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
@@ -45,6 +46,7 @@ export class SDKService {
         razorpayConfirmPayment: 'sdk/razorpayConfirmPayment',
         getMerchantPaymentInfo: 'sdk/getMerchantPaymentInfo',
         getPaytmChecksum: 'sdk/getPaytmChecksum',
+        getSupportedCurrenciesURL: 'sdk/getSupportedCurrencies',
         createSodexoTransactionURL: 'sdk/createSodexoTransaction'
     }
 
@@ -232,6 +234,34 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    getSupportedCurrencies(): Promise<any> {
+        return this.http.post(this.utilsService.getBaseURL() + this._urls.getSupportedCurrenciesURL, null,
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => null);
+    }
+
+    getInvoice(merchantCode: string, txnId: string): Promise<any> {
+        if(txnId && merchantCode) {
+            return this.http
+                .post(this.utilsService.getBaseURL() + this._urls.getInvoiceURL,
+                    { "txnId": txnId, "merchantCode": merchantCode },
+                    { headers: this.utilsService.getPDFHeaders(), responseType: ResponseContentType.Blob })
+                .toPromise()
+                .then(response => {
+                    let fileBlob = response.blob();
+                    let blob = new Blob([fileBlob], {
+                        type: 'application/pdf'
+                    });
+                    FileSaver.saveAs(blob, txnId + '.pdf');
+                })
+                .catch(res => null);
+        }
+
+        return Promise.resolve(null);
     }
 
     get80G(campaignId: string, txnId: string): Promise<any> {

@@ -50,19 +50,20 @@
 
 .storeLogoDivBN {
     margin-top: -65px;
-    height: 130px;
-    width: 130px;
-    border-radius: 65px;
-    overflow: hidden;
-    background-color: white;
-    white-space: nowrap;    
+    max-height: 130px;
+    max-width: 130px;
+    background-color: transparent;
 }
 
 .storeLogoBN {
     max-height: 130px;
     width: 127px;
     vertical-align: middle;
+    background-color: white;
+    border: 3px solid white;
+    box-shadow: 0 1px 1px 1px #e0e0e0;
 }
+
 
 .helperBN {
     display: inline-block;
@@ -155,6 +156,11 @@
     padding-right: 35px;    
 }
 
+.offsetlr3BN {
+    padding-left: 40px;
+    padding-right: 35px;    
+}
+
 .binputdivBN {
     margin-top: 10px;
 }
@@ -182,4 +188,43 @@
     font-family: 'Barlow', sans-serif;
     letter-spacing: 0.1rem;   
     text-transform: none;    
+}
+
+.storeimgBN {
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.storeimgBN {
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.storetitle1BN{
+    font-size: 16pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #3D3D3D;  
+}
+.storetitle2BN {
+    font-size: 15pt!important;
+    font-weight: 600;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55)
+}
+.storetitle3BN {
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: rgba(158, 158, 158, 0.55) 
+}
+.storetitle4BN{
+    font-size: 11pt!important;
+    font-weight: 400;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 0.05rem;
+    color: #E53935;
 }
