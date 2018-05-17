@@ -46,6 +46,7 @@ export class SDKService {
         razorpayConfirmPayment: 'sdk/razorpayConfirmPayment',
         getMerchantPaymentInfo: 'sdk/getMerchantPaymentInfo',
         getPaytmChecksum: 'sdk/getPaytmChecksum',
+        getSupportedCurrenciesURL: 'sdk/getSupportedCurrencies',
         createSodexoTransactionURL: 'sdk/createSodexoTransaction'
     }
 
@@ -233,6 +234,14 @@ export class SDKService {
             .toPromise()
             .then(res => res.json())
             .catch(res => this.utilsService.returnGenericError());
+    }
+
+    getSupportedCurrencies(): Promise<any> {
+        return this.http.post(this.utilsService.getBaseURL() + this._urls.getSupportedCurrenciesURL, null,
+            { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => null);
     }
 
     getInvoice(merchantCode: string, txnId: string): Promise<any> {
