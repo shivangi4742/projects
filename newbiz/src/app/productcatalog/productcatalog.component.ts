@@ -252,7 +252,7 @@ export class ProductcatalogComponent implements OnInit {
     this.emailtext = false;
   }
   smspost() {
-    this.campaignservice.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
+    this.campaignservice.smsCampaignLink(this.url, 479,  this.user.displayName, '', this.mobileNumber)
       .then(res => this.smsposth(res));
   }
   smsposth(res: any) {

@@ -316,7 +316,7 @@ export class DashboardComponent implements OnInit {
     this.emailtext = false;
   }
   smspost() {
-    this.CampaignService.smsCampaignLink(this.url, 479, '', this.user.displayName, this.mobileNumber)
+    this.CampaignService.smsCampaignLink(this.url, 479, this.user.displayName,'' ,this.mobileNumber)
       .then(res => this.smsposth(res));
   }
   smsposth(res: any) {

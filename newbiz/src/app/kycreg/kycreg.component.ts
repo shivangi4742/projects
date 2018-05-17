@@ -117,7 +117,7 @@ export class KycregComponent implements OnInit {
                 }
                 else {
                     this.uploading = true;
-                    this.fileService.upload1(e.target.files[0], this.user.id, "MERCHANT_REG", "Authenticate_Pan", "Authenticate_Pan_KYC", this.uploadauthticatepan, this);
+                    this.fileService.upload2(e.target.files[0], this.user.id, "MERCHANT_REG", "Authenticate_Pan", "Authenticate_Pan_KYC", this.uploadauthticatepan, this);
                 }
             }
         }
@@ -153,7 +153,7 @@ export class KycregComponent implements OnInit {
                 }
                 else {
                     this.uploading = true;
-                    this.fileService.upload1(e.target.files[0], this.user.id, "MERCHANT_REG", "Authenticate_Bank", "Authenticate_bank_KYC", this.uploadauthticatebank, this);
+                    this.fileService.upload2(e.target.files[0], this.user.id, "MERCHANT_REG", "Authenticate_Bank", "Authenticate_bank_KYC", this.uploadauthticatebank, this);
                 }
             }
         }

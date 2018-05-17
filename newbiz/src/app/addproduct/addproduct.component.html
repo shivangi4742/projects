@@ -560,12 +560,12 @@
             <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
           </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.durationHours" class="timepicker inputTextBN"
+          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.startTime" class="timepicker inputTextBN"
           placeholder="{{'Enter Start Time' | translate}}" materialize="pickatime"  />
           <label for="edurationhrs" class ="active labelPLBN">{{'Start Time' | translate}}</label>
         </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.durationMinutes" class="timepicker inputTextBN" 
+          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.endTime" class="timepicker inputTextBN" 
           materialize="pickatime" placeholder="{{'Enter End Time' | translate}}"       />
           <label for="edurationmin" class ="active labelPLBN">{{'End Time' | translate}}</label>
         </div>
