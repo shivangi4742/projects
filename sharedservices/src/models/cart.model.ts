@@ -11,6 +11,8 @@ export class Cart {
         public paymentMode: string,
         public pin: string,
         public city: string,
-        public state: string
+        public state: string,
+        public tShipping:number,
+        public convenienceFee:number
     ){ }
 }

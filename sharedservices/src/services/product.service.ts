@@ -134,7 +134,7 @@ export class ProductService {
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom, 
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),           
 
-            res.color, res.size, res.productType, null, null, null, res.merchantCode, null, res.shippingCharge,  res.durationHours,  res.durationMinutes);   
+            res.color, res.size, res.productType, null, null, null, res.merchantCode, null, res.shippingCharge,  res.startTime,  res.endTime);   
         if(res.productImages && res.productImages.length > 0) {
             newp.imageURLs = new Array<string>();
             res.productImages.forEach(function(pi: any) {
@@ -265,7 +265,7 @@ export class ProductService {
             product = new NewProduct(false, true, false, res.prodPrice, res.discountedPrice,
                 res.id, res.prodName, res.prodDescription, res.uom, res.color, res.productSizes, res.productImages, res.isAvailable,
 
-                res.productType, hasVariants, variants, res.venue, res.startDate, res.endDate, res.fileUrl ,res.shippingCharge, res.durationHours, res.durationMinutes);
+                res.productType, hasVariants, variants, res.venue, res.startDate, res.endDate, res.fileUrl ,res.shippingCharge, res.startTime, res.endTime);
         }
 
         return product;
@@ -316,8 +316,8 @@ export class ProductService {
 
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
 
-                    null, res[i].merchantCode, null, res[i].shippingCharge,res[i].durationHours,
-                    res[i].durationMinutes));
+                    null, res[i].merchantCode, null, res[i].shippingCharge,res[i].startTime,
+                    res[i].endTime));
         }
 
         return this._campProducts;
@@ -333,8 +333,8 @@ export class ProductService {
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,                   
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null, 
 
-                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].durationHours,
-                    res[i].durationMinutes));
+                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].startTime,
+                    res[i].endTime));
           }
         }
    
@@ -369,7 +369,7 @@ export class ProductService {
                     prods.push(new NewProduct(false, true, false, res[i].prodPrice, res[i].discountedPrice,
                         res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, res[i].color, res[i].productSizes, res[i].productImages, res[i].isAvailable,
 
-                        res[i].productType, hasVariants, variants, res[i].venue, res[i].startDate, res[i].endDate, res[i].fileUrl, res[i].shippingCharge, res[i].durationHours, res[i].durationMinutes));
+                        res[i].productType, hasVariants, variants, res[i].venue, res[i].startDate, res[i].endDate, res[i].fileUrl, res[i].shippingCharge, res[i].startTime, res[i].endTime));
                 }
             }
 
@@ -395,8 +395,8 @@ export class ProductService {
         if(res && res.prodPrice > 0)
             return new Product(true, false, true, null, res.prodPrice, res.prodPrice, res.id, null, res.prodName, res.prodDescription, res.uom,                
 
-                res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode, null, null,res.durationHours,
-                res.durationMinutes);
+                res.prodImgUrl, res.color, res.size, res.productType, null, null, null, res.merchantCode, null, null,res.startTime,
+                res.endTime);
         else
             return null;
     }
@@ -412,12 +412,12 @@ export class ProductService {
                 }
                 return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
 
-                    res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.durationHours, res.durationMinutes);
+                    res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.startTime, res.endTime);
             }
 
             return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
 
-                res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.durationHours, res.durationMinutes);
+                res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, res.startDate, res.endDate, null, res.shippingCharge, res.startTime, res.endTime);
         }
         else
             return null;
@@ -523,12 +523,7 @@ export class ProductService {
         if(product.endDate) {
             this.prodenddate = product.endDate + ' ' + '00:00:00';
         }
-        if(product.durationHours){
-            
-        }
-        if( product.durationMinutes){
-
-        }
+       
         
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.addProductHBURL,
@@ -551,8 +546,8 @@ export class ProductService {
                     "prodSizes": product.prodSizes,
 
                     "shippingCharge":product.shippingcharge,
-                    "durationHours":"",
-                    "durationMinutes":""
+                    "startTime":product.startTime,
+                    "endTime":product.endTime
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()
@@ -584,10 +579,9 @@ export class ProductService {
                     "discountedPrice": product.discountedPrice,
                     "color": product.color,
                     "prodSizes": product.prodSizes,
-
                     "shippingCharge":product.shippingcharge,
-                    "durationHours": product.durationHours,
-                    "durationMinutes": product.durationMinutes
+                    "startTime": product.startTime,
+                    "endTime": product.endTime
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()

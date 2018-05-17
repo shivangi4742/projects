@@ -101,7 +101,9 @@ export class CartService {
                 "merchantcode": this._cart.merchantCode,
                 "merchantname": merchantName,
                 "paytype": pt,
-                "products": this._cart.items
+                "products": this._cart.items,
+                "totalShipping": this._cart.tShipping,
+                "convenienceFee": this._cart.convenienceFee
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()
@@ -120,12 +122,14 @@ export class CartService {
                 "city": this._cart.city,
                 "state": this._cart.state,
                 "payamount": amount,
-                "phone": this._cart.phone,
+                "phone": this._cart.phone,  
                 "merchantcode": this._cart.merchantCode,
                 "merchantname": merchantName,
                 "merchantvpa": merchantVPA,
                 "paytype": 'UPI_OTHER_APP',
-                "products": this._cart.items
+                "products": this._cart.items,
+                "totalShipping": this._cart.tShipping,
+                "convenienceFee": this._cart.convenienceFee
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()
@@ -148,7 +152,9 @@ export class CartService {
                 "merchantcode": this._cart.merchantCode,
                 "merchantname": merchantname,
                 "paytype": 'CASH',
-                "products": this._cart.items
+                "products": this._cart.items,
+                "totalShipping": this._cart.tShipping,
+                "convenienceFee": this._cart.convenienceFee
             }),
             { headers: this.utilsService.getHeaders() })
             .toPromise()
@@ -187,7 +193,7 @@ export class CartService {
             
         if(crt) {
             this._cart = new Cart(crt.name, crt.phone, crt.email, crt.address, new Array<CartItem>(), crt.merchantCode, crt.paymentMode,
-                crt.pin, crt.city, crt.state);
+                crt.pin, crt.city, crt.state, crt.tShipping, crt.convenienceFee);
             if(crt.items && crt.items.length > 0) {
                 let me: any = this;
                
@@ -206,9 +212,9 @@ export class CartService {
     }
 
     public setBuyerInfo(name: string, email: string, address: string, phone: string, merchantCode: string, pin: string, city: string, 
-        state: string) {
+        state: string, tShipping:number, convenienceFee: number) {
         if(!this._cart)
-            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '', pin, city, state);
+            this._cart = new Cart(name, phone, email, address, new Array<CartItem>(), merchantCode, '', pin, city, state, tShipping, convenienceFee);
         else {
             this._cart.name = name;
             this._cart.email = email;
@@ -221,7 +227,7 @@ export class CartService {
 
     public setPaymentMode(paymentMode: string, merchantCode: string) {
         if(!this._cart)
-            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode, '', '', '');
+            this._cart = new Cart('', '', '', '', new Array<CartItem>(), merchantCode, paymentMode, '', '', '', 0,0);
         else
             this._cart.paymentMode = paymentMode;
 
@@ -259,7 +265,7 @@ export class CartService {
     public addToCart(code: string, prod: Product, variant: string, size: string, qty: number) {
         if(qty > 0) {
             if(!this._cart)
-                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '', '', '', '');
+                this._cart = new Cart('', '', '', '', new Array<CartItem>(), prod.merchantCode, '', '', '', '',0, 0);
             
             if(!this._cart.items)
                 this._cart.items = new Array<CartItem>();

@@ -46,8 +46,9 @@ export class UtilsService {
   private _uploadsURL1: string = 'https://mobilepayments.benow.in/merchants/';
   // private _paytmPgUrl: string = 'https://pguat.paytm.com/oltp-web/processTransaction';
   private _paytmPgUrl: string = 'https://securegw.paytm.in/theia/processTransaction';
-private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/images/addproducts2@2x.png';
-  private _defaultStoreImageURL: string = 'https://merchant.benow.in/assets/paymentlink/images/paym.png';
+private _noProdImageURL: string = 'http://localhost:9090/assets/shared/images/addproducts2@2x.png';
+  private _defaultStoreImageURL: string = 'http://localhost:9090/assets/paymentlink/images/paym.png';
+  private _defaultStorebannerImageURL: string ='http://localhost:9090/assets/paymentlink/images/bannerdefault.png'
   private razorpay_key: string = 'rzp_live_xj14aQN4PrZQET';
   private _sysColors: Array<string> = ['brown', 'grey', 'black', 'blue', 'purple', 'green', 'pink', 'gold', 'red', 'silver', 'yellow', 'gunmetal', 
     'maroon', 'white', 'orange', 'metallic', 'beige', 'copper', 'navy', 'burgundy', 'olive', 'steel', 'charcoal', 'bronze', 'teal', 'coral', 'peach', 
@@ -134,6 +135,9 @@ private _noProdImageURL: string = 'https://merchant.benow.in/assets/shared/image
   public getDefaultStoreImageURL(): string {
     return this._defaultStoreImageURL;
   }
+ public getDefaultStorebannerImageURL(): string{
+    return this._defaultStorebannerImageURL;
+ }
 
   public getDocumentsPrefixURL(): string {
     return this._documentsPrefixURL;

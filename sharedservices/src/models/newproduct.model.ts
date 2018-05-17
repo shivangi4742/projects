@@ -25,6 +25,6 @@ export class NewProduct {
         public endDate: any,
         public fileUrl: string | null,
         public shippingcharge: string | null,
-        public durationHours: string | null,
-        public durationMinutes: string | null ) { }
+        public startTime: string | null ,
+        public endTime: string | null) { }
 }
