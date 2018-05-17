@@ -38,8 +38,9 @@ export class StoreComponent implements OnInit {
   mailStoreEmail: string;
   callStoreContact: string;  
   pp:string;
+  bnerimage:string;
   //HARDCODED
-//  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
+ storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
     private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router) { }
@@ -108,7 +109,9 @@ logoourl(res:any) {
         }
       }
       else {
+        this.bnerimage = this.utilsService.getDefaultStorebannerImageURL();
         if(document.getElementById('storeimgdiv')) {	
+          document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.bnerimage+ "')";
           document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
           document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
           document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	

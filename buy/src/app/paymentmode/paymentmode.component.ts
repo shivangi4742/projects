@@ -34,6 +34,8 @@ export class PaymentmodeComponent implements OnInit {
   freeship: boolean = false;
   chargeperprod: boolean = false;
   chargePerOrder: boolean = false;
+  totalshipping:number;
+  tconvenifess:number;
 
   constructor(private cartService: CartService, private router: Router, private storeService: StoreService, private utilsService: UtilsService,
     private activatedRoute: ActivatedRoute, private sdkService: SDKService, private socketService: SocketService,
@@ -103,6 +105,8 @@ export class PaymentmodeComponent implements OnInit {
       }
       this.settings = res;
       this.defaultVPA = this.getDefaultVPA();
+     /*  this.tconvenifess = this.getConvenienceFee();
+      this.cart.convenienceFee = this.tconvenifess; */
       if (this.settings.acceptedPaymentMethods && this.settings.acceptedPaymentMethods.length > 0) {
         for (let i = 0; i < this.settings.acceptedPaymentMethods.length; i++) {
           if (this.settings.acceptedPaymentMethods[i].paymentMethod
@@ -119,8 +123,12 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   fillCart(res: Cart) {
+    this.totalshipping = this.getshippingPrice();  
+    
     if (res && res.items && res.items.length > 0) {
       this.cart = res;
+      this.cart.convenienceFee = this.tconvenifess;
+      console.log( this.cart.convenienceFee);
       if (this.utilsService.isAnyMobile())
         this.buildUPIURL();
     }
@@ -205,20 +213,25 @@ export class PaymentmodeComponent implements OnInit {
   ngOnInit() {
     this.merchantCode = this.activatedRoute.snapshot.params['code'];
     if (this.merchantCode) {
+
       this.storeService.assignMerchant(this.merchantCode);
+      this.storeService.fetchStoreDetails(this.merchantCode)
+        .then(res2 => this.fillStoreSettings(res2));
+
       this.cartService.getCart(this.merchantCode)
         .then(res => this.fillCart(res));
 
-      this.storeService.fetchStoreDetails(this.merchantCode)
-        .then(res2 => this.fillStoreSettings(res2))
     }
     else {
+     
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
+      this.totalshipping = this.getshippingPrice();
+     
       if (this.plInfo && this.plInfo.merchantCode) {
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, '',
-          this.plInfo.pin, this.plInfo.city, this.plInfo.state);
+          this.plInfo.pin, this.plInfo.city, this.plInfo.state, this.totalshipping, this.tconvenifess);
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillStoreSettings(res2))
@@ -290,12 +303,15 @@ export class PaymentmodeComponent implements OnInit {
       if (this.isPaymentlink) {
         this.plInfo.transactionId = res.transactionRef;
         this.plInfo.convenienceFee = this.getConvenienceFee();
-        this.plInfo.totalAmount = this.paidAmount;
+        this.plInfo.totalAmount = this.paidAmount ;
         this.paymentlinkService.setPaymentlinkDetails(this.plInfo);
+       
         this.router.navigateByUrl('/pg');
       }
-      else
+      else {
+       
         this.router.navigateByUrl('/' + this.merchantCode + '/pg/' + res.transactionRef + '/' + cf);
+      }
     }
     else {
       this.processing = false;
@@ -328,7 +344,8 @@ export class PaymentmodeComponent implements OnInit {
 
   payForCart() {
     if (this.cartService.isCartPayable()) {
-      this.paidAmount = this.cartService.getCartTotal();
+      this.paidAmount = this.cartService.getCartTotal() + this.getshippingPrice();
+     
       switch (this.cart.paymentMode) {
         case 'CASH':
           this.cartService.startCashPaymentProcess(this.settings.displayName)
@@ -337,8 +354,9 @@ export class PaymentmodeComponent implements OnInit {
         case 'UPI':
           this.payRequest = null;
           if (this.settings.chargeConvenienceFee)
-            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
-
+            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100  ;
+            this.cart.convenienceFee = this.getConvenienceFee();
+         
           this.cartService.startUPIPaymentProcess(this.defaultVPA, this.settings.displayName, this.paidAmount)
             .then(res => this.finishUPIPayment(res));
           break;
@@ -346,8 +364,9 @@ export class PaymentmodeComponent implements OnInit {
         case 'DC':
         case 'NB':
           if (this.settings.chargeConvenienceFee)
-            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100;
-
+            this.paidAmount = Math.round(this.paidAmount * 102.36) / 100 ;
+            this.cart.convenienceFee = this.getConvenienceFee();
+         
           this.cartService.startPayUPaymentProcess(this.settings.displayName, this.paidAmount)
             .then(res => this.finishPayUPayment(res))
           break;
@@ -362,11 +381,12 @@ export class PaymentmodeComponent implements OnInit {
   }
 
   onSubmit() {
-    this.processing = true;
+    this.processing = true;   
     if (this.isPaymentlink) {
       this.plInfo.paymentMode = this.cart.paymentMode;
+     
       this.paymentlinkService.setPaymentlinkDetails(this.plInfo);
-      this.pay()
+      this.pay();
     }
     else {
       this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);

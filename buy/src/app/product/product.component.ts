@@ -25,6 +25,11 @@ export class ProductComponent implements OnInit {
   imgPage: number = 0;
   numImgPages: number = 1;
   selVariant: string = '-1';
+  orderShipCharge: number;
+  freeship:boolean = false;
+  chargeperprod:boolean = false;
+  chargePerOrder:boolean = false;
+
   constructor(private productService: ProductService, private router: Router, private activatedRoute: ActivatedRoute,
     private storeService: StoreService, private utilsService: UtilsService, private cartService: CartService) { }
 
@@ -37,8 +42,26 @@ export class ProductComponent implements OnInit {
       .then(res => this.init(res));    
 
     this.productService.getProductsForStore(this.merchantCode, 1)
-      .then(res2 => this.initRecommendations(res2));      
+      .then(res2 => this.initRecommendations(res2));    
+      
+      this.storeService.fetchStoreDetails(this.merchantCode)
+      .then(bres => this.fetchinit(bres));
   }
+  
+  fetchinit(bres:any){
+  
+    if(bres.chargePerOrder){
+      this.chargePerOrder=bres.chargePerOrder;
+    this.orderShipCharge = bres.orderShipCharge;
+    }
+    if(bres.freeShip) {
+      this.freeship = true
+    }
+    if(bres.chargePerProd){
+      this.chargeperprod = true
+    }
+    
+ }
 
   initRecommendations(res: any) {
     if(res && res.products && res.products.length > 0) {

@@ -24,17 +24,20 @@ export class PgComponent implements OnInit {
   constructor(private route: ActivatedRoute, private cartService: CartService, private storeService: StoreService, private router: Router,
     private utilsService: UtilsService, private paymentlinkService: PaymentlinkService) { }
 
+    
   fillCart(res: Cart) {
+
     if(res) {
-      this.amount = this.cartService.getCartTotal();
+      this.amount = this.cartService.getCartTotal() +  res.tShipping;
       if(this.cf > 0)
-        this.amount = Math.round(this.amount * 102.36) / 100;
+        this.amount = Math.round(this.amount * 102.36) / 100 +  res.tShipping;
   
       this.cart = res;
-      this.submitMe();  
+     this.submitMe();  
     }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
+  
   }
 
   fillSettings(res: any) {
@@ -87,13 +90,14 @@ export class PgComponent implements OnInit {
     }
     else {
       this.plInfo = this.paymentlinkService.getPaymentlinkDetails();
+     
       if(this.plInfo && this.plInfo.transactionId && this.plInfo.merchantCode) {
         this.isPaymentlink = true;
         this.id = this.plInfo.transactionId;
         this.amount = this.plInfo.totalAmount;
         this.merchantCode = this.plInfo.merchantCode;
         this.cart = new Cart(this.plInfo.name, this.plInfo.phone, this.plInfo.email, this.plInfo.address, null, this.merchantCode, 
-          this.plInfo.paymentMode, this.plInfo.pin, this.plInfo.city, this.plInfo.state);
+          this.plInfo.paymentMode, this.plInfo.pin, this.plInfo.city, this.plInfo.state, this.plInfo.tShipping, this.plInfo.convenienceFee);
         this.storeService.fetchStoreDetails(this.merchantCode)
           .then(res2 => this.fillSettings(res2));
       }

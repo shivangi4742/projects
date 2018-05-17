@@ -33,6 +33,10 @@ export class BuyerinfoComponent implements OnInit {
   processing: boolean = false;
   isPaymentlink: boolean = false;
   modalActions: any = new EventEmitter<string | MaterializeAction>();
+  orderShipCharge: number;
+  freeship:boolean = false;
+  chargeperprod:boolean = false;
+  chargePerOrder:boolean = false;
 
   constructor(private cartService: CartService, private router: Router, private activatedRoute: ActivatedRoute, private storeService: StoreService,
     private sdkService: SDKService, private socketService: SocketService, private utilsService: UtilsService, private sanitizer: DomSanitizer,
@@ -114,7 +118,7 @@ export class BuyerinfoComponent implements OnInit {
       if(this.plInfo && this.plInfo.merchantCode) {
         this.isPaymentlink = true;
         this.merchantCode = this.plInfo.merchantCode;
-        this.cart = new Cart('', '', '', '', null, this.merchantCode, '', '', '', '');
+        this.cart = new Cart('', '', '', '', null, this.merchantCode, '', '', '', '',0,0);
         this.storeService.assignMerchant(this.merchantCode);
         this.storeService.fetchStoreDetails(this.merchantCode)
         .then(res2 => this.fillStoreSettings(res2))  
@@ -126,6 +130,16 @@ export class BuyerinfoComponent implements OnInit {
 
   fillStoreSettings(res: any) {
     if(res) {
+      if (res.chargePerOrder) {
+        this.chargePerOrder = res.chargePerOrder;
+        this.orderShipCharge = res.orderShipCharge;
+      }
+      if (res.freeShip) {
+        this.freeship = true
+      }
+      if (res.chargePerProd) {
+        this.chargeperprod = true
+      }
       this.settings = res;
       this.defaultVPA = this.getDefaultVPA();
     }
@@ -193,9 +207,10 @@ export class BuyerinfoComponent implements OnInit {
     }
     else {
       this.errorMsg = '';
+      this.cart.tShipping = this.getshippingPrice();
       if(this.cart.city) {
         this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode, this.cart.pin,
-          this.cart.city, this.cart.state);
+          this.cart.city, this.cart.state, this.cart.tShipping, this.cart.convenienceFee);
         this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');  
       }
       else
@@ -315,7 +330,7 @@ export class BuyerinfoComponent implements OnInit {
   onSubmit() {
     this.processing = true;
     this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode, this.cart.pin,
-      this.cart.city, this.cart.state);
+      this.cart.city, this.cart.state, this.cart.tShipping, this.cart.convenienceFee);
     this.cartService.setPaymentMode(this.cart.paymentMode, this.merchantCode);
     this.pay();  
   }
@@ -323,4 +338,26 @@ export class BuyerinfoComponent implements OnInit {
   closeModal() {
     this.modalActions.emit({ action: "modal", params: ['close'] });
   }
+  getshippingPrice(){
+    let shipping: number = 0;
+    if(this.freeship){
+      shipping = 0;
+    }
+    if(this.chargePerOrder){
+
+      shipping = this.orderShipCharge;
+    }
+  else {
+     if(this.cart && this.cart.items && this.cart.items.length > 0 && this.chargeperprod ) {
+      this.cart.items.forEach(function(i) {
+        if(i.shippingcharge != null){
+        let p : number ;
+        p = parseInt(i.shippingcharge);
+        shipping += p;
+        }
+      });
+  }
+}
+  return shipping;
+}
 }

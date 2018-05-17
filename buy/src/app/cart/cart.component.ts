@@ -59,6 +59,7 @@ export class CartComponent implements OnInit {
 
   init(res: Cart) {
     this.cart = res;
+    this.cart.tShipping=this.getshippingPrice();
     this.cartService.broadcastCart();
     this.isLoaded = true;
   }
@@ -110,9 +111,7 @@ export class CartComponent implements OnInit {
       shipping = 0;
     }
     if(this.chargePerOrder){
-
       shipping = this.orderShipCharge;
-     
     }
   else {
      if(this.cart && this.cart.items && this.cart.items.length > 0 && this.chargeperprod ) {

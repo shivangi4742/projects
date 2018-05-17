@@ -40,7 +40,7 @@
               <div class="offerpriceBN">{{'Offer Price' | translate}}: 
                 <span class="markupBN"> ₹ {{product.price | number : '1.2-2'}}</span>
               </div>
-              <div class="offerpriceBN" *ngIf="product.shippingcharge">{{'Shipping Charge' | translate}}: 
+              <div class="offerpriceBN" *ngIf="product.shippingcharge && !chargePerOrder && !freeship">{{'Shipping Charge' | translate}}: 
                   <span class="markupBN"> ₹ {{product.shippingcharge }}</span>
                 </div>
               <div>&nbsp;</div>

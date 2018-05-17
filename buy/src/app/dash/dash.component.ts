@@ -38,6 +38,7 @@ export class DashComponent implements OnInit {
   mailStoreEmail: string;
   callStoreContact: string;  
  pp:string;
+ bnerimage:string;
   //HARDCODED
 //  storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
 
@@ -111,6 +112,8 @@ logoourl(res:any) {
       }
       else {
         if(document.getElementById('storeimgdiv')) {	
+          this.bnerimage = this.utilsService.getDefaultStorebannerImageURL();
+          document.getElementById('storeimgdiv').style.backgroundImage = "url('" + this.bnerimage + "')";
           document.getElementById('storeimgdiv').style.height = imgHeight.toString() + 'px';  
           document.getElementById('clearingdiv').style.marginTop = "-" + imgHeight.toString() + 'px';
           document.getElementById('clearingdiv').style.height =  gap.toString() + 'px';      	
