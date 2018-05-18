@@ -27,17 +27,18 @@ export class PgComponent implements OnInit {
 
     
   fillCart(res: Cart) {
-
     if(res) {
       this.amount = this.cartService.getCartTotal() +  res.tShipping;
+      
       if(this.cf > 0)
-        this.amount = Math.round(this.amount * 102.36) / 100 +  res.tShipping;
-  
+        this.amount = Math.round(this.cartService.getCartTotal() * 102.36) / 100 +  res.tShipping;
+      
       this.cart = res;
      this.submitMe();  
     }
     else
       this.router.navigateByUrl('/' + this.merchantCode + '/cart');
+  
   
   }
 
