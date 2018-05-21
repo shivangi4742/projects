@@ -341,6 +341,27 @@ export class ProductService {
         return this._transProducts;
     }
 
+    private fillProductsNGO(res2: any): any {
+        if(!(res2 && res2.benowProductList))
+            return { "success": false };
+        
+        let prods: Array<Product> = new Array<Product>();
+        let numP: number = 0;
+        if(res2 && res2.benowProductList && res2.benowProductList.length > 0) {
+            numP = res2.totalNoOfPages;
+            let res: any = res2.benowProductList;
+            if(res && res.length > 0) {
+                for(let i: number = 0; i < res.length; i++)
+                    prods.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, null, res[i].prodName,                         
+                        res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, null, null, null, res[i].merchantCode,
+                        res[i].merchantCode, null, null, null, null));
+            }
+
+            return { "products": prods, "numPages": numP };
+        }
+    }
+
+
     private fillProducts(res2: any): any {
         console.log(res2, 'fillproduct');
         if(!(res2 && res2.benowProductList))
@@ -388,6 +409,19 @@ export class ProductService {
                 { headers: this.utilsService.getHeaders() })
             .toPromise()
             .then(res => this.fillProducts(res.json()))
+            .catch(res => this.utilsService.returnGenericError());    
+    }
+
+    getProductsNGO(merchantCode: string, pg: number): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getProductsURL, 
+                JSON.stringify({
+                    "merchantCode": merchantCode,
+                    "pageNumber": pg
+                }), 
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => this.fillProductsNGO(res.json()))
             .catch(res => this.utilsService.returnGenericError());    
     }
 

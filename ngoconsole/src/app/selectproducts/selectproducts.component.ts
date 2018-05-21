@@ -83,13 +83,13 @@ export class SelectproductsComponent implements OnInit {
       this.newProducts.splice(0, 0, e);
       this.selectedProducts.push(e);
       this.productService.setSelectedProducts(this.selectedProducts);
-      this.productService.getProducts(this.user.merchantCode, this.pg)
+      this.productService.getProductsNGO(this.user.merchantCode, this.pg)
         .then(ps => this.initializeProds(ps, false));
     }
   }
 
   previous() {
-    this.productService.getProducts(this.user.merchantCode, --this.pg)
+    this.productService.getProductsNGO(this.user.merchantCode, --this.pg)
       .then(ps => this.initializeProds(ps, false));
     this.loading = true;
     let w: any = document.getElementById('productsModalContent');
@@ -98,7 +98,7 @@ export class SelectproductsComponent implements OnInit {
   }
 
   next() {
-    this.productService.getProducts(this.user.merchantCode, ++this.pg)
+    this.productService.getProductsNGO(this.user.merchantCode, ++this.pg)
       .then(ps => this.initializeProds(ps, false));
     this.loading = true;
     let w: any = document.getElementById('productsModalContent');
@@ -115,7 +115,7 @@ export class SelectproductsComponent implements OnInit {
     if(!this.products || this.products.length <= 0) {
       this.pg = 1;
       this.loading = true;
-      this.productService.getProducts(this.user.merchantCode, this.pg)
+      this.productService.getProductsNGO(this.user.merchantCode, this.pg)
         .then(res => this.initializeProds(res, true));
     }
   }
