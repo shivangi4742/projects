@@ -49,13 +49,16 @@
       </div>
     </div>
     <div class="row"></div>
-      <div materialize="modal" id="imageModal" class="modal modal-fixed-footer successModalBN" [materializeParams]="[{dismissible: false}]"
+      <div materialize="modal" id="imageModal" class="col s10 m6 l6 modal modal-fixed-footer successModalBN center" [materializeParams]="[{dismissible: false}]"
            [materializeActions]="modalActions2">
+           <div class="row"></div>       
         <div *ngIf="isImageOptimizing()" class="row">
           <div class="col s12 center ">
             <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
           </div>
           <div class="col s12">
+            <div class= "row"></div>
+            <div class= "row"></div>
             <div class="col m3 l3 hide-on-small-only"></div>
             <div class="buttonModalBN linkButtonBN col s5 offset-s1 m3 l3 center" style="margin-right: 5px;" (click)="saveImage()">{{'Confirm' | translate}}</div>
             <div class="buttonModalBN linkButtonBN col s5 m3 l3 center" style="padding: 0px" (click)="closeImgOpti()" >{{'Cancel' | translate}}</div>
@@ -560,13 +563,11 @@
             <label for="toDt" class="active labelPLBN">{{'Event Ends' | translate}}</label>
           </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.startTime" class="timepicker inputTextBN"
-          placeholder="{{'Enter Start Time' | translate}}" materialize="pickatime"  />
+          <input id="edurationhrs" name="edurationhrs" type="text" [(ngModel)]="newProduct.startTime" class="timepicker inputTextBN"          placeholder="{{'Enter Start Time' | translate}}" materialize="pickatime"  />
           <label for="edurationhrs" class ="active labelPLBN">{{'Start Time' | translate}}</label>
         </div>
         <div class="input-field col s6 m3 l3">
-          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.endTime" class="timepicker inputTextBN" 
-          materialize="pickatime" placeholder="{{'Enter End Time' | translate}}"       />
+          <input id="edurationmin" name="edurationmin" type="text" [(ngModel)]="newProduct.endTime" class="timepicker inputTextBN"           materialize="pickatime" placeholder="{{'Enter End Time' | translate}}"       />
           <label for="edurationmin" class ="active labelPLBN">{{'End Time' | translate}}</label>
         </div>
         <div class="input-field col s12 m6 l6">

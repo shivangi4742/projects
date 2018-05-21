@@ -79,12 +79,12 @@ export class AddproductComponent implements OnInit {
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
     this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 120;
+    this.cropperSettings.width = 180;
     this.cropperSettings.height = 120;
     this.cropperSettings.croppedWidth = 120;
     this.cropperSettings.croppedHeight = 120;
-    this.cropperSettings.canvasWidth = 120;
-    this.cropperSettings.canvasHeight = 120;
+    this.cropperSettings.canvasWidth = 270;
+    this.cropperSettings.canvasHeight = 180;
     this.cropperSettings.noFileInput = true;
     this.cropperSettings.preserveSize = true;
     this.cropperSettings.keepAspect = false;

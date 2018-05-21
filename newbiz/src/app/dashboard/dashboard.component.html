@@ -123,7 +123,7 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(1)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied3" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied3 = true">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied3" type="button" ngxClipboard [cbContent]="streurl" (cbOnSuccess)="isCopied3 = true" (cbOnSuccess)="isCopied2 = false " (cbOnSuccess)="isCopied1 = false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
         <div class= "row"> </div>
