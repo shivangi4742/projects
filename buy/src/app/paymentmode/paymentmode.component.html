@@ -15,7 +15,7 @@
             <div class="col s12 borderBN"></div>                
           </div>
           <div class="row">
-            <div class="col s12 offsetlrBN" *ngIf="supportsUPI">
+            <div class="col s12 offsetlrBN" *ngIf="currency == 'INR' && supportsUPI">
               <div class="rdoGrpBN">
                 <input name="pmode" type="radio" id="upi" [(ngModel)]="cart.paymentMode" [value]="'UPI'" />
                 <label for="upi" class="rdolblBN">
@@ -26,7 +26,7 @@
                 </label>        
               </div>
             </div>
-            <div class="col s12 offsetlrBN">
+            <div class="col s12 offsetlrBN" *ngIf="currency == 'INR'">
               <div class="rdoGrpBN">
                 <input name="pmode" type="radio" id="dc" [(ngModel)]="cart.paymentMode" [value]="'DC'" />
                 <label for="dc" class="rdolblBN">{{'Debit Card' | translate}}
@@ -37,12 +37,14 @@
             <div class="col s12 offsetlrBN">
               <div class="rdoGrpBN">
                 <input name="pmode" type="radio" id="cc" [(ngModel)]="cart.paymentMode" [value]="'CC'" />
-                <label for="cc" class="rdolblBN">{{'Credit Card' | translate}}
+                <label for="cc" class="rdolblBN">
+                  <span *ngIf="currency == 'INR'">{{'Credit Card' | translate}}</span>
+                  <span *ngIf="currency != 'INR'">{{'International Payment' | translate}}</span>
                   <span *ngIf="settings.chargeConvenienceFee" class="convfeeBN">({{'Transaction fee' | translate}} 2%)</span>
                 </label>        
               </div>
             </div>
-            <div class="col s12 offsetlrBN">
+            <div class="col s12 offsetlrBN" *ngIf="currency == 'INR'">
               <div class="rdoGrpBN">
                 <input name="pmode" type="radio" id="nb" [(ngModel)]="cart.paymentMode" [value]="'NB'" />
                 <label for="nb" class="rdolblBN">{{'Net Banking' | translate}}
@@ -73,14 +75,18 @@
                 <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="isPaymentlink">{{'Pay Amount' | translate}} :</div>
                 
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="!isPaymentlink">₹ {{getTotalPrice() | number : '1.2-2'}}</div>
-                <div class="col s5 carttotalpriceBN" align="right" *ngIf="isPaymentlink">₹ {{plInfo.amount | number : '1.2-2'}}</div>
+                <div class="col s5 carttotalpriceBN" align="right" *ngIf="isPaymentlink">
+                  <span *ngIf="currency == 'INR'">₹</span>
+                  <span *ngIf="currency != 'INR'">{{currency}}</span> {{plInfo.amount | number : '1.2-2'}}</div>
                 <div class="col s7 carttotalpriceBN nopadleftBN" *ngIf="getshippingPrice() && !isPaymentlink">{{'Shipping Charge' | translate}} :</div>
                 
                 <div class="col s5 carttotalpriceBN" align="right" *ngIf="getshippingPrice() && !isPaymentlink">₹ {{getshippingPrice() | number : '1.2-2'}}</div>
                 
                 <div class="col s8 carttotalpriceBN nopadleftBN" *ngIf="settings.chargeConvenienceFee">{{'Convenience Fee' | translate}} :</div>
                 <div class="col s4 carttotalpriceBN" *ngIf="settings.chargeConvenienceFee" 
-                  align="right">₹ {{getConvenienceFee() | number : '1.2-2'}}</div>
+                  align="right">
+                  <span *ngIf="currency == 'INR'">₹</span>
+                  <span *ngIf="currency != 'INR'">{{currency}}</span> {{getConvenienceFee() | number : '1.2-2'}}</div>
                 <div class="col s7 carttotalpriceBN discountgreenBN nopadleftBN" *ngIf="!isPaymentlink">{{'Discount' | translate}} :</div>
                 <div class="col s5 carttotalpriceBN discountgreenBN" align="right" 
                   *ngIf="!isPaymentlink">- ₹ {{getTotalDiscount() | number : '1.2-2'}}</div>
@@ -93,7 +99,9 @@
               </div>
               <div class="col s12 padlr10BN">
                 <div class="col s7 l7 m8 carttotalpriceBN medpadright0BN nopadleftBN">{{'Amount Payable' | translate}} :</div>
-                <div class="col s5 l5 m4 carttotalpriceBN medpadleft0BN" align="right">₹ {{getPayableAmount() | number : '1.2-2'}}</div>              
+                <div class="col s5 l5 m4 carttotalpriceBN medpadleft0BN" align="right">
+                  <span *ngIf="currency == 'INR'">₹</span>
+                  <span *ngIf="currency != 'INR'">{{currency}}</span> {{getPayableAmount() | number : '1.2-2'}}</div>              
               </div>
               <div class="col s12 padlr10BN">
                 <div class="col s12 nopadleftBN">
