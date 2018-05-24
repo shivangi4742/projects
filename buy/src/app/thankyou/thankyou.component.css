@@ -1,0 +1,22 @@
+.textgreenBN{
+    color:green;
+    font-size: 30pt;
+    font-family: 'Barlow', sans-serif;
+  }
+.thankyoumessageBN{
+    color: #413a5a!important;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14pt; 
+}
+.btnBN{
+    width: 160px;
+    height: 45px;
+    border:none;
+    border:solid 2px #413a5a;
+    border-radius: 5px;
+    background: rgba(255, 255, 255,0);
+    font-size: 25px;
+    color: #413a5a;
+    text-transform: capitalize;
+    font-family: 'Barlow', sans-serif;
+}
