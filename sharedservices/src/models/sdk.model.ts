@@ -70,5 +70,7 @@ export class SDK {
     public name: string,
     public mobileNumber: string,
     public address: string,
-    public foodAmount: number) { }
+    public foodAmount: number,
+    public oneTimeLink: boolean,
+    public oneTimeDone: boolean) { }
 }

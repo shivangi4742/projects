@@ -137,5 +137,6 @@
     "less": "कम",
     "Cost": "मूल्य",
     "Quantity": "मात्रा",
-    "Amount": "राशि"
+    "Amount": "राशि",
+    "Payment against this link is already complete": "इस लिंक के खिलाफ भुगतान पहले ही पूरा हो चुका है"
 }

@@ -33,6 +33,7 @@ export class SDKService {
         getHashURL: 'sdk/getHash',
         getInvoiceURL: 'sdk/getInvoice',
         createBillURL: 'sdk/createBill',
+        setLinkPaidURL: 'sdk/setLinkPaid',
         createBillStringURL: 'sdk/createBillString',
         getTransactionStatusURL: 'sdk/getTransactionStatus',
         startPaymentProcessURL: 'sdk/startPaymentProcess',
@@ -109,6 +110,11 @@ export class SDKService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
+    setLinkPaid(linkid: string): Promise<any> {
+        return this.http.post(this.utilsService.getBaseURL() + this._urls.setLinkPaidURL, JSON.stringify({ "id": linkid }),
+            { headers: this.utilsService.getHeaders() }).toPromise().then(res => res.json()).catch(res => this.utilsService.returnGenericError());
+    }
+
     createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string, 
         currency: string): Promise<any> {
         return this.http
@@ -182,7 +188,8 @@ export class SDKService {
                 (mtype == 1) ? res.mobileNumber : '', ttl,
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
                 res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null,
-                null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', '', res.foodAmount);
+                null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', '', res.foodAmount, res.oneTimeUse, 
+                res.requestExpired);
         }
         else if (res.logFormate) {
             var obj = JSON.parse(res.logText);
@@ -201,7 +208,8 @@ export class SDKService {
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
                 obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber,
                 obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid,
-                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.embedded, '', '', '', res.foodAmount);
+                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.embedded, '', '', '', res.foodAmount, res.oneTimeUse, 
+                res.requestExpired);
         }
 
         return this._sdk;

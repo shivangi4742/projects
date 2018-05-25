@@ -71,9 +71,9 @@ export class SuccessComponent implements OnInit {
     }
     this.mtype = this.sdk.mtype;
 
+    this.sdkService.setLinkPaid(this.sdk.id);
     this.sdkService.getTransactionStatus(this.sdk.merchantCode, this.txnid)
       .then(res => this.checkTransactionStatus(res));
-
   }
 
   checkTransactionStatus(rest: any) {

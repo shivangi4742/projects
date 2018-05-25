@@ -138,5 +138,6 @@
     "less": "less",
     "Cost": "Cost",
     "Quantity": "Quantity",
-    "Amount": "Amount"
+    "Amount": "Amount",
+    "Payment against this link is already complete": "Payment against this link is already complete"
 }
