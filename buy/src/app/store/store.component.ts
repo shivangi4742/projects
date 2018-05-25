@@ -131,7 +131,7 @@ logoourl(res:any) {
       this.currency = res.currency;
       this.amountEditable = false;
       let dt: Date = new Date();
-      if((dt.getTime() - res.expiryDate) > 0)
+      if(res.expiryDate > 0 && (dt.getTime() - res.expiryDate) > 0)
         this.isExpired = true;
     }
   }
