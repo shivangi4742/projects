@@ -13,6 +13,7 @@ export class StoreComponent implements OnInit {
   amount: number;
   numPages: number;
   purpose: string;
+  refNumber: string;
   retPolicy: string;
   storeName: string;
   storeLogo: string;
@@ -31,6 +32,7 @@ export class StoreComponent implements OnInit {
   isStore: boolean = true;
   amountEditable: boolean = true;
   processing: boolean = false;
+  isExpired: boolean = false;
   uploadbannnerURL:string;
   uploadsURL:string;
   imag:string;
@@ -122,7 +124,16 @@ logoourl(res:any) {
      }
 
   bindPLData(res: any) {
-    console.log(res);
+    if(res && res.id) {
+      this.amount = res.invoiceAmount;
+      this.purpose = res.description;
+      this.refNumber = res.invoiceNumber;
+      this.currency = res.currency;
+      this.amountEditable = false;
+      let dt: Date = new Date();
+      if((dt.getTime() - res.expiryDate) > 0)
+        this.isExpired = true;
+    }
   }
 
   gotCurrencies(res: any) {
@@ -155,25 +166,16 @@ logoourl(res:any) {
         u = u.replace('https://', '').replace('http://', '');
         if(u.startsWith('pay-')) {         
           this.isStore = false;
-          this.linkid = this.activatedRoute.snapshot.params['id'];          
-          if(this.linkid) {
-            this.isOpenLink = false;
-            this.storeService.getPLData(this.linkid)
-              .then(res => this.bindPLData(res));
-          }
-          else {
-            this.amount = null;
+          this.amount = +this.activatedRoute.snapshot.params['amount'];          
+          if(this.amount > 0) {
+            this.amountEditable = false;
             this.purpose = null;
             this.isOpenLink = true;
+            this.amount = Math.round(this.amount * 100) / 100;
             this.sdkService.getSupportedCurrencies()
-            .then(res => this.gotCurrencies(res))      
+              .then(res => this.gotCurrencies(res))      
           }
-        }
-        else {         
-          let fullUrl: string = window.location.href;
-          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
-           
-            this.isStore = false;
+          else {
             this.linkid = this.activatedRoute.snapshot.params['id'];          
             if(this.linkid) {
               this.isOpenLink = false;
@@ -185,7 +187,37 @@ logoourl(res:any) {
               this.purpose = null;
               this.isOpenLink = true;
               this.sdkService.getSupportedCurrencies()
-              .then(res => this.gotCurrencies(res))        
+                .then(res => this.gotCurrencies(res))      
+            }  
+          }
+        }
+        else {         
+          let fullUrl: string = window.location.href;
+          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {           
+            this.isStore = false;
+            this.amount = +this.activatedRoute.snapshot.params['amount'];          
+            if(this.amount > 0) {
+              this.amountEditable = false;
+              this.purpose = null;
+              this.isOpenLink = true;
+              this.amount = Math.round(this.amount * 100) / 100;
+              this.sdkService.getSupportedCurrencies()
+                .then(res => this.gotCurrencies(res))      
+            }
+            else {
+              this.linkid = this.activatedRoute.snapshot.params['id'];          
+              if(this.linkid) {
+                this.isOpenLink = false;
+                this.storeService.getPLData(this.linkid)
+                  .then(res => this.bindPLData(res));
+              }
+              else {
+                this.amount = null;
+                this.purpose = null;
+                this.isOpenLink = true;
+                this.sdkService.getSupportedCurrencies()
+                .then(res => this.gotCurrencies(res))        
+              }                
             }
           }
           else {            

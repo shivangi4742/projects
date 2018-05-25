@@ -138,10 +138,12 @@
         <i class="material-icons linkButtonBN poBN" *ngIf="onclickn">keyboard_arrow_up</i>
       </div>
       <div class="col s12">&nbsp;</div>
-      <form materialize (ngSubmit)="proceed()" class="paymentFrmBN" #paymentLinkForm="ngForm">
-        <div *ngIf="!amountEditable" class="col s12">
+      <div class="col s12 expiredLinkBN" align="center" *ngIf="isExpired">{{'This link has expired!' | translate}}</div>
+      <form *ngIf="!isExpired" materialize (ngSubmit)="proceed()" class="paymentFrmBN" #paymentLinkForm="ngForm">
+        <div *ngIf="!amountEditable" class="col s12 payTxtCntnrBN">
           <span class="payTextBN">{{'Pay'}}
-            <span class="amountTextBN">&nbsp;&nbsp;₹ {{amount | number : '1.2-2'}}</span>
+            <span class="amountTextBN" *ngIf="currency == 'INR'">&nbsp;&nbsp;₹ {{amount | number : '1.2-2'}}</span>
+            <span class="amountTextBN" *ngIf="currency != 'INR'">&nbsp;&nbsp;{{currency}} {{amount | number : '1.2-2'}}</span>
           </span>
         </div>
         <div *ngIf="currencies" align="left">
@@ -162,13 +164,19 @@
               name="amount" min="1" max="99999" *ngIf="currency != 'INR'" step="0.01" required />
           </div>    
         </div>
+        <div *ngIf="refNumber && !isOpenLink">
+          <div class="col s12 input-field labelBN offsetBN" align="left">{{'Invoice Number' | translate}} :</div>
+          <div class="col s12 offsetlrBN input-field binputdivBN">
+            <input class="binputBN" [(ngModel)]="refNumber" type="text" name="refNumber" disabled/>
+          </div>          
+        </div>
         <div class="col s12 input-field labelBN offsetBN" align="left">{{'Purpose' | translate}} :</div>
         <div class="input-field col s12 offsetlrBN binputdivBN" align="left">
-          <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="purpose"
+          <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="purpose" [disabled]="!isOpenLink"
             placeholder="{{'Enter what you are paying for' | translate}}" [(ngModel)]="purpose"></textarea>
         </div>
         <div class="col s10 offset-s1">
-          <button [disabled]="!paymentLinkForm.form.valid || amount < 1 || (amount < 10 && currency == 'INR')"
+          <button [disabled]="isOpenLink && (!paymentLinkForm.form.valid || amount < 1 || (amount < 10 && currency == 'INR'))"
             class="col s12 buy1MBN btn waves-effect waves-light red darken-1" type="submit" 
             name="continues">{{'Proceed to Pay' | translate}}</button>
         </div>

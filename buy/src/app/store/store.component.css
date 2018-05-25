@@ -82,7 +82,17 @@
 .payTextBN {
     font-size: 25pt!important;
     font-family: 'Barlow', sans-serif;
-    color: #3D3D3D;               
+    color: #3D3D3D;   
+}
+
+.payTxtCntnrBN {
+    padding-bottom: 20px;
+}
+
+.expiredLinkBN {
+    color: #E53935;
+    font-size: 20pt;
+    line-height: 100pt;
 }
 
 .amountTextBN {

@@ -22,8 +22,9 @@ export class CreatepaymentlinkComponent implements OnInit {
   purpose: string;
   amount: number;
   invoiceNum: string;
+  currencies: any;
   detailsExpanded: boolean = false;
-  isAmountLess: boolean = false;
+  isAmountLess: boolean = true;
   isCopied1: boolean = false;
   email: string;
   mobileNumber: string;
@@ -44,6 +45,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   todayX: string = 'Today';
   closeX: string = 'Close';
   clearX: string = 'Clear';
+  currency: string = 'INR';
   labelMonthNext: string = 'Next month';
   labelMonthNextX: string = 'Next month';
   labelMonthPrev: string = 'Previous month';
@@ -89,6 +91,23 @@ export class CreatepaymentlinkComponent implements OnInit {
 
   }
 
+  gotCurrencies(res: any) {
+    if(res && res.length > 0 && res[0].paramCode) {
+      let found: boolean = false;
+      for(let i: number = 0; i < res.length; i++) {
+        if(res[0].paramCode == 'INR') {
+          found = true;
+          break;
+        }
+      }
+
+      if(!found)
+        res.push({ "desc1": "Indian Rupee", "paramCode": "INR" });
+
+      this.currencies = res;
+    }
+  }
+
   ngOnInit() {
     this.locationService.setLocation('createpaylink');
     this.userService.getUser()
@@ -103,6 +122,8 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
   init(res: User) {
     this.user = res;
+    this.sdkService.getSupportedCurrencies()
+      .then(res => this.gotCurrencies(res))      
     this.userService.checkMerchant(this.user.mobileNumber, 'b')
       .then(bres => this.initshare(bres));
   }
@@ -164,8 +185,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   checkAmount() {
-  
-    if (this.amount != null && this.amount < 10) {
+    if (!this.amount || this.amount < 1 || (this.currency == 'INR' && this.amount < 10)) {
       this.isAmountLess = true;
     }
     else {
@@ -175,16 +195,14 @@ export class CreatepaymentlinkComponent implements OnInit {
   }
 
   isCreated(res: any) {
-    if (res) {
-      this.router.navigateByUrl('/successpaylink/' + res.amount);
-    }
-    else {
+    if (res)
+      this.router.navigateByUrl('/successpaylink/' + res.paymentReqNumber);
+    else
       alert('Error in creating Payment Link!');
-    }
   }
 
   onSubmit() {
-    this.sdkService.createPaymentLink(this.user.merchantCode, this.purpose, this.amount, this.invoiceNum, this.sampleDate)
+    this.sdkService.createPaymentLink(this.user.merchantCode, this.purpose, this.amount, this.invoiceNum, this.sampleDate, this.currency)
       .then(res => this.isCreated(res));
   }
 

@@ -109,7 +109,8 @@ export class SDKService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
-    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string): Promise<any> {
+    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string, 
+        currency: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.createPaymentLinkURL,
                 JSON.stringify({
@@ -117,6 +118,7 @@ export class SDKService {
                     "description": description,
                     "amount": amount,
                     "refNumber": refNumber,
+                    "currency": currency,
                     "expiryDate": expiryDate
                 }),
                 { headers: this.utilsService.getHeaders() })
