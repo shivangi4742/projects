@@ -19,6 +19,7 @@ import { NotificationService } from './services/notification.service';
 import { ObjectFilterPipe } from './pipes/objectfilter.pipe';
 
 export { PG } from './models/pg.model';
+
 export { SDK } from './models/sdk.model';
 export { Size } from './models/size.model';
 export { Cart } from './models/cart.model';
