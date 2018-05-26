@@ -20,7 +20,6 @@ export class SeeproductdetailComponent implements OnInit {
   }
 
   close() {
-    console.log('sdjhgjsdgfj')
    this.seemodalActions.emit({ action: "modal", params: ['close'] });
   }
 
