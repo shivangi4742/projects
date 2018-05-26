@@ -146,7 +146,7 @@
             <span class="amountTextBN" *ngIf="currency != 'INR'">&nbsp;&nbsp;{{currency}} {{amount | number : '1.2-2'}}</span>
           </span>
         </div>
-        <div *ngIf="currencies" align="left">
+        <div *ngIf="supportsMultiCurrency && currencies" align="left">
           <div class="col s12 labelBN offsetBN">{{'Currency' | translate}} * :</div>
           <div class="col s12 offsetlr3BN">
             <select materialize="material_select" name="currencies" [(ngModel)]="currency">

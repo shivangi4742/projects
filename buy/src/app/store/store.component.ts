@@ -25,6 +25,7 @@ export class StoreComponent implements OnInit {
   storeAddress: string;
   merchantCode: string;
   storeDescription: string;
+  supportsMultiCurrency: boolean = false;
   stmerId:string;
   products: Array<Product>;
   page: number = 1;
@@ -155,6 +156,7 @@ logoourl(res:any) {
 
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
+      this.supportsMultiCurrency = m.enableMulticurrency;
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
@@ -172,8 +174,9 @@ logoourl(res:any) {
             this.purpose = null;
             this.isOpenLink = true;
             this.amount = Math.round(this.amount * 100) / 100;
-            this.sdkService.getSupportedCurrencies()
-              .then(res => this.gotCurrencies(res))      
+            if(m.enableMulticurrency)
+              this.sdkService.getSupportedCurrencies()
+                .then(res => this.gotCurrencies(res))      
           }
           else {
             this.linkid = this.activatedRoute.snapshot.params['id'];          
@@ -186,8 +189,9 @@ logoourl(res:any) {
               this.amount = null;
               this.purpose = null;
               this.isOpenLink = true;
-              this.sdkService.getSupportedCurrencies()
-                .then(res => this.gotCurrencies(res))      
+              if(m.enableMulticurrency)
+                this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))      
             }  
           }
         }
@@ -201,8 +205,9 @@ logoourl(res:any) {
               this.purpose = null;
               this.isOpenLink = true;
               this.amount = Math.round(this.amount * 100) / 100;
-              this.sdkService.getSupportedCurrencies()
-                .then(res => this.gotCurrencies(res))      
+              if(m.enableMulticurrency)
+                this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))      
             }
             else {
               this.linkid = this.activatedRoute.snapshot.params['id'];          
@@ -215,8 +220,9 @@ logoourl(res:any) {
                 this.amount = null;
                 this.purpose = null;
                 this.isOpenLink = true;
-                this.sdkService.getSupportedCurrencies()
-                .then(res => this.gotCurrencies(res))        
+                if(m.enableMulticurrency)
+                  this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))        
               }                
             }
           }
