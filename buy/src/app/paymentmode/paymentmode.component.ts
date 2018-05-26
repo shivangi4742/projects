@@ -98,7 +98,7 @@ totalshipping:number;
         this.orderShipCharge = res.orderShipCharge;
       }
       if (res.freeShip) {
-        this.freeship = true
+        this.freeship = true;
       }
       if (res.chargePerProd) {
         this.chargeperprod = true

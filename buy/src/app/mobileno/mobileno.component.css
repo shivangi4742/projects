@@ -1,0 +1,30 @@
+.backgrndBN {
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px #e6e6e6;        
+}
+.updtBN {
+    font-size: 15pt;
+}
+.he1BN {
+    font-family: 'Barlow', sans-serif;
+    font-size: 16.3px;
+    color:rgba(61,61,61,1);
+    font-style: normal;
+}
+.mobBN {
+    font-size: 16px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+}
+.greenBN {
+    font-size: 16px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    color:green!important;
+}
+.redhBN {
+    font-size: 16px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    color:red;
+}

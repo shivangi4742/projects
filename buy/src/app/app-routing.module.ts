@@ -14,11 +14,13 @@ import { DashComponent } from './dash/dash.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
 import { CategoryupdateComponent } from './categoryupdate/categoryupdate.component';
+import { MobilenoComponent } from './mobileno/mobileno.component';
+import { OtpComponent } from './otp/otp.component';
 
 const routes: Routes = [
     { path: ':code/homepage', component: DashComponent },
     { path: 'thankyou', component: ThankyouComponent},
-    { path: 'categoryupdate', component: CategoryupdateComponent},
+    { path: 'categoryupdate', component: MobilenoComponent},
     { path: '', component: DashComponent },
     { path: 'homepage', component: DashComponent },
     { path: 'pay', component: StoreComponent },
