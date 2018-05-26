@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from 'ng2-translate';
 
-import { UtilsService, User, UserService, Businesspro, ProductService, Accountpro, CampaignService, SDKService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, Businesspro, ProductService, Accountpro, CampaignService, SDKService, Status, LocationService,
+  StoreService } from 'benowservices';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   subject: string;
   payshare: boolean = false;
   emailtext: boolean = false;
+  supportsMultiCurrency: boolean = false;
   streurlpre: string;
   streurlpaypre: string;
   urlstorepre: string;
@@ -64,7 +66,7 @@ export class CreatepaymentlinkComponent implements OnInit {
   monthsFullX: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 
-  constructor(private translate: TranslateService, private utilsService: UtilsService,
+  constructor(private translate: TranslateService, private utilsService: UtilsService, private storeService: StoreService,
     private userService: UserService, private router: Router, private locationService: LocationService,
     private route: ActivatedRoute, private sdkService: SDKService, private CampaignService: CampaignService) { }
 
@@ -120,10 +122,19 @@ export class CreatepaymentlinkComponent implements OnInit {
       labelMonthSelect: this.labelMonthSelect, labelYearSelect: this.labelYearSelect, onClose: function () { me.dtClosed(); }
     }];
   }
+
+  initDetails(res: any) {
+    if(res && res.enableMulticurrency) {
+      this.sdkService.getSupportedCurrencies()
+        .then(res => this.gotCurrencies(res))      
+      this.supportsMultiCurrency = true;
+    }
+  }
+
   init(res: User) {
     this.user = res;
-    this.sdkService.getSupportedCurrencies()
-      .then(res => this.gotCurrencies(res))      
+    this.storeService.fetchStoreDetais(this.user.merchantCode)
+      .then(res => this.initDetails(res));
     this.userService.checkMerchant(this.user.mobileNumber, 'b')
       .then(bres => this.initshare(bres));
   }
