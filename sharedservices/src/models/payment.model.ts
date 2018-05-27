@@ -23,5 +23,8 @@ export class Payment {
         public description: string | null,
         public pin: string | null,
         public city: string | null,
-        public state: string | null) { }
+        public state: string | null,
+        public settledAmount: string | null,
+        public settlementDate: string | null,
+    ) { }
 }

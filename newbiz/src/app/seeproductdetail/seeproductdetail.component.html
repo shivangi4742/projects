@@ -1,10 +1,12 @@
 <div *ngIf="payment">
-        <div class="row">
-                <div class="col s6 m6 l6 regHdrS1BN">{{'Payment Details' | translate}}</div>
-                <div class="col s6 m6 l6 thinFNBN right" ><i class="material-icons alignMidBN modal-action modal-close  linkButtonBN right">close</i></div>
-                </div>
-                <div class="row">   
-      <!--  <div class="input-field col s7 m8">
+    <div class="row">
+        <div class="col s6 m6 l6 regHdrS1BN">{{'Payment Details' | translate}}</div>
+        <div class="col s6 m6 l6 thinFNBN right">
+            <i class="material-icons alignMidBN modal-action modal-close  linkButtonBN right">close</i>
+        </div>
+    </div>
+    <div class="row">
+        <!--  <div class="input-field col s7 m8">
             <input id="dt" name="dt" type="text" class="regNrmS4BN likeLabelBN" value="{{getFormattedDt()}}" disabled>
             <label for="dt" class="active inptLblBN">{{'Received On' | translate}} :</label>
         </div>
@@ -29,32 +31,40 @@
         <div class="col s12 regNrmS6BN" *ngIf="payment.address">{{'Address: ' | translate}}
             <span class="regNrmS5B1BN line-breaker"> {{payment.address}}</span>
         </div>
+        
+        <div class="col s12 regNrmS6BN" *ngIf="payment.settledAmount">{{'Settle Amount: ' | translate}}
+            <span class="regNrmS5B1BN line-breaker"> {{payment.settledAmount}}</span>
+        </div>
+        <div class="col s12 regNrmS6BN" *ngIf="payment.settlementDate">{{'Settle Date: ' | translate}}
+            <span class="regNrmS5B1BN line-breaker"> {{payment.settlementDate}}</span>
+        </div>
+
         <p class="col s12 invoiceborderBN"></p>
         <span *ngIf="payment.products" class="col s12 regHdrS1BN">{{'Order Contains' | translate}}
             <span class="errHdrS1BN">{{payment.products.length}} {{'Items' | translate}}</span>
         </span>
     </div>
     <div class="row" *ngIf="payment.products">
-       
+
         <span class="col s3 m3 regNrmS5B1BN ">{{'Quantity' | translate}}</span>
         <span class="col s3 m3 regNrmS5B1BN ">{{'Name' | translate}}</span>
-        <span class="col s3 m3 regNrmS5B1BN" >{{'Price' | translate}}</span>
-        <span class="col s3 m3 regNrmS5B1BN" >{{'Amount' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN">{{'Price' | translate}}</span>
+        <span class="col s3 m3 regNrmS5B1BN">{{'Amount' | translate}}</span>
         <div *ngFor="let p of payment.products;  " class="col s12">
             <span class="col s3 m3 regNrmS4BN truncate">
                 <div class="valign-wrapper">
                     <div class="divPrefBN">
-                        <b>{{p.qty}}</b> &nbsp; {{p.uom}} &nbsp; 
+                        <b>{{p.qty}}</b> &nbsp; {{p.uom}} &nbsp;
                     </div>
                 </div>
             </span>
             <span class="col s3 m3 regNrmS4BN" align="left">
-             <div class="divPrefBN ">
-                        <span>{{p.name}}</span>
-                    </div>
+                <div class="divPrefBN ">
+                    <span>{{p.name}}</span>
+                </div>
             </span>
-            <span class="col s3 m3 regNrmS4BN truncate " >{{p.price | number : '1.2-2'}}</span>
-            <span class="col s3 m3 regNrmS4BN truncate" >{{p.price * p.qty | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN truncate ">{{p.price | number : '1.2-2'}}</span>
+            <span class="col s3 m3 regNrmS4BN truncate">{{p.price * p.qty | number : '1.2-2'}}</span>
         </div>
         <!-- <div class="valign-wrapper" *ngFor="let p of payment.products; let i = index;">
             <div class="col s2">{{p.imageURL}}</div>hxsgjsgdj
@@ -73,6 +83,6 @@
                
             </div>
         </div>-->
-         
+
     </div>
 </div>

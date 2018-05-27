@@ -158,7 +158,7 @@ export class TransactionhistoryComponent implements OnInit {
     if (!this.processingCSV) {
       this.encUri = '';
       this.processingCSV = true;
-      if (this.mtype == 3)
+      if (this.mtype==3 )
         this.transactionService.getAllProductTransactions(this.user.merchantCode,this.utilsService.getLastYearDateString()+" 00:00:00",
           this.utilsService.getCurDateString()+" 23:59:59", 1)
           .then(res => this.createMyBizCSV(res, id));
@@ -173,9 +173,10 @@ export class TransactionhistoryComponent implements OnInit {
   }
 
   createMyBizCSV(res: Transaction, id:string) {
+    console.log(res);
     if (res && res.payments && res.payments.length > 0) {
       let data: any = [['Transaction ID', 'From', 'Amount', 'Mode', 'Payment Date', 'Phone', 'E-Mail', 'PIN Code', 'City', 'State', 'Address', 
-        'Products']];
+        'Products', 'Settled Amount', 'Settled Date']];
 
       for (var t of res.payments) {
         let prods: string = '';
@@ -189,7 +190,7 @@ export class TransactionhistoryComponent implements OnInit {
 
         let dt: Date = new Date(t.dateAndTime);
         data.push([t.tr, t.vPA, t.amount.toFixed(2), t.mode, this.utilsService.getDTStr(dt), '"' + t.phone + '"', t.email, t.pin, t.city, 
-          t.state, t.address, '"' + prods + '"']);
+          t.state, t.address, '"' + prods + '"', t.settledAmount, t.settlementDate]);
       }
 
       let csvContent: string = "data:text/csv;charset=utf-8,";

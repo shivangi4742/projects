@@ -34,6 +34,9 @@ export class UserService {
   private _businessCategory: BusinessCategory[];
   private _urls: any = {
     signIn: 'user/signIn',
+    sendOTP: 'user/signUp',
+    checkotp: 'user/verifyOTP',
+    categoryupdate: 'user/categoryupdate',
     allocateTill: 'merchant/tillAllocate',
     releaseTill: 'merchant/tillRelease',
     sendVerificationMail: 'merchant/sendVerificationMail',
@@ -47,6 +50,7 @@ export class UserService {
     getMerchantDetails: 'user/getMerchantDetails',
     getBusinessType: 'user/getBusinessType',
     getDashboardCategories: 'user/getDashboardCategories',
+    getDashboardCategoriesHB: 'user/getDashboardCategory',
     getSubcategoryByCategory: 'user/getSubcategoryByCategory',
     getEnableKyc: 'user/EnableKyc',
     getcomplteregister: 'user/complteregister',
@@ -495,7 +499,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillMerchantProfile(res.json()))
-      .catch(res => false);
+      .catch(res => this.handleError(res.json()));
   }
 
   markSelfMerchantVerified(id: string, ifsc: string, accountRefNumber: string, panNumber: string,
@@ -517,7 +521,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAccountProfile(res.json()))
-      .catch(res => false);
+      .catch(res => this.handleError(res.json()));
   }
   fillMerchantProfile(res: any): Businesspro | null {
 
@@ -587,7 +591,7 @@ export class UserService {
 
         .toPromise()
         .then(res => this.fillMerchantProfile(res.json()))
-        .catch(res => false);
+        .catch(res => this.handleError(res.json()));
     }
     else {
       return this.http
@@ -599,7 +603,7 @@ export class UserService {
 
         .toPromise()
         .then(res => this.fillAccountProfile(res.json()))
-        .catch(res => false);
+        .catch(res => this.handleError(res.json()));
     }
   }
   getfetchMerchantForEditDetails(email: string, Id: string): Promise<any> {
@@ -616,7 +620,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => this.fillAllgetfetchMerchantForEditDetails(res.json()))
-      .catch(res => false);
+      .catch(res => this.handleError(res.json()));
   }
 
   fillAllgetfetchMerchantForEditDetails(res: any): Merchant {
@@ -642,7 +646,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
-      .catch(res => null);
+      .catch(res => this.handleError(res.json()));
   }
 
   getMerchantDetails(merchantCode: string): Promise<any> {
@@ -671,6 +675,17 @@ export class UserService {
       .then(res => this.fillBusinessCat(res.json()))
       .catch(res => this.handleError(res.json()));
   }
+  getDashboardCategoriesHB(): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.getDashboardCategoriesHB,
+        JSON.stringify({
+
+        }),
+        { headers: this.utilsService.getHeaders() })
+      .toPromise()
+      .then(res => this.fillBusinessCatHB(res.json()))
+      .catch(res => this.handleError(res.json()));
+  }
 
   getBusinessType(): Promise<any> {
     return this.http.get(
@@ -694,6 +709,23 @@ export class UserService {
         me._businessCategory.push(new BusinessCategory(i.categoryName));
       });
     }
+    
+    return me._businessCategory;
+  }
+  fillBusinessCatHB(res: any): Array<BusinessCategory> {
+    console.log(res,'res');
+    let dt1 = res.data;
+    console.log(dt1,'dt1');
+    let dt = dt1.categoryDetails;
+    console.log(dt,'dt');
+    let me = this;
+    if (dt && dt.length > 0) {
+      this._businessCategory = new Array<BusinessCategory>();
+      dt.forEach(function (i: any) {
+        me._businessCategory.push(new BusinessCategory(i.categoryName));
+      });
+    }
+    console.log(me._businessCategory,'me._businessCategory');
     return me._businessCategory;
   }
 
@@ -720,7 +752,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
       .toPromise()
       .then(res => res.json())
-      .catch(res => null);
+      .catch(res => this.handleError(res.json()));
   }
 
   MerchantCompleteRegistration(): Promise<any> {
@@ -793,7 +825,7 @@ export class UserService {
         { headers: this.utilsService.getHeaders() })
         .toPromise()
         .then(res => res.json())
-        .catch(res => null);
+        .catch(res => this.handleError(res.json()));
 }
 
 congratulation(id: string): Promise<any> {
@@ -807,4 +839,55 @@ congratulation(id: string): Promise<any> {
     .then(res => res.json())
     .catch(res => this.handleError(res.json()));
 }
+
+sendOTPforupdate(mobileNumber: string): Promise<any> {
+  return this.http
+    .post(this.utilsService.getBaseURL() + this._urls.sendOTP,
+      JSON.stringify({
+        "mobileNumber": mobileNumber,
+        "businessLob":"HB",
+        "leadId":""
+      }),
+      { headers: this.utilsService.getHeaders() })
+    .toPromise()
+    .then(res => res.json())
+    .catch(res => this.handleError(res.json()));
+}
+verifyOTPforupdate(mobileNumber: string, otp: string): Promise<any> {
+  return this.http
+    .post(this.utilsService.getBaseURL() + this._urls.checkotp,
+      JSON.stringify({
+        "businessLob": "HB",
+        "mobileNumber": mobileNumber,
+        "otp": otp 
+      }),
+      { headers: this.utilsService.getHeaders() })
+    .toPromise()
+    .then(res => res.json())
+    .catch(res => this.handleError(res.json()));
+}
+categoryforupdate(id: string, category: string): Promise<any> {
+  return this.http
+    .post(this.utilsService.getBaseURL() + this._urls.categoryupdate,
+      JSON.stringify({    
+	   "id":id,
+	   "category":category
+      }),
+      { headers: this.utilsService.getHeaders() })
+    .toPromise()
+    .then(res => res.json())
+    .catch(res => this.handleError(res.json()));
+}
+checkMerchantt(mobileNumber: string): Promise<any> {
+    return this.http
+      .post(this.utilsService.getBaseURL() + this._urls.checkMerchant,
+        JSON.stringify({
+          "mobileNumber": mobileNumber
+        }),
+        { headers: this.utilsService.getHeaders() })
+
+      .toPromise()
+      .then(res => res.json())
+      .catch(res => this.handleError(res.json()));
+ }
 }

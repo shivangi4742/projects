@@ -1,0 +1,122 @@
+<div class="row"></div>
+<div class="row"></div>
+<div class="row">
+    <div class="col s12 center updtBN">
+      <span class="updtBN">Update Business Category</span> 
+</div>
+</div>
+<div class="row">
+<div  class="col s1 m1 l1"></div>
+<div  class="col s10 m10 l10">
+<div class="row">
+    <div class="col  m4 l3"></div>
+    <div class="col s12 m5 l6 backgrndBN">
+     <div class="col s1 m1 l1"></div>
+     <div class="col s10 m10 l10">
+        <div class="row"></div>
+           <div class="row">
+             <div class="col s12 center">
+               <span class="he1BN">To be a part of our <b>exclusive contest, win exciting goodies</b> and to become
+                  a <b>Star Merchant</b> update business category Now !</span>
+             </div>
+           </div>
+           <p class="borderBN"></p>
+           <form (ngSubmit)="onsubmit()" #Form="ngForm" *ngIf="first">
+           <div class="row">
+              <div class="col s12">
+                  <div class="input-field col s12 m10 l10 regNrmS4BN">
+                      <span class="mobBN">Mobile Number:</span>
+                      <input id="mobilenumber"  name="mobilenumber" type="text" class="inputboxBN validate" [(ngModel)]="PhoneNumber"
+                        placeholder="{{'Enter Your mobile number here' |translate}}" required />
+                     
+                  </div>
+              </div>
+              <span class="col s12 center redhBN" *ngIf="errormsg"> 
+                  Number does not exist. <a [href]="register" target="_blank" class="greenBN">(Sign Up here)</a>
+                </span>
+                <span class="col s12 center redhBN" *ngIf="errormsg2"> 
+                    Something went wrong! Please try again.
+                  </span>
+            </div>
+           
+            <div class="row busDetails detailBodyBN mrgnBn">
+                <div class="input-field s12 m12 l12 center regNrmS4BN">
+                  <button  class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="submit">
+                    {{'Get OTP' | translate}}
+                  </button>
+                </div>
+              </div>
+            </form>
+            <form (ngSubmit)="onpubmit()" #jForm="ngForm" *ngIf="second">
+              <div class="row">
+                <div class="col s12 center">
+                  You will get your OTP on <b>{{PhoneNumber}}</b><span class="redhBN linkButtonBN" (click)="change()"> (change)</span>
+                  </div>
+             </div>
+             <div class="row">
+              <div class="col s12 ">
+                  <div class="input-field col s12 m10 l10 regNrmS4BN">
+                      <span class="mobBN">Enter OTP:</span>
+                      <input id="otp"  name="otp" type="text" class="inputboxBN validate" [(ngModel)]="otp"
+                        placeholder="{{'Enter OTP here' |translate}}" required />
+                     
+                  </div>
+              </div>
+              <span class="col s12 center redhBN" *ngIf="errormsg1"> 
+                  Wrong OTP. Please try again.
+                </span>
+            </div>
+            <div class="row busDetails detailBodyBN mrgnBn">
+                <div class="input-field s12 m12 l12 center regNrmS4BN">
+                  <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="submit">
+                    {{'Submit' | translate}}
+                  </button>
+                </div>
+
+              </div>
+            
+            </form>
+            <form (ngSubmit)="updateSubmit()" #kForm="ngForm" *ngIf="categry">
+              <div class="row">
+                      <div class="col s12 m10 l6 regNrmS4BN">
+                          <span class="mobBN">Old Category:</span>
+                                              
+                      </div>
+                      <div class="col s12 m10 l6 regNrmS4BN">
+                          <span class="mobBN" *ngIf="busiold">{{busiold}}</span>
+                                              
+                      </div>
+                  
+                </div>
+                <div class="row">
+                 
+                      <div class="col s12 m10 l6 regNrmS4BN">
+                          <span class="mobBN">New Category:</span>                   
+                      </div>
+                 
+                    <div class="col s12 m10 l6 regNrmS4BN">
+                     <select name="category" materialize="material_select" [(ngModel)]="busi" class="browser-default dropDownBN validate">
+                          <option value="" selected>-----Select-----</option>
+                          <option *ngFor="let c of businessCategory" [ngValue]="c.categoryName"> {{c.categoryName}} </option>
+              
+                        </select>               
+                    </div>
+              
+                </div>
+              <div class="row busDetails detailBodyBN mrgnBn">
+                  <div class="input-field s12 m12 l12 center regNrmS4BN">
+                    <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="submit">
+                      {{'Submit' | translate}}
+                    </button>
+                  </div>
+  
+                </div>
+            </form>
+            </div>
+            <div class="col s1 m1 l1"></div>
+    </div>
+    <div class="col  m4 l3"></div>
+</div>
+</div>
+<div  class="col s1 m1 l1"></div>
+</div>
