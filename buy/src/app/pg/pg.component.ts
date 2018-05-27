@@ -19,7 +19,7 @@ export class PgComponent implements OnInit {
   plInfo: any;
   settings: any;
   isPaymentlink: boolean = false;
-  ismobileview: boolean = false;
+  ismobileview: number = 0;
   currency: string = 'INR';
 
   constructor(private route: ActivatedRoute, private cartService: CartService, private storeService: StoreService, private router: Router,
@@ -66,7 +66,7 @@ export class PgComponent implements OnInit {
 
   ngOnInit() {
     this.pgURL = this.utilsService.getpgURL();
-    this.ismobileview = this.utilsService.isAnyMobile();
+    this.ismobileview = this.utilsService.isAnyMobile() ? 1 : 0;
     this.id = this.route.snapshot.params['id'];
     this.cf = +this.route.snapshot.params['cf'];
     this.merchantCode = this.route.snapshot.params['code'];
