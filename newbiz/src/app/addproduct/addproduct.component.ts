@@ -39,10 +39,8 @@ export class AddproductComponent implements OnInit {
   variantDec = new EventEmitter<string|MaterializeAction>();
   modalActions: any = new EventEmitter<string|MaterializeAction>();
   modalActions2: any = new EventEmitter<string|MaterializeAction>();
-  cropperSettings: CropperSettings;
   data: any;
   isImageProcess: boolean = false;
-  @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
   fromDt: any;
   toDt: any;
   dateParams: any;
@@ -78,17 +76,6 @@ export class AddproductComponent implements OnInit {
 
   constructor(private router: Router, private locationService: LocationService, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
-    this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 180;
-    this.cropperSettings.height = 120;
-    this.cropperSettings.croppedWidth = 120;
-    this.cropperSettings.croppedHeight = 120;
-    this.cropperSettings.canvasWidth = 270;
-    this.cropperSettings.canvasHeight = 180;
-    this.cropperSettings.noFileInput = true;
-    this.cropperSettings.preserveSize = true;
-    this.cropperSettings.keepAspect = false;
-
     this.data = {};
   }
 
@@ -314,57 +301,14 @@ export class AddproductComponent implements OnInit {
       null, null, null, null, null,null,null,null);
   }
 
-  isImageOptimizing(): boolean {
-    if(this.isImageProcess)
-      return true;
-
-    return false;
-  }
-
-  imgOptimize(file: File) {
-    var image:any = new Image();
-    var myReader: FileReader = new FileReader();
-    let me = this;
-
-    myReader.onloadend = function (loadEvent:any) {
-      image.src = loadEvent.target.result;
-      me.cropper.setImage(image);
-    };
-    myReader.readAsDataURL(file);
-  }
-
-  closeImgOpti(){
-    this.isImageProcess = false;
-    this.modalActions2.emit({ action: "modal", params: ['close'] });
-  }
-
-  saveImage() {
-    if (this.data.image) {
-      let a = (this.data.image).split(/,(.+)/)[1];
-      var blob = this.utilsService.b64toBlob(a,'image/png','');
-      var file = new File([blob], 'Test.png', {type: 'image/png', lastModified: Date.now()});
-      this.uploading = true;
-
-      this.fileService.upload(file, "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
-    }
-    else{
-      this.utilsService.setStatus(true, false, 'Please select an image!');
-    }
-    this.isImageProcess = false;
-    this.modalActions2.emit({ action: "modal", params: ['close'] });
-  }
-
   fileChange(e: any){
     if (e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-        
-          this.imgOptimize(e.target.files[0]);
-          this.modalActions2.emit({ action: "modal", params: ['open'] });
-        
-     
+        this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);             
       }
+
       e.target.value = '';
     }
   }

@@ -21,7 +21,6 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ProductlineComponent } from './productline/productline.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
-import { ImageCropperModule } from 'ng2-img-cropper';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/ngoconsole/i18n', '.json');
@@ -46,7 +45,6 @@ export function HttpFactory(http: Http) {
     AppRoutingModule,
     MaterializeModule,
     SharedComponentsModule,
-    ImageCropperModule,
     ClipboardModule,
     SharedServicesModule.forRoot(),
     TranslateModule.forRoot({
