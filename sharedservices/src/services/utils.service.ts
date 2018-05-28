@@ -15,7 +15,7 @@ export class UtilsService {
   private _initialized: boolean = false;
   private _isUnRegistered: boolean = false;
   private _isDevEnv: boolean = true;
-  private _testDomainURL: string = "https://archana.benow.in/";
+  private _testDomainURL: string = "https://shivanghj.benow.in/";
   private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';

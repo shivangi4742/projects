@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { MaterializeAction } from 'angular2-materialize';
 import { Router, ActivatedRoute } from "@angular/router";
 
