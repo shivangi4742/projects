@@ -3,6 +3,10 @@
     max-width: 550px;
 }
 
+.alreadyPaidBN {
+    line-height: 100pt;
+}
+
 .payTitleBN {
     line-height: 60px;
 }

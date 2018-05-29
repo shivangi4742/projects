@@ -80,5 +80,9 @@
     "City": "शहर",
     "State": "राज्य",
     "Enter your City": "आपला शहर प्रविष्ट करा",
-    "Enter your State": "आपला राज्य प्रविष्ट करा"
+    "Enter your State": "आपला राज्य प्रविष्ट करा",
+    "International Payment": "आंतरराष्ट्रीय भरणा",
+    "Invoice Number": "बील क्रमांक",
+    "This link has expired!": "हा दुवा कालबाह्य झाला आहे!",
+    "Currency": "चलन"
 }

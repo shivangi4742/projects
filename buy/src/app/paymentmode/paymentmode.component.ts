@@ -98,7 +98,7 @@ totalshipping:number;
         this.orderShipCharge = res.orderShipCharge;
       }
       if (res.freeShip) {
-        this.freeship = true
+        this.freeship = true;
       }
       if (res.chargePerProd) {
         this.chargeperprod = true
@@ -336,7 +336,7 @@ totalshipping:number;
         case 'CC':
         case 'DC':
         case 'NB':
-          this.paymentlinkService.startPayUPaymentProcess(this.settings.displayName, total)
+          this.paymentlinkService.startPayUPaymentProcess(this.settings.displayName, total, this.plInfo.currency)
             .then(res => this.finishPayUPayment(res))
           break;
         default:

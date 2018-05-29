@@ -69,9 +69,9 @@ export class SucesspaymentlinkComponent implements OnInit {
 
   initstart(){
      if(this.businesspro.storeUrl) {
-       this.url= 'https://'+ this.businesspro.storeUrl + ".benow.in/pay/"+this.txnId;
+       this.url = 'https://' + this.businesspro.storeUrl + ".benow.in/paymentlink/" + this.txnId;
      } else {
-       this.url = 'https://merchant.benow.in/ppl/pay/'+this.txnId;
+       this.url = 'https://merchant.benow.in/buy/' + this.user.merchantCode + '/paymentlink/' + this.txnId;
   }
 }
   sent(res: any) {

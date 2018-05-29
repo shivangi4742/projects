@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { ActivatedRoute } from "@angular/router";
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -32,9 +31,7 @@ export class EditproductComponent implements OnInit {
   isAmountLess: boolean = false;
   discountError: boolean = false;
   modalActions2: any = new EventEmitter<string|MaterializeAction>();
-  cropperSettings: CropperSettings;
   data: any;
-  @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
   isImageProcess: boolean = false;
   isError:boolean= false;
   fileerrormessage :string;
@@ -67,17 +64,6 @@ export class EditproductComponent implements OnInit {
 
   constructor(private locationService: LocationService, private route: ActivatedRoute, private userService: UserService, private utilsService: UtilsService,
               private productService: ProductService, private fileService: FileService) {
-    this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 120;
-    this.cropperSettings.height = 120;
-    this.cropperSettings.croppedWidth = 120;
-    this.cropperSettings.croppedHeight = 120;
-    this.cropperSettings.canvasWidth = 120;
-    this.cropperSettings.canvasHeight = 120;
-    this.cropperSettings.noFileInput = true;
-    this.cropperSettings.preserveSize = true;
-    this.cropperSettings.keepAspect = false;
-
     this.data = {};
   }
 
@@ -397,54 +383,14 @@ export class EditproductComponent implements OnInit {
    }
   }
 
-  isImageOptimizing(): boolean {
-    if(this.isImageProcess)
-      return true;
-
-    return false;
-  }
-
-  imgOptimize(file: File) {
-    var image:any = new Image();
-    var myReader: FileReader = new FileReader();
-    let me = this;
-
-    myReader.onloadend = function (loadEvent:any) {
-      image.src = loadEvent.target.result;
-      me.cropper.setImage(image);
-    };
-    myReader.readAsDataURL(file);
-  }
-
-  closeImgOpti(){
-    this.isImageProcess = false;
-    this.modalActions2.emit({ action: "modal", params: ['close'] });
-  }
-
-  saveImage() {
-    if (this.data.image) {
-      let a = (this.data.image).split(/,(.+)/)[1];
-      var blob = this.utilsService.b64toBlob(a,'image/png','');
-      var file = new File([blob], 'Test.png', {type: 'image/png', lastModified: Date.now()});
-      this.uploading = true;
-
-      this.fileService.upload(file, "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
-    }
-    else{
-      this.utilsService.setStatus(true, false, 'Please select an image!');
-    }
-    this.isImageProcess = false;
-    this.modalActions2.emit({ action: "modal", params: ['close'] });
-  }
-
   fileChange(e: any){
     if (e.target && e.target.files) {
       if (e.target.files && e.target.files[0]) {
         this.isImageProcess = true;
         this.utilsService.setStatus(false, false, '');
-          this.imgOptimize(e.target.files[0]);
-          this.modalActions2.emit({ action: "modal", params: ['open'] });
+        this.fileService.upload(e.target.files[0], "15", "PORTABLE_PAYMENT", this.uploadedImage, this);
       }
+
       e.target.value = '';
     }
   }

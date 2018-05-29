@@ -160,6 +160,14 @@
       <div class="row"></div>
       <div class="row">
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
+          <div class="row" *ngIf="supportsMultiCurrency && currencies">
+            <div class="col s10 offset-s1 input-field">
+              <div class="active labelPLBN2">{{'Currency' | translate}}* :</div>
+              <select materialize="material_select" name="currencies" [(ngModel)]="currency">
+                <option *ngFor="let c of currencies" [ngValue]="c.paramCode"> {{c.desc1}} </option>
+              </select>
+            </div>                
+          </div>
           <div class="row">
             <div class="input-field col s10 offset-s1">
               <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30" placeholder="{{'What is this payment for?' | translate}}"
@@ -169,10 +177,13 @@
           </div>
           <div class="row">
             <div class="input-field col s10 offset-s1">
-              <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" placeholder="{{'Enter the amount' | translate}}"
-                (keyup)="checkAmount()" required>
+              <input id="amount" name="amount" type="number" min="10" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" 
+                placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" *ngIf="currency == 'INR'" required>
+              <input id="amount" name="amount" type="number" min="1" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" 
+                placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" *ngIf="currency != 'INR'" required>
               <label for="amount" class="active labelPLBN">{{'Amount*' | translate}}</label>
-              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <span *ngIf="isAmountLess && currency == 'INR'" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <span *ngIf="isAmountLess && currency != 'INR'" class="errNrmS6B2BN">{{'*Amount should be more than' | translate}} {{currency}}1</span>
             </div>
           </div>
           <div class="row">
@@ -227,6 +238,14 @@
       <div class="row"></div>
       <div class="row">
         <form materialize (ngSubmit)="onSubmit()" #paymentLinkForm="ngForm">
+          <div class="row" *ngIf="supportsMultiCurrency && currencies">
+            <div class="col s12 input-field">
+              <div class="active labelPLBN2">{{'Currency' | translate}}* :</div>
+              <select materialize="material_select" name="currencies" [(ngModel)]="currency">
+                <option *ngFor="let c of currencies" [ngValue]="c.paramCode"> {{c.desc1}} </option>
+              </select>
+            </div>                
+          </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="purpose" name="purpose" type="text" [(ngModel)]="purpose" class="validate inputTextBN" maxlength="30" placeholder="{{'What is this payment for?' | translate}}"
@@ -236,10 +255,14 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="amount" name="amount" type="number" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" placeholder="{{'Enter the amount' | translate}}"
-                (keyup)="checkAmount()" required>
-              <label for="amount" class="active labelPLBN">{{'Amount' | translate}}</label>
-              <span *ngIf="isAmountLess" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <input id="amount" name="amount" type="number" min="10" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" 
+                placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" *ngIf="currency == 'INR'" required>
+              <input id="amount" name="amount" type="number" min="1" [(ngModel)]="amount" class="validate noBottomMarginBN inputTextBN" 
+                placeholder="{{'Enter the amount' | translate}}" (keyup)="checkAmount()" *ngIf="currency != 'INR'" required>
+              <label for="amount" class="active labelPLBN">{{'Amount*' | translate}}</label>
+              <span *ngIf="isAmountLess && currency == 'INR'" class="errNrmS6B2BN">{{'*Amount should be more than ₹10' | translate}}</span>
+              <span *ngIf="isAmountLess && currency != 'INR'" 
+                class="errNrmS6B2BN">{{'*Amount should be more than' | translate}} {{currency}}1</span>
             </div>
           </div>
           <div class="row">

@@ -28,6 +28,9 @@ import { PaymentfailureComponent } from './paymentfailure/paymentfailure.compone
 import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 import { DashComponent } from './dash/dash.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { CategoryupdateComponent } from './categoryupdate/categoryupdate.component';
+import { ThankyouComponent } from './thankyou/thankyou.component';
+import { MobilenoComponent } from './mobileno/mobileno.component';
 
 export function HttpFactory(http: Http) {
   return new TranslateStaticLoader(http, '/assets/buy/i18n', '.json');
@@ -50,7 +53,10 @@ export function HttpFactory(http: Http) {
     PaymentfailureComponent,
     ReoprterrorComponent,
     DashComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    CategoryupdateComponent,
+    ThankyouComponent,
+    MobilenoComponent
   ],
   imports: [
     HttpModule,

@@ -41,7 +41,7 @@
                 <span class="markupBN"> ₹ {{product.price | number : '1.2-2'}}</span>
               </div>
               <div class="offerpriceBN" *ngIf="product.shippingcharge && !chargePerOrder && !freeship">{{'Shipping Charge' | translate}}: 
-                  <span class="markupBN"> ₹ {{product.shippingcharge }}</span>
+                  <span class="markupBN"> ₹ {{product.shippingcharge | number : '1.2-2' }}</span>
                 </div>
               <div>&nbsp;</div>
               <div class="borderBN"></div>

@@ -8,10 +8,12 @@ var runSequence = require('run-sequence');
 const rootFolder = path.join(__dirname);
 const zgRootFolder = path.join(rootFolder, '/zg');
 const buyRootFolder = path.join(rootFolder, '/buy');
+const payerRootFolder = path.join(rootFolder, '/payer');
 const newbizRootFolder = path.join(rootFolder, '/newbiz');
 const mglRootFolder = path.join(rootFolder, '/mgl');
 const zgFolder = path.join(rootFolder, '/zg/dist');
 const buyFolder = path.join(rootFolder, '/buy/dist');
+const payerFolder = path.join(rootFolder, '/payer/dist');
 const newbizFolder = path.join(rootFolder, '/newbiz/dist');
 const mglFolder = path.join(rootFolder, '/mgl/dist');
 const serverFolder = path.join(rootFolder, '/server');
@@ -19,6 +21,7 @@ const loginRootFolder = path.join(rootFolder, '/login');
 const loginFolder = path.join(rootFolder, '/login/dist');
 const zgServerFolder = path.join(rootFolder, '/server/zg');
 const buyServerFolder = path.join(rootFolder, '/server/buy');
+const payerServerFolder = path.join(rootFolder, '/server/payer');
 const newbizServerFolder = path.join(rootFolder, '/server/newbiz');
 const mglServerFolder = path.join(rootFolder, '/server/mgl');
 const mybizServerFolder = path.join(rootFolder, '/server/mybiz');
@@ -26,10 +29,12 @@ const loginServerFolder = path.join(rootFolder, '/server/login');
 const ngoconsoleRootFolder = path.join(rootFolder, '/ngoconsole');
 const zgSCAssetsFolder = path.join(rootFolder, '/zg/src/assets');
 const buySCAssetsFolder = path.join(rootFolder, '/buy/src/assets');
+const payerSCAssetsFolder = path.join(rootFolder, '/payer/src/assets');
 const newbizSCAssetsFolder = path.join(rootFolder, '/newbiz/src/assets');
 const mglSCAssetsFolder = path.join(rootFolder, '/mgl/src/assets');
 const zgIndexFile = path.join(rootFolder, '/zg/dist/index.html');
 const buyIndexFile = path.join(rootFolder, '/buy/dist/index.html');
+const payerIndexFile = path.join(rootFolder, '/payer/dist/index.html');
 const newbizIndexFile = path.join(rootFolder, '/newbiz/dist/index.html');
 const mglIndexFile = path.join(rootFolder, '/mgl/dist/index.html');
 const ngoconsoleFolder = path.join(rootFolder, '/ngoconsole/dist');
@@ -37,17 +42,20 @@ const paymentlinkRootFolder = path.join(rootFolder, '/paymentlink');
 const paymentlinkFolder = path.join(rootFolder, '/paymentlink/dist');
 const zgAssetsFolder = path.join(rootFolder, '/zg/dist/assets/zg');
 const buyAssetsFolder = path.join(rootFolder, '/buy/dist/assets/buy');
+const payerAssetsFolder = path.join(rootFolder, '/payer/dist/assets/payer');
 const newbizAssetsFolder = path.join(rootFolder, '/newbiz/dist/assets/newbiz');
 const mglAssetsFolder = path.join(rootFolder, '/mgl/dist/assets/mgl');
 const loginIndexFile = path.join(rootFolder, '/login/dist/index.html');
 const loginSCAssetsFolder = path.join(rootFolder, '/login/src/assets');
 const serverZGAssetsFolder = path.join(rootFolder, '/server/assets/zg');
 const serverBuyAssetsFolder = path.join(rootFolder, '/server/assets/buy');
+const serverPayerAssetsFolder = path.join(rootFolder, '/server/assets/payer');
 const serverNewBizAssetsFolder = path.join(rootFolder, '/server/assets/newbiz');
 const serverMGLAssetsFolder = path.join(rootFolder, '/server/assets/mgl');
 const sharedServicesRootFolder = path.join(rootFolder, '/sharedservices');
 const serverZGIndexFile = path.join(rootFolder, '/server/zg/index.html');
 const serverBuyIndexFile = path.join(rootFolder, '/server/buy/index.html');
+const serverPayerIndexFile = path.join(rootFolder, '/server/payer/index.html');
 const serverNewBizIndexFile = path.join(rootFolder, '/server/newbiz/index.html');
 const serverMGLIndexFile = path.join(rootFolder, '/server/mgl/index.html');
 const ngoconsoleTransFolder = path.join(rootFolder, '/ngoconsole/src/app');
@@ -57,6 +65,7 @@ const sharedServicesFolder = path.join(rootFolder, '/sharedservices/dist');
 const loginAssetsFolder = path.join(rootFolder, '/login/dist/assets/login');
 const zgSSFolder = path.join(rootFolder, '/zg/node_modules/benowservices');
 const buySSFolder = path.join(rootFolder, '/buy/node_modules/benowservices');
+const payerSSFolder = path.join(rootFolder, '/payer/node_modules/benowservices');
 const newbizSSFolder = path.join(rootFolder, '/newbiz/node_modules/benowservices');
 const mglSSFolder = path.join(rootFolder, '/mgl/node_modules/benowservices');
 const paymentlinkServerFolder = path.join(rootFolder, '/server/paymentlink');
@@ -69,6 +78,7 @@ const serverLoginIndexFile = path.join(rootFolder, '/server/login/index.html');
 const serverMyBizIndexFile = path.join(rootFolder, '/server/mybiz/index.html');
 const zgSCFolder = path.join(rootFolder, '/zg/node_modules/benowcomponents');
 const buySCFolder = path.join(rootFolder, '/buy/node_modules/benowcomponents');
+const payerSCFolder = path.join(rootFolder, '/payer/node_modules/benowcomponents');
 const newbizSCFolder = path.join(rootFolder, '/newbiz/node_modules/benowcomponents');
 const mglSCFolder = path.join(rootFolder, '/mgl/node_modules/benowcomponents');
 const serverSharedAssetsFolder = path.join(rootFolder, '/server/assets/shared');
@@ -90,6 +100,7 @@ const ngoConsoleSCFolder = path.join(rootFolder, '/ngoconsole/node_modules/benow
 const paymentlinkAssetsFolder = path.join(rootFolder, '/paymentlink/dist/assets/paymentlink');
 const zgSCAssetsNMFolder = path.join(rootFolder, '/zg/node_modules/benowcomponents/assets');
 const buySCAssetsNMFolder = path.join(rootFolder, '/buy/node_modules/benowcomponents/assets');
+const payerSCAssetsNMFolder = path.join(rootFolder, '/payer/node_modules/benowcomponents/assets');
 const newbizSCAssetsNMFolder = path.join(rootFolder, '/newbiz/node_modules/benowcomponents/assets');
 const mglSCAssetsNMFolder = path.join(rootFolder, '/mgl/node_modules/benowcomponents/assets');
 const paymentLinkSCFolder = path.join(rootFolder, '/paymentlink/node_modules/benowcomponents');
@@ -106,12 +117,12 @@ function deleteFolders(folders) {
 
 gulp.task('clean:ss', function () {
   return deleteFolders([sharedComponentsSSFolder, loginSSFolder, ngoConsoleSSFolder, paymentLinkSSFolder, mglSSFolder, zgSSFolder, newbizSSFolder,
-    buySSFolder]);
+    buySSFolder, payerSSFolder]);
 });
 
 gulp.task('clean:sc', function () {
   return deleteFolders([loginSCFolder, loginSCSharedAssetsFolder, serverSharedAssetsFolder, ngoConsoleSCFolder, paymentLinkSCFolder, 
-    mglSCFolder, zgSCFolder, buySCFolder, newbizSCFolder]);
+    mglSCFolder, zgSCFolder, buySCFolder, newbizSCFolder, payerSCFolder]);
 });
 
 gulp.task('clean:zg', function () {
@@ -120,6 +131,10 @@ gulp.task('clean:zg', function () {
 
 gulp.task('clean:buy', function () {
   return deleteFolders([buyServerFolder]);
+});
+
+gulp.task('clean:payer', function () {
+  return deleteFolders([payerServerFolder]);
 });
 
 gulp.task('clean:newbiz', function () {
@@ -166,6 +181,10 @@ gulp.task('delete:indexbuy', function () {
   return deleteFolders([serverBuyIndexFile]);
 });
 
+gulp.task('delete:indexpayer', function () {
+  return deleteFolders([serverPayerIndexFile]);
+});
+
 gulp.task('delete:indexnewbiz', function () {
   return deleteFolders([serverNewBizIndexFile]);
 });
@@ -203,6 +222,11 @@ gulp.task('copy:ssbuy', function () {
     .pipe(gulp.dest(buySSFolder));
 });
 
+gulp.task('copy:sspayer', function () {
+  return gulp.src([sharedServicesFolder + '/**/*'])
+    .pipe(gulp.dest(payerSSFolder));
+});
+
 gulp.task('copy:ssnewbiz', function () {
   return gulp.src([sharedServicesFolder + '/**/*'])
     .pipe(gulp.dest(newbizSSFolder));
@@ -238,6 +262,11 @@ gulp.task('copy:scAssetsBuy', function () {
     .pipe(gulp.dest(buySCAssetsFolder));
 });
 
+gulp.task('copy:scAssetsPayer', function () {
+  return gulp.src([scAssetsFolder + '/**/*'])
+    .pipe(gulp.dest(payerSCAssetsFolder));
+});
+
 gulp.task('copy:scAssetsNewBiz', function () {
   return gulp.src([scAssetsFolder + '/**/*'])
     .pipe(gulp.dest(newbizSCAssetsFolder));
@@ -271,6 +300,11 @@ gulp.task('copy:scNMAssetsZG', function () {
 gulp.task('copy:scNMAssetsBuy', function () {
   return gulp.src([scAssetsFolder + '/**/*'])
     .pipe(gulp.dest(buySCAssetsNMFolder));
+});
+
+gulp.task('copy:scNMAssetsPayer', function () {
+  return gulp.src([scAssetsFolder + '/**/*'])
+    .pipe(gulp.dest(payerSCAssetsNMFolder));
 });
 
 gulp.task('copy:scNMAssetsNewBiz', function () {
@@ -313,6 +347,11 @@ gulp.task('copy:scbuy', function () {
     .pipe(gulp.dest(buySCFolder));
 });
 
+gulp.task('copy:scpayer', function () {
+  return gulp.src([sharedComponentsFolder + '/**/*'])
+    .pipe(gulp.dest(payerSCFolder));
+});
+
 gulp.task('copy:scnewbiz', function () {
   return gulp.src([sharedComponentsFolder + '/**/*'])
     .pipe(gulp.dest(newbizSCFolder));
@@ -346,6 +385,11 @@ gulp.task('copy:zg', function () {
 gulp.task('copy:buy', function () {
   return gulp.src([buyFolder + '/**/*'])
     .pipe(gulp.dest(buyServerFolder));
+});
+
+gulp.task('copy:payer', function () {
+  return gulp.src([payerFolder + '/**/*'])
+    .pipe(gulp.dest(payerServerFolder));
 });
 
 gulp.task('copy:newbiz', function () {
@@ -393,6 +437,11 @@ gulp.task('copy:buyAssets', function () {
     .pipe(gulp.dest(serverBuyAssetsFolder));
 });
 
+gulp.task('copy:payerAssets', function () {
+  return gulp.src([payerAssetsFolder + '/**/*'])
+    .pipe(gulp.dest(serverPayerAssetsFolder));
+});
+
 gulp.task('copy:newbizAssets', function () {
   return gulp.src([newbizAssetsFolder + '/**/*'])
     .pipe(gulp.dest(serverNewBizAssetsFolder));
@@ -436,6 +485,12 @@ gulp.task('change:indexbuy', function() {
   return gulp.src([buyIndexFile])
     .pipe(replace('<base href="/">', '<base href="/">'))
     .pipe(gulp.dest(buyServerFolder));
+});
+
+gulp.task('change:indexpayer', function() {
+  return gulp.src([payerIndexFile])
+    .pipe(replace('<base href="/">', '<base href="/">'))
+    .pipe(gulp.dest(payerServerFolder));
 });
 
 gulp.task('change:indexnewbiz', function() {
@@ -549,6 +604,22 @@ gulp.task('distribute:buy', function() {
     });
 });
 
+gulp.task('distribute:payer', function() {
+  runSequence(
+    'clean:payer',
+    'copy:payer',
+    'copy:payerAssets',
+    'delete:indexpayer',
+    'change:indexpayer',
+    function (err) {
+      if (err) {
+        console.log('ERROR:', err.message);
+      } else {
+        console.log('Compilation finished succesfully');
+      }
+    });
+});
+
 gulp.task('distribute:newbiz', function() {
   runSequence(
     'clean:newbiz',
@@ -616,6 +687,7 @@ gulp.task('distribute:sharedservices', function () {
     'copy:ssmgl',
     'copy:sszg',
     'copy:ssbuy',
+    'copy:sspayer',
     'copy:ssnewbiz',
     'copy:sslogin',
     'copy:ssngoconsole',
@@ -635,6 +707,7 @@ gulp.task('distribute:sharedcomponents', function () {
     'copy:scmgl',
     'copy:sczg',
     'copy:scbuy',
+    'copy:scpayer',
     'copy:scnewbiz',
     'copy:sclogin',
     'copy:scngoconsole',
@@ -642,6 +715,7 @@ gulp.task('distribute:sharedcomponents', function () {
     'copy:scAssetsMGL',
     'copy:scAssetsZG',
     'copy:scAssetsBuy',
+    'copy:scAssetsPayer',
     'copy:scAssetsNewBiz',
     'copy:scAssetsLogin',
     'copy:scAssetsNGOConsole',
@@ -649,6 +723,7 @@ gulp.task('distribute:sharedcomponents', function () {
     'copy:scNMAssetsMGL',
     'copy:scNMAssetsZG',
     'copy:scNMAssetsBuy',
+    'copy:scNMAssetsPayer',
     'copy:scNMAssetsNewBiz',
     'copy:scNMAssetsLogin',
     'copy:scNMAssetsLogin',
@@ -685,6 +760,8 @@ gulp.task('default', function () {
     'build:zg',
     'install:buy',
     'build:buy',
+    'install:payer',
+    'build:payer',
     'install:newbiz',
     'build:newbiz',
     'build:success',
@@ -737,6 +814,11 @@ gulp.task('install:buy', function() {
   return run('npm install').exec();
 });
 
+gulp.task('install:payer', function() {
+  process.chdir(payerRootFolder);
+  return run('npm install').exec();
+});
+
 gulp.task('install:newbiz', function() {
   process.chdir(newbizRootFolder);
   return run('npm install').exec();
@@ -779,6 +861,11 @@ gulp.task('build:zg', function() {
 
 gulp.task('build:buy', function() {
   process.chdir(buyRootFolder);
+  return run('npm run build').exec();
+});
+
+gulp.task('build:payer', function() {
+  process.chdir(payerRootFolder);
   return run('npm run build').exec();
 });
 

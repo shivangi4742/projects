@@ -136,5 +136,6 @@
     "less": "कमी",
     "Cost": "मूल्य",
     "Quantity": "संख्या",
-    "Amount": "रक्कम"
+    "Amount": "रक्कम",
+    "Payment against this link is already complete": "या दुव्याबद्दल देयक आधीच पूर्ण झाले आहे"
 }

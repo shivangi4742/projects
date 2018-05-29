@@ -590,9 +590,9 @@ export class ProductService {
     }
 
     editProductHB(merchantCode: string, product: NewProduct): Promise<Product> {
-        if(!product.discountedPrice){
+       /*  if(!product.discountedPrice){
             product.discountedPrice = product.price;
-        }
+        } */
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.editProductHBURL,
                 JSON.stringify({

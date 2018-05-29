@@ -171,5 +171,7 @@
     "Short Description": "संक्षिप्त वर्णन",
     "This is where you explain your campaign a little more. Mention important details.": "यह वह जगह है जहां आप अपने अभियान को कुछ और बताते हैं। महत्वपूर्ण विवरण बताएं।",
     "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you.": "यह तस्वीर आपके अभियान को परिभाषित करेगी। यह आपकी ऑफर इमेज, कंपनी लोगो आदि हो सकती है। स्पष्ट छवि अपलोड करें। अगर यह बड़ा है, चिंता न करें, हम आपके लिए इसे फसल करेंगे।",
-    "Download Invoice": "इनवाइस को डाउनलोड करो"
+    "Download Invoice": "इनवाइस को डाउनलोड करो",
+    "Currency": "मुद्रा",
+    "Amount should be more than": "राशि से अधिक होना चाहिए"
 }

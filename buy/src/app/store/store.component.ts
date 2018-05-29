@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 
-import { Product, StoreService, UtilsService, ProductService, PaymentlinkService } from 'benowservices';
+import { Product, StoreService, UtilsService, ProductService, PaymentlinkService, SDKService } from 'benowservices';
 
 @Component({
   selector: 'store',
@@ -13,6 +13,7 @@ export class StoreComponent implements OnInit {
   amount: number;
   numPages: number;
   purpose: string;
+  refNumber: string;
   retPolicy: string;
   storeName: string;
   storeLogo: string;
@@ -24,6 +25,7 @@ export class StoreComponent implements OnInit {
   storeAddress: string;
   merchantCode: string;
   storeDescription: string;
+  supportsMultiCurrency: boolean = false;
   stmerId:string;
   products: Array<Product>;
   page: number = 1;
@@ -31,26 +33,29 @@ export class StoreComponent implements OnInit {
   isStore: boolean = true;
   amountEditable: boolean = true;
   processing: boolean = false;
+  isExpired: boolean = false;
   uploadbannnerURL:string;
   uploadsURL:string;
   imag:string;
+  linkid: string;
   strlogo:string;
   mailStoreEmail: string;
   callStoreContact: string;  
   pp:string;
   bnerimage:string;
-  //HARDCODED
- storeimage: string = 'https://boygeniusreport.files.wordpress.com/2016/12/amazon-go-store.jpg?quality=98&strip=all&w=782';
+  currencies: any;
+  isOpenLink: boolean = false;
+  currency: string = 'INR';
 
   constructor(private activatedRoute: ActivatedRoute, private storeService: StoreService, private utilsService: UtilsService,
-    private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router) { }
-
- 
+    private productService: ProductService, private paymentlinkService: PaymentlinkService, private router: Router,
+    private sdkService: SDKService) { } 
 
   proceed() {
     this.paymentlinkService.setPaymentlinkDetails({
       "amount": this.amount,
       "purpose": this.purpose,
+      "currency": this.currency,
       "merchantCode": this.merchantCode
     });   
     this.router.navigateByUrl('/payerinfo'); 
@@ -119,8 +124,39 @@ logoourl(res:any) {
       }
      }
 
+  bindPLData(res: any) {
+    if(res && res.id) {
+      this.amount = res.invoiceAmount;
+      this.purpose = res.description;
+      this.refNumber = res.invoiceNumber;
+      this.currency = res.currency;
+      this.amountEditable = false;
+      let dt: Date = new Date();
+      if(res.expiryDate > 0 && (dt.getTime() - res.expiryDate) > 0)
+        this.isExpired = true;
+    }
+  }
+
+  gotCurrencies(res: any) {
+    if(res && res.length > 0 && res[0].paramCode) {
+      let found: boolean = false;
+      for(let i: number = 0; i < res.length; i++) {
+        if(res[0].paramCode == 'INR') {
+          found = true;
+          break;
+        }
+      }
+
+      if(!found)
+        res.push({ "desc1": "Indian Rupee", "paramCode": "INR" });
+
+      this.currencies = res;
+    }
+  }
+
   fillMerchantDetails(m: any) {
     if(m && m.merchantCode) {
+      this.supportsMultiCurrency = m.enableMulticurrency;
       this.merchantCode = m.merchantCode;
       this.storeService.assignMerchant(this.merchantCode);
       let u: string = window.location.href;
@@ -130,33 +166,67 @@ logoourl(res:any) {
 
       if(u) {
         u = u.replace('https://', '').replace('http://', '');
-        if(u.startsWith('pay-')) {
-         
+        if(u.startsWith('pay-')) {         
           this.isStore = false;
           this.amount = +this.activatedRoute.snapshot.params['amount'];          
           if(this.amount > 0) {
             this.amountEditable = false;
+            this.purpose = null;
+            this.isOpenLink = true;
             this.amount = Math.round(this.amount * 100) / 100;
+            if(m.enableMulticurrency)
+              this.sdkService.getSupportedCurrencies()
+                .then(res => this.gotCurrencies(res))      
           }
-          else
-            this.amount = null;
+          else {
+            this.linkid = this.activatedRoute.snapshot.params['id'];          
+            if(this.linkid) {
+              this.isOpenLink = false;
+              this.storeService.getPLData(this.linkid)
+                .then(res => this.bindPLData(res));
+            }
+            else {
+              this.amount = null;
+              this.purpose = null;
+              this.isOpenLink = true;
+              if(m.enableMulticurrency)
+                this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))      
+            }  
+          }
         }
-        else {
-         
+        else {         
           let fullUrl: string = window.location.href;
-          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {
-           
+          if(fullUrl && fullUrl.replace('https://pay', '').toLowerCase().indexOf('/pay') > 0) {           
             this.isStore = false;
             this.amount = +this.activatedRoute.snapshot.params['amount'];          
             if(this.amount > 0) {
               this.amountEditable = false;
+              this.purpose = null;
+              this.isOpenLink = true;
               this.amount = Math.round(this.amount * 100) / 100;
+              if(m.enableMulticurrency)
+                this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))      
             }
-            else
-              this.amount = null;
+            else {
+              this.linkid = this.activatedRoute.snapshot.params['id'];          
+              if(this.linkid) {
+                this.isOpenLink = false;
+                this.storeService.getPLData(this.linkid)
+                  .then(res => this.bindPLData(res));
+              }
+              else {
+                this.amount = null;
+                this.purpose = null;
+                this.isOpenLink = true;
+                if(m.enableMulticurrency)
+                  this.sdkService.getSupportedCurrencies()
+                  .then(res => this.gotCurrencies(res))        
+              }                
+            }
           }
-          else {
-            
+          else {            
            this.setImgAndHeights();
             this.fetchProducts();  
           }

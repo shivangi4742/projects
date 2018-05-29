@@ -22,7 +22,7 @@ export class PaymentlinkService {
         this._paymentLink = pl;
     }
 
-    public startPayUPaymentProcess(merchantName: string, amount: number): Promise<any> {
+    public startPayUPaymentProcess(merchantName: string, amount: number, currency: string): Promise<any> {
         let pt: string = '';
         if (this._paymentLink.paymentMode == 'DC')
             pt = 'DEBIT_CARD';
@@ -42,6 +42,7 @@ export class PaymentlinkService {
                     "merchantcode": this._paymentLink.merchantCode,
                     "merchantname": merchantName,
                     "paytype": pt,
+                    "currency": currency,
                     "isPaymentlink": true,
                     "purpose": this._paymentLink.purpose
                 }),

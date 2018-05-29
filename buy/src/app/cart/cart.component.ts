@@ -32,7 +32,7 @@ export class CartComponent implements OnInit {
       .then(res => this.init(res));
   }
  fetchinit(bres:any){
-  
+  console.log(bres,'bres');
     this.isLoaded = false;
     if(bres.chargePerOrder){
       this.chargePerOrder=bres.chargePerOrder;
@@ -114,8 +114,11 @@ export class CartComponent implements OnInit {
       shipping = this.orderShipCharge;
     }
   else {
+   console.log(this.chargeperprod );
      if(this.cart && this.cart.items && this.cart.items.length > 0 && this.chargeperprod ) {
+      console.log(this.cart.items,'i');
       this.cart.items.forEach(function(i) {
+       
         if(i.shippingcharge != null){
         let p : number ;
         p = parseInt(i.shippingcharge);
@@ -124,6 +127,7 @@ export class CartComponent implements OnInit {
       });
   }
 }
+console.log('shipping', shipping)
   return shipping;
 }
 }

@@ -32,6 +32,14 @@
   font-weight: bold;
 }
 
+.labelPLBN2 {
+  font-family: Barlow;
+  font-size: 12pt;
+  line-height: 12px;
+  color: rgb(65,58,90);
+  font-weight: bold;  
+}
+
 .inputTextBN{
   font-family: Barlow;
   font-size: 12pt!important;

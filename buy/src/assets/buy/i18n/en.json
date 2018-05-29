@@ -80,5 +80,9 @@
     "City": "City",
     "State": "State",
     "Enter your City": "Enter your City",
-    "Enter your State": "Enter your State"
+    "Enter your State": "Enter your State",
+    "International Payment": "International Payment",
+    "Invoice Number": "Invoice Number",
+    "This link has expired!": "This link has expired!",
+    "Currency": "Currency"
 }

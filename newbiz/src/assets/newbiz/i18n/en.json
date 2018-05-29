@@ -171,5 +171,7 @@
     "Short Description": "Short Description",
     "This is where you explain your campaign a little more. Mention important details.": "This is where you explain your campaign a little more. Mention important details.",
     "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you.": "This picture will define your campaign. It can be your offer image, Company logo etc. Upload clear image. If It's bigger, don't worry we will crop it for you.",
-    "Download Invoice": "Download Invoice"
+    "Download Invoice": "Download Invoice",
+    "Currency": "Currency",
+    "Amount should be more than": "Amount should be more than"
 }
