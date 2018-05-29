@@ -12,6 +12,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { RazorpayComponent } from './razorpay/razorpay.component';
 import { PaytmrequestComponent } from "./paytmrequest/paytmrequest.component";
 import { PaytmresponseComponent } from "./paytmresponse/paytmresponse.component";
+import { SodexoresponseComponent } from './sodexoresponse/sodexoresponse.component';
 
 const routes: Routes = [
     { path: 'notfound', component: NotfoundComponent },
@@ -40,11 +41,14 @@ const routes: Routes = [
     { path: 'paytmrequest/:id', component: PaytmrequestComponent },
     { path: 'paytmresponse', component: PaytmresponseComponent },
     { path: 'paytmresponse/:id/:txnid', component: SuccessComponent },
-    { path: 'sodexosuccess', component: SuccessComponent },
-    { path: 'sodexofailure/:code', component: FailureComponent },
+    { path: 'sodexosuccess/:code/:mobile/:id/:txnid', component: SuccessComponent },
+    { path: 'sodexosuccess/:code/:mobile', component: SodexoresponseComponent },
+    { path: 'sodexofailure/code/:mobile/:id/:txnid', component: FailureComponent }, 
+    { path: 'sodexofailure/:code/:mobile', component: SodexoresponseComponent },
+    { path: 'sodexoresponse', component: SodexoresponseComponent },
     { path: 'paysdk', component: PayComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }
-];
+];  
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

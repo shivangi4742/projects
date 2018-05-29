@@ -721,9 +721,19 @@ export class PayComponent implements OnInit {
         this.goToPG(initPaymentRes);
       }
       else if (paymentMode == 4) {
+        // var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber;
         var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber;
-        var sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess';
-        this.sdkService.createSodexoTransaction(initPaymentRes.transactionRef, this.pay.amount + '', 'INR', '123565', res.mId, res.tId, 'FOOD', sodexoFurl, sodexoSurl)
+        var sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess/' + this.pay.merchantCode + '/' + this.mobileNumber;
+
+        var foodAmount = this.pay.foodAmount;
+        var linkAmount = this.pay.amount;
+
+        if (foodAmount == linkAmount) { // Full payment done via sodexo
+          sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess/' + this.pay.merchantCode + '/' + this.mobileNumber + '/' + this.id + '/' + initPaymentRes.transactionRef;
+          sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber + '/' + this.id + '/' + initPaymentRes.transactionRef;
+        }
+
+        this.sdkService.createSodexoTransaction(initPaymentRes.transactionRef, this.pay.foodAmount + '', 'INR', '123565', res.mId, res.tId, 'FOOD', sodexoFurl, sodexoSurl)
           .then(res => this.goToSodexo(res));
       }
       else {
