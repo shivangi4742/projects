@@ -13,8 +13,8 @@ import { UtilsService } from './utils.service';
 @Injectable()
 export class TransactionService {
     settledate:string;
-    startDate:string[];
-    endDate:string[];
+    startDate:string;
+    endDate:string;
     private _selPayment:Payment;
     private _urls: any = {
         getTransactionDetailsURL: 'txn/getTransactionDetails',
@@ -74,20 +74,29 @@ export class TransactionService {
                         txns.payments[i].products = new Array<Product>();
                         txns.payments[i].hasProducts = true;
                         for(let j: number = 0; j < res.orders[i].payerProduct.length; j++){
-                            if( res.orders[i].payerProduct[j].startDate){
-                               var t = this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].startDate));
-                               this.startDate = t.split(' ')
+                            this.startDate = '';
+                            this.endDate = '';
+                            if (res.orders[i].payerProduct[j].startDate) {
+                                var s = this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].startDate));
+                                let s1: any = s.split(' ');
+                                let std1: any = s1[0].split('/');
+                                this.startDate = std1[0] + '-' + std1[1] + '-' + std1[2];
+            
                             }
-                            if(res.orders[i].payerProduct[j].endDate){
-                                var t1= this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].endDate));
-                                this.endDate = t1.split(' ');
+                            if (res.orders[i].payerProduct[j].endDate) {
+                                var e = this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].endDate));
+                                let e1: any = e.split(' ');
+                                let e11: any = e1[0].split('/');
+                                this.endDate = e11[0] + '-' + e11[1] + '-' + e11[2];
+            
                             }
+                            
                             txns.payments[i].products!.push(new Product(false, false, false, res.orders[i].payerProduct[j].quantity,
                                 res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].id, null,
                                 res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,                                
                                 res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, res.orders[i].payerProduct[j].color, 
                                 res.orders[i].payerProduct[j].size, res.orders[i].payerProduct[j].productType, null, null, null, 
-                                res.orders[i].payerProduct[j].merchantCode, null,res.orders[i].payerProduct[j].shippingCharge, res.orders[i].payerProduct[j].venue, this.startDate[0],this.endDate[0], res.orders[i].payerProduct[j].startTime,  res.orders[i].payerProduct[j].endTime));
+                                res.orders[i].payerProduct[j].merchantCode, null,res.orders[i].payerProduct[j].shippingCharge, res.orders[i].payerProduct[j].venue, this.startDate,this.endDate, res.orders[i].payerProduct[j].startTime,  res.orders[i].payerProduct[j].endTime));
                             }       
                     }
                     
