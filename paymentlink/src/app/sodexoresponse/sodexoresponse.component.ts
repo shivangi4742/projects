@@ -11,6 +11,8 @@ export class SodexoresponseComponent implements OnInit {
   isSuccess: boolean;
   url: string;
   txnId: string;
+  payLink: string;
+  id: string;
 
   constructor(
     private router: Router,
@@ -18,6 +20,10 @@ export class SodexoresponseComponent implements OnInit {
   ) {
     this.url = this.router.url;
     this.txnId = this.route.snapshot.queryParams["q"];
+    this.id = this.route.snapshot.params['id'];
+
+    if (this.id && this.txnId)
+      this.payLink = '/pay/' + this.id;
 
     if (this.url.indexOf('sodexosuccess') > 0) {
       this.isSuccess = true;
