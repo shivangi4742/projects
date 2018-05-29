@@ -12,6 +12,9 @@ import { UtilsService } from './utils.service';
 
 @Injectable()
 export class TransactionService {
+    settledate:string;
+    startDate:string[];
+    endDate:string[];
     private _selPayment:Payment;
     private _urls: any = {
         getTransactionDetailsURL: 'txn/getTransactionDetails',
@@ -58,24 +61,34 @@ export class TransactionService {
                     let nm: string = res.orders[i].name;
                     if(!nm || nm.trim().length <= 0)
                         nm = res.orders[i].displayName;
-
+                        if (res.orders[i].settlementDate) {
+                            this.settledate = this.utilsService.getDateTimeString(new Date(res.orders[i].settlementDate));
+                        }
+                       
                     txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, null, null, res.orders[i].payHistHdrTxnRefNo,
                         res.orders[i].tr, null, mode, nm, res.orders[i].merchantVPA, res.orders[i].orderDate, null, null, false, null, res.orders[i].email,
                         res.orders[i].mobileNo, res.orders[i].address, res.orders[i].orderDescription, res.orders[i].pincode, 
-                        res.orders[i].city, res.orders[i].state,res.orders[i].settledAmount,res.orders[i].settlementDate));
+                        res.orders[i].city, res.orders[i].state,res.orders[i].settledAmount,this.settledate));
 
                     if(res.orders[i].payerProduct && res.orders[i].payerProduct.length > 0) {
                         txns.payments[i].products = new Array<Product>();
                         txns.payments[i].hasProducts = true;
-                        for(let j: number = 0; j < res.orders[i].payerProduct.length; j++)
-                        
+                        for(let j: number = 0; j < res.orders[i].payerProduct.length; j++){
+                            if( res.orders[i].payerProduct[j].startDate){
+                               var t = this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].startDate));
+                               this.startDate = t.split(' ')
+                            }
+                            if(res.orders[i].payerProduct[j].endDate){
+                                var t1= this.utilsService.getDateTimeString(new Date(res.orders[i].payerProduct[j].endDate));
+                                this.endDate = t1.split(' ');
+                            }
                             txns.payments[i].products!.push(new Product(false, false, false, res.orders[i].payerProduct[j].quantity,
                                 res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].price, res.orders[i].payerProduct[j].id, null,
                                 res.orders[i].payerProduct[j].prodName, res.orders[i].payerProduct[j].prodDescription,                                
                                 res.orders[i].payerProduct[j].uom, res.orders[i].payerProduct[j].prodImgUrl, res.orders[i].payerProduct[j].color, 
                                 res.orders[i].payerProduct[j].size, res.orders[i].payerProduct[j].productType, null, null, null, 
-                                res.orders[i].payerProduct[j].merchantCode, null,res.orders[i].payerProduct[j].shippingCharge, res.orders[i].payerProduct[j].durationHours, res.orders[i].payerProduct[j].durationMinutes,));
-                                
+                                res.orders[i].payerProduct[j].merchantCode, null,res.orders[i].payerProduct[j].shippingCharge, res.orders[i].payerProduct[j].venue, this.startDate[0],this.endDate[0], res.orders[i].payerProduct[j].startTime,  res.orders[i].payerProduct[j].endTime));
+                            }       
                     }
                     
                 }

@@ -25,6 +25,9 @@ export class Product {
     public merchantCode: string,
     public addOns: Array<AddOn>|null,
     public shippingcharge: string | null,
-    public durationHours: string | null,
-    public durationMinutes: string | null) { }
+    public venue: string | null,
+    public startDate: any,
+    public endDate: any,
+    public startTime: string | null ,
+    public endTime: string | null) { }
 }

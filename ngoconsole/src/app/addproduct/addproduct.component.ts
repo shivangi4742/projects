@@ -122,7 +122,7 @@ export class AddproductComponent implements OnInit {
   private addedProduct(p: Product) {
     if(p && p.price > 0) {
       this.newProd = new Product(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-        null,null, null, null);
+        null,null, null, null,null, null, null);
       this.addedProd.emit(p);
     }
     else {

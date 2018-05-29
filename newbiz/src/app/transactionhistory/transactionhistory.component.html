@@ -69,7 +69,8 @@
     <div class="row"></div>
     <div *ngIf="hasTransactions()" class="row">
       <ul class="col s12 listPLBN collapsible" data-collapsible="accordion" materialize="collapsible">
-        <li *ngFor="let p of payments; let i = index;">
+        <li *ngFor="let p of payments; let i = index;" >
+         
           <div [id]="p.id" [ngClass]= 'checkClass(i, p.id)' (click)="arrowChange(p.id)">
         <span (click)="changeIcon(p.id)">
           <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_right</i>
@@ -86,17 +87,26 @@
               <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
             </div>
           </div>
-          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
+          <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN tinBN">
             <div class="row" style="margin-bottom: 0px;">
               <div class="col s6 m4 l4 truncate secondFieldBN center"><b>{{'Payment ID' | translate}}</b> <br>{{p.id}}</div>
               <div class="col s6 m5 l5 truncate secondFieldBN center"><b>{{'Buyer Details' | translate}}</b> <br> {{p.email}}
                 <br> {{p.phone}}<br>{{p.address}}<br>{{p.pin}} - {{p.city}}<br>{{p.state}}</div>
               <div class="col  s12 m3 l3 truncate secondFieldBN center" ><b>{{'Payment For' | translate}}</b> <br> {{p.description}}
               <br> 
-              <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b><br /><br />
-                <b class="linkButtonBN textcolorBN" (click)="printReceipt(p)">{{'Download Invoice' | translate}}</b></span></div>
+              <!-- <span *ngIf="p.products"><b class="linkButtonBN textcolorBN" >{{'See Details' | translate}}</b><br /><br />
+                <b class="linkButtonBN textcolorBN" >{{'Download Invoice' | translate}}</b></span> -->
+              </div>
+            </div>
+            <div class="row tbnBN">
+               <div class="col s12 m4 l4 center"><button class="buttonseBN" (click)="seedetails(p)">See details</button></div>
+               <div class="col s12 m4 l4 center">
+                 <button (click)="printReceipt(p)" class="buttonseBN">Download Invoice</button>
+               </div>
+               <div class="col s12 m4 l4 center" class="buttonseBN"><button>Initiate Fund</button></div>
             </div>
           </div>
+          
         </li>
       </ul>
     </div>

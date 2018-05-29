@@ -255,6 +255,7 @@ logoourl(res:any) {
   }
 
   fillProductsInStore(res: any) {
+ //   console.log(res);
    this.setImgAndHeights();
     if(res && res.numPages > 0) {
       this.numPages = res.numPages;

@@ -199,6 +199,15 @@
     width: 120px;
     min-height: 100px;
 }
+.ibBN1 {
+    float: left;
+    width: 235px;
+}
+.ibBN2{
+    float: left;
+    width: 120px;
+    min-height: 50px;
+}
 
 .descriptionBN {
     padding-top: 2px;
