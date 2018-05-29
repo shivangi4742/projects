@@ -175,6 +175,7 @@ export class ProductComponent implements OnInit {
   }
 
   init(res: Product) {
+    
     if(res && res.id && res.merchantCode == this.merchantCode) {
       this.product = res;      
       this.product.qty = 1;

@@ -13,7 +13,6 @@ import { ReoprterrorComponent } from './reoprterror/reoprterror.component';
 import { DashComponent } from './dash/dash.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
-import { CategoryupdateComponent } from './categoryupdate/categoryupdate.component';
 import { MobilenoComponent } from './mobileno/mobileno.component';
 
 const routes: Routes = [

@@ -5,6 +5,7 @@
 
 .noLeftPaddingBN{
   padding-left: 0px!important;
+     
 }
 
 .dashboardRedirectBN{
@@ -162,4 +163,18 @@
 .textcolorBN {
    color: red !important;
    text-decoration: underline;
+}
+.tbnBN{
+  background-color: #E53935;
+  padding: 8px;
+  margin-left: 16px;
+}
+.tinBN{
+  border: 2px solid #E53935;
+  background-color: #f6fbfd;
+}
+.buttonseBN{
+  background-color: white!important;
+    border: 1px solid white!important;
+    border-radius:4px;
 }

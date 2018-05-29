@@ -582,7 +582,7 @@
             <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
           </div>
         </div>
-        <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN">
+        <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN tinBN">
           <div class="row" style="margin-bottom: 0px;">
             <div class="col s6 m4 l4 truncate secondFieldBN center">
               <b>{{'Payment ID' | translate}}</b>
@@ -597,12 +597,19 @@
             <div class="col  s12 m3 l3 truncate secondFieldBN center">
               <b>{{'Payment For' | translate}}</b>
               <br> {{p.description}}
-              <span *ngIf="p.products">
+             <!--  <span *ngIf="p.products">
                 <b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b><br /><br />
                 <b class="linkButtonBN textcolorBN" (click)="printReceipt(p)">{{'Download Invoice' | translate}}</b>
-              </span>
+              </span> -->
             </div>
           </div>
+          <div class="row tbnBN">
+            <div class="col s12 m4 l4 center"><button class="buttonseBN" (click)="seedetails(p)">See details</button></div>
+            <div class="col s12 m4 l4 center">
+              <button (click)="printReceipt(p)" class="buttonseBN">Download Invoice</button>
+            </div>
+            <div class="col s12 m4 l4 center" ><button class="buttonseBN">Initiate Fund</button></div>
+         </div>
         </div>
       </li>
     </ul>
