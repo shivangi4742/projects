@@ -46,9 +46,9 @@
       <div class="col s1 hide-on-med-and-up"></div>
       <div class="col s10 m4 offset-s1" align="right">
           <button *ngIf="!edit && mtype == 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
-              name="product" [disabled]="!productForm.form.valid || newProd.price < 10 || isImageProcess">{{'Add' | translate}}</button>
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 10">{{'Add' | translate}}</button>
           <button *ngIf="!edit && mtype != 3" class="btn waves-effect waves-light red regNrmS2BN buttonBN shiftDownBN" type="submit"
-              name="product" [disabled]="!productForm.form.valid || newProd.price < 1 || isImageProcess">{{'Add' | translate}}</button>
+              name="product" [disabled]="!productForm.form.valid || newProd.price < 1">{{'Add' | translate}}</button>
       </div>
       <div class="col s1 hide-on-med-and-up"></div>
     </div>

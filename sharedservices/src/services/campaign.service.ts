@@ -62,7 +62,7 @@ export class CampaignService {
         else
             return new SDK('', false, false, '', false, false, true, true, true, false, false, true, true, true, true, true, false, false, false,
                 false, false, false, true, false, 3, 0, 0, 0, 0, 3, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
-                null, null, null, null, null, null, null, null, null, null, [], null, null, false, false, '', '', '', 0, false, false);
+                null, null, null, null, null, null, null, null, null, null, [], null, null, false, false, '', '', '', 0, 0, false, false);
     }
 
     setCampaign(sdk: SDK) {
@@ -115,7 +115,7 @@ export class CampaignService {
                 res.expiryDate, (res.merchantUser && res.merchantUser.defaultAcc) ? res.merchantUser.defaultAcc.virtualAddress : '', res.description,
                 res.merchantUser ? res.merchantUser.merchantCode : '', res.merchantUser ? res.merchantUser.displayName : '', res.txnrefnumber,
                 res.invoiceNumber, res.till, null, null, null, null, null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '',
-                '', res.foodAmount, res.oneTimeUse, res.requestExpired);
+                '', res.foodAmount, res.sodexoAmount, res.oneTimeUse, res.requestExpired);
         }
 
         return null;
