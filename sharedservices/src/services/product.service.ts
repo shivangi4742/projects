@@ -18,8 +18,8 @@ import { UtilsService } from './utils.service';
 export class ProductService {
     prodstartdate: string;
     prodenddate: string;
-    startdate: string[];
-    enddate: string[];
+    startdate: string;
+    enddate: string;
     private _selProducts: Array<Product>;
     private _campProducts: Array<Product>;
     private _transProducts: Array<Product>;
@@ -130,20 +130,28 @@ export class ProductService {
     }
 
     fillStoreProduct(res: any): Product {
+        this.startdate = '';
+        this.enddate = '';
         if (res.startDate) {
             var s = this.utilsService.getDateTimeString(new Date(res.startDate));
-            this.startdate = s.split(' ');
+            let s1: any = s.split(' ');
+            let std1: any = s1[0].split('/');
+            this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
+
         }
         if (res.endDate) {
-             var e = this.utilsService.getDateTimeString(new Date(res.endDate));
-             this.enddate= e.split(' ');
+            var e = this.utilsService.getDateTimeString(new Date(res.endDate));
+            let e1: any = e.split(' ');
+            let e11: any = e1[0].split('/');
+            this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
         }
         let me: any = this;
         let newp: Product = new Product(false, false, false, null, res.discountedPrice ? res.discountedPrice : res.prodPrice,
             res.prodPrice, res.id, res.id, res.prodName, res.prodDescription, res.uom,
             res.prodImgUrl ? this.utilsService.getUploadsURL() + res.prodImgUrl : this.utilsService.getNoProdImageURL(),
 
-            res.color, res.size, res.productType, null, null, null, res.merchantCode, null, res.shippingCharge, res.venue, this.startdate[0], this.enddate[0], res.startTime, res.endTime);
+            res.color, res.size, res.productType, null, null, null, res.merchantCode, null, res.shippingCharge, res.venue, this.startdate, this.enddate, res.startTime, res.endTime);
         if (res.productImages && res.productImages.length > 0) {
             newp.imageURLs = new Array<string>();
             res.productImages.forEach(function (pi: any) {
@@ -255,13 +263,21 @@ export class ProductService {
     }
 
     fillProduct(res: any): NewProduct {
+        this.startdate = '';
+        this.enddate = '';
         if (res.startDate) {
             var s = this.utilsService.getDateTimeString(new Date(res.startDate));
-            this.startdate = s.split(' ');
+            let s1: any = s.split(' ');
+            let std1: any = s1[0].split('/');
+            this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
+
         }
         if (res.endDate) {
-             var e = this.utilsService.getDateTimeString(new Date(res.endDate));
-             this.enddate= e.split(' ');
+            var e = this.utilsService.getDateTimeString(new Date(res.endDate));
+            let e1: any = e.split(' ');
+            let e11: any = e1[0].split('/');
+            this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
         }
         let product: NewProduct = new NewProduct(false, false, false, 0,
             0, '', '', null, null, null, null, null, false,
@@ -282,7 +298,7 @@ export class ProductService {
             product = new NewProduct(false, true, false, res.prodPrice, res.discountedPrice,
                 res.id, res.prodName, res.prodDescription, res.uom, res.color, res.productSizes, res.productImages, res.isAvailable,
 
-                res.productType, hasVariants, variants, res.venue, this.startdate[0], this.enddate[0], res.fileUrl, res.shippingCharge, res.startTime, res.endTime);
+                res.productType, hasVariants, variants, res.venue, this.startdate, this.enddate, res.fileUrl, res.shippingCharge, res.startTime, res.endTime);
         }
 
         return product;
@@ -330,21 +346,27 @@ export class ProductService {
         if (res && res.length > 0) {
             this._campProducts = new Array<Product>();
             for (let i: number = 0; i < res.length; i++) {
-                this.prodstartdate = "";
-                this.prodenddate = "";
+                this.startdate = "";
+                this.enddate = "";
                 if (res[i].startDate) {
                     var s = this.utilsService.getDateTimeString(new Date(res[i].startDate));
-                    this.startdate = s.split(' ');
+                    let s1: any = s.split(' ');
+                    let std1: any = s1[0].split('/');
+                    this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
+
                 }
                 if (res[i].endDate) {
                     var e = this.utilsService.getDateTimeString(new Date(res[i].endDate));
-                    this.enddate = e.split(' ');
+                    let e1: any = e.split(' ');
+                    let e11: any = e1[0].split('/');
+                    this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
                 }
                 this._campProducts.push(new Product(false, false, false, null, res[i].prodPrice, res[i].prodPrice, res[i].id, res[i].prodId,
 
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null,
 
-                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].venue,  this.startdate[0], this.enddate[0], res[i].startTime, res[i].endTime));
+                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].venue, this.startdate, this.enddate, res[i].startTime, res[i].endTime));
             }
         }
 
@@ -357,18 +379,26 @@ export class ProductService {
             this._transProducts = new Array<Product>();
 
             for (let i: number = 0; i < res.length; i++) {
+                this.startdate = '';
+                this.enddate = '';
                 if (res[i].startDate) {
                     var s = this.utilsService.getDateTimeString(new Date(res[i].startDate));
-                    this.startdate = s.split(' ');
+                    let s1: any = s.split(' ');
+                    let std1: any = s1[0].split('/');
+                    this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
+
                 }
                 if (res[i].endDate) {
                     var e = this.utilsService.getDateTimeString(new Date(res[i].endDate));
-                    this.enddate = e.split(' ');
+                    let e1: any = e.split(' ');
+                    let e11: any = e1[0].split('/');
+                    this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
                 }
                 this._transProducts.push(new Product(false, false, false, res[i].quantity, res[i].price, res[i].price, res[i].campaignProductId, null,
                     res[i].prodName, res[i].prodDescription, res[i].uom, res[i].prodImgUrl, res[i].color, res[i].size, res[i].productType, null, null,
 
-                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].venue, this.startdate[0], this.enddate[0], res[i].startTime, res[i].endTime));
+                    null, res[i].merchantCode, null, res[i].shippingCharge, res[i].venue, this.startdate, this.enddate[0], res[i].startTime, res[i].endTime));
             }
         }
 
@@ -397,7 +427,7 @@ export class ProductService {
 
 
     private fillProducts(res2: any): any {
-       // console.log(res2, 'fillproduct');
+        // console.log(res2, 'fillproduct');
         if (!(res2 && res2.benowProductList))
             return { "success": false };
 
@@ -413,16 +443,24 @@ export class ProductService {
             let variants = new Array<NewVariant>();
             if (res) {
                 for (let i: number = 0; i < res.length; i++) {
-                   
+                    this.startdate = '';
+                    this.enddate = '';
+
                     if (res[i].startDate) {
                         var s = this.utilsService.getDateTimeString(new Date(res[i].startDate));
-                        this.startdate = s.split(' ');
+                        let s1: any = s.split(' ');
+                        let std1: any = s1[0].split('/');
+                        this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
+
                     }
                     if (res[i].endDate) {
                         var e = this.utilsService.getDateTimeString(new Date(res[i].endDate));
-                        this.enddate = e.split(' ');
+                        let e1: any = e.split(' ');
+                        let e11: any = e1[0].split('/');
+                        this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
                     }
-                   
+
                     if (res[i].benowProductVariants && res[i].benowProductVariants.length > 0) {
                         hasVariants = true;
                         for (let j: number = 0; j < res[i].benowProductVariants.length; j++) {
@@ -434,7 +472,7 @@ export class ProductService {
                     prods.push(new NewProduct(false, true, false, res[i].prodPrice, res[i].discountedPrice,
                         res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, res[i].color, res[i].productSizes, res[i].productImages, res[i].isAvailable,
 
-                        res[i].productType, hasVariants, variants, res[i].venue, this.startdate[0], this.enddate[0], res[i].fileUrl, res[i].shippingCharge, res[i].startTime, res[i].endTime));
+                        res[i].productType, hasVariants, variants, res[i].venue, this.startdate, this.enddate, res[i].fileUrl, res[i].shippingCharge, res[i].startTime, res[i].endTime));
                 }
             }
 
@@ -479,14 +517,21 @@ export class ProductService {
     }
 
     private addedProductHB(res: any): NewProduct | null {
+        this.startdate = '';
+        this.enddate = '';
         if (res.startDate) {
-            var s = this.utilsService.getDateTimeString(res.startDate);
-            this.startdate = s.split(' ');
+            var s = this.utilsService.getDateTimeString(new Date(res.startDate));
+            let s1: any = s.split(' ');
+            let std1: any = s1[0].split('/');
+            this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
 
         }
         if (res.endDate) {
-           var e = this.utilsService.getDateTimeString(res.endDate);
-           this.enddate= e.split(' ');
+            var e = this.utilsService.getDateTimeString(new Date(res.endDate));
+            let e1: any = e.split(' ');
+            let e11: any = e1[0].split('/');
+            this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
+
         }
         if (res && res.prodPrice > 0) {
             if (res.benowProductVariants && res.benowProductVariants.length > 0) {
@@ -497,11 +542,11 @@ export class ProductService {
                         res.benowProductVariants[i].variantCode, res.benowProductVariants[i].variantDesc, res.benowProductVariants[i].listProductSizes))
                 }
                 return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
-                    res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue,  this.startdate[0],this.enddate[0], null, res.shippingCharge, res.startTime, res.endTime);
+                    res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, true, variants, res.venue, this.startdate, this.enddate, null, res.shippingCharge, res.startTime, res.endTime);
             }
 
             return new NewProduct(true, false, true, res.prodPrice, res.discountedPrice, res.id, res.prodName, res.prodDescription, res.uom,
-                res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, this.startdate[0],this.enddate[0], null, res.shippingCharge, res.startTime, res.endTime);
+                res.color, res.prodSizes, res.prodImgUrls, res.isAvailable, res.productType, false, null, res.venue, this.startdate, this.enddate, null, res.shippingCharge, res.startTime, res.endTime);
         }
         else
             return null;
@@ -643,6 +688,7 @@ export class ProductService {
         /*  if(!product.discountedPrice){
              product.discountedPrice = product.price;
          } */
+       // console.log(product.startDate, product.endDate);
         if (product.startDate) {
             this.prodstartdate = product.startDate + ' ' + '00:00:00';
         }

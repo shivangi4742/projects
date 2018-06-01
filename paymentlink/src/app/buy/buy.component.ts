@@ -16,6 +16,7 @@ export class BuyComponent implements OnInit {
   products: Array<Product>;
   payAmount: number = null;
   mtype : number;
+  ishc: boolean = false;
 
   constructor(private route: ActivatedRoute, private productService: ProductService, private router: Router, private sdkService: SDKService,
     private utilsService: UtilsService) { }
@@ -23,6 +24,9 @@ export class BuyComponent implements OnInit {
   ngOnInit() {
 
     this.id = this.route.snapshot.params['id'];
+    if(this.id == 'PCiIS00000000012')
+      this.ishc = true;
+
     this.merchantCode = this.route.snapshot.params['code'];
      if((window as any).fbq) {
          (window as any).fbq('track', 'InitiateCheckout');
