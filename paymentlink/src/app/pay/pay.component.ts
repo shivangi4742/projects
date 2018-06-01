@@ -75,6 +75,8 @@ export class PayComponent implements OnInit {
   collapsibleActions: any = new EventEmitter<string | MaterializeAction>();
 
   foodAmount: number = 0; // for sodexo
+  sodexoPaidAmount: number = 0; // for sodexo
+  disableSodexo: boolean = false;
   askPanOrig: boolean = false;
   payModesOrig: Array<string>;
 
@@ -163,8 +165,21 @@ export class PayComponent implements OnInit {
       this.askPanOrig = this.pay.askpan;
       this.payModesOrig = this.pay.supportedModes;
 
-      // this.pay.foodAmount = 1; // Delete this line later
       this.foodAmount = this.pay.foodAmount;
+      this.sodexoPaidAmount = this.pay.sodexoAmount;
+
+
+      if (this.sodexoPaidAmount) {
+
+        // if (this.sodexoPaidAmount == this.foodAmount) // Uncomment this when 
+          this.disableSodexo = true;
+
+        this.pay.amount = res.amount - this.sodexoPaidAmount;
+
+        if (this.pay.foodAmount > this.sodexoPaidAmount)
+          this.pay.foodAmount = this.pay.foodAmount - this.sodexoPaidAmount;
+
+      }
 
       if (this.pay.mtype == 1) {
         this.pay.askmob = false;
@@ -627,26 +642,34 @@ export class PayComponent implements OnInit {
   }
 
   setMode(mode: number) {
+    var initAmount = this.pay.amount;
     if (mode == 1)
       this.ccExpanded = true;
     else if (mode == 2)
       this.dcExpanded = true;
     else if (mode == 3)
       this.nbExpanded = true;
-    else if (mode == 4)
-      this.sodexoExpanded = true;
+    else if (mode == 4) {
+      initAmount = this.pay.foodAmount;
+      if (this.disableSodexo) {
+
+      }
+      else {
+        this.sodexoExpanded = true;
+      }
+    }
     else if (mode == 5) {
       this.intPayExpanded = true;
     }
     else if (mode == 6) {
-      this.sdkService.setRazorPay(new RazorPayModel(this.pay.amount, this.pay.title, this.pay.description, this.pay.firstName, this.pay.lastName, this.pay.email));
+      this.sdkService.setRazorPay(new RazorPayModel(initAmount, this.pay.title, this.pay.description, this.pay.firstName, this.pay.lastName, this.pay.email));
     }
 
     this.putFocus = true;
     if (this.validate(true)) {
       this.mode = mode;
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
-        this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
+        this.resident, initAmount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
         this.pay.til, this.pay.products)
         // .then(res => this.goToPG(res));
         .then(res => this.checkForPG(res, mode));
@@ -722,8 +745,8 @@ export class PayComponent implements OnInit {
       }
       else if (paymentMode == 4) {
         // var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber;
-        var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber;
-        var sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess/' + this.pay.merchantCode + '/' + this.mobileNumber;
+        var sodexoFurl = this.utilsService.getBaseURL() + 'ppl/sodexofailure/' + this.pay.merchantCode + '/' + this.mobileNumber + '/' + this.id;
+        var sodexoSurl = this.utilsService.getBaseURL() + 'ppl/sodexosuccess/' + this.pay.merchantCode + '/' + this.mobileNumber + '/' + this.id;
 
         var foodAmount = this.pay.foodAmount;
         var linkAmount = this.pay.amount;

@@ -42,9 +42,9 @@ const routes: Routes = [
     { path: 'paytmresponse', component: PaytmresponseComponent },
     { path: 'paytmresponse/:id/:txnid', component: SuccessComponent },
     { path: 'sodexosuccess/:code/:mobile/:id/:txnid', component: SuccessComponent },
-    { path: 'sodexosuccess/:code/:mobile', component: SodexoresponseComponent },
+    { path: 'sodexosuccess/:code/:mobile/:paylink', component: SodexoresponseComponent },
     { path: 'sodexofailure/:code/:mobile/:id/:txnid', component: FailureComponent }, 
-    { path: 'sodexofailure/:code/:mobile', component: SodexoresponseComponent },
+    { path: 'sodexofailure/:code/:mobile/:paylink', component: SodexoresponseComponent },
     { path: 'sodexoresponse', component: SodexoresponseComponent },
     { path: 'paysdk', component: PayComponent },
     { path: '**', redirectTo: '/notfound', pathMatch: 'full' }

@@ -55,7 +55,7 @@
       <div class="row" align="center">
         <div class="alreadyPaidBN errNrmS4B1BN">{{ 'Payment against this link is already complete' | translate}}.</div>
       </div>
-    </div>    
+    </div>
   </div>
   <div *ngIf="!pay.oneTimeLink || !pay.oneTimeDone" class="valign-wrapper">
     <div class="col s12 l4 offset-l4 m6 offset-m3">
@@ -142,12 +142,12 @@
           <div class="valign-wrapper">
             <div class="input-field col s10 offset-s1 errNrmS-1B1BN" align="left">
               <span class="prefix errNrmS-1B1BN"> ₹ </span>
-              <input id="amount" (blur)="refreshAmount()" name="amount" type="number" step="0.01" min="1.00" max="9999999.99" class="validate regNrmS-1B1BN"
-                required [(ngModel)]="pay.foodAmount">
-              <label for="amount" [ngClass]="pay.foodAmount ? 'active regNrmS6IBN' : 'regNrmS4IBN'">&nbsp; &nbsp;{{'Enter amount for Sodexo' | translate}}*</label>
+              <input id="foodAmount" (blur)="refreshAmount()" name="foodAmount" type="number" step="0.01" min="1.00" max="9999999.99" class="validate regNrmS-1B1BN"
+                required [(ngModel)]="pay.foodAmount" [disabled]="disableSodexo">
+              <label class="active" for="foodAmount" [ngClass]="pay.foodAmount ? 'active regNrmS6IBN' : 'regNrmS4IBN'">&nbsp; &nbsp;{{'Enter amount for Sodexo' | translate}}*</label>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
       <div class="row" *ngIf="pay.askresidence">
         <!-- <div class="input-field col s10 offset-s1 regNrmS4BN" align="left">
@@ -500,7 +500,8 @@
               </li>
               <li *ngIf="supportsSodexo">
                 <div class="collapsible-header accordionHdrBN regNrmS4BN accBtnBN">
-                  <button id="sodexoPayBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(4)">
+                  <button id="sodexoPayBtn" class="row noPadsNewBN fullWidthBN waves-effect waves-light transparent btn-flat ccBtnBN" (click)="setMode(4)"
+                    [disabled]="disableSodexo">
                     <div class="col s2" align="left">
                       <i class="material-icons yellowBN">credit_card</i>
                     </div>

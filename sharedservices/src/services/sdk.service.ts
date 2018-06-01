@@ -48,7 +48,8 @@ export class SDKService {
         getMerchantPaymentInfo: 'sdk/getMerchantPaymentInfo',
         getPaytmChecksum: 'sdk/getPaytmChecksum',
         getSupportedCurrenciesURL: 'sdk/getSupportedCurrencies',
-        createSodexoTransactionURL: 'sdk/createSodexoTransaction'
+        createSodexoTransactionURL: 'sdk/createSodexoTransaction',
+        getSodexoTransactionURL: 'sdk/getSodexoTransactionURL'
     }
 
     constructor(private http: Http, private utilsService: UtilsService) { }
@@ -115,7 +116,7 @@ export class SDKService {
             { headers: this.utilsService.getHeaders() }).toPromise().then(res => res.json()).catch(res => this.utilsService.returnGenericError());
     }
 
-    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string, 
+    createPaymentLink(merchantCode: string, description: string, amount: number, refNumber: string, expiryDate: string,
         currency: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.createPaymentLinkURL,
@@ -188,7 +189,7 @@ export class SDKService {
                 (mtype == 1) ? res.mobileNumber : '', ttl,
                 res.merchantUser.mccCode, res.fileUrl, '', '', res.merchantUser.id, expiryDate, vpa, res.description ? res.description : '',
                 res.merchantUser.merchantCode, res.merchantUser.displayName, res.txnrefnumber, res.invoiceNumber, res.till, null, null, null, null,
-                null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', '', res.foodAmount, res.oneTimeUse, 
+                null, null, null, null, null, modes, null, null, convFee, res.embedded, '', '', '', res.foodAmount, res.sodexoAmount, res.oneTimeUse,
                 res.requestExpired);
         }
         else if (res.logFormate) {
@@ -208,7 +209,7 @@ export class SDKService {
                 obj.campaignTarget, obj.id, obj.hash, obj.surl, obj.furl, obj.email, obj.phone, obj.title, obj.mccCode, obj.imageURL, obj.lastName,
                 obj.firstName, obj.merchantId, obj.expiryDate, obj.merchantVpa, obj.description, obj.merchantCode, obj.businessName, obj.txnrefnumber,
                 obj.invoiceAmount, obj.til, obj.vpa, obj.url, obj.udf1, obj.udf2, obj.udf3, obj.udf4, obj.udf5, obj.mode, obj.txnid,
-                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.embedded, '', '', '', res.foodAmount, res.oneTimeUse, 
+                obj.supportedModes, obj.products, null, obj.chargeConvenienceFee, res.embedded, '', '', '', res.foodAmoun, res.sodexoAmountt, res.oneTimeUse,
                 res.requestExpired);
         }
 
@@ -255,7 +256,7 @@ export class SDKService {
     }
 
     getInvoice(merchantCode: string, txnId: string): Promise<any> {
-        if(txnId && merchantCode) {
+        if (txnId && merchantCode) {
             return this.http
                 .post(this.utilsService.getBaseURL() + this._urls.getInvoiceURL,
                     { "txnId": txnId, "merchantCode": merchantCode },
@@ -557,6 +558,18 @@ export class SDKService {
                     "purpose": purpose,
                     "failureUrl": furl,
                     "successUrl": surl
+                }),
+                { headers: this.utilsService.getHeaders() })
+            .toPromise()
+            .then(res => res.json())
+            .catch(res => this.utilsService.returnGenericError());
+    }
+
+    public getSodexoTransactionDetails(txnId: string): Promise<any> {
+        return this.http
+            .post(this.utilsService.getBaseURL() + this._urls.getSodexoTransactionURL,
+                JSON.stringify({
+                    "txnId": txnId
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()
