@@ -1,0 +1,86 @@
+<h1>Login</h1>
+<div id="withoutotp">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="row" *ngIf="!isValidMobile ">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="mobile">
+          <label for="mobile" [ngClass]="mobile ? 'active smallLabelBN' : 'smallLabelBN'">{{'Enter your mobile Number' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="hasError">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <button (click)="getMobile()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" name="signIn">{{'Continue'}}
+          <i class="material-icons right">send</i>
+        </button>
+        <div class="col l1 hide-on-med-and-down"></div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isValidMobile">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="mobile">
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="withpassword">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="password" name="password" type="password" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon">
+          <input id="password" name="password" type="text" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon1">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter your password' | translate}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="valign-wrapper" *ngIf="withotp">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="otp" name="otp" type="text" class="validate regNrmS4BN" required [(ngModel)]="otp" *ngIf="icon">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter OTP'}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <button (click)="login()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" type="submit" name="signIn">{{'Login'}}
+          <i class="material-icons right">send</i>
+        </button>
+        <div class="col l1 hide-on-med-and-down"></div>
+      </div>
+      <div class="a-section"></div>
+      <div class="a-divider a-divider-break">
+        <h5>or</h5>
+      </div>
+      <div class="row valign-wrapper" *ngIf="!withotp">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <button (click)="getOtpform()" style="background-color: gray!important" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN"
+          name="signIn">{{'Login using an OTP'}}
+          <i class="material-icons right">send</i>
+        </button>
+        <div class="col l1 hide-on-med-and-down"></div>
+      </div>
+
+      <div class="row valign-wrapper" *ngIf="withotp">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <button (click)="getpasswordForm()" style="background-color: gray!important" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN"
+          name="signIn">{{'Login using password'}}
+          <i class="material-icons right">send</i>
+        </button>
+        <div class="col l1 hide-on-med-and-down"></div>
+      </div>
+
+    </div>
+  </form>
+</div>
