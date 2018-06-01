@@ -99,10 +99,10 @@
               <div  class="col s12">
                   <div class="offerpriceBN ibBN">{{'Description' | translate}}:</div>
                   <div class="descriptionBN">{{product.description}}</div>
-                </div>
-                
             </div>
+                
           </div>
+        </div>
         </div>
         <div class="row"></div>
         <div class="row"></div>
@@ -209,7 +209,24 @@
                 <input class="qtyBN" type="number" min="1" step="1" [(ngModel)]="product.qty" />
               </div>
               <div class="borderBN"></div>
-              <div>
+              <div *ngIf="product.type=='Event'">
+                <div>&nbsp;</div>
+                <div class="col s12">
+                  <div class="offerpriceBN ibBN1"> <i class="material-icons alignMidBN">perm_contact_calendar</i>&nbsp; {{'Event Date and Time' | translate}}:</div>
+                  <div class="descriptionBN">&nbsp;{{product.startDate}} to {{product.endDate}} | {{product.startTime}} to {{product.endTime}} </div>
+                </div>
+                <div>&nbsp;</div>
+                <div class="borderBN"></div>
+                <div>&nbsp;</div>                                
+                <div class="col s12">
+                  <div class="offerpriceBN ibBN2"><i class="material-icons alignMidBN">location_on</i>&nbsp;{{'Venue' | translate}}:</div>
+                  <div class="descriptionBN">&nbsp;{{product.venue}}</div>
+                </div>
+                <div>&nbsp;</div>
+                  <div class="borderBN"></div>
+                  <div>&nbsp;</div>
+                </div>
+                <div>
                 <div class="offerpriceBN ">{{'Description' | translate}}:</div>
                 <div class="descriptionBN">{{product.description}}</div>
               </div>
@@ -324,7 +341,24 @@
                 <span>{{'Quantity' | translate}}:&nbsp;&nbsp;&nbsp;</span>
                 <input class="qtyBN" type="number" min="1" step="1" [(ngModel)]="product.qty" />
               </div>
-              <div>
+              <div *ngIf="product.type=='Event'">
+                  <div>&nbsp;</div>
+                  <div class="col s12">
+                    <div class="offerpriceBN ibBN1"> <i class="material-icons alignMidBN">perm_contact_calendar</i>&nbsp; {{'Event Date and Time' | translate}}:</div>
+                    <div class="descriptionBN">&nbsp;{{product.startDate}} to {{product.endDate}} | {{product.startTime}} to {{product.endTime}} </div>
+                  </div>
+                  <div>&nbsp;</div>
+                  <div class="borderBN"></div>
+                  <div>&nbsp;</div>                                
+                  <div class="col s12">
+                    <div class="offerpriceBN ibBN2"><i class="material-icons alignMidBN">location_on</i>&nbsp;{{'Venue' | translate}}:</div>
+                    <div class="descriptionBN">&nbsp;{{product.venue}}</div>
+                  </div>
+                  <div>&nbsp;</div>
+                    <div class="borderBN"></div>
+                    <div>&nbsp;</div>
+                  </div>
+                <div>
                 <div class="offerpricesmallBN ">{{'Description' | translate}}:</div>
                 <div class="descriptionBN">{{product.description}}</div>
               </div>
