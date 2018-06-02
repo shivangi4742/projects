@@ -28,6 +28,7 @@ export class BuyerinfoComponent implements OnInit {
   subscription: Subscription;  
   settings: any;
   plInfo: any;
+  isRotary: boolean = false;
   sedit: boolean = false;
   cedit: boolean = false;
   processing: boolean = false;
@@ -126,6 +127,9 @@ export class BuyerinfoComponent implements OnInit {
       else
         this.router.navigateByUrl('/');   
     }
+
+    if(this.merchantCode == 'C0EF1')
+      this.isRotary = true;
   }
 
   fillStoreSettings(res: any) {
@@ -208,7 +212,7 @@ export class BuyerinfoComponent implements OnInit {
     else {
       this.errorMsg = '';
       this.cart.tShipping = this.getshippingPrice();
-      if(this.cart.city) {
+      if(this.cart.city || this.isRotary) {
         this.cartService.setBuyerInfo(this.cart.name, this.cart.email, this.cart.address, this.cart.phone, this.merchantCode, this.cart.pin,
           this.cart.city, this.cart.state, this.cart.tShipping, this.cart.convenienceFee);
         this.router.navigateByUrl('/' + this.merchantCode + '/paymentmode');  

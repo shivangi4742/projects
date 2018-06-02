@@ -26,31 +26,42 @@
                 <input class="binputBN validate" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="cart.phone" 
                   minlength="10" maxlength="20" required type="tel" name="phone" />
               </div>
-              <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}* :</div>
+              <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}<span *ngIf="!isRotary">*</span> :</div>
               <div class="col s12 input-field offsetlrBN binputdivBN">
                 <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
-                  [(ngModel)]="cart.email" name="email" required />
+                  [(ngModel)]="cart.email" name="email" required *ngIf="!isRotary" />
+                <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
+                  [(ngModel)]="cart.email" name="email" *ngIf="isRotary" />
               </div>
-              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}* :</div>
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}<span *ngIf="!isRotary">*</span> :</div>
               <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
                 <input class="binputBN validate" type="text" placeholder="{{'Enter your PIN Code' | translate}}" maxlength="6" 
                   [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
-                  (keyup)="getCity()" required />
+                  (keyup)="getCity()" required *ngIf="!isRotary" />
+                <input class="binputBN validate" type="text" placeholder="{{'Enter your PIN Code' | translate}}" maxlength="6" 
+                  [(ngModel)]="cart.pin" name="pin" minlength="6" onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                  (keyup)="getCity()" *ngIf="isRotary" />
               </div>  
-              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'City' | translate}}* :</div>
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'City' | translate}}<span *ngIf="!isRotary">*</span> :</div>
               <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
                 <input class="binputBN validate" type="text" placeholder="{{'Enter your City' | translate}}" [(ngModel)]="cart.city" 
-                  name="city" (keyup)="editedCity()" required />
+                  name="city" (keyup)="editedCity()" required *ngIf="!isRotary" />
+                <input class="binputBN validate" type="text" placeholder="{{'Enter your City' | translate}}" [(ngModel)]="cart.city" 
+                  name="city" (keyup)="editedCity()" *ngIf="isRotary" />
               </div>  
-              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'State' | translate}}* :</div>  
+              <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'State' | translate}}<span *ngIf="!isRotary">*</span> :</div>  
               <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
                 <input class="binputBN validate" type="text" placeholder="{{'Enter your State' | translate}}" [(ngModel)]="cart.state" 
-                  name="state" (keyup)="editedState()" required />
+                  name="state" (keyup)="editedState()" required *ngIf="!isRotary" />
+                <input class="binputBN validate" type="text" placeholder="{{'Enter your State' | translate}}" [(ngModel)]="cart.state" 
+                  name="state" (keyup)="editedState()" *ngIf="isRotary" />
               </div>  
-              <div class="col s12 input-field labelBN offsetBN" *ngIf="!isPaymentlink">{{'Address' | translate}}* :</div>
+              <div class="col s12 input-field labelBN offsetBN" *ngIf="!isPaymentlink">{{'Address' | translate}}<span *ngIf="!isRotary">*</span> :</div>
               <div class="input-field col s12 offsetlrBN binputdivBN" *ngIf="!isPaymentlink">
-                <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address"
+                <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address" *ngIf="!isRotary"
                   placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="cart.address" required></textarea>
+                <textarea maxlength="150" class="materialize-textarea binputBN txtareaBN validate" name="address" *ngIf="isRotary"
+                  placeholder="{{'Enter your address here.......' | translate}}" [(ngModel)]="cart.address"></textarea>
               </div>
               <div class="col s12">&nbsp;</div>
               <div class="col s12 errorLblBN" align="center">{{errorMsg | translate}}</div>
