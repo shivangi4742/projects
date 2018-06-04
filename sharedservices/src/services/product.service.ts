@@ -427,7 +427,6 @@ export class ProductService {
 
 
     private fillProducts(res2: any): any {
-        // console.log(res2, 'fillproduct');
         if (!(res2 && res2.benowProductList))
             return { "success": false };
 
@@ -436,29 +435,24 @@ export class ProductService {
         if (res2 && res2.benowProductList && res2.benowProductList.length > 0) {
             numP = res2.totalNoOfPages;
             let res: any = res2.benowProductList;
-            /*let prods: NewProduct = new NewProduct(false, false, false, 0,
-                0, '', '', null, null, null, null, null, false,
-                '', false, null, null, null, null, null);*/
-            let hasVariants: boolean = false;
-            let variants = new Array<NewVariant>();
             if (res) {
                 for (let i: number = 0; i < res.length; i++) {
                     this.startdate = '';
                     this.enddate = '';
-
+                    let hasVariants: boolean = false;
+                    let variants = new Array<NewVariant>();
                     if (res[i].startDate) {
                         var s = this.utilsService.getDateTimeString(new Date(res[i].startDate));
                         let s1: any = s.split(' ');
                         let std1: any = s1[0].split('/');
                         this.startdate = std1[0] + '-' + std1[1] + '-' + std1[2];
-
                     }
+
                     if (res[i].endDate) {
                         var e = this.utilsService.getDateTimeString(new Date(res[i].endDate));
                         let e1: any = e.split(' ');
                         let e11: any = e1[0].split('/');
                         this.enddate = e11[0] + '-' + e11[1] + '-' + e11[2];
-
                     }
 
                     if (res[i].benowProductVariants && res[i].benowProductVariants.length > 0) {
@@ -469,13 +463,12 @@ export class ProductService {
                                 res[i].benowProductVariants[j].variantCode, res[i].benowProductVariants[j].variantDesc, res[i].benowProductVariants[j].listProductSizes))
                         }
                     }
+
                     prods.push(new NewProduct(false, true, false, res[i].prodPrice, res[i].discountedPrice,
                         res[i].id, res[i].prodName, res[i].prodDescription, res[i].uom, res[i].color, res[i].productSizes, res[i].productImages, res[i].isAvailable,
-
                         res[i].productType, hasVariants, variants, res[i].venue, this.startdate, this.enddate, res[i].fileUrl, res[i].shippingCharge, res[i].startTime, res[i].endTime));
                 }
             }
-
         }
 
         return { "products": prods, "numPages": numP };

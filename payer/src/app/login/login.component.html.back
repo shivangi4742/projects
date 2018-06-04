@@ -1,0 +1,236 @@
+<h1>Login</h1>
+<div id="withoutotp">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="row">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="email">
+          <label for="mobile" [ngClass]="mobile ? 'active smallLabelBN' : 'smallLabelBN'">{{'Enter your mobile Number' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="password" name="password" type="password" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon">
+          <input id="password" name="password" type="text" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon1">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter your password' | translate}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input type="checkbox" class="filled-in checkbox-red" id="keepSignedIn" name="keepSignedIn" [(ngModel)]="keepSignedIn" />
+          <label for="keepSignedIn" class="checkBoxLblBN">{{'Keep me signed in' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="hasError && !loginForm.form.valid">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+      </div>
+    </div>
+    <div class="row valign-wrapper">
+      <div class="col m1 l2 hide-on-small-only"></div>
+      <button (click)="p.reset()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" type="submit" name="signIn"
+        [disabled]="!loginForm.form.valid || !hasAllRequiredFields()">{{'Sign in' | translate}}
+        <i class="material-icons right">send</i>
+      </button>
+      <span class="col s7 m7 l5" align="center">
+        <a class="errNrmS5B2BN linkButtonBN" (click)="copyEmail()" [routerLink]="'/verify/2'">{{'Forgot password' | translate}}?</a>
+      </span>
+      <div class="col l1 hide-on-med-and-down"></div>
+    </div>
+  </form>
+
+  <div class="row valign-wrapper">
+    <div class="col m1 l2 hide-on-small-only"></div>
+    <button (click)="enableOtpLogin()" class="btn waves-effect waves-light col s10 m4 l4 red regNrmS2BN buttonBN" type="submit"
+      name="otplogin">{{'Login using an OTP' | translate}}
+    </button>
+    <span class="col  m7 l5 hide-on-small-only" align="center">
+    </span>
+    <div class="col l1 hide-on-med-and-down"></div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="row">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="email">
+          <label for="mobile" [ngClass]="mobile ? 'active smallLabelBN' : 'smallLabelBN'">{{'Enter your mobile Number' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="password" name="password" type="password" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon">
+          <input id="password" name="password" type="text" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon1">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter your password' | translate}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input type="checkbox" class="filled-in checkbox-red" id="keepSignedIn" name="keepSignedIn" [(ngModel)]="keepSignedIn" />
+          <label for="keepSignedIn" class="checkBoxLblBN">{{'Keep me signed in' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="hasError && !loginForm.form.valid">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+      </div>
+    </div>
+    <div class="row valign-wrapper">
+      <div class="col m1 l2 hide-on-small-only"></div>
+      <button (click)="p.reset()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" type="submit" name="signIn"
+        [disabled]="!loginForm.form.valid || !hasAllRequiredFields()">{{'Sign in' | translate}}
+        <i class="material-icons right">send</i>
+      </button>
+      <span class="col s7 m7 l5" align="center">
+        <a class="errNrmS5B2BN linkButtonBN" (click)="copyEmail()" [routerLink]="'/verify/2'">{{'Forgot password' | translate}}?</a>
+      </span>
+      <div class="col l1 hide-on-med-and-down"></div>
+    </div>
+  </form>
+
+  <div class="row valign-wrapper">
+    <div class="col m1 l2 hide-on-small-only"></div>
+    <button (click)="enableOtpLogin()" class="btn waves-effect waves-light col s10 m4 l4 red regNrmS2BN buttonBN" type="submit"
+      name="otplogin">{{'Login using an OTP' | translate}}
+    </button>
+    <span class="col  m7 l5 hide-on-small-only" align="center">
+    </span>
+    <div class="col l1 hide-on-med-and-down"></div>
+  </div>
+</div>
+
+
+<div id="withotp">
+
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="row">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="email">
+          <label for="mobile" [ngClass]="mobile ? 'active smallLabelBN' : 'smallLabelBN'">{{'Enter your mobile Number' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="password" name="password" type="password" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon">
+          <input id="password" name="password" type="text" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon1">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter your password' | translate}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input type="checkbox" class="filled-in checkbox-red" id="keepSignedIn" name="keepSignedIn" [(ngModel)]="keepSignedIn" />
+          <label for="keepSignedIn" class="checkBoxLblBN">{{'Keep me signed in' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="hasError && !loginForm.form.valid">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+      </div>
+    </div>
+    <div class="row valign-wrapper">
+      <div class="col m1 l2 hide-on-small-only"></div>
+      <button (click)="p.reset()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" type="submit" name="signIn"
+        [disabled]="!loginForm.form.valid || !hasAllRequiredFields()">{{'Sign in' | translate}}
+        <i class="material-icons right">send</i>
+      </button>
+      <span class="col s7 m7 l5" align="center">
+        <a class="errNrmS5B2BN linkButtonBN" (click)="copyEmail()" [routerLink]="'/verify/2'">{{'Forgot password' | translate}}?</a>
+      </span>
+      <div class="col l1 hide-on-med-and-down"></div>
+    </div>
+  </form>
+
+  <div class="row valign-wrapper">
+    <div class="col m1 l2 hide-on-small-only"></div>
+    <button (click)="enableOtpLogin()" class="btn waves-effect waves-light col s10 m4 l4 red regNrmS2BN buttonBN" type="submit"
+      name="otplogin">{{'Login using an OTP' | translate}}
+    </button>
+    <span class="col  m7 l5 hide-on-small-only" align="center">
+    </span>
+    <div class="col l1 hide-on-med-and-down"></div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="row">
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="mobile" name="mobile" type="text" class="validate regNrmS4BN" required [(ngModel)]="email">
+          <label for="mobile" [ngClass]="mobile ? 'active smallLabelBN' : 'smallLabelBN'">{{'Enter your mobile Number' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input id="password" name="password" type="password" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon">
+          <input id="password" name="password" type="text" class="validate regNrmS4BN" required [(ngModel)]="password" *ngIf="icon1">
+          <label for="password" [ngClass]="password ? 'smallLabelBN active' : 'smallLabelBN'">{{'Enter your password' | translate}}</label>
+        </div>
+        <div class="col m1 l2 linkButtonBN" (click)="clicked()">
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon1">visibility</i>
+          <i class="material-icons iconBN passwordcolBN" *ngIf="icon">visibility_off</i>
+        </div>
+      </div>
+      <div class="valign-wrapper">
+        <div class="col m1 l2 hide-on-small-only"></div>
+        <div class="input-field col s12 m10 l8">
+          <input type="checkbox" class="filled-in checkbox-red" id="keepSignedIn" name="keepSignedIn" [(ngModel)]="keepSignedIn" />
+          <label for="keepSignedIn" class="checkBoxLblBN">{{'Keep me signed in' | translate}}</label>
+        </div>
+        <div class="col m1 l2 hide-on-small-only"></div>
+      </div>
+      <div class="valign-wrapper" *ngIf="hasError && !loginForm.form.valid">
+        <span class="col s12 center-align errNrmS6BN">{{errorMsg | translate}}</span>
+      </div>
+    </div>
+    <div class="row valign-wrapper">
+      <div class="col m1 l2 hide-on-small-only"></div>
+      <button (click)="p.reset()" class="btn waves-effect waves-light col s5 m4 l4 red regNrmS2BN buttonBN" type="submit" name="signIn"
+        [disabled]="!loginForm.form.valid || !hasAllRequiredFields()">{{'Sign in' | translate}}
+        <i class="material-icons right">send</i>
+      </button>
+      <span class="col s7 m7 l5" align="center">
+        <a class="errNrmS5B2BN linkButtonBN" (click)="copyEmail()" [routerLink]="'/verify/2'">{{'Forgot password' | translate}}?</a>
+      </span>
+      <div class="col l1 hide-on-med-and-down"></div>
+    </div>
+  </form>
+
+  <div class="row valign-wrapper">
+    <div class="col m1 l2 hide-on-small-only"></div>
+    <button (click)="enableOtpLogin()" class="btn waves-effect waves-light col s10 m4 l4 red regNrmS2BN buttonBN" type="submit"
+      name="otplogin">{{'Login using an OTP' | translate}}
+    </button>
+    <span class="col  m7 l5 hide-on-small-only" align="center">
+    </span>
+    <div class="col l1 hide-on-med-and-down"></div>
+  </div>
+
+</div>
