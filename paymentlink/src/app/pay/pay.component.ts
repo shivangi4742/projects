@@ -40,6 +40,7 @@ export class PayComponent implements OnInit {
   fundRaiserId: string;
   mobileNumber: string;
   validationError: string;
+  amountValidationError: string;
   pay: SDK;
   subscription: Subscription;
   payAmount: number = null;
@@ -77,8 +78,9 @@ export class PayComponent implements OnInit {
   foodAmount: number = 0; // for sodexo
   sodexoPaidAmount: number = 0; // for sodexo
   disableSodexo: boolean = false;
+  disableSodexoText: boolean = false;
   askPanOrig: boolean = false;
-  payModesOrig: Array<string>;
+  payModesOrig: Array<string>; 
 
   constructor(private sdkService: SDKService, private route: ActivatedRoute, private router: Router, private utilsService: UtilsService,
     private productService: ProductService, private sanitizer: DomSanitizer, private socketService: SocketService) {
@@ -172,7 +174,8 @@ export class PayComponent implements OnInit {
       if (this.sodexoPaidAmount) {
 
         // if (this.sodexoPaidAmount == this.foodAmount) // Uncomment this when 
-          this.disableSodexo = true;
+        this.disableSodexo = true;
+        this.disableSodexoText = true;
 
         this.pay.amount = res.amount - this.sodexoPaidAmount;
 
@@ -233,6 +236,7 @@ export class PayComponent implements OnInit {
 
   proceed() {
     this.wp = 2;
+    this.disableSodexoText = true;
   }
 
   initialize() {
@@ -459,6 +463,15 @@ export class PayComponent implements OnInit {
           elmnt.focus();
       }
     }
+    else if (this.pay.foodAmount && (!this.pay.sodexoAmount || this.pay.sodexoAmount == 0)) {
+      if (this.pay.foodAmount > this.foodAmount) {
+        this.amountValidationError = 'Food amount cannot be more than ₹ ' + this.foodAmount;
+      }
+      else {
+        this.amountValidationError = "";
+        return true;
+      }
+    }
     else {
       this.invalidAmount = false;
       return true;
@@ -652,7 +665,8 @@ export class PayComponent implements OnInit {
     else if (mode == 4) {
       initAmount = this.pay.foodAmount;
       if (this.disableSodexo) {
-
+        this.invalidAmount = true;
+        this.validationError = 'Cannot proceed via Sodexo';
       }
       else {
         this.sodexoExpanded = true;
