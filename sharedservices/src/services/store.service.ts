@@ -29,6 +29,9 @@ export class StoreService {
 
     private setSettings(res: any): any {
         this._settings = res;
+        if(this._settings)
+            this._settings.chargeConvenienceFee = false;
+
         return this._settings;
     }
 
