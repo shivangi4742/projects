@@ -176,7 +176,7 @@ export class SettingsComponent implements OnInit {
   }
   bind(res: any) {
     if (res && res.id) {
-      this.chargeFee = res.chargeConvenienceFee;
+      //this.chargeFee = res.chargeConvenienceFee;
       if (this.route.snapshot.params['open']) {
         let elem: any = document.getElementById(this.route.snapshot.params['open']);
         if (elem)

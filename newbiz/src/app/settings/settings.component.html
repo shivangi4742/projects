@@ -240,17 +240,20 @@
                 <div class="switch">
                   <span class="regNrmS5B2BN">{{'Convenience Fee' | translate}}&nbsp;&nbsp;</span>
                   <label>
-                    <input type="checkbox" [(ngModel)]="chargeFee" (change)="setConvenience()" checked>
+                    <input type="checkbox" [(ngModel)]="chargeFee" disabled (change)="setConvenience()" checked>
                     <span class="lever"></span>
                     <span [ngClass]="chargeFee ? 'onBN' : 'offBN'">({{getSwitchText(chargeFee) | translate}})</span>
                   </label>
                 </div>
               </div>
               <div class="col s12">&nbsp;</div>
-              <div class="col s12 regNrmS6BN">{{'Your customer will pay a nominal fee of 2% (+ GST) on every payment that you receive' | translate}}.</div>
-              <div class="col s12 regNrmS6BN">{{"You won't be charged the platform fee" | translate}}.</div>
+              <div class="col s12 regNrmS6BN">{{'You can use Benow for free till 31st July' | translate}}.</div>
+              <div *ngIf="false">
+                <div class="col s12 regNrmS6BN">{{'Your customer will pay a nominal fee of 2% (+ GST) on every payment that you receive' | translate}}.</div>
+                <div class="col s12 regNrmS6BN">{{"You won't be charged the platform fee" | translate}}.</div>  
+              </div>
             </div>
-            <div class="row busDetails detailBodyBN mrgnBn">
+            <div class="row busDetails detailBodyBN mrgnBn" *ngIf="false">
               <div class="input-field s12 m12 l12 center regNrmS4BN">
                 <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" (click)="paymentsave()" name="submit">
                   {{'SUBMIT' | translate}}

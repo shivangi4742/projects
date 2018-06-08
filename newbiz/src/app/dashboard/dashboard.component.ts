@@ -87,20 +87,20 @@ export class DashboardComponent implements OnInit {
   }
 
   shsh(res) {
-    if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
+/*     if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
-    }
-    console.log(this.businesspro.storeUrl,'sdjhjks');
-    if(this.businesspro.storeUrl){
-    this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
-    this.storeurl = "https://" + this.businesspro.storeUrl + ".benow.in";
-    this.streurl = this.businesspro.storeUrl + ".benow.in";
-    this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
-    this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
-    this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
-    this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
-    this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
-    this.formLoaded = false;
+    } */
+
+    if(this.businesspro.storeUrl) {
+      this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
+      this.storeurl = "https://" + this.businesspro.storeUrl + ".benow.in";
+      this.streurl = this.businesspro.storeUrl + ".benow.in";
+      this.streurlpay = this.businesspro.storeUrl + ".benow.in/pay";
+      this.urlstore = this.businesspro.storeUrl + ".benow.in/store";
+      this.streurlpre = "https://" +this.businesspro.storeUrl + ".benow.in";
+      this.streurlpaypre = "https://" + this.businesspro.storeUrl + ".benow.in/pay";
+      this.urlstorepre = "https://" + this.businesspro.storeUrl + ".benow.in/store";
+      this.formLoaded = false;
     }
     else {
       this.user.merchantCode = (this.user.merchantCode).toUpperCase();
