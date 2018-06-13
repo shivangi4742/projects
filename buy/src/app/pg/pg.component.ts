@@ -21,6 +21,7 @@ export class PgComponent implements OnInit {
   isPaymentlink: boolean = false;
   ismobileview: number = 0;
   currency: string = 'INR';
+  country: string = 'India';
 
   constructor(private route: ActivatedRoute, private cartService: CartService, private storeService: StoreService, private router: Router,
     private utilsService: UtilsService, private paymentlinkService: PaymentlinkService) { }

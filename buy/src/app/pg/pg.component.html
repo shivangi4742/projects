@@ -1,8 +1,13 @@
 <div class="progress">
-    <div class="indeterminate"></div>
+  <div class="indeterminate"></div>
 </div>
 <form id="paymentForm" #paymentForm ngNoForm action="{{pgURL}}" method='POST'>
   <div *ngIf="cart && settings">
+    <input type="hidden" name="address" [ngModel]="cart.address" />
+    <input type="hidden" name="pin" [ngModel]="cart.pin" />
+    <input type="hidden" name="country" [ngModel]="country" />
+    <input type="hidden" name="state" [ngModel]="cart.state" />
+    <input type="hidden" name="city" [ngModel]="cart.city" />
     <input type="hidden" name="email" [ngModel]="cart.email" />
     <input type="hidden" name="phone" [ngModel]="cart.phone" />
     <input type="hidden" name="name" [ngModel]="cart.name" />
