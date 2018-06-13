@@ -52,7 +52,7 @@
               </div>
             <div class="col s4"></div>
           </div>
-        <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
+        <span class="col s12 downLabelBN" *ngIf="false">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
       </div>
       <div class="row hide-on-med-and-up" *ngIf="sdk.mtype == 2">
         <span class="center orBN col s12">- {{'Or' | translate}} -</span>
@@ -63,7 +63,7 @@
             <label for="amountPay" [ngClass]="{active: payAmount}">{{'Enter Amount to Donate' | translate}}</label>
 
           </div>
-          <span class="col s12 downLabelBN">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
+          <span class="col s12 downLabelBN" *ngIf="false">{{'You can enter any amount eg:₹100, ₹150, ₹200, etc.' | translate}}</span>
         </div>
       </div>
       <div class="row">
