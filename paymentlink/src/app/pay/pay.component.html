@@ -519,8 +519,11 @@
                   <div *ngIf="invalidAmount">
                     <span class="col s12 errNrmS4B1BN">{{validationError | translate}}....</span>
                   </div>
-                  <div *ngIf="!invalidAmount">
+                  <div *ngIf="!invalidAmount && !disableSodexo">
                     <span class="col s12 regNrmS4BN">{{'Processing' | translate}}....</span>
+                  </div>
+                  <div *ngIf="!invalidAmount && disableSodexo">
+                    <span class="col s12 regNrmS4BN">Food amount already paid via Sodexo. Pay remaining amount via other payment mode.</span>
                   </div>
                 </div>
               </li>
