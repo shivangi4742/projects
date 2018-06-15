@@ -20,6 +20,7 @@ export class TransactionhistoryComponent implements OnInit {
   user: User;
   transactions: Transaction;
   payments: Array<Payment>;
+  filteredPayments:Array<Payment>;
   products: Array<Product>;
   selectedId: string;
   numPages: number = 0;
@@ -70,6 +71,7 @@ export class TransactionhistoryComponent implements OnInit {
       this.numTransactions = res.numPayments;
       this.totalAmount = res.totalAmount;
       this.payments = res.payments;
+      this.filter();
     }
     else {
       this.payments = null
@@ -77,7 +79,33 @@ export class TransactionhistoryComponent implements OnInit {
     this.processing = false;
 
   }
+  
+  filter() {
+    this.filteredPayments = this.getFilteredPayments();
+  }
+  getFilteredPayments(): Payment[] {
+    if(!this.payments || this.payments.length <= 0)
+      return this.payments;
 
+    let flPmnts: Payment[] = this.payments;
+    let txn: any = this.searchText ? this.searchText.trim() : null;
+    let me: any = this;
+    if(txn) {
+      
+      flPmnts = flPmnts.filter(function(p: Payment) { 
+          return p.tr && p.tr.toLowerCase().indexOf(txn.toLowerCase()) >= 0 
+           || p.email && p.email.toLowerCase().indexOf(txn.toLowerCase()) >= 0
+           || p.phone && p.phone.toLowerCase().indexOf(txn.toLowerCase()) >= 0
+           || p.vPA && p.vPA.toLowerCase().indexOf(txn.toLowerCase()) >= 0
+           || p.city && p.city.toLowerCase().indexOf(txn.toLowerCase()) >= 0
+           || p.description && p.description.toLowerCase().indexOf(txn.toLowerCase()) >= 0
+           || p.amount == txn;
+
+      });
+    }
+
+    return flPmnts;
+  }
   next() {
     this.payments = null;
     this.numPages = 0;

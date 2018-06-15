@@ -270,7 +270,7 @@
       <div class="col s10 m6 l6 searchBorderBN">
         <i class="col s2 material-icons searchIconBN">search</i>
         <input id="searchCamp" placeholder="{{'Search product' | translate}}..." name="searchCamp" class="col s10 searchBN" type="text"
-          [(ngModel)]="searchText">
+          [(ngModel)]="searchText" (keyup)="filter()">
       </div>
     </div>
     <div class="row"></div>
@@ -294,7 +294,7 @@
     </div>
     <div class="row"></div>
     <div class="row" *ngIf="hasProducts()">
-      <div *ngFor="let p of products" class="col s10 m6 l4 offset-s2 prodBoxBN ">
+      <div *ngFor="let p of filteredProducts" class="col s10 m6 l4 offset-s2 prodBoxBN ">
         <div class="col s6 m7 l6 imageHeightBN">
           <img *ngIf="!p.prodImgUrls[0]" src="../../assets/shared/images/addproducts2@2x.png" width="80" height="90" />
           <img *ngIf="p.prodImgUrls[0]" class="prodImageBN" src={{uploadsURL}}{{p.prodImgUrls[0].prodImgUrl}} />
