@@ -76,15 +76,15 @@
           <i *ngIf = "!isSelected(p.id) || !detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_right</i>
           <i *ngIf = "isSelected(p.id) && detailsExpanded" class="material-icons alignMidBN iconBN">keyboard_arrow_down</i>
         </span>
-            <div class="col s6 m5 l5 fieldBN">
+            <div class="col s6 m5 l5 fieldBN" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">
               {{p.dateAndTime | date: 'MMM d, yyyy h:mm a'}}
             </div>
-            <div class="col s6 m4 l4 truncate fieldBN">
+            <div class="col s6 m4 l4 truncate fieldBN" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">
               {{p.vPA}}<br>
-              <span class="hide-on-med-and-up">₹ {{p.amount | number : '1.2-2'}}</span>
+              <span class="hide-on-med-and-up" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">₹ {{p.amount | number : '1.2-2'}}</span>
             </div>
             <div class="col m3 l3 hide-on-small-only fieldBN">
-              <span class="right">₹ {{p.amount | number : '1.2-2'}}</span>
+              <span class="right" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">₹ {{p.amount | number : '1.2-2'}}</span>
             </div>
           </div>
           <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN tinBN">
@@ -98,7 +98,10 @@
                 <b class="linkButtonBN textcolorBN" >{{'Download Invoice' | translate}}</b></span> -->
               </div>
             </div>
-            <div class="row tbnBN">
+            <div class="row failedtxnstts" *ngIf="p.status > 0" align="center">
+              {{'Transaction Failed' | translate}}
+            </div>
+            <div class="row tbnBN" *ngIf="!(p.status > 0)">
                <div class="col s12 m4 l4 center"><button class="buttonseBN" (click)="seedetails(p)">See details</button></div>
                <div class="col s12 m4 l4 center">
                  <button (click)="printReceipt(p)" class="buttonseBN">Download Invoice</button>

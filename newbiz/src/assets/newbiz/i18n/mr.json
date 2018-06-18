@@ -175,5 +175,6 @@
     "Currency": "चलन",
     "Amount should be more than": "रक्कम ही यापेक्षा अधिक असली पाहिजे",
     "You can use Benow for free till 31st July": "31 जुलैपर्यंत आपण बीनावचा विनामूल्य वापर करू शकता",
-    "Initiate Refund": "परतावा आरंभ करा"
+    "Initiate Refund": "परतावा आरंभ करा",
+    "Transaction Failed": "व्यवहार अयशस्वी"
 }

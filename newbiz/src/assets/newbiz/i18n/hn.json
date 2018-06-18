@@ -175,5 +175,6 @@
     "Currency": "मुद्रा",
     "Amount should be more than": "राशि से अधिक होना चाहिए",
     "You can use Benow for free till 31st July": "आप 31 जुलाई तक बीनाव का मुफ्त में उपयोग कर सकते  हैं",
-    "Initiate Refund": "धनवापसी शुरू करें"
+    "Initiate Refund": "धनवापसी शुरू करें",
+    "Transaction Failed": "लेन देन असफल"
 }
