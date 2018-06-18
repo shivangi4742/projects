@@ -241,3 +241,14 @@ left:287.797px!important;
     border: 1px solid white!important;
     border-radius:4px;
 }
+
+.failedTransaction {
+  text-decoration: line-through;
+}
+
+.failedtxnstts {
+  color: #E53935;
+  font-weight: 600;
+  font-family: Barlow;
+  font-size: 15pt;
+}
