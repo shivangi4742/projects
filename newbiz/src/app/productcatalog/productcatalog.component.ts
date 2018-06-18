@@ -25,6 +25,7 @@ export class ProductcatalogComponent implements OnInit {
   uploadsURL: string;
   searchText: string;
   products: Array<NewProduct>;
+  filteredProducts:Array<NewProduct>;
   page: number = 1;
   numPages: number = 0;
   processing: boolean = false;
@@ -120,8 +121,8 @@ export class ProductcatalogComponent implements OnInit {
     this.productService.getProducts(this.user.merchantCode, this.page)
       .then(pres => this.updateProds(pres));
   }
-  initshare(res: any) {
 
+  initshare(res: any) {
     this.businesspro = res;
     if (this.businesspro.storeUrl) {
       this.streurl = this.businesspro.storeUrl + ".benow.in";
@@ -149,9 +150,29 @@ export class ProductcatalogComponent implements OnInit {
     //     console.log(this.products,'this.products');
     this.processing = false;
 
+    this.filter();
+   }
 
+   filter() {
+    this.filteredProducts = this.getFilteredPayments();
   }
+  getFilteredPayments(): NewProduct[] {
+    if(!this.products || this.products.length <= 0)
+      return this.products;
 
+    let flProduct: NewProduct[] = this.products;
+    let txn: any = this.searchText ? this.searchText.trim() : null;
+    let me: any = this;
+    if(txn) {
+      
+    flProduct = flProduct.filter(function(p: NewProduct) { 
+          return p.name && p.name.toLowerCase().indexOf(txn.toLowerCase()) >= 0 ;
+
+      });
+    }
+
+    return flProduct;
+  }
   next() {
     this.products = null;
     this.numPages = 0;

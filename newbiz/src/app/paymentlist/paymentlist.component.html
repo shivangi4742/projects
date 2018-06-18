@@ -58,14 +58,14 @@
     </div>
   </div>
   <div *ngIf="paymentlink && !processing ">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col s12 m8 l6 center serchbrderBN">
         <i class="material-icons col s2 alignMidBN srcBN">search</i>
         <input id="searchCamp" placeholder="{{'Search Payment Links' | translate}}.." name="searchCamp" class="regNrmS6IBN searchBN col s10 inptBN"
-          type="text" [(ngModel)]="campaignName" (click)="searchCampaigns()">
+          type="text" [(ngModel)]="campaignName" (keyup)="searchCampaigns()">
         <button id="search" (click)="updateAllCampaigns()" style="display:none;"></button>
       </div>
-    </div>
+    </div> -->
     <div class="row">
       <div class="col  m1 l2 "></div>
       <div class="col s12 m8 l8 center">
@@ -174,7 +174,7 @@
       </ul>
     </div>
     <div class="row" *ngIf="active==1">
-      <ul class="collapsible" data-collapsible="accordion" materialize="collapsible">
+      <ul class="collapsible" data-collapsible="accordion" materialize="collapsible" *ngIf="inactivepay">
         <li class="active" *ngFor="let p of inactivepay">
           <div [id]="p.id" [ngClass]='isSelected(p.id) && detailsExpanded?"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadRedBN":"collapsible-header noLeftMarginBN accordionHeaderBN collapsibleHeadBN"'
             (click)="arrowChange(p.id)">
@@ -259,6 +259,11 @@
           </div>
         </li>
       </ul>
+      <div class="row center"></div>
+      <div class="row center"></div>
+      <div class="row center" *ngIf="inactivepay.length==0">
+          No Inactive paymentlink
+      </div>
     </div>
 
     <div class="row" style="margin-bottom: 5px;" *ngIf="active==0">
