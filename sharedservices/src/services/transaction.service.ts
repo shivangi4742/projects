@@ -65,7 +65,11 @@ export class TransactionService {
                             this.settledate = this.utilsService.getDateTimeString(new Date(res.orders[i].settlementDate));
                         }
                        
-                    txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, null, null, res.orders[i].payHistHdrTxnRefNo,
+                    let pstatus: number|null = null;
+                    if(res.orders[i].orderStatus && res.orders[i].orderStatus.trim().toUpperCase() == 'FAILED')
+                        pstatus = 1;
+
+                    txns.payments.push(new Payment(hasCashBack, res.orders[i].amountPaid, pstatus, null, res.orders[i].payHistHdrTxnRefNo,
                         res.orders[i].tr, null, mode, nm, res.orders[i].merchantVPA, res.orders[i].orderDate, null, null, false, null, res.orders[i].email,
                         res.orders[i].mobileNo, res.orders[i].address, res.orders[i].orderDescription, res.orders[i].pincode, 
                         res.orders[i].city, res.orders[i].state,res.orders[i].settledAmount,this.settledate));
