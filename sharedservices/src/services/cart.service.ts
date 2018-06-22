@@ -178,7 +178,7 @@ export class CartService {
             && this.getCartTotal() > 0 && this._cart.merchantCode == 'C0EF1')
             return true;
 
-        if(this._cart && this._cart.name && this._cart.name.trim().length > 0 && this._cart.email && this._cart.email.trim().length > 0
+        if(this._cart && this._cart.name && this._cart.name.trim().length > 0 
             && this._cart.phone && this._cart.phone.trim().length > 9 && this._cart.address && this._cart.address.trim().length > 0
             && this.getCartTotal() > 0)
             return true;
