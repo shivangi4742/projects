@@ -87,6 +87,7 @@ export class AppComponent {
     }
   }
   oncheckkyc() {
+  
       if(this.user.registerd ){
          if(!this.user.kycverified) {
           return true;
