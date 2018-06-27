@@ -137,7 +137,7 @@ export class CartService {
             .catch(res => this.utilsService.returnGenericError());        
     }
 
-    public startCashPaymentProcess(merchantname: string): Promise<any> {
+    public startCashPaymentProcess(merchantname: string, amount: number): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
             JSON.stringify({
@@ -147,7 +147,7 @@ export class CartService {
                 "pin": this._cart.pin,
                 "city": this._cart.city,
                 "state": this._cart.state,
-                "payamount": this.getCartTotal(),
+                "payamount": amount,
                 "phone": this._cart.phone,
                 "merchantcode": this._cart.merchantCode,
                 "merchantname": merchantname,

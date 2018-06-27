@@ -305,7 +305,7 @@ export class BuyerinfoComponent implements OnInit {
       this.paidAmount = this.cartService.getCartTotal();
       switch(this.cart.paymentMode) {
         case 'CASH':
-          this.cartService.startCashPaymentProcess(this.settings.displayName)
+          this.cartService.startCashPaymentProcess(this.settings.displayName, this.paidAmount)
             .then(res => this.finishCashPayment(res));
           break;
         case 'UPI':
