@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
   }
 
   shsh(res) {
-    if (res.data.responseFromAPI != false && this.businesspro.storeUrl != null) {
+    if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
     }
 
@@ -118,6 +118,7 @@ export class DashboardComponent implements OnInit {
   start() {
     this.user.strtcollctngpymtflag = true;
     this.router.navigateByUrl('registrationprocess');
+    this.sharemodalActions.emit({ action: "modal", params: ['close'] });
   }
   close() {
     this.sharemodalActions.emit({ action: "modal", params: ['close'] });
