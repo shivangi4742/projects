@@ -184,7 +184,7 @@ export class UserService {
   }
 
   resetUser() {
-    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false);
+    this._user = new User(false, false, false, false, this._user.language, null, null, null, null, null, null, null, null, null, null, null, null, false, false,false, false);
   }
 
   private changedPassword(res: any): any {
@@ -368,7 +368,7 @@ export class UserService {
   }
 
   private isTokenValid(tkn: any): Promise<User> {
-    this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+    this._user = new User(false, false, false, false, this._language, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false, false);
     if (tkn) {
       if (tkn.token)
         this.fillUserFromStoredToken(tkn);
@@ -380,7 +380,7 @@ export class UserService {
   }
 
   private newUser(): Promise<User> {
-    this._user = new User(false, false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+    this._user = new User(false, false, false, false, 0, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false, false);
     return Promise.resolve(this._user);
   }
 

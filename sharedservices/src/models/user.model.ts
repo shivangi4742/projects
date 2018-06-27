@@ -19,5 +19,6 @@ export class User {
     public lob: string|null,
     public kycverified:boolean,
     public registerd:boolean,
-    public lessTwentyLakh:boolean) { }
+    public lessTwentyLakh:boolean,
+    public strtcollctngpymtflag: boolean) { }
 }
