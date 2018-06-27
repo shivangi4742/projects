@@ -73,7 +73,9 @@ export class SettingsComponent implements OnInit {
   storeerr:boolean = false;
   unavilable:boolean = false;
   dlocality = new Array<Locality>();
-  storeUrl:string
+  storeUrl:string;
+  freeshipping: boolean=false;
+
   
   constructor(private translate: TranslateService,private storeservice: StoreService, private utilsService: UtilsService, private locationService: LocationService,
     private userService: UserService, private route: ActivatedRoute, private fileService: FileService) { }
@@ -381,7 +383,7 @@ export class SettingsComponent implements OnInit {
     this.isAcctExpanded = false;
     this.isBusExpanded = false;
     this.isPanExpanded = false;
-    this.isPaymentExpanded = false;
+    this.isPaymentExpanded = false; 
     this.ispan1Expanded = false;
     this.businessset = false;
     if(this.businesspro.allOverIndia) {
@@ -397,10 +399,12 @@ export class SettingsComponent implements OnInit {
         }
      }
      if(this.businesspro.freeShip) {
+       this.freeshipping= true;
       let is1s: any = document.getElementById('sj');
         if (is1s) {
           is1s.click();
           this.shiping1()
+          this.freeshipping= false;
         }
      }
      if(this.businesspro.chargePerOrder) {

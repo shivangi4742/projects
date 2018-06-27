@@ -95,7 +95,19 @@ export class BiztopnavComponent implements OnInit {
     this.userService.resetUser();
     window.location.href = this.utilsService.getLogoutPageURL();
   }
+  oncheckadd() {
+    //console.log(this.user.registerd , this.user.kycverified)
+    if(!this.user.registerd) {
+      if(this.user.kycverified){
+        return true;
+      }
+      return true;
+    }
+  }
 
+  ting(){
+    this.router.navigateByUrl('/registrationprocess')
+  }
   changePassword() {
    this.router.navigateByUrl('/changepassword');
   }

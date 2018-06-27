@@ -12,20 +12,34 @@
         </div>  
       </div>
     </li>
-    <li class="menuitemhoverBN">
+    <li class="menuitemhoverBN" *ngIf="!oncheckadd()">
       <a class="nopadstopbottomBN whiteTextBN" (click)="changePassword()">
         <span class="valign-wrapper"> 
           <i class="material-icons iconPrefixBN whiteTextBN">toys</i> {{'Change Password' | translate}} 
         </span> 
       </a>
     </li>
-    <li class="menuitemhoverBN">
+    <li class="menuitemhoverBN" *ngIf="!oncheckadd()">
         <a class="nopadstopbottomBN whiteTextBN" (click)='settings()'>
           <span class="valign-wrapper"> 
             <i class="material-icons iconPrefixBN whiteTextBN">settings_applications</i> {{'Merchant Setting' | translate}} 
           </span> 
         </a>
       </li>
+      <li class="menuitemhoverBN" *ngIf="oncheckadd()">
+          <a class="nopadstopbottomBN whiteTextBN" (click)="ting()">
+            <span class="valign-wrapper"> 
+              <i class="material-icons iconPrefixBN whiteTextBN">toys</i> {{'Change Password' | translate}} 
+            </span> 
+          </a>
+        </li>
+        <li class="menuitemhoverBN" *ngIf="oncheckadd()">
+            <a class="nopadstopbottomBN whiteTextBN" (click)='ting()'>
+              <span class="valign-wrapper"> 
+                <i class="material-icons iconPrefixBN whiteTextBN">settings_applications</i> {{'Merchant Setting' | translate}} 
+              </span> 
+            </a>
+          </li>
     <li class="menuitemhoverBN">
       <a class="nopadstopbottomBN whiteTextBN" (click)="signOut()">
         <span class="valign-wrapper"> 

@@ -4,72 +4,55 @@
 <div materialize="modal" id="sharr" class="modal modlBN1 " [materializeActions]="sharemodalActions">
 
   <div class="modal-content">
-    <div class="row right ">
-      <div class="col s12">
-        <span (click)="close()">
-          <i class="material-icons alignMidBN linkButtonBN">close</i>
-        </span>
-      </div>
-
-    </div>
-    <br>
+   <div class="valign-wrapper right">
+     <span (click)="close()" class="linkButtonBN "><i class="material-icons"> clear</i></span>
+   </div>
     <div class="row center ">
       <span class="textgreenBN">
         Congratulations!
       </span>
     </div>
-    <div class="row center mrgnBN">
+   
+    <div class="valign-wrapper center mrgnBN">
       <div class="col s1 m1 l1"></div>
       <div class="col s10 m10 l10">
         You have Sucessfully created your digital Identity.
-
       </div>
       <div class="col s1 m1 l1"></div>
     </div>
-     <div class="row center mghBN">
-      <b> Your Digital Identity:</b>
-    </div>
-    <div class="row mghBN">
-      <div class="col s12 m12 l12 center">
-        <input type="text" class="inputjBN center" [(ngModel)]="streurl" readonly="true" />
-      </div>
-
-    </div>
-
-
-    <div class="row mrgnBN">
-      <div class="col s12 m12 l12">
-        <p class="borfBN"></p>
-      </div>
-    </div>
-
-
+   
+    <p class="borfBN"></p>
+     
     <div class="row ">
-      <div class="col s12 m6 l6 ">
-        <span class="paygBN right">Payment Link:</span>
+      <div class="col s12 m12 l12 paygBN center">
+          <img class="alignMidBN" src="../../assets/newbiz/imgs/Rupee icon.png" alt=""> <span class="alignMidBN">Payment Link:</span> 
       </div>
-      <div class="col s12 m6 l6">
-        <input type="text" class="inputjBN center" [(ngModel)]="streurlpay" readonly="true" />
+      </div>
+      <div class="valign-wrapper">
+      <div class="col s1 m2 l2"></div>
+      <div class="col s12 m10 l10 center mghBN">
+        You can use your Branded payment link to collect money from your customer via SMS, Email, Whatsapp & More, directly
+          in your bank account
+      </div>
+      <div class="col s1 m2 l2"></div>
+      </div>
+      <div class="row">
+      <div class="col s12 m12 l12 center">
+        <input type="text" class="inputjBN center boldBN" [(ngModel)]="streurlpay" readonly="true" />
       </div>
     </div>
-    <div class="row center mghBN modBN">Payment Link can be used to collect money from your computer.</div>
-    <div class="row">
-      <div class="col s12 m6 l6 ">
-        <span class="paygBN right">Online Store Link:</span>
-      </div>
-      <div class="col s12 m6 l6">
-        <input type="text" class="inputjBN center" [(ngModel)]="urlstore" readonly="true" />
-      </div>
+
+    <div class="valign-wrapper center mghBN modBN">
+      <span class="col s12 m12 l12">watch short video to know more</span>
     </div>
-    <div class="row center mghBN modBN">Online store is digital store, you can list your products and sell them online.</div>
-    <br>
     <div class="row center mghBN modBN">
-      <span>Your digital Identity is ready, have a look.</span>
+      <iframe width="280" height="200" src="https://www.youtube.com/embed/ry_6M5Slio0" frameborder="0" allow="autoplay; encrypted-media"
+        allowfullscreen></iframe>
     </div>
     <div class="row center mghBN">
 
-      <a [href]="storeurl" target="_blank" class="btn waves-effect waves-light  center checkBN" type="submit" name="create" >
-        {{'Check Out Your Page' | translate}}</a>
+      <button class="btn waves-effect waves-light red regNrmS5BN buttonBN" (click)="start()" name="create">
+        {{'Start Collecting Payments' | translate}}</button>
 
     </div>
   </div>
@@ -103,7 +86,7 @@
   <div class="row"> </div>
   <div class="row"></div>
   <div class="roundBorderMainBN col s12 " *ngIf="businesspro">
-<!--    <div class="row"></div>
+    <!--    <div class="row"></div>
      <div class="row">
       <div class="titleBN col s12">
         {{'My Unique Digital identity ' | translate}}
@@ -258,11 +241,12 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true" (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true"
+          (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
-        <div class ="row"></div>
-        <span *ngIf= "isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
+        <div class="row"></div>
+        <span *ngIf="isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
       </div>
 
     </div>
@@ -278,11 +262,12 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(2)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true" (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied2" type="button" ngxClipboard [cbContent]="streurlpay" (cbOnSuccess)="isCopied2 = true"
+          (cbOnSuccess)="isCopied1= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
-        <div class ="row"></div>
-        <span *ngIf= "isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
+        <div class="row"></div>
+        <span *ngIf="isCopied2 && !isCopied1 &&!isCopied3">Link is copied! </span>
       </div>
 
     </div>
@@ -398,11 +383,12 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true" (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true"
+          (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
-        <div class ="row"></div>
-        <span *ngIf= "isCopied1 && !isCopied2 &&!iscopied3">Link is copied! </span>
+        <div class="row"></div>
+        <span *ngIf="isCopied1 && !isCopied2 &&!iscopied3">Link is copied! </span>
       </div>
     </div>
     <div class="row hide-on-med-and-up">
@@ -418,11 +404,12 @@
         </a>
         &nbsp;
         <i class="material-icons alignMidBN linkButtonBN" (click)="share(3)">share</i> &nbsp;
-        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true" (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
+        <a class="copyBN linkButtonBN" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]="urlstore" (cbOnSuccess)="isCopied1 = true"
+          (cbOnSuccess)="isCopied2= false" (cbOnSuccess)="isCopied3= false">
           <i class="material-icons alignMidBN">content_copy</i>
         </a>
-        <div class ="row"></div>
-        <span *ngIf= "isCopied1 && !isCopied2 &&!isCopied3">Link is copied! </span>
+        <div class="row"></div>
+        <span *ngIf="isCopied1 && !isCopied2 &&!isCopied3">Link is copied! </span>
       </div>
     </div>
     <div class="row center mghBN modBN">Online store is digital store, you can list your products and sell them online.</div>
@@ -513,7 +500,7 @@
     </div>
   </div>
 
- <!--  <div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()">
+  <!--  <div class="row hide-on-med-and-up" align="center" *ngIf="hasTransactions()">
     <div class="col s12">
       <div class="dateRangeSBN">
         <select class="" materialize="material_select" (ngModelChange)="dateRangeChanged($event)" [(ngModel)]="dateRange">
@@ -581,7 +568,7 @@
             <span class="hide-on-med-and-up" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">₹ {{p.amount | number : '1.2-2'}}</span>
           </div>
           <div class="col m3 l3 hide-on-small-only fieldBN">
-            <span class="right"  [ngClass]="p.status > 0 ? 'failedTransaction' : ''">₹ {{p.amount | number : '1.2-2'}}</span>
+            <span class="right" [ngClass]="p.status > 0 ? 'failedTransaction' : ''">₹ {{p.amount | number : '1.2-2'}}</span>
           </div>
         </div>
         <div class="collapsible-body noLeftPaddingBN collapsibleBodyBN tinBN">
@@ -599,7 +586,7 @@
             <div class="col  s12 m3 l3 truncate secondFieldBN center">
               <b>{{'Payment For' | translate}}</b>
               <br> {{p.description}}
-             <!--  <span *ngIf="p.products">
+              <!--  <span *ngIf="p.products">
                 <b class="linkButtonBN textcolorBN" (click)="seedetails(p)">{{'See Details' | translate}}</b><br /><br />
                 <b class="linkButtonBN textcolorBN" (click)="printReceipt(p)">{{'Download Invoice' | translate}}</b>
               </span> -->
@@ -609,12 +596,16 @@
             {{'Transaction Failed' | translate}}
           </div>
           <div class="row tbnBN" *ngIf="!(p.status > 0)">
-            <div class="col s12 m4 l4 center"><button class="buttonseBN" (click)="seedetails(p)">See details</button></div>
+            <div class="col s12 m4 l4 center">
+              <button class="buttonseBN" (click)="seedetails(p)">See details</button>
+            </div>
             <div class="col s12 m4 l4 center">
               <button (click)="printReceipt(p)" class="buttonseBN">Download Invoice</button>
             </div>
-            <div class="col s12 m4 l4 center" ><!-- <button class="buttonseBN">{{'Initiate Refund' | translate}}</button> --></div>
-         </div>
+            <div class="col s12 m4 l4 center">
+              <!-- <button class="buttonseBN">{{'Initiate Refund' | translate}}</button> -->
+            </div>
+          </div>
         </div>
       </li>
     </ul>

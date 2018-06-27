@@ -29,7 +29,7 @@
                 </div>
                 <div class="col l2 m2 s1"></div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!user.strtcollctngpymtflag">
                 <div class="col s1 m4 l4| center-align"></div>
                 <div class="col s10 m4 l4| center-align">
                     <button (click)="dashboard()" class="btn col s12 m12 l12 waves-effect waves-light red regNrmS1BN buttonBN" name="submit" type="submit" >
@@ -38,6 +38,20 @@
                 </div>
                 <div class="col s1 m4 l4| center-align"></div>
             </div>
+            <div class="row" *ngIf="user.strtcollctngpymtflag">
+                       
+                    <div class="col s12 m6 l6 mnBN | center-align">
+                            <button (click)="dashboard()" class="btn col s10 offset-s1 m8 offset-m4 l8 offset-l4 waves-effect waves-light red regNrmS1BN buttonBN" name="submit" type="submit" >
+                                    {{'Back To Dashboard' | translate}}
+                                </button>
+                    </div>
+                    <div class="col s12 m6 l6 | center-align">
+                            <button (click)="createpaylink()" class="btn waves-effect waves-light col s10 offset-s1 m8 offset-m4 l8 offset-l2 red regNrmS5BN buttonBN" name="submit" type="submit" >
+                                {{'Start Collecting Payments' | translate}}
+                            </button>
+                        </div>
+                    
+                </div>
         </div>
     </div>
 </main>

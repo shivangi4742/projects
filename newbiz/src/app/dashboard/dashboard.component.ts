@@ -87,9 +87,9 @@ export class DashboardComponent implements OnInit {
   }
 
   shsh(res) {
-/*     if (res.data.responseFromAPI != true && this.businesspro.storeUrl != null) {
+    if (res.data.responseFromAPI != false && this.businesspro.storeUrl != null) {
       this.sharemodalActions.emit({ action: "modal", params: ['open'] });
-    } */
+    }
 
     if(this.businesspro.storeUrl) {
       this.businesspro.storeUrl= (this.businesspro.storeUrl).toLowerCase();
@@ -115,7 +115,10 @@ export class DashboardComponent implements OnInit {
       this.formLoaded= false;
     }
   }
-
+  start() {
+    this.user.strtcollctngpymtflag = true;
+    this.router.navigateByUrl('registrationprocess');
+  }
   close() {
     this.sharemodalActions.emit({ action: "modal", params: ['close'] });
   }

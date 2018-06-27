@@ -70,6 +70,10 @@
 .secondFieldBN{
   margin-bottom: 10px;
 }
+.boldBN{
+  font-weight: bold!important;
+  font-size: 14pt!important;
+}
 .recentBN{
   font-size: 14pt;
   font-family: 'Barlow', sans-serif;
