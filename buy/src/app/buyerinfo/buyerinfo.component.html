@@ -26,12 +26,13 @@
                 <input class="binputBN validate" placeholder="{{'Enter your mobile number here' | translate}}" [(ngModel)]="cart.phone" 
                   minlength="10" maxlength="20" required type="tel" name="phone" />
               </div>
-              <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}<span *ngIf="!isRotary">*</span> :</div>
+              <div class="col s12 labelBN offsetBN">{{'E-Mail Id' | translate}}<!-- <span *ngIf="!isRotary">*</span> --> :</div>
               <div class="col s12 input-field offsetlrBN binputdivBN">
                 <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
-                  [(ngModel)]="cart.email" name="email" required *ngIf="!isRotary" />
-                <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
-                  [(ngModel)]="cart.email" name="email" *ngIf="isRotary" />
+                  [(ngModel)]="cart.email" name="email" >
+                 <!--  *ngIf="!isRotary" />
+               <input class="binputBN validate" type="email" placeholder="{{'Enter your e-mail id here' | translate}}" maxlength="50" 
+                  [(ngModel)]="cart.email" name="email" *ngIf="isRotary" /> --> 
               </div>
               <div class="col s12 labelBN offsetBN" *ngIf="!isPaymentlink">{{'PIN Code' | translate}}<span *ngIf="!isRotary">*</span> :</div>
               <div class="col s12 input-field offsetlrBN binputdivBN" *ngIf="!isPaymentlink">

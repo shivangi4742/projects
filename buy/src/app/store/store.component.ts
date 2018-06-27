@@ -276,7 +276,7 @@ logoourl(res:any) {
       if(res.contactSeller)
         this.retPolicy = 'Contact the seller';
       else if(res.noReturnExchange)
-        this.retPolicy = 'No returns or echanges';
+        this.retPolicy = 'No returns or exchanges';
       else if(res.productExchange) {
         this.retPolicy = "Exchange only on faulty products within";
         this.retPolicy1 = res.productExchangeDay ? res.productExchangeDay.toString() : '';
