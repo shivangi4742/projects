@@ -49,6 +49,7 @@ export class SDKService {
         getPaytmChecksum: 'sdk/getPaytmChecksum',
         getSupportedCurrenciesURL: 'sdk/getSupportedCurrencies',
         createSodexoTransactionURL: 'sdk/createSodexoTransaction',
+        sendUPISuccessEmailsURL: 'sdk/sendUPISuccessEmails',
         getSodexoTransactionURL: 'sdk/getSodexoTransactionURL'
     }
 
@@ -90,6 +91,12 @@ export class SDKService {
             return '0' + md;
 
         return md;
+    }
+
+    sendUPISuccessEmails(mcode: string, txnid: string, amount: number): Promise<any> {
+        return this.http.post(this.utilsService.getBaseURL() + this._urls.sendUPISuccessEmailsURL + '/' + mcode, JSON.stringify({
+            "txnid": txnid, "amount": amount }), { headers: this.utilsService.getHeaders() }).toPromise().then(res => res.json())
+            .catch(err => this.utilsService.returnGenericError());
     }
 
     saveCashPaymentSuccess(amount: number, txnid: string, phone: string, merchantCode: string, merchantName: string, linkId: string): Promise<any> {
