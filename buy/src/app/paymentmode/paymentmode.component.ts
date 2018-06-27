@@ -139,10 +139,9 @@ totalshipping:number;
   receivedPayment(res: any) {
     if (this.room && res && res.data && res.out == true) {
       this.sdkService.sendUPISuccessEmails(this.merchantCode, this.room, this.paidAmount);
-      if (this.isPaymentlink) {
-        this.closeModal();
+      this.closeModal();
+      if (this.isPaymentlink)
         this.router.navigateByUrl('/paid/' + this.room);
-      }
       else
         this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + this.room);
     }
