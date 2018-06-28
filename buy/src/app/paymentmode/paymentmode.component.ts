@@ -128,7 +128,6 @@ totalshipping:number;
     if (res && res.items && res.items.length > 0) {
       this.cart = res;
       this.cart.convenienceFee = this.tconvenifess;
-      console.log( this.cart.convenienceFee);
       if (this.utilsService.isAnyMobile())
         this.buildUPIURL();
     }
@@ -202,7 +201,6 @@ totalshipping:number;
   finishUPIPayment(res: any) {
     if (res && res.transactionRef)
       this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null,
-        null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null, null, null, null, null))
         .then(res2 => this.qRShown(res2, res.transactionRef));
     else {
       this.processing = false;
@@ -273,13 +271,15 @@ totalshipping:number;
   getUPIURL(res: any) {
     if (res && res.transactionRef)
       this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null,
-        this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null, null, null, null, null))
         .then(res3 => this.qRLinkShown(res3, res.transactionRef));
   }
 
   codMarked(res: any) {
-    if (res && res.txnRefNumber && res.transactionStatus && res.transactionStatus.trim().toLowerCase() == 'successful')
+
+    if (res && res.txnRefNumber && res.transactionStatus && res.transactionStatus.trim().toLowerCase() == 'successful') {
+      this.sdkService.sendUPISuccessEmails(this.merchantCode, this.room, this.paidAmount);
       this.router.navigateByUrl('/' + this.merchantCode + '/paymentsuccess/' + res.txnRefNumber);
+    }
     else {
       //error handling.
     }
@@ -351,7 +351,8 @@ totalshipping:number;
      
       switch (this.cart.paymentMode) {
         case 'CASH':
-          this.cartService.startCashPaymentProcess(this.settings.displayName)
+         
+          this.cartService.startCashPaymentProcess(this.settings.displayName, this.paidAmount)
             .then(res => this.finishCashPayment(res));
           break;
         case 'UPI':
