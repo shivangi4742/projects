@@ -196,7 +196,7 @@ export class BuyerinfoComponent implements OnInit {
   getUPIURL(res: any) {
     if(res && res.transactionRef)
       this.sdkService.createBillString(this.paidAmount, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, null, 
-        this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+        this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null, null))
         .then(res3 => this.qRLinkShown(res3, res.transactionRef));
   }
 
@@ -292,7 +292,7 @@ export class BuyerinfoComponent implements OnInit {
   finishUPIPayment(res: any) {
     if (res && res.transactionRef)
       this.sdkService.createBill(this.paidAmount, this.defaultVPA, null, res.transactionRef, new User(null, null, null, null, null, null, null, null, 
-        null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null))
+        null, this.settings.mccCode, this.merchantCode, null, this.settings.displayName, null, null, null, null,null, null, null,null))
         .then(res2 => this.qRShown(res2, res.transactionRef));
     else {
       this.processing = false;
