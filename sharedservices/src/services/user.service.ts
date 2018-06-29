@@ -445,7 +445,7 @@ export class UserService {
     return false;
   }
 
-  registerSelfMerchant(id: string, businessName: string, contactEmailId: string, category: string,
+  registerSelfMerchant(id: string, displayName:string, businessName: string, contactEmailId: string, category: string,
     subCategory: string, city: string, locality: string, contactPerson: string, address: string,
     contactMobileNumber: string, businessTypeCode: string, businessType: string, pinCode: string, gstno: string,
     contactSeller: boolean, noReturnExchange: boolean, productExchange: boolean, productExchangeDay: string, productReturnOrExchange: boolean,
@@ -493,7 +493,8 @@ export class UserService {
           "freeShip": freeShip,
           "chargePerOrder": chargePerOrder,
           "orderShipCharge": orderShipCharge,
-          "chargePerProd": chargePerProd
+          "chargePerProd": chargePerProd,
+          "displayName": displayName
 
         }),
         { headers: this.utilsService.getHeaders() })
@@ -547,6 +548,7 @@ export class UserService {
           }
        }
       let pt = res.merchantUser;
+      this._user.displayName= pt.displayName;
       this._businesspro = new Businesspro(pt.businessName, pt.businessType, pt.category, pt.subCategory, pt.contactPerson,
         pt.address, pt.numberOfOutlets, pt.contactPersonDesignation, pt.city, pt.contactEmailId, pt.locality, pt.businessTypeCode, pt.pinCode, pt.gstNumber,
         pt.contactSeller, pt.noReturnExchange, pt.productExchange, pt.productExchangeDay, pt.productReturnOrExchange, pt.productReturnOrExchangeDay, pt.returnAvailable,
@@ -574,6 +576,7 @@ export class UserService {
     }
     if (res.merchantUser) {
       let pt1 = res.merchantUser;
+      this._user.displayName= pt1.displayName;
       this._accountpro = new Accountpro(pt1.panNumber, pt1.accountHolderName, pt1.accountRefNumber
         , pt1.ifsc, pt1.bankName, pt1.filePassword);
     }

@@ -187,7 +187,7 @@ export class RegisterComponent implements OnInit {
   }
 
   save() {
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id, this.user.displayName,this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -240,7 +240,7 @@ export class RegisterComponent implements OnInit {
     //console.log(pincode);
     if (pincode.length == 6) {
       this.errpincodevalidate = false;
-      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -262,7 +262,7 @@ export class RegisterComponent implements OnInit {
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode1)) {
 
       this.errbusinessvalidate = false;
-      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -281,7 +281,7 @@ export class RegisterComponent implements OnInit {
     var TCode = this.user.displayName.trim();
     if (/^[a-zA-Z0-9\-\s]+$/.test(TCode)) {
       this.errdisplayvalidate = false;
-      this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+      this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
         this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
         this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
         this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -342,7 +342,7 @@ export class RegisterComponent implements OnInit {
 
 
   savebusinesspro() {
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -417,7 +417,7 @@ export class RegisterComponent implements OnInit {
         var reg = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
         if (gst2.match(reg)) {
             this.errgstvalidate = false;
-            this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+            this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
               this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
               this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
               this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,

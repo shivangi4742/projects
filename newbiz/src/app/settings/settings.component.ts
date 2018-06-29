@@ -517,7 +517,7 @@ export class SettingsComponent implements OnInit {
 
   }
   returnploicysave() { 
-        this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+        this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -529,8 +529,7 @@ export class SettingsComponent implements OnInit {
     
   }
   shippingploicysave() {
-    console.log(this.businesspro.freeShip, this.businesspro.chargePerOrder, this.businesspro.orderShipCharge, this.businesspro.chargePerProd);
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
      this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
      this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
      this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -545,7 +544,7 @@ export class SettingsComponent implements OnInit {
    this.paymentsave();
  }
  paymentsave(){
-  this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+  this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
     this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
     this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
     this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -557,7 +556,7 @@ export class SettingsComponent implements OnInit {
 }
   
   sellercontactsave(){
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -568,7 +567,7 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.personaldetail());
   }
   personalsave(){
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -579,11 +578,11 @@ export class SettingsComponent implements OnInit {
     ).then(res => this.bankdetails());
   }
   businesssave(){
-    
+  
     if(this.storeUrl){
     this.businesspro.storeUrl = this.storeUrl;
     }
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id, this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
@@ -597,7 +596,7 @@ export class SettingsComponent implements OnInit {
 
   }
   saveaccount() {
-    this.userService.markSelfMerchantVerified(this.user.id, this.accountpro.ifsc, this.accountpro.accountRefNumber,
+    this.userService.markSelfMerchantVerified(this.user.id,this.accountpro.ifsc, this.accountpro.accountRefNumber,
       this.accountpro.panNumber, this.accountpro.bankName,this.businesspro.contactPerson, 
       this.accountpro.accountHolderName, this.accountpro.filePassword).then(res => this.bankdetail());
   }
@@ -607,7 +606,7 @@ export class SettingsComponent implements OnInit {
       this.accountpro.accountHolderName, this.accountpro.filePassword).then(res => this.gstdetail());
   }
   gstsave(){
-    this.userService.registerSelfMerchant(this.user.id, this.businesspro.businessName,
+    this.userService.registerSelfMerchant(this.user.id,this.user.displayName, this.businesspro.businessName,
       this.businesspro.contactEmailId, this.businesspro.category, this.businesspro.subCategory, this.businesspro.city,
       this.businesspro.locality, this.businesspro.contactPerson, this.businesspro.address,
       this.businesspro.contactEmailId, this.businesspro.businessTypeCode, this.businesspro.businessType,
