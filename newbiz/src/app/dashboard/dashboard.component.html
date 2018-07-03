@@ -575,7 +575,13 @@
           <div class="row" style="margin-bottom: 0px;">
             <div class="col s6 m4 l4 truncate secondFieldBN center">
               <b>{{'Payment ID' | translate}}</b>
-              <br>{{p.id}}</div>
+              <br>{{p.id}}<br><br>
+              <b> Payment Mode: </b>
+              <br><span *ngIf="p.mode=='UPI_OTHER_APP' ; else elseBlock">{{'UPI'}}</span>
+              <ng-template #elseBlock>
+                 {{p.mode}}
+              </ng-template>
+            </div>
             <div class="col s6 m5 l5 truncate secondFieldBN center">
               <b>{{'Buyer Details' | translate}}</b>
               <br> {{p.email}}
@@ -596,14 +602,14 @@
             {{'Transaction Failed' | translate}}
           </div>
           <div class="row tbnBN" *ngIf="!(p.status > 0)">
-            <div class="col s12 m4 l4 center">
+            <div class="col s12 m4 l4 center" style="padding-bottom: 10px;">
               <button class="buttonseBN" (click)="seedetails(p)">See details</button>
             </div>
             <div class="col s12 m4 l4 center">
               <button (click)="printReceipt(p)" class="buttonseBN">Download Invoice</button>
             </div>
-            <div class="col s12 m4 l4 center">
-              <!-- <button class="buttonseBN">{{'Initiate Refund' | translate}}</button> -->
+            <div class="col s12 m4 l4 center ppBN">
+             
             </div>
           </div>
         </div>
