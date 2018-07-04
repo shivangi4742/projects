@@ -552,6 +552,20 @@ export class CampaignService {
         let me = this;
         let totalpages = res.totalNoOfPages;
         let pt = res.merchantPPVoList;
+        let whref: string = window.location.href;
+        if(this.utilsService.getIsDevEnv())
+            whref = this.utilsService.getTestDomainURL();
+
+        if(whref) {
+            let whrefidx: number = whref.indexOf('.benow.in');
+            if(whrefidx > 0)
+                whref = whref.substring(0, whrefidx + 9);
+            else {
+                whrefidx = whref.replace('https://', '').replace('http://', '').indexOf('/');
+                if(whrefidx > 0)
+                    whref = whref.substring(0, whrefidx);
+            }
+        }
 
         if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
@@ -561,7 +575,7 @@ export class CampaignService {
                     var dd = pt[i].amount;
                 }
                 if (pt[i].url) {
-                    this.dd2 = pt[i].url;
+                    this.dd2 = whref + pt[i].url.replace('https://merchant.benow.in/ppl/pay', '/paymentlink');
                 }
                 if (pt[i].id) {
                     var dd1 = pt[i].id;
