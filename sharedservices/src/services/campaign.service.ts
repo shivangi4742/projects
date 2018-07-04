@@ -534,7 +534,7 @@ export class CampaignService {
             .catch(res => this.utilsService.returnGenericError());
     }
 
-    merchantpaymentlink(merchantCode: string, page: number): Promise<any> {
+    merchantpaymentlink(merchantCode: string, page: number, whref: string): Promise<any> {
         return this.http.post(
             this.utilsService.getBaseURL() + this._urls.getCampaignlinkURL,
             JSON.stringify({
@@ -544,29 +544,14 @@ export class CampaignService {
             { headers: this.utilsService.getHeaders() }
         )
             .toPromise()
-            .then(res => this.merchantpaymentlinkpost(res.json()))
+            .then(res => this.merchantpaymentlinkpost(res.json(), whref))
             .catch(res => this.utilsService.returnGenericError());
     }
 
-    merchantpaymentlinkpost(res: any) {
+    merchantpaymentlinkpost(res: any, whref: string) {
         let me = this;
         let totalpages = res.totalNoOfPages;
         let pt = res.merchantPPVoList;
-        let whref: string = window.location.href;
-        if(this.utilsService.getIsDevEnv())
-            whref = this.utilsService.getTestDomainURL();
-
-        if(whref) {
-            let whrefidx: number = whref.indexOf('.benow.in');
-            if(whrefidx > 0)
-                whref = whref.substring(0, whrefidx + 9);
-            else {
-                whrefidx = whref.replace('https://', '').replace('http://', '').indexOf('/');
-                if(whrefidx > 0)
-                    whref = whref.substring(0, whrefidx);
-            }
-        }
-
         if (pt && pt.length > 0) {
             this._PaymentLinks = new Array<PaymentLinks>();
             for (let i: number = 0; i < pt.length; i++) {

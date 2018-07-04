@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { MaterializeAction } from 'angular2-materialize';
-import { UtilsService, User, UserService, PaymentLinks, CampaignService, Status, LocationService } from 'benowservices';
+import { UtilsService, User, UserService, PaymentLinks, CampaignService, Status, LocationService, StoreService } from 'benowservices';
 
 import { TranslateService } from 'ng2-translate';
 
@@ -31,8 +31,9 @@ export class PaymentlistComponent implements OnInit {
   savedURL:string;
   tranactivepay:boolean = false;
   traninactivepay:boolean = false;
+  storeURL: string;
 
-  constructor(private translate: TranslateService, private utilsService: UtilsService,
+  constructor(private translate: TranslateService, private utilsService: UtilsService, private storeService: StoreService,
     private userService: UserService, private campaignService: CampaignService, private router: Router,
     private route: ActivatedRoute, private locationService: LocationService) { }
 
@@ -45,22 +46,28 @@ export class PaymentlistComponent implements OnInit {
   init(usr: User) {
     if (usr && usr.id) {
       this.user = usr;
-      this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page)
-        .then(res => this.initdtail(res));
+      this.storeService.fetchStoreDetais(this.user.merchantCode)
+        .then(res => this.storeInitiated(res));
     }
+  }
+
+  storeInitiated(res: any) {
+    this.storeURL = 'https://' + res.storeUrl + '.benow.in';
+    this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page, this.storeURL)
+      .then(res => this.initdtail(res));
   }
 
   previous() {
     this.processing = true;
     this.numPages = 0;
-    this.campaignService.merchantpaymentlink(this.user.merchantCode, (--this.page))
+    this.campaignService.merchantpaymentlink(this.user.merchantCode, (--this.page), this.storeURL)
       .then(res => this.initdtail(res));
   }
 
   next() {
     this.numPages = 0; 
     this.processing = true;
-    this.campaignService.merchantpaymentlink(this.user.merchantCode, (++this.page))
+    this.campaignService.merchantpaymentlink(this.user.merchantCode, (++this.page), this.storeURL)
       .then(res => this.initdtail(res));
   }
 
@@ -145,7 +152,7 @@ export class PaymentlistComponent implements OnInit {
   expiredet(res) {
     if(res.responseFromAPI== true){
      this.processing = true;
-     this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page)
+     this.campaignService.merchantpaymentlink(this.user.merchantCode, this.page, this.storeURL)
         .then(res => this.initdtail(res));
     }
   }
