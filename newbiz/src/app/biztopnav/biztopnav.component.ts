@@ -33,7 +33,7 @@ export class BiztopnavComponent implements OnInit {
     this.language = this.user.language;
     this.name = this.user.displayName;
     this.isHB = this.utilsService.isHB(this.user.merchantCode, this.user.lob);
-    this.isNGO = this.utilsService.isNGO(this.user.mccCode);
+    this.isNGO = this.utilsService.isNGO(this.user.mccCode, this.user.lob);
     this.isUnregistered = this.utilsService.getUnregistered();
     //console.log(this.isUnregistered, this.user, 'helleo');
   }

@@ -103,7 +103,7 @@ export class NotificationComponent  {
   init(usr: User) {
     if(usr && usr.id) {
         this.user = usr;
-        if(this.utilsService.isNGO(this.user.mccCode))
+        if(this.utilsService.isNGO(this.user.mccCode, this.user.lob))
           this.mtype = 2;
         else if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
           this.mtype = 3;

@@ -109,7 +109,7 @@ export class SelectproductsComponent implements OnInit {
   initialize() {
     if(this.utilsService.isHB(this.user.merchantCode, this.user.lob))
       this.mtype = 3;
-    else if(this.utilsService.isNGO(this.user.mccCode))
+    else if(this.utilsService.isNGO(this.user.mccCode, this.user.lob))
       this.mtype = 2;
 
     if(!this.products || this.products.length <= 0) {

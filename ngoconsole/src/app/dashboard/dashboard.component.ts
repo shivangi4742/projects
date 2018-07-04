@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
       this.getCampaigns();
       this.getCampaignSummary();
 
-      if(!this.utilsService.isNGO(this.user.mccCode))
+      if(!this.utilsService.isNGO(this.user.mccCode, this.user.lob))
         this.campaignLink = '/newestall';
     }
   }

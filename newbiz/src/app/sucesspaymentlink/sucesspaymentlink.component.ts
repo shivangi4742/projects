@@ -48,7 +48,7 @@ export class SucesspaymentlinkComponent implements OnInit {
   init(res){
     this.user = res;
 
-    if(this.utilsService.isNGO(this.user.mccCode)){
+    if(this.utilsService.isNGO(this.user.mccCode, this.user.lob)){
       this.mtype = 2;
     }
 

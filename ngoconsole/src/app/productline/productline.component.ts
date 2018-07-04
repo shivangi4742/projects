@@ -28,7 +28,7 @@ export class ProductlineComponent implements OnInit, AfterViewInit {
   }
 
   isNGO(): boolean {
-    if(this.utilsService.isNGO(this.user.mccCode))
+    if(this.utilsService.isNGO(this.user.mccCode, this.user.lob))
       return true;
 
     return false;

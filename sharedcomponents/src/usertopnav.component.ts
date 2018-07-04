@@ -177,7 +177,7 @@ export class UserTopNavComponent {
     this.isTilManager = this.user.isTilManager;
     this.language = this.user.language;
     this.name = this.user.displayName;
-    this.isNGO = this.utilsService.isNGO(this.user.mccCode);
+    this.isNGO = this.utilsService.isNGO(this.user.mccCode, this.user.lob);
     this.tmLoad = this.utilsService.getDateTimeString(new Date());
     this.isUnregistered = this.utilsService.getUnregistered();
     let me = this;    

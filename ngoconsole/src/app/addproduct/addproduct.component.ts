@@ -28,7 +28,7 @@ export class AddproductComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.utilsService.isNGO(this.user.mccCode))
+    if(this.utilsService.isNGO(this.user.mccCode, this.user.lob))
       this.mtype = 2;
   }
 

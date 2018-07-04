@@ -175,7 +175,7 @@ export class SDKService {
                 modes.push('UPI');
 
             let mtype: number = 1;
-            if (this.utilsService.isNGO(res.merchantUser.mccCode))
+            if (this.utilsService.isNGO(res.merchantUser.mccCode, res.merchantUser.businessLob))
                 mtype = 2;
             else if (this.utilsService.isHB(res.merchantUser.merchantCode, res.merchantUser.businessLob))
                 mtype = 3;

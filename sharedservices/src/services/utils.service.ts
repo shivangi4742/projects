@@ -15,7 +15,7 @@ export class UtilsService {
   private _initialized: boolean = false;
   private _isUnRegistered: boolean = false;
   private _isDevEnv: boolean = true;
-  private _testDomainURL: string = "https://shivanghj.benow.in/";
+  private _testDomainURL: string = "https://testbenowuser.benow.in/";
   private _audioFile: string = '../../assets/shared/audios/paymentreceived.wav';
   private _fixedKey: string = 'NMRCbn';
   private _baseURL: string = 'http://localhost:9090/';
@@ -428,10 +428,10 @@ private _noProdImageURL: string = 'http://localhost:9090/assets/shared/images/ad
     return this.getDate(dt.getDate()) + '/' + this.getMonth(dt.getMonth()) + '/' + dt.getFullYear();
   }
 
-  isNGO(mccCode: string | null): boolean {
-    if (mccCode === '8398')
+  isNGO(mccCode: string|null, lob: string|null): boolean {
+    if (mccCode === '8398' || (lob && lob.toUpperCase() == 'NGO' ))
       this._isNGO = true;
-
+      
     return this._isNGO;
   }
 

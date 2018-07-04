@@ -234,7 +234,7 @@ export class UserService {
     this._user.tilNumber = token.tilNumber;
     this._user.isSuperAdmin = token.isSuperAdmin;
     this._user.isSuperMerchant = token.isSuperMerchant;
-    this.utilsService.isNGO(this._user.mccCode);
+    this.utilsService.isNGO(this._user.mccCode, this._user.lob);
     this.utilsService.setUnregistered(true);
   }
 
@@ -296,7 +296,7 @@ export class UserService {
         this._user.mccCode = res.merchant.mccCode;
         this._user.merchantCode = res.merchant.merchantCode;
         this._user.mobileNumber = res.merchant.mobileNumber;
-        this.utilsService.isNGO(this._user.mccCode);
+        this.utilsService.isNGO(this._user.mccCode, this._user.lob);
         this.utilsService.setUnregistered(true);
       }
     }
