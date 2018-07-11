@@ -225,7 +225,7 @@ export class SDKService {
 
     startPaymentProcess(employeeId: string, companyName: string, paylinkid: string, name: string, address: string, email: string, mobileNo: string, pan: string, resident: boolean,
         payamount: number, phone: string, merchantcode: string, merchantname: string, merchantVPA: string, paytype: number, tr: string,
-        til: string, products: Array<Product>): Promise<any> {
+        til: string, products: Array<Product>, salutation: string, firstName: string, lastName: string): Promise<any> {
         return this.http
             .post(this.utilsService.getBaseURL() + this._urls.startPaymentProcessURL,
                 JSON.stringify({
@@ -246,7 +246,10 @@ export class SDKService {
                     "til": til,
                     "products": products,
                     "employeeId": employeeId,
-                    "companyName": companyName
+                    "companyName": companyName,
+                    "salutation": salutation,
+                    "firstName": firstName,
+                    "lastName": lastName
                 }),
                 { headers: this.utilsService.getHeaders() })
             .toPromise()

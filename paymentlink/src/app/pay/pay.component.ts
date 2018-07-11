@@ -316,7 +316,7 @@ export class PayComponent implements OnInit {
     if (this.validate(true))
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 5, this.pay.invoiceNumber,
-        this.pay.til, this.pay.products)
+        this.pay.til, this.pay.products, '', '', '')
         .then(res => this.finishCashPayment(res));
   }
 
@@ -545,7 +545,7 @@ export class PayComponent implements OnInit {
       this.upiURL = null;
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-        this.pay.til, this.pay.products)
+        this.pay.til, this.pay.products, '', '', '')
         .then(res => this.createQRL(res));
     }
     else
@@ -615,7 +615,7 @@ export class PayComponent implements OnInit {
       this.qrURL = null;
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, this.pay.amount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, 0, this.pay.invoiceNumber,
-        this.pay.til, this.pay.products)
+        this.pay.til, this.pay.products, '', '', '')
         .then(res => this.createQR(res));
     }
   }
@@ -684,7 +684,7 @@ export class PayComponent implements OnInit {
       this.mode = mode;
       this.sdkService.startPaymentProcess(this.employeeId, this.companyName, this.id, this.name, this.address, this.pay.email, this.mobileNumber, this.panNumber,
         this.resident, initAmount, this.pay.phone, this.pay.merchantCode, this.pay.merchantVpa, this.pay.title, mode, this.pay.invoiceNumber,
-        this.pay.til, this.pay.products)
+        this.pay.til, this.pay.products, '', '', '')
         // .then(res => this.goToPG(res));
         .then(res => this.checkForPG(res, mode));
     }
