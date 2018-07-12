@@ -869,12 +869,13 @@ verifyOTPforupdate(mobileNumber: string, otp: string): Promise<any> {
     .then(res => res.json())
     .catch(res => this.handleError(res.json()));
 }
-categoryforupdate(id: string, category: string): Promise<any> {
+categoryforupdate(id: string, category: string, categoryComment:string): Promise<any> {
   return this.http
     .post(this.utilsService.getBaseURL() + this._urls.categoryupdate,
       JSON.stringify({    
 	   "id":id,
-	   "category":category
+     "category":category,
+     "categoryComment":categoryComment
       }),
       { headers: this.utilsService.getHeaders() })
     .toPromise()
