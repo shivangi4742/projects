@@ -12,6 +12,7 @@ export class MobilenoComponent implements OnInit {
   PhoneNumber: string;
   busi:string;
   busiold:string;
+  categoryComment:string;
   otp:string;
   id:string;
   register:string;
@@ -88,7 +89,7 @@ export class MobilenoComponent implements OnInit {
   }
  }
  updateSubmit(){
-   this.UserService.categoryforupdate(this.id, this.busi)
+   this.UserService.categoryforupdate(this.id, this.busi, this.categoryComment)
    .then(res => this.updatepost(res));
  }
  updatepost(res){

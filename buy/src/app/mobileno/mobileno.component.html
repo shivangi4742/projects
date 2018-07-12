@@ -105,6 +105,17 @@
                     </div>
               
                 </div>
+                <div class="row" *ngIf="busi=='Others'">
+                 
+                    <div class="col s12 m10 l6 regNrmS4BN">
+                        <span class="mobBN">Category Name:</span>                   
+                    </div>
+               
+                  <div class="col s12 m10 l6 regNrmS4BN">
+                  <input type="text" name="categoryComment" id="categoryComment" placeholder="please enter other Category Name" [(ngModel)]="categoryComment">             
+                  </div>
+            
+              </div>
               <div class="row busDetails detailBodyBN mrgnBn">
                   <div class="input-field s12 m12 l12 center regNrmS4BN">
                     <button class="btn waves-effect waves-light buttonBN regNrmS4BN center checkHeight" type="submit" name="submit">
